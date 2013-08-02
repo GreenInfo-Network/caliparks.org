@@ -1,0 +1,21 @@
+openspaces notes
+
+get bounding box of geometry in psql:
+select unit_name, st_astext(st_transform(st_envelope(geom), 4326)) from cpad_superunits order by gis_acres desc limit 1;
+
+st_envelope: closed bounding box
+st_buffer: create buffer zone around geometry (units for buffer = units for projection for that point)
+
+select st_buffer(geom::geography, 500) ... -- if geom is in srid 4326
+
+select unit_name, st_astext(st_envelope(st_transform(st_buffer(st_envelope(geom), 500), 4326))) from cpad_superunits order by gis_acres desc limit 1;
+
+select ST_SetSRID(ST_MakePoint(-116.069553,35.269376), 4326) && (select ST_Transform(geom, 4326) from cpad_holdings where ogc_fid=51669);
+
+-124.372364348907 32.5935855415743,
+-124.372364348907 42.0128409800675,
+-114.126969216218 42.0128409800675,
+-114.126969216218 32.5935855415743,
+-124.372364348907 32.5935855415743
+
+-117.211354889312,34.0312164262171,-114.153002707933,35.8127579231682
