@@ -41,7 +41,7 @@ function getFlickrData(bbox, page, photos, callback) {
   }
 
   console.log("getting page", page);
-  var url = "http://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=085f0ae2808c5d0704dca0509bf5db79&has_geo=1&extras=geo%2Ctags&format=json&nojsoncallback=1";
+  var url = "http://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=f17cc9d3f73f0b45640451a6d3c1946d&has_geo=1&extras=geo%2Ctags&format=json&nojsoncallback=1";
   url += "&bbox=" + bbox;
   url += "&min_taken_date=" + (~~(Date.now() / 1000) - 60*60*24*365);
   url += "&page=" + page;
@@ -126,7 +126,7 @@ var getBoundingBoxForPark = function(park, callback) {
 getFlickrPhotosForPark({
   id: 9850
 }, function(err, media) {
-  console.log("These photos were taken in South Yuba River State Park: %j", photos);
+  console.log("These photos were taken in South Yuba River State Park: %j", media);
 });
 
 // [1,2,3].forEach(function(x) {
