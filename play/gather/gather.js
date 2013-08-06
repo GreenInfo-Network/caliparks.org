@@ -29,23 +29,111 @@ function wkt2bbox(row) {
   return envelope;
 }
 
-function getFlickrData() {
-  var url = "";
+function hasMorePages(body) {
+  return body.photos.page < body.photos.pages;
 }
 
-var parks = [
-  {id: 9850, name: "South Yuba River State Park"}, 
-  {id: 7891, name: "Devils Postpile National Monument"}
-];
-var ids = parks.map(function(d) { return d.id; }).join(),
-    pending = parks.length;
-var query = util.format("select unit_name, st_astext(st_envelope(st_transform(st_buffer(st_envelope(geom), 500), 4326))) as envelope from cpad_units where ogc_fid in (%s)", ids);
-
-client.query(query, function(err, res) {
-  if (err) {
-    throw err;
+function getFlickrData(bbox, page, photos, callback) {
+  if (arguments.length < 4) {
+    callback = arguments[arguments.length-1];
+    page = 1;
+    photos = [];
   }
 
-  var envelopes = res.rows.map(wkt2bbox);
-  console.log(envelopes);
+  console.log("getting page", page);
+  var url = "http://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=085f0ae2808c5d0704dca0509bf5db79&has_geo=1&extras=geo%2Ctags&format=json&nojsoncallback=1";
+  url += "&bbox=" + bbox;
+  url += "&min_taken_date=" + (~~(Date.now() / 1000) - 60*60*24*365);
+  url += "&page=" + page;
+  request(url, function (error, response, body) {
+    
+    if (!error && response.statusCode == 200) {
+      body = JSON.parse(body);
+      
+      photos = photos.concat(body.photos);
+
+      if (hasMorePages(body)) {
+        console.log("found another page for", bbox , ":", body.photos.page, "out of", body.photos.pages);
+        console.log("page:", page);
+        return getFlickrData(bbox, page + 1, photos, callback);
+
+      } else {
+        return callback(null, photos);  // callback(err, result)
+      }
+    
+    } else {
+      return callback(error);
+    }
+  });
+
+}
+
+/**
+ * Fetch media associated with a specified park.
+ *
+ * @param park Object{id} Park identifier.
+ * @param callback Function(err, media[]) Called with a list of media associated with a park.
+ */
+ // add error checking at every level
+var getFlickrPhotosForPark = function(park, callback) {
+  return getBoundingBoxForPark(park, function(err, bbox) {
+    return getFlickrData(bbox, function(err, photos) {
+      return callback(null, photos);  // everything finished
+    });
+  });
+};
+
+/**
+ * Fetch media associated with a specified park.
+ *
+ * @param park Object{id} Park identifier.
+ * @param callback Function(err, media[]) Called with a list of media associated with a park.
+ */
+var getInstagramPhotosForPark = function(park, callback) {
+  return getBoundingBoxForPark(park, function(err, bbox) {
+    return getInstagramData(bbox, function(err, photos) {
+      return callback(null, photos);
+    });
+  });
+};
+
+/**
+ * Get the bounding box for a park.
+ *
+ * @param park Object{id} Park identifier.
+ * @param callback Function(err, coords) Called with an array containing the park's bounding box.
+ */
+var getBoundingBoxForPark = function(park, callback) {
+  // connect to pg
+  // query pg
+  // callback with parsed bbox
+  var query = "select unit_name, st_astext(st_envelope(st_transform(st_buffer(st_envelope(geom), 500), 4326))) as envelope from cpad_units where ogc_fid = $1 limit 1";
+
+  return client.query(query, [park.id], function(err, res) {
+    if (err) {
+      throw err;
+    }
+
+    var envelope = wkt2bbox(res.rows[0]);
+    client.end();
+    return callback(null, envelope);
+
+  });
+
+
+};
+
+getFlickrPhotosForPark({
+  id: 9850
+}, function(err, media) {
+  console.log("These photos were taken in South Yuba River State Park: %j", photos);
 });
+
+// [1,2,3].forEach(function(x) {
+//   return; // equivalent to callback() using async
+// });
+
+
+
+
+
