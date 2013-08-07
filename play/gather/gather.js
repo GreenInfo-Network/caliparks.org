@@ -8,17 +8,19 @@ var async = require("async"),
     pg = require("pg"),
     request = require("request");
 
-// postgres
-var client = new pg.Client({
-  user: "ggnpc",
-  password: "",
-  database: "ggnpc",
-  host: "geo.local",
-  port: 5432
-});
-client.connect();
-
-console.log("[*] connected to db");
+var startPostgresClient = function(callback) {
+  // postgres
+  var client = new pg.Client({
+    user: "ggnpc",
+    password: "",
+    database: "ggnpc",
+    host: "geo.local",
+    port: 5432
+  });
+  client.connect();
+  console.log("[*] connected to db");
+  callback(null, client);
+}; 
 
 function wkt2bbox(row) {
   // WKT envelope string -> bbox string. sorry.
@@ -40,7 +42,8 @@ function getFlickrData(bbox, page, photos, callback) {
     photos = [];
   }
 
-  console.log("getting page", page);
+  // console.log("[*] getting page", page);
+  console.log("[*] getting first page");
   var url = {
     url: "http://api.flickr.com/services/rest",
     qs: {
@@ -54,22 +57,23 @@ function getFlickrData(bbox, page, photos, callback) {
       nojsoncallback: 1,
       page: page,
       per_page: 250   // max = 250 for geo queries
+    }
   };
   request(url, function (error, response, body) {
     
     if (!error && response.statusCode == 200) {
       body = JSON.parse(body);
       
-      photos = photos.concat(body.photos);
+      photos = photos.concat(body.photos.photo);
 
-      if (hasMorePages(body)) {
-        console.log("found another page for", bbox , ":", body.photos.page, "out of", body.photos.pages);
-        console.log("page:", page);
-        return getFlickrData(bbox, page + 1, photos, callback);
+      // if (hasMorePages(body)) {
+      //   console.log("[*] found another page for", bbox , ":", body.photos.page, "out of", body.photos.pages);
+      //   console.log("[*] current page:", page);
+      //   return getFlickrData(bbox, page + 1, photos, callback);
 
-      } else {
+      // } else {
         return callback(null, photos);  // callback(err, result)
-      }
+      // }
     
     } else {
       return callback(error);
@@ -85,12 +89,14 @@ function getFlickrData(bbox, page, photos, callback) {
  * @param callback Function(err, media[]) Called with a list of media associated with a park.
  */
  // add error checking at every level
-var getFlickrPhotosForPark = function(park, callback) {
-  return getBoundingBoxForPark(park, function(err, bbox) {
-    return getFlickrData(bbox, function(err, photos) {
-      return callback(null, photos);  // everything finished
+var getFlickrPhotosForPark = function(client, park, callback) {
+  // return startPostgresClient(function(err, client) {
+    return getBoundingBoxForPark(client, park, function(err, bbox) {
+      return getFlickrData(bbox, function(err, photos) {
+        return callback(null, photos);  // everything finished
+      });
     });
-  });
+  // });
 };
 
 /**
@@ -113,7 +119,7 @@ var getInstagramPhotosForPark = function(park, callback) {
  * @param park Object{id} Park identifier.
  * @param callback Function(err, coords) Called with an array containing the park's bounding box.
  */
-var getBoundingBoxForPark = function(park, callback) {
+var getBoundingBoxForPark = function(client, park, callback) {
   // connect to pg
   // query pg
   // callback with parsed bbox
@@ -125,25 +131,65 @@ var getBoundingBoxForPark = function(park, callback) {
       throw err;
     }
     var envelope = wkt2bbox(res.rows[0]);
-    client.end();
+    // client.end();
     return callback(null, envelope);
 
   });
-
-
 };
 
-getFlickrPhotosForPark({
-  id: 9850
-}, function(err, media) {
-  console.log("These photos were taken in South Yuba River State Park: %j", media.length);
-});
+var noop = function() {};
+
+var writeDataToFile = function(filename, data, callback) {
+  callback = callback || noop;
+
+  fs.writeFile(filename, JSON.stringify(data, null, 4), function(err) {
+    if(err) {
+      console.log(err);
+    } else {
+      console.log("[*] data written to file", filename);
+    }
+    callback(err);
+  });
+};
+
+var getParksDataFromPostgres = function(client, limit, callback) {
+  var query = ["select ogc_fid as id, unit_name as name, gis_acres as size from cpad_units ", 
+               "where unit_name like '% State Park' order by size desc limit " + limit].join("");
+  client.query(query, function(err, res) {
+    if (err) {
+      throw err;
+    }
+    var parks = res.rows.map(function(row) { 
+      return {
+        id: row.id, 
+        name: row.name, 
+        size: ~~row.size
+      }; 
+    });
+    callback(null, parks);
+  });
+};
+
+var test = function() {
+  return startPostgresClient(function(err, client) {
+    return getParksDataFromPostgres(client, 200, function(err, parks) {
+      async.eachLimit(parks, 1, function(park, callback) {
+        getFlickrPhotosForPark(client, park, function(err, media) {
+          console.log("[*] got", media.length, "photos for", park.name);
+          writeDataToFile("data/" + park.id + ".json", media, callback);
+        });
+      }, function() { 
+        console.log("[*] done!");
+        client.end(); 
+      });
+    });
+  });
+};
+
+test();
 
 // [1,2,3].forEach(function(x) {
 //   return; // equivalent to callback() using async
 // });
-
-
-
 
 
