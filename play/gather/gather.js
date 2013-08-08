@@ -170,7 +170,7 @@ var getParksDataFromPostgres = function(client, limit, callback) {
   });
 };
 
-var test = function() {
+var getFlickrPhotosForAllParks = function() {
   return startPostgresClient(function(err, client) {
     return getParksDataFromPostgres(client, 200, function(err, parks) {
       async.eachLimit(parks, 1, function(park, callback) {
@@ -186,7 +186,12 @@ var test = function() {
   });
 };
 
-test();
+var main = function() {
+  // getFlickrPhotosForAllParks();
+  
+};
+
+main();
 
 // [1,2,3].forEach(function(x) {
 //   return; // equivalent to callback() using async
