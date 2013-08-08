@@ -1,0 +1,49 @@
+<html>
+  <head>
+
+    <style>
+      circle {
+        opacity: 0.5;
+      }
+    </style>
+
+  </head>
+  <body>
+
+    <div id="map"></div>
+
+    <script src="js/polymaps.js"></script>
+
+    <script>
+
+      var po = org.polymaps;
+
+      var map = po.map()
+        .container(document.getElementById("map").appendChild(po.svg("svg")))
+        .add(po.interact())
+        .add(po.hash());
+
+      // map.add(po.image()
+      //   .url(po.url("http://{S}tile.stamen.com/toner-background/{Z}/{X}/{Y}.png")
+      //   .hosts(["a.", "b.", "c."])));
+
+      map.add(po.geoJson()
+        .url(po.url("photos-sample.geojson")
+        .on("load", load))
+      );
+
+      function load(e) {
+        ;
+      }
+
+      // map.add(po.image()
+      //   .url(po.url("http://mt0.googleapis.com/vt?lyrs=m@221000000,traffic&src=apiv3&hl=en-US&x={X}&y={Y}&z={Z}&s=Galil&apistyle=p.v%3Aoff&style=59,37%7Csmartmaps")));
+
+      map.add(po.compass()
+        .pan("none"));
+
+    </script>
+	
+
+  </body>
+</html>
