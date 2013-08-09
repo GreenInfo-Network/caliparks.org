@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <script src="js/d3.v3.js"></script>
+    <script src="js/leaflet.js"></script>
+    <script src="features.js"></script>
+
+    <style type="text/css">
+      @import url('css/leaflet.css');
+
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      #map {
+        width: 1200px;
+        height: 700px;
+      }
+
+    </style>
+  </head>
+  <body>
+
+    <div id="map"></div>
+
+    <script>
+
+      // d3.select("#map")
+      //   .attr("width", window.innerWidth - 500 + "px")
+      //   .attr("height", window.innerHeight - 500 + "px");
+
+      // create a map in the "map" div, set the view to a given place and zoom
+      var map = L.map('map', {
+            center: [37.7750, -122.4183],
+            zoom: 12
+          });
+
+      // add an OpenStreetMap tile layer
+      L.tileLayer('http://tile.stamen.com/toner-background/{z}/{x}/{y}.png', {}).addTo(map);
+
+      var features = [];
+      d3.csv("photos-sample.csv", function(photos) {
+        photos.forEach(function(photo) {
+          var feature = {
+            type: "Feature",
+            geometry: {
+              type: "Point",
+              coordinates: [+photo.lng, +photo.lat]
+            },
+            properties: photo
+          };
+          features.push(feature);
+        });
+
+        var geojsonMarkerOptions = {
+            radius: 8,
+            fillColor: "#ff7800",
+            color: "#000",
+            weight: 1,
+            opacity: 1,
+            fillOpacity: 0.8
+        };
+
+        L.geoJson(features, {
+            pointToLayer: function (feature, latlng) {
+                return L.circleMarker(latlng, geojsonMarkerOptions);
+            }
+        }).addTo(map);
+
+        // L.geoJson(features).addTo(map);
+
+
+      });
+
+    </script>
+  </body>
+</html>
