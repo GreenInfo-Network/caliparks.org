@@ -2,8 +2,15 @@
   <head>
 
     <style>
+      body, 
+      svg {
+        margin: 0;
+        padding: 0;
+      }
+
       circle {
-        opacity: 0.5;
+        opacity: 0.8;
+        fill: steelblue;
       }
     </style>
 
@@ -13,6 +20,7 @@
     <div id="map"></div>
 
     <script src="js/polymaps.js"></script>
+    <script src="js/d3.v3.js"></script>
 
     <script>
 
@@ -23,27 +31,59 @@
         .add(po.interact())
         .add(po.hash());
 
-      // map.add(po.image()
-      //   .url(po.url("http://{S}tile.stamen.com/toner-background/{Z}/{X}/{Y}.png")
-      //   .hosts(["a.", "b.", "c."])));
+      map.add(po.image()
+        .url(po.url("http://{S}tile.stamen.com/toner-background/{Z}/{X}/{Y}.png")
+        .hosts(["a.", "b.", "c."])));
 
-      map.add(po.geoJson()
-        .url(po.url("photos-sample.geojson")
-        .on("load", load))
-      );
+      // map.add(po.geoJson()
+      //   .url(po.url("photos-sample.geojson")));
 
-      function load(e) {
-        ;
+      var features = [];
+      d3.csv("photos-sample.csv", function(photos) {
+        photos.forEach(function(photo) {
+          var feature = {
+            type: "Feature",
+            geometry: {
+              type: "Point",
+              coordinates: [+photo.lng, +photo.lat]
+            },
+            properties: photo
+          };
+          features.push(feature);
+        });
+
+        map.add(po.geoJson()
+          .features(features.slice(0, 100))
+          .on("load", load));
+      });
+
+      function load(f) {
+        console.log(f.features);
+
+        f.features.forEach(function(feature) {
+
+          // var a = feature.element.parentNode.appendChild(po.svg("a")),
+              // img = a.appendChild(po.svg("image"));
+          // a.appendChild(feature.element);
+          var img = feature.element.parentNode.appendChild(po.svg("image"));
+
+          var d = feature.data.properties;
+          var url = ["http://farm", d.farm, ".staticflickr.com/", d.server, "/",
+                     d.ident, "_", d.secret, "_s.jpg"].join("");
+          
+          img.setAttribute("xlink:href", url);
+          img.setAttribute("width", 75 + "px");
+          img.setAttribute("height", 75 + "px");
+          img.setAttribute("x", 50);
+          img.setAttribute("y", 50);
+        });
       }
-
-      // map.add(po.image()
-      //   .url(po.url("http://mt0.googleapis.com/vt?lyrs=m@221000000,traffic&src=apiv3&hl=en-US&x={X}&y={Y}&z={Z}&s=Galil&apistyle=p.v%3Aoff&style=59,37%7Csmartmaps")));
 
       map.add(po.compass()
         .pan("none"));
 
     </script>
-	
+
 
   </body>
 </html>
