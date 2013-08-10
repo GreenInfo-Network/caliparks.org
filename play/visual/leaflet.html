@@ -13,11 +13,30 @@
       body {
         margin: 0;
         padding: 0;
+        background-image: url("img/dot.gif");
       }
 
       #map {
-        width: 1200px;
+        /*width: 1200px;*/
         height: 700px;
+      }
+
+      .leaflet-container {
+        background-color: transparent !important;
+      }
+
+      #loading {
+        position: fixed;
+        top: 25%;
+        left: 0;
+        width: 100%;
+        font-family: Helvetica, arial;
+        font-size: 24px;
+        background: #000;
+        color: #fff;
+        text-align: center;
+        opacity: 0.7;
+        padding: 20px;
       }
 
     </style>
@@ -25,25 +44,36 @@
   <body>
 
     <div id="map"></div>
-
+    <div id="loading">Loading 9mb (please be patient)</div>
     <script>
 
-      // d3.select("#map")
-      //   .attr("width", window.innerWidth - 500 + "px")
-      //   .attr("height", window.innerHeight - 500 + "px");
+      function resizeMap() {
+        d3.select("#map")
+          .style("height", window.innerHeight + "px");
+      }
+
+      resizeMap();
 
       // create a map in the "map" div, set the view to a given place and zoom
       var map = L.map('map', {
             center: [37.7750, -122.4183],
-            zoom: 12
+            zoom: 7
           });
 
-      // add an OpenStreetMap tile layer
-      L.tileLayer('http://tile.stamen.com/toner-background/{z}/{x}/{y}.png', {}).addTo(map);
+      // add toner tile layer
+      // L.tileLayer('http://tile.stamen.com/toner-background/{z}/{x}/{y}.png', {}).addTo(map);
+
+      var photoOutsideOfCalifornia = function(photo) {
+        return (Math.abs(+photo.lat - 36.48) > 10 || Math.abs(Math.abs(+photo.lng) - 120.0) > 10);
+      }
 
       var features = [];
-      d3.csv("photos-sample.csv", function(photos) {
+      d3.csv("data/photos-sample-1000.csv", function(err, photos) {
+        d3.select("#loading").style("display", "none");
         photos.forEach(function(photo) {
+          if (photoOutsideOfCalifornia(photo)) {
+            return;
+          }
           var feature = {
             type: "Feature",
             geometry: {
@@ -55,23 +85,69 @@
           features.push(feature);
         });
 
-        var geojsonMarkerOptions = {
-            radius: 8,
-            fillColor: "#ff7800",
-            color: "#000",
+        // features = features.slice(0, 1000);
+
+        // d3 hull
+        var photosByPark = d3.nest()
+          .key(function(d) { return d.properties.park; })
+          .map(features);
+
+        var maxPhotos = d3.max(Object.keys(photosByPark), function(p) {
+          return photosByPark[p].length;
+        });
+
+        // console.log("maxPhotos:", maxPhotos);
+        // console.log(photosByPark);
+
+        var hulls = [];
+        for (var park in photosByPark) {
+        // Object.keys(photosByPark).forEach(function(park) {
+          // console.log(photosByPark[park].length, park, photosByPark[park]);
+
+          if (photosByPark[park].length < 5) {
+            // console.log("skipped^^^");
+            continue;
+          }
+          // calculate hull and append to hulls
+          try {
+            var hull = d3.geom.hull(photosByPark[park].map(function(p) {
+              var c = p.geometry.coordinates;
+              return [c[1], c[0]];
+            }));
+          } catch (TypeError) {
+            console.log("failure!");
+            continue;
+          }
+          // hulls.push(hull);
+
+          var hue = 40 + (360 - 40) * (photosByPark[park].length / maxPhotos);
+          var hullOpts = {
+            fillColor: "hsl(" + hue + ", 100%, 70%)",
             weight: 1,
-            opacity: 1,
-            fillOpacity: 0.8
-        };
+            color: "#666",
+            fillOpacity: 0.7
+          };
+          var polygon = L.polygon(hull, hullOpts).addTo(map);
 
-        L.geoJson(features, {
-            pointToLayer: function (feature, latlng) {
-                return L.circleMarker(latlng, geojsonMarkerOptions);
-            }
-        }).addTo(map);
+        }
+        // });
 
-        // L.geoJson(features).addTo(map);
+        // console.log("hulls:", hulls);
 
+        // var geojsonMarkerOptions = {
+        //     radius: 3,
+        //     fillColor: "#ff7800",
+        //     color: "#000",
+        //     weight: 1,
+        //     opacity: 1,
+        //     fillOpacity: 0.8
+        // };
+
+        // L.geoJson(features, {
+        //     pointToLayer: function (feature, latlng) {
+        //         return L.circleMarker(latlng, geojsonMarkerOptions);
+        //     }
+        // }).addTo(map);
 
       });
 
