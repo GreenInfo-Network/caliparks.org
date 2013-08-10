@@ -1,0 +1,24 @@
+[
+    {
+        "id": "8559457160",
+        "owner": "18024068@N00",
+        "secret": "833960b69b",
+        "server": "8530",
+        "farm": 9,
+        "title": "",
+        "ispublic": 1,
+        "isfriend": 0,
+        "isfamily": 0,
+        "latitude": 36.785744,
+        "longitude": -120.791314,
+        "accuracy": "16",
+        "context": 0,
+        "place_id": "UuCMbAJQUL8j9uDAfw",
+        "woeid": "12587704",
+        "geo_is_family": 0,
+        "geo_is_friend": 0,
+        "geo_is_contact": 0,
+        "geo_is_public": 1,
+        "tags": "ca unitedstates sanbenitocounty firebaugh giliatricolor littlepanocheroad"
+    }
+]

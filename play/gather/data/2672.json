@@ -1,0 +1,24 @@
+[
+    {
+        "id": "8353468168",
+        "owner": "69747768@N06",
+        "secret": "21f5683a39",
+        "server": "8051",
+        "farm": 9,
+        "title": "Rings",
+        "ispublic": 1,
+        "isfriend": 0,
+        "isfamily": 0,
+        "latitude": 34.240765,
+        "longitude": -118.779705,
+        "accuracy": "16",
+        "context": 0,
+        "place_id": "aQx_Rh1TVrPKSyAs",
+        "woeid": "2493889",
+        "geo_is_family": 0,
+        "geo_is_friend": 0,
+        "geo_is_contact": 0,
+        "geo_is_public": 1,
+        "tags": "park portrait nature kevin hike trail challenger birdt"
+    }
+]

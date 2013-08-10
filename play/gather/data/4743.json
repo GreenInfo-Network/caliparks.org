@@ -1,0 +1,24 @@
+[
+    {
+        "id": "8443928498",
+        "owner": "62566937@N00",
+        "secret": "1d9dd9d979",
+        "server": "8470",
+        "farm": 9,
+        "title": "Abandoned church",
+        "ispublic": 1,
+        "isfriend": 0,
+        "isfamily": 0,
+        "latitude": 34.691838,
+        "longitude": -117.826888,
+        "accuracy": "16",
+        "context": 0,
+        "place_id": "NsbUWfBTUb4mbyVu",
+        "woeid": "2347563",
+        "geo_is_family": 0,
+        "geo_is_friend": 0,
+        "geo_is_contact": 0,
+        "geo_is_public": 1,
+        "tags": "bw geocaching desert hdr"
+    }
+]

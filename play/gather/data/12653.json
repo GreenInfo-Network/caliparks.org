@@ -1,0 +1,24 @@
+[
+    {
+        "id": "8462731583",
+        "owner": "24163103@N08",
+        "secret": "dde4368954",
+        "server": "8105",
+        "farm": 9,
+        "title": "",
+        "ispublic": 1,
+        "isfriend": 0,
+        "isfamily": 0,
+        "latitude": 40.605166,
+        "longitude": -124.020167,
+        "accuracy": "16",
+        "context": 0,
+        "place_id": "xZS_NcBQUL.cdfY9PQ",
+        "woeid": "12587681",
+        "geo_is_family": 0,
+        "geo_is_friend": 0,
+        "geo_is_contact": 0,
+        "geo_is_public": 1,
+        "tags": "uploaded:by=flickrmobile flickriosapp:filter=nofilter"
+    }
+]

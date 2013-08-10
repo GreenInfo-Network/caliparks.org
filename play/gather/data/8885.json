@@ -1,0 +1,24 @@
+[
+    {
+        "id": "9142814436",
+        "owner": "71453924@N00",
+        "secret": "acd432cd9f",
+        "server": "7439",
+        "farm": 8,
+        "title": "#9945 window seat",
+        "ispublic": 1,
+        "isfriend": 0,
+        "isfamily": 0,
+        "latitude": 37.67188,
+        "longitude": -120.663139,
+        "accuracy": "16",
+        "context": 0,
+        "place_id": "XtwYgRNTVry1b3J5",
+        "woeid": "2469345",
+        "geo_is_family": 0,
+        "geo_is_friend": 0,
+        "geo_is_contact": 0,
+        "geo_is_public": 1,
+        "tags": "delta aerial lax yvr dl windowseat dl9120"
+    }
+]

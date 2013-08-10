@@ -1,0 +1,24 @@
+[
+    {
+        "id": "7820242594",
+        "owner": "85982060@N00",
+        "secret": "a39e5c6859",
+        "server": "8428",
+        "farm": 9,
+        "title": "Sears Point",
+        "ispublic": 1,
+        "isfriend": 0,
+        "isfamily": 0,
+        "latitude": 38.155507,
+        "longitude": -122.410343,
+        "accuracy": "16",
+        "context": 0,
+        "place_id": "TjB9EXRTVrNMIllF",
+        "woeid": "2490322",
+        "geo_is_family": 0,
+        "geo_is_friend": 0,
+        "geo_is_contact": 0,
+        "geo_is_public": 1,
+        "tags": "california sonoma searspoint"
+    }
+]

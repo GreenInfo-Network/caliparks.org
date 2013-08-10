@@ -1,0 +1,24 @@
+[
+    {
+        "id": "8602923863",
+        "owner": "13493467@N04",
+        "secret": "56aa154b2e",
+        "server": "8403",
+        "farm": 9,
+        "title": "Usal Road Scouting Run (49)",
+        "ispublic": 1,
+        "isfriend": 0,
+        "isfamily": 0,
+        "latitude": 39.971533,
+        "longitude": -123.964359,
+        "accuracy": "16",
+        "context": 0,
+        "place_id": "ILx.3jZQUL.tm1v9LA",
+        "woeid": "12587692",
+        "geo_is_family": 0,
+        "geo_is_friend": 0,
+        "geo_is_contact": 0,
+        "geo_is_public": 1,
+        "tags": ""
+    }
+]

@@ -1,0 +1,24 @@
+[
+    {
+        "id": "8764147950",
+        "owner": "66382450@N08",
+        "secret": "98128c239d",
+        "server": "8123",
+        "farm": 9,
+        "title": "Home: The San Gabriel Valley",
+        "ispublic": 1,
+        "isfriend": 0,
+        "isfamily": 0,
+        "latitude": 34.178666,
+        "longitude": -118.023834,
+        "accuracy": "16",
+        "context": 0,
+        "place_id": ".T_KZY5UV7OtQMB3mA",
+        "woeid": "55969072",
+        "geo_is_family": 0,
+        "geo_is_friend": 0,
+        "geo_is_contact": 0,
+        "geo_is_public": 1,
+        "tags": "california unitedstates portfolio arcadia"
+    }
+]

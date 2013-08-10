@@ -1,0 +1,24 @@
+[
+    {
+        "id": "8483687807",
+        "owner": "22085049@N07",
+        "secret": "9641d7909a",
+        "server": "8531",
+        "farm": 9,
+        "title": "descenders on Pamo Rd, Feb 9, 2013",
+        "ispublic": 1,
+        "isfriend": 0,
+        "isfamily": 0,
+        "latitude": 33.12012,
+        "longitude": -116.849513,
+        "accuracy": "16",
+        "context": 0,
+        "place_id": "NsbUWfBTUb4mbyVu",
+        "woeid": "2347563",
+        "geo_is_family": 0,
+        "geo_is_friend": 0,
+        "geo_is_contact": 0,
+        "geo_is_public": 1,
+        "tags": "cycling best descenders pamo pamoroad t2ibest"
+    }
+]

@@ -1,0 +1,24 @@
+[
+    {
+        "id": "9219020299",
+        "owner": "25700667@N03",
+        "secret": "357d314f4b",
+        "server": "3729",
+        "farm": 4,
+        "title": "_DSC4881_DxO.jpg",
+        "ispublic": 1,
+        "isfriend": 0,
+        "isfamily": 0,
+        "latitude": 36.760203,
+        "longitude": -121.502437,
+        "accuracy": "16",
+        "context": 0,
+        "place_id": "NsbUWfBTUb4mbyVu",
+        "woeid": "2347563",
+        "geo_is_family": 0,
+        "geo_is_friend": 0,
+        "geo_is_contact": 0,
+        "geo_is_public": 1,
+        "tags": "sunset stars airplanes daisy fremontpeak"
+    }
+]

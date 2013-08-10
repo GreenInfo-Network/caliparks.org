@@ -1,0 +1,24 @@
+[
+    {
+        "id": "8354562393",
+        "owner": "31715949@N00",
+        "secret": "f0dae64765",
+        "server": "8354",
+        "farm": 9,
+        "title": "Rows of nothing",
+        "ispublic": 1,
+        "isfriend": 0,
+        "isfamily": 0,
+        "latitude": 34.941722,
+        "longitude": -115.481264,
+        "accuracy": "16",
+        "context": 0,
+        "place_id": "dX2lh8xQUL.8yEzxRg",
+        "woeid": "12587705",
+        "geo_is_family": 0,
+        "geo_is_friend": 0,
+        "geo_is_contact": 0,
+        "geo_is_public": 1,
+        "tags": "california plants 28105mmf3545d mojavedesert"
+    }
+]
