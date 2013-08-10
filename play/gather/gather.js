@@ -153,8 +153,14 @@ var writeDataToFile = function(filename, data, callback) {
 };
 
 var getParksDataFromPostgres = function(client, limit, callback) {
+  if (arguments.length < 3) {
+    callback = arguments[arguments.length-1];
+    limit = 500;
+  }
+  // var query = ["select ogc_fid as id, unit_name as name, gis_acres as size from cpad_units ", 
+  //              "where unit_name like '% State Park' order by size desc limit " + limit].join("");
   var query = ["select ogc_fid as id, unit_name as name, gis_acres as size from cpad_units ", 
-               "where unit_name like '% State Park' order by size desc limit " + limit].join("");
+               "where unit_name not like 'BLM' order by size desc limit " + limit].join("");
   client.query(query, function(err, res) {
     if (err) {
       throw err;
@@ -172,11 +178,18 @@ var getParksDataFromPostgres = function(client, limit, callback) {
 
 var getFlickrPhotosForAllParks = function() {
   return startPostgresClient(function(err, client) {
-    return getParksDataFromPostgres(client, 200, function(err, parks) {
-      async.eachLimit(parks, 1, function(park, callback) {
-        getFlickrPhotosForPark(client, park, function(err, media) {
-          console.log("[*] got", media.length, "photos for", park.name);
-          writeDataToFile("data/" + park.id + ".json", media, callback);
+    return getParksDataFromPostgres(client, 1000, function(err, parks) {
+      async.eachLimit(parks, 1, function(park, next) {
+        fs.exists("data/" + park.id + ".json", function(exists) {
+          if (!exists) {
+            getFlickrPhotosForPark(client, park, function(err, media) {
+              console.log("[*] got", media.length, "photos for", park.name);
+              writeDataToFile("data/" + park.id + ".json", media, next);
+            });
+          } else {
+            console.log("[*] park " + park.name + " already exists. skipping.");
+             next();
+          }
         });
       }, function() { 
         console.log("[*] done!");
@@ -187,7 +200,7 @@ var getFlickrPhotosForAllParks = function() {
 };
 
 var main = function() {
-  // getFlickrPhotosForAllParks();
+  getFlickrPhotosForAllParks();
   
 };
 
