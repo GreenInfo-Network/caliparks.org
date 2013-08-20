@@ -43,7 +43,7 @@ function getFlickrData(bbox, page, photos, callback) {
   }
 
   // console.log("[*] getting page", page);
-  console.log("[*] getting first page");
+  console.log("[*] getting page", page);
   var url = {
     url: "http://api.flickr.com/services/rest",
     qs: {
@@ -66,14 +66,14 @@ function getFlickrData(bbox, page, photos, callback) {
       
       photos = photos.concat(body.photos.photo);
 
-      // if (hasMorePages(body)) {
-      //   console.log("[*] found another page for", bbox , ":", body.photos.page, "out of", body.photos.pages);
-      //   console.log("[*] current page:", page);
-      //   return getFlickrData(bbox, page + 1, photos, callback);
+      if (hasMorePages(body)) {
+        console.log("[*] found another page for", bbox , ":", body.photos.page, "out of", body.photos.pages);
+        console.log("[*] current page:", page);
+        return getFlickrData(bbox, page + 1, photos, callback);
 
-      // } else {
+      } else {
         return callback(null, photos);  // callback(err, result)
-      // }
+      }
     
     } else {
       return callback(error);
@@ -157,10 +157,10 @@ var getParksDataFromPostgres = function(client, limit, callback) {
     callback = arguments[arguments.length-1];
     limit = 500;
   }
-  // var query = ["select ogc_fid as id, unit_name as name, gis_acres as size from cpad_units ", 
-  //              "where unit_name like '% State Park' order by size desc limit " + limit].join("");
   var query = ["select ogc_fid as id, unit_name as name, gis_acres as size from cpad_units ", 
-               "where unit_name not like 'BLM' order by size desc limit " + limit].join("");
+               "where unit_name like '% State Park' order by size desc limit " + limit].join("");
+  // var query = ["select ogc_fid as id, unit_name as name, gis_acres as size from cpad_units ", 
+               // "where unit_name not like 'BLM' order by size desc limit " + limit].join("");
   client.query(query, function(err, res) {
     if (err) {
       throw err;
@@ -176,19 +176,42 @@ var getParksDataFromPostgres = function(client, limit, callback) {
   });
 };
 
+// var test = function() {
+//   return startPostgresClient(function(err, client) {
+//     return getParksDataFromPostgres(client, 1000, function(err, parks) {
+//       async.eachLimit(parks, 1, function(park, next) {
+//         var folder = "data/" + park.id;
+//         fs.exists(folder, function(exists) {
+//           if (!exists) {
+//             fs.mkdirSync(folder);
+//             console.log("[*] new folder: " + folder);
+//           }
+        
+//           getFlickrPhotosForPark(client, park, function(err, media) {
+//             console.log("[*] got", media.length, "photos for", park.name);
+//             media.forEach(function(photo) { photo.park = park; });
+//             writeDataToFile(folder + ".json", media, next);
+//           });
+//         });
+//       });
+//     });
+//   });
+// }
+
 var getFlickrPhotosForAllParks = function() {
   return startPostgresClient(function(err, client) {
-    return getParksDataFromPostgres(client, 1000, function(err, parks) {
+    return getParksDataFromPostgres(client, 250, function(err, parks) {
       async.eachLimit(parks, 1, function(park, next) {
         fs.exists("data/" + park.id + ".json", function(exists) {
           if (!exists) {
             getFlickrPhotosForPark(client, park, function(err, media) {
               console.log("[*] got", media.length, "photos for", park.name);
+              media.forEach(function(photo) { photo.park = park; });
               writeDataToFile("data/" + park.id + ".json", media, next);
             });
           } else {
             console.log("[*] park " + park.name + " already exists. skipping.");
-             next();
+            next();
           }
         });
       }, function() { 
@@ -201,7 +224,7 @@ var getFlickrPhotosForAllParks = function() {
 
 var main = function() {
   getFlickrPhotosForAllParks();
-  
+  // test();
 };
 
 main();
