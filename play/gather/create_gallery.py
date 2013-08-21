@@ -1,4 +1,3 @@
-# fuck node, doing this in python
 # create html gallery of flickr photos
 from os import listdir
 import json
