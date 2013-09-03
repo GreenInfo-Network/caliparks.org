@@ -166,7 +166,7 @@ var writeDataToFile = function(filename, data, callback) {
 var getParksDataFromPostgres = function(client, limit, callback) {
   if (arguments.length < 3) {
     callback = arguments[arguments.length-1];
-    limit = 500;
+    limit = 5000;
   }
 //  var query = ["select ogc_fid as id, unit_name as name, gis_acres as size from cpad_units ", 
 //               "where unit_name like '% State Park' order by size desc limit " + limit].join("");
@@ -222,9 +222,13 @@ var getFoursquareVenuesForAllParks = function() {
         fs.exists("4sqdata/" + park.id + ".json", function(exists) {
           if (!exists) {
             getFoursquareVenuesForPark(client, park, function(err, media) {
-              console.log("[*] got", media.length, "venues for", park.name);
-              media.forEach(function(venue) { venue.park = park; });
-              writeDataToFile("4sqdata/" + park.id + ".json", media, next);
+              if (media) {
+                console.log("[*] got", media.length, "venues for", park.name);
+                media.forEach(function(venue) { venue.park = park; });
+                writeDataToFile("4sqdata/" + park.id + ".json", media, next);
+              } else {
+                console.log("[*] got no venues for", park.name, ". skipping.");
+              }
             });
           } else {
             console.log("[*] park " + park.name + " already exists. skipping.");
