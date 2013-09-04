@@ -26,7 +26,13 @@ cur = conn.cursor()
 # Loop over files (one per park)
 for filename in glob.glob("4sqnextvenues/*.json"):
   print filename
-  filejson = json.load(open(filename))
+  try:
+    filejson = json.load(open(filename))
+  except ValueError as e:
+    print "ValueError";
+    next;
+
+  print filename, "has", len(filejson), "venues"
 
   # Loop over venues
   for venue in filejson:
