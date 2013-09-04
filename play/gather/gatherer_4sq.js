@@ -9,10 +9,13 @@ var async = require("async"),
 var startPostgresClient = function(callback) {
   // postgres
   var client = new pg.Client({
-    user: "ggnpc",
+    user: "openspaces",
+    //user: "ggnpc",
     password: "",
-    database: "ggnpc",
-    host: "geo.local",
+    database: "openspaces",
+    //database: "ggnpc",
+    host: "localhost",
+    //host: "geo.local",
     port: 5432
   });
   client.connect();
@@ -217,8 +220,8 @@ client.query(query, function(err, res) {
 
 var getFoursquareVenuesForAllParks = function() {
   return startPostgresClient(function(err, client) {
-    return getParksDataFromPostgres(client, 250, function(err, parks) {
-      async.eachLimit(parks, 1, function(park, next) {
+    return getParksDataFromPostgres(client, 5000, function(err, parks) {
+      async.eachLimit(parks, 10, function(park, next) {
         fs.exists("4sqdata/" + park.id + ".json", function(exists) {
           if (!exists) {
             getFoursquareVenuesForPark(client, park, function(err, media) {
