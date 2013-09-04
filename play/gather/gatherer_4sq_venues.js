@@ -5,14 +5,21 @@ var async = require("async"),
     pg = require("pg"),
     request = require("request");
 
+var zerocount = 0,
+    nonzerocount = 0,
+    undefcount = 0,
+    existscount = 0;
 
 var startPostgresClient = function(callback) {
   // postgres
   var client = new pg.Client({
-    user: "ggnpc",
+    user: "openspaces",
+    //user: "ggnpc",
     password: "",
-    database: "ggnpc",
-    host: "geo.local",
+    database: "openspaces",
+    //database: "ggnpc",
+    host: "localhost",
+    //host: "geo.local",
     port: 5432
   });
   client.connect();
@@ -267,25 +274,40 @@ var getParksDataFromPostgres = function(client, limit, callback) {
 
 var getNextVenuesForAllVenues = function() {
   return getVenuesDataFromJSON(function(err, venues) {
-    async.eachLimit(venues, 1, function(venue, next) {
-      fs.exists("4sqnextvenues/venuenext." + park.id + ".json", function(exists) {
+    async.eachLimit(venues, 10, function(venue, next) {
+      fs.exists("4sqnextvenues/venuenext." + venue.id + ".json", function(exists) {
         if (!exists) {
           getFoursquareNextVenues(venue.id, function(err, media) {
             if (media) {
               console.log("[*] got", media.length, "next venues for id", venue.id);
               media.forEach(function(nextvenue) { nextvenue.prev = venue; });
               writeDataToFile("4sqnextvenues/venuenext." + venue.id + ".json", media, next);
+              if (media.length > 0) {
+                nonzerocount++;
+              } else {
+                zerocount++;
+              }
             } else {
               console.log("[*] got no next venues for id", venue.id);
+              undefcount++;
             }
           });
         } else {
           console.log("[*] nextvenues for venue " + venue.id + " already exist. skipping.");
+          existscount++;
           next();
         }
       });
-    }, function() {
-      console.log("[*] done!");
+    }, function(err) {
+      // This is getting called before everything terminates... because of nested asyncs?
+      
+      var total = existscount + nonzerocount + zerocount + undefcount;
+      console.log("Already exist: " + existscount + " non-zero: " + nonzerocount + " zero: " + zerocount + " undef: " + undefcount + " total: " + total);
+      if (err) {
+        console.log("[*] done (with error)!");
+      } else {
+        console.log("[*] done!");
+      }
     });
   });
 };
