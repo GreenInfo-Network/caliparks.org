@@ -214,9 +214,26 @@ var writeDataToFile = function(filename, data, callback) {
 
 var getVenuesDataFromJSON = function(callback) {
   // load
-  fs.readFile("4sqdata/8806.json", function (err, data) {
-    venues = JSON.parse(data);
-    callback(null, venues);
+  var path = "4sqdata/";
+  fs.readdir(path, function (err, files) {
+    files.forEach(function(file) {
+
+      // Do this synchronously to avoid opening too many files on OSX:
+      venues = JSON.parse(fs.readFileSync(path + file));
+      callback(null, venues);
+
+      // Async version:
+      /*
+      fs.readFile(path + file, function (err, data) {
+        if(err) {
+          console.log(err);
+        } else {
+          venues = JSON.parse(data);
+          callback(null, venues);
+        }
+      });
+      */
+    });
   });
 };
 
@@ -252,9 +269,13 @@ var getNextVenuesForAllVenues = function() {
   return getVenuesDataFromJSON(function(err, venues) {
     async.eachLimit(venues, 1, function(venue, next) {
       getFoursquareNextVenues(venue.id, function(err, media) {
-        console.log("[*] got", media.length, "next venues for id", venue.id);
-        media.forEach(function(nextvenue) { nextvenue.prev = venue; });
-        writeDataToFile("4sqdata/venuenext." + venue.id + ".json", media, next);
+        if (media) {
+          console.log("[*] got", media.length, "next venues for id", venue.id);
+          media.forEach(function(nextvenue) { nextvenue.prev = venue; });
+          writeDataToFile("4sqnextvenues/venuenext." + venue.id + ".json", media, next);
+        } else {
+          console.log("[*] got no next venues for id", venue.id);
+        }
       });
     }, function() {
       console.log("[*] done!");
@@ -269,9 +290,13 @@ var getFoursquareVenuesForAllParks = function() {
         fs.exists("4sqdata/" + park.id + ".json", function(exists) {
           if (!exists) {
             getFoursquareVenuesForPark(client, park, function(err, media) {
-              console.log("[*] got", media.length, "venues for", park.name);
-              media.forEach(function(venue) { venue.park = park; });
-              writeDataToFile("4sqdata/" + park.id + ".json", media, next);
+              if (media) {
+                console.log("[*] got", media.length, "venues for", park.name);
+                media.forEach(function(venue) { venue.park = park; });
+                writeDataToFile("4sqdata/" + park.id + ".json", media, next);
+              } else {
+                console.log("[*] got no venues for", park.name);
+              }
             });
           } else {
             console.log("[*] park " + park.name + " already exists. skipping.");
