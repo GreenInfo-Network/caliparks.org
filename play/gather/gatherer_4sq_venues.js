@@ -268,13 +268,20 @@ var getParksDataFromPostgres = function(client, limit, callback) {
 var getNextVenuesForAllVenues = function() {
   return getVenuesDataFromJSON(function(err, venues) {
     async.eachLimit(venues, 1, function(venue, next) {
-      getFoursquareNextVenues(venue.id, function(err, media) {
-        if (media) {
-          console.log("[*] got", media.length, "next venues for id", venue.id);
-          media.forEach(function(nextvenue) { nextvenue.prev = venue; });
-          writeDataToFile("4sqnextvenues/venuenext." + venue.id + ".json", media, next);
+      fs.exists("4sqnextvenues/venuenext." + park.id + ".json", function(exists) {
+        if (!exists) {
+          getFoursquareNextVenues(venue.id, function(err, media) {
+            if (media) {
+              console.log("[*] got", media.length, "next venues for id", venue.id);
+              media.forEach(function(nextvenue) { nextvenue.prev = venue; });
+              writeDataToFile("4sqnextvenues/venuenext." + venue.id + ".json", media, next);
+            } else {
+              console.log("[*] got no next venues for id", venue.id);
+            }
+          });
         } else {
-          console.log("[*] got no next venues for id", venue.id);
+          console.log("[*] nextvenues for venue " + venue.id + " already exist. skipping.");
+          next();
         }
       });
     }, function() {
