@@ -18,8 +18,8 @@ var startPostgresClient = function(callback) {
     password: "",
     database: "openspaces",
     //database: "ggnpc",
-    host: "localhost",
-    //host: "geo.local",
+    //host: "localhost",
+    host: "geo.local",
     port: 5432
   });
   client.connect();
@@ -245,7 +245,24 @@ var getVenuesDataFromJSON = function(callback) {
 };
 
 var getVenuesDataFromPostgres = function(client, limit, callback) {
-  // TODO: write this!
+  if (arguments.length < 3) {
+    callback = arguments[arguments.length-1];
+    limit = 5000;
+  }
+  var query = ["select venueid as id, name, next_count, checkinscount from park_contains_la_counts ", 
+                "where next_count is null order by checkinscount desc limit " + limit].join("");
+  client.query(query, function(err, res) {
+    if (err) {
+      throw err;
+    }
+    var venues = res.rows.map(function(row) { 
+      return {
+        id: row.id, 
+        name: row.name 
+      }; 
+    });
+    callback(null, venues);
+  });
 };
 
 var getParksDataFromPostgres = function(client, limit, callback) {
@@ -273,41 +290,43 @@ var getParksDataFromPostgres = function(client, limit, callback) {
 };
 
 var getNextVenuesForAllVenues = function() {
-  return getVenuesDataFromJSON(function(err, venues) {
-    async.eachLimit(venues, 10, function(venue, next) {
-      fs.exists("4sqnextvenues/venuenext." + venue.id + ".json", function(exists) {
-        if (!exists) {
-          getFoursquareNextVenues(venue.id, function(err, media) {
-            if (media) {
-              console.log("[*] got", media.length, "next venues for id", venue.id);
-              media.forEach(function(nextvenue) { nextvenue.prev = venue; });
-              writeDataToFile("4sqnextvenues/venuenext." + venue.id + ".json", media, next);
-              if (media.length > 0) {
-                nonzerocount++;
+  return startPostgresClient(function(err, client) {
+    return getVenuesDataFromPostgres(client, 5000, function(err, venues) {
+      async.eachLimit(venues, 10, function(venue, next) {
+        fs.exists("4sqnextvenues/venuenext." + venue.id + ".json", function(exists) {
+          if (!exists) {
+            getFoursquareNextVenues(venue.id, function(err, media) {
+              if (media) {
+                console.log("[*] got", media.length, "next venues for id", venue.id);
+                media.forEach(function(nextvenue) { nextvenue.prev = venue; });
+                writeDataToFile("4sqnextvenues/venuenext." + venue.id + ".json", media, next);
+                if (media.length > 0) {
+                  nonzerocount++;
+                } else {
+                  zerocount++;
+                }
               } else {
-                zerocount++;
+                console.log("[*] got no next venues for id", venue.id);
+                undefcount++;
               }
-            } else {
-              console.log("[*] got no next venues for id", venue.id);
-              undefcount++;
-            }
-          });
+            });
+          } else {
+            console.log("[*] nextvenues for venue " + venue.id + " already exist. skipping.");
+            existscount++;
+            next();
+          }
+        });
+      }, function(err) {
+        // This is getting called before everything terminates... because of nested asyncs?
+        
+        var total = existscount + nonzerocount + zerocount + undefcount;
+        console.log("Already exist: " + existscount + " non-zero: " + nonzerocount + " zero: " + zerocount + " undef: " + undefcount + " total: " + total);
+        if (err) {
+          console.log("[*] done (with error)!");
         } else {
-          console.log("[*] nextvenues for venue " + venue.id + " already exist. skipping.");
-          existscount++;
-          next();
+          console.log("[*] done!");
         }
       });
-    }, function(err) {
-      // This is getting called before everything terminates... because of nested asyncs?
-      
-      var total = existscount + nonzerocount + zerocount + undefcount;
-      console.log("Already exist: " + existscount + " non-zero: " + nonzerocount + " zero: " + zerocount + " undef: " + undefcount + " total: " + total);
-      if (err) {
-        console.log("[*] done (with error)!");
-      } else {
-        console.log("[*] done!");
-      }
     });
   });
 };
