@@ -62,13 +62,14 @@ for filename in glob.glob("4sqnextvenues/*.json"):
     checkinscount = venue['stats']['checkinsCount']
     userscount = venue['stats']['usersCount']
     tipcount = venue['stats']['tipCount']
-    referral_id = venue['prev']['referralId']
+    #referral_id = venue['prev']['referralId']
     prev_id = venue['prev']['id']
 
 
     querystring = "INSERT INTO " + tablename + " (venueid, name, lat, lng, address, postcode, city, state, country, cc, categ_id, categ_name, verified, restricted, checkinscount, userscount, tipcount, referral_id, prev_venue_id) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+    querystring = "INSERT INTO " + tablename + " (venueid, name, lat, lng, address, postcode, city, state, country, cc, categ_id, categ_name, verified, restricted, checkinscount, userscount, tipcount, prev_venue_id) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
     
-    cur.execute(querystring, ( venueid, name, lat, lng, address, postalcode, city, state, country, cc, categ_id, categ_name, verified, restricted, checkinscount, userscount, tipcount, referral_id, prev_id))
+    cur.execute(querystring, ( venueid, name, lat, lng, address, postalcode, city, state, country, cc, categ_id, categ_name, verified, restricted, checkinscount, userscount, tipcount, prev_id))
 
     conn.commit() 
 
