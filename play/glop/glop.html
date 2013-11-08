@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<body>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://d3js.org/topojson.v1.min.js"></script>
+
+<script>
+
+var width = 800,
+    height = 1160;
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+
+//d3.json("st_james_park.topojson", function(error, units) {
+d3.json("cpad19_superunits.topojson", function(error, units) {
+    console.log(units);
+
+    // modifying a projection from http://bost.ocks.org/mike/map/.
+    var projection = d3.geo.albers()
+        //.center([0,37.34]) // For St. James Park in San Jose
+        //.rotate([121.89, 0]) // For St. James Park in San Jose
+        .center([0,36]) // For statewide view
+        .rotate([119, 0]) // For statewide view
+        .parallels([32,40])
+        //.scale(5000000) // For St. James Park in San Jose
+        .scale(5000) // For statewide view
+        .translate([width / 2, height / 2]);
+
+    svg.selectAll("path")
+        .data(topojson.feature(units, units.objects.cpad19_superunits).features)
+        //.data(topojson.feature(units, units.objects.st_james_park).features)
+      .enter().append("path")
+        .attr("d", d3.geo.path().projection(projection))
+        .attr("fill","#999")
+        .attr("stroke","#ccc")
+        .on("mouseover", function(d) { console.log(d.properties.unit_name + " " + d.properties.agncy_id); });
+
+    console.log("done!");
+});
+
+</script>
