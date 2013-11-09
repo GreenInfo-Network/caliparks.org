@@ -15,7 +15,8 @@ var svg = d3.select("body").append("svg")
 
 
 //d3.json("st_james_park.topojson", function(error, units) {
-d3.json("cpad19_superunits.topojson", function(error, units) {
+//d3.json("cpad19_superunits.topojson", function(error, units) {
+d3.json("cpad19_superunits_nps.topojson", function(error, units) {
     console.log(units);
 
     // modifying a projection from http://bost.ocks.org/mike/map/.
@@ -29,14 +30,31 @@ d3.json("cpad19_superunits.topojson", function(error, units) {
         .scale(5000) // For statewide view
         .translate([width / 2, height / 2]);
 
-    svg.selectAll("path")
-        .data(topojson.feature(units, units.objects.cpad19_superunits).features)
+    var shapes = svg.selectAll("path")
+        .data(topojson.feature(units, units.objects.cpad19_superunits_nps).features)
+        //.data(topojson.feature(units, units.objects.cpad19_superunits).features)
         //.data(topojson.feature(units, units.objects.st_james_park).features)
       .enter().append("path")
         .attr("d", d3.geo.path().projection(projection))
-        .attr("fill","#999")
-        .attr("stroke","#ccc")
+        //.attr("d", function(d) { var b = d3.geo.path().projection(projection).bounds(d); return "M" + [b[0] + "H" + b[1][0] + "V" + b[1][1] + "H" + b[0][0]] + "Z"; });  // Bounding boxes from http://bl.ocks.org/mbostock/4431123
+
+
+
+    shapes
+        .attr("fill","none")
+        .attr("stroke","#666")
+        .attr("stroke-opacity",0.5)
         .on("mouseover", function(d) { console.log(d.properties.unit_name + " " + d.properties.agncy_id); });
+
+    shapes
+        .transition()
+        .duration(2000)
+        .attr("transform", function(d) {
+            var bounds = d3.geo.bounds(d);
+            var transvalx = projection(bounds[0])[0] - projection(bounds[1])[0];
+            var transvaly = projection(bounds[0])[1] - projection(bounds[1])[1];
+            return "translate(" + transvalx  + "," + -transvaly + ")";
+        });
 
     console.log("done!");
 });
