@@ -6,13 +6,31 @@
 
 <script>
 
-var width = 800,
+var width = 2000,
     height = 1160;
+
+var margin = 50;
 
 var svg = d3.select("body").append("svg")
     .attr("width", width)
     .attr("height", height);
 
+var glopvalues = [];
+
+var drawbboxes = false;
+
+var numcolumns = 10;
+var gridsize = (width - 2 * margin) / numcolumns;
+
+function xpos(rank) {
+  //console.log("rank:", rank, ", xpos: ", rank % numcolumns);
+  return 1 + rank % numcolumns;
+}
+
+function ypos(rank) {
+  //console.log("rank:", rank, ", ypos: ", Math.floor(rank/numcolumns));
+  return 1 + Math.floor(rank/numcolumns);
+}
 
 //d3.json("st_james_park.topojson", function(error, units) {
 //d3.json("cpad19_superunits.topojson", function(error, units) {
@@ -27,33 +45,79 @@ d3.json("cpad19_superunits_nps.topojson", function(error, units) {
         .rotate([119, 0]) // For statewide view
         .parallels([32,40])
         //.scale(5000000) // For St. James Park in San Jose
-        .scale(5000) // For statewide view
+        .scale(30000) // 5000 For statewide view
         .translate([width / 2, height / 2]);
+
+    var path = d3.geo.path().projection(projection);
 
     var shapes = svg.selectAll("path")
         .data(topojson.feature(units, units.objects.cpad19_superunits_nps).features)
         //.data(topojson.feature(units, units.objects.cpad19_superunits).features)
         //.data(topojson.feature(units, units.objects.st_james_park).features)
       .enter().append("path")
-        .attr("d", d3.geo.path().projection(projection))
-        //.attr("d", function(d) { var b = d3.geo.path().projection(projection).bounds(d); return "M" + [b[0] + "H" + b[1][0] + "V" + b[1][1] + "H" + b[0][0]] + "Z"; });  // Bounding boxes from http://bl.ocks.org/mbostock/4431123
+        .attr("d", drawbboxes 
+                    ?
+                      function(d) { var b = d3.geo.path().projection(projection).bounds(d); return "M" + [b[0] + "H" + b[1][0] + "V" + b[1][1] + "H" + b[0][0]] + "Z"; } // Bounding boxes from http://bl.ocks.org/mbostock/4431123
+                    :
+                      path)
 
+        .each(function(d, i) {
+          //console.log(d.properties.unit_name, path.area(d));
+          glopvalues[i] = +path.area(d);
+        });
 
+    // Use slice to make a copy to avoid sorting the original array:
+    gloprank = d3.scale.ordinal()
+        .domain(glopvalues.slice(0).sort(function(a, b) { return a > b ? -1 : a < b ? 1 : 0; }))
+        .rangePoints([0, glopvalues.length - 1])
+
+    // For use as a scatterglop
+    var xscale = d3.scale.linear()
+        .domain([d3.min(glopvalues),d3.max(glopvalues)])
+        .range([margin, width-margin]);
+
+    var yscale = d3.scale.linear()
+        .domain([d3.min(glopvalues),d3.max(glopvalues)])
+        .range([margin, height-margin]);
 
     shapes
-        .attr("fill","none")
-        .attr("stroke","#666")
+        .attr("fill","#aaa")
+        .attr("stroke","#fff")
+        .attr("opacity",0.5)
         .attr("stroke-opacity",0.5)
-        .on("mouseover", function(d) { console.log(d.properties.unit_name + " " + d.properties.agncy_id); });
+        .on("mouseover", function(d, i) { 
+          console.log(d.properties.unit_name + " " + d.properties.agncy_id + " index: " + i + " area: " + glopvalues[i] + " rank: " + gloprank(i));
+          d3.select(this).style("fill","#0f0");
+        })
+        .on("mouseout", function(d, i) { 
+          d3.select(this).style("fill","#aaa");
+        });
 
     shapes
         .transition()
         .duration(2000)
-        .attr("transform", function(d) {
+        .attr("transform", function(d, i) {
             var bounds = d3.geo.bounds(d);
-            var transvalx = projection(bounds[0])[0] - projection(bounds[1])[0];
-            var transvaly = projection(bounds[0])[1] - projection(bounds[1])[1];
-            return "translate(" + transvalx  + "," + -transvaly + ")";
+            var lowerleft = projection(bounds[0]);
+            var upperright = projection(bounds[1]);
+            var x0 = lowerleft[0];
+            var y0 = lowerleft[1];
+            var x1 = upperright[0];
+            var y1 = upperright[1];
+
+            // for scatterglop:
+            //var transvalx = margin + gridsize/2 + xscale(glopvalues[i]) - (x1 + x0)/2;
+            //var transvaly = margin + gridsize/2 + yscale(glopvalues[i]) - (y1 + y0)/2;
+
+
+            var transvalx = xpos(gloprank(glopvalues[i])) * gridsize - (x1 + x0)/2;
+            var transvaly = ypos(gloprank(glopvalues[i])) * gridsize - (y1 + y0)/2;
+            //console.log("index: ", i, " area: ", glopvalues[i], " rank: ", gloprank(glopvalues[i]));
+            //console.log(i, "original center: ", (x1 + x0)/2, ",", (y1 + y0)/2);
+            //console.log(i, "new center: ", xpos(gloprank(glopvalues[i])) * gridsize, ",", ypos(gloprank(glopvalues[i])) * gridsize);
+            //console.log(i, "translate: ", transvalx, ",", transvaly);
+
+            return "translate(" + transvalx  + "," + transvaly + ")";
         });
 
     console.log("done!");
