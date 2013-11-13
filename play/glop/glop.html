@@ -6,10 +6,17 @@
 
 <script>
 
-var width = 2000,
-    height = 1160;
+var w = window,
+    d = document,
+    e = d.documentElement,
+    g = d.getElementsByTagName('body')[0],
+    x = w.innerWidth || e.clientWidth || g.clientWidth,
+    y = w.innerHeight|| e.clientHeight|| g.clientHeight;
 
 var margin = 50;
+
+var width = x - margin,
+    height = y - margin;
 
 var svg = d3.select("body").append("svg")
     .attr("width", width)
@@ -19,9 +26,15 @@ var glopvalues = [];
 
 var drawbboxes = false; // set to true to just draw bounding boxes
 
+//var glopStyle = 'paragraph';
+var glopStyle = 'checkerboard';  // default
+//var glopStyle = 'scatterglop';
+
 // Settings and functions for the checkerboard glop
-var numcolumns = 10;
-var gridsize = (width - 2 * margin) / numcolumns;
+//var numcolumns = 10;
+//var gridsize = (width - 2 * margin) / numcolumns;
+var gridsize = 300;
+var numcolumns = Math.floor(width/gridsize);
 
 function xpos(rank) {
   //console.log("rank:", rank, ", xpos: ", rank % numcolumns);
@@ -81,11 +94,11 @@ d3.json("cpad19_superunits_nps.topojson", function(error, units) {
     // For use as a scatterglop
     var xscale = d3.scale.linear()
         .domain([d3.min(glopvalues),d3.max(glopvalues)])
-        .range([margin, width-margin]);
+        .range([margin, width-2*margin]);
 
     var yscale = d3.scale.linear()
         .domain([d3.min(glopvalues),d3.max(glopvalues)])
-        .range([margin, height-margin]);
+        .range([margin, height-2*margin]);
 
     shapes
         .attr("fill","#aaa")
@@ -115,30 +128,33 @@ d3.json("cpad19_superunits_nps.topojson", function(error, units) {
             var curwidth = x1 - x0;
             var curheight = y0 - y1;
 
-            // for scatterglop:
-            //var transvalx = margin + gridsize/2 + xscale(glopvalues[i]) - (x1 + x0)/2;
-            //var transvaly = margin + gridsize/2 + yscale(glopvalues[i]) - (y1 + y0)/2;
-
             // for checkerboard glop:
-            //var transvalx = xpos(gloprank(path.area(d))) * gridsize - (x1 + x0)/2;
-            //var transvaly = ypos(gloprank(path.area(d))) * gridsize - (y1 + y0)/2;
+            var transvalx = xpos(gloprank(path.area(d))) * gridsize - (x1 + x0)/2;
+            var transvaly = ypos(gloprank(path.area(d))) * gridsize - (y1 + y0)/2;
 
-            // for paragraph glop:
-            //console.log("    currentBaseX:", currentBaseX, "    currentBaseY:", currentBaseY, "    nextBaseY:", nextBaseY);
-            var transvalx = currentBaseX - x0;
-            if (transvalx + curwidth > width - margin) {
-              //console.log("index:", i, "new line");
-              currentBaseX = margin;
-              transvalx = currentBaseX - x0;
-              currentBaseY += nextBaseY;
+            if (glopStyle == 'scatterglop') {
+              var transvalx = margin + xscale(path.area(d)) - (x1 + x0)/2 - curwidth/2;
+              var transvaly = margin + yscale(path.area(d)) - (y1 + y0)/2 - curheight/2;
             }
-            currentBaseX += curwidth;
-            var transvaly = currentBaseY - y1;
-            if (nextBaseY < (currentBaseY + curheight)) {
-              //console.log("index:", i, "extending next height");
-              nextBaseY = currentBaseY + curheight;
+
+
+            if (glopStyle == 'paragraph') {
+              //console.log("    currentBaseX:", currentBaseX, "    currentBaseY:", currentBaseY, "    nextBaseY:", nextBaseY);
+              var transvalx = currentBaseX - x0;
+              if ((transvalx + curwidth) > (width - margin)) {
+                //console.log("index:", i, "new line");
+                currentBaseX = margin;
+                transvalx = currentBaseX - x0;
+                currentBaseY += nextBaseY;
+              }
+              currentBaseX += curwidth;
+              var transvaly = currentBaseY - y1;
+              if (nextBaseY < (currentBaseY + curheight)) {
+                //console.log("index:", i, "extending next height");
+                nextBaseY = currentBaseY + curheight;
+              }
+              //console.log("new currentBaseX:", currentBaseX, "new currentBaseY:", currentBaseY, "new nextBaseY:", nextBaseY);
             }
-            //console.log("new currentBaseX:", currentBaseX, "new currentBaseY:", currentBaseY, "new nextBaseY:", nextBaseY);
 
             //console.log("index:", i, "area:", path.area(d), "rank:", gloprank(path.area(d)));
             //console.log("index:", i, "original center:", (x1 + x0)/2, ",", (y1 + y0)/2);
