@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <body>
-<script src="http://d3js.org/d3.v3.min.js"></script>
-<script src="http://d3js.org/topojson.v1.min.js"></script>
+<script src="js/vendor/d3.v3.min.js"></script>
+<script src="js/vendor/topojson.v1.min.js"></script>
 
 <script>
 
@@ -33,6 +33,12 @@ function ypos(rank) {
   return 1 + Math.floor(rank/numcolumns);
 }
 
+// Settings and variables for the paragraph glop
+
+var currentBaseX = margin;
+var currentBaseY = margin;
+var nextBaseY = currentBaseY;
+
 //d3.json("st_james_park.topojson", function(error, units) {
 //d3.json("cpad19_superunits.topojson", function(error, units) {
 d3.json("cpad19_superunits_nps.topojson", function(error, units) {
@@ -46,7 +52,7 @@ d3.json("cpad19_superunits_nps.topojson", function(error, units) {
         .rotate([119, 0]) // For statewide view
         .parallels([32,40])
         //.scale(5000000) // For St. James Park in San Jose
-        .scale(30000) // 5000 For statewide view
+        .scale(20000) // 5000 For statewide view
         .translate([width / 2, height / 2]);
 
     var path = d3.geo.path().projection(projection);
@@ -106,13 +112,34 @@ d3.json("cpad19_superunits_nps.topojson", function(error, units) {
             var y0 = lowerleft[1];
             var x1 = upperright[0];
             var y1 = upperright[1];
+            var curwidth = x1 - x0;
+            var curheight = y0 - y1;
 
             // for scatterglop:
             //var transvalx = margin + gridsize/2 + xscale(glopvalues[i]) - (x1 + x0)/2;
             //var transvaly = margin + gridsize/2 + yscale(glopvalues[i]) - (y1 + y0)/2;
 
-            var transvalx = xpos(gloprank(path.area(d))) * gridsize - (x1 + x0)/2;
-            var transvaly = ypos(gloprank(path.area(d))) * gridsize - (y1 + y0)/2;
+            // for checkerboard glop:
+            //var transvalx = xpos(gloprank(path.area(d))) * gridsize - (x1 + x0)/2;
+            //var transvaly = ypos(gloprank(path.area(d))) * gridsize - (y1 + y0)/2;
+
+            // for paragraph glop:
+            //console.log("    currentBaseX:", currentBaseX, "    currentBaseY:", currentBaseY, "    nextBaseY:", nextBaseY);
+            var transvalx = currentBaseX - x0;
+            if (transvalx + curwidth > width - margin) {
+              //console.log("index:", i, "new line");
+              currentBaseX = margin;
+              transvalx = currentBaseX - x0;
+              currentBaseY += nextBaseY;
+            }
+            currentBaseX += curwidth;
+            var transvaly = currentBaseY - y1;
+            if (nextBaseY < (currentBaseY + curheight)) {
+              //console.log("index:", i, "extending next height");
+              nextBaseY = currentBaseY + curheight;
+            }
+            //console.log("new currentBaseX:", currentBaseX, "new currentBaseY:", currentBaseY, "new nextBaseY:", nextBaseY);
+
             //console.log("index:", i, "area:", path.area(d), "rank:", gloprank(path.area(d)));
             //console.log("index:", i, "original center:", (x1 + x0)/2, ",", (y1 + y0)/2);
             //console.log("index:", i, "new center:", xpos(gloprank(path.area(d))) * gridsize, ",", ypos(gloprank(path.area(d))) * gridsize);
