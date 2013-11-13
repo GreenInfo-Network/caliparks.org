@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <body>
+
+    <select id='glopselect'>
+      <option value="geographic">geographic locations</option>
+      <option value="paragraph">paragraph glop</option>
+      <option value="checkerboard">checkerboard glop</option>
+      <option value="scatterglop">scatterglop</option>
+    </select>
+
 <script src="js/vendor/d3.v3.min.js"></script>
 <script src="js/vendor/topojson.v1.min.js"></script>
 
@@ -23,12 +31,14 @@ var svg = d3.select("body").append("svg")
     .attr("height", height);
 
 var glopvalues = [];
+var shapes;
 
 var drawbboxes = false; // set to true to just draw bounding boxes
 
 //var glopStyle = 'paragraph';
-var glopStyle = 'checkerboard';  // default
+//var glopStyle = 'checkerboard';  // default
 //var glopStyle = 'scatterglop';
+var glopStyle = 'geographic';
 
 // Settings and functions for the checkerboard glop
 //var numcolumns = 10;
@@ -52,25 +62,29 @@ var currentBaseX = margin;
 var currentBaseY = margin;
 var nextBaseY = currentBaseY;
 
+var xscale, yscale;
+
+// Projection settings
+// modifying a projection from http://bost.ocks.org/mike/map/.
+var projection = d3.geo.albers()
+    //.center([0,37.34]) // For St. James Park in San Jose
+    //.rotate([121.89, 0]) // For St. James Park in San Jose
+    .center([0,36]) // For statewide view
+    .rotate([119, 0]) // For statewide view
+    .parallels([32,40])
+    //.scale(5000000) // For St. James Park in San Jose
+    .scale(20000) // 5000 For statewide view
+    .translate([width / 2, height / 2]);
+
+var path = d3.geo.path().projection(projection);
+
 //d3.json("st_james_park.topojson", function(error, units) {
 //d3.json("cpad19_superunits.topojson", function(error, units) {
 d3.json("cpad19_superunits_nps.topojson", function(error, units) {
     //console.log(units);
 
-    // modifying a projection from http://bost.ocks.org/mike/map/.
-    var projection = d3.geo.albers()
-        //.center([0,37.34]) // For St. James Park in San Jose
-        //.rotate([121.89, 0]) // For St. James Park in San Jose
-        .center([0,36]) // For statewide view
-        .rotate([119, 0]) // For statewide view
-        .parallels([32,40])
-        //.scale(5000000) // For St. James Park in San Jose
-        .scale(20000) // 5000 For statewide view
-        .translate([width / 2, height / 2]);
 
-    var path = d3.geo.path().projection(projection);
-
-    var shapes = svg.selectAll("path")
+    shapes = svg.selectAll("path")
         .data(topojson.feature(units, units.objects.cpad19_superunits_nps).features)
         //.data(topojson.feature(units, units.objects.cpad19_superunits).features)
         //.data(topojson.feature(units, units.objects.st_james_park).features)
@@ -92,11 +106,11 @@ d3.json("cpad19_superunits_nps.topojson", function(error, units) {
         .rangePoints([0, glopvalues.length - 1])
 
     // For use as a scatterglop
-    var xscale = d3.scale.linear()
+    xscale = d3.scale.linear()
         .domain([d3.min(glopvalues),d3.max(glopvalues)])
         .range([margin, width-2*margin]);
 
-    var yscale = d3.scale.linear()
+    yscale = d3.scale.linear()
         .domain([d3.min(glopvalues),d3.max(glopvalues)])
         .range([margin, height-2*margin]);
 
@@ -109,10 +123,20 @@ d3.json("cpad19_superunits_nps.topojson", function(error, units) {
           console.log(d.properties.unit_name + " " + d.properties.agncy_id + " index: " + i + " area: " + path.area(d) + " rank: " + gloprank(path.area(d)));
           d3.select(this).style("fill","#0f0");
         })
-        .on("mouseout", function(d, i) { 
+        .on("mouseout", function(d, i) {
           d3.select(this).style("fill","#aaa");
+        })
+        .each(function(d,i) {
+          d3.select(this).original_x = projection(d3.geo.bounds(d)[0])[0] - projection(d3.geo.bounds(d)[1])[0];
+          d3.select(this).original_y = projection(d3.geo.bounds(d)[0])[1] - projection(d3.geo.bounds(d)[1])[1];
         });
 
+    sortGlop(glopStyle);
+
+    console.log("done!");
+});
+
+function sortGlop(sortType) {
     shapes
         .sort(function(a,b) { return path.area(a) > path.area(b) ? -1 : path.area(a) < path.area(b) ? 1 : 0; })
         .transition()
@@ -132,13 +156,17 @@ d3.json("cpad19_superunits_nps.topojson", function(error, units) {
             var transvalx = xpos(gloprank(path.area(d))) * gridsize - (x1 + x0)/2;
             var transvaly = ypos(gloprank(path.area(d))) * gridsize - (y1 + y0)/2;
 
-            if (glopStyle == 'scatterglop') {
+            if (sortType == 'scatterglop') {
               var transvalx = margin + xscale(path.area(d)) - (x1 + x0)/2 - curwidth/2;
               var transvaly = margin + yscale(path.area(d)) - (y1 + y0)/2 - curheight/2;
             }
 
+            if (sortType == 'geographic') {
+              var transvalx = function(d) {return d.original_x; };
+              var transvaly = function(d) {return d.original_y; };
+            }
 
-            if (glopStyle == 'paragraph') {
+            if (sortType == 'paragraph') {
               //console.log("    currentBaseX:", currentBaseX, "    currentBaseY:", currentBaseY, "    nextBaseY:", nextBaseY);
               var transvalx = currentBaseX - x0;
               if ((transvalx + curwidth) > (width - margin)) {
@@ -164,7 +192,10 @@ d3.json("cpad19_superunits_nps.topojson", function(error, units) {
             return "translate(" + transvalx  + "," + transvaly + ")";
         });
 
-    console.log("done!");
+}
+
+d3.select("#glopselect").on("change", function(e) {
+  sortGlop(this.value);
 });
 
 </script>
