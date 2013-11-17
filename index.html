@@ -229,12 +229,10 @@ function sortGlop(sortType) {
     var sortFunction = function(a,b) { return path.area(a) > path.area(b) ? -1 : path.area(a) < path.area(b) ? 1 : 0; };
 
     if (sortBy == 'checkinscount') {
-      console.log("sortGlop by checkins!");
-      sortFunction = function(a,b) { console.log("a, a.properties.checkinscount, b, b.properties.checkinscount: ", a, a.properties.checkinscount, b, b.properties.checkinscount); return a.properties.checkinscount > b.properties.checkinscount ? -1 : a.properties.checkinscount < b.properties.checkinscount ? 1 : 0; };
+      sortFunction = function(a,b) { return a.properties.checkinscount > b.properties.checkinscount ? -1 : a.properties.checkinscount < b.properties.checkinscount ? 1 : 0; };
     }
 
     if (sortBy == 'venuecount') {
-      console.log("sortGlop by venues!");
       sortFunction = function(a,b) { return a.properties.venuecount > b.properties.venuecount ? -1 : a.properties.venuecount < b.properties.venuecount ? 1 : 0; };
     }
 
@@ -357,14 +355,12 @@ d3.select("#areabutton").on("click", function(e) {
 });
 
 d3.select("#venuesbutton").on("click", function(e) {
-  console.log("click: sorting by venues!");
   glopStyle = 'paragraph';
   sortBy = 'venuecount';
   sortGlop(glopStyle);
 });
 
 d3.select("#checkinsbutton").on("click", function(e) {
-  console.log("click: sorting by checkins!");
   glopStyle = 'paragraph';
   sortBy = 'checkinscount';
   sortGlop(glopStyle);
