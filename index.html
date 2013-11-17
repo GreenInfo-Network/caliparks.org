@@ -66,7 +66,7 @@ var rescaleshapes = true; // set to true to rescale shapes proportionally
 var glopStyle = 'geographic';
 
 var sortBy = 'checkinscount';
-//var sortBy = 'venuescount';
+//var sortBy = 'venuecount';
 //var sortBy = 'area';
 
 // Settings and functions for the checkerboard glop
@@ -137,8 +137,9 @@ d3.json("data/superunits_hashtags_counts.topojson", function(error, units) {
                       path)
 
         .each(function(d, i) {
-          console.log(d.properties.unit_name + " " + d.properties.agncy_id + " index: " + i + " area: " + path.area(d) + " hashtag: " + d.properties.hashtag + " venues: " + d.properties.venuecount + " checkins: " + d.properties.checkinscount);
           glopvalues[i] = +path.area(d);
+          d.properties.checkinscount = +d.properties.checkinscount;
+          d.properties.venuecount = +d.properties.venuecount;
         });
 
     // Use slice to make a copy to avoid sorting the original array:
@@ -206,6 +207,7 @@ d3.json("data/superunits_hashtags_counts.topojson", function(error, units) {
 });
 
 function sortGlop(sortType) {
+    // Uses the global variable "sortBy" to determine the order of shapes
 
     if (sortType == 'geographic') {
       california
@@ -226,8 +228,21 @@ function sortGlop(sortType) {
     nextBaseY = currentBaseY;
     paragraphPositions = {};
 
+    // default for sortBy is by area:
+    var sortFunction = function(a,b) { return path.area(a) > path.area(b) ? -1 : path.area(a) < path.area(b) ? 1 : 0; };
+
+    if (sortBy == 'checkinscount') {
+      console.log("sortGlop by checkins!");
+      sortFunction = function(a,b) { console.log("a, a.properties.checkinscount, b, b.properties.checkinscount: ", a, a.properties.checkinscount, b, b.properties.checkinscount); return a.properties.checkinscount > b.properties.checkinscount ? -1 : a.properties.checkinscount < b.properties.checkinscount ? 1 : 0; };
+    }
+
+    if (sortBy == 'venuecount') {
+      console.log("sortGlop by venues!");
+      sortFunction = function(a,b) { return a.properties.venuecount > b.properties.venuecount ? -1 : a.properties.venuecount < b.properties.venuecount ? 1 : 0; };
+    }
+
     shapes
-        .sort(function(a,b) { return path.area(a) > path.area(b) ? -1 : path.area(a) < path.area(b) ? 1 : 0; })
+        .sort(sortFunction)
         .transition()
         .duration(2000)
         .attr("transform", function(d) {
@@ -341,6 +356,20 @@ d3.select("#mapbutton").on("click", function(e) {
 d3.select("#areabutton").on("click", function(e) {
   glopStyle = 'paragraph';
   sortBy = 'area';
+  sortGlop(glopStyle);
+});
+
+d3.select("#venuesbutton").on("click", function(e) {
+  console.log("click: sorting by venues!");
+  glopStyle = 'paragraph';
+  sortBy = 'venuecount';
+  sortGlop(glopStyle);
+});
+
+d3.select("#checkinsbutton").on("click", function(e) {
+  console.log("click: sorting by checkins!");
+  glopStyle = 'paragraph';
+  sortBy = 'checkinscount';
   sortGlop(glopStyle);
 });
 
