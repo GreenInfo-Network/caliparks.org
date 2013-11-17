@@ -68,6 +68,13 @@ function ypos(rank) {
   return 1 + Math.floor(rank/numcolumns);
 }
 
+// variables for the paragraph glop
+
+var currentBaseX = margin;
+var currentBaseY = margin;
+var nextBaseY = currentBaseY;
+var paragraphPositions = {};
+
 // Scales for the scatterglop
 var xscale, yscale;
 
@@ -126,10 +133,33 @@ d3.json("data/cpad19_superunits_nps.topojson", function(error, units) {
         //.attr("opacity",0.9)
         .on("mouseover", function(d, i) { 
           console.log(d.properties.unit_name + " " + d.properties.agncy_id + " index: " + i + " area: " + path.area(d) + " rank: " + gloprank(path.area(d)));
-          d3.select(this).style("fill",mouseovercolor);
+          d3.select(this).style("fill",mouseovercolor)
+            .transition()
+            .duration(500)
+            .attr("transform",function(d) {
+              return getTransform(d3.select(this), glopStyle, true); 
+/*
+              var bbox = this.getBBox();
+              var translate = "translate(" + -(bbox.x+(bbox.width/2)) + "," + -(bbox.y+(bbox.height/2)) + ")scale(2)";
+              console.log(translate);
+              return translate;
+*/
+            });
         })
-        .on("mouseout", function(d, i) {
-          d3.select(this).style("fill",defaultcolor);
+        .on("mouseout", function(d) {
+          d3.select(this).style("fill",defaultcolor)
+            .transition()
+            .duration(500)
+            .attr("transform",function(d) {
+              return getTransform(d3.select(this), glopStyle, false); 
+/*
+              var bbox = this.getBBox();
+              var translate = "translate(" + 0 + "," + 0 + ")scale(1)";
+              //var translate = "translate(" + (bbox.x+(bbox.width/2))*.25 + "," + (bbox.y+(bbox.height/2))*.25 + ")scale(.75)";
+              console.log(translate);
+              return translate;
+*/
+            });
         })
         .each(function(d,i) {
           var bbox = this.getBBox();
@@ -149,90 +179,111 @@ d3.json("data/cpad19_superunits_nps.topojson", function(error, units) {
 
 function sortGlop(sortType) {
     // Reset variables for the paragraph glop
-    var currentBaseX = margin;
-    var currentBaseY = margin;
-    var nextBaseY = currentBaseY;
+    currentBaseX = margin;
+    currentBaseY = margin;
+    nextBaseY = currentBaseY;
+    paragraphPositions = {};
+    
 
     shapes
         .sort(function(a,b) { return path.area(a) > path.area(b) ? -1 : path.area(a) < path.area(b) ? 1 : 0; })
         .transition()
         .duration(2000)
-        .attr("transform", function(d, i) {
-            var bbox = this.getBBox();
-
-            var x0 = bbox.x;
-            var y0 = bbox.y;
-            var curwidth = bbox.width;
-            var curheight = bbox.height;
-            var curX = bbox.x + bbox.width/2;
-            var curY = bbox.y + bbox.height/2;
-
-            var scaleFactor = 1;
-            if (rescaleshapes && sortType != 'geographic') {
-              var largestaxis = curwidth > curheight ? curwidth : curheight;
-              scaleFactor = resizeScale(largestaxis) / largestaxis;
-            }
-            var scalestr = "scale(" + scaleFactor + ")";
-
-            //if (sortType == 'geographic')
-            var resetx = curX;
-            var resety = curY;
-            var transvalx = curX;
-            var transvaly = curY;
-
-            if (sortType == 'checkerboard') {
-              resetx = curX;
-              resety = curY;
-              transvalx = xpos(gloprank(path.area(d))) * gridsize;
-              transvaly = ypos(gloprank(path.area(d))) * gridsize;
-            }
-
-            if (sortType == 'scatterglop') {
-              resetx = curX;
-              resety = curY;
-              transvalx = margin + xscale(path.area(d)) - curwidth/2;
-              transvaly = margin + yscale(path.area(d)) - curheight/2;
-            }
-
-            if (sortType == 'paragraph') {
-              //console.log("    currentBaseX:", currentBaseX, "    currentBaseY:", currentBaseY, "    nextBaseY:", nextBaseY);
-              resetx = x0;
-              resety = y0;
-              transvalx = currentBaseX;
-              // This tests if we've hit the edge of the page, and starts a new line if so.
-              if ((transvalx + (curwidth*scaleFactor)) > (width - margin)) {
-                //console.log("index:", i, "new line");
-                currentBaseX = margin;
-                transvalx = currentBaseX;
-                currentBaseY = nextBaseY;
-                nextBaseY = margin;
-              }
-              currentBaseX += curwidth*scaleFactor;
-              transvaly = currentBaseY;
-              // This tests if our next line needs to be moved down
-              if (nextBaseY < (currentBaseY + (curheight*scaleFactor))) {
-                nextBaseY = currentBaseY + (curheight*scaleFactor);
-                //console.log(d.properties.unit_name, "index:", i, "rank:", gloprank(path.area(d)), "extending next height to:", nextBaseY);
-              }
-              //console.log("new currentBaseX:", currentBaseX, "new currentBaseY:", currentBaseY, "new nextBaseY:", nextBaseY);
-            }
-
-            //console.log("index:", i, "area:", path.area(d), "rank:", gloprank(path.area(d)));
-            //console.log("index:", i, "original center:", (x1 + x0)/2, ",", (y1 + y0)/2);
-            //console.log("index:", i, "new center:", xpos(gloprank(path.area(d))) * gridsize, ",", ypos(gloprank(path.area(d))) * gridsize);
-            //console.log("index:", i, "translate:", transvalx, ",", transvaly);
-
-            //console.log(d.properties.unit_name, "scaleFactor", scaleFactor, "transvalx", transvalx, "transvaly", transvaly, "curX", curX, "curY", curY);
-            var transstr = "translate(" + -resetx*(scaleFactor-1)  + "," + -resety*(scaleFactor-1) + ")" + scalestr + "translate(" + ((transvalx-resetx)/(scaleFactor))  + "," + ((transvaly-resety)/(scaleFactor)) + ")";
-            //console.log(transstr);
-            return transstr;
+        .attr("transform", function(d) {
+            return getTransform(d3.select(this), sortType, false);
         });
 
 
 }
 
+function getTransform(d, sortType, isZoomed) {
+    console.log(d, this);
+    var bbox = d.node().getBBox();
+
+    var x0 = bbox.x;
+    var y0 = bbox.y;
+    var curwidth = bbox.width;
+    var curheight = bbox.height;
+    var curX = bbox.x + bbox.width/2;
+    var curY = bbox.y + bbox.height/2;
+
+    var scaleFactor = 1;
+    if (rescaleshapes && sortType != 'geographic') {
+      var largestaxis = curwidth > curheight ? curwidth : curheight;
+      scaleFactor = resizeScale(largestaxis) / largestaxis;
+    }
+    if (isZoomed) {
+      scaleFactor += 1;
+    }
+    var scalestr = "scale(" + scaleFactor + ")";
+
+    //if (sortType == 'geographic')
+    var resetx = curX;
+    var resety = curY;
+    var transvalx = curX;
+    var transvaly = curY;
+
+    if (sortType == 'checkerboard') {
+      resetx = curX;
+      resety = curY;
+      transvalx = xpos(gloprank(path.area(d))) * gridsize;
+      transvaly = ypos(gloprank(path.area(d))) * gridsize;
+    }
+
+    if (sortType == 'scatterglop') {
+      resetx = curX;
+      resety = curY;
+      transvalx = margin + xscale(path.area(d)) - curwidth/2;
+      transvaly = margin + yscale(path.area(d)) - curheight/2;
+    }
+
+    if (sortType == 'paragraph') {
+
+      resetx = x0;
+      resety = y0;
+      if (paragraphPositions[d.unit_name]) {
+        console.log("found paragraphPositions for d:", d[0][0]);
+        console.log(paragraphPositions);
+
+        transvalx = paragraphPositions[d.unit_name].transvalx;
+        transvaly = paragraphPositions[d.unit_name].transvaly;
+
+      } else {
+
+        transvalx = currentBaseX;
+        // This tests if we've hit the edge of the page, and starts a new line if so.
+        if ((transvalx + (curwidth*scaleFactor)) > (width - margin)) {
+          //console.log("index:", i, "new line");
+          currentBaseX = margin;
+          transvalx = currentBaseX;
+          currentBaseY = nextBaseY;
+          nextBaseY = margin;
+        }
+        currentBaseX += curwidth*scaleFactor;
+        transvaly = currentBaseY;
+        // This tests if our next line needs to be moved down
+        if (nextBaseY < (currentBaseY + (curheight*scaleFactor))) {
+          nextBaseY = currentBaseY + (curheight*scaleFactor);
+          //console.log(d.properties.unit_name, "index:", i, "rank:", gloprank(path.area(d)), "extending next height to:", nextBaseY);
+        }
+
+        paragraphPositions[d.unit_name] = {};
+        paragraphPositions[d.unit_name].transvalx = transvalx;
+        paragraphPositions[d.unit_name].transvaly = transvaly;
+
+      }
+
+      //console.log("new currentBaseX:", currentBaseX, "new currentBaseY:", currentBaseY, "new nextBaseY:", nextBaseY);
+    }
+
+    var transstr = "translate(" + -resetx*(scaleFactor-1)  + "," + -resety*(scaleFactor-1) + ")" + scalestr + "translate(" + ((transvalx-resetx)/(scaleFactor))  + "," + ((transvaly-resety)/(scaleFactor)) + ")";
+    //console.log(transstr);
+    return transstr;
+}
+
 d3.select("#glopselect").on("change", function(e) {
-  sortGlop(this.value);
+  glopStyle = this.value;
+  sortGlop(glopStyle);
 });
 
 </script>
