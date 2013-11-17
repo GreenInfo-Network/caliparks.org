@@ -1,3 +1,23 @@
 body {
   background-color:#f7f7ed;
+  font-family: helvetica, arial;
+  font-weight: bold;
+  font-size: 24;
+}
+
+a:link {
+  color:#5c694a;
+  text-decoration: none;
+}
+a:visited {
+  color:#5c694a;
+  text-decoration: none;
+}
+a:hover {
+  background-color:#dce9ca;
+  text-decoration: none;
+}
+a:active {
+  background-color:#dce9ca;
+  text-decoration: none;
 }
