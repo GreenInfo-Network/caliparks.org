@@ -43,6 +43,7 @@ var svg = d3.select("body").append("svg")
 
 var glopvalues = [];
 var shapes;
+var gloprank;
 
 var drawbboxes = false; // set to true to just draw bounding boxes, false to draw shapes
 var rescaleshapes = true; // set to true to rescale shapes proportionally
@@ -109,7 +110,6 @@ d3.json("data/cpad19_superunits_nps.topojson", function(error, units) {
                       path)
 
         .each(function(d, i) {
-          //console.log(d.properties.unit_name, path.area(d));
           glopvalues[i] = +path.area(d);
         });
 
@@ -197,7 +197,6 @@ function sortGlop(sortType) {
 }
 
 function getTransform(d, sortType, isZoomed) {
-    //console.log(d, this);
     var bbox = d.node().getBBox();
 
     var x0 = bbox.x;
@@ -206,6 +205,7 @@ function getTransform(d, sortType, isZoomed) {
     var curheight = bbox.height;
     var curX = bbox.x + bbox.width/2;
     var curY = bbox.y + bbox.height/2;
+    var area = path.area(d.datum());
 
     var scaleFactor = 1;
     if (rescaleshapes && sortType != 'geographic') {
@@ -226,15 +226,15 @@ function getTransform(d, sortType, isZoomed) {
     if (sortType == 'checkerboard') {
       resetx = curX;
       resety = curY;
-      transvalx = xpos(gloprank(path.area(d))) * gridsize;
-      transvaly = ypos(gloprank(path.area(d))) * gridsize;
+      transvalx = xpos(gloprank(area)) * gridsize;
+      transvaly = ypos(gloprank(area)) * gridsize;
     }
 
     if (sortType == 'scatterglop') {
       resetx = curX;
       resety = curY;
-      transvalx = margin + xscale(path.area(d)) - curwidth/2;
-      transvaly = margin + yscale(path.area(d)) - curheight/2;
+      transvalx = margin + xscale(area) - curwidth/2;
+      transvaly = margin + yscale(area) - curheight/2;
     }
 
     if (sortType == 'paragraph') {
@@ -242,7 +242,7 @@ function getTransform(d, sortType, isZoomed) {
       resetx = x0;
       resety = y0;
       // TODO: fix this. I'm using the bbox as the key to look up the paragraph layout position
-      // It works, but there must be a better way.
+      // It works, but there must be a better way. I need a unique identifier in d.datum().properties
       paragraphKey = JSON.stringify(bbox);
       if (paragraphPositions[paragraphKey]) {
 
@@ -265,7 +265,6 @@ function getTransform(d, sortType, isZoomed) {
         // This tests if our next line needs to be moved down
         if (nextBaseY < (currentBaseY + (curheight*scaleFactor))) {
           nextBaseY = currentBaseY + (curheight*scaleFactor);
-          //console.log(d.properties.unit_name, "index:", i, "rank:", gloprank(path.area(d)), "extending next height to:", nextBaseY);
         }
 
         paragraphPositions[paragraphKey] = {};
