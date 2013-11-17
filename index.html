@@ -43,6 +43,7 @@ var svg = d3.select("body").append("svg")
 
 var glopvalues = [];
 var shapes;
+var california; // background shape
 var gloprank;
 
 var drawbboxes = false; // set to true to just draw bounding boxes, false to draw shapes
@@ -86,13 +87,22 @@ var resizeScale;
 // Projection settings
 // modifying a projection from http://bost.ocks.org/mike/map/.
 var projection = d3.geo.albers()
-    .center([0,36]) // For statewide view
+    .center([0,36.5]) // For statewide view
     .rotate([119, 0]) // For statewide view
     .parallels([32,40])
-    .scale(5000) // 5000 For statewide view
+    .scale(4000) // 5000 For statewide view
     .translate([width / 2, height / 2]);
 
 var path = d3.geo.path().projection(projection);
+
+d3.json("data/gadm_california.topojson", function(error, units) {
+    california = svg.append("g").selectAll("path")
+        .data(topojson.feature(units, units.objects.gadm_california).features)
+      .enter().append("path")
+        .attr("d", path)
+        .attr("fill", "#fff")
+        .attr("opacity",0.8);
+});
 
 //d3.json("data/cpad19_superunits.topojson", function(error, units) {
 //d3.json("data/cpad19_superunits_nps.topojson", function(error, units) {
@@ -180,12 +190,25 @@ d3.json("data/superunits_hashtags_counts.topojson", function(error, units) {
 });
 
 function sortGlop(sortType) {
+
+    if (sortType == 'geographic') {
+      california
+        .transition()
+        .duration(2000)
+        .attr("opacity", 0.8);
+
+    } else {
+      california
+        .transition()
+        .duration(2000)
+        .attr("opacity", 0);
+    }
+
     // Reset variables for the paragraph glop
     currentBaseX = margin;
     currentBaseY = margin;
     nextBaseY = currentBaseY;
     paragraphPositions = {};
-    
 
     shapes
         .sort(function(a,b) { return path.area(a) > path.area(b) ? -1 : path.area(a) < path.area(b) ? 1 : 0; })
