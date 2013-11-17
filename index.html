@@ -8,12 +8,23 @@
 </head>
 <body>
 
+<!--
     <select id='glopselect'>
       <option value="geographic">geographic locations</option>
       <option value="paragraph">paragraph glop</option>
       <option value="checkerboard">checkerboard glop</option>
       <option value="scatterglop">scatterglop</option>
     </select>
+-->
+<p>
+  <a href="http://parks.stamen.com">parks.stamen.com</a> (prototype)
+</p>
+<p>
+  <a href="#map" id='mapbutton'>Map</a> / Rank: 
+  <a href="#area" id='areabutton'>Area</a> |
+  <a href="#venues" id='venuesbutton'>Foursquare Venues</a> |
+  <a href="#checkins" id='checkinsbutton'>Checkins</a>
+</p>
 
 <script src="js/vendor/d3.v3.min.js"></script>
 <script src="js/vendor/topojson.v1.min.js"></script>
@@ -53,6 +64,10 @@ var rescaleshapes = true; // set to true to rescale shapes proportionally
 //var glopStyle = 'checkerboard';
 //var glopStyle = 'scatterglop';
 var glopStyle = 'geographic';
+
+var sortBy = 'checkinscount';
+//var sortBy = 'venuescount';
+//var sortBy = 'area';
 
 // Settings and functions for the checkerboard glop
 //var numcolumns = 10;
@@ -122,6 +137,7 @@ d3.json("data/superunits_hashtags_counts.topojson", function(error, units) {
                       path)
 
         .each(function(d, i) {
+          console.log(d.properties.unit_name + " " + d.properties.agncy_id + " index: " + i + " area: " + path.area(d) + " hashtag: " + d.properties.hashtag + " venues: " + d.properties.venuecount + " checkins: " + d.properties.checkinscount);
           glopvalues[i] = +path.area(d);
         });
 
@@ -144,7 +160,7 @@ d3.json("data/superunits_hashtags_counts.topojson", function(error, units) {
         .attr("fill",defaultcolor)
         //.attr("opacity",0.9)
         .on("mouseover", function(d, i) { 
-          console.log(d.properties.unit_name + " " + d.properties.agncy_id + " index: " + i + " area: " + path.area(d) + " rank: " + gloprank(path.area(d)));
+          console.log(d.properties.unit_name + " " + d.properties.agncy_id + " index: " + i + " area: " + path.area(d) + " rank: " + gloprank(path.area(d)) + " hashtag: " + d.properties.hashtag + " venues: " + d.properties.venuecount + " checkins: " + d.properties.checkinscount);
           d3.select(this).style("fill",mouseovercolor)
             .transition()
             .duration(500)
@@ -310,10 +326,27 @@ function getTransform(d, sortType, isZoomed) {
     return transstr;
 }
 
+/*
 d3.select("#glopselect").on("change", function(e) {
   glopStyle = this.value;
   sortGlop(glopStyle);
 });
+*/
+
+d3.select("#mapbutton").on("click", function(e) {
+  glopStyle = 'geographic';
+  sortGlop(glopStyle);
+});
+
+d3.select("#areabutton").on("click", function(e) {
+  glopStyle = 'paragraph';
+  sortBy = 'area';
+  sortGlop(glopStyle);
+});
+
+</script>
+</body>
+</html>
 
 </script>
 </body>
