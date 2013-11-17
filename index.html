@@ -95,12 +95,14 @@ var projection = d3.geo.albers()
 var path = d3.geo.path().projection(projection);
 
 //d3.json("data/cpad19_superunits.topojson", function(error, units) {
-d3.json("data/cpad19_superunits_nps.topojson", function(error, units) {
+//d3.json("data/cpad19_superunits_nps.topojson", function(error, units) {
+d3.json("data/superunits_hashtags_counts.topojson", function(error, units) {
     //console.log(units);
 
 
     shapes = svg.selectAll("path")
-        .data(topojson.feature(units, units.objects.cpad19_superunits_nps).features)
+        .data(topojson.feature(units, units.objects.superunits_hashtags_counts).features)
+        //.data(topojson.feature(units, units.objects.cpad19_superunits_nps).features)
         //.data(topojson.feature(units, units.objects.cpad19_superunits).features)
       .enter().append("path")
         .attr("d", drawbboxes 
