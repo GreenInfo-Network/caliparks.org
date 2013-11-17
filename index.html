@@ -197,7 +197,7 @@ function sortGlop(sortType) {
 }
 
 function getTransform(d, sortType, isZoomed) {
-    console.log(d, this);
+    //console.log(d, this);
     var bbox = d.node().getBBox();
 
     var x0 = bbox.x;
@@ -213,7 +213,7 @@ function getTransform(d, sortType, isZoomed) {
       scaleFactor = resizeScale(largestaxis) / largestaxis;
     }
     if (isZoomed) {
-      scaleFactor += 1;
+      scaleFactor = scaleFactor * 2;
     }
     var scalestr = "scale(" + scaleFactor + ")";
 
@@ -241,12 +241,13 @@ function getTransform(d, sortType, isZoomed) {
 
       resetx = x0;
       resety = y0;
-      if (paragraphPositions[d.unit_name]) {
-        console.log("found paragraphPositions for d:", d[0][0]);
-        console.log(paragraphPositions);
+      // TODO: fix this. I'm using the bbox as the key to look up the paragraph layout position
+      // It works, but there must be a better way.
+      paragraphKey = JSON.stringify(bbox);
+      if (paragraphPositions[paragraphKey]) {
 
-        transvalx = paragraphPositions[d.unit_name].transvalx;
-        transvaly = paragraphPositions[d.unit_name].transvaly;
+        transvalx = paragraphPositions[paragraphKey].transvalx;
+        transvaly = paragraphPositions[paragraphKey].transvaly;
 
       } else {
 
@@ -267,10 +268,14 @@ function getTransform(d, sortType, isZoomed) {
           //console.log(d.properties.unit_name, "index:", i, "rank:", gloprank(path.area(d)), "extending next height to:", nextBaseY);
         }
 
-        paragraphPositions[d.unit_name] = {};
-        paragraphPositions[d.unit_name].transvalx = transvalx;
-        paragraphPositions[d.unit_name].transvaly = transvaly;
+        paragraphPositions[paragraphKey] = {};
+        paragraphPositions[paragraphKey].transvalx = transvalx;
+        paragraphPositions[paragraphKey].transvaly = transvaly;
 
+      }
+      if (isZoomed) {
+        transvalx -= ((curwidth/2)*scaleFactor)/2;
+        transvaly -= ((curheight/2)*scaleFactor)/2;
       }
 
       //console.log("new currentBaseX:", currentBaseX, "new currentBaseY:", currentBaseY, "new nextBaseY:", nextBaseY);
