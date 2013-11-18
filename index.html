@@ -23,10 +23,35 @@
   <a href="#checkins" id='checkinsbutton'>Checkins</a>
 </p>
 
+<div class="infobox">
+  <h1 class="hashtag"></h1>
+  <p class="parkname"></p>
+  <p class="content"></p>
+</div>
+
 <script src="js/vendor/d3.v3.min.js"></script>
 <script src="js/vendor/topojson.v1.min.js"></script>
 
 <script>
+
+function showInfobox(hashtag, parkname, content) {
+  // Block just means to show it, rather than "none" which is don't show
+  var infobox = d3.select(".infobox").style("display","block");
+  infobox.select("h1.hashtag").text(hashtag || "");
+  infobox.select("p.parkname").text(parkname || "");
+  infobox.select("p.content").text(content || "");
+}
+
+function hideInfobox() {
+  d3.select(".infobox").style("display", "none");
+}
+
+mouseMove = function() {
+  var coord = d3.mouse(this);
+  d3.select(".infobox")
+    .style("left", coord[0] + 15 + "px" )
+    .style("top", coord[1] + "px" );
+}
 
 var mouseovercolor = "#5c694a",
     defaultcolor = "#dce9ca";
@@ -46,6 +71,7 @@ var width = x - margin,
 var svg = d3.select("body").append("svg")
     .attr("width", width)
     .attr("height", height)
+    .on("mousemove", mouseMove)
     .attr("viewBox", [0, 0, width, height])
     .attr("preserveAspectRatio", "meet xMidYMid");
 
@@ -62,9 +88,9 @@ var rescaleshapes = true; // set to true to rescale shapes proportionally
 //var glopStyle = 'scatterglop';
 var glopStyle = 'geographic';
 
-var sortBy = 'checkinscount';
+//var sortBy = 'checkinscount';
 //var sortBy = 'venuecount';
-//var sortBy = 'area';
+var sortBy = 'area';
 
 // Settings and functions for the checkerboard glop
 //var numcolumns = 10;
@@ -158,6 +184,27 @@ d3.json("data/superunits_hashtags_counts.topojson", function(error, units) {
         .attr("fill",defaultcolor)
         //.attr("opacity",0.9)
         .on("mouseover", function(d, i) { 
+          if (sortBy == 'area') {
+            showInfobox(
+              "#" + d.properties.hashtag,
+              d.properties.unit_name
+            );
+          }
+          if (sortBy == 'checkinscount') {
+            showInfobox(
+              "#" + d.properties.hashtag,
+              d.properties.unit_name,
+              d.properties.checkinscount + " check-ins"
+            );
+          }
+          if (sortBy == 'venuecount') {
+            showInfobox(
+              "#" + d.properties.hashtag,
+              d.properties.unit_name,
+              d.properties.venuecount + " venues"
+            );
+          }
+
           console.log(d.properties.unit_name + " " + d.properties.agncy_id + " index: " + i + " area: " + path.area(d) + " rank: " + gloprank(path.area(d)) + " hashtag: " + d.properties.hashtag + " venues: " + d.properties.venuecount + " checkins: " + d.properties.checkinscount);
           d3.select(this).style("fill",mouseovercolor)
             .transition()
@@ -173,6 +220,7 @@ d3.json("data/superunits_hashtags_counts.topojson", function(error, units) {
             });
         })
         .on("mouseout", function(d) {
+          hideInfobox();
           d3.select(this).style("fill",defaultcolor)
             .transition()
             .duration(500)
