@@ -128,7 +128,7 @@ var projection = d3.geo.albers()
     .center([0,36.5]) // For statewide view
     .rotate([119, 0]) // For statewide view
     .parallels([32,40])
-    .scale(4000) // 5000 For statewide view
+    .scale(3500) // 5000 For statewide view
     .translate([width / 2, height / 2]);
 
 var path = d3.geo.path().projection(projection);
@@ -246,7 +246,7 @@ d3.json("data/superunits_hashtags_counts2.topojson", function(error, units) {
 
     resizeScale = d3.scale.linear()
         .domain([d3.min(largestAxes),d3.max(largestAxes)])
-        .range([50,200]);
+        .range([50,150]);
 
     sortGlop(glopStyle);
 
