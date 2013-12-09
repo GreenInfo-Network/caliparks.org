@@ -5,6 +5,16 @@ body {
   font-size: 24;
 }
 
+.parkdefault {
+  //fill:#dce9ca;
+  fill:#5c694a;
+}
+
+.parkhighlight {
+  //fill:#5c694a;
+  fill:#003300;
+}
+
 a:link {
   color:#5c694a;
   text-decoration: none;

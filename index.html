@@ -53,9 +53,6 @@ mouseMove = function() {
     .style("top", coord[1] + "px" );
 }
 
-var mouseovercolor = "#5c694a",
-    defaultcolor = "#dce9ca";
-
 var w = window,
     d = document,
     e = d.documentElement,
@@ -183,7 +180,7 @@ d3.json("data/superunits_hashtags_counts2.topojson", function(error, units) {
 
     var largestAxes = [];
     shapes
-        .attr("fill",defaultcolor)
+        .attr("class","parkdefault")
         //.attr("opacity",0.9)
         .on("mouseover", function(d, i) { 
           if (sortBy == 'area') {
@@ -208,7 +205,8 @@ d3.json("data/superunits_hashtags_counts2.topojson", function(error, units) {
           }
 
           console.log(d.properties.unit_name + " " + d.properties.agncy_id + " index: " + i + " area: " + path.area(d) + " rank: " + gloprank(path.area(d)) + " hashtag: " + d.properties.hashtag + " venues: " + d.properties.venuecount + " checkins: " + d.properties.checkinscount);
-          d3.select(this).style("fill",mouseovercolor)
+          d3.select(this)
+            .attr("class","parkhighlight")
             .transition()
             .duration(500)
             .attr("transform",function(d) {
@@ -223,7 +221,8 @@ d3.json("data/superunits_hashtags_counts2.topojson", function(error, units) {
         })
         .on("mouseout", function(d) {
           hideInfobox();
-          d3.select(this).style("fill",defaultcolor)
+          d3.select(this)
+            .attr("class","parkdefault")
             .transition()
             .duration(500)
             .attr("transform",function(d) {
