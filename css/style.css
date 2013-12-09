@@ -40,12 +40,12 @@ a:active {
   background-color:#dce9ca;
   display: none;
   valign: top;
-  opacity: 0.8;
+  //opacity: 0.8;
 }
 
 .hashtag {
   color:#f7f7ed;
-  background-color:#5c694a;
+  background-color:#223311;
   padding: 0px 10px;
   margin: 0px;
 }
