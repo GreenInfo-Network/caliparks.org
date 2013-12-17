@@ -3,7 +3,11 @@ var fs = require("fs"),
 var async = require("async"),
     connect = require("connect"),
     pg = require("pg"),
-    request = require("request");
+    request = require("request"),
+    jsts = require("jsts");
+
+var factory = new jsts.geom.GeometryFactory();
+var reader = new jsts.io.WKTReader(factory);
 
 var zerocount = 0,
     nonzerocount = 0,
@@ -47,6 +51,12 @@ function wkt2swne(row) {
   // 4sq requires lat,lon not lon,lat. 
 
   return [sw, ne];
+}
+
+function wkt2geom(row) {
+  var geom = reader.read(row.textgeom);
+  
+  return geom;
 }
 
 // Similar venues:
@@ -98,7 +108,7 @@ function getFoursquareNextVenues(venue_id, callback) {
   });
 }
 
-function getFoursquareData(client, sw, ne, park, callback) {
+function getFoursquareData(client, sw, ne, polygon, park, depth, callback) {
   //console.log("[*] getting 4sq data for", sw, ne);
   var url = {
     url: "https://api.foursquare.com/v2/venues/search",
@@ -123,6 +133,7 @@ function getFoursquareData(client, sw, ne, park, callback) {
       venues = body.response.venues;
 
       var count = venues.length;
+      console.log("depth", depth, "got", count, "venues");
 
       var swArray = sw.split(","),  
           neArray = ne.split(","),  
@@ -169,7 +180,12 @@ function getFoursquareData(client, sw, ne, park, callback) {
             centerRight = [latMid, lngMax].join(),
             upperRight = ne;
 
-        // TODO later: Test each new bbox against the extent of the original polygon  
+        var bboxes = [
+          [sw, center],
+          [centerLeft, upperCenter],
+          [lowerCenter, centerRight],
+          [center, ne]
+        ];
 
         // Recurse and query again for each quadrant of the original bbox.
         // Keep adding venues to the same "venues" object.
@@ -179,11 +195,12 @@ function getFoursquareData(client, sw, ne, park, callback) {
 
         // TODO: is this the right way to do this, asynchronously?
 
-        // TODO: instead of venues.push() should I venues = venues.concat()?  
-        venues.push(getFoursquareData(client, sw, center, park, function(err, venues) {return venues;}) || []);
-        venues.push(getFoursquareData(client, centerLeft, upperCenter, park, function(err, venues) {return venues;}) || []);
-        venues.push(getFoursquareData(client, lowerCenter, centerRight, park, function(err, venues) {return venues;}) || []);
-        venues.push(getFoursquareData(client, center, ne, park, function(err, venues) {return venues;}) || []);
+        bboxes.forEach(function(bbox) {
+          // TODO later: Test each new bbox against the extent of the original polygon 
+
+          var nextDepth = depth + 1; 
+          getFoursquareData(client, bbox[0], bbox[1], polygon, park, nextDepth, function(err, newvenues) { if (newvenues) newvenues.forEach(function(venue) { venues.push(venue);});});
+        });
 
       }
       return callback(null, venues);
@@ -212,19 +229,39 @@ function getFoursquareData(client, sw, ne, park, callback) {
  // add error checking at every level
 var getFoursquareVenuesForPark = function(client, park, callback) {
   // return startPostgresClient(function(err, client) {
-    return getSwNeForPark(client, park, function(err, sw, ne) {
-      return getFoursquareData(client, sw, ne, park, function(err, venues) {
+  return getPolygonForPark(client, park, function(err, polygon) {
+
+    return getSwNeFromPolygon(client, polygon, function(err, sw, ne) {
+    //return getSwNeForPark(client, park, function(err, sw, ne) {
+      return getFoursquareData(client, sw, ne, polygon, park, 0, function(err, venues) {
         return callback(null, venues);  // everything finished
       });
     });
-  // });
+  });
+};
+
+/**
+ * Get the sw, ne corners of a polygon.
+ *
+ * @param polygon object.
+ * @param callback Function(err, sw, ne) Called with the sw and nw coordinates (as strings).
+ */
+var getSwNeFromPolygon = function(client, polygon, callback) {
+  var envelope = polygon.getEnvelope().getCoordinates();
+
+  // For some reason getEnvelope returns a geometry, not an envelope
+  
+  var sw = [envelope[0].y,envelope[0].x].join(),
+      ne = [envelope[2].y,envelope[2].x].join();
+
+  return callback(null, sw, ne);
 };
 
 /**
  * Get the sw, ne corners for a park.
  *
  * @param park Object{id} Park identifier.
- * @param callback Function(err, coords) Called with an array containing the park's bounding box.
+ * @param callback Function(err, sw, ne) Called with the sw and nw coordinates (as strings).
  */
 var getSwNeForPark = function(client, park, callback) {
   // connect to pg
@@ -266,6 +303,21 @@ var getBoundingBoxForPark = function(client, park, callback) {
     var envelope = wkt2bbox(res.rows[0]);
     // client.end();
     return callback(null, envelope);
+
+  });
+};
+
+var getPolygonForPark = function(client, park, callback) {
+  var query = ["select unit_name, st_astext(st_transform(geom, 4326))",
+               "as textgeom from cpad19_units where ogc_fid = $1 limit 1"].join("");
+
+  return client.query(query, [park.id], function(err, res) {
+    if (err) {
+      throw err;
+    }
+    var polygon = wkt2geom(res.rows[0]);
+    // client.end();
+    return callback(null, polygon);
 
   });
 };
@@ -343,7 +395,7 @@ var getParksDataFromPostgres = function(client, limit, callback) {
 //  var query = ["select ogc_fid as id, unit_name as name, gis_acres as size from cpad19_units ", 
 //                "where unit_name not like 'BLM' order by size desc limit " + limit].join("");
   var query = ["select ogc_fid as id, unit_name as name, gis_acres as size from cpad19_units ", 
-                "where unit_name like '%Presidio%' order by size desc limit " + limit].join("");
+                "where unit_name like '%Fort Mason%' order by size desc limit " + limit].join("");
   client.query(query, function(err, res) {
     if (err) {
       throw err;
@@ -453,6 +505,7 @@ var saveFoursquareResults = function(client, metadata_id, venues, park) {
 
   venues.forEach(function(venue) {
     if (venue) {
+      //console.log(venue);
       venue.park = park;
       var params = [venue.id, venue.name, venue.location.lat, venue.location.lng, venue.location.address, venue.location.postalCode, venue.location.city, venue.location.state, venue.location.country, venue.location.cc];
       if (venue.categories.length > 0)
@@ -460,9 +513,13 @@ var saveFoursquareResults = function(client, metadata_id, venues, park) {
       else
         params.push("", "");
       params.push(venue.verified, venue.restricted, venue.stats.checkinscount, venue.stats.userscount, venue.stats.tipcount, venue.referral_id, venue.park.park_id, venue.park.park_name);
+      //console.log(query, params);
       client.query(query, params, function(err, res) {
         if (err) {
-          throw err;
+          console.log(err);
+          //client.end();
+          //startPostgresClient(function(err, client) { return client;}); 
+          //throw err;
         }
       });
     }
