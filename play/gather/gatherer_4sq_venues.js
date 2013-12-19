@@ -3,7 +3,11 @@ var fs = require("fs"),
 var async = require("async"),
     connect = require("connect"),
     pg = require("pg"),
-    request = require("request");
+    request = require("request"),
+    jsts = require("jsts");
+
+var factory = new jsts.geom.GeometryFactory();
+var reader = new jsts.io.WKTReader(factory);
 
 var zerocount = 0,
     nonzerocount = 0,
@@ -13,6 +17,7 @@ var zerocount = 0,
 var startPostgresClient = function(callback) {
   // postgres
   var client = new pg.Client({
+    user: "",
     user: "openspaces",
     //user: "ggnpc",
     password: "",
@@ -26,6 +31,8 @@ var startPostgresClient = function(callback) {
   console.log("[*] connected to db");
   callback(null, client);
 }; 
+
+var cpad_table = "cpad_units";
 
 function wkt2bbox(row) {
   // WKT envelope string -> bbox string. sorry.
@@ -46,6 +53,12 @@ function wkt2swne(row) {
   // 4sq requires lat,lon not lon,lat. 
 
   return [sw, ne];
+}
+
+function wkt2geom(row) {
+  var geom = reader.read(row.textgeom);
+  
+  return geom;
 }
 
 // Similar venues:
@@ -97,7 +110,7 @@ function getFoursquareNextVenues(venue_id, callback) {
   });
 }
 
-function getFoursquareData(sw, ne, callback) {
+function getFoursquareData(client, sw, ne, polygon, park, depth, callback) {
   //console.log("[*] getting 4sq data for", sw, ne);
   var url = {
     url: "https://api.foursquare.com/v2/venues/search",
@@ -120,6 +133,78 @@ function getFoursquareData(sw, ne, callback) {
       body = JSON.parse(body);
       
       venues = body.response.venues;
+
+      var count = venues.length;
+      console.log("depth", depth, "got", count, "venues");
+
+      var swArray = sw.split(","),  
+          neArray = ne.split(","),  
+          latMin = +swArray[0],
+          lngMin = +swArray[1],
+          latMax = +neArray[0],
+          lngMax = +neArray[1];
+
+      // TODO: here I should store the result to the database.
+      //    ... Store the date, bounds, etc and metadata for the query
+      
+      // Maybe I should create my id here, so I already have it? 
+
+      var date = new Date(),
+          timestamp = date.getTime();
+
+      // Right now this metadata_id is faked.
+      var metadata_id = saveFoursquareMetadata(client, latMin, lngMin, latMax, lngMax, date, count);
+
+      // Store the list of venues to the database, including the the id of the 
+      // metadata record, so we can track which request this came from.
+      // TODO: check for error
+
+      saveFoursquareResults(client, metadata_id, venues, park);
+
+      // TODO: figure this out: will this recursion solve the problem of missing out
+      // on venues inside parks of there are lots of parks outside the bounds (but
+      // within the bbox)? 
+ 
+      if (count >= 50) {
+        // If the number of venues is 50, subdivide the bounds and recurse.
+
+        var latMid = (latMin + latMax) / 2,
+            lngMid = (lngMin + lngMax) / 2;
+
+        console.log("venues >= 50, subdivide:", latMin, latMid, latMax, lngMin, lngMid, lngMax);
+        var lowerLeft = sw,
+            centerLeft = [latMid,lngMin].join(),
+            upperLeft = [latMax,lngMin].join(),
+            lowerCenter = [latMin, lngMid].join(),
+            center = [latMid, lngMid].join(),
+            upperCenter = [latMax, lngMid].join(),
+            lowerRight = [latMin, lngMax].join(),
+            centerRight = [latMid, lngMax].join(),
+            upperRight = ne;
+
+        var bboxes = [
+          [sw, center],
+          [centerLeft, upperCenter],
+          [lowerCenter, centerRight],
+          [center, ne]
+        ];
+
+        // Recurse and query again for each quadrant of the original bbox.
+        // Keep adding venues to the same "venues" object.
+        // When the function is called recursively here, the callback simply returns 
+        // the collected venues. The top level function is called with a different
+        // callback that writes out all the collected venues to a file.
+
+        // TODO: is this the right way to do this, asynchronously?
+
+        bboxes.forEach(function(bbox) {
+          // TODO later: Test each new bbox against the extent of the original polygon 
+
+          var nextDepth = depth + 1; 
+          getFoursquareData(client, bbox[0], bbox[1], polygon, park, nextDepth, function(err, newvenues) { if (newvenues) newvenues.forEach(function(venue) { venues.push(venue);});});
+        });
+
+      }
       return callback(null, venues);
     }
 
@@ -138,34 +223,54 @@ function getFoursquareData(sw, ne, callback) {
 
 
 /**
- * Fetch media associated with a specified park.
+ * Fetch venues associated with a specified park.
  *
  * @param park Object{id} Park identifier.
- * @param callback Function(err, media[]) Called with a list of media associated with a park.
+ * @param callback Function(err, venues[]) Called with a list of venues associated with a park.
  */
  // add error checking at every level
 var getFoursquareVenuesForPark = function(client, park, callback) {
   // return startPostgresClient(function(err, client) {
-    return getSwNeForPark(client, park, function(err, sw, ne) {
-      return getFoursquareData(sw, ne, function(err, venues) {
+  return getPolygonForPark(client, park, function(err, polygon) {
+
+    return getSwNeFromPolygon(client, polygon, function(err, sw, ne) {
+    //return getSwNeForPark(client, park, function(err, sw, ne) {
+      return getFoursquareData(client, sw, ne, polygon, park, 0, function(err, venues) {
         return callback(null, venues);  // everything finished
       });
     });
-  // });
+  });
+};
+
+/**
+ * Get the sw, ne corners of a polygon.
+ *
+ * @param polygon object.
+ * @param callback Function(err, sw, ne) Called with the sw and nw coordinates (as strings).
+ */
+var getSwNeFromPolygon = function(client, polygon, callback) {
+  var envelope = polygon.getEnvelope().getCoordinates();
+
+  // For some reason getEnvelope returns a geometry, not an envelope
+  
+  var sw = [envelope[0].y,envelope[0].x].join(),
+      ne = [envelope[2].y,envelope[2].x].join();
+
+  return callback(null, sw, ne);
 };
 
 /**
  * Get the sw, ne corners for a park.
  *
  * @param park Object{id} Park identifier.
- * @param callback Function(err, coords) Called with an array containing the park's bounding box.
+ * @param callback Function(err, sw, ne) Called with the sw and nw coordinates (as strings).
  */
 var getSwNeForPark = function(client, park, callback) {
   // connect to pg
   // query pg
   // callback with parsed bbox
   var query = ["select unit_name, st_astext(st_envelope(st_transform(st_buffer(st_envelope(geom), 500), 4326)))",
-               "as envelope from cpad_units where ogc_fid = $1 limit 1"].join("");
+               "as envelope from ", cpad_table, " where ogc_fid = $1 limit 1"].join("");
 
   return client.query(query, [park.id], function(err, res) {
     if (err) {
@@ -191,7 +296,7 @@ var getBoundingBoxForPark = function(client, park, callback) {
   // query pg
   // callback with parsed bbox
   var query = ["select unit_name, st_astext(st_envelope(st_transform(st_buffer(st_envelope(geom), 500), 4326)))",
-               "as envelope from cpad_units where ogc_fid = $1 limit 1"].join("");
+               "as envelope from ", cpad_table, " where ogc_fid = $1 limit 1"].join("");
 
   return client.query(query, [park.id], function(err, res) {
     if (err) {
@@ -200,6 +305,21 @@ var getBoundingBoxForPark = function(client, park, callback) {
     var envelope = wkt2bbox(res.rows[0]);
     // client.end();
     return callback(null, envelope);
+
+  });
+};
+
+var getPolygonForPark = function(client, park, callback) {
+  var query = ["select unit_name, st_astext(st_transform(geom, 4326))",
+               "as textgeom from ", cpad_table, " where ogc_fid = $1 limit 1"].join("");
+
+  return client.query(query, [park.id], function(err, res) {
+    if (err) {
+      throw err;
+    }
+    var polygon = wkt2geom(res.rows[0]);
+    // client.end();
+    return callback(null, polygon);
 
   });
 };
@@ -249,6 +369,8 @@ var getVenuesDataFromPostgres = function(client, limit, callback) {
     callback = arguments[arguments.length-1];
     limit = 5000;
   }
+
+  // TODO: only select distinct venueids.
   var query = ["select venueid as id, name, next_count, checkinscount from park_contains_la_counts ", 
                 "where next_count is null order by checkinscount desc limit " + limit].join("");
   client.query(query, function(err, res) {
@@ -270,10 +392,12 @@ var getParksDataFromPostgres = function(client, limit, callback) {
     callback = arguments[arguments.length-1];
     limit = 500;
   }
-//  var query = ["select ogc_fid as id, unit_name as name, gis_acres as size from cpad_units ", 
+//  var query = ["select ogc_fid as id, unit_name as name, gis_acres as size from cpad19_units ", 
 //               "where unit_name like '% State Park' order by size desc limit " + limit].join("");
-  var query = ["select ogc_fid as id, unit_name as name, gis_acres as size from cpad_units ", 
-                "where unit_name not like 'BLM' order by size desc limit " + limit].join("");
+//  var query = ["select ogc_fid as id, unit_name as name, gis_acres as size from cpad19_units ", 
+//                "where unit_name not like 'BLM' order by size desc limit " + limit].join("");
+  var query = ["select ogc_fid as id, unit_name as name, gis_acres as size from ", cpad_table, " ", 
+                "where unit_name like '%Golden Gate%' order by size desc limit " + limit].join("");
   client.query(query, function(err, res) {
     if (err) {
       throw err;
@@ -295,12 +419,12 @@ var getNextVenuesForAllVenues = function() {
       async.eachLimit(venues, 10, function(venue, next) {
         fs.exists("4sqnextvenues/venuenext." + venue.id + ".json", function(exists) {
           if (!exists) {
-            getFoursquareNextVenues(venue.id, function(err, media) {
-              if (media) {
-                console.log("[*] got", media.length, "next venues for id", venue.id);
-                media.forEach(function(nextvenue) { nextvenue.prev = venue; });
-                writeDataToFile("4sqnextvenues/venuenext." + venue.id + ".json", media, next);
-                if (media.length > 0) {
+            getFoursquareNextVenues(venue.id, function(err, nextVenues) {
+              if (nextVenues) {
+                console.log("[*] got", nextVenues.length, "next venues for id", venue.id);
+                nextVenues.forEach(function(nextvenue) { nextvenue.prev = venue; });
+                writeDataToFile("4sqnextvenues/venuenext." + venue.id + ".json", nextVenues, next);
+                if (nextVenues.length > 0) {
                   nonzerocount++;
                 } else {
                   zerocount++;
@@ -337,11 +461,14 @@ var getFoursquareVenuesForAllParks = function() {
       async.eachLimit(parks, 1, function(park, next) {
         fs.exists("4sqdata/" + park.id + ".json", function(exists) {
           if (!exists) {
-            getFoursquareVenuesForPark(client, park, function(err, media) {
-              if (media) {
-                console.log("[*] got", media.length, "venues for", park.name);
-                media.forEach(function(venue) { venue.park = park; });
-                writeDataToFile("4sqdata/" + park.id + ".json", media, next);
+            getFoursquareVenuesForPark(client, park, function(err, venues) {
+              if (venues) {
+                console.log("[*] got", venues.length, "venues for", park.name);
+                venues.forEach(function(venue) { venue.park = park; });
+                // TODO: remove this timestamp. It should be unnecessary if
+                // we do our recursion correctly and only write to file once.
+                var timestamp = new Date().getTime();
+                writeDataToFile("4sqdata/" + park.id + "." + timestamp + ".json", venues, next);
               } else {
                 console.log("[*] got no venues for", park.name);
               }
@@ -359,10 +486,52 @@ var getFoursquareVenuesForAllParks = function() {
   });
 };
 
+var saveFoursquareMetadata = function(client, latMin, lngMin, latMax, lngMax, timestamp, count) {
+  //console.log(latMin, lngMin, latMax, lngMax, timestamp, count);
+  var query = "insert into foursquare_metadata values ($1, $2, $3, $4, $5, $6)";
+
+  return client.query(query, [latMin, lngMin, latMax, lngMax, timestamp, count], function(err, res) {
+    if (err) {
+      throw err;
+    }
+    return 0; // TODO: change these
+
+  });
+
+  return 1; // TODO: change these
+};
+
+var saveFoursquareResults = function(client, metadata_id, venues, park) {
+  var query = "insert into foursquare_venues (venueid, name, lat, lng, address, postcode, city, state, country, cc, categ_id, categ_name, verified, restricted, checkinscount, userscount, tipcount, referral_id, park_id, park_name) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20)";
+  //console.log(metadata_id, venues);
+
+  venues.forEach(function(venue) {
+    if (venue) {
+      //console.log(venue);
+      venue.park = park;
+      var params = [venue.id, venue.name, venue.location.lat, venue.location.lng, venue.location.address, venue.location.postalCode, venue.location.city, venue.location.state, venue.location.country, venue.location.cc];
+      if (venue.categories.length > 0)
+        params.push(venue.categories[0].id, venue.categories[0].name);
+      else
+        params.push("", "");
+      params.push(venue.verified, venue.restricted, venue.stats.checkinscount, venue.stats.userscount, venue.stats.tipcount, venue.referral_id, venue.park.park_id, venue.park.park_name);
+      //console.log(query, params);
+      client.query(query, params, function(err, res) {
+        if (err) {
+          console.log(err);
+          //client.end();
+          //startPostgresClient(function(err, client) { return client;}); 
+          //throw err;
+        }
+      });
+    }
+  });
+  // return nothing?
+};
 
 var main = function() {
-  //getFoursquareVenuesForAllParks();
-  getNextVenuesForAllVenues();
+  getFoursquareVenuesForAllParks();
+  //getNextVenuesForAllVenues();
   // test();
 };
 

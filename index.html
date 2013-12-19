@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!--
+    <select id='glopselect'>
+      <option value="geographic">geographic locations</option>
+      <option value="paragraph">paragraph glop</option>
+      <option value="checkerboard">checkerboard glop</option>
+      <option value="scatterglop">scatterglop</option>
+    </select>
+-->
+<h2>
+  <a href="http://parks.stamen.com">parks.stamen.com</a> (prototype)
+</h2>
+<p>
+  <a href="#map" id='mapbutton'>Map</a> / Rank: 
+  <a href="#area" id='areabutton'>Area</a> |
+  <a href="#venues" id='venuesbutton'>Foursquare Venues</a> |
+  <a href="#checkins" id='checkinsbutton'>Checkins</a>
+</p>
+
+<div class="infobox">
+  <h1 class="hashtag"></h1>
+  <p class="parkname"></p>
+  <p class="content"></p>
+</div>
+
+<script src="js/vendor/d3.v3.min.js"></script>
+<script src="js/vendor/topojson.v1.min.js"></script>
+
+<script>
+
+function showInfobox(hashtag, parkname, content) {
+  // Block just means to show it, rather than "none" which is don't show
+  var infobox = d3.select(".infobox").style("display","block");
+  infobox.select("h1.hashtag").text(hashtag || "");
+  infobox.select("p.parkname").text(parkname || "");
+  infobox.select("p.content").text(content || "");
+}
+
+function hideInfobox() {
+  d3.select(".infobox").style("display", "none");
+}
+
+mouseMove = function() {
+  var coord = d3.mouse(this);
+  d3.select(".infobox")
+    .style("left", coord[0] + 15 + "px" )
+    .style("top", coord[1] + "px" );
+}
+
+var w = window,
+    d = document,
+    e = d.documentElement,
+    g = d.getElementsByTagName('body')[0],
+    x = w.innerWidth || e.clientWidth || g.clientWidth,
+    y = w.innerHeight|| e.clientHeight|| g.clientHeight;
+
+var margin = 50;
+
+var width = x - margin,
+    height = y - margin;
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width)
+    .attr("height", height)
+    .on("mousemove", mouseMove)
+    .attr("viewBox", [0, 0, width, height])
+    .attr("preserveAspectRatio", "meet xMidYMid");
+
+var glopvalues = [];
+var shapes;
+var california; // background shape
+var gloprank;
+
+var drawbboxes = false; // set to true to just draw bounding boxes, false to draw shapes
+var rescaleshapes = true; // set to true to rescale shapes proportionally
+
+//var glopStyle = 'paragraph';
+//var glopStyle = 'checkerboard';
+//var glopStyle = 'scatterglop';
+var glopStyle = 'geographic';
+
+//var sortBy = 'checkinscount';
+//var sortBy = 'venuecount';
+var sortBy = 'area';
+
+// Settings and functions for the checkerboard glop
+//var numcolumns = 10;
+//var gridsize = (width - 2 * margin) / numcolumns;
+var gridsize = 100;
+var numcolumns = Math.floor(width/gridsize);
+
+function xpos(rank) {
+  //console.log("rank:", rank, ", xpos: ", rank % numcolumns);
+  return 1 + rank % numcolumns;
+}
+
+function ypos(rank) {
+  //console.log("rank:", rank, ", ypos: ", Math.floor(rank/numcolumns));
+  return 1 + Math.floor(rank/numcolumns);
+}
+
+// variables for the paragraph glop
+
+var currentBaseX = margin;
+var currentBaseY = margin;
+var nextBaseY = currentBaseY;
+var paragraphPositions = {};
+
+// Scales for the scatterglop
+var xscale, yscale;
+
+// For resizing shapes to be similar sizes
+
+var resizeScale;
+
+// Projection settings
+// modifying a projection from http://bost.ocks.org/mike/map/.
+var projection = d3.geo.albers()
+    .center([0,36.5]) // For statewide view
+    .rotate([119, 0]) // For statewide view
+    .parallels([32,40])
+    .scale(3500) // 5000 For statewide view
+    .translate([width / 2, height / 2]);
+
+var path = d3.geo.path().projection(projection);
+
+d3.json("data/gadm_california.topojson", function(error, units) {
+    california = svg.append("g").selectAll("path")
+        .data(topojson.feature(units, units.objects.gadm_california).features)
+      .enter().append("path")
+        .attr("d", path)
+        .attr("fill", "#fff")
+        .attr("opacity",0.8);
+});
+
+//d3.json("data/cpad19_superunits.topojson", function(error, units) {
+//d3.json("data/cpad19_superunits_nps.topojson", function(error, units) {
+//d3.json("data/superunits_hashtags_counts.topojson", function(error, units) {
+d3.json("data/superunits_hashtags_counts2.topojson", function(error, units) {
+    //console.log(units);
+
+
+    shapes = svg.selectAll("path")
+        .data(topojson.feature(units, units.objects.superunits_hashtags_counts2).features)
+        //.data(topojson.feature(units, units.objects.superunits_hashtags_counts).features)
+        //.data(topojson.feature(units, units.objects.cpad19_superunits_nps).features)
+        //.data(topojson.feature(units, units.objects.cpad19_superunits).features)
+      .enter().append("path")
+        .attr("d", drawbboxes 
+                    ?
+                      function(d) { var b = d3.geo.path().projection(projection).bounds(d); return "M" + [b[0] + "H" + b[1][0] + "V" + b[1][1] + "H" + b[0][0]] + "Z"; } // Bounding boxes from http://bl.ocks.org/mbostock/4431123
+                    :
+                      path)
+
+        .each(function(d, i) {
+          glopvalues[i] = +path.area(d);
+          d.properties.checkinscount = +d.properties.checkinscount;
+          d.properties.venuecount = +d.properties.venuecount;
+        });
+
+    // Use slice to make a copy to avoid sorting the original array:
+    gloprank = d3.scale.ordinal()
+        .domain(glopvalues.slice(0).sort(function(a, b) { return a > b ? -1 : a < b ? 1 : 0; }))
+        .rangePoints([0, glopvalues.length - 1])
+
+    // For use as a scatterglop
+    xscale = d3.scale.linear()
+        .domain([d3.min(glopvalues),d3.max(glopvalues)])
+        .range([margin, width-2*margin]);
+
+    yscale = d3.scale.linear()
+        .domain([d3.min(glopvalues),d3.max(glopvalues)])
+        .range([margin, height-2*margin]);
+
+    var largestAxes = [];
+    shapes
+        .attr("class","parkdefault")
+        //.attr("opacity",0.9)
+        .on("mouseover", function(d, i) { 
+          if (sortBy == 'area') {
+            showInfobox(
+              "#" + d.properties.hashtag,
+              d.properties.unit_name
+            );
+          }
+          if (sortBy == 'checkinscount') {
+            showInfobox(
+              "#" + d.properties.hashtag,
+              d.properties.unit_name,
+              d.properties.checkinscount + " check-ins"
+            );
+          }
+          if (sortBy == 'venuecount') {
+            showInfobox(
+              "#" + d.properties.hashtag,
+              d.properties.unit_name,
+              d.properties.venuecount + " venues"
+            );
+          }
+
+          console.log(d.properties.unit_name + " " + d.properties.agncy_id + " index: " + i + " area: " + path.area(d) + " rank: " + gloprank(path.area(d)) + " hashtag: " + d.properties.hashtag + " venues: " + d.properties.venuecount + " checkins: " + d.properties.checkinscount);
+          d3.select(this)
+            .attr("class","parkhighlight")
+            .transition()
+            .duration(500)
+            .attr("transform",function(d) {
+              return getTransform(d3.select(this), glopStyle, true); 
+/*
+              var bbox = this.getBBox();
+              var translate = "translate(" + -(bbox.x+(bbox.width/2)) + "," + -(bbox.y+(bbox.height/2)) + ")scale(2)";
+              console.log(translate);
+              return translate;
+*/
+            });
+        })
+        .on("mouseout", function(d) {
+          hideInfobox();
+          d3.select(this)
+            .attr("class","parkdefault")
+            .transition()
+            .duration(500)
+            .attr("transform",function(d) {
+              return getTransform(d3.select(this), glopStyle, false); 
+/*
+              var bbox = this.getBBox();
+              var translate = "translate(" + 0 + "," + 0 + ")scale(1)";
+              //var translate = "translate(" + (bbox.x+(bbox.width/2))*.25 + "," + (bbox.y+(bbox.height/2))*.25 + ")scale(.75)";
+              console.log(translate);
+              return translate;
+*/
+            });
+        })
+        .each(function(d,i) {
+          var bbox = this.getBBox();
+          var curwidth = bbox.width;
+          var curheight = bbox.height;
+          largestAxes.push(curwidth > curheight ? curwidth : curheight);
+        });
+
+    resizeScale = d3.scale.linear()
+        .domain([d3.min(largestAxes),d3.max(largestAxes)])
+        .range([50,150]);
+
+    sortGlop(glopStyle);
+
+    console.log("done!");
+});
+
+function sortGlop(sortType) {
+    // Uses the global variable "sortBy" to determine the order of shapes
+
+    if (sortType == 'geographic') {
+      california
+        .transition()
+        .duration(2000)
+        .attr("opacity", 0.8);
+
+    } else {
+      california
+        .transition()
+        .duration(2000)
+        .attr("opacity", 0);
+    }
+
+    // Reset variables for the paragraph glop
+    currentBaseX = margin;
+    currentBaseY = margin;
+    nextBaseY = currentBaseY;
+    paragraphPositions = {};
+
+    // default for sortBy is by area:
+    var sortFunction = function(a,b) { return path.area(a) > path.area(b) ? -1 : path.area(a) < path.area(b) ? 1 : 0; };
+
+    if (sortBy == 'checkinscount') {
+      sortFunction = function(a,b) { return a.properties.checkinscount > b.properties.checkinscount ? -1 : a.properties.checkinscount < b.properties.checkinscount ? 1 : 0; };
+    }
+
+    if (sortBy == 'venuecount') {
+      sortFunction = function(a,b) { return a.properties.venuecount > b.properties.venuecount ? -1 : a.properties.venuecount < b.properties.venuecount ? 1 : 0; };
+    }
+
+    shapes
+        .sort(sortFunction)
+        .transition()
+        .duration(2000)
+        .attr("transform", function(d) {
+            return getTransform(d3.select(this), sortType, false);
+        });
+
+
+}
+
+function getTransform(d, sortType, isZoomed) {
+    var bbox = d.node().getBBox();
+
+    var x0 = bbox.x;
+    var y0 = bbox.y;
+    var curwidth = bbox.width;
+    var curheight = bbox.height;
+    var curX = bbox.x + bbox.width/2;
+    var curY = bbox.y + bbox.height/2;
+    var area = path.area(d.datum());
+
+    var scaleFactor = 1;
+    if (rescaleshapes && sortType != 'geographic') {
+      var largestaxis = curwidth > curheight ? curwidth : curheight;
+      scaleFactor = resizeScale(largestaxis) / largestaxis;
+    }
+    if (isZoomed) {
+      scaleFactor = scaleFactor * 2;
+    }
+    var scalestr = "scale(" + scaleFactor + ")";
+
+    //if (sortType == 'geographic')
+    var resetx = curX;
+    var resety = curY;
+    var transvalx = curX;
+    var transvaly = curY;
+
+    if (sortType == 'checkerboard') {
+      resetx = curX;
+      resety = curY;
+      transvalx = xpos(gloprank(area)) * gridsize;
+      transvaly = ypos(gloprank(area)) * gridsize;
+    }
+
+    if (sortType == 'scatterglop') {
+      resetx = curX;
+      resety = curY;
+      transvalx = margin + xscale(area) - curwidth/2;
+      transvaly = margin + yscale(area) - curheight/2;
+    }
+
+    if (sortType == 'paragraph') {
+
+      resetx = x0;
+      resety = y0;
+      // TODO: fix this. I'm using the bbox as the key to look up the paragraph layout position
+      // It works, but there must be a better way. I need a unique identifier in d.datum().properties
+      paragraphKey = JSON.stringify(bbox);
+      if (paragraphPositions[paragraphKey]) {
+
+        transvalx = paragraphPositions[paragraphKey].transvalx;
+        transvaly = paragraphPositions[paragraphKey].transvaly;
+
+      } else {
+
+        transvalx = currentBaseX;
+        // This tests if we've hit the edge of the page, and starts a new line if so.
+        if ((transvalx + (curwidth*scaleFactor)) > (width - margin)) {
+          //console.log("index:", i, "new line");
+          currentBaseX = margin;
+          transvalx = currentBaseX;
+          currentBaseY = nextBaseY;
+          nextBaseY = margin;
+        }
+        currentBaseX += curwidth*scaleFactor;
+        transvaly = currentBaseY;
+        // This tests if our next line needs to be moved down
+        if (nextBaseY < (currentBaseY + (curheight*scaleFactor))) {
+          nextBaseY = currentBaseY + (curheight*scaleFactor);
+        }
+
+        paragraphPositions[paragraphKey] = {};
+        paragraphPositions[paragraphKey].transvalx = transvalx;
+        paragraphPositions[paragraphKey].transvaly = transvaly;
+
+      }
+      if (isZoomed) {
+        transvalx -= ((curwidth/2)*scaleFactor)/2;
+        transvaly -= ((curheight/2)*scaleFactor)/2;
+      }
+
+      //console.log("new currentBaseX:", currentBaseX, "new currentBaseY:", currentBaseY, "new nextBaseY:", nextBaseY);
+    }
+
+    var transstr = "translate(" + -resetx*(scaleFactor-1)  + "," + -resety*(scaleFactor-1) + ")" + scalestr + "translate(" + ((transvalx-resetx)/(scaleFactor))  + "," + ((transvaly-resety)/(scaleFactor)) + ")";
+    //console.log(transstr);
+    return transstr;
+}
+
+/*
+d3.select("#glopselect").on("change", function(e) {
+  glopStyle = this.value;
+  sortGlop(glopStyle);
+});
+*/
+
+d3.select("#mapbutton").on("click", function(e) {
+  glopStyle = 'geographic';
+  sortGlop(glopStyle);
+});
+
+d3.select("#areabutton").on("click", function(e) {
+  glopStyle = 'paragraph';
+  sortBy = 'area';
+  sortGlop(glopStyle);
+});
+
+d3.select("#venuesbutton").on("click", function(e) {
+  glopStyle = 'paragraph';
+  sortBy = 'venuecount';
+  sortGlop(glopStyle);
+});
+
+d3.select("#checkinsbutton").on("click", function(e) {
+  glopStyle = 'paragraph';
+  sortBy = 'checkinscount';
+  sortGlop(glopStyle);
+});
+
+</script>
+</body>
+</html>
+
+</script>
+</body>
+</html>
