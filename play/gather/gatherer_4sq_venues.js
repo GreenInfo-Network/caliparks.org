@@ -18,19 +18,21 @@ var startPostgresClient = function(callback) {
   // postgres
   var client = new pg.Client({
     user: "",
-    //user: "openspaces",
+    user: "openspaces",
     //user: "ggnpc",
     password: "",
     database: "openspaces",
     //database: "ggnpc",
-    host: "localhost",
-    //host: "geo.local",
+    //host: "localhost",
+    host: "geo.local",
     port: 5432
   });
   client.connect();
   console.log("[*] connected to db");
   callback(null, client);
 }; 
+
+var cpad_table = "cpad_units";
 
 function wkt2bbox(row) {
   // WKT envelope string -> bbox string. sorry.
@@ -268,7 +270,7 @@ var getSwNeForPark = function(client, park, callback) {
   // query pg
   // callback with parsed bbox
   var query = ["select unit_name, st_astext(st_envelope(st_transform(st_buffer(st_envelope(geom), 500), 4326)))",
-               "as envelope from cpad19_units where ogc_fid = $1 limit 1"].join("");
+               "as envelope from ", cpad_table, " where ogc_fid = $1 limit 1"].join("");
 
   return client.query(query, [park.id], function(err, res) {
     if (err) {
@@ -294,7 +296,7 @@ var getBoundingBoxForPark = function(client, park, callback) {
   // query pg
   // callback with parsed bbox
   var query = ["select unit_name, st_astext(st_envelope(st_transform(st_buffer(st_envelope(geom), 500), 4326)))",
-               "as envelope from cpad19_units where ogc_fid = $1 limit 1"].join("");
+               "as envelope from ", cpad_table, " where ogc_fid = $1 limit 1"].join("");
 
   return client.query(query, [park.id], function(err, res) {
     if (err) {
@@ -309,7 +311,7 @@ var getBoundingBoxForPark = function(client, park, callback) {
 
 var getPolygonForPark = function(client, park, callback) {
   var query = ["select unit_name, st_astext(st_transform(geom, 4326))",
-               "as textgeom from cpad19_units where ogc_fid = $1 limit 1"].join("");
+               "as textgeom from ", cpad_table, " where ogc_fid = $1 limit 1"].join("");
 
   return client.query(query, [park.id], function(err, res) {
     if (err) {
@@ -394,8 +396,8 @@ var getParksDataFromPostgres = function(client, limit, callback) {
 //               "where unit_name like '% State Park' order by size desc limit " + limit].join("");
 //  var query = ["select ogc_fid as id, unit_name as name, gis_acres as size from cpad19_units ", 
 //                "where unit_name not like 'BLM' order by size desc limit " + limit].join("");
-  var query = ["select ogc_fid as id, unit_name as name, gis_acres as size from cpad19_units ", 
-                "where unit_name like '%Fort Mason%' order by size desc limit " + limit].join("");
+  var query = ["select ogc_fid as id, unit_name as name, gis_acres as size from ", cpad_table, " ", 
+                "where unit_name like '%Golden Gate%' order by size desc limit " + limit].join("");
   client.query(query, function(err, res) {
     if (err) {
       throw err;
@@ -500,7 +502,7 @@ var saveFoursquareMetadata = function(client, latMin, lngMin, latMax, lngMax, ti
 };
 
 var saveFoursquareResults = function(client, metadata_id, venues, park) {
-  var query = "insert into foursquare_venues values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20)";
+  var query = "insert into foursquare_venues (venueid, name, lat, lng, address, postcode, city, state, country, cc, categ_id, categ_name, verified, restricted, checkinscount, userscount, tipcount, referral_id, park_id, park_name) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20)";
   //console.log(metadata_id, venues);
 
   venues.forEach(function(venue) {
