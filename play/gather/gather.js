@@ -107,7 +107,7 @@ var getFlickrPhotosForPark = function(client, park, callback) {
  */
 var getInstagramPhotosForPark = function(park, callback) {
   return getBoundingBoxForPark(park, function(err, bbox) {
-    return getInstagramData(bbox, function(err, photos) {
+    return getInstagramData(bbox, function(err, photos) { // doesn't exist yet
       return callback(null, photos);
     });
   });
@@ -157,10 +157,10 @@ var getParksDataFromPostgres = function(client, limit, callback) {
     callback = arguments[arguments.length-1];
     limit = 500;
   }
+  //var query = ["select ogc_fid as id, unit_name as name, gis_acres as size from cpad_units ", 
+  //             "where unit_name like '% State Park' order by size desc limit " + limit].join("");
   var query = ["select ogc_fid as id, unit_name as name, gis_acres as size from cpad_units ", 
-               "where unit_name like '% State Park' order by size desc limit " + limit].join("");
-  // var query = ["select ogc_fid as id, unit_name as name, gis_acres as size from cpad_units ", 
-               // "where unit_name not like 'BLM' order by size desc limit " + limit].join("");
+                "where unit_name not like 'BLM' order by size desc limit " + limit].join("");
   client.query(query, function(err, res) {
     if (err) {
       throw err;
@@ -223,8 +223,24 @@ var getFlickrPhotosForAllParks = function() {
 };
 
 var main = function() {
-  getFlickrPhotosForAllParks();
-  // test();
+
+  var argv = require('optimist')
+      .demand('t')
+      .alias('t', 'type')
+      .describe('t', 'type of social media to gather: flickr, foursquare, twitter, instagram')
+      .argv;
+
+  if (argv.t == 'flickr')
+    getFlickrPhotosForAllParks();
+  else if (argv.t == 'foursquare')
+    console.log("foursquare not yet supported");
+  else if (argv.t == 'twitter')
+    console.log("twitter not yet supported");
+  else if (argv.t == 'instagram')
+    console.log("instagram not yet supported");
+    //getInstagramPhotosForAllParks();
+  else
+    console.log(argv.t, "not understood");
 };
 
 main();
