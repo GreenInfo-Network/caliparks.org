@@ -160,7 +160,8 @@ var getParksDataFromPostgres = function(client, limit, callback) {
   //var query = ["select ogc_fid as id, unit_name as name, gis_acres as size from cpad_units ", 
   //             "where unit_name like '% State Park' order by size desc limit " + limit].join("");
   var query = ["select ogc_fid as id, unit_name as name, gis_acres as size from cpad_units ", 
-                "where unit_name not like 'BLM' order by size desc limit " + limit].join("");
+                "where unit_name not like 'BLM' order by size desc"].join("");
+                //"where unit_name not like 'BLM' order by size desc limit " + limit].join("");
   client.query(query, function(err, res) {
     if (err) {
       throw err;
