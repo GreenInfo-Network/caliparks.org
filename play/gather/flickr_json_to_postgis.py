@@ -24,13 +24,12 @@ cur = conn.cursor()
 # read files in data directory.
 
 # Loop over files (one per park)
-for filename in glob.glob("data/*.json"):
+for filename in glob.glob("flickr_data_to_load/*.json"):
   print filename
   filejson = json.load(open(filename))
 
   # Loop over photos
   for photo in filejson:
-    print photo
     photoid = photo['id']
     owner = photo['owner']
     secret = photo['secret']
