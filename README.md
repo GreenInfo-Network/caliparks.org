@@ -1,4 +1,4 @@
-StandardPixel.com
+OpenSpaces
 ===================
 
-This is my personal homepage
+Repo for the open spaces project
