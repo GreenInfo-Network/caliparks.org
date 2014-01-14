@@ -57,3 +57,7 @@ body.openspaces {
   font-weight: bold;
   font-size: 24;
 }
+
+body.openspaces li {
+  margin-left: 20px
+}

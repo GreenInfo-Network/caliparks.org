@@ -2,6 +2,8 @@
 <h1>Parks in California</h1>
 
 <ul>
-	<li><a href="/park/43109">Sequoia National Park</a></li>
-	<li><a href="/park/3180">Briones Regional Park</a></li>
+	{{#each park_data}}
+		<li><a href="/park/{{containing_park_id}}">{{containing_park_name}}</a></li>
+	{{/each}}
 </ul>
+
