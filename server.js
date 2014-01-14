@@ -58,6 +58,7 @@ app.use('/style', express.static(__dirname + '/style'));
 //
 // Go Go Go
 //
+/*
 app.listen = function(port){
   var server = http.createServer(this);
   console.log(('On ' + new Date()));
@@ -66,3 +67,8 @@ app.listen = function(port){
 };
 
 app.listen(port);
+*/
+
+app.listen(process.env.PORT || 8080, function() {
+  console.log("Listening at http://%s:%d/", this.address().address, this.address().port);
+});
