@@ -51,6 +51,7 @@ table {
 *  Begin main theme
 */
 body.openspaces {
+  padding:10px;
   background-color:#f7f7ed;
   font-family: helvetica, arial;
   font-weight: bold;
