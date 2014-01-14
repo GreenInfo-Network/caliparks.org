@@ -24,7 +24,7 @@ cur = conn.cursor()
 # read files in data directory.
 
 # Loop over files (one per park)
-for filename in glob.glob("flickr_data_to_load/*.json"):
+for filename in glob.glob("flickr_data/*.json"):
   print filename
   filejson = json.load(open(filename))
 
@@ -33,6 +33,7 @@ for filename in glob.glob("flickr_data_to_load/*.json"):
     photoid = photo['id']
     owner = photo['owner']
     secret = photo['secret']
+    server = photo['server']
     farm = photo['farm']
     title = photo['title']
     latitude = photo['latitude']
@@ -47,11 +48,11 @@ for filename in glob.glob("flickr_data_to_load/*.json"):
     park_id = photo['park']['id']
     park_name = photo['park']['name']
 
-    (photoid, owner, secret, farm, title, latitude, longitude, accuracy, context, place_id, woeid, tags, park_id, park_name)
+    (photoid, owner, secret, server, farm, title, latitude, longitude, accuracy, context, place_id, woeid, tags, park_id, park_name)
 
-    querystring = "INSERT INTO " + tablename + "(photoid, owner, secret, farm, title, latitude, longitude, accuracy, context, place_id, woeid, tags, park_id, park_name) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+    querystring = "INSERT INTO " + tablename + "(photoid, owner, secret, server, farm, title, latitude, longitude, accuracy, context, place_id, woeid, tags, park_id, park_name) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
     
-    cur.execute(querystring, (photoid, owner, secret, farm, title, latitude, longitude, accuracy, context, place_id, woeid, tags, park_id, park_name))
+    cur.execute(querystring, (photoid, owner, secret, server, farm, title, latitude, longitude, accuracy, context, place_id, woeid, tags, park_id, park_name))
 
     conn.commit() 
 
