@@ -37,8 +37,9 @@ app.get('/park/:id', function(req,res) {
 	});
 
 	res.render('park', {
-	 	app_title : 'California parks : ' + park_data.title,
-	 	park_data : park_data
+	 	app_title    : 'California parks : ' + park_data.title,
+	 	park_data    : park_data,
+	 	total_photos : park_data.photos.length
 	});
 
 });
