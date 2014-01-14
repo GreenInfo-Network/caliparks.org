@@ -4,11 +4,11 @@
   "version": "0.1.0",
   "author": "Eric Gelinas evg@stamen.com",
   "description": "A nice project about parks",
-  "contributors": [ 
+  "contributors": [
     {
       "name": "Eric Gelinas",
       "email": "eric@standardpixel.com"
-    } 
+    }
   ],
   "scripts": {
     "start": "node server"
@@ -17,12 +17,11 @@
     "type": "git",
     "url": "https://github.com/stamen/openspaces"
   },
-  "dependencies" : {
-	"colors"        : "0.6.2",
-	"express"       : "3.4.7",
-	"hbs"           : "2.4.0",
-	"less"          : "1.6.1",
-	"mocha"         : "1.17.0"
+  "dependencies": {
+    "colors": "0.6.2",
+    "express": "3.4.7",
+    "hbs": "2.4.0",
+    "mocha": "1.17.0"
   },
   "license": "MIT",
   "engines": {
