@@ -31,7 +31,7 @@ app.use('/style', express.static(__dirname + '/client/style'));
 app.listen = function(port){
   var server = http.createServer(this);
   console.log(('On ' + new Date()));
-  console.log('the '+ app_title +' was started on port ' + port;
+  console.log('the '+ app_title +' was started on port ' + port);
   return server.listen.apply(server, arguments);
 };
 
