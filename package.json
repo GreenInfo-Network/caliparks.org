@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "express": "3.4.7",
-    "hbs": "2.4.0"
+    "express3-handlebars": "~0.5.0"
   },
   "devDependencies": {
     "mocha": "1.17.0"

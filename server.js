@@ -1,6 +1,6 @@
 var http           = require('http'),
     express        = require('express'),
-	colors         = require('colors'),
+	exphbs         = require('express3-handlebars'),
     app            = express(),
 	config         = require(__dirname + '/config.json'),
 	app_title      = config.app.name,
@@ -9,15 +9,14 @@ var http           = require('http'),
 //
 // Setup Express
 //
-app.set('views', __dirname + '/client');
-app.set('view engine', 'html');
-app.engine('html', require('hbs').__express);
+app.engine('handlebars', exphbs({defaultLayout: 'main'}));
+app.set('view engine', 'handlebars');
 
 //
 // Setup Routes
 //
 app.get('/', function(req,res) {
-	res.render('index.html', {
+	res.render('home', {
 	 	app_title : app_title
 	});
 });
@@ -37,15 +36,15 @@ app.get('/park/:id', function(req,res) {
 		}
 	});
 
-	res.render('park.html', {
+	res.render('park', {
 	 	app_title : 'California parks : ' + park_data.title,
 	 	park_data : park_data
 	});
 
 });
 
-app.use('/js', express.static(__dirname + '/client/js'));
-app.use('/style', express.static(__dirname + '/client/style'));
+//app.use('/js', express.static(__dirname + '/client/js'));
+app.use('/style', express.static(__dirname + '/style'));
 
 //
 // Go Go Go
