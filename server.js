@@ -22,6 +22,28 @@ app.get('/', function(req,res) {
 	});
 });
 
+app.get('/park/:id', function(req,res) {
+	//console.log('req',req.params.id);
+
+	var flickr_photos = require(__dirname + '/data/park_flickr_photos.json'),
+	    park_data     = {title:null, photos:[]};
+
+	flickr_photos.features.forEach(function(photo, i, photos) {
+		if (parseInt(photo.properties.containing_park_id, 10) === parseInt(req.params.id, 10)) {
+			if (!park_data.title) {
+				park_data.title = photo.properties.containing_park_name;
+			}
+			park_data.photos.push(photo.properties);
+		}
+	});
+
+	res.render('park.html', {
+	 	app_title : 'California parks : ' + park_data.title,
+	 	park_data : park_data
+	});
+
+});
+
 app.use('/js', express.static(__dirname + '/client/js'));
 app.use('/style', express.static(__dirname + '/client/style'));
 
