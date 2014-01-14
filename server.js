@@ -4,7 +4,7 @@ var http           = require('http'),
     app            = express(),
 	config         = require(__dirname + '/config.json'),
 	app_title      = config.app.name,
-	port           = config.app.port;
+	port           = process.env.PORT || 5000;
 	
 //
 // Setup Express
