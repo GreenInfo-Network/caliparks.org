@@ -30,10 +30,8 @@ app.use('/style', express.static(__dirname + '/client/style'));
 //
 app.listen = function(port){
   var server = http.createServer(this);
-  console.log('\033[2J');
   console.log(('On ' + new Date()));
-  console.log('\r\nthe '+ app_title.underline.blue +' example was started on port ' + port.toString().underline.blue);
-  console.log('\r\nTo stop press Ctrl+C');
+  console.log('the '+ app_title +' was started on port ' + port;
   return server.listen.apply(server, arguments);
 };
 

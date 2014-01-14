@@ -11,7 +11,7 @@
     } 
   ],
   "scripts": {
-    "start": "node ."
+    "start": "node server"
   },
   "repository": {
     "type": "git",
