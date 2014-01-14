@@ -18,9 +18,10 @@
     "url": "https://github.com/stamen/openspaces"
   },
   "dependencies": {
-    "colors": "0.6.2",
     "express": "3.4.7",
-    "hbs": "2.4.0",
+    "hbs": "2.4.0"
+  },
+  "devDependencies": {
     "mocha": "1.17.0"
   },
   "license": "MIT",
