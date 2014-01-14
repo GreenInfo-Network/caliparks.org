@@ -1,6 +1,6 @@
 {
 	"app": {
 		"name" : "OpenSpaces",
-		"port" : 80
+		"port" : 5000
 	}
 }
