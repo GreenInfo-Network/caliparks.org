@@ -1,0 +1,56 @@
+body {
+  background-color:#f7f7ed;
+  font-family: helvetica, arial;
+  font-weight: bold;
+  font-size: 24;
+}
+
+.parkdefault {
+  //fill:#dce9ca;
+  fill:#5c694a;
+}
+
+.parkhighlight {
+  //fill:#5c694a;
+  fill:#223311;
+}
+
+a:link {
+  color:#5c694a;
+  text-decoration: none;
+}
+a:visited {
+  color:#5c694a;
+  text-decoration: none;
+}
+a:hover {
+  background-color:#dce9ca;
+  text-decoration: none;
+}
+a:active {
+  background-color:#dce9ca;
+  text-decoration: none;
+}
+
+.infobox {
+  position: absolute;
+  //width: 200px;
+  //padding: 0px 10px;
+  //background-color: rgba(255,255,255,.75);
+  background-color:#dce9ca;
+  display: none;
+  valign: top;
+  //opacity: 0.8;
+}
+
+.hashtag {
+  color:#f7f7ed;
+  background-color:#223311;
+  padding: 0px 10px;
+  margin: 0px;
+}
+
+.parkname, .content {
+  padding: 5px 10px;
+  margin: 0px;
+}
