@@ -32,3 +32,11 @@ geojson2:
 
 topojson2:
 	cd data && rm -f superunits_hashtags_counts2.topojson && topojson -o superunits_hashtags_counts2.topojson superunits_hashtags_counts2.geojson -p -q 1e5
+
+flickrdbtable:
+	psql -U openspaces -h geo.local -c "drop table park_flickr_photos_4326;" \
+	&& psql -U openspaces -h geo.local -c "create table park_flickr_photos_4326 as select park.unit_id as containing_park_id, park.unit_name as containing_park_name, park.hashtag as park_hashtag, photo.* from superunits_hybrid_4326 as park join flickr_photos_distinct2 as photo on ST_Contains(park.geom,photo.the_geom);"
+
+flickrgeojson:
+	cd data/ && rm -f park_flickr_photos.json \
+	&& ogr2ogr -f geojson park_flickr_photos.json pg:"host=geo.local user=openspaces" -sql "select containing_park_id::int, containing_park_name, photoid::text, owner, server, farm, title, woeid, tags, the_geom from park_flickr_photos_4326;"
