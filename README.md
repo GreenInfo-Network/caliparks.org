@@ -16,6 +16,9 @@ Deploy instructions
 
 You may need to update with `git pull --rebase heroku master` first.
 
+Starting dev instance
+=====================
+`foreman start`
 
 More about the project
 =====================
