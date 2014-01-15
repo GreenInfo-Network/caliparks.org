@@ -62,3 +62,8 @@ body.openspaces li {
   margin-left: 20px;
   list-style-type: square;
 }
+
+.flickr-photo-container {
+	display:inline-block;
+	vertical-align: top;
+}
