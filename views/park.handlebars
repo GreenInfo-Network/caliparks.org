@@ -1,2 +1,8 @@
 <h1>{{park_data.title}}</h1>
 <p>This park has {{total_photos}} Flickr photos</p>
+
+{{# each park_data.photos}}
+
+	{{> flickr_photo}}
+
+{{/each}}
