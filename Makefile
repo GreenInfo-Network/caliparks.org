@@ -39,4 +39,4 @@ flickrdbtable:
 
 flickrgeojson:
 	cd data/ && rm -f park_flickr_photos.json \
-	&& ogr2ogr -f geojson park_flickr_photos.json pg:"host=geo.local user=openspaces" -sql "select containing_park_id::int, containing_park_name, photoid::text, owner, server, farm, title, woeid, tags, the_geom from park_flickr_photos_4326;"
+	&& ogr2ogr -f geojson park_flickr_photos.json pg:"host=geo.local user=openspaces" -sql "select containing_park_id::int, photoid::text, owner, secret, server, farm, title, woeid, the_geom from park_flickr_photos;"
