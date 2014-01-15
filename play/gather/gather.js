@@ -51,7 +51,7 @@ function getFlickrData(bbox, page, photos, callback) {
       api_key: "f17cc9d3f73f0b45640451a6d3c1946d",
       bbox: bbox,
       has_geo: 1,
-      extras: "geo,tags",
+      extras: "geo,tags,date_upload,date_taken,owner_name,description,license",
       min_taken_date: ~~(Date.now() / 1000) - 60*60*24*365,
       format: "json",
       nojsoncallback: 1,
