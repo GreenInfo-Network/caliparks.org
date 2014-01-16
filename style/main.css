@@ -54,13 +54,28 @@ body.openspaces {
   padding:10px;
   background-color:#f7f7ed;
   font-family: helvetica, arial;
-  font-weight: bold;
-  font-size: 24;
+  font-weight: 300;
+  font-size: 15px;
+}
+
+body.openspaces section {
+	display: inline-block;
+	width:48%;
+	vertical-align: top;
+}
+
+body.openspaces section.feature {
+	width:65%;
+}
+
+body.openspaces section.extra {
+	width:25%;
+	background-color: white; 
 }
 
 body.openspaces li {
   margin-left: 20px;
-  list-style-type: square;
+  list-style-type: disc;
 }
 
 p.breadcrumb {
@@ -68,11 +83,19 @@ p.breadcrumb {
 }
 
 .flickr-photos {
-	width:1024px;
+	margin-bottom: 20px;
 }
 
 .flickr-photos .flickr-photo-container {
 	display:block;
 	vertical-align: top;
+	margin-bottom: 20px;
+}
+
+.flickr-photos .flickr-photo-container img {
+	max-width:100%;
+}
+
+.tweets {
 	margin-bottom: 20px;
 }

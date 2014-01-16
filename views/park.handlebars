@@ -1,10 +1,25 @@
 <p class="breadcrumb">Parks in <a href="/">California</a> > <a href="/agency/{{agency_id}}">{{park_data.agncy_name}}</a> > {{park_data.unit_name}}</p>
-<p>This park has {{total_photos}} Flickr photos</p>
 
-<div class="flickr-photos">
-	{{# each photos}}
+<section class="feature">
+	<p>This park has {{total_photos}} Flickr photos</p>
 
-		{{> flickr_photo}}
+	<div class="flickr-photos">
+		{{# each photos}}
 
-	{{/each}}
-</div>
+			{{> flickr_photo}}
+
+		{{/each}}
+	</div>
+</section>
+
+<section class="extra">
+	<p>This park has {{total_tweets}} tweets</p>
+	<ul class="tweets">
+		{{# each tweets}}
+
+			<li>{{content}}</li>
+
+		{{/each}}
+	</ul>
+</section>
+
