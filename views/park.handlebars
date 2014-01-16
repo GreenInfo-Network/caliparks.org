@@ -1,7 +1,7 @@
-<h1>{{park_data.title}}</h1>
+<p>Parks in <a href="/">California</a> > <a href="/agency/{{agency_id}}">{{park_data.agncy_name}}</a> > {{park_data.unit_name}}</p>
 <p>This park has {{total_photos}} Flickr photos</p>
 
-{{# each park_data.photos}}
+{{# each photos}}
 
 	{{> flickr_photo}}
 

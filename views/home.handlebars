@@ -2,8 +2,8 @@
 <h1>Parks in California</h1>
 
 <ul>
-	{{#each park_data}}
-		<li><a href="/park/{{containing_park_id}}">{{containing_park_name}}</a></li>
+	{{#each parent_names}}
+		<li><a href="/agency/{{id}}">{{name}}</a> (Contains {{count}} parks)</li>
 	{{/each}}
 </ul>
 
