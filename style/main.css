@@ -63,6 +63,10 @@ body.openspaces li {
   list-style-type: square;
 }
 
+p.breadcrumb {
+	margin-bottom: 20px;
+}
+
 .flickr-photos {
 	width:1024px;
 }
@@ -70,4 +74,5 @@ body.openspaces li {
 .flickr-photos .flickr-photo-container {
 	display:block;
 	vertical-align: top;
+	margin-bottom: 20px;
 }
