@@ -1,8 +1,8 @@
-<p>Parks in <a href="/">California</a> > {{name}}</p>
+<p class="breadcrumb">Parks in <a href="/">California</a> > {{name}}</p>
 
 <ul>
 	{{#each parks}}
-		<li><a href="/park/{{properties.unit_id}}">{{properties.unit_name}}</a> {{#if photo_count}}({{photo_count}} Flickr photos){{/if}}</li>
+		<li><a href="/park/{{properties.unit_id}}">{{properties.unit_name}}</a> {{#if photo_count}}({{photo_count}} Flickr photos){{/if}} {{#if tweet_count}}({{tweet_count}} tweets){{/if}}</li>
 	{{/each}}
 </ul>
 

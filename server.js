@@ -7,11 +7,13 @@ var http               = require('http'),
 	app_title          = config.app.name,
 	port               = process.env.PORT || 5000;
 
-var flickr_photos   = require(__dirname + '/data/park_flickr_photos.json'),
-    park_metadata   = require(__dirname + '/data/cpad_units_metadata.json'),
-    flickr_data     = {},
-    parent_entities = {},
-    park_metadata_map = {};
+var flickr_photos     = require(__dirname + '/data/park_flickr_photos.json'),
+	tweets            = require(__dirname + '/data/park_tweets.json'),
+    park_metadata     = require(__dirname + '/data/cpad_units_metadata.json'),
+    flickr_data       = {},
+    parent_entities   = {},
+    park_metadata_map = {},
+    twitter_data      = {};
 
 //
 // Put Flickr data into a map for quick retrieval
@@ -41,6 +43,19 @@ park_metadata.features.forEach(function(park, i, parks) {
 	parent_entities[id].children.push(park.properties);
 
 	park_metadata_map[park.properties.unit_id] = park.properties;
+});
+
+//
+// Get twitter data into a map
+//
+tweets.features.forEach(function(tweet) {
+
+	if (!twitter_data[tweet.properties.park_id]) {
+		twitter_data[tweet.properties.park_id] = [];
+	}
+
+	twitter_data[tweet.properties.park_id].push(tweet.properties);
+
 });
 
 	
@@ -81,6 +96,7 @@ app.get('/agency/:id', function(req,res) {
 
 		return {
 			photo_count : (flickr_data[child.unit_id]) ? flickr_data[child.unit_id].length : 0,
+			tweet_count : (twitter_data[child.unit_id]) ? twitter_data[child.unit_id].length : 0,
 			properties  : child
 		}
 	});
@@ -117,6 +133,8 @@ app.get('/park/:id', function(req,res) {
 	 		park_data    : park_metadata_map[req.params.id],
 	 		photos       : flickr_data[req.params.id],
 	 		total_photos : flickr_data[req.params.id] ? flickr_data[req.params.id].length : 0,
+	 		tweets       : twitter_data[req.params.id],
+	 		total_tweets : twitter_data[req.params.id] ? twitter_data[req.params.id].length : 0, 
 	 		agency_id    : park_metadata_map[req.params.id].agncy_id
 		});
 	} else {
