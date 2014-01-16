@@ -28,7 +28,7 @@ flickr_photos.features.forEach(function(photo, i, photos) {
 // Get a map of parent entities from the metadata list
 //
 park_metadata.features.forEach(function(park, i, parks) {
-	var id = park.properties.agncy_name.split(' ').join('_').split(',')[0];
+	var id = park.properties.agncy_id;
 
 	if (!parent_entities[id]) {
 		parent_entities[id] = {
@@ -111,12 +111,13 @@ app.get('/park/:id', function(req,res) {
 	}
 
 	if (park_metadata_map[req.params.id].unit_name) {
+
 		res.render(template, {
 	 		app_title    : title,
 	 		park_data    : park_metadata_map[req.params.id],
 	 		photos       : flickr_data[req.params.id],
-	 		total_photos : flickr_data[req.params.id].length,
-	 		agency_id    : park_metadata_map[req.params.id].agncy_name.split(' ').join('_').split(',')[0]
+	 		total_photos : flickr_data[req.params.id] ? flickr_data[req.params.id].length : 0,
+	 		agency_id    : park_metadata_map[req.params.id].agncy_id
 		});
 	} else {
 		res.send('Well, there is a park we haven\'t learned about yet. Typo perhaps?', 404);
