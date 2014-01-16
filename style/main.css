@@ -63,7 +63,11 @@ body.openspaces li {
   list-style-type: square;
 }
 
-.flickr-photo-container {
-	display:inline-block;
+.flickr-photos {
+	width:1024px;
+}
+
+.flickr-photos .flickr-photo-container {
+	display:block;
 	vertical-align: top;
 }
