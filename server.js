@@ -119,7 +119,7 @@ app.get('/park/:id', function(req,res) {
 
 	var park_data     = {title:null, photos:[]},
 	    template      = 'park',
-	    title;
+	    title         = park_metadata_map[req.params.id].unit_name;
 
 	if (override_templates[req.params.id]) {
 		template = override_templates[req.params.id].template;

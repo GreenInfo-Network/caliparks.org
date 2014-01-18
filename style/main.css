@@ -51,26 +51,43 @@ table {
 *  Begin main theme
 */
 body.openspaces {
-  padding:10px;
-  background-color:#f7f7ed;
+  padding:0 64px 64px 64px;
   font-family: helvetica, arial;
   font-weight: 300;
-  font-size: 15px;
+  font-size: 18px;
+  background-color: rgb(68, 51, 32);
+  color:rgb(238, 222, 204);
+}
+
+body.openspaces h1 {
+	font-size: 28px;
+	font-weight: 600;
+	margin-bottom: 5px;
+}
+
+body.openspaces header {
+	padding: 10px 40px;
+	height:20px;
+}
+
+body.openspaces header nav {
+	font-size: 16px;
+	color:rgb(123, 102, 50);
+}
+
+body.openspaces header nav a {
+	text-decoration: none;
+	 color:rgb(238, 222, 204);
+}
+
+body.openspaces aside {
+	display:none;
 }
 
 body.openspaces section {
-	display: inline-block;
-	width:48%;
-	vertical-align: top;
-}
-
-body.openspaces section.feature {
-	width:65%;
-}
-
-body.openspaces section.extra {
-	width:25%;
-	background-color: white; 
+	background-color: rgb(238, 222, 204);
+	color:rgb(68, 51, 32);
+	padding:40px;
 }
 
 body.openspaces li {
@@ -78,24 +95,28 @@ body.openspaces li {
   list-style-type: disc;
 }
 
-p.breadcrumb {
+body.openspaces a {
+	color:rgb(238, 222, 204);
+}
+
+body.openspaces p.breadcrumb {
 	margin-bottom: 20px;
 }
 
-.flickr-photos {
+body.openspaces .flickr-photos {
 	margin-bottom: 20px;
 }
 
-.flickr-photos .flickr-photo-container {
+body.openspaces .flickr-photos .flickr-photo-container {
 	display:block;
 	vertical-align: top;
 	margin-bottom: 20px;
 }
 
-.flickr-photos .flickr-photo-container img {
+body.openspaces .flickr-photos .flickr-photo-container img {
 	max-width:100%;
 }
 
-.tweets {
+body.openspaces .tweets {
 	margin-bottom: 20px;
 }
