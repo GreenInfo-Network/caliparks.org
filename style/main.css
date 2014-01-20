@@ -126,4 +126,16 @@ body.openspaces aside {
 	-moz-background-size: cover;
 	-o-background-size: cover;
 	background-size: cover;
+	position:relative;
+}
+
+body.openspaces aside span.attribution {
+	position:absolute;
+	right:20px; bottom:5px;
+	text-shadow:3px 3px 2px rgb(0,0,0);
+	font-size:9px;
+}
+
+body.openspaces aside span.attribution a {
+	text-decoration: none;
 }
