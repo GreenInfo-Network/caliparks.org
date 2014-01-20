@@ -85,6 +85,7 @@ body.openspaces section {
 	background-color: rgb(238, 222, 204);
 	color:rgb(68, 51, 32);
 	padding:40px;
+	position: relative;
 }
 
 body.openspaces li {
@@ -100,22 +101,23 @@ body.openspaces p.breadcrumb {
 	margin-bottom: 20px;
 }
 
-body.openspaces .flickr-photos {
-	margin-bottom: 20px;
-}
-
-body.openspaces .flickr-photos .flickr-photo-container {
-	display:block;
-	vertical-align: top;
-	margin-bottom: 20px;
-}
-
-body.openspaces .flickr-photos .flickr-photo-container img {
-	max-width:100%;
-}
-
 body.openspaces .tweets {
 	margin-bottom: 20px;
+}
+
+body.openspaces #park-hash-tag {
+	position:absolute;
+	width:269px;
+	height:67px;
+	background-color: rgb(34, 17, 2);
+	top:453px; left:103px;
+	color:white;
+	text-align: center;
+	padding:5px;
+	overflow: hidden;
+	font-size: 60px;
+	font-weight:bolder;
+	line-height: 60px
 }
 
 /* Flickr cover photo module */
