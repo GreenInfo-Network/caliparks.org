@@ -86,6 +86,7 @@ body.openspaces section {
 	color:rgb(68, 51, 32);
 	padding:40px;
 	position: relative;
+	z-index: 1;
 }
 
 body.openspaces li {
@@ -110,18 +111,24 @@ body.openspaces #park-hash-tag {
 	width:269px;
 	height:67px;
 	background-color: rgb(34, 17, 2);
-	top:453px; left:103px;
+	top:80px; right:103px;
 	color:white;
 	text-align: center;
 	padding:5px;
 	overflow: hidden;
 	font-size: 60px;
 	font-weight:bolder;
-	line-height: 60px
+	line-height: 60px;
+	z-index: 10;
+}
+
+body.openspaces .has-coverphoto #park-hash-tag {
+	position:absolute;
+	top:443px; left:103px;
 }
 
 /* Flickr cover photo module */
-body.openspaces aside {
+body.openspaces .has-coverphoto #coverphoto {
 	height:480px;
 	background: no-repeat center center;
 	-webkit-background-size: cover;
@@ -131,13 +138,13 @@ body.openspaces aside {
 	position:relative;
 }
 
-body.openspaces aside span.attribution {
+body.openspaces .has-coverphoto #coverphoto span.attribution {
 	position:absolute;
 	right:20px; bottom:5px;
 	text-shadow:3px 3px 2px rgb(0,0,0);
 	font-size:9px;
 }
 
-body.openspaces aside span.attribution a {
+body.openspaces .has-coverphoto #coverphoto span.attribution a {
 	text-decoration: none;
 }
