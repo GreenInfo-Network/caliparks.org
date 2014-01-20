@@ -1,6 +1,10 @@
-{{>flickr_coverphoto}}
-<div id="park-hash-tag">#STMAN</div>
-<section>
-	<h1>{{app_title}} Park</h1>
-	<p>{{park_data.county}} County</p>
-</section>
+<div id="park-template-wrapper" class="{{# if cover_photo}}has-coverphoto {{/if}}">
+
+	{{# if cover_photo}}{{>flickr_coverphoto}}{{/if}}
+	<div id="park-hash-tag">#STMAN</div>
+	<section>
+		<h1>{{app_title}} Park</h1>
+		<p>{{park_data.county}} County</p>
+	</section>
+
+</div>
