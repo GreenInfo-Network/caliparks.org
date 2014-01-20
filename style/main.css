@@ -57,6 +57,7 @@ body.openspaces {
   font-size: 18px;
   background-color: rgb(68, 51, 32);
   color:rgb(238, 222, 204);
+  min-width: 500px
 }
 
 body.openspaces h1 {
@@ -81,7 +82,9 @@ body.openspaces header nav a {
 }
 
 body.openspaces aside {
-	display:none;
+	height:480px;
+	background-color: red;
+
 }
 
 body.openspaces section {
