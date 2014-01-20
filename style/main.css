@@ -81,12 +81,6 @@ body.openspaces header nav a {
 	 color:rgb(238, 222, 204);
 }
 
-body.openspaces aside {
-	height:480px;
-	background-color: red;
-
-}
-
 body.openspaces section {
 	background-color: rgb(238, 222, 204);
 	color:rgb(68, 51, 32);
@@ -122,4 +116,14 @@ body.openspaces .flickr-photos .flickr-photo-container img {
 
 body.openspaces .tweets {
 	margin-bottom: 20px;
+}
+
+/* Flickr cover photo module */
+body.openspaces aside {
+	height:480px;
+	background: no-repeat center center fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
 }
