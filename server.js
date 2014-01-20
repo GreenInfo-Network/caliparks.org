@@ -133,6 +133,7 @@ app.get('/park/:id', function(req,res) {
 	 		park_data    : park_metadata_map[req.params.id],
 	 		photos       : flickr_data[req.params.id],
 	 		total_photos : flickr_data[req.params.id] ? flickr_data[req.params.id].length : 0,
+	 		cover_photo  : flickr_data[req.params.id][0],
 	 		tweets       : twitter_data[req.params.id],
 	 		total_tweets : twitter_data[req.params.id] ? twitter_data[req.params.id].length : 0, 
 	 		agency_id    : park_metadata_map[req.params.id].agncy_id
