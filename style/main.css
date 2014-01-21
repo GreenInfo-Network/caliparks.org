@@ -148,3 +148,9 @@ body.openspaces .has-coverphoto #coverphoto span.attribution {
 body.openspaces .has-coverphoto #coverphoto span.attribution a {
 	text-decoration: none;
 }
+
+/* California shape */
+#california_shape {
+	position: absolute;
+	top:80px; left:100px;
+}
