@@ -131,6 +131,8 @@ app.get('/park/:id', function(req,res) {
 
 	if (park_metadata_map[req.params.id].unit_name) {
 
+		//console.log('park_data', park_metadata_map[req.params.id]);
+
 		res.render(template, {
 	 		app_title        : title,
 	 		park_data        : park_metadata_map[req.params.id],
