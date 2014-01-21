@@ -70,6 +70,8 @@ app.set('view engine', 'handlebars');
 //
 
 app.use('/style', express.static(__dirname + '/style'));
+app.use('/js', express.static(__dirname + '/js'));
+app.use('/data', express.static(__dirname + '/data'));
 
 
 app.get('/', function(req,res) {

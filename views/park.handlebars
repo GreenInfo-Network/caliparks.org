@@ -2,9 +2,28 @@
 
 	{{# if cover_photo}}{{>flickr_coverphoto}}{{/if}}
 	<div id="park-hash-tag">#STMAN</div>
+	<div id="california_shape"></div>
 	<section>
 		<h1>{{app_title}} Park</h1>
 		<p>{{park_data.county}} County</p>
 	</section>
 
 </div>
+
+<script src="/js/vendor/topojson.v1.min.js"></script>
+<script src="/js/vendor/d3.v3.min.js"></script>
+<script src="/js/view_park.js"></script>
+
+<script>
+	STMN.initView({
+		california_shape : {
+			root_selector : '#california_shape',
+			options       : {
+				canvas_width  : 100,
+				canvas_height : 100,
+				scale         : 600,
+				fill_color    : "rgb(34, 17, 2)"
+			}
+		}
+	});
+</script>
