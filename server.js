@@ -119,9 +119,10 @@ app.get('/park', function(req,res) {
 
 app.get('/park/:id', function(req,res) {
 
-	var park_data     = {title:null, photos:[]},
-	    template      = 'park',
-	    title         = park_metadata_map[req.params.id].unit_name;
+	var park_data = {title:null, photos:[]},
+	    template  = 'park',
+	    title     = park_metadata_map[req.params.id].unit_name,
+	    gps_util  = require('gps-util');
 
 	if (override_templates[req.params.id]) {
 		template = override_templates[req.params.id].template;
@@ -131,19 +132,22 @@ app.get('/park/:id', function(req,res) {
 	if (park_metadata_map[req.params.id].unit_name) {
 
 		res.render(template, {
-	 		app_title    : title,
-	 		park_data    : park_metadata_map[req.params.id],
-	 		photos       : flickr_data[req.params.id],
-	 		total_photos : flickr_data[req.params.id] ? flickr_data[req.params.id].length : 0,
-	 		cover_photo  : flickr_data[req.params.id] ? flickr_data[req.params.id][0] : null,
-	 		tweets       : twitter_data[req.params.id],
-	 		total_tweets : twitter_data[req.params.id] ? twitter_data[req.params.id].length : 0, 
-	 		agency_id    : park_metadata_map[req.params.id].agncy_id
+	 		app_title        : title,
+	 		park_data        : park_metadata_map[req.params.id],
+	 		photos           : flickr_data[req.params.id],
+	 		total_photos     : flickr_data[req.params.id] ? flickr_data[req.params.id].length : 0,
+	 		cover_photo      : flickr_data[req.params.id] ? flickr_data[req.params.id][0] : null,
+	 		tweets           : twitter_data[req.params.id],
+	 		total_tweets     : twitter_data[req.params.id] ? twitter_data[req.params.id].length : 0, 
+	 		agency_id        : park_metadata_map[req.params.id].agncy_id,
+	 		location_display : {
+	 			lat : gps_util.getDMSLatitude(37.7598),
+	 			lon : gps_util.getDMSLongitude(-122.4271)
+	 		}
 		});
 	} else {
 		res.send('Well, there is a park we haven\'t learned about yet. Typo perhaps?', 404);
 	}
-
 });
 
 //app.use('/js', express.static(__dirname + '/client/js'));
