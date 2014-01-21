@@ -150,7 +150,19 @@ body.openspaces .has-coverphoto #coverphoto span.attribution a {
 }
 
 /* California shape */
-#california_shape {
+body.openspaces #california_shape {
 	position: absolute;
 	top:80px; left:100px;
+}
+
+/* Access type badge */
+body.openspaces .access-type-badge {
+	display:inline;
+	background-color: rgb(132, 188, 225);
+	color:white;
+	padding:3px;
+	font-size: 11px;
+	line-height: 11px;
+	text-transform:uppercase;
+	font-weight: bold;
 }
