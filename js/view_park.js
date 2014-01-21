@@ -47,7 +47,9 @@
 
 	function initView(data) {
 
-		displayCalifornia(data.california_shape.root_selector, data.california_shape.options);
+		if (data.california_shape.display) {
+			displayCalifornia(data.california_shape.root_selector, data.california_shape.options);
+		}
 
 	}
 
