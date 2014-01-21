@@ -11,7 +11,10 @@
 			canvas_width  : 100,
 			canvas_height : 100,
 			scale         : 600,
-			fill_color    : "rgb(34, 17, 2)"
+			fill_color    : "rgb(34, 17, 2)",
+			dot_location  : null,
+			dot_radius    : 2,
+			dot_color     : 'white'
 		};
 
 		var svg = d3.select(root_selector).append("svg")
@@ -36,11 +39,22 @@
 		var path = d3.geo.path().projection(projection);
 
 		d3.json("/data/gadm_california.topojson", function(error, units) {
+
 		    california = svg.append("g").selectAll("path")
 		        .data(topojson.feature(units, units.objects.gadm_california).features)
 		      .enter().append("path")
 		        .attr("d", path)
 		        .attr("fill", options.fill_color);
+
+		    if (options.dot_location) {
+		    	var coordinates = projection(options.dot_location);
+		    	svg.append('svg:circle')
+	        		.attr('cx', coordinates[0])
+	        		.attr('cy', coordinates[1])
+	        		.attr('r', options.dot_radius)
+	        		.attr("fill", options.dot_color);
+		    }
+
 		});
 
 	}
