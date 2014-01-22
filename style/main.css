@@ -125,6 +125,11 @@ body.openspaces #park-hash-tag {
 body.openspaces .has-coverphoto #park-hash-tag {
 	position:absolute;
 	top:443px; left:103px;
+	font-family: "cooper-black-std",sans-serif;
+	font-style: normal;
+	font-weight: 400;
+	font-size: 60px;
+	line-height: 67px;
 }
 
 /* Flickr cover photo module */
