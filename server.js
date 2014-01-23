@@ -75,20 +75,33 @@ app.use('/data', express.static(__dirname + '/data'));
 
 
 app.get('/', function(req,res) {
-	res.render('home', require(__dirname + '/controllers/home.js')(req, res, {
+
+	require(__dirname + '/controllers/home.js')(req, res, {
+
 		parent_entities : parent_entities,
 		park_metadata   : park_metadata,
 		flickr_data     : flickr_data
-	}));
+
+	}, function(err, template_data) {
+
+		res.render('home', template_data);
+
+	});
 });
 
 app.get('/agency/:id', function(req,res) {
 
-	res.render('agency', require(__dirname + '/controllers/agency.js')(req, res, {
+	require(__dirname + '/controllers/agency.js')(req, res, {
+
 		parent_entities : parent_entities,
 		flickr_data     : flickr_data,
 		twitter_data    : twitter_data
-	}));
+
+	}, function(err, template_data) {
+
+		res.render('agency', template_data);
+
+	});
 
 });
 
@@ -100,13 +113,17 @@ app.get('/park', function(req,res) {
 
 app.get('/park/:id', function(req,res) {
 
-	res.render('park', require(__dirname + '/controllers/park.js')(req, res, {
+	require(__dirname + '/controllers/park.js')(req, res, {
 		park_metadata_map  : park_metadata_map,
 		override_templates : override_templates,
 		flickr_data        : flickr_data,
 		twitter_data       : twitter_data,
 		
-	}));
+	}, function(err, template_data) {
+
+		res.render('park', template_data);
+
+	});
 
 });
 
