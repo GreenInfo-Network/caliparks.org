@@ -75,39 +75,20 @@ app.use('/data', express.static(__dirname + '/data'));
 
 
 app.get('/', function(req,res) {
-
-	var map = Object.keys(parent_entities).sort().map(function(id) {
-		return {
-			id    : id,
-			name  : parent_entities[id].name,
-			count : parent_entities[id].children.length
-		};
-	});
-
-	res.render('home', {
-	 	app_title       : app_title,
-	 	park_data       : park_metadata.features,
-	 	flickr_data     : flickr_data,
-	 	parent_names    : map
-	});
+	res.render('home', require(__dirname + '/controllers/home.js')(req, res, {
+		parent_entities : parent_entities,
+		park_metadata   : park_metadata,
+		flickr_data     : flickr_data
+	}));
 });
 
 app.get('/agency/:id', function(req,res) {
 
-	var map = parent_entities[req.params.id].children.map(function(child) {
-
-		return {
-			photo_count : (flickr_data[child.unit_id]) ? flickr_data[child.unit_id].length : 0,
-			tweet_count : (twitter_data[child.unit_id]) ? twitter_data[child.unit_id].length : 0,
-			properties  : child
-		}
-	});
-
-	res.render('agency', {
-	 	app_title : app_title,
-	 	name      : parent_entities[req.params.id].name.split(',')[0],
-	 	parks     : map
-	 });
+	res.render('agency', require(__dirname + '/controllers/agency.js')(req, res, {
+		parent_entities : parent_entities,
+		flickr_data     : flickr_data,
+		twitter_data    : twitter_data
+	}));
 
 });
 
@@ -119,37 +100,14 @@ app.get('/park', function(req,res) {
 
 app.get('/park/:id', function(req,res) {
 
-	var park_data = {title:null, photos:[]},
-	    template  = 'park',
-	    title     = park_metadata_map[req.params.id].unit_name,
-	    gps_util  = require('gps-util');
+	res.render('park', require(__dirname + '/controllers/park.js')(req, res, {
+		park_metadata_map  : park_metadata_map,
+		override_templates : override_templates,
+		flickr_data        : flickr_data,
+		twitter_data       : twitter_data,
+		
+	}));
 
-	if (override_templates[req.params.id]) {
-		template = override_templates[req.params.id].template;
-	    title    = override_templates[req.params.id].title;
-	}
-
-	if (park_metadata_map[req.params.id].unit_name) {
-
-		//console.log('park_data', park_metadata_map[req.params.id]);
-
-		res.render(template, {
-	 		app_title        : title,
-	 		park_data        : park_metadata_map[req.params.id],
-	 		photos           : flickr_data[req.params.id],
-	 		total_photos     : flickr_data[req.params.id] ? flickr_data[req.params.id].length : 0,
-	 		cover_photo      : flickr_data[req.params.id] ? flickr_data[req.params.id][0] : null,
-	 		tweets           : twitter_data[req.params.id],
-	 		total_tweets     : twitter_data[req.params.id] ? twitter_data[req.params.id].length : 0, 
-	 		agency_id        : park_metadata_map[req.params.id].agncy_id,
-	 		location_display : {
-	 			lat : gps_util.getDMSLatitude(37.7598),
-	 			lon : gps_util.getDMSLongitude(-122.4271)
-	 		}
-		});
-	} else {
-		res.send('Well, there is a park we haven\'t learned about yet. Typo perhaps?', 404);
-	}
 });
 
 //app.use('/js', express.static(__dirname + '/client/js'));
