@@ -146,7 +146,9 @@ body.openspaces .has-coverphoto #coverphoto {
 body.openspaces .has-coverphoto #coverphoto span.attribution {
 	position:absolute;
 	right:20px; bottom:5px;
-	text-shadow:1px 1px 1px rgb(0,0,0);
+	background-color:rgba(34, 17, 2,.4);
+	padding:10px;
+	line-height: 2px;
 	font-size:9px;
 }
 
