@@ -22,7 +22,7 @@ module.exports = function(req, res, data, callback) {
 				return console.error('could not connect to postgres', err);
 			}
 
-			pg_client.query('SELECT unit_id, unit_name, ST_Y(ST_Transform(ST_SetSRID(st_centroid(geom), 3785), 4326)) as centroid_latitude, ST_X(ST_Transform(ST_SetSRID(st_centroid(geom), 3785), 4326)) as centroid_longitude FROM cpad19_units WHERE unit_id = ' + req.params.id, function(err, result) {
+			pg_client.query('SELECT county, access_typ, unit_id, unit_name, ST_Y(ST_Transform(ST_SetSRID(st_centroid(geom), 3785), 4326)) as centroid_latitude, ST_X(ST_Transform(ST_SetSRID(st_centroid(geom), 3785), 4326)) as centroid_longitude FROM cpad19_units WHERE unit_id = ' + req.params.id, function(err, result) {
 				if(err) {
 					return console.error('error running query', err);
 				}
@@ -34,7 +34,7 @@ module.exports = function(req, res, data, callback) {
 				if (data.park_metadata_map[req.params.id].unit_name) {
 
 					callback( null, {
-						app_title        : title + ': ' + result.rows[0].unit_name,
+						app_title        : result.rows[0].unit_name,
 				 		park_data        : data.park_metadata_map[req.params.id],
 				 		photos           : data.flickr_data[req.params.id],
 				 		total_photos     : data.flickr_data[req.params.id] ? data.flickr_data[req.params.id].length : 0,

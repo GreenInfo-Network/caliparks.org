@@ -6,8 +6,8 @@
 	<section>
 		<h1>{{app_title}}</h1>
 		<p>{{location_display.lat}}, {{location_display.lon}}</p>
-		<p>{{park_data.county}} County</p>
-		<span class="access-type-badge">{{park_data.access_typ}}</span>
+		<p>{{cpad_park.county}} County</p>
+		<span class="access-type-badge">{{cpad_park.access_typ}}</span>
 	</section>
 
 </div>
@@ -30,7 +30,7 @@
 				dot_location  : null,
 				dot_radius    : 3,
 				dot_color     : 'white',
-				dot_location  : [-122.4271, 37.7598] //TODO: Make this not only dolo
+				dot_location  : [parseFloat('{{cpad_park.centroid_longitude}}' || 0, 10),parseFloat('{{cpad_park.centroid_latitude}}' || 0, 10)] //TODO: Make this not only dolo
 			}
 		}
 	});

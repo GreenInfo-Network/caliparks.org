@@ -1,4 +1,4 @@
-module.exports = function(req, res, data) {
+module.exports = function(req, res, data, callback) {
 
 	var map = data.parent_entities[req.params.id].children.map(function(child) {
 
@@ -9,9 +9,9 @@ module.exports = function(req, res, data) {
 		}
 	});
 	
-	return {
+	callback(null, {
 		app_title : 'Stamen Parks',
 	 	name      : data.parent_entities[req.params.id].name.split(',')[0],
 	 	parks     : map
-	}
+	});
 }
