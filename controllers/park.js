@@ -6,7 +6,7 @@ module.exports = function(req, res, data, callback) {
 	var park_data = {title:null, photos:[]},
 	    template  = 'park',
 	    title     = data.park_metadata_map[req.params.id].unit_name,
-	    db_con    = "postgres://cpad:5432@geo.local/cpad",
+	    db_con    = "postgres://openspaces:5432@geo.local/openspaces",
 	    pg_client = new pg.Client(db_con);
 
 	    //
@@ -22,7 +22,7 @@ module.exports = function(req, res, data, callback) {
 				return console.error('could not connect to postgres', err);
 			}
 
-			pg_client.query('SELECT ST_AsGEOJSON(ST_Transform(ST_SetSRID(geom, 3785), 4326)) as park_shape, ST_AsGEOJSON(st_box2d(ST_Transform(ST_SetSRID(geom, 3785), 4326))) as bbox, county, access_typ, unit_id, unit_name, ST_Y(ST_Transform(ST_SetSRID(st_centroid(geom), 3785), 4326)) as centroid_latitude, ST_X(ST_Transform(ST_SetSRID(st_centroid(geom), 3785), 4326)) as centroid_longitude FROM cpad19_units WHERE unit_id = ' + req.params.id, function(err, result) {
+			pg_client.query('select * from site_parks where unit_id = ' + req.params.id, function(err, result) {
 				if(err) {
 					return console.error('error running query', err);
 				}
