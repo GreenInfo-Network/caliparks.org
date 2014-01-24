@@ -8,6 +8,8 @@
 		<p>{{location_display.lat}}, {{location_display.lon}}</p>
 		<p>{{cpad_park.county}} County</p>
 		<span class="access-type-badge">{{cpad_park.access_typ}}</span>
+
+		<div id="park-shape"></div>
 	</section>
 
 </div>
@@ -32,6 +34,15 @@
 				dot_color     : 'white',
 				dot_location  : [parseFloat('{{cpad_park.centroid_longitude}}' || 0, 10),parseFloat('{{cpad_park.centroid_latitude}}' || 0, 10)] //TODO: Make this not only dolo
 			}
-		}
+		},
+
+		park_shape : {
+			shape_data    : {{{cpad_park.park_shape}}},
+			root_selector : '#park-shape',
+			options       : {
+				centroid : [parseFloat('{{cpad_park.centroid_longitude}}' || 0, 10),parseFloat('{{cpad_park.centroid_latitude}}' || 0, 10)],
+				bbox : {{{cpad_park.bbox}}}.coordinates[0]
+        	}
+        }
 	});
 </script>
