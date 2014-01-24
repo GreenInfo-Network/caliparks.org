@@ -8,6 +8,8 @@ var async = require("async"),
     pg = require("pg"),
     request = require("request");
 
+var folder = "flickr_data_new/";
+
 var startPostgresClient = function(callback) {
   // postgres
   var client = new pg.Client({
@@ -51,7 +53,7 @@ function getFlickrData(bbox, page, photos, callback) {
       api_key: "f17cc9d3f73f0b45640451a6d3c1946d",
       bbox: bbox,
       has_geo: 1,
-      extras: "geo,tags,date_upload,date_taken,owner_name,description,license",
+      extras: "geo,tags,date_upload,date_taken,owner_name,description,license,o_dims,url_b,url_l",
       min_taken_date: ~~(Date.now() / 1000) - 60*60*24*365,
       format: "json",
       nojsoncallback: 1,
@@ -66,7 +68,7 @@ function getFlickrData(bbox, page, photos, callback) {
       
       photos = photos.concat(body.photos.photo);
 
-      if (hasMorePages(body)) {
+      if (hasMorePages(body) && page <= body.photos.page) {
         console.log("[*] found another page for", bbox , ":", body.photos.page, "out of", body.photos.pages);
         console.log("[*] current page:", page);
         return getFlickrData(bbox, page + 1, photos, callback);
@@ -203,12 +205,12 @@ var getFlickrPhotosForAllParks = function() {
   return startPostgresClient(function(err, client) {
     return getParksDataFromPostgres(client, 250, function(err, parks) {
       async.eachLimit(parks, 1, function(park, next) {
-        fs.exists("data/" + park.id + ".json", function(exists) {
+        fs.exists(folder + park.id + ".json", function(exists) {
           if (!exists) {
             getFlickrPhotosForPark(client, park, function(err, media) {
               console.log("[*] got", media.length, "photos for", park.name);
               media.forEach(function(photo) { photo.park = park; });
-              writeDataToFile("data/" + park.id + ".json", media, next);
+              writeDataToFile(folder + park.id + ".json", media, next);
             });
           } else {
             console.log("[*] park " + park.name + " already exists. skipping.");
