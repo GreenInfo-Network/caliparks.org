@@ -9,7 +9,7 @@
     options = options || {
       //defaults
       canvas_width  : 110,
-      canvas_height : 110,
+      canvas_height : 150,
       scale         : 600,
       fill_color    : "rgb(34, 17, 2)",
       dot_location  : null,
