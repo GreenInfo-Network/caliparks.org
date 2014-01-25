@@ -6,7 +6,7 @@ module.exports = function(req, res, data, callback) {
 	var park_data = {title:null, photos:[]},
 	    template  = 'park',
 	    title     = data.park_metadata_map[req.params.id].unit_name,
-	    db_con    = "postgres://openspaces:5432@geo.local/openspaces",
+	    db_con    = process.env.DATABASE_URL,
 	    pg_client = new pg.Client(db_con);
 
 	    //
