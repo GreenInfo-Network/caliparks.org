@@ -1,17 +1,19 @@
+'use strict';
+
 module.exports = function(req, res, data, callback) {
 
-	var map = Object.keys(data.parent_entities).sort().map(function(id) {
+	var map = Object.keys(data.parentEntities).sort().map(function(id) {
 		return {
 			id    : id,
-			name  : data.parent_entities[id].name,
-			count : data.parent_entities[id].children.length
+			name  : data.parentEntities[id].name,
+			count : data.parentEntities[id].children.length
 		};
 	});
 	
 	callback(null, {
 		app_title    : 'Stamen Parks',
-	 	park_data    : data.park_metadata.features,
-	 	flickr_data  : data.flickr_data,
+	 	park_data    : data.parkMetadata.features,
+	 	flickr_data  : data.flickrData,
 	 	parent_names : map
 	});
 }

@@ -1,13 +1,13 @@
-<div id="park-template-wrapper" class="{{# if cover_photo}}has-coverphoto {{/if}}">
+<div id="park-template-wrapper" class="{{# if coverPhoto}}has-coverphoto {{/if}}">
 
-	{{# if cover_photo}}{{>flickr_coverphoto}}{{/if}}
+	{{# if coverPhoto}}{{>flickr_coverphoto}}{{/if}}
 	<div id="park-hash-tag">#STMN</div>
 	<div id="california_shape"></div>
 	<section>
-		<h1>{{app_title}}</h1>
-		<p>{{location_display.lat}}, {{location_display.lon}}</p>
-		<p>{{cpad_park.county}} County</p>
-		<span class="access-type-badge">{{cpad_park.access_typ}}</span>
+		<h1>{{appTitle}}</h1>
+		<p>{{locationDisplay.lat}}, {{locationDisplay.lon}}</p>
+		<p>{{cpadPark.county}} County</p>
+		<span class="access-type-badge">{{cpadPark.access_typ}}</span>
 
 		<div id="park-shape"></div>
 	</section>
@@ -20,28 +20,28 @@
 
 <script>
 	STMN.initView({
-		california_shape : {
+		UsCaShape : {
 			display: document.querySelector('.has-coverphoto') ? true : false,
-			root_selector : '#california_shape',
-			options       : {
-				canvas_width  : 100,
-				canvas_height : 150,
-				scale         : 600,
-				fill_color    : "rgb(34, 17, 2)",
-				stroke        : 'grey',
-				dot_location  : null,
-				dot_radius    : 3,
-				dot_color     : 'white',
-				dot_location  : [parseFloat('{{cpad_park.centroid_longitude}}' || 0, 10),parseFloat('{{cpad_park.centroid_latitude}}' || 0, 10)] //TODO: Make this not only dolo
+			rootSelector : '#california_shape',
+			options      : {
+				canvasWidth  : 100,
+				canvasHeight : 150,
+				scale        : 600,
+				fillColor    : "rgb(34, 17, 2)",
+				stroke       : 'grey',
+				dotLocation  : null,
+				dotRadius    : 3,
+				dotColor     : 'white',
+				dotLocation  : [parseFloat('{{cpadPark.centroid_longitude}}' || 0, 10),parseFloat('{{cpadPark.centroid_latitude}}' || 0, 10)]
 			}
 		},
 
-		park_shape : {
-			shape_data    : {{{cpad_park.park_shape}}},
-			root_selector : '#park-shape',
+		parkShape : {
+			shapeData    : {{{cpadPark.park_shape}}},
+			rootSelector : '#park-shape',
 			options       : {
-				centroid : [parseFloat('{{cpad_park.centroid_longitude}}' || 0, 10),parseFloat('{{cpad_park.centroid_latitude}}' || 0, 10)],
-				bbox : {{{cpad_park.bbox}}}.coordinates[0]
+				centroid : [parseFloat('{{cpadPark.centroid_longitude}}' || 0, 10),parseFloat('{{cpadPark.centroid_latitude}}' || 0, 10)],
+				bbox : {{{cpadPark.bbox}}}.coordinates[0]
         	}
         }
 	});
