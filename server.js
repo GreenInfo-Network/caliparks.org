@@ -1,48 +1,50 @@
-var http               = require('http'),
-    express            = require('express'),
-	exphbs             = require('express3-handlebars'),
-    app                = express(),
-	config             = require(__dirname + '/config.json'),
-	override_templates = require(__dirname + '/override-templates.json'),
-	app_title          = config.app.name,
-	port               = process.env.PORT || 5000;
+'use strict';
 
-var flickr_photos     = require(__dirname + '/data/park_flickr_photos.json'),
-	tweets            = require(__dirname + '/data/park_tweets.json'),
-    park_metadata     = require(__dirname + '/data/cpad_units_metadata.json'),
-    flickr_data       = {},
-    parent_entities   = {},
-    park_metadata_map = {},
-    twitter_data      = {};
+var http              = require('http'),
+    express           = require('express'),
+	  exphbs            = require('express3-handlebars'),
+	  config            = require('./config.json'),
+	  overrideTemplates = require('./override-templates.json');
+
+var app = express();
+
+var flickrPhotos     = require('./public/data/park_flickr_photos.json'),
+	  tweets           = require('./public/data/park_tweets.json'),
+    parkMetadata     = require('./public/data/cpad_units_metadata.json'),
+    flickrData       = {},
+    parentEntities   = {},
+    parkMetadataMap  = {},
+    twitterData      = {},
+    appTitle         = config.app.name;
 
 //
 // Put Flickr data into a map for quick retrieval
 //
-flickr_photos.features.forEach(function(photo, i, photos) {
-	if (!flickr_data[photo.properties.containing_park_id]) {
-		flickr_data[photo.properties.containing_park_id] = [];
+flickrPhotos.features.forEach(function(photo, i, photos) {
+	if (!flickrData[photo.properties.containing_park_id]) {
+		flickrData[photo.properties.containing_park_id] = [];
 	}
 
-	flickr_data[photo.properties.containing_park_id].push(photo.properties);
+	flickrData[photo.properties.containing_park_id].push(photo.properties);
 });
 
 //
 // Get a map of parent entities from the metadata list
 //
-park_metadata.features.forEach(function(park, i, parks) {
+parkMetadata.features.forEach(function(park, i, parks) {
 	var id = park.properties.agncy_id;
 
-	if (!parent_entities[id]) {
-		parent_entities[id] = {
+	if (!parentEntities[id]) {
+		parentEntities[id] = {
 			id       : id,
 			name     : park.properties.agncy_name,
 			children : []
 		}
 	}
 
-	parent_entities[id].children.push(park.properties);
+	parentEntities[id].children.push(park.properties);
 
-	park_metadata_map[park.properties.unit_id] = park.properties;
+	parkMetadataMap[park.properties.unit_id] = park.properties;
 });
 
 //
@@ -50,11 +52,11 @@ park_metadata.features.forEach(function(park, i, parks) {
 //
 tweets.features.forEach(function(tweet) {
 
-	if (!twitter_data[tweet.properties.park_id]) {
-		twitter_data[tweet.properties.park_id] = [];
+	if (!twitterData[tweet.properties.park_id]) {
+		twitterData[tweet.properties.park_id] = [];
 	}
 
-	twitter_data[tweet.properties.park_id].push(tweet.properties);
+	twitterData[tweet.properties.park_id].push(tweet.properties);
 
 });
 
@@ -69,37 +71,37 @@ app.set('view engine', 'handlebars');
 // Setup Routes
 //
 
-app.use('/style', express.static(__dirname + '/style'));
-app.use('/js', express.static(__dirname + '/js'));
-app.use('/data', express.static(__dirname + '/data'));
+app.use('/style', express.static('./public/style'));
+app.use('/js',    express.static('./public/js'));
+app.use('/data',  express.static('./public/data'));
 
 
 app.get('/', function(req,res) {
 
-	require(__dirname + '/controllers/home.js')(req, res, {
+	require('./controllers/home.js')(req, res, {
 
-		parent_entities : parent_entities,
-		park_metadata   : park_metadata,
-		flickr_data     : flickr_data
+		parentEntities : parentEntities,
+		parkMetadata   : parkMetadata,
+		flickrData     : flickrData
 
-	}, function(err, template_data) {
+	}, function(err, templateData) {
 
-		res.render('home', template_data);
+		res.render('home', templateData);
 
 	});
 });
 
 app.get('/agency/:id', function(req,res) {
 
-	require(__dirname + '/controllers/agency.js')(req, res, {
+	require('./controllers/agency.js')(req, res, {
 
-		parent_entities : parent_entities,
-		flickr_data     : flickr_data,
-		twitter_data    : twitter_data
+		parentEntities : parentEntities,
+		flickrData     : flickrData,
+		twitterData    : twitterData
 
-	}, function(err, template_data) {
+	}, function(err, templateData) {
 
-		res.render('agency', template_data);
+		res.render('agency', templateData);
 
 	});
 
@@ -113,15 +115,15 @@ app.get('/park', function(req,res) {
 
 app.get('/park/:id', function(req,res) {
 
-	require(__dirname + '/controllers/park.js')(req, res, {
-		park_metadata_map  : park_metadata_map,
-		override_templates : override_templates,
-		flickr_data        : flickr_data,
-		twitter_data       : twitter_data,
+	require('./controllers/park.js')(req, res, {
+		parkMetadataMap   : parkMetadataMap,
+		overrideTemplates : overrideTemplates,
+		flickrData        : flickrData,
+		twitterData       : twitterData,
 		
-	}, function(err, template_data) {
+	}, function(err, templateData) {
 
-		res.render('park', template_data);
+		res.render('park', templateData);
 
 	});
 

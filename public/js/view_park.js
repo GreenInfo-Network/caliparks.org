@@ -4,56 +4,52 @@
 
   window.STMN = {};
 
-  function displayCalifornia(root_selector, options) {
+  function displayUsCa(rootSelector, options) {
 
     options = options || {
       //defaults
-      canvas_width  : 110,
-      canvas_height : 150,
+      canvasWidth  : 110,
+      canvasHeight : 150,
       scale         : 600,
-      fill_color    : "rgb(34, 17, 2)",
-      dot_location  : null,
-      dot_radius    : 2,
-      dot_color     : 'white'
+      fillColor    : "rgb(34, 17, 2)",
+      dotLocation  : null,
+      dotRadius    : 2,
+      dotColor     : 'white'
     };
 
-    var svg_cali = d3.select(root_selector).append("svg")
-        .attr("width", options.canvas_width)
-        .attr("height", options.canvas_height)
-        .attr("viewBox", [0, 0, options.canvas_width, options.canvas_height])
+    var svgUsCa = d3.select(rootSelector).append("svg")
+        .attr("width", options.canvasWidth)
+        .attr("height", options.canvasHeight)
+        .attr("viewBox", [0, 0, options.canvasWidth, options.canvasHeight])
         .attr("preserveAspectRatio", "meet xMidYMid");
 
-    var california; // background shape
+    var UsCa; // background shape
 
-    // For resizing shapes to be similar sizes
-
-    // Projection settings
-    // modifying a projection from http://bost.ocks.org/mike/map/.
-    var projection_cali = d3.geo.albers()
+    var projectionUsCa = d3.geo.albers()
         .center([0,36.5]) // For statewide view
         .rotate([119, 0]) // For statewide view
         .parallels([32,40])
         .scale(options.scale)
-        .translate([options.canvas_width / 2, options.canvas_height / 2]);
+        .translate([options.canvasWidth / 2, options.canvasHeight / 2]);
 
-    var path_cali = d3.geo.path().projection(projection_cali);
+    var pathUsCa = d3.geo.path().projection(projectionUsCa);
 
     d3.json("/data/gadm_california.topojson", function(error, units) {
 
-        california = svg_cali.append("g").selectAll("path")
+        UsCa = svgUsCa.append("g").selectAll("path")
             .data(topojson.feature(units, units.objects.gadm_california).features)
           .enter().append("path")
-            .attr("d", path_cali)
-            .attr("fill", options.fill_color)
+            .attr("d", pathUsCa)
+            .attr("fill", options.fillColor)
             .attr("stroke", "rgba(255,255,255,.2)");
 
-        if (options.dot_location) {
-          var coordinates = projection_cali(options.dot_location);
-          svg_cali.append('svg:circle')
+        if (options.dotLocation) {
+          var coordinates = projectionUsCa(options.dotLocation);
+          svgUsCa.append('svg:circle')
               .attr('cx', coordinates[0])
               .attr('cy', coordinates[1])
-              .attr('r', options.dot_radius)
-              .attr("fill", options.dot_color)
+              .attr('r', options.dotRadius)
+              .attr("fill", options.dotColor)
               .attr("stroke", "rgba(0,0,0,.2)");
         }
 
@@ -61,17 +57,17 @@
 
   }
 
-  function displayPark(root_selector, shape_data, options) {
+  function displayPark(rootSelector, shapeData, options) {
 
     options = options || {
       //defaults
-      canvas_width  : 110,
-      canvas_height : 110,
+      canvasWidth  : 110,
+      canvasWeight : 110,
       scale         : 600,
-      fill_color    : "rgb(34, 17, 2)",
-      dot_location  : null,
-      dot_radius    : 2,
-      dot_color     : 'white'
+      fillColor    : "rgb(34, 17, 2)",
+      dotLocation  : null,
+      dotRadius    : 2,
+      dotColor     : 'white'
     };
 
 
@@ -83,7 +79,7 @@ var geoJSON = {
             "type":"Feature",
             "geometry":{
                 "type":"MultiPolygon",
-                "coordinates":shape_data.coordinates
+                "coordinates":shapeData.coordinates
             },
             "properties":{
                 "foo" : "bar"
@@ -92,7 +88,7 @@ var geoJSON = {
     ]
 }
 
-    geoJSON.features.geometry = shape_data;
+    geoJSON.features.geometry = shapeData;
 
 
 var width = 300, height = 300;
@@ -110,7 +106,7 @@ var projection = d3.geo.albers()
 //Defaults to albersUsa Projection. You might want to set a different one
 
 //Create the svg to render the polygon inside of
-var svg = d3.select(root_selector).append("svg")
+var svg = d3.select(rootSelector).append("svg")
     .attr("width", width)
     .attr("height", height);
 //Bind the geoJSON the path elements in the svg
@@ -126,17 +122,17 @@ var d = svg.selectAll("path")
 
   function initView(data) {
 
-    if (data.california_shape.display) {
-      displayCalifornia(
-        data.california_shape.root_selector, 
-        data.california_shape.options
+    if (data.UsCaShape.display) {
+      displayUsCa(
+        data.UsCaShape.rootSelector, 
+        data.UsCaShape.options
       );
     }
 
     displayPark(
-      data.park_shape.root_selector, 
-      data.park_shape.shape_data, 
-      data.park_shape.options
+      data.parkShape.rootSelector, 
+      data.parkShape.shapeData, 
+      data.parkShape.options
     );
 
   }
