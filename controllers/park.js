@@ -12,7 +12,7 @@ module.exports = function(req, res, data, callback) {
 	    template = 'park',
 	    title    = data.parkMetadataMap[req.params.id].unit_name;
 
-	    //
+	  //
 		// Transform raw cpad flatfile stuff
 		//
 		if (data.overrideTemplates[req.params.id]) {
@@ -25,7 +25,7 @@ module.exports = function(req, res, data, callback) {
 				return console.error('could not connect to postgres', err);
 			}
 
-			pgClient.query('select * from site_parks where unit_id = ' + req.params.id, function(err, result) {
+			pgClient.query('select * from site_parks_su where su_id = ' + req.params.id, function(err, result) {
 				if(err) {
 					return console.error('error running query', err);
 				}
