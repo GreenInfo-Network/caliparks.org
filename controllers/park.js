@@ -8,15 +8,14 @@ module.exports = function(req, res, data, callback) {
 	var dbCon    = process.env.DATABASE_URL,
       pgClient = new pg.Client(dbCon);
 
-	var parkData = {title:null, photos:[]},
-	    template = 'park';
+	var template = 'park';
 
 	  //
-		// Transform raw cpad flatfile stuff
+		// Get special template if one exists
 		//
 		if (data.overrideTemplates[req.params.id]) {
-			template = data.overrideTemplates[req.params.id].template;
-		    title    = data.overrideTemplates[req.params.id].title;
+      template = data.overrideTemplates[req.params.id].template;
+		  title    = data.overrideTemplates[req.params.id].title;
 		}
 
 		pgClient.connect(function(err) {
@@ -24,7 +23,7 @@ module.exports = function(req, res, data, callback) {
 				return console.error('could not connect to postgres', err);
 			}
 
-			pgClient.query('select * from site_parks_su where su_id = ' + req.params.id, function(err, result) {
+			pgClient.query('select * from site_park where su_id = ' + req.params.id, function(err, result) {
 				if(err) {
 					return console.error('error running query', err);
 				}
@@ -41,8 +40,6 @@ module.exports = function(req, res, data, callback) {
 
   					callback( null, {
   						appTitle        : result.rows[0].unit_name,
-  				 		parkData        : data.parkMetadataMap[req.params.id],
-  				 		photos          : flesult.rows,
   				 		totalPhotos     : flesult.rows.length ? flesult.rows.length : 0,
   				 		coverPhoto      : flesult.rows.length ? flesult.rows[0] : null,
   				 		locationDisplay : {
