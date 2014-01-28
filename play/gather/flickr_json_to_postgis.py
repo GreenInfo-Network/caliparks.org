@@ -9,7 +9,7 @@ import psycopg2
 
 
 # Database must be structured like so:
-# create table flickr_photos (photoid bigint, owner varchar(20), secret varchar(20), server int, farm int, title varchar, latitude float, longitude float, accuracy int, context int, place_id varchar(20), woeid bigint, tags varchar, dateupload int, datetaken varchar(30), ownername varchar, description varchar, license int, o_width int, o_height int, url_l varchar(80), height_l int, width_l int, park_id bigint, park_name varchar(80));
+# create table flickr_photos (photoid bigint, owner varchar(20), secret varchar(20), server int, farm int, title varchar, latitude float, longitude float, accuracy int, context int, place_id varchar(20), woeid bigint, tags varchar, dateupload int, datetaken varchar(30), ownername varchar, description varchar, license int, o_width int, o_height int, url_l varchar(80), height_l int, width_l int, harvested_park_id bigint, harvested_park_name varchar(80));
 
 dbname = "openspaces"
 user = "openspaces"
@@ -64,14 +64,12 @@ for filename in glob.glob("flickr_data_new/*.json"):
       height_l = photo['height_l']
     if 'width_l' in photo:
       width_l = photo['width_l']
-    park_id = photo['park']['id']
-    park_name = photo['park']['name']
+    harvested_park_id = photo['park']['id']
+    harvested_park_name = photo['park']['name']
 
-    (photoid, owner, secret, server, farm, title, latitude, longitude, accuracy, context, place_id, woeid, tags, park_id, park_name)
-
-    querystring = "INSERT INTO " + tablename + "(photoid, owner, secret, server, farm, title, latitude, longitude, accuracy, context, place_id, woeid, tags, dateupload, datetaken, ownername, description, license, o_width, o_height, url_l, height_l, width_l, park_id, park_name) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+    querystring = "INSERT INTO " + tablename + "(photoid, owner, secret, server, farm, title, latitude, longitude, accuracy, context, place_id, woeid, tags, dateupload, datetaken, ownername, description, license, o_width, o_height, url_l, height_l, width_l, harvested_park_id, harvested_park_name) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
     
-    cur.execute(querystring, (photoid, owner, secret, server, farm, title, latitude, longitude, accuracy, context, place_id, woeid, tags, dateupload, datetaken, ownername, description, license, o_width, o_height, url_l, height_l, width_l, park_id, park_name))
+    cur.execute(querystring, (photoid, owner, secret, server, farm, title, latitude, longitude, accuracy, context, place_id, woeid, tags, dateupload, datetaken, ownername, description, license, o_width, o_height, url_l, height_l, width_l, harvested_park_id, harvested_park_name))
 
     conn.commit() 
 
