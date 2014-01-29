@@ -2,18 +2,31 @@
 
 module.exports = function(req, res, data, callback) {
 
-	var map = data.parentEntities[req.params.id].children.map(function(child) {
+	var pg      = require('pg');
 
-		return {
-			photoCount : (data.flickrData[child.unit_id]) ? data.flickrData[child.unit_id].length : 0,
-			tweetCount : (data.twitterData[child.unit_id]) ? data.twitterData[child.unit_id].length : 0,
-			properties : child
+	var dbCon  = process.env.DATABASE_URL,
+      pgClient = new pg.Client(dbCon);
+
+	pgClient.connect(function(err) {
+
+		if(err) {
+			return console.error('could not connect to postgres', err);
 		}
-	});
-	
-	callback(null, {
-		appTitle : 'Stamen Parks',
-	 	name     : data.parentEntities[req.params.id].name.split(',')[0],
-	 	parks    : map
+
+		pgClient.query('SELECT * FROM site_park where agncy_id = ' + req.params.id + ' ORDER BY agncy_name ASC;', function(err, result) {
+			if(err) {
+				return console.error('error running query', err);
+			}
+
+			callback(null, {
+				appTitle : 'Stamen Parks: California > Parks within ' + result.rows[0].agncy_name,
+			 	name     : result.rows[0].agncy_name,
+			 	parks    : result.rows
+			});
+
+
+			pgClient.end();
+		});
+
 	});
 }

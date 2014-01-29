@@ -8,58 +8,7 @@ var http              = require('http'),
 
 var app = express();
 
-var flickrPhotos     = require('./public/data/park_flickr_photos.json'),
-	  tweets           = require('./public/data/park_tweets.json'),
-    parkMetadata     = require('./public/data/cpad_units_metadata.json'),
-    flickrData       = {},
-    parentEntities   = {},
-    parkMetadataMap  = {},
-    twitterData      = {},
-    appTitle         = config.app.name;
-
-//
-// Put Flickr data into a map for quick retrieval
-//
-flickrPhotos.features.forEach(function(photo, i, photos) {
-	if (!flickrData[photo.properties.containing_park_id]) {
-		flickrData[photo.properties.containing_park_id] = [];
-	}
-
-	flickrData[photo.properties.containing_park_id].push(photo.properties);
-});
-
-//
-// Get a map of parent entities from the metadata list
-//
-parkMetadata.features.forEach(function(park, i, parks) {
-	var id = park.properties.agncy_id;
-
-	if (!parentEntities[id]) {
-		parentEntities[id] = {
-			id       : id,
-			name     : park.properties.agncy_name,
-			children : []
-		}
-	}
-
-	parentEntities[id].children.push(park.properties);
-
-	parkMetadataMap[park.properties.unit_id] = park.properties;
-});
-
-//
-// Get twitter data into a map
-//
-tweets.features.forEach(function(tweet) {
-
-	if (!twitterData[tweet.properties.park_id]) {
-		twitterData[tweet.properties.park_id] = [];
-	}
-
-	twitterData[tweet.properties.park_id].push(tweet.properties);
-
-});
-
+var appTitle = config.app.name;
 	
 //
 // Setup Express
@@ -78,13 +27,7 @@ app.use('/data',  express.static('./public/data'));
 
 app.get('/', function(req,res) {
 
-	require('./controllers/home.js')(req, res, {
-
-		parentEntities : parentEntities,
-		parkMetadata   : parkMetadata,
-		flickrData     : flickrData
-
-	}, function(err, templateData) {
+	require('./controllers/home.js')(req, res, {}, function(err, templateData) {
 
 		res.render('home', templateData);
 
@@ -93,13 +36,7 @@ app.get('/', function(req,res) {
 
 app.get('/agency/:id', function(req,res) {
 
-	require('./controllers/agency.js')(req, res, {
-
-		parentEntities : parentEntities,
-		flickrData     : flickrData,
-		twitterData    : twitterData
-
-	}, function(err, templateData) {
+	require('./controllers/agency.js')(req, res, {}, function(err, templateData) {
 
 		res.render('agency', templateData);
 
@@ -116,11 +53,7 @@ app.get('/park', function(req,res) {
 app.get('/park/:id', function(req,res) {
 
 	require('./controllers/park.js')(req, res, {
-		parkMetadataMap   : parkMetadataMap,
-		overrideTemplates : overrideTemplates,
-		flickrData        : flickrData,
-		twitterData       : twitterData,
-		
+		overrideTemplates : overrideTemplates
 	}, function(err, templateData) {
 
 		res.render('park', templateData);
