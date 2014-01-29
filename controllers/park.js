@@ -39,7 +39,8 @@ module.exports = function(req, res, data, callback) {
   				if (result.rows[0]) {
 
   					callback( null, {
-  						appTitle        : result.rows[0].unit_name,
+  						appTitle        : 'Stamen Parks: California > ' + result.rows[0].unit_name,
+              name            : result.rows[0].unit_name,
   				 		totalPhotos     : flesult.rows.length ? flesult.rows.length : 0,
   				 		coverPhoto      : flesult.rows.length ? flesult.rows[0] : null,
   				 		locationDisplay : {
