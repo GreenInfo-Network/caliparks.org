@@ -173,3 +173,16 @@ body.openspaces .access-type-badge {
 	text-transform:uppercase;
 	font-weight: bold;
 }
+
+/* search */
+#search {
+	top:10px;
+	right:70px;
+	position:absolute;
+	text-decoration: none;
+	text-align: right;
+}
+
+#search a {
+	text-decoration: none;
+}
