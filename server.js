@@ -4,9 +4,10 @@ var http              = require('http'),
     express           = require('express'),
 	  exphbs            = require('express3-handlebars'),
 	  config            = require('./config.json'),
-	  overrideTemplates = require('./override-templates.json');
+	  overrideTemplates = require('./override-templates.json'),
+	  pg                = require('pg');
 
-var app = express();
+var app      = express();
 
 var appTitle = config.app.name;
 	
@@ -47,6 +48,33 @@ app.get('/agency/:id', function(req,res) {
 app.get('/park', function(req,res) {
 
 	res.redirect('/');
+
+});
+
+app.get('/wander', function(req,res) {
+
+	var dbCon    = process.env.DATABASE_URL,
+        pgClient = new pg.Client(dbCon);
+
+	pgClient.connect(function(err) {
+
+		if(err) {
+			return console.error('could not connect to postgres', err);
+		}
+
+		pgClient.query('SELECT su_id FROM site_park ORDER BY RANDOM() LIMIT 1', function(err, result) {
+			if(err) {
+				return console.error('error running query', err); //TODO: Throw a 503
+			}
+			
+			res.redirect('/park/' + result.rows[0].su_id);
+
+			result = null;
+
+			pgClient.end();
+		});
+
+	});
 
 });
 
