@@ -5,7 +5,9 @@ module.exports = function(req, res, data, callback) {
 	var pg      = require('pg');
 
 	var dbCon  = process.env.DATABASE_URL,
-      pgClient = new pg.Client(dbCon);
+        pgClient = new pg.Client(dbCon);
+
+    var agency_name_parts = null;
 
 	pgClient.connect(function(err) {
 
@@ -18,8 +20,10 @@ module.exports = function(req, res, data, callback) {
 				return console.error('error running query', err);
 			}
 
+			agency_name_parts = result.rows[0].agncy_name.split(',');
+
 			callback(null, {
-				appTitle : 'Stamen Parks: California > Parks within ' + result.rows[0].agncy_name,
+				appTitle : 'Stamen Parks: California > Parks within ' + (agency_name_parts.length > 1 ? agency_name_parts[1] + ' ' + agency_name_parts[0] : agency_name_parts[0]),
 			 	name     : result.rows[0].agncy_name,
 			 	parks    : result.rows
 			});
