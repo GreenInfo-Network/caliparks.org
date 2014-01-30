@@ -98,13 +98,31 @@ var width = 300, height = 300;
 
 var projection = d3.geo.albers()
 	.center(options.centroid)
-    .scale(Math.max(Math.abs(options.bbox[0][1] - options.bbox[1][1]), Math.abs(options.bbox[0][0] - options.bbox[1][0]))*300000000)
+    .scale(1000)
     .rotate(30,0)
     .translate([width / 2, height / 2]);
 
     var path = d3.geo.path().projection(projection);
 
-    
+
+    var bounds  = path.bounds(geoJSON);
+    var hscale     = 1000*width  / (bounds[1][0] - bounds[0][0]);
+    var vscale     = 1000*height / (bounds[1][1] - bounds[0][1]);
+    var proj_scale = (hscale < vscale) ? hscale : vscale; //Min?
+    var offset  = [(width) - (bounds[0][0] + bounds[1][0])/2,
+                  (height) - (bounds[0][1] + bounds[1][1])/2];
+
+
+  
+ var projection = d3.geo.albers()
+	.center(options.centroid)
+    .scale(proj_scale-1500)
+    .rotate(30,0)
+    .translate(offset);
+
+    var nupath = d3.geo.path().projection(projection);
+
+    console.log(proj_scale);
 
 //Defaults to albersUsa Projection. You might want to set a different one
 
@@ -116,7 +134,7 @@ var svg = d3.select(rootSelector).append("svg")
 //Use the enter selection (new elements) and draw the paths using the geo path generator
 var d = svg.selectAll("path")
     .data(geoJSON.features).enter().append("path")
-    .attr("d",path)
+    .attr("d",nupath)
     .attr("fill",'#999');
 //Note that when you bind new data, you will be changing existing path elements
 //So you would also need to do a exit and modify existing paths
