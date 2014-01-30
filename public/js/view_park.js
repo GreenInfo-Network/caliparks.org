@@ -41,7 +41,7 @@
           .enter().append("path")
             .attr("d", pathUsCa)
             .attr("fill", options.fillColor)
-            .attr("stroke", "rgba(255,255,255,.2)");
+            .attr("stroke", "rgba(255,255,255,.4)");
 
         if (options.dotLocation) {
           var coordinates = projectionUsCa(options.dotLocation);
