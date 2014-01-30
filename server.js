@@ -14,7 +14,17 @@ var appTitle = config.app.name;
 //
 // Setup Express
 //
-app.engine('handlebars', exphbs({defaultLayout: 'main'}));
+app.engine('handlebars', exphbs({
+	defaultLayout : 'main',
+	helpers       : {
+		agencyNameDisplay : function(options) {
+
+			var name_parts = options.fn(this).split(',');
+
+			return (name_parts.length > 1) ? name_parts[1] + ' ' + name_parts[0] : name_parts[0];
+		}
+	}
+}));
 app.set('view engine', 'handlebars');
 
 //
