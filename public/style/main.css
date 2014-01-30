@@ -60,6 +60,26 @@ body.openspaces {
   min-width: 589px
 }
 
+body.openspaces input:focus {
+  outline-width: 0;
+}
+
+body.openspaces input::-webkit-input-placeholder {
+   color:rgba(238, 222, 204,1);
+}
+
+body.openspaces input:-moz-placeholder { /* Firefox 18- */
+   color:rgba(238, 222, 204,1);
+}
+
+body.openspaces input::-moz-placeholder {  /* Firefox 19+ */
+   color:rgba(238, 222, 204,1); 
+}
+
+body.openspaces input:-ms-input-placeholder {  
+   color:rgba(238, 222, 204,1);
+}
+
 body.openspaces h1 {
 	font-size: 28px;
 	font-weight: 600;
@@ -175,14 +195,58 @@ body.openspaces .access-type-badge {
 }
 
 /* search */
-#search {
+body.openspaces header #search {
 	top:10px;
-	right:70px;
+	right:90px;
 	position:absolute;
 	text-decoration: none;
 	text-align: right;
+	width:700px;
 }
 
-#search a {
+body.openspaces header #search input {
+	-webkit-appearance: none;
+	border:none; 
+	cursor: pointer;
+	display: inline-block; 
+	width: 100;
+	background-color: rgb(68, 51, 32);
+	font-size: 18px;
+  	color:rgba(238, 222, 204,1);
+  	font-weight: 200;
+  }
+
+body.openspaces header #search a {
 	text-decoration: none;
+}
+
+body.openspaces header #search-results {
+	display:none;
+}
+
+body.openspaces header.has-search-results #search-results {
+	position:absolute;
+	z-index: 2;
+	background-color:white;
+	color:black;
+	right:70px;
+	font-size:17px;
+	padding:10px;
+	max-height:50vh;
+	overflow-y:auto;
+	display:block;
+}
+
+body.openspaces header.has-search-results #search-results a {
+	color:black;
+	text-decoration: none;
+}
+
+body.openspaces header.has-search-results #search-results img {
+	display:none;
+}
+
+body.openspaces header.has-search-results #search-results div:hover {
+	background-color:rgb(132, 188, 225);
+	cursor: pointer;
 }
