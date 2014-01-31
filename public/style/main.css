@@ -229,9 +229,8 @@ body.openspaces header.has-search-results #search-results {
 	z-index: 2;
 	background-color:white;
 	color:black;
-	right:70px;
 	font-size:17px;
-	padding:10px;
+	padding:3px;
 	max-height:50vh;
 	overflow-y:auto;
 	display:block;
@@ -244,6 +243,10 @@ body.openspaces header.has-search-results #search-results a {
 
 body.openspaces header.has-search-results #search-results img {
 	display:none;
+}
+
+body.openspaces header.has-search-results #search-results div {
+	padding:3px 10px;
 }
 
 body.openspaces header.has-search-results #search-results div:hover {
