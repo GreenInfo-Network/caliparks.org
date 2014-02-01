@@ -97,40 +97,42 @@
 		//
 		// Project the feature at a default scale
 		//
-		var initalProjection = d3.geo.albers()
-					.center(options.centroid)
-					.scale(initialScale)
-					.rotate(30,0)
-					.translate([width / 2, height / 2]);
+      // create a first guess for the projection
+      var center = d3.geo.centroid(geoJSON)
+      var scale  = 150;
+      var offset = [width/2, height/2];
+      var projection = d3.geo.mercator().scale(scale).center(center)
+          .translate(offset);
 
-		var initialPath = d3.geo.path().projection(initalProjection);
+      // create the path
+      var path = d3.geo.path().projection(projection);
 
-		var bounds     = initialPath.bounds(geoJSON),
-		    hscale     = initialScale*width  / (bounds[1][0] - bounds[0][0]),
-		    vscale     = initialScale*height / (bounds[1][1] - bounds[0][1]),
-		    proj_scale = (hscale < vscale) ? hscale : vscale,
-		    offset     = [(width) - (bounds[0][0] + bounds[1][0])/2, (height) - (bounds[0][1] + bounds[1][1])/2];
+      // using the path determine the bounds of the current map and use 
+      // these to determine better values for the scale and translation
+      var bounds  = path.bounds(geoJSON);
+      var hscale  = scale*width  / (bounds[1][0] - bounds[0][0]);
+      var vscale  = scale*height / (bounds[1][1] - bounds[0][1]);
+      var scale   = (hscale < vscale) ? hscale : vscale;
+      var offset  = [width - (bounds[0][0] + bounds[1][0])/2,
+                        height - (bounds[0][1] + bounds[1][1])/2];
 
-		//
-		// Now, project the feature to fit the display width using
-		// It's bounding box
-		//
-		var secondaryProjection = d3.geo.albers()
-					.center(options.centroid)
-					.scale(proj_scale-1500)
-					.rotate(30,0)
-					.translate(offset);
+      // new projection
+      projection = d3.geo.mercator().center(center)
+        .scale(scale-1500).translate(offset);
+      path = path.projection(projection);
 
-		var secondaryPath = d3.geo.path().projection(secondaryProjection);
+      var vis = d3.select("#park-shape").append("svg")
+      .attr("width", width).attr("height", height)
 
-		var svg = d3.select(rootSelector).append("svg")
-								.attr("width", width)
-								.attr("height", height);
+      // add a rectangle to see the bound of the svg
+      vis.append("rect").attr('width', width).attr('height', height)
+        .style('fill', 'none');
 
-		var d = svg.selectAll("path")
-								.data(geoJSON.features).enter().append("path")
-								.attr("d",secondaryPath)
-								.attr("fill",'#999');
+      vis.selectAll("path").data(geoJSON.features).enter().append("path")
+        .attr("d", path)
+        .style("fill", "grey")
+        .style("stroke-width", "1")
+        .style("stroke", "black")
 
 
 	}
