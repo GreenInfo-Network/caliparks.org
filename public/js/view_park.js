@@ -130,9 +130,7 @@
 
       vis.selectAll("path").data(geoJSON.features).enter().append("path")
         .attr("d", path)
-        .style("fill", "grey")
-        .style("stroke-width", "1")
-        .style("stroke", "black")
+        .style("fill", "rgb(145, 137, 106)")
 
 
 	}
