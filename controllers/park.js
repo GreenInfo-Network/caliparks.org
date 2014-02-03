@@ -8,14 +8,15 @@ module.exports = function(req, res, data, callback) {
 	var dbCon    = process.env.DATABASE_URL,
       pgClient = new pg.Client(dbCon);
 
-	var template = 'park';
+	var template = 'park',
+      park_id  = req.params.id;
 
 	  //
 		// Get special template if one exists
 		//
-		if (data.overrideTemplates[req.params.id]) {
-      template = data.overrideTemplates[req.params.id].template;
-		  title    = data.overrideTemplates[req.params.id].title;
+		if (data.overrideTemplates[park_id]) {
+      template = data.overrideTemplates[park_id].template;
+		  title    = data.overrideTemplates[park_id].title;
 		}
 
 		pgClient.connect(function(err) {
@@ -23,12 +24,12 @@ module.exports = function(req, res, data, callback) {
 				return console.error('could not connect to postgres', err);
 			}
 
-			pgClient.query('select * from site_park where su_id = ' + req.params.id, function(err, result) {
+			pgClient.query('select * from site_park where su_id = ' + park_id, function(err, result) {
 				if(err) {
 					return console.error('error running query', err);
 				}
 
-        pgClient.query('select * from site_park_flickr_photos where containing_park_id = ' + req.params.id, function(err, flesult) {
+        pgClient.query('select * from site_park_flickr_photos where containing_park_id = ' + park_id, function(err, flesult) {
         if(err) {
           return console.error('error running query', err);
         }
@@ -40,6 +41,7 @@ module.exports = function(req, res, data, callback) {
 
   					callback( null, {
   						appTitle        : 'Stamen Parks: California > ' + result.rows[0].unit_name,
+              park_id         : result.rows[0].su_id,
               name            : result.rows[0].unit_name,
   				 		totalPhotos     : flesult.rows.length ? flesult.rows.length : 0,
   				 		coverPhoto      : flesult.rows.length ? flesult.rows[0] : null,
