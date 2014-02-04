@@ -40,7 +40,18 @@ app.get('/', function(req,res) {
 
 	require('./controllers/home.js')(req, res, {}, function(err, templateData) {
 
+		templateData.layout = 'photo-back';
+
 		res.render('home', templateData);
+
+	});
+});
+
+app.get('/agencies', function(req,res) {
+
+	require('./controllers/agencies.js')(req, res, {}, function(err, templateData) {
+
+		res.render('agencies', templateData);
 
 	});
 });

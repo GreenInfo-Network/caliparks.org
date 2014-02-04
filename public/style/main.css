@@ -60,6 +60,41 @@ body.openspaces {
   min-width: 589px
 }
 
+body.openspaces.photo-back-template {
+
+}
+
+body.openspaces.photo-back-template .photo-back {
+	background: no-repeat bottom center;
+	background-size: 100vw auto;
+  background-color: rgb(36, 18, 2);
+  background-image: url('/style/photo-back-template-bg.png');
+  height: 100vh;
+  position: absolute;
+  right 0; bottom: 0; left: 0;
+  width:100vw;
+  opacity:.6;
+  display:block;
+  z-index:-1;
+}
+
+body.openspaces.photo-back-template .photo-back-cover {
+	display:block;
+	height: 100vh;
+	width:100vw;
+  background-color: rgb(36, 18, 2);
+  opacity:.6;
+  position: absolute;
+  right 0; bottom: 0; left: 0;
+  z-index:-1;
+  -webkit-transform: translate3d(0,0,0);
+	-moz-transform: translate3d(0,0,0);
+	transform: translate3d(0,0,0);
+}
+
+body.openspaces.photo-back-template .photo-back-content {
+}
+
 body.openspaces input:focus {
   outline-width: 0;
 }
@@ -86,9 +121,32 @@ body.openspaces h1 {
 	margin-bottom: 5px;
 }
 
+body.openspaces.photo-back-template h1 {
+	text-align: center;
+	color:rgb(255,255,255);
+	font-family: "cooper-black-std",sans-serif;
+	font-size: 40px;
+	margin-bottom: 25px;
+}
+
+body.openspaces.photo-back-template p.subhead {
+	text-align: center;
+	margin:0 100px 40px 100px;
+}
+
 body.openspaces header {
 	padding: 10px 40px;
 	height:20px;
+}
+
+body.openspaces.photo-back-template header {
+	background-color: rgb(69, 52, 33);
+	margin-bottom: 40px;
+}
+
+body.openspaces header a {
+	text-decoration: none;
+	 color:rgb(238, 222, 204);
 }
 
 body.openspaces header nav {
@@ -99,6 +157,15 @@ body.openspaces header nav {
 body.openspaces header nav a {
 	text-decoration: none;
 	 color:rgb(238, 222, 204);
+}
+
+body.openspaces.photo-back-template article.about-this-page {
+	-moz-column-count:2; /* Firefox */
+	-webkit-column-count:2; /* Safari and Chrome */
+	column-count:2;
+	margin:0 120px;
+	font-size:15px;
+	line-height:20px;
 }
 
 body.openspaces section {
@@ -115,7 +182,7 @@ body.openspaces li {
 }
 
 body.openspaces a {
-	color:rgb(238, 222, 204);
+	color:rgb(133, 187, 225);
 }
 
 body.openspaces p.breadcrumb {
