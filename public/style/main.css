@@ -57,7 +57,6 @@ body.openspaces {
   font-size: 18px;
   background-color: rgb(68, 51, 32);
   color:rgb(238, 222, 204);
-  min-width: 589px
 }
 
 body.openspaces.photo-back-template {
@@ -319,4 +318,13 @@ body.openspaces header.has-search-results #search-results div {
 body.openspaces header.has-search-results #search-results div:hover {
 	background-color:rgb(132, 188, 225);
 	cursor: pointer;
+}
+
+@media (max-width: 600px) {
+  body.openspaces {
+    padding:0;
+	}
+  body.openspaces .has-coverphoto #coverphoto {
+    height:200px;
+  }
 }
