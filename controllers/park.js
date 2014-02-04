@@ -49,7 +49,8 @@ module.exports = function(req, res, data, callback) {
   				 			lat : gpsUtil.getDMSLatitude(result.rows[0].centroid_latitude),
   				 			lon : gpsUtil.getDMSLongitude(result.rows[0].centroid_longitude)
   				 		},
-  				 		cpadPark        : result.rows[0]
+  				 		cpadPark        : result.rows[0],
+              hashtag         : result.rows[0].unit_name.substring(0,4).toUpperCase()
   					} );
 
   				} else {
