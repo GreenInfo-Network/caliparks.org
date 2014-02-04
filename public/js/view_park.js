@@ -4,6 +4,8 @@
 
   window.STMN = {};
 
+  var bounds = bounds;
+
   function displayUsCa(rootSelector, options) {
 
     options = options || {

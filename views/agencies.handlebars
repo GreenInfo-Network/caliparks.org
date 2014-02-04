@@ -1,0 +1,9 @@
+
+<h1>Parks in California</h1>
+
+<ul>
+	{{#each agencies}}
+		<li><a href="/agency/{{agncy_id}}">{{#agencyNameDisplay}}{{agncy_name}}{{/agencyNameDisplay}}</a> (Contains {{park_count}} parks)</li>
+	{{/each}}
+</ul>
+
