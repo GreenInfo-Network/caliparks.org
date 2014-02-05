@@ -13,14 +13,14 @@ module.exports = function(req, res, data, callback) {
 			return console.error('could not connect to postgres', err);
 		}
 
-		pgClient.query('SELECT agncy_id, agncy_name, count(agncy_id) as park_count FROM site_park GROUP BY agncy_id, agncy_name ORDER BY agncy_name ASC;', function(err, result) {
+		pgClient.query('SELECT * FROM site_park WHERE NOT(su_id = 1045) ORDER BY park_area Desc LIMIT 6;', function(err, result) {
 			if(err) {
 				return console.error('error running query', err);
 			}
 
 			callback(null, {
-				app_title : 'Stamen Parks',
-			 	agencies  : result.rows
+				appTitle : 'Stamen Parks',
+			 	parks    : result.rows
 			});
 
 

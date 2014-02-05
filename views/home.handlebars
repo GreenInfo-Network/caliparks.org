@@ -8,6 +8,32 @@ and to clearly show how people are enjoying parks across California.</p>
   The idea is pretty simple. We’ve taken the actual shape of all the parks in California and used that to look at four social media sites for content. We’re looking at <a href="http://www.twitter.com/">Twitter</a>, <a href="http://www.flickr.com/">Flickr</a>, <a href="http://instagram.com/">Instagram</a> & <a href="http://foursquare.com/">Foursquare</a> and there’s a lot to see! For the first time, you can explore parks by something other than geography too, which is great fun.
 </article>
 
-<h2>Explore giant parks to tiny parks...</h2>
+<section>
+  <h2>Explore giant parks to tiny parks...</h2>
+  <article class="glop-slider" id="size-glop-slider">
+    {{#each parks}}
+      <a href="park/{{su_id}}"><div class="glop-park" data-park-id="{{su_id}}">{{unit_name}}</div></a>
+    {{/each}}
+  </article>
+</section>
 
 <div style="text-align:center;margin-top:40px;"><a href="/agencies">Check out some more parks!</a></div>
+
+<script src="/js/vendor/topojson.v1.min.js"></script>
+<script src="/js/vendor/d3.v3.min.js"></script>
+<script src="/js/park_shape.js"></script>
+<script src="/js/view_home.js"></script>
+
+<script>
+  STMN.initView({
+    bigSmallGlop : {
+      selector : '#size-glop-slider',
+      idPrefix : 'park_id_',
+      shapes : {
+        {{#each parks}}
+        park_id_{{su_id}}:{{{park_shape}}},
+        {{/each}}
+      }
+    }
+  });
+</script>

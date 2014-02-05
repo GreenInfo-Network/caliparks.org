@@ -16,6 +16,7 @@
 
 <script src="/js/vendor/topojson.v1.min.js"></script>
 <script src="/js/vendor/d3.v3.min.js"></script>
+<script src="/js/park_shape.js"></script>
 <script src="/js/view_park.js"></script>
 
 <script>
@@ -42,7 +43,7 @@
 			options       : {
 				centroid : [parseFloat('{{cpadPark.centroid_longitude}}' || 0, 10),parseFloat('{{cpadPark.centroid_latitude}}' || 0, 10)],
 				bbox : {{{cpadPark.bbox}}}.coordinates[0]
-        	}
-        }
+      }
+    }
 	});
 </script>
