@@ -183,6 +183,10 @@ body.openspaces section {
 	z-index: 1;
 }
 
+body.openspaces.photo-back-template section {
+  background-color: transparent;
+}
+
 body.openspaces li {
   margin-left: 20px;
   list-style-type: disc;
@@ -335,4 +339,15 @@ body.openspaces header.has-search-results #search-results div:hover {
   body.openspaces .has-coverphoto #coverphoto {
     height:200px;
   }
+}
+
+/* Glop slider */
+body.openspaces .glop-slider {
+  overflow-x: auto;
+}
+
+body.openspaces .glop-slider .glop-park {
+  display:inline-block;
+  width:300px;
+  height:300px;
 }
