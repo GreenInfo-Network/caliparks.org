@@ -23,7 +23,8 @@
     "pg": "~2.11.0",
     "gps-util": "0.0.25",
     "request": "~2.33.0",
-    "google-spreadsheet": "~0.2.6"
+    "google-spreadsheet": "~0.2.6",
+    "progress-bar": "~0.1.1"
   },
   "devDependencies": {
     "mocha": "1.17.0"

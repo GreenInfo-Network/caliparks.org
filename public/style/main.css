@@ -60,13 +60,12 @@ body.openspaces {
 }
 
 body.openspaces.photo-back-template {
-
+  background-color: rgb(36, 18, 2);
 }
 
 body.openspaces.photo-back-template .photo-back {
 	background: no-repeat bottom center;
 	background-size: 100vw auto;
-  background-color: rgb(36, 18, 2);
   background-image: url('/style/photo-back-template-bg.png');
   height: 100vh;
   position: absolute;
@@ -92,6 +91,8 @@ body.openspaces.photo-back-template .photo-back-cover {
 }
 
 body.openspaces.photo-back-template .photo-back-content {
+  width:93%;
+  margin:0 auto;
 }
 
 body.openspaces input:focus {
@@ -120,6 +121,12 @@ body.openspaces h1 {
 	margin-bottom: 5px;
 }
 
+body.openspaces h2 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 40px;
+}
+
 body.openspaces.photo-back-template h1 {
 	text-align: center;
 	color:rgb(255,255,255);
@@ -130,7 +137,8 @@ body.openspaces.photo-back-template h1 {
 
 body.openspaces.photo-back-template p.subhead {
 	text-align: center;
-	margin:0 100px 40px 100px;
+	margin-bottom:40px;
+  font-size: 25px;
 }
 
 body.openspaces header {
@@ -140,7 +148,7 @@ body.openspaces header {
 
 body.openspaces.photo-back-template header {
 	background-color: rgb(69, 52, 33);
-	margin-bottom: 40px;
+	margin-bottom: 65px;
 }
 
 body.openspaces header a {
@@ -162,14 +170,14 @@ body.openspaces.photo-back-template article.about-this-page {
 	-moz-column-count:2; /* Firefox */
 	-webkit-column-count:2; /* Safari and Chrome */
 	column-count:2;
-	margin:0 120px;
+	margin-bottom:40px;
 	font-size:15px;
 	line-height:20px;
 }
 
 body.openspaces section {
 	background-color: rgb(238, 222, 204);
-	color:rgb(68, 51, 32);
+	color:rgb(205, 186, 150);
 	padding:40px;
 	position: relative;
 	z-index: 1;
