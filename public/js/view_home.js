@@ -13,13 +13,17 @@
 
       parkElement = bigSmallGlopElements[i];
 
-      parkShape = new STMN.ParkShape(
-        parkElement, 
-        data.bigSmallGlop.shapes[data.bigSmallGlop.idPrefix + parkElement.getAttribute('data-park-id')]
+      setTimeout(1, (function(parkElement) {
 
-      );
+        parkShape = new STMN.ParkShape(
+          parkElement, 
+          data.bigSmallGlop.shapes[data.bigSmallGlop.idPrefix + parkElement.getAttribute('data-park-id')]
 
-      parkShape.init();
+        );
+
+        parkShape.init();
+
+      }(parkElement)));
 
     }
 
