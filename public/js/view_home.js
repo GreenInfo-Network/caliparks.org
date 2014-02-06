@@ -13,7 +13,7 @@
 
       parkElement = bigSmallGlopElements[i];
 
-      setTimeout(1, (function(parkElement) {
+      setTimeout(1000*i, (function(parkElement) {
 
         parkShape = new STMN.ParkShape(
           parkElement, 
