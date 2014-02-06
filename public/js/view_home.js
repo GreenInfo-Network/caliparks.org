@@ -9,21 +9,26 @@
     var bigSmallGlopElements = document.querySelectorAll(data.bigSmallGlop.selector + ' .glop-park'),
         parkShape, parkElement;
 
+     function makePark(el) {
+
+      setTimeout(function() {
+
+        parkShape = new STMN.ParkShape(
+          el, 
+          data.bigSmallGlop.shapes[data.bigSmallGlop.idPrefix + el.getAttribute('data-park-id')]
+        );
+
+       parkShape.init();
+        
+      }, 100*i);
+
+    }
+
     for(var i=0; bigSmallGlopElements.length > i; i++) {
 
       parkElement = bigSmallGlopElements[i];
 
-      setTimeout(1000*i, (function(parkElement) {
-
-        parkShape = new STMN.ParkShape(
-          parkElement, 
-          data.bigSmallGlop.shapes[data.bigSmallGlop.idPrefix + parkElement.getAttribute('data-park-id')]
-
-        );
-
-        parkShape.init();
-
-      }(parkElement)));
+      makePark(parkElement);
 
     }
 
