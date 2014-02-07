@@ -24,6 +24,7 @@
 
     }
 
+    /*
     for(var i=0; bigSmallGlopElements.length > i; i++) {
 
       parkElement = bigSmallGlopElements[i];
@@ -31,6 +32,7 @@
       makePark(parkElement);
 
     }
+    */
 
   }
 
