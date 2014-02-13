@@ -36,14 +36,39 @@ topojson2:
 
 #TODO: include command to create flickrHarvesterTable
 
-twitterdbtable:
+twitterParkTable:
 	psql -U openspaces -h geo.local -c "drop table park_tweets;" \
 	&& psql -U openspaces -h geo.local -c "create table park_tweets as select park.su_id as su_id, park.unit_name as su_name, tweet.* from cpad_2013b_superunits_ids as park join tweets as tweet on ST_Contains(park.geom,tweet.the_geom);"
 
 #TODO: include step to uniquify
-flickrdbtable:
+flickrParkTable:
 	psql -U openspaces -h geo.local -c "drop table park_flickr_photos;" \
 	&& psql -U openspaces -h geo.local -c "create table park_flickr_photos as select park.su_id as su_id, park.unit_name as su_name, photo.* from cpad_2013b_superunits_ids as park join flickr_photos_distinct as photo on ST_Contains(park.geom,photo.the_geom);"
+
+instagramHarvesterTable:
+	psql -U openspaces -h geo.local -c "drop table instagram_photos;" \
+	&& psql -U openspaces -h geo.local -c "create table instagram_photos (photoid varchar(40), attribution varchar, latitude float, longitude float, placename varchar, placeid bigint, commentcount int, filter varchar(20), created_time bigint, link varchar, likescount int, standard_resolution varchar, width int, height int, caption varchar, username varchar(40), website varchar, profile_picture varchar, bio varchar, userid bigint)" \
+	&& psql -U openspaces -h geo.local -c "SELECT AddGeometryColumn('instagram_photos','the_geom',4326,'POINT',2);"
+# Later, populate the_geom after importing.
+
+instagramHarvesterTableUpdate:
+	psql -U openspaces -h geo.local -c "UPDATE instagram_photos SET the_geom = ST_SetSRID(ST_MakePoint(longitude,latitude), 4326);"
+
+# This keeps track of all the harvester queries
+instagramMetadataTable:
+	psql -U openspaces -h geo.local -c "drop table instagram_metadata;" \
+	&& psql -U openspaces -h geo.local -c "create table instagram_metadata (su_id int, lat float, lng float, radius float, date timestamp, count int);" \
+	&& psql -U openspaces -h geo.local -c "select AddGeometryColumn('instagram_metadata','the_geom',3310,'POLYGON',2);"
+
+instagramMetadataTableUpdate:
+	psql -U openspaces -h geo.local -c "UPDATE instagram_metadata SET the_geom = ST_Buffer(ST_transform(ST_SetSRID(ST_makepoint(lng, lat),4326),3310), radius);"
+
+# Later, populate the_geom after importing.
+#TODO: include step to uniquify
+instagramParkTable:
+	psql -U openspaces -h geo.local -c "drop table park_instagram_photos;" \
+	&& psql -U openspaces -h geo.local -c "create table park_instagram_photos as select park.su_id as su_id, park.unit_name as su_name, photo.* from cpad_2013b_superunits_ids as park join instagram_photos_distinct as photo on ST_Contains(park.geom,photo.the_geom);"
+
 
 # obsolete
 flickrgeojson:
@@ -64,7 +89,7 @@ foursquareHarvesterTableUpdate:
 # This keeps track of all the harvester queries
 foursquareMetadataTable:
 	psql -U openspaces -h geo.local -c "drop table foursquare_metadata;" \
-	&& psql -U openspaces -h geo.local -c "create table foursquare_metadata (latMin float, lngMin float, latMax float, lngMax float, date timestamp, count int);" \
+	&& psql -U openspaces -h geo.local -c "create table foursquare_metadata (su_id int, latMin float, lngMin float, latMax float, lngMax float, date timestamp, count int);" \
 	&& psql -U openspaces -h geo.local -c "select AddGeometryColumn('foursquare_metadata','the_geom',4326,'POLYGON',2);"
 # Later, populate the_geom after importing.
 
@@ -75,7 +100,7 @@ foursquareActivityTable:
 	psql -U openspaces -h geo.local -c "drop table foursquare_venue_activity;" \
 	&& psql -U openspaces -h geo.local -c "create table foursquare_venue_activity (venueid varchar(80), timestamp timestamp default NOW(), checkinscount bigint, userscount bigint, tipcount bigint, likescount bigint, mayor_id varchar(20), mayor_firstname varchar(80), mayor_lastname varchar(80));" \
 
-foursquaredbtable:
+foursquareParkTable:
 	psql -U openspaces -h geo.local -c "drop table foursquare_venues_distinct;" \
 	&& psql -U openspaces -h geo.local -c "create table foursquare_venues_distinct as select distinct on (venueid) * from foursquare_venues;" \
 	&& psql -U openspaces -h geo.local -c "drop table park_foursquare_venues;" \
