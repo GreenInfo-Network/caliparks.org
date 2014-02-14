@@ -51,8 +51,13 @@ instagramHarvesterTable:
 	&& psql -U openspaces -h geo.local -c "SELECT AddGeometryColumn('instagram_photos','the_geom',4326,'POINT',2);"
 # Later, populate the_geom after importing.
 
+# should no longer be needed
 instagramHarvesterTableUpdate:
 	psql -U openspaces -h geo.local -c "UPDATE instagram_photos SET the_geom = ST_SetSRID(ST_MakePoint(longitude,latitude), 4326);"
+
+instagramHarvesterTableDistinct:
+	psql -U openspaces -h geo.local -c "drop table instagram_photos_distinct;" \
+	&& psql -U openspaces -h geo.local -c "create table instagram_photos_distinct as select distinct on (photoid) * from instagram_photos;" \
 
 # This keeps track of all the harvester queries
 instagramMetadataTable:
@@ -60,6 +65,7 @@ instagramMetadataTable:
 	&& psql -U openspaces -h geo.local -c "create table instagram_metadata (su_id int, lat float, lng float, radius float, date timestamp, count int);" \
 	&& psql -U openspaces -h geo.local -c "select AddGeometryColumn('instagram_metadata','the_geom',3310,'POLYGON',2);"
 
+# should no longer be needed
 instagramMetadataTableUpdate:
 	psql -U openspaces -h geo.local -c "UPDATE instagram_metadata SET the_geom = ST_Buffer(ST_transform(ST_SetSRID(ST_makepoint(lng, lat),4326),3310), radius);"
 
