@@ -87,7 +87,22 @@ app.get('/park/:id', function(req,res) {
 		overrideTemplates : overrideTemplates
 	}, function(err, templateData) {
 
-		res.render('park', templateData);
+		if (templateData) {
+			res.render('park', templateData);
+		} else {
+			res.status(404);
+			res.render('404', {
+				coverPhoto : {
+					farm:9,
+					server:8429,
+					photoid:7492144602,
+					secret:'1706ca60db',
+					ownername:'Grand Canyon NPS',
+					owner:'grand_canyon_nps'
+				},
+				appTitle : 'Stamen Parks: #BZZT'
+			});
+		}
 
 	});
 
@@ -97,7 +112,18 @@ app.get('/park/:id', function(req,res) {
 
 app.get('*', function(req,res) {
 
-	res.send('Very sorry, but I can\'t find that page. Would you like to see a <a href="/">list of parks</a>?', 404);
+	res.status(404);
+		res.render('404', {
+			coverPhoto : {
+				farm:9,
+				server:8429,
+				photoid:7492144602,
+				secret:'1706ca60db',
+				ownername:'Grand Canyon NPS',
+				owner:'grand_canyon_nps'
+			},
+			appTitle : 'Stamen Parks: #BZZT'
+	});
 
 });
 
