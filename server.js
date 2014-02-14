@@ -47,6 +47,15 @@ app.get('/', function(req,res) {
 	});
 });
 
+app.get('/about', function(req,res) {
+
+	res.render('about', {
+		appTitle : 'Stamen Parks: About',
+		layout   : 'photo-back'
+	});
+
+});
+
 app.get('/agencies', function(req,res) {
 
 	require('./controllers/agencies.js')(req, res, {}, function(err, templateData) {
