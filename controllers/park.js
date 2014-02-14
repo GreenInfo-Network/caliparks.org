@@ -54,7 +54,7 @@ module.exports = function(req, res, data, callback) {
   					} );
 
   				} else {
-  					res.send('Well, there is a park we haven\'t learned about yet. Typo perhaps?', 404);
+  					callback( null, null );
   				}
   			
           pgClient.end();

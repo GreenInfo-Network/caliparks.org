@@ -177,7 +177,7 @@ body.openspaces.photo-back-template article.about-this-page {
 
 body.openspaces section {
 	background-color: rgb(238, 222, 204);
-	color:rgb(205, 186, 150);
+	color:rgb(68, 51, 32);
 	padding:40px;
 	position: relative;
 	z-index: 1;
@@ -185,6 +185,7 @@ body.openspaces section {
 
 body.openspaces.photo-back-template section {
   background-color: transparent;
+  color:rgb(205, 186, 150);
 }
 
 body.openspaces li {
