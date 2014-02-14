@@ -371,11 +371,58 @@ body.openspaces #park-shape {
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 928px) {
   body.openspaces {
     padding:0;
 	}
+  body.openspaces section {
+    padding:0;
+    padding-top:20px;
+  }
+
+  body.openspaces section#park-info {
+    padding:40px;
+  }
+
+  body.openspaces .has-coverphoto #park-hash-tag {
+    top: 504px;
+    left: 265px;
+  }
   body.openspaces .has-coverphoto #coverphoto {
     height:200px;
   }
+
+  body.openspaces #california_shape {
+    top: 80px;
+    left: 19px;
+  }
+
+  body.openspaces #tweets {
+    width: 100%;
+    margin-left:0;
+  }
+
+  #search {
+    display:none;
+  }
+}
+
+@media (max-width: 560px) {
+  header {
+    display:none;
+  }
+  body.openspaces .has-coverphoto #park-hash-tag {
+    position:static;
+    width:100%;
+  }
+  body.openspaces section {
+    padding:0;
+    padding-top:0px;
+  }
+  body.openspaces #park-shape {
+  
+  width:300px;
+  height:300px;
+  margin: 20px auto;
+}
 }
