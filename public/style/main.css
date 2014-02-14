@@ -385,8 +385,8 @@ body.openspaces #park-shape {
   }
 
   body.openspaces .has-coverphoto #park-hash-tag {
-    top: 504px;
-    left: 265px;
+    position:static;
+    width:100%;
   }
   body.openspaces .has-coverphoto #coverphoto {
     height:200px;
@@ -399,7 +399,7 @@ body.openspaces #park-shape {
 
   body.openspaces #tweets {
     width: 100%;
-    margin-left:0;
+    margin:0;
   }
 
   #search {
@@ -410,10 +410,6 @@ body.openspaces #park-shape {
 @media (max-width: 560px) {
   header {
     display:none;
-  }
-  body.openspaces .has-coverphoto #park-hash-tag {
-    position:static;
-    width:100%;
   }
   body.openspaces section {
     padding:0;
