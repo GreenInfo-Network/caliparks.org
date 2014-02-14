@@ -1,3 +1,7 @@
+<style>
+
+</style>
+
 <div id="park-template-wrapper" class="{{# if coverPhoto}}has-coverphoto {{/if}}">
 
 	{{# if coverPhoto}}{{>flickr_coverphoto}}{{/if}}
@@ -7,9 +11,26 @@
 		<h1>{{name}}</h1>
 		<p>{{locationDisplay.lat}}, {{locationDisplay.lon}}</p>
 		<p>{{#agencyNameDisplay}}{{cpadPark.agncy_name}}{{/agencyNameDisplay}}</p>
-		<span class="access-type-badge">{{cpadPark.own_type}}</span>
+		<div class="access-type-badge">{{cpadPark.own_type}}</div>
+	</section>
 
+	<section>
 		<div id="park-shape"></div>
+		<link rel="stylesheet" type="text/css" href="/style/standalone-tweet.css">
+		<div id="tweets">
+			<h2>#{{hashtag}} on Twitter</h2>
+			<div style="width:100%;padding:10px;">
+				<textarea style="width:97%;border:solid 1px #ccc;border-radius:4px;">#{{hashtag}}</textarea>
+				<a class="follow-button profile" href="https://twitter.com/TotalTrafficMOD" role="button" data-scribe="component:followbutton" title="Follow TotalTrafficMOD on Twitter"><i class="ic-button-bird"></i>Tweet</a>
+			</div>
+			<ul>
+			{{#each tweets}}
+				<li>{{>twitter_hashtag_post}}</li>
+			{{else}}
+				<li class="empty">No Tweets</li>
+			{{/each}}
+			</ul>
+		</div>
 	</section>
 
 </div>

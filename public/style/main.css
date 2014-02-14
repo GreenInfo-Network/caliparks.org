@@ -334,15 +334,6 @@ body.openspaces header.has-search-results #search-results div:hover {
 	cursor: pointer;
 }
 
-@media (max-width: 600px) {
-  body.openspaces {
-    padding:0;
-	}
-  body.openspaces .has-coverphoto #coverphoto {
-    height:200px;
-  }
-}
-
 /* Glop slider */
 body.openspaces .glop-slider {
   overflow-x: auto;
@@ -352,4 +343,39 @@ body.openspaces .glop-slider .glop-park {
   display:inline-block;
   width:300px;
   height:300px;
+}
+
+/* Tweets */
+body.openspaces #tweets {
+  display:inline-block;
+  width: 55vw;
+  display: inline-block;
+  vertical-align: top;
+  margin-left: 20px;
+  background-color: #fff;
+  border-radius: 4px;
+  padding: 10px;
+}
+
+/* Park Shape */
+body.openspaces #park-shape {
+  display:inline-block;
+  
+  width:300px;
+  height:300px;
+}
+
+@media (max-width: 1230px) {
+  body.openspaces #tweets {
+    width: 40vw;
+  }
+}
+
+@media (max-width: 600px) {
+  body.openspaces {
+    padding:0;
+	}
+  body.openspaces .has-coverphoto #coverphoto {
+    height:200px;
+  }
 }

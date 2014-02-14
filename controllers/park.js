@@ -9,7 +9,8 @@ module.exports = function(req, res, data, callback) {
       pgClient = new pg.Client(dbCon);
 
 	var template = 'park',
-      park_id  = req.params.id;
+      park_id  = req.params.id,
+      tweets_all, tweets_filtered, tweet_iteration = 0;
 
 	  //
 		// Get special template if one exists
@@ -39,6 +40,21 @@ module.exports = function(req, res, data, callback) {
   				//
   				if (result.rows[0]) {
 
+            //
+            // Get tweets
+            //
+            tweets_all      = require('../public/data/park_tweets.json'),
+            tweets_filtered = [];
+
+            tweets_all.features.forEach(function(tweet) {
+
+              if (tweet.properties.park_name === result.rows[0].unit_name && tweet_iteration < 20) {
+                tweet_iteration++;
+                tweets_filtered.push(tweet.properties);
+              }
+
+            });
+
   					callback( null, {
   						appTitle        : 'Stamen Parks: California > ' + result.rows[0].unit_name,
               park_id         : result.rows[0].su_id,
@@ -50,7 +66,9 @@ module.exports = function(req, res, data, callback) {
   				 			lon : gpsUtil.getDMSLongitude(result.rows[0].centroid_longitude)
   				 		},
   				 		cpadPark        : result.rows[0],
-              hashtag         : result.rows[0].unit_name.substring(0,4).toUpperCase()
+              hashtag         : result.rows[0].unit_name.substring(0,4).toUpperCase(),
+              tweets          : tweets_filtered,
+              tweet_count     : tweets_filtered.length
   					} );
 
   				} else {
