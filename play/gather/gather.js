@@ -888,7 +888,7 @@ var getParksDataFromPostgres = function(client, limit, callback) {
 */
   var query = ["select a.su_id as id, a.unit_name as name, a.gis_acres as size from ", cpad_table, " a ", 
                 "left join instagram_metadata b on a.su_id = b.su_id ",
-                "where a.unit_name not like '%BLM%' and a.su_id != 380 and b.count is null order by a.su_id"].join("");
+                "where a.unit_name not like '%BLM%' and a.su_id != 380 and a.su_id != 1651 and a.su_id != 8516 and b.count is null order by a.su_id"].join("");
   client.query(query, function(err, res) {
     if (err) {
       throw err;
