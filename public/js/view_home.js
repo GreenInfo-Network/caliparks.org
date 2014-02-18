@@ -1,7 +1,7 @@
 'use static';
 
 (function(window) {
-
+/*
   window.STMN = window.STMN || {};
 
   function initView(data) {
@@ -23,6 +23,7 @@
       }, 1000*i);
 
     }
+*/
 
     /*
     for(var i=0; bigSmallGlopElements.length > i; i++) {
@@ -34,9 +35,9 @@
     }
     */
 
-  }
+  //}
 
   //Public interface
-  STMN.initView = initView;
+  //STMN.initView = initView;
 
 }(window));
