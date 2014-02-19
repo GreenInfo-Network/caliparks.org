@@ -4,8 +4,9 @@ module.exports = function(req, res, data, callback) {
 
 	var pg      = require('pg');
 
-	var dbCon    = process.env.DATABASE_URL,
-        pgClient = new pg.Client(dbCon);
+	var dbCon          = process.env.DATABASE_URL,
+      pgClient       = new pg.Client(dbCon),
+      suIdsByHashtag = require('../public/data/suIdsByHashtag.json');
 
     pgClient.connect(function(err) {
 
@@ -19,8 +20,9 @@ module.exports = function(req, res, data, callback) {
 			}
 
 			callback(null, {
-				appTitle : 'Stamen Parks',
-			 	parks    : result.rows
+				appTitle           : 'Stamen Parks',
+			 	parks              : result.rows,
+			 	suIdsByHashtagJSON : JSON.stringify(suIdsByHashtag)
 			});
 
 
