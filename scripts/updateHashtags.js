@@ -7,10 +7,12 @@
 //
 
 
-var GoogleSpreadsheet = require("google-spreadsheet"),
+var prompt            = require('prompt'),
+    GoogleSpreadsheet = require("google-spreadsheet"),
     pg                = require('pg'),
     progressBar       = require('progress-bar'),
     colors            = require('colors'),
+    fs                = require('fs'),
     progressBarPg     = progressBar.create(process.stdout),
     progressBarGdocs  = progressBar.create(process.stdout);
 
@@ -233,7 +235,28 @@ pg.connect('postgres://openspaces@localhost/openspaces', function(err, client, c
         console.log(('Sweet! you have ' + hashtags.length + ' unique hashtags').green);
       }
 
-      process.exit();
+      prompt.start();
+
+      console.log(' ');
+      console.log('If you wan\'t these written to disk say "yes" in the Approval prompt'.blue);
+      prompt.get(['Approval'], function (err, result) {
+
+        if (result.Approval == 'yes') {
+
+          fs.writeFileSync('../public/data/hastagsBySuId.json', JSON.stringify(hashtags), {encoding:'utf8'});
+          fs.writeFileSync('../public/data/suIdsByHashtag.json', JSON.stringify(id_hash), {encoding:'utf8'});
+
+          console.log('Okay, Done'.green);
+
+        } else {
+
+          console.log('Okay, I won\'t do anything. Seeya.');
+
+        }
+
+        process.exit();
+
+      });
 
     });    
 
