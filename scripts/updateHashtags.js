@@ -232,7 +232,7 @@ pg.connect('postgres://openspaces@localhost/openspaces', function(err, client, c
       if (dup_count) {
         console.log(('Warning: ' + dup_count + ' duplicates were introduced by the google doc').yellow);
       } else {
-        console.log(('Sweet! you have ' + hashtags.length + ' unique hashtags').green);
+        console.log(('Sweet! you have ' + Object.keys(hashtags).length + ' unique hashtags').green);
       }
 
       prompt.start();
