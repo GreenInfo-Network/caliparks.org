@@ -12,7 +12,7 @@ and to clearly show how people are enjoying parks across California.</p>
   <h2>Explore giant parks to tiny parks...</h2>
   <article class="glop-slider" id="size-glop-slider">
     {{#each parks}}
-      <a href="park/{{su_id}}"><div class="glop-park" data-park-id="{{su_id}}">{{unit_name}}</div></a>
+      <a href="park/{{su_id}}"><div class="glop-park" style="background-position: initial;background-image:url('http://stamen-postgis-raster-server.herokuapp.com/cpad/{{su_id}}-888462-200-200.png');" data-park-id="{{su_id}}">{{unit_name}}</div></a>
     {{/each}}
   </article>
 </section>
@@ -24,16 +24,3 @@ and to clearly show how people are enjoying parks across California.</p>
 <script src="/js/park_shape.js"></script>
 <script src="/js/view_home.js"></script>
 
-<script>
-  STMN.initView({
-    bigSmallGlop : {
-      selector : '#size-glop-slider',
-      idPrefix : 'park_id_',
-      shapes : {
-        {{#each parks}}
-        park_id_{{su_id}}:{{{park_shape}}},
-        {{/each}}
-      }
-    }
-  });
-</script>
