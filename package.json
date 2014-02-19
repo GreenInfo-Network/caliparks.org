@@ -25,7 +25,8 @@
     "request": "~2.33.0",
     "google-spreadsheet": "~0.2.6",
     "progress-bar": "~0.1.1",
-    "colors": "~0.6.2"
+    "colors": "~0.6.2",
+    "prompt": "~0.2.12"
   },
   "devDependencies": {
     "mocha": "1.17.0"
