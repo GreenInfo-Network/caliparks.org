@@ -1,4 +1,22 @@
 
+<script>
+  (function(window) {
+
+    if(location.hash && location.hash.length === 5) {
+
+      var suIdsByHashtag = {{{suIdsByHashtagJSON}}};
+
+      if(Object.keys(suIdsByHashtag).length) {
+
+        location.href = suIdsByHashtag[location.hash.substring(1).toUpperCase()] ? '/park/' + suIdsByHashtag[location.hash.substring(1).toUpperCase()] : '/404';
+
+      }
+
+    }
+
+  }(window))
+</script>
+
 <h1>Stories pour out of our parks every day.</h1>
 
 <p class="subhead">Our hope is that this project helps park rangers and staff to find those stories, <br>
