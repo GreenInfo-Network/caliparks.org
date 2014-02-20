@@ -174,7 +174,7 @@ body.openspaces section {
 
 body.openspaces.photo-back-template section {
   background-color: transparent;
-  color:rgb(205, 186, 150);
+  color:rgb(238, 222, 204);
 }
 
 body.openspaces li {
@@ -325,12 +325,15 @@ body.openspaces header.has-search-results #search-results div:hover {
 /* Glop slider */
 body.openspaces .glop-slider {
   overflow-x: auto;
+  height:200px;
+  white-space: nowrap;
 }
 
 body.openspaces .glop-slider .glop-park {
   display:inline-block;
   width:200px;
   height:200px;
+  margin-right: 53px;
 }
 
 /* Tweets */

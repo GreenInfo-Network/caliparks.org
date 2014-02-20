@@ -30,7 +30,16 @@ and to clearly show how people are enjoying parks across California.</p>
   <h2>Explore giant parks to tiny parks...</h2>
   <article class="glop-slider" id="size-glop-slider">
     {{#each parks}}
-      <a href="park/{{su_id}}"><div class="glop-park" style="background-position: initial;background-image:url('http://stamen-postgis-raster-server.herokuapp.com/cpad/{{su_id}}-888462-200-200.png');" data-park-id="{{su_id}}">{{unit_name}}</div></a>
+      <style>
+        #glop-park-{{su_id}} {
+          background-image:url('http://stamen-postgis-raster-server.herokuapp.com/cpad/{{su_id}}-888462-200-200.png');
+        }
+
+        #glop-park-{{su_id}}:hover {
+          background-image:url('http://stamen-postgis-raster-server.herokuapp.com/cpad/{{su_id}}-85BBE1-200-200.png');
+        }
+      </style>
+      <a href="park/{{su_id}}"><div id="glop-park-{{su_id}}" class="glop-park" style="background-position: initial;" data-park-id="{{su_id}}"></div></a>
     {{/each}}
   </article>
 </section>
