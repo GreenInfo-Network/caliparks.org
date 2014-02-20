@@ -10,6 +10,7 @@ module.exports = function(req, res, data, callback) {
 
 	var template = 'park',
       park_id  = req.params.id,
+      hashtags = require('../public/data/hashtagsBySuId.json'),
       tweets_all, tweets_filtered, tweet_iteration = 0;
 
 	  //
@@ -66,7 +67,7 @@ module.exports = function(req, res, data, callback) {
   				 			lon : gpsUtil.getDMSLongitude(result.rows[0].centroid_longitude)
   				 		},
   				 		cpadPark        : result.rows[0],
-              hashtag         : result.rows[0].unit_name.substring(0,4).toUpperCase(),
+              hashtag         : hashtags[result.rows[0].su_id],
               tweets          : tweets_filtered,
               tweet_count     : tweets_filtered.length
   					} );
