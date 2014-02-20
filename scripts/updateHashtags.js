@@ -185,7 +185,13 @@ pg.connect('postgres://openspaces@localhost/openspaces', function(err, client, c
 
     progressBarPg.update(.75);
 
-    Object.keys(hashtags).forEach(function(key) {
+    //
+    // THIS IS WHERE DUPLICATES ARE GIVEN NUMBERS... KIND OF A BIG DEAL
+    // This sorts the array so that duplicates are resolved in order
+    // of su_id. This sort of assumes that su_ids will always be
+    // created incrementally
+    //
+    Object.keys(hashtags).sort().forEach(function(key) {
 
       testTag = hashtags[key];
 
@@ -227,7 +233,7 @@ pg.connect('postgres://openspaces@localhost/openspaces', function(err, client, c
         }
 
         if (row.edited.length && id_hash[row.hashtag.substring(1)]) {
-          hashtags[id_hash[row.hashtag.substring(1)]] = row.edited;
+          hashtags[id_hash[row.hashtag.substring(1)]] = row.edited.substring(1);
           edited_count++;
         }
 
