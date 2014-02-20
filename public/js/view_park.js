@@ -68,13 +68,6 @@
       );
     }
 
-    var parkShape = new STMN.ParkShape(
-      data.parkShape.rootSelector, 
-      data.parkShape.shapeData, 
-      data.parkShape.options
-    );
-
-    parkShape.init();
   }
 
   //Public interface
