@@ -36,11 +36,11 @@ function trim (str) {
 function startsWithVowel(str) {
 
   return (
-    str.substring(0,1) === 'a' ||
-    str.substring(0,1) === 'e' ||
-    str.substring(0,1) === 'i' ||
-    str.substring(0,1) === 'o' ||
-    str.substring(0,1) === 'u'
+    str.substring(0,1) === 'A' ||
+    str.substring(0,1) === 'E' ||
+    str.substring(0,1) === 'I' ||
+    str.substring(0,1) === 'O' ||
+    str.substring(0,1) === 'U'
   );
 
 }
@@ -84,7 +84,8 @@ function unboring (str) {
       if(startsWithVowel(str)) {
         scratch_array.push(word);
       } else {
-        scratch_array.push(word.split('A').join('')
+        scratch_array.push(word
+        .split('A').join('')
         .split('E').join('')
         .split('I').join('')
         .split('O').join('')
