@@ -281,9 +281,9 @@ body.openspaces header #search input {
 	width: 100;
 	background-color: rgb(68, 51, 32);
 	font-size: 18px;
-  	color:rgba(238, 222, 204,1);
-  	font-weight: 200;
-  }
+  color:rgba(238, 222, 204,1);
+  font-weight: 200;
+}
 
 body.openspaces header #search a {
 	text-decoration: none;
@@ -326,7 +326,7 @@ body.openspaces header.has-search-results #search-results div:hover {
 /* Glop slider */
 body.openspaces .glop-slider {
   overflow-x: auto;
-  height:200px;
+  height:210px;
   width:100%;
   white-space: nowrap;
 }
@@ -336,6 +336,26 @@ body.openspaces .glop-slider .glop-park {
   width:200px;
   height:200px;
   margin-right: 53px;
+  position: relative;
+}
+
+body.openspaces .glop-slider .glop-park .hashtag {
+  opacity:0;
+  transition:opacity .5s;
+  position: absolute;
+  top: 51px;
+  left: 28px;
+  color: white;
+  background-color: rgb(33, 17, 0);
+  padding: 10px;
+  font-family: "cooper-black-std",sans-serif;
+  font-size: 25px;
+  line-height: 44px;
+  padding: 10px;
+}
+
+body.openspaces .glop-slider .glop-park:hover .hashtag {
+  opacity:1;
 }
 
 /* Tweets */
