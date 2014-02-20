@@ -60,7 +60,7 @@ body.openspaces {
 }
 
 body.openspaces.photo-back-template {
-  background-color: rgb(68, 50, 33);
+  background-color: rgb(33, 17, 0);
   background-image: url('/style/photo-back-template-bg.png');
   background-repeat: no-repeat;
   background-size: 100% auto;
