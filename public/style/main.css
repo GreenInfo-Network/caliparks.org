@@ -72,6 +72,7 @@ body.openspaces.photo-back-template .photo-back-content {
   width:93%;
   margin:0 auto;
   max-width: 1602px;
+  min-width: 1024px;
 }
 
 body.openspaces input:focus {
@@ -326,6 +327,7 @@ body.openspaces header.has-search-results #search-results div:hover {
 body.openspaces .glop-slider {
   overflow-x: auto;
   height:200px;
+  width:100%;
   white-space: nowrap;
 }
 
@@ -362,7 +364,7 @@ body.openspaces #park-shape {
   }
 }
 
-@media (max-width: 928px) {
+@media (max-width: 400px) {
   body.openspaces {
     padding:0;
 	}
@@ -396,9 +398,7 @@ body.openspaces #park-shape {
   #search {
     display:none;
   }
-}
 
-@media (max-width: 560px) {
   header {
     display:none;
   }

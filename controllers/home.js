@@ -11,7 +11,7 @@ module.exports = function(req, res, data, callback) {
       suIdsByHashtag = require('../public/data/suIdsByHashtag.json');
 
   return contextBiggestToSmallest({
-  	limit : 4
+  	limit : 6
   }, function(err, contextDataBiggestToSmallest) {
 
 		if (err) {
