@@ -33,43 +33,66 @@ function trim (str) {
   return str.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
 }
 
+function startsWithVowel(str) {
+
+  return (
+    str.substring(0,1) === 'a' ||
+    str.substring(0,1) === 'e' ||
+    str.substring(0,1) === 'i' ||
+    str.substring(0,1) === 'o' ||
+    str.substring(0,1) === 'u'
+  );
+
+}
+
 function unboring (str) {
-  return str.toUpperCase()
 
-            //Singluar replacements
-            .replace('STATE PARK', '')
-            .replace('NATIONAL RECREATION AREA', '')
-            .replace('NATIONAL MONUMENT', '')
-            .replace('NATIONAL PARK', '')
-            .replace('NATIONAL WILDLIFE REFUGE', '')
-            .replace('NATIONAL PRESERVE', '')
-            .replace('NATIONAL HISTORIC SITE', '')
-            .replace('STATE RECREATION AREA', '')
-            .replace('PARK', '')
-            .replace('AREA', '')
-            .replace('CITY', '')
-            .replace('BUREAU', '')
-            .replace('DEPARTMENT', '')
-            .replace('MANAGMENT', '')
-            .replace('OTHER STATE', 'STATE')
-            .replace('OTHER FEDERAL', 'FEDERAL')
-            .replace('OF', '')
-            .replace('THE', '')
+    var scratch_array  = [],
+        scratch_string = '';
 
-            //Global replacements
-            .split('A').join('')
-            .split('E').join('')
-            .split('I').join('')
-            .split('O').join('')
-            .split('U').join('')
-            .split(')').join('')
-            .split('(').join('')
-            .split('&').join('')
-            .split('-').join('')
-            .split('.').join('')
-            .split('/').join('')
-            .split('\'').join('')
-            .trim();
+    //Singluar replacements
+    scratch_string = str.toUpperCase().replace('STATE PARK', '')
+    .replace('NATIONAL RECREATION AREA', '')
+    .replace('NATIONAL MONUMENT', '')
+    .replace('NATIONAL PARK', '')
+    .replace('NATIONAL WILDLIFE REFUGE', '')
+    .replace('NATIONAL PRESERVE', '')
+    .replace('NATIONAL HISTORIC SITE', '')
+    .replace('STATE RECREATION AREA', '')
+    .replace('PARK', '')
+    .replace('AREA', '')
+    .replace('CITY', '')
+    .replace('BUREAU', '')
+    .replace('DEPARTMENT', '')
+    .replace('MANAGMENT', '')
+    .replace('OTHER STATE', 'STATE')
+    .replace('OTHER FEDERAL', 'FEDERAL')
+    .replace('OF', '')
+    .replace('THE', '')
+
+    //Global replacements
+    .split(')').join('')
+    .split('(').join('')
+    .split('&').join('')
+    .split('-').join('')
+    .split('.').join('')
+    .split('/').join('')
+    .split('\'').join('')
+    .trim();
+
+    scratch_string.split(' ').forEach(function(word) {
+      if(startsWithVowel(str)) {
+        scratch_array.push(word);
+      } else {
+        scratch_array.push(word.split('A').join('')
+        .split('E').join('')
+        .split('I').join('')
+        .split('O').join('')
+        .split('U').join(''));
+      }
+    });
+
+    return scratch_array.join(' ');
 }
 
 pg.connect('postgres://openspaces@localhost/openspaces', function(err, client, cb) {
