@@ -337,13 +337,14 @@ body.openspaces .glop-slider .glop-park {
   height:200px;
   margin-right: 53px;
   position: relative;
+  transition:background-image .5s;
 }
 
 body.openspaces .glop-slider .glop-park .hashtag {
   opacity:0;
   transition:opacity .5s;
   position: absolute;
-  top: 51px;
+  top: 61px;
   left: 28px;
   color: white;
   background-color: rgb(33, 17, 0);
@@ -351,7 +352,7 @@ body.openspaces .glop-slider .glop-park .hashtag {
   font-family: "cooper-black-std",sans-serif;
   font-size: 25px;
   line-height: 44px;
-  padding: 10px;
+  padding: 0px 10px;
 }
 
 body.openspaces .glop-slider .glop-park:hover .hashtag {
