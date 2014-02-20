@@ -34,11 +34,22 @@ geojson2:
 topojson2:
 	cd data && rm -f superunits_hashtags_counts2.topojson && topojson -o superunits_hashtags_counts2.topojson superunits_hashtags_counts2.geojson -p -q 1e5
 
-#TODO: include command to create flickrHarvesterTable
+twitterHarvesterTable:
+# Needs better way of importing the csv file
+	psql -U openspaces -h geo.local -c "drop table tweets_harvest;" \
+	&& psql -U openspaces -h geo.local -c "create table tweets_harvest (id_str varchar, place varchar, something varchar, coords varchar(40), username varchar(20), fullname varchar(40), client varchar(80), date timestamp, retweet_count int, favorite_count int, lang varchar(3), content varchar);" \
+	&& csvclean harvesters/twitter_stream_to_import.csv \
+	&& psql -U openspaces -h geo.local -c "\copy tweets_harvest FROM 'harvesters/twitter_stream_to_import_out.csv' DELIMITER ',' CSV;" \
+	&& psql -U openspaces -h geo.local -c "alter table tweets_harvest add column wkt varchar;" \
+	&& psql -U openspaces -h geo.local -c "update tweets_harvest set wkt = regexp_replace(regexp_replace(regexp_replace(coords, ']', ')'), ',', ''), '\[', 'POINT(');" \
+	&& psql -U openspaces -h geo.local -c "SELECT AddGeometryColumn('tweets_harvest','the_geom',4326,'POINT',2);" \
+	&& psql -U openspaces -h geo.local -c "UPDATE tweets_harvest SET the_geom = GeometryFromText(wkt, 4326);"
 
 twitterParkTable:
 	psql -U openspaces -h geo.local -c "drop table park_tweets;" \
-	&& psql -U openspaces -h geo.local -c "create table park_tweets as select park.su_id as su_id, park.unit_name as su_name, tweet.* from cpad_2013b_superunits_ids as park join tweets as tweet on ST_Contains(park.geom,tweet.the_geom);"
+	&& psql -U openspaces -h geo.local -c "create table park_tweets as select park.su_id as su_id, park.unit_name as su_name, tweet.* from cpad_2013b_superunits_ids as park join tweets_harvest as tweet on ST_Contains(park.geom,tweet.the_geom);"
+
+#TODO: include command to create flickrHarvesterTable
 
 #TODO: include step to uniquify
 flickrParkTable:
@@ -74,12 +85,6 @@ instagramMetadataTableUpdate:
 instagramParkTable:
 	psql -U openspaces -h geo.local -c "drop table park_instagram_photos;" \
 	&& psql -U openspaces -h geo.local -c "create table park_instagram_photos as select park.su_id as su_id, park.unit_name as su_name, photo.* from cpad_2013b_superunits_ids as park join instagram_photos_distinct as photo on ST_Contains(park.geom,photo.the_geom);"
-
-
-# obsolete
-flickrgeojson:
-	cd data/ && rm -f park_flickr_photos.json \
-	&& ogr2ogr -f geojson park_flickr_photos.json pg:"host=geo.local user=openspaces" -sql "select containing_park_id::int, photoid::text, owner, secret, server, farm, title, woeid, the_geom from park_flickr_photos;"
 
 # The venues returned from the harvester (not cropped to parks)
 foursquareHarvesterTable:
