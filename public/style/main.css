@@ -117,8 +117,10 @@ body.openspaces.photo-back-template h1 {
 
 body.openspaces.photo-back-template p.subhead {
 	text-align: center;
+  margin: 0 auto;
 	margin-bottom:40px;
   font-size: 25px;
+  width:900px;
 }
 
 body.openspaces header {
@@ -128,7 +130,9 @@ body.openspaces header {
 
 body.openspaces.photo-back-template header {
 	background-color: rgb(69, 52, 33);
+  margin:0 auto;
 	margin-bottom: 65px;
+  max-width: 1602px;
 }
 
 body.openspaces header a {
@@ -153,6 +157,11 @@ body.openspaces.photo-back-template article.about-this-page {
 	margin-bottom:40px;
 	font-size:15px;
 	line-height:20px;
+}
+
+body.openspaces.photo-back-template article.thin {
+  width:500px;
+  margin:0 auto;
 }
 
 body.openspaces section {
