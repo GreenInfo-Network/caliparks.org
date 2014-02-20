@@ -117,6 +117,34 @@ app.get('/park/:id', function(req,res) {
 
 });
 
+app.get('/parks/', function(req,res) {
+
+	require('./controllers/parks.js')(req, res, {
+		context : 'biggest-to-smallest'
+	}, function(err, templateData) {
+
+		templateData.layout = 'photo-back';
+
+		res.render('parks', templateData);
+
+	});
+
+});
+
+app.get('/parks/:context', function(req,res) {
+
+	require('./controllers/parks.js')(req, res, {
+		context : req.params.context
+	}, function(err, templateData) {
+
+		templateData.layout = 'photo-back';
+
+		res.render('parks', templateData);
+
+	});
+
+});
+
 //app.use('/js', express.static(__dirname + '/client/js'));
 
 app.get('*', function(req,res) {
