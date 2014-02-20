@@ -56,6 +56,12 @@ module.exports = function(req, res, data, callback) {
 
             });
 
+            /*
+            var bbox     = JSON.parse(result.rows[0].bbox),
+                distance = (gpsUtil.getDistance(bbox.coordinates[0][3][1], bbox.coordinates[0][3][0], bbox.coordinates[0][4][1], bbox.coordinates[0][4][0])/69);
+            console.log(distance + ' Miles');
+            */
+
   					callback( null, {
   						appTitle        : 'Stamen Parks: California > ' + result.rows[0].unit_name,
               park_id         : result.rows[0].su_id,

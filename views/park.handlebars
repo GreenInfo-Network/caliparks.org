@@ -1,5 +1,8 @@
 <style>
-
+	#park-shape {
+		background-image:url('http://stamen-postgis-raster-server.herokuapp.com/cpad/{{cpadPark.su_id}}-888462-300-300.png');
+		background-repeat:none;
+	}
 </style>
 
 <div id="park-template-wrapper" class="{{# if coverPhoto}}has-coverphoto {{/if}}">
@@ -37,7 +40,6 @@
 
 <script src="/js/vendor/topojson.v1.min.js"></script>
 <script src="/js/vendor/d3.v3.min.js"></script>
-<script src="/js/park_shape.js"></script>
 <script src="/js/view_park.js"></script>
 
 <script>
@@ -56,15 +58,6 @@
 				dotColor     : 'white',
 				dotLocation  : [parseFloat('{{cpadPark.centroid_longitude}}' || 0, 10),parseFloat('{{cpadPark.centroid_latitude}}' || 0, 10)]
 			}
-		},
-
-		parkShape : {
-			shapeData    : {{{cpadPark.park_shape}}},
-			rootSelector : '#park-shape',
-			options       : {
-				centroid : [parseFloat('{{cpadPark.centroid_longitude}}' || 0, 10),parseFloat('{{cpadPark.centroid_latitude}}' || 0, 10)],
-				bbox : {{{cpadPark.bbox}}}.coordinates[0]
-      }
-    }
+		}
 	});
 </script>
