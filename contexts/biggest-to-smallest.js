@@ -7,13 +7,19 @@ module.exports = function(data, callback) {
   var dbCon          = process.env.DATABASE_URL,
       pgClient       = new pg.Client(dbCon);
 
+  var dbLimit = '';
+
     pgClient.connect(function(err) {
 
     if(err) {
       return console.error('could not connect to postgres', err);
     }
 
-    pgClient.query('SELECT * FROM site_park ORDER BY park_area Desc LIMIT 600;', function(err, result) {
+    if (data.limit) {
+      dbLimit = ' LIMIT ' + data.limit;
+    }
+
+    pgClient.query('SELECT * FROM site_park ORDER BY park_area Desc' + dbLimit + ';', function(err, result) {
       if(err) {
         return console.error('error running query', err);
       }

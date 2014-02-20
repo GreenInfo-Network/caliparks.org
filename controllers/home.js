@@ -4,29 +4,25 @@ module.exports = function(req, res, data, callback) {
 
 	var pg      = require('pg');
 
+	var contextBiggestToSmallest = require('../contexts/biggest-to-smallest.js');
+
 	var dbCon          = process.env.DATABASE_URL,
       pgClient       = new pg.Client(dbCon),
       suIdsByHashtag = require('../public/data/suIdsByHashtag.json');
 
-    pgClient.connect(function(err) {
+  return contextBiggestToSmallest({
+  	limit : 4
+  }, function(err, contextDataBiggestToSmallest) {
 
-		if(err) {
-			return console.error('could not connect to postgres', err);
+		if (err) {
+			return callback(err);
 		}
 
-		pgClient.query('SELECT * FROM site_park ORDER BY park_area Desc LIMIT 6;', function(err, result) {
-			if(err) {
-				return console.error('error running query', err);
-			}
 
-			callback(null, {
-				appTitle           : 'Stamen Parks',
-			 	parks              : result.rows,
-			 	suIdsByHashtagJSON : JSON.stringify(suIdsByHashtag)
-			});
-
-
-			pgClient.end();
+		return callback(null, {
+			appTitle           : 'Stamen Parks',
+		 	parks              : contextDataBiggestToSmallest.parks,
+		 	suIdsByHashtagJSON : JSON.stringify(suIdsByHashtag)
 		});
 
 	});
