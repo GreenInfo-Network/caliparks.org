@@ -243,7 +243,7 @@ pg.connect('postgres://openspaces@localhost/openspaces', function(err, client, c
 
         if (result.Approval == 'yes') {
 
-          fs.writeFileSync('../public/data/hastagsBySuId.json', JSON.stringify(hashtags), {encoding:'utf8'});
+          fs.writeFileSync('../public/data/hashtagsBySuId.json', JSON.stringify(hashtags), {encoding:'utf8'});
           fs.writeFileSync('../public/data/suIdsByHashtag.json', JSON.stringify(id_hash), {encoding:'utf8'});
 
           console.log('Okay, Done'.green);
