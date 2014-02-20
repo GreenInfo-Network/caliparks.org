@@ -4,7 +4,9 @@ module.exports = function(req, res, data, callback) {
 
 	var context = require('../contexts/' + data.context);
 
-	return context({}, function(err, contextData) {
+	return context({
+		limit : 200
+	}, function(err, contextData) {
 
 		if (err) {
 			return callback(err);
