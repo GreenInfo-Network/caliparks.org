@@ -60,39 +60,18 @@ body.openspaces {
 }
 
 body.openspaces.photo-back-template {
-  background-color: rgb(36, 18, 2);
-}
-
-body.openspaces.photo-back-template .photo-back {
-	background: no-repeat bottom center;
-	background-size: 100vw auto;
+  background-color: rgb(68, 50, 33);
   background-image: url('/style/photo-back-template-bg.png');
-  height: 100vh;
-  position: absolute;
-  right 0; bottom: 0; left: 0;
-  width:100vw;
-  opacity:.6;
-  display:block;
-  z-index:-1;
-}
-
-body.openspaces.photo-back-template .photo-back-cover {
-	display:block;
-	height: 100vh;
-	width:100vw;
-  background-color: rgb(36, 18, 2);
-  opacity:.6;
-  position: absolute;
-  right 0; bottom: 0; left: 0;
-  z-index:-1;
-  -webkit-transform: translate3d(0,0,0);
-	-moz-transform: translate3d(0,0,0);
-	transform: translate3d(0,0,0);
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+  background-position: bottom center;
+  background-attachment: fixed;
 }
 
 body.openspaces.photo-back-template .photo-back-content {
   width:93%;
   margin:0 auto;
+  max-width: 1602px;
 }
 
 body.openspaces input:focus {
