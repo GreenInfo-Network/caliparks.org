@@ -125,6 +125,8 @@ body.openspaces.photo-back-template p.subhead {
 body.openspaces header {
 	padding: 10px 40px;
 	height:20px;
+  position:relative;
+  line-height: 20px;
 }
 
 body.openspaces.photo-back-template header {
@@ -265,12 +267,13 @@ body.openspaces .access-type-badge {
 
 /* search */
 body.openspaces header #search {
-	top:10px;
-	right:90px;
+	top:5px;
+	right:40px;
 	position:absolute;
 	text-decoration: none;
 	text-align: right;
 	width:700px;
+  color: rgb(123, 102, 50);
 }
 
 body.openspaces header #search input {
@@ -278,15 +281,32 @@ body.openspaces header #search input {
 	border:none; 
 	cursor: pointer;
 	display: inline-block; 
-	width: 100;
+	width: 100px;
 	background-color: rgb(68, 51, 32);
 	font-size: 18px;
   color:rgba(238, 222, 204,1);
   font-weight: 200;
+  transition:width,background-color 1s;
+}
+
+body.openspaces header #search input:active, body.openspaces header #search input:hover {
+  width: 200px;
+  background-color: rgb(88, 71, 32);
 }
 
 body.openspaces header #search a {
 	text-decoration: none;
+}
+
+body.openspaces header #search button {
+  border: none;
+  background-image: url('/style/icon-search.png');
+  width: 29px;
+  height: 29px;
+  right: 0;
+  top: 0;
+  position: absolute;
+  cursor:pointer;
 }
 
 body.openspaces header #search-results {
@@ -329,7 +349,10 @@ body.openspaces .glop-slider {
   height:210px;
   width:100%;
   white-space: nowrap;
+  scrollbar:none;
 }
+body.openspaces .glop-slider::-webkit-scrollbar { width: 0 !important }
+body.openspaces .glop-slider::-scrollbar { width: 0 !important }
 
 body.openspaces .glop-slider .glop-park {
   display:inline-block;
@@ -397,7 +420,7 @@ body.openspaces #park-shape {
 
 }
 
-@media (max-width: 400px) {
+@media (max-width: 320px) {
   body.openspaces {
     padding:0;
 	}
