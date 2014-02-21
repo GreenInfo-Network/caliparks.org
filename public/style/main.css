@@ -289,7 +289,7 @@ body.openspaces header #search input {
   transition:width,background-color 1s;
 }
 
-body.openspaces header #search input:active, body.openspaces header #search input:hover {
+body.openspaces header.has-search-results #search input, body.openspaces header #search input:active, body.openspaces header #search input:hover {
   width: 200px;
   background-color: rgb(88, 71, 32);
 }
@@ -328,6 +328,10 @@ body.openspaces header.has-search-results #search-results {
 body.openspaces header.has-search-results #search-results a {
 	color:black;
 	text-decoration: none;
+}
+
+body.openspaces header.has-search-results #search-results a:focus {
+  border:dotted 1px black;
 }
 
 body.openspaces header.has-search-results #search-results img {
