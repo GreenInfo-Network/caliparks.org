@@ -13,7 +13,7 @@
 	<section id="park-info">
 		<h1>{{name}}</h1>
 		<p>{{locationDisplay.lat}}, {{locationDisplay.lon}}</p>
-		<p>{{#agencyNameDisplay}}{{cpadPark.agncy_name}}{{/agencyNameDisplay}}</p>
+		<p>{{#agencyNameDisplay}}<a href="/parks/agency/{{{agency_slug}}}">{{cpadPark.agncy_name}}</a>{{/agencyNameDisplay}}</p>
 		<div class="access-type-badge">{{cpadPark.own_type}}</div>
 	</section>
 

@@ -5,5 +5,10 @@
   {{#each parks}}
     {{>glop_park}}
   {{/each}}
+
+  {{#if empty}}
+    There are no parks to be found here. <a href="/wander">Here is one</a>.
+  {{/if}}
   </div>
+  }
 </div>
