@@ -2,7 +2,10 @@
 
 module.exports = function(req, res, data, callback) {
 
-	var context = require('../contexts/' + data.context);
+	var context  = require('../contexts/' + data.context),
+	    hashtags = require('../public/data/hashtagsBySuId.json');
+
+	var contextDataDecorated;
 
 	return context({
 		limit : 200
@@ -12,10 +15,17 @@ module.exports = function(req, res, data, callback) {
 			return callback(err);
 		}
 
+		//
+		// Decorate the BiggestToSmallestContext
+		//
+		contextDataDecorated = contextData.parks.map(function(park) {
+			park.hashtag = hashtags[park.su_id];
+			return park;
+		});
 
 		return callback(null, {
 			appTitle : 'Stamen Parks: ' + contextData.title,
-		 	parks    : contextData.parks
+		 	parks    : contextDataDecorated
 		});
 
 	});
