@@ -372,7 +372,7 @@ body.openspaces .glop-park .hashtag {
   transition:opacity .5s;
   position: absolute;
   top: 61px;
-  left: 28px;
+  left: 48px;
   color: white;
   background-color: rgb(33, 17, 0);
   padding: 10px;
@@ -382,11 +382,26 @@ body.openspaces .glop-park .hashtag {
   padding: 0px 10px;
 }
 
-body.openspaces #view-parks .glop-park .hashtag {
+body.openspaces .glop-park:hover .hashtag, body.openspaces #view-parks .glop-park .hashtag {
   opacity:1;
 }
 
-body.openspaces .glop-park:hover .hashtag {
+body.openspaces .glop-park .park-name {
+  opacity:0;
+  transition:opacity .5s;
+  position: absolute;
+  top: 110px;
+  left: 0px;
+  color: white;
+  padding: 10px;
+  font-size: 15px;
+  line-height: 25px;
+  padding: 0px 10px;
+  text-align: center;
+  width:100%;
+}
+
+body.openspaces .glop-park:hover .park-name, body.openspaces #view-parks .glop-park .park-name {
   opacity:1;
 }
 
