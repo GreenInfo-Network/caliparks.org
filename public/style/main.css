@@ -354,7 +354,7 @@ body.openspaces .glop-slider {
 body.openspaces .glop-slider::-webkit-scrollbar { width: 0 !important }
 body.openspaces .glop-slider::-scrollbar { width: 0 !important }
 
-body.openspaces .glop-slider .glop-park {
+body.openspaces .glop-park {
   display:inline-block;
   width:200px;
   height:200px;
@@ -363,7 +363,7 @@ body.openspaces .glop-slider .glop-park {
   transition:background-image .5s;
 }
 
-body.openspaces .glop-slider .glop-park .hashtag {
+body.openspaces .glop-park .hashtag {
   opacity:0;
   transition:opacity .5s;
   position: absolute;
@@ -378,7 +378,11 @@ body.openspaces .glop-slider .glop-park .hashtag {
   padding: 0px 10px;
 }
 
-body.openspaces .glop-slider .glop-park:hover .hashtag {
+body.openspaces #view-parks .glop-park .hashtag {
+  opacity:1;
+}
+
+body.openspaces .glop-park:hover .hashtag {
   opacity:1;
 }
 
