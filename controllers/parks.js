@@ -2,13 +2,14 @@
 
 module.exports = function(req, res, data, callback) {
 
-	var context  = require('../contexts/' + data.context),
+	var context  = require('../contexts/' + data.context + '.js'),
 	    hashtags = require('../public/data/hashtagsBySuId.json');
 
 	var contextDataDecorated;
 
 	return context({
-		limit : 200
+		limit : 200,
+		query : data.query
 	}, function(err, contextData) {
 
 		if (err) {
@@ -25,7 +26,8 @@ module.exports = function(req, res, data, callback) {
 
 		return callback(null, {
 			appTitle : 'Stamen Parks: ' + contextData.title,
-		 	parks    : contextDataDecorated
+		 	parks    : contextDataDecorated,
+		 	empty    : !(contextDataDecorated.length)
 		});
 
 	});

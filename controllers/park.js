@@ -66,6 +66,7 @@ module.exports = function(req, res, data, callback) {
   						appTitle        : 'Stamen Parks: California > ' + result.rows[0].unit_name,
               park_id         : result.rows[0].su_id,
               name            : result.rows[0].unit_name,
+              agency_slug     : result.rows[0].agncy_name.split(' ').join('+').split(',')[0],
   				 		totalPhotos     : flesult.rows.length ? flesult.rows.length : 0,
   				 		coverPhoto      : flesult.rows.length ? flesult.rows[0] : null,
   				 		locationDisplay : {
