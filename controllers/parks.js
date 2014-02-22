@@ -25,7 +25,7 @@ module.exports = function(req, res, data, callback) {
 		});
 
 		return callback(null, {
-			appTitle : 'Stamen Parks: ' + contextData.title,
+			appTitle : 'California parks: ' + contextData.title,
 		 	parks    : contextDataDecorated,
 		 	empty    : !(contextDataDecorated.length)
 		});
