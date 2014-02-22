@@ -73,6 +73,12 @@ body.openspaces.photo-back-template .photo-back-content {
   margin:0 auto;
 }
 
+body.openspaces .main-content {
+  width:1020px;
+  margin:0 auto;
+  position:relative;
+}
+
 body.openspaces input:focus {
   outline-width: 0;
 }
@@ -112,6 +118,7 @@ body.openspaces.photo-back-template h1 {
 	font-family: "cooper-black-std",sans-serif;
 	font-size: 40px;
 	margin-bottom: 25px;
+  line-height:45px;
 }
 
 body.openspaces.photo-back-template p.subhead {
@@ -220,7 +227,8 @@ body.openspaces #park-hash-tag {
 
 body.openspaces .has-coverphoto #park-hash-tag {
 	position:absolute;
-	top:443px; left:103px;
+	top: 403px;
+  left: 41px;
 }
 
 /* Flickr cover photo module */
@@ -250,7 +258,8 @@ body.openspaces .has-coverphoto #coverphoto span.attribution a {
 /* California shape */
 body.openspaces #california_shape {
 	position: absolute;
-	top:80px; left:100px;
+	top: 255px;
+  left: 42px;
 }
 
 /* Access type badge */
@@ -263,6 +272,20 @@ body.openspaces .access-type-badge {
 	line-height: 11px;
 	text-transform:uppercase;
 	font-weight: bold;
+}
+
+/* Instagram photos */
+body.openspaces .main-content #instagram-photos {
+  display: inline-block;
+  width: 520px;
+  vertical-align: top;
+  margin-left: 114px; 
+  margin-bottom: 40px;
+}
+
+body.openspaces .main-content #instagram-photos image {
+  margin: 0;
+  display: inline-block;
 }
 
 /* search */
@@ -497,8 +520,8 @@ body.openspaces #park-shape {
   }
 
   body.openspaces #california_shape {
-    top: 80px;
-    left: 19px;
+    top: 255px;
+    left: 42px;
   }
 
   body.openspaces #tweets {

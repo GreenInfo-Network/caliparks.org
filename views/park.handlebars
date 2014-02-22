@@ -13,12 +13,19 @@
 	<section id="park-info">
 		<h1>{{name}}</h1>
 		<p>{{locationDisplay.lat}}, {{locationDisplay.lon}}</p>
-		<p>{{#agencyNameDisplay}}<a href="/parks/agency/{{{agency_slug}}}">{{cpadPark.agncy_name}}</a>{{/agencyNameDisplay}}</p>
+		<p><a href="/parks/agency/{{agency_slug}}">{{#agencyNameDisplay}}{{cpadPark.agncy_name}}{{/agencyNameDisplay}}</a></p>
 		<div class="access-type-badge">{{cpadPark.own_type}}</div>
 	</section>
 
 	<section>
 		<div id="park-shape"></div>
+		<div id="instagram-photos">
+			{{#each top_instagram_photos}}
+				<img width="128px" src="{{standard_resolution}}" align="left" border="0">
+			{{else}}
+				<span class="empty">No Instagram photos</span>
+			{{/each}}
+		</div>
 		<link rel="stylesheet" type="text/css" href="/style/standalone-tweet.css">
 		<div id="tweets">
 			<h2>#{{hashtag}} on Twitter</h2>
