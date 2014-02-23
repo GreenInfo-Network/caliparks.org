@@ -18,10 +18,24 @@
 	</section>
 
 	<section>
-		<div id="park-shape"></div>
-		<div id="instagram-photos">
+		<div style="width:385px;display:inline-block;">
+			<div id="park-shape"></div>
+			<div id="foursquare-stats">
+				<h2>People are checking in on Foursquare</h2>
+				<table>
+					<tbody>
+						<tr><td>{{venues_count}}</td><td>{{venues_checkins}}</td><td>{{venues_tips}}</td></tr>
+					</tbody>
+					<tfoot>
+						<tr><td>Venues</td><td>Check ins</td><td>Tips</td></tr>
+					</tfoot>
+				</table>
+				hello
+			</div>
+		</div>
+		<div id="instagram-photos" style="font-size:0;line-height:0;">
 			{{#each top_instagram_photos}}
-				<img width="128px" src="{{standard_resolution}}" align="left" border="0">
+				<div style="width:128px;height:128px;display:inline-block;"><img width="128px" src="{{standard_resolution}}" align="left" border="0"></div>
 			{{else}}
 				<span class="empty">No Instagram photos</span>
 			{{/each}}

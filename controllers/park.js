@@ -3,7 +3,8 @@
 module.exports = function(req, res, data, callback) {
 
 	var pg      = require('pg'),
-	    gpsUtil = require('gps-util');
+	    gpsUtil = require('gps-util'),
+      numeral = require('numeral');
 
 	var dbCon    = process.env.DATABASE_URL,
       pgClient = new pg.Client(dbCon);
@@ -11,7 +12,10 @@ module.exports = function(req, res, data, callback) {
 	var template = 'park',
       park_id  = req.params.id,
       hashtags = require('../public/data/hashtagsBySuId.json'),
-      tweets_all, tweets_filtered, tweet_iteration = 0;
+      foursquare_checkins = 0, 
+      foursquare_tips     = 0, 
+      tweet_iteration     = 0,
+      tweets_all, tweets_filtered;
 
 	  //
 		// Get special template if one exists
@@ -41,55 +45,70 @@ module.exports = function(req, res, data, callback) {
               return console.error('error running query', err);
             }
 
-            //
-            // Was a park found? if not, just 404
-            //
-            if (result.rows[0]) {
+            pgClient.query('select * from site_foursquare_venues_activity where su_id = ' + park_id, function(err, foursult) {
+              if(err) {
+                return console.error('error running query', err);
+              }
 
               //
-              // Get tweets
+              // Was a park found? if not, just 404
               //
-              tweets_all      = require('../public/data/park_tweets.json'),
-              tweets_filtered = [];
+              if (result.rows[0]) {
 
-              tweets_all.features.forEach(function(tweet) {
+                //
+                // Get tweets
+                //
+                tweets_all      = require('../public/data/park_tweets.json'),
+                tweets_filtered = [];
 
-                if (tweet.properties.park_name === result.rows[0].unit_name && tweet_iteration < 20) {
-                  tweet_iteration++;
-                  tweets_filtered.push(tweet.properties);
-                }
+                tweets_all.features.forEach(function(tweet) {
 
-              });
+                  if (tweet.properties.park_name === result.rows[0].unit_name && tweet_iteration < 20) {
+                    tweet_iteration++;
+                    tweets_filtered.push(tweet.properties);
+                  }
 
-              /*
-              var bbox     = JSON.parse(result.rows[0].bbox),
-                  distance = (gpsUtil.getDistance(bbox.coordinates[0][3][1], bbox.coordinates[0][3][0], bbox.coordinates[0][4][1], bbox.coordinates[0][4][0])/69);
-              console.log(distance + ' Miles');
-              */
+                });
 
-              callback( null, {
-                appTitle         : 'Stamen Parks: California > ' + result.rows[0].unit_name,
-                park_id          : result.rows[0].su_id,
-                name             : result.rows[0].unit_name,
-                agency_slug      : result.rows[0].agncy_name.split(' ').join('+').split(',')[0],
-                totalPhotos      : flesult.rows.length ? flesult.rows.length : 0,
-                coverPhoto       : flesult.rows.length ? flesult.rows[0] : null,
-                locationDisplay  : {
-                  lat : gpsUtil.getDMSLatitude(result.rows[0].centroid_latitude),
-                  lon : gpsUtil.getDMSLongitude(result.rows[0].centroid_longitude)
-                },
-                cpadPark         : result.rows[0],
-                hashtag          : hashtags[result.rows[0].su_id],
-                tweets           : tweets_filtered,
-                tweet_count      : tweets_filtered.length,
-                top_instagram_photos : instasult.rows
-              } );
+                //
+                // Get checkins and tips count from Foursquare
+                //
+                foursult.rows.forEach(function(venue) {
+                  foursquare_checkins += venue.checkinscount;
+                  foursquare_tips += venue.tipcount;
+                });
 
-            } else {
-              callback( null, null );
-            }
-          
-            pgClient.end();
+
+                callback( null, {
+                  appTitle         : 'Stamen Parks: California > ' + result.rows[0].unit_name,
+                  park_id          : result.rows[0].su_id,
+                  name             : result.rows[0].unit_name,
+                  agency_slug      : result.rows[0].agncy_name.split(' ').join('+').split(',')[0],
+                  totalPhotos      : flesult.rows.length ? flesult.rows.length : 0,
+                  coverPhoto       : flesult.rows.length ? flesult.rows[0] : null,
+                  locationDisplay  : {
+                    lat : gpsUtil.getDMSLatitude(result.rows[0].centroid_latitude),
+                    lon : gpsUtil.getDMSLongitude(result.rows[0].centroid_longitude)
+                  },
+                  cpadPark         : result.rows[0],
+                  hashtag          : hashtags[result.rows[0].su_id],
+                  tweets           : tweets_filtered,
+                  tweet_count      : tweets_filtered.length,
+                  top_instagram_photos : instasult.rows,
+                  venues_activity  : foursult.rows,
+                  venues_count     : foursult.rows.length < 100000 ? numeral(foursult.rows.length).format('0,0') : 'Over a million',
+                  venues_checkins  : foursquare_checkins < 100000 ? numeral(foursquare_checkins).format('0,0') : 'Over a million',
+                  venues_tips      : foursquare_tips < 100000 ? numeral(foursquare_tips).format('0,0') : 'Over a million'
+                } );
+
+              } else {
+                callback( null, null );
+              }
+            
+              pgClient.end();
+
+            });
+
           });
       
         });
