@@ -134,6 +134,8 @@ body.openspaces header {
 	height:20px;
   position:relative;
   line-height: 20px;
+  width: 940px;
+  margin: 0 auto;
 }
 
 body.openspaces.photo-back-template header {
