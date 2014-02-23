@@ -279,7 +279,7 @@ body.openspaces .main-content #instagram-photos {
   display: inline-block;
   width: 520px;
   vertical-align: top;
-  margin-left: 114px; 
+  margin-left: 29px; 
   margin-bottom: 40px;
 }
 
@@ -431,13 +431,20 @@ body.openspaces .glop-park:hover .park-name, body.openspaces #view-parks .glop-p
 /* Tweets */
 body.openspaces #tweets {
   display:inline-block;
-  width: 55vw;
+  width: 508px;
   display: inline-block;
   vertical-align: top;
   margin-left: 20px;
   background-color: #fff;
   border-radius: 4px;
   padding: 10px;
+  margin-left: 413px;
+}
+
+/* Foursquare Stats */
+body.openspaces #foursquare-stats {
+  display:inline-block;
+  width:400px;
 }
 
 /* Park Shape */
@@ -446,6 +453,7 @@ body.openspaces #park-shape {
   
   width:300px;
   height:300px;
+  margin-bottom: 40px;
 }
 
 @media (max-width: 1230px) {
