@@ -96,9 +96,9 @@ module.exports = function(req, res, data, callback) {
                   tweet_count      : tweets_filtered.length,
                   top_instagram_photos : instasult.rows,
                   venues_activity  : foursult.rows,
-                  venues_count     : foursult.rows.length < 100000 ? numeral(foursult.rows.length).format('0,0') : 'Over a million',
-                  venues_checkins  : foursquare_checkins < 100000 ? numeral(foursquare_checkins).format('0,0') : 'Over a million',
-                  venues_tips      : foursquare_tips < 100000 ? numeral(foursquare_tips).format('0,0') : 'Over a million'
+                  venues_count     : foursult.rows.length < 100000 ? numeral(foursult.rows.length).format('0,0') : 'Loads!',
+                  venues_checkins  : foursquare_checkins < 100000 ? numeral(foursquare_checkins).format('0,0') : 'Loads!',
+                  venues_tips      : foursquare_tips < 100000 ? numeral(foursquare_tips).format('0,0') : 'Loads!'
                 } );
 
               } else {
