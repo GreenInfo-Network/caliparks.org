@@ -26,7 +26,7 @@
 
 
 
-<a class="u-url customisable-highlight long-permalink" href="https://twitter.com/{{username}}/statuses/{{tweet_id}}">View on Twitter</a>
+<a class="u-url customisable-highlight long-permalink" href="https://twitter.com/{{username}}/statuses/{{id_str}}">View on Twitter</a>
 </div>
       
     </div>
@@ -34,22 +34,22 @@
         <span class="stats-narrow customisable-border"><span class="stats" data-scribe="component:stats">
 
 
-  <a href="https://twitter.com/{{username}}/statuses/{{tweet_id}}" title="View Tweet on Twitter" data-scribe="element:retweet_count">
+  <a href="https://twitter.com/{{username}}/statuses/{{id_str}}" title="View Tweet on Twitter" data-scribe="element:retweet_count">
     <span class="stats-retweets">
       <strong>{{retweet_count}}</strong> Retweets
     </span>
   </a>
-  <a href="https://twitter.com/{{username}}/statuses/{{tweet_id}}" title="View Tweet on Twitter" data-scribe="element:favorite_count">
+  <a href="https://twitter.com/{{username}}/statuses/{{id_str}}" title="View Tweet on Twitter" data-scribe="element:favorite_count">
     <span class="stats-favorites">
-      <strong>{{fav_count}}</strong> favorites
+      <strong>{{favorite_count}}</strong> favorites
     </span>
   </a>
 </span>
 </span>
       <ul class="tweet-actions" role="menu" aria-label="Tweet actions" data-scribe="component:actions">
-  <li><a href="https://twitter.com/intent/tweet?in_reply_to={{tweet_id}}" class="reply-action web-intent" title="Reply" data-scribe="element:reply"><i class="ic-reply ic-mask"></i><b>Reply</b></a></li>
-  <li><a href="https://twitter.com/intent/retweet?tweet_id={{tweet_id}}" class="retweet-action web-intent" title="Retweet" data-scribe="element:retweet"><i class="ic-retweet ic-mask"></i><b>Retweet</b></a></li>
-  <li><a href="https://twitter.com/intent/favorite?tweet_id={{tweet_id}}" class="favorite-action web-intent" title="Favorite" data-scribe="element:favorite"><i class="ic-fav ic-mask"></i><b>Favorite</b></a></li>
+  <li><a href="https://twitter.com/intent/tweet?in_reply_to={{id_str}}" class="reply-action web-intent" title="Reply" data-scribe="element:reply"><i class="ic-reply ic-mask"></i><b>Reply</b></a></li>
+  <li><a href="https://twitter.com/intent/retweet?tweet_id={{id_str}}" class="retweet-action web-intent" title="Retweet" data-scribe="element:retweet"><i class="ic-retweet ic-mask"></i><b>Retweet</b></a></li>
+  <li><a href="https://twitter.com/intent/favorite?tweet_id={{id_str}}" class="favorite-action web-intent" title="Favorite" data-scribe="element:favorite"><i class="ic-fav ic-mask"></i><b>Favorite</b></a></li>
 </ul>
     </div>
   </blockquote>
