@@ -447,6 +447,29 @@ body.openspaces #foursquare-stats {
   width:400px;
 }
 
+body.openspaces #foursquare-stats h2, body.openspaces #foursquare-stats table, tfoot {
+  color: rgb(145, 118, 49);
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+body.openspaces #foursquare-stats table {
+  width:75%;
+  vertical-align: top;
+  text-align: center;
+}
+
+body.openspaces #foursquare-stats table tbody {
+  color: rgb(33, 14, 0);
+  font-size: 30px;
+  font-weight: 600;
+}
+
+body.openspaces #foursquare-stats table tfoot {
+  text-transform: capitalize;
+}
+
 /* Park Shape */
 body.openspaces #park-shape {
   display:inline-block;
