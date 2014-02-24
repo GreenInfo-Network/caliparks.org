@@ -9,13 +9,49 @@ module.exports = function(req, res, data, callback) {
 	var dbCon    = process.env.DATABASE_URL,
       pgClient = new pg.Client(dbCon);
 
-	var template = 'park',
-      park_id  = req.params.id,
-      hashtags = require('../public/data/hashtagsBySuId.json'),
+	var template  = 'park',
+      park_id   = req.params.id,
+      hashtags  = require('../public/data/hashtagsBySuId.json'),
+      contexts  = {},
+      positions = {},
       foursquare_checkins = 0, 
       foursquare_tips     = 0, 
       tweet_iteration     = 0,
       tweets_all, tweets_filtered;
+
+  //
+  // Get positions
+  //
+  contexts.tweets = require('../public/data/context-tweets.json');
+  contexts.tweets.forEach(function(pos, i) {
+    if ((pos.su_id | 0) === (park_id | 0)) {
+      positions.tweets = i;
+    }
+  });
+  contexts.foursquareCheckins = require('../public/data/context-foursquare-checkins.json');
+  contexts.foursquareCheckins.forEach(function(pos, i) {
+    if ((pos.su_id | 0) === (park_id | 0)) {
+      positions.foursquareCheckins = i;
+    }
+  });
+  contexts.foursquareVenues = require('../public/data/context-foursquare-venues.json');
+  contexts.foursquareVenues.forEach(function(pos, i) {
+    if ((pos.su_id | 0) === (park_id | 0)) {
+      positions.foursquareVenues = i;
+    }
+  });
+  contexts.flickrPhotos = require('../public/data/context-flickr-photos.json');
+  contexts.flickrPhotos.forEach(function(pos, i) {
+    if ((pos.su_id | 0) === (park_id | 0)) {
+      positions.flickrPhotos = i;
+    }
+  });
+  contexts.instagramPhotos = require('../public/data/context-instagram-photos.json');
+  contexts.instagramPhotos.forEach(function(pos, i) {
+    if ((pos.su_id | 0) === (park_id | 0)) {
+      positions.instagramPhotos = i;
+    }
+  });
 
 	  //
 		// Get special template if one exists
