@@ -440,6 +440,10 @@ body.openspaces #tweets {
   background-color: #fff;
   border-radius: 4px;
   padding: 10px;
+  margin-left: 48px;
+}
+
+body.openspaces .has-instagram-photos #tweets {
   margin-left: 413px;
 }
 
