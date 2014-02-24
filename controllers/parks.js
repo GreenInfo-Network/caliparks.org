@@ -3,7 +3,8 @@
 module.exports = function(req, res, data, callback) {
 
 	var context  = require('../contexts/' + data.context + '.js'),
-	    hashtags = require('../public/data/hashtagsBySuId.json');
+	    hashtags = require('../public/data/hashtagsBySuId.json'),
+	    pg       = require('pg');
 
 	var contextDataDecorated;
 
