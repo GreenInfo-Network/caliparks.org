@@ -68,6 +68,10 @@ module.exports = function(req, res, data, callback) {
                     foursquare_tips += venue.tipcount;
                   });
 
+                  var venues_count     = numeral(foursult.rows.length).format('0,0'),
+                      venues_checkins  = numeral(foursquare_checkins).format('0,0'),
+                      venues_tips      = numeral(foursquare_tips).format('0,0');
+
 
                   callback( null, {
                     appTitle         : 'Stamen Parks: California > ' + result.rows[0].unit_name,
@@ -86,10 +90,11 @@ module.exports = function(req, res, data, callback) {
                     tweet_count      : tweetsult.rows.length,
                     has_instagram_photos : (instasult.rows.length > 0),
                     top_instagram_photos : instasult.rows,
+                    has_foursquare   : (venues_count > 0),
                     venues_activity  : foursult.rows,
-                    venues_count     : foursult.rows.length < 100000000 ? numeral(foursult.rows.length).format('0,0') : 'Loads!',
-                    venues_checkins  : foursquare_checkins < 100000000 ? numeral(foursquare_checkins).format('0,0') : 'Loads!',
-                    venues_tips      : foursquare_tips < 100000000 ? numeral(foursquare_tips).format('0,0') : 'Loads!'
+                    venues_count     : foursult.rows.length < 1000000 ? venues_count : 'A lot!',
+                    venues_checkins  : foursquare_checkins < 1000000 ? venues_checkins : 'A lot!',
+                    venues_tips      : foursquare_tips < 1000000 ? venues_tips : 'A lot!'
                   } );
 
                 } else {
