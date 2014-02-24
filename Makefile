@@ -36,10 +36,12 @@ topojson2:
 
 twitterHarvesterTable:
 # Needs better way of importing the csv file
-	psql -U openspaces -h geo.local -c "drop table tweets_harvest;" \
+	cd harvesters && rm twitter_stream_to_import* \
+	&& cp twitter_stream.csv.1 twitter_stream_to_import.csv \
+	&& psql -U openspaces -h geo.local -c "drop table tweets_harvest;" \
 	&& psql -U openspaces -h geo.local -c "create table tweets_harvest (id_str varchar, place varchar, something varchar, coords varchar(40), username varchar(20), fullname varchar(40), client varchar(80), date timestamp, retweet_count int, favorite_count int, lang varchar(3), content varchar);" \
-	&& csvclean harvesters/twitter_stream_to_import.csv \
-	&& psql -U openspaces -h geo.local -c "\copy tweets_harvest FROM 'harvesters/twitter_stream_to_import_out.csv' DELIMITER ',' CSV;" \
+	&& /usr/local/bin/csvclean twitter_stream_to_import.csv \
+	&& psql -U openspaces -h geo.local -c "\copy tweets_harvest FROM 'twitter_stream_to_import_out.csv' DELIMITER ',' CSV;" \
 	&& psql -U openspaces -h geo.local -c "alter table tweets_harvest add column wkt varchar;" \
 	&& psql -U openspaces -h geo.local -c "update tweets_harvest set wkt = regexp_replace(regexp_replace(regexp_replace(coords, ']', ')'), ',', ''), '\[', 'POINT(');" \
 	&& psql -U openspaces -h geo.local -c "SELECT AddGeometryColumn('tweets_harvest','the_geom',4326,'POINT',2);" \
