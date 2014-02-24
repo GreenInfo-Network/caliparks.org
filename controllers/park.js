@@ -84,11 +84,12 @@ module.exports = function(req, res, data, callback) {
                     hashtag          : hashtags[result.rows[0].su_id],
                     tweets           : tweetsult.rows,
                     tweet_count      : tweetsult.rows.length,
+                    has_instagram_photos : (instasult.rows.length > 0),
                     top_instagram_photos : instasult.rows,
                     venues_activity  : foursult.rows,
-                    venues_count     : foursult.rows.length < 100000 ? numeral(foursult.rows.length).format('0,0') : 'Loads!',
-                    venues_checkins  : foursquare_checkins < 100000 ? numeral(foursquare_checkins).format('0,0') : 'Loads!',
-                    venues_tips      : foursquare_tips < 100000 ? numeral(foursquare_tips).format('0,0') : 'Loads!'
+                    venues_count     : foursult.rows.length < 100000000 ? numeral(foursult.rows.length).format('0,0') : 'Loads!',
+                    venues_checkins  : foursquare_checkins < 100000000 ? numeral(foursquare_checkins).format('0,0') : 'Loads!',
+                    venues_tips      : foursquare_tips < 100000000 ? numeral(foursquare_tips).format('0,0') : 'Loads!'
                   } );
 
                 } else {

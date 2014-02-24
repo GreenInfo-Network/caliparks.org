@@ -14,10 +14,10 @@
 		<h1>{{name}}</h1>
 		<p>{{locationDisplay.lat}}, {{locationDisplay.lon}}</p>
 		<p><a href="/parks/agency/{{agency_slug}}">{{#agencyNameDisplay}}{{cpadPark.agncy_name}}{{/agencyNameDisplay}}</a></p>
-		<div class="access-type-badge">{{cpadPark.own_type}}</div>
+		<!--div class="access-type-badge">{{cpadPark.park_area}} Miles</div-->
 	</section>
 
-	<section>
+	<section class="{{#if has_instagram_photos}} has-instagram-photos{{/if}}">
 		<div style="width:385px;display:inline-block;">
 			<div id="park-shape"></div>
 			<div id="foursquare-stats">
@@ -32,6 +32,7 @@
 				</table>
 			</div>
 		</div>
+		{{#if has_instagram_photos}}
 		<div id="instagram-photos" style="font-size:0;line-height:0;">
 			{{#each top_instagram_photos}}
 				<div style="width:128px;height:128px;display:inline-block;"><img width="128px" src="{{standard_resolution}}" align="left" border="0"></div>
@@ -39,6 +40,7 @@
 				<span class="empty">No Instagram photos</span>
 			{{/each}}
 		</div>
+		{{/if}}
 		<link rel="stylesheet" type="text/css" href="/style/standalone-tweet.css">
 		<div id="tweets">
 			<h2>#{{hashtag}} on Twitter</h2>
