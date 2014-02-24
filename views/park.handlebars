@@ -20,6 +20,7 @@
 	<section class="{{#if has_instagram_photos}} has-instagram-photos{{/if}}">
 		<div style="width:385px;display:inline-block;">
 			<div id="park-shape"></div>
+			{{#if has_foursquare}}
 			<div id="foursquare-stats">
 				<h2>People are checking in on Foursquare</h2>
 				<table>
@@ -31,6 +32,7 @@
 					</tfoot>
 				</table>
 			</div>
+			{{/if}}
 		</div>
 		{{#if has_instagram_photos}}
 		<div id="instagram-photos" style="font-size:0;line-height:0;">
