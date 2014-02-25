@@ -27,7 +27,8 @@
     "progress-bar": "~0.1.1",
     "colors": "~0.6.2",
     "prompt": "~0.2.12",
-    "numeral": "~1.5.3"
+    "numeral": "~1.5.3",
+    "gps-distance": "0.0.3"
   },
   "devDependencies": {
     "mocha": "1.17.0"

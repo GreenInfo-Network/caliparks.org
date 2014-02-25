@@ -2,9 +2,10 @@
 
 module.exports = function(req, res, data, callback) {
 
-	var pg      = require('pg'),
-	    gpsUtil = require('gps-util'),
-      numeral = require('numeral');
+	var pg       = require('pg'),
+	    gpsUtil  = require('gps-util'),
+      distance = require('gps-distance'),
+      numeral  = require('numeral');
 
 	var dbCon    = process.env.DATABASE_URL,
       pgClient = new pg.Client(dbCon);
@@ -18,6 +19,16 @@ module.exports = function(req, res, data, callback) {
       foursquare_tips     = 0, 
       tweet_iteration     = 0,
       tweets_all, tweets_filtered;
+
+  function fuzzyRound(N) {
+    var rounded = Math.max(Math.round(N / 10) * 10);
+    
+    if(rounded === 0) {
+      return N | 0;
+    } else {
+      return rounded;
+    }
+  }
 
   //
   // Get positions
@@ -108,6 +119,15 @@ module.exports = function(req, res, data, callback) {
                       venues_checkins  = numeral(foursquare_checkins).format('0,0'),
                       venues_tips      = numeral(foursquare_tips).format('0,0');
 
+                  var bbox             = JSON.parse(result.rows[0].bbox).coordinates[0],
+                      kInMiles         = 1.60934,
+                      ftInK            = 3280.84,
+                      imageWidthPx     = 300,
+                      scaleBarWidthPx  = 15,
+                      devideBy         = imageWidthPx / scaleBarWidthPx,
+                      totalDistanceInK = distance(bbox[0][1], bbox[0][0], bbox[1][1], bbox[1][0]),
+                      displayMi        = fuzzyRound((totalDistanceInK/devideBy)/kInMiles),
+                      displayFt        = fuzzyRound((totalDistanceInK/devideBy)*ftInK);
 
                   callback( null, {
                     appTitle         : 'Stamen Parks: California > ' + result.rows[0].unit_name,
@@ -133,7 +153,14 @@ module.exports = function(req, res, data, callback) {
                     venues_activity  : foursult.rows,
                     venues_count     : foursult.rows.length < 1000000 ? venues_count : '1 M +',
                     venues_checkins  : foursquare_checkins < 1000000 ? venues_checkins : '1 M +',
-                    venues_tips      : foursquare_tips < 1000000 ? venues_tips : '1 M +'
+                    venues_tips      : foursquare_tips < 1000000 ? venues_tips : '1 M +',
+                    parkShapeScale   : {
+                      'pixels' : scaleBarWidthPx,
+                      'miles'  : fuzzyRound((totalDistanceInK/devideBy)/kInMiles),
+                      'feet'   : fuzzyRound((totalDistanceInK/devideBy)*ftInK),
+                      'best'   : displayMi > 0 ? numeral(displayMi, '0,0') : numeral(displayFt, '0,0'),
+                      'label'  : displayMi > 0 ? (displayMi === 1 ? 'Mile' : 'Miles') : (displayFt === 1 ? 'Foot' : 'Feet')
+                    }
                   } );
 
                 } else {
