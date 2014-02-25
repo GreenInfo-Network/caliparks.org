@@ -115,6 +115,7 @@ module.exports = function(req, res, data, callback) {
                     name             : result.rows[0].unit_name,
                     agency_slug      : result.rows[0].agncy_name.split(' ').join('+').split(',')[0],
                     totalPhotos      : flesult.rows.length ? flesult.rows.length : 0,
+                    flickrPhotos     : flesult.rows,
                     coverPhoto       : flesult.rows.length ? flesult.rows[0] : null,
                     locationDisplay  : {
                       lat : gpsUtil.getDMSLatitude(result.rows[0].centroid_latitude),
