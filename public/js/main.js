@@ -75,7 +75,7 @@
 
       animationInterval = setInterval(function() {
 
-        rootElement.scrollLeft -= 8;
+        rootElement.scrollLeft -= 10;
 
         if (rootElement.scrollLeft < Math.max(start-rootElement.offsetWidth, 0)+1) {
           clearInterval(animationInterval);
