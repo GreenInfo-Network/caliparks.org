@@ -6,11 +6,21 @@ if (!process.argv[2]) {
   return false;
 }
 
-console.log('Making a JSON context file for Instagram...');
+console.log('Making a JSON context file for all Flickr/Instagram combined...');
 
 pg.connect('postgres://eric@localhost/eric', function(err, client, cb) {
 
-  client.query('select array_to_json(array_agg(row_to_json(t)))from (select su_id, instagramphotos from site_totals where instagramphotos > 0 order by instagramphotos Desc) t', function(err, response) {
+  if (err) {
+    return console.error(err);
+    process.exit();
+  }
+
+  client.query('select array_to_json(array_agg(row_to_json(t)))from (select su_id, flickrphotos + instagramphotos AS photographed from site_totals where flickrphotos + instagramphotos > 0 order by photographed Desc) t', function(err, response) {
+
+    if (err) {
+      return console.error(err);
+      process.exit();
+    }
 
     console.log('Writing file to ' + process.argv[2]);
     fs.writeFileSync(process.argv[2], JSON.stringify(response.rows[0].array_to_json), {encoding:'utf8'});
