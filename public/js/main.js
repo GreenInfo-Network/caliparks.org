@@ -46,19 +46,22 @@
         animationInterval = null;
       }
 
-      var start = rootElement.scrollLeft;
+      var start = rootElement.scrollLeft,
+          last  = 0;
 
       animationInterval = setInterval(function() {
 
         rootElement.scrollLeft += 8;
 
-        if (rootElement.scrollLeft > Math.min(start+rootElement.offsetWidth, rootElement.scrollWidth)-1) {
+        if (rootElement.scrollLeft === last || rootElement.scrollLeft > (Math.min(start+rootElement.offsetWidth, rootElement.scrollWidth-rootElement.offsetWidth))) {
           clearInterval(animationInterval);
           animationInterval = null;
           fire('forward', {
             target : rootElement
           });
         }
+
+        last = rootElement.scrollLeft;
 
       }, 1);
 
@@ -71,13 +74,14 @@
         animationInterval = null;
       }
 
-      var start = rootElement.scrollLeft;
+      var start = rootElement.scrollLeft,
+          last  = 0;
 
       animationInterval = setInterval(function() {
 
         rootElement.scrollLeft -= 10;
 
-        if (rootElement.scrollLeft < Math.max(start-rootElement.offsetWidth, 0)+1) {
+        if (rootElement.scrollLeft === last || rootElement.scrollLeft < Math.max(start-rootElement.offsetWidth, 0)+1) {
           clearInterval(animationInterval);
           animationInterval = null;
 
@@ -85,6 +89,8 @@
             target : rootElement
           });
         }
+
+        last = rootElement.scrollLeft;
 
       }, 1);
 
