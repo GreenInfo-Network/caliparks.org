@@ -207,8 +207,6 @@ body.openspaces .tweets {
 }
 
 body.openspaces #park-hash-tag {
-	position:absolute;
-	width:269px;
 	height:67px;
 	background-color: rgb(34, 17, 2);
 	top:80px; right:103px;
@@ -231,6 +229,7 @@ body.openspaces .has-coverphoto #park-hash-tag {
 	position:absolute;
 	top: 403px;
   left: 41px;
+  width:269px;
 }
 
 /* Flickr cover photo module */
@@ -447,6 +446,10 @@ body.openspaces .has-instagram-photos #tweets {
 body.openspaces #foursquare-stats {
   display:inline-block;
   width:400px;
+  vertical-align: top;
+}
+
+body.openspaces .has-instagram-photos.has-tweets #foursquare-stats {
   vertical-align: bottom;
 }
 
