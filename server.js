@@ -40,6 +40,10 @@ app.get('/', function(req,res) {
 
 	require('./controllers/home.js')(req, res, {}, function(err, templateData) {
 
+		if (err) {
+			return console.error(err);
+		}
+
 		templateData.layout = 'photo-back';
 
 		res.render('home', templateData);

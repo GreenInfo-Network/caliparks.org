@@ -19,7 +19,7 @@ module.exports = function(data, callback) {
       dbLimit = ' LIMIT ' + data.limit;
     }
 
-    pgClient.query('SELECT * FROM site_park ORDER BY park_area Desc' + dbLimit + ';', function(err, result) {
+    pgClient.query('SELECT su_id, unit_name FROM site_park ORDER BY park_area Desc' + dbLimit + ';', function(err, result) {
       if(err) {
         return console.error('error running query', err);
       }
