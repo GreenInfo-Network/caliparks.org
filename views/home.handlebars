@@ -34,15 +34,27 @@ and to clearly show how people are enjoying parks across California.</p>
     {{/each}}
   </article>
 
-  <h2>Most photographed...</h2>
+  <h2>Which parks are most tweeted about?</h2>
+  <article class="glop-slider" id="size-glop-slider">
+    {{#each most_tweets.parks}}
+      {{>glop_park}}
+    {{/each}}
+  </article>
+
+  <h2>Which are the most photogenic parks?</h2>
   <article class="glop-slider" id="size-glop-slider">
     {{#each most_photographed.parks}}
       {{>glop_park}}
     {{/each}}
   </article>
-</section>
 
-<div style="text-align:center;margin-top:40px;"><a href="/agencies">Check out some more parks!</a></div>
+  <h2>Where are people checking in?</h2>
+  <article class="glop-slider" id="size-glop-slider">
+    {{#each most_checkins.parks}}
+      {{>glop_park}}
+    {{/each}}
+  </article>
+</section>
 
 <script src="/js/vendor/topojson.v1.min.js"></script>
 <script src="/js/vendor/d3.v3.min.js"></script>
