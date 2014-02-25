@@ -395,7 +395,7 @@ body.openspaces #park-template-wrapper .carousel-back-button {
 
 body.openspaces .carousel-container .carousel-back-button {
   opacity:1;
-  left: 53px;
+  left: 0px;
 }
 
 body.openspaces .carousel-container {
@@ -438,7 +438,7 @@ body.openspaces .carousel-forward-button, body.openspaces .carousel-back-button:
 body.openspaces .carousel-forward-button {
   transition:opacity .5s;
   opacity:1;
-  right: 53px;
+  right: 0px;
 }
 
 body.openspaces #park-template-wrapper .carousel-forward-button {

@@ -129,6 +129,9 @@ module.exports = function(req, res, data, callback) {
                       displayMi        = fuzzyRound((totalDistanceInK/devideBy)/kInMiles),
                       displayFt        = fuzzyRound((totalDistanceInK/devideBy)*ftInK);
 
+                  //Limit Flickr photos
+                  flesult.rows.length = 50;
+
                   callback( null, {
                     appTitle         : 'Stamen Parks: California > ' + result.rows[0].unit_name,
                     park_id          : result.rows[0].su_id,
