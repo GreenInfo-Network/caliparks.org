@@ -5,7 +5,7 @@
 	}
 </style>
 
-<div id="park-template-wrapper" class="{{# if coverPhoto}}has-coverphoto {{/if}} not-scrolled">
+<div id="park-template-wrapper" class="{{# if coverPhoto}}has-coverphoto {{/if}} not-scrolled{{#if noFlickrScroll}} scrolled-furthest{{/if}}">
 
 	{{# if coverPhoto}}
 		<div id="coverphoto-carousel" style="overflow:hidden;overflow-x:auto;white-space:nowrap;">
