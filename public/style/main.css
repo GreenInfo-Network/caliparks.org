@@ -52,7 +52,7 @@ table {
 */
 body.openspaces {
   padding:0 64px 64px 64px;
-  font-family: helvetica, arial;
+  font-family: "HelveticaNeue", "Helvetica Neue", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   font-weight: 300;
   font-size: 18px;
   background-color: rgb(68, 51, 32);
@@ -69,7 +69,7 @@ body.openspaces.photo-back-template {
 }
 
 body.openspaces.photo-back-template .photo-back-content {
-  width:1000px;
+  width:1030px;
   margin:0 auto;
 }
 
@@ -288,6 +288,7 @@ body.openspaces .main-content #instagram-photos {
   vertical-align: top;
   margin-left: 8px; 
   margin-bottom: 40px;
+  text-align: right;
 }
 
 body.openspaces .main-content #instagram-photos image {
