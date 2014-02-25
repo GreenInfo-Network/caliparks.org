@@ -4,6 +4,8 @@ module.exports = function(options) {
 
   return function(data, callback) {
 
+      var theseOptions = options;
+
       if (!options.name) {
         return callback('You need to pass a name parameter');
       }
@@ -50,6 +52,8 @@ module.exports = function(options) {
 
       } else {
         pg.connect('postgres://eric@localhost/eric', function(err, client, cb) {
+
+          console.log('options',options);
 
           client.query(options.query, function(err, response) {
 
