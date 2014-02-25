@@ -447,7 +447,7 @@ body.openspaces .has-instagram-photos #tweets {
 body.openspaces #foursquare-stats {
   display:inline-block;
   width:400px;
-  vertical-align: top;
+  vertical-align: bottom;
 }
 
 body.openspaces #foursquare-stats h2, body.openspaces #foursquare-stats table, tfoot {
