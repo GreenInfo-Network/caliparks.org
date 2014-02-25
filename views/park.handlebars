@@ -19,17 +19,14 @@
 			<!--div class="access-type-badge">{{cpadPark.park_area}} Miles</div-->
 			<div id="park-shape"></div>
 		</div>
+		{{>park-page-instagram}}
 		{{#if has_instagram_photos}}
-		<div id="instagram-photos" style="font-size:0;line-height:0;">
-			{{#each top_instagram_photos}}
-				<div style="width:128px;height:128px;display:inline-block; background-image:url('{{standard_resolution}}');background-size: 128px 128px;"></div>
-			{{else}}
-				<span class="empty">No Instagram photos</span>
-			{{/each}}
-		</div>
+			{{>park-page-foursquare}}
+			{{>park-page-tweets}}
+		{{else}}
+			{{>park-page-tweets}}
+			{{>park-page-foursquare}}
 		{{/if}}
-		{{>park-page-foursquare}}
-		{{>park-page-tweets}}
 	</section>
 
 </div>

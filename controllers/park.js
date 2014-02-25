@@ -124,6 +124,7 @@ module.exports = function(req, res, data, callback) {
                     hashtag          : hashtags[result.rows[0].su_id],
                     tweets           : tweetsult.rows,
                     tweet_count      : tweetsult.rows.length,
+                    has_tweets       : (tweetsult.rows.length > 0),
                     has_instagram_photos : (instasult.rows.length > 0),
                     top_instagram_photos : instasult.rows,
                     has_foursquare   : (venues_count > 0),
