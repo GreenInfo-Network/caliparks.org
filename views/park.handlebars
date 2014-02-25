@@ -10,54 +10,26 @@
 	{{# if coverPhoto}}{{>flickr_coverphoto}}{{/if}}
 	<div id="park-hash-tag">#{{hashtag}}</div>
 	<div id="california_shape"></div>
-	<section id="park-info">
-		<h1>{{name}}</h1>
-		<p>{{locationDisplay.lat}}, {{locationDisplay.lon}}</p>
-		<p><a href="/parks/agency/{{agency_slug}}">{{#agencyNameDisplay}}{{cpadPark.agncy_name}}{{/agencyNameDisplay}}</a></p>
-		<!--div class="access-type-badge">{{cpadPark.park_area}} Miles</div-->
-	</section>
 
 	<section class="{{#if has_instagram_photos}} has-instagram-photos{{/if}}">
-		<div style="width:385px;display:inline-block;">
+		<div id="park-info" style="display:inline-block;width:400px;">
+			<h1>{{name}}</h1>
+			<p>{{locationDisplay.lat}}, {{locationDisplay.lon}}</p>
+			<p><a href="/parks/agency/{{agency_slug}}">{{#agencyNameDisplay}}{{cpadPark.agncy_name}}{{/agencyNameDisplay}}</a></p>
+			<!--div class="access-type-badge">{{cpadPark.park_area}} Miles</div-->
 			<div id="park-shape"></div>
-			{{#if has_foursquare}}
-			<div id="foursquare-stats">
-				<h2>People are checking in on Foursquare</h2>
-				<table>
-					<tbody>
-						<tr><td>{{venues_count}}</td><td>{{venues_checkins}}</td><td>{{venues_tips}}</td></tr>
-					</tbody>
-					<tfoot>
-						<tr><td>Venues</td><td>Check ins</td><td>Tips</td></tr>
-					</tfoot>
-				</table>
-			</div>
-			{{/if}}
 		</div>
 		{{#if has_instagram_photos}}
 		<div id="instagram-photos" style="font-size:0;line-height:0;">
 			{{#each top_instagram_photos}}
-				<div style="width:128px;height:128px;display:inline-block;"><img width="128px" src="{{standard_resolution}}" align="left" border="0"></div>
+				<div style="width:128px;height:128px;display:inline-block; background-image:url('{{standard_resolution}}');background-size: 128px 128px;"></div>
 			{{else}}
 				<span class="empty">No Instagram photos</span>
 			{{/each}}
 		</div>
 		{{/if}}
-		<link rel="stylesheet" type="text/css" href="/style/standalone-tweet.css">
-		<div id="tweets">
-			<h2>#{{hashtag}} on Twitter</h2>
-			<div style="width:100%;padding:10px;">
-				<textarea style="width:97%;border:solid 1px #ccc;border-radius:4px;">#{{hashtag}}</textarea>
-				<a class="follow-button profile" href="https://twitter.com/TotalTrafficMOD" role="button" data-scribe="component:followbutton" title="Follow TotalTrafficMOD on Twitter"><i class="ic-button-bird"></i>Tweet</a>
-			</div>
-			<ul>
-			{{#each tweets}}
-				<li>{{>twitter_hashtag_post}}</li>
-			{{else}}
-				<li class="empty">No Tweets</li>
-			{{/each}}
-			</ul>
-		</div>
+		{{>park-page-foursquare}}
+		{{>park-page-tweets}}
 	</section>
 
 </div>

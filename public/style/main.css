@@ -281,7 +281,7 @@ body.openspaces .main-content #instagram-photos {
   display: inline-block;
   width: 520px;
   vertical-align: top;
-  margin-left: 29px; 
+  margin-left: 8px; 
   margin-bottom: 40px;
 }
 
@@ -306,17 +306,12 @@ body.openspaces header #search input {
 	border:none; 
 	cursor: pointer;
 	display: inline-block; 
-	width: 100px;
+	width: 200px;
 	background-color: rgb(68, 51, 32);
 	font-size: 18px;
   color:rgba(238, 222, 204,1);
   font-weight: 200;
   transition:width,background-color 1s;
-}
-
-body.openspaces header.has-search-results #search input, body.openspaces header #search input:active, body.openspaces header #search input:hover {
-  width: 200px;
-  background-color: rgb(88, 71, 32);
 }
 
 body.openspaces header #search a {
@@ -440,17 +435,19 @@ body.openspaces #tweets {
   background-color: #fff;
   border-radius: 4px;
   padding: 10px;
-  margin-left: 48px;
+  margin-left: 0px;
 }
 
 body.openspaces .has-instagram-photos #tweets {
-  margin-left: 413px;
+  margin-left: 6px;
+  vertical-align: top;
 }
 
 /* Foursquare Stats */
 body.openspaces #foursquare-stats {
   display:inline-block;
   width:400px;
+  vertical-align: top;
 }
 
 body.openspaces #foursquare-stats h2, body.openspaces #foursquare-stats table, tfoot {
@@ -479,7 +476,7 @@ body.openspaces #foursquare-stats table tfoot {
 /* Park Shape */
 body.openspaces #park-shape {
   display:inline-block;
-  
+  margin-top: 40px;
   width:300px;
   height:300px;
   margin-bottom: 40px;
@@ -544,8 +541,9 @@ body.openspaces #park-shape {
     padding-top:20px;
   }
 
-  body.openspaces section#park-info {
+  body.openspaces #park-info {
     padding:40px;
+    width: 400px;
   }
 
   body.openspaces .has-coverphoto #park-hash-tag {
