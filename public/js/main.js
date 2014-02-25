@@ -8,115 +8,218 @@
       results           = document.querySelector('#search-results'),
       header            = document.querySelector('header'),
       searchResultClass = 'has-search-results',
-      testing;
+      listeners         = {},
+      testing, animationInterval, forwardButton, backButton;
 
-    function debounce(fn, delay) {
-      var timer = null;
-      return function () {
-        var context = this, args = arguments;
-        clearTimeout(timer);
-        timer = setTimeout(function () {
-          fn.apply(context, args);
-        }, delay);
-      };
+  function Carousel(rootSelector) {
+
+    var rootElement = document.querySelector(rootSelector);
+
+    if(!rootSelector || !rootElement) {
+      return false;
     }
 
-    function exitSearch() {
+    function on(event, fn, scope) {
 
-      searchbox.value = '';
-      header.classList.remove('has-search-results');
-      results.innerHTML = '';
+      listeners[event] = listeners[event] || [];
+
+      listeners[event].push(arguments);
+
     }
 
-    searchbox.addEventListener('keyup', debounce(function(e) {
+    function fire(event, eventFacade) {
+      var scope = this;
 
-      var found;
-
-      //
-      // ESCAPE!!!
-      //
-      if (e.keyCode === 27) {
-        exitSearch();
-      }
-
-      //
-      // Is it a keydown? Go to the menu
-      //
-      if (e.keyIdentifier == 'Down' && header.classList.contains('has-search-results')) {
-
-        results.querySelector('a').focus();
-
-        return true;
-
-      }
-
-      //
-      // Do a search suggestion
-      //
-      if (!testing) {
-
-        results.innerHTML = '';
-        testing = true;
-
-        search_data.forEach(function(park, i) {
- 
-          if (e.target.value.length > 3 && new RegExp('.*'+e.target.value.toLowerCase()+'.*').test(park.park_name.toLowerCase())) {
-
-            found = true;
-            results.style.left = (searchbox.parentNode.offsetLeft + searchbox.offsetLeft + 10) + 'px';
-
-            results.innerHTML += '<div><a href="/park/'+park.id+'" data-resultid="'+i+'">'+park.park_name+'</a></div>';
-
-          }
-
+      if (listeners[event]) {
+        listeners[event].forEach(function(subscription) {
+          scope = subscription[2] || scope;
+          subscription[1](eventFacade);
         });
+      }
 
-        console.log(found);
-        if (found) {
-          header.classList.add('has-search-results');
-        } else {
-          header.classList.remove('has-search-results');
+    }
+
+    function goForward() {
+
+      if (animationInterval) {
+        clearInterval(animationInterval);
+        animationInterval = null;
+      }
+
+      var start = rootElement.scrollLeft;
+
+      animationInterval = setInterval(function() {
+
+        rootElement.scrollLeft += 8;
+
+        if (rootElement.scrollLeft > Math.min(start+rootElement.offsetWidth, rootElement.scrollWidth)-1) {
+          clearInterval(animationInterval);
+          animationInterval = null;
+          fire('forward', {
+            target : rootElement
+          });
         }
 
-        testing = null;
+      }, 1);
 
+    }
+
+    function goBackward() {
+
+      if (animationInterval) {
+        clearInterval(animationInterval);
+        animationInterval = null;
       }
 
-    },250), false);
+      var start = rootElement.scrollLeft;
 
-    results.addEventListener('keyup', debounce(function(e) {
+      animationInterval = setInterval(function() {
 
-      var links;
+        rootElement.scrollLeft -= 8;
 
-      //
-      // ESCAPE!!!
-      //
-      if (e.keyCode === 27) {
-        exitSearch();
-      }
+        if (rootElement.scrollLeft < Math.max(start-rootElement.offsetWidth, 0)+1) {
+          clearInterval(animationInterval);
+          animationInterval = null;
 
-      //
-      // Down means go down the list
-      //
-      if (e.keyIdentifier == 'Down' && header.classList.contains('has-search-results')) {
-
-        if (e.target.parentNode && e.target.parentNode.nextSibling) {
-          e.target.parentNode.nextSibling.querySelector('a').focus();
+          fire('backward', {
+            target : rootElement
+          });
         }
 
-      }
+      }, 1);
 
-      //
-      // Up means go up the list
-      //
-      if (e.keyIdentifier == 'Up' && header.classList.contains('has-search-results')) {
+    }
 
-        if (e.target.parentNode && e.target.parentNode.previousSibling) {
-          e.target.parentNode.previousSibling.querySelector('a').focus();
+    //
+    // Add root element class
+    //
+    rootElement.classList.add('stmn-carousel-module');
+
+    //
+    // Set scroll style
+    //
+    rootElement.style.overflow  = 'hidden';
+    rootElement.style.overflowX = 'scroll';
+    rootElement.style.position  = 'relative';
+
+
+    return {
+      goForward  : goForward,
+      goBackward : goBackward,
+      on         : on
+    }
+
+  }
+
+  window.STMN.Carousel = Carousel;
+
+  function debounce(fn, delay) {
+    var timer = null;
+    return function () {
+      var context = this, args = arguments;
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        fn.apply(context, args);
+      }, delay);
+    };
+  }
+
+  function exitSearch() {
+
+    searchbox.value = '';
+    header.classList.remove('has-search-results');
+    results.innerHTML = '';
+  }
+
+  searchbox.addEventListener('keyup', debounce(function(e) {
+
+    var found;
+
+    //
+    // ESCAPE!!!
+    //
+    if (e.keyCode === 27) {
+      exitSearch();
+    }
+
+    //
+    // Is it a keydown? Go to the menu
+    //
+    if (e.keyIdentifier == 'Down' && header.classList.contains('has-search-results')) {
+
+      results.querySelector('a').focus();
+
+      return true;
+
+    }
+
+    //
+    // Do a search suggestion
+    //
+    if (!testing) {
+
+      results.innerHTML = '';
+      testing = true;
+
+      search_data.forEach(function(park, i) {
+
+        if (e.target.value.length > 3 && new RegExp('.*'+e.target.value.toLowerCase()+'.*').test(park.park_name.toLowerCase())) {
+
+          found = true;
+          results.style.left = (searchbox.parentNode.offsetLeft + searchbox.offsetLeft + 10) + 'px';
+
+          results.innerHTML += '<div><a href="/park/'+park.id+'" data-resultid="'+i+'">'+park.park_name+'</a></div>';
+
         }
 
+      });
+
+      console.log(found);
+      if (found) {
+        header.classList.add('has-search-results');
+      } else {
+        header.classList.remove('has-search-results');
       }
 
-    },250), false);
+      testing = null;
+
+    }
+
+  },250), false);
+
+  results.addEventListener('keyup', debounce(function(e) {
+
+    var links;
+
+    //
+    // ESCAPE!!!
+    //
+    if (e.keyCode === 27) {
+      exitSearch();
+    }
+
+    //
+    // Down means go down the list
+    //
+    if (e.keyIdentifier == 'Down' && header.classList.contains('has-search-results')) {
+
+      if (e.target.parentNode && e.target.parentNode.nextSibling) {
+        e.target.parentNode.nextSibling.querySelector('a').focus();
+      }
+
+    }
+
+    //
+    // Up means go up the list
+    //
+    if (e.keyIdentifier == 'Up' && header.classList.contains('has-search-results')) {
+
+      if (e.target.parentNode && e.target.parentNode.previousSibling) {
+        e.target.parentNode.previousSibling.querySelector('a').focus();
+      }
+
+    }
+
+  },250), false);
 
 }(window));

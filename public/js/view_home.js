@@ -1,43 +1,64 @@
 'use static';
 
 (function(window) {
-/*
-  window.STMN = window.STMN || {};
 
-  function initView(data) {
+  var sliders = {};
 
-    var bigSmallGlopElements = document.querySelectorAll(data.bigSmallGlop.selector + ' .glop-park'),
-        parkShape, parkElement;
+  function SetUpCaousel(rootSelector) {
 
-     function makePark(el) {
+    var that = this;
 
-      setTimeout(function() {
+    //
+    // Biggest to smallest carousel
+    //
+    this.instance    = new window.STMN.Carousel(rootSelector);
+    this.rootElement = document.querySelector(rootSelector).parentNode;
+    this.backElement = this.rootElement.querySelector('.carousel-back-button');
+    this.backElement.addEventListener('click', function() {
+      that.instance.goBackward();
+    }, false);
+    this.instance.on('forward', function(e) {
 
-        parkShape = new STMN.ParkShape(
-          el, 
-          data.bigSmallGlop.shapes[data.bigSmallGlop.idPrefix + el.getAttribute('data-park-id')]
-        );
+      if (e.target.scrollLeft > (e.target.scrollWidth-(e.target.offsetWidth+e.target.offsetWidth/2))) {
+        that.rootElement.classList.add('scrolled-furthest');
+      } else {
+        that.rootElement.classList.remove('scrolled-furthest');
+      }
 
-       parkShape.init();
-        
-      }, 1000*i);
+      if (e.target.scrollLeft < (e.target.offsetWidth/2)) {
+        that.rootElement.classList.add('not-scrolled');
+      } else {
+        that.rootElement.classList.remove('not-scrolled');
+      }
+    });
+    this.instance.on('backward', function(e) {
 
-    }
-*/
+      if (e.target.scrollLeft > (e.target.scrollWidth-(e.target.offsetWidth+e.target.offsetWidth/2))) {
+        that.rootElement.classList.add('scrolled-furthest');
+      } else {
+        that.rootElement.classList.remove('scrolled-furthest');
+      }
 
-    /*
-    for(var i=0; bigSmallGlopElements.length > i; i++) {
+      if (e.target.scrollLeft < (e.target.offsetWidth/2)) {
+        that.rootElement.classList.add('not-scrolled');
+      } else {
+        that.rootElement.classList.remove('not-scrolled');
+      }
+    });
+    this.forwardElement = this.rootElement.querySelector('.carousel-forward-button');
+    this.forwardElement.addEventListener('click', function() {
+      that.instance.goForward();
+    }, false);
 
-      parkElement = bigSmallGlopElements[i];
+  }
 
-      makePark(parkElement);
+  document.addEventListener('DOMContentLoaded', function() {
 
-    }
-    */
+    var biggestCarousel  = new SetUpCaousel('#size-glop-slider'),
+        tweetsCarousel   = new SetUpCaousel('#tweets-glop-slider'),
+        photosCarousel   = new SetUpCaousel('#photos-glop-slider'),
+        checkinsCarousel = new SetUpCaousel('#checkins-glop-slider');
 
-  //}
-
-  //Public interface
-  //STMN.initView = initView;
+  }, false);
 
 }(window));

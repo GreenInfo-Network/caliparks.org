@@ -27,33 +27,49 @@ and to clearly show how people are enjoying parks across California.</p>
 </article>
 
 <section>
-  <h2>Explore giant parks to tiny parks...</h2>
-  <article class="glop-slider" id="size-glop-slider">
-    {{#each parks}}
-      {{>glop_park}}
-    {{/each}}
-  </article>
+  <div class="carousel-container not-scrolled">
+    <h2>Explore giant parks to tiny parks...</h2>
+    <article class="glop-slider" id="size-glop-slider">
+      {{#each parks}}
+        {{>glop_park}}
+      {{/each}}
+    </article>
+    <button class="carousel-back-button">←</button>
+    <button class="carousel-forward-button">→</button>
+  </div>
 
-  <h2>Which parks are most tweeted about?</h2>
-  <article class="glop-slider" id="size-glop-slider">
-    {{#each most_tweets.parks}}
-      {{>glop_park}}
-    {{/each}}
-  </article>
+  <div class="carousel-container not-scrolled">
+    <h2>Which parks are most tweeted about?</h2>
+    <article class="glop-slider" id="tweets-glop-slider">
+      {{#each most_tweets.parks}}
+        {{>glop_park}}
+      {{/each}}
+    </article>
+    <button class="carousel-back-button">←</button>
+    <button class="carousel-forward-button">→</button>
+  </div>
 
-  <h2>Which are the most photogenic parks?</h2>
-  <article class="glop-slider" id="size-glop-slider">
-    {{#each most_photographed.parks}}
-      {{>glop_park}}
-    {{/each}}
-  </article>
+  <div class="carousel-container not-scrolled">
+    <h2>Which are the most photogenic parks?</h2>
+    <article class="glop-slider" id="photos-glop-slider">
+      {{#each most_photographed.parks}}
+        {{>glop_park}}
+      {{/each}}
+    </article>
+    <button class="carousel-back-button">←</button>
+    <button class="carousel-forward-button">→</button>
+  </div>
 
-  <h2>Where are people checking in?</h2>
-  <article class="glop-slider" id="size-glop-slider">
-    {{#each most_checkins.parks}}
-      {{>glop_park}}
-    {{/each}}
-  </article>
+  <div class="carousel-container not-scrolled">
+    <h2>Where are people checking in?</h2>
+    <article class="glop-slider" id="checkins-glop-slider">
+      {{#each most_checkins.parks}}
+        {{>glop_park}}
+      {{/each}}
+    </article>
+    <button class="carousel-back-button">←</button>
+    <button class="carousel-forward-button">→</button>
+  </div>
 </section>
 
 <script src="/js/vendor/topojson.v1.min.js"></script>

@@ -377,6 +377,48 @@ body.openspaces .glop-slider {
 body.openspaces .glop-slider::-webkit-scrollbar { width: 0 !important }
 body.openspaces .glop-slider::-scrollbar { width: 0 !important }
 
+body.openspaces .carousel-container.not-scrolled .carousel-back-button {
+  opacity:0;
+  transition:opacity .5s;
+}
+
+body.openspaces .carousel-container .carousel-back-button {
+  opacity:1;
+  left: 53px;
+}
+
+body.openspaces .carousel-container {
+  position: relative;
+}
+
+body.openspaces .carousel-container button{
+  background-color: transparent;
+  border-radius: 999px;
+  width: 50px;
+  height: 50px;
+  border-color: white;
+  color: white;
+  font-size: 31px;
+  border-width: 2px;
+  position: absolute;
+  top: 111px;
+  cursor: pointer;
+}
+
+body.openspaces .carousel-container button:focus {
+  outline-width: 0;
+}
+
+body.openspaces .carousel-container .carousel-forward-button {
+  transition:opacity .5s;
+  opacity:1;
+  right: 53px;
+}
+
+body.openspaces .carousel-container.scrolled-furthest .carousel-forward-button {
+  opacity:0;
+}
+
 body.openspaces .glop-park {
   display:inline-block;
   width:200px;
