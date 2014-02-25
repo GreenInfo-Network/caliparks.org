@@ -152,6 +152,7 @@ module.exports = function(req, res, data, callback) {
                     has_tweets       : (tweetsult.rows.length > 0),
                     has_instagram_photos : (instasult.rows.length > 0),
                     top_instagram_photos : instasult.rows,
+                    instagram_count : instasult.rows.length,
                     has_foursquare   : (venues_count > 0),
                     venues_activity  : foursult.rows,
                     venues_count     : foursult.rows.length < 1000000 ? venues_count : '1 M +',
