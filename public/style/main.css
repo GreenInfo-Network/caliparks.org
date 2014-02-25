@@ -390,7 +390,7 @@ body.openspaces .not-scrolled .carousel-back-button {
 
 body.openspaces #park-template-wrapper .carousel-back-button {
   left: 45px;
-  top: 165px;
+  top: 200px;
 }
 
 body.openspaces .carousel-container .carousel-back-button {
@@ -443,7 +443,7 @@ body.openspaces .carousel-forward-button {
 
 body.openspaces #park-template-wrapper .carousel-forward-button {
   right: 45px;
-  top: 165px;
+  top: 200px;
 }
 
 body.openspaces .scrolled-furthest .carousel-forward-button {
