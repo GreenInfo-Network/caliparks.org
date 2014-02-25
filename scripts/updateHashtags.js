@@ -218,7 +218,7 @@ pg.connect('postgres://openspaces@localhost/openspaces', function(err, client, c
     console.log('This takes a while'.yellow);
     
     progressBarGdocs.update(.25);
-    var my_sheet = new GoogleSpreadsheet('0AnaQ5qurLjURdGtNU2dYbldIOHFXc2RfUUVya3lNaGc');
+    var my_sheet = new GoogleSpreadsheet('0AvBupl6ea_d8dEpSSUQ5eDY3X3ZuTkdFeGhkSW9QOUE');
     //https://docs.google.com/a/stamen.com/spreadsheet/ccc?key=0AnaQ5qurLjURdGtNU2dYbldIOHFXc2RfUUVya3lNaGc&usp=drive_web#gid=0
 
 
@@ -232,8 +232,8 @@ pg.connect('postgres://openspaces@localhost/openspaces', function(err, client, c
           console.error('Error with Google Doc response', err);
         }
 
-        if (row.edited.length && id_hash[row.hashtag.substring(1)]) {
-          hashtags[id_hash[row.hashtag.substring(1)]] = row.edited.substring(1);
+        if (row.hashtag.length) {
+          hashtags[row.su_id] = row.hashtag.substring(1);
           edited_count++;
         }
 
