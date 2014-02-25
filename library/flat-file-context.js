@@ -51,11 +51,9 @@ module.exports = function(options) {
           }));
 
       } else {
-        pg.connect('postgres://eric@localhost/eric', function(err, client, cb) {
+        pg.connect(process.env.DATABASE_URL, function(err, client, cb) {
 
-          console.log('options',options);
-
-          client.query(options.query, function(err, response) {
+          client.query(theseOptions.query, function(err, response) {
 
             response.rows.forEach(function(park) {
               match_map[park.su_id] = park;
