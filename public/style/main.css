@@ -233,7 +233,7 @@ body.openspaces .has-coverphoto #park-hash-tag {
 }
 
 /* Flickr cover photo module */
-body.openspaces .has-coverphoto #coverphoto {
+body.openspaces .has-coverphoto .coverphoto {
 	height:480px;
 	background: no-repeat center center;
 	-webkit-background-size: cover;
@@ -241,9 +241,10 @@ body.openspaces .has-coverphoto #coverphoto {
 	-o-background-size: cover;
 	background-size: cover;
 	position:relative;
+  width: 1018px;
 }
 
-body.openspaces .has-coverphoto #coverphoto span.attribution {
+body.openspaces .has-coverphoto .coverphoto span.attribution {
 	position:absolute;
 	right:20px; bottom:5px;
 	background-color:rgba(34, 17, 2,.4);
@@ -252,7 +253,7 @@ body.openspaces .has-coverphoto #coverphoto span.attribution {
 	font-size:9px;
 }
 
-body.openspaces .has-coverphoto #coverphoto span.attribution a {
+body.openspaces .has-coverphoto .coverphoto span.attribution a {
 	text-decoration: none;
 }
 
@@ -377,9 +378,14 @@ body.openspaces .glop-slider {
 body.openspaces .glop-slider::-webkit-scrollbar { width: 0 !important }
 body.openspaces .glop-slider::-scrollbar { width: 0 !important }
 
-body.openspaces .carousel-container.not-scrolled .carousel-back-button {
+body.openspaces .not-scrolled .carousel-back-button {
   opacity:0;
   transition:opacity .5s;
+}
+
+body.openspaces #park-template-wrapper .carousel-back-button {
+  left: 45px;
+  top: 165px;
 }
 
 body.openspaces .carousel-container .carousel-back-button {
@@ -391,7 +397,7 @@ body.openspaces .carousel-container {
   position: relative;
 }
 
-body.openspaces .carousel-container button{
+body.openspaces .carousel-forward-button, body.openspaces .carousel-back-button {
   background-color: transparent;
   border-radius: 999px;
   width: 50px;
@@ -405,17 +411,22 @@ body.openspaces .carousel-container button{
   cursor: pointer;
 }
 
-body.openspaces .carousel-container button:focus {
+body.openspaces .carousel-forward-button, body.openspaces .carousel-back-button:focus {
   outline-width: 0;
 }
 
-body.openspaces .carousel-container .carousel-forward-button {
+body.openspaces .carousel-forward-button {
   transition:opacity .5s;
   opacity:1;
   right: 53px;
 }
 
-body.openspaces .carousel-container.scrolled-furthest .carousel-forward-button {
+body.openspaces #park-template-wrapper .carousel-forward-button {
+  right: 45px;
+  top: 165px;
+}
+
+body.openspaces .scrolled-furthest .carousel-forward-button {
   opacity:0;
 }
 
@@ -595,7 +606,7 @@ body.openspaces #park-shape {
     position:static;
     width:100%;
   }
-  body.openspaces .has-coverphoto #coverphoto {
+  body.openspaces .has-coverphoto .coverphoto {
     height:200px;
   }
 
