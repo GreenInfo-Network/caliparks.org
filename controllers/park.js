@@ -129,9 +129,9 @@ module.exports = function(req, res, data, callback) {
                     top_instagram_photos : instasult.rows,
                     has_foursquare   : (venues_count > 0),
                     venues_activity  : foursult.rows,
-                    venues_count     : foursult.rows.length < 1000000 ? venues_count : 'A lot!',
-                    venues_checkins  : foursquare_checkins < 1000000 ? venues_checkins : 'A lot!',
-                    venues_tips      : foursquare_tips < 1000000 ? venues_tips : 'A lot!'
+                    venues_count     : foursult.rows.length < 1000000 ? venues_count : '1 M +',
+                    venues_checkins  : foursquare_checkins < 1000000 ? venues_checkins : '1 M +',
+                    venues_tips      : foursquare_tips < 1000000 ? venues_tips : '1 M +'
                   } );
 
                 } else {
