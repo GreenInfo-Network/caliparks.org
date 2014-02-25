@@ -404,15 +404,30 @@ body.openspaces .carousel-container {
 
 body.openspaces .carousel-forward-button, body.openspaces .carousel-back-button {
   background-color: transparent;
-  border-radius: 999px;
-  width: 50px;
-  height: 50px;
-  color: white;
+  width: 52px;
+  height: 52px;
+  color: transparent;
   font-size: 31px;
-  border:solid 3px white;
+  border:none;
   position: absolute;
   top: 111px;
   cursor: pointer;
+}
+
+body.openspaces .carousel-forward-button {
+  background-image: url('/style/forward-arrow-normal.png');
+}
+
+body.openspaces .carousel-forward-button:hover {
+  background-image: url('/style/forward-arrow-hover.png');
+}
+
+body.openspaces .carousel-back-button {
+  background-image: url('/style/back-arrow-normal.png');
+}
+
+body.openspaces .carousel-back-button:hover {
+  background-image: url('/style/back-arrow-hover.png');
 }
 
 
