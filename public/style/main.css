@@ -526,11 +526,23 @@ body.openspaces .has-instagram-photos.has-tweets #foursquare-stats {
   vertical-align: bottom;
 }
 
-body.openspaces #foursquare-stats h2, body.openspaces #foursquare-stats table, tfoot {
+
+body.openspaces #park-template-wrapper h2, body.openspaces #foursquare-stats table, tfoot {
   color: rgb(145, 118, 49);
   font-size: 18px;
   font-weight: 600;
   margin-bottom: 20px;
+  text-align: left;
+}
+
+body.openspaces #park-template-wrapper h2 span {
+  font-size: 11px;
+  margin-left: 11px;
+}
+
+body.openspaces #park-template-wrapper h2 a {
+  color: rgb(145, 118, 49);
+  text-decoration: none;
 }
 
 body.openspaces #foursquare-stats table {
