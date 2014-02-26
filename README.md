@@ -12,7 +12,7 @@ Deploy instructions
 * Get your repo prepaired to deploy using the following command: `heroku git:remote -a stamen-openspaces`
 * Once all of the Heroku stuff is installed, you should be able to deploy using this command
 
-`git push heroku nodejs:master`
+`git push heroku master`
 
 You may need to update with `git pull --rebase heroku master` first.
 
