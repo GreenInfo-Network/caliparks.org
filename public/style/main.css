@@ -538,7 +538,6 @@ body.openspaces #park-template-wrapper h2, body.openspaces #foursquare-stats tab
   font-size: 18px;
   font-weight: 600;
   margin-bottom: 20px;
-  text-align: left;
 }
 
 body.openspaces #park-template-wrapper h2 span {
@@ -564,7 +563,8 @@ body.openspaces #foursquare-stats table tbody {
 }
 
 body.openspaces #foursquare-stats table tfoot {
-  text-transform: capitalize;
+  text-transform: uppercase;
+  text-align: center;
 }
 
 /* Park Shape */
