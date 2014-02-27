@@ -11,7 +11,7 @@
     //
     // Biggest to smallest carousel
     //
-    this.instance    = new window.STMN.Carousel(rootSelector);
+    this.instance    = new STMN.Carousel(rootSelector);
     this.rootElement = document.querySelector(rootSelector).parentNode;
     this.backElement = this.rootElement.querySelector('.carousel-back-button');
     this.backElement.addEventListener('click', function() {
@@ -49,6 +49,15 @@
     this.forwardElement.addEventListener('click', function() {
       that.instance.goForward();
     }, false);
+
+    //
+    // Make an image defer instance
+    //
+    /*
+    this.imageDefer = new STMN.ImageDefer(rootSelector + ' .glop-park', {
+      scrollSelector : rootSelector
+    });
+    */
 
   }
 
