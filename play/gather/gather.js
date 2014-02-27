@@ -188,25 +188,60 @@ function queryInstagramAPI(lat, lng, radius, callback) {
       max_timestamp: ~~(Date.now() / 1000)
     }
   };
-  request(url, function (error, response, body) {
+  request(url, function (err, response, body) {
 
-    if (!error && response.statusCode == 200) {
-      body = JSON.parse(body);
-      //photos = photos.concat(body.data); // Only if we are building an object to hand back up the recursion tree
-
-      if (response.pagination) {
-        console.log("has more pages")
-        console.log("pagination:", body.pagination);
-        return callback(null, body);  // callback(err, result)
-      } else {
-        console.log("no more pages")
-        return callback(null, body);  // callback(err, result)
-      }
-      //return callback(null, photos);  // callback(err, result)
-
-    } else {
-      return callback(error);
+    if (err) {
+      return callback(err);
     }
+
+    if (!err && response.statusCode == 200) {
+      try {
+        body = JSON.parse(body);
+        //photos = photos.concat(body.data); // Only if we are building an object to hand back up the recursion tree
+
+        if (response.pagination) {
+          console.log("has more pages")
+          console.log("pagination:", body.pagination);
+          return callback(null, body);  // callback(err, result)
+        } else {
+          console.log("no more pages")
+          return callback(null, body);  // callback(err, result)
+        }
+        //return callback(null, photos);  // callback(err, result)
+      } catch (e) {
+        console.log("JSON parsing failed");
+        return callback(e);
+      }
+    }
+
+    if (!err && response.statusCode == 400) {
+      try {
+        body = JSON.parse(body);
+        if (body.code == 420) {
+          var sleeptime = 600;
+          console.log("rate limited, sleeping", sleeptime, "seconds...");
+          sleep.sleep(sleeptime);
+          return queryInstagramAPI(lat, lng, radius, callback); //instead, call self again after sleeping...
+        } else {
+          return callback(body); // Return body as err
+        }
+      } catch (e) {
+        console.log("JSON parsing failed");
+        return callback(e);
+      }
+    }
+
+    if (!err && response.statusCode != 200) {
+      try {
+        body = JSON.parse(body);
+        console.log("caught not 200:", body);
+        return callback(null, body);
+      } catch (e) {
+        return callback(e);
+      }
+    }
+
+    return callback(); //shouldn't get here
   });
 }
 
@@ -233,44 +268,47 @@ function instagramRecursionQueueTask(err, client, y, x, radius, polygon, park, d
           console.log("no body!", err, body);
         }
       }
-      console.log("park", park.id, "got", count, "instagram photos");
+      if (count) { // only if meaningful result. // TODO: handle this better
 
-      // If the count is 100, I think I need to recurse here.
+        console.log("park", park.id, "got", count, "instagram photos");
 
-      var metadata_id = saveInstagramHarvesterMetadata(client, park.id, latMid, lngMid, radius, new Date(), count);
+        // If the count is 100, I think I need to recurse here.
 
-      //metadata_id = 1; // It's currently fake anyway
+        var metadata_id = saveInstagramHarvesterMetadata(client, park.id, latMid, lngMid, radius, new Date(), count);
 
-      saveInstagramHarvesterResults(client, metadata_id, photos, park);
+        //metadata_id = 1; // It's currently fake anyway
 
-      if (count >= 100) {
+        saveInstagramHarvesterResults(client, metadata_id, photos, park);
 
-        // new centers are +/- radius/2 in all directions. will be projected in the RecursionQueueTask.
-        var newCenters = [
-          [y - radius/2, x - radius/2],
-          [y - radius/2, x + radius/2],
-          [y + radius/2, x - radius/2],
-          [y + radius/2, x + radius/2],
-        ]
-        var newRadius = radius*Math.sqrt(2)/2
+        if (count >= 100) {
 
-        console.log("park", park.id, "photos >= 100 at depth", depth + ", SUBDIVIDE:", newCenters)
+          // new centers are +/- radius/2 in all directions. will be projected in the RecursionQueueTask.
+          var newCenters = [
+            [y - radius/2, x - radius/2],
+            [y - radius/2, x + radius/2],
+            [y + radius/2, x - radius/2],
+            [y + radius/2, x + radius/2],
+          ]
+          var newRadius = radius*Math.sqrt(2)/2
 
-        newCenters.forEach(function(newCenter) {
-          var newX = newCenter[1];
-          var newY = newCenter[0];
-          testProjectedCircleIntersectionWithPark(client, newX, newY, newRadius, park, function(err, newX, newY, newRadius, intersects) {
-            if (intersects === true) {
+          console.log("park", park.id, "photos >= 100 at depth", depth + ", SUBDIVIDE:", newCenters)
 
-              var nextDepth = depth + 1;
+          newCenters.forEach(function(newCenter) {
+            var newX = newCenter[1];
+            var newY = newCenter[0];
+            testProjectedCircleIntersectionWithPark(client, newX, newY, newRadius, park, function(err, newX, newY, newRadius, intersects) {
+              if (intersects === true) {
 
-              liveTaskCounter[park.id] = liveTaskCounter[park.id] + 1;
-              //console.log("liveTaskCounter[", park.id, "] recursing:", liveTaskCounter[park.id]);
-              q.push({name: 'another task park: ' + park.id + ' depth ' + nextDepth, centerX: newX, centerY: newY, radius: newRadius}, instagramRecursionQueueTask(null, client, newY, newX, newRadius, polygon, park, nextDepth, q, callback));
+                var nextDepth = depth + 1;
 
-            }
+                liveTaskCounter[park.id] = liveTaskCounter[park.id] + 1;
+                //console.log("liveTaskCounter[", park.id, "] recursing:", liveTaskCounter[park.id]);
+                q.push({name: 'another task park: ' + park.id + ' depth ' + nextDepth, centerX: newX, centerY: newY, radius: newRadius}, instagramRecursionQueueTask(null, client, newY, newX, newRadius, polygon, park, nextDepth, q, callback));
+
+              }
+            });
           });
-        });
+        }
       }
 
       liveTaskCounter[park.id] = liveTaskCounter[park.id] - 1;
