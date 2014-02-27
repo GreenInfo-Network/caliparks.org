@@ -54,11 +54,7 @@ body.openspaces {
   font-family: "HelveticaNeue", "Helvetica Neue", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   font-weight: 300;
   font-size: 18px;
-  background-color: rgb(68, 51, 32);
   color:rgb(238, 222, 204);
-}
-
-body.openspaces.photo-back-template {
   background-color: rgb(33, 17, 0);
   background-image: url('/style/photo-back-template-bg.png');
   background-repeat: no-repeat;
@@ -135,13 +131,13 @@ body.openspaces header {
   line-height: 20px;
   width: 940px;
   margin: 0 auto;
+  max-width: 1602px;
+  background-color: rgb(69, 52, 33);
+  margin:0 auto;
 }
 
 body.openspaces.photo-back-template header {
-	background-color: rgb(69, 52, 33);
-  margin:0 auto;
 	margin-bottom: 65px;
-  max-width: 1602px;
 }
 
 body.openspaces header a {
@@ -157,6 +153,16 @@ body.openspaces header nav {
 body.openspaces header nav a {
 	text-decoration: none;
 	 color:rgb(238, 222, 204);
+}
+
+body.openspaces footer {
+  padding: 15px 40px;
+  height:126px;
+  position:relative;
+  line-height: 20px;
+  width: 940px;
+  margin: 0 auto;
+  font-weight: 100;
 }
 
 body.openspaces.photo-back-template article.about-this-page {

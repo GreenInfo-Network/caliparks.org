@@ -21,7 +21,7 @@
 
 	<body class="openspaces" ontouchstart="">
 
-		<header>
+		<header id="the-top">
 			<nav><a href="/">parks.stamen.com</a> / <a href="/">united states</a> / <a href="/">california</a></nav>
 			<div id="search"><div><a href="/wander?from={{park_id}}">wander</a>&nbsp;&nbsp;|<input type="search" placeholder="search"><button style="border:none;background-image:url('/style/icon-search.png');width:29px;height:29px;"></button></div>
 			<div id="search-results"></div>
@@ -30,6 +30,10 @@
 		<div class="main-content">
 			{{{body}}}
 		</div>
+
+		<footer>
+			<a href="#the-top">Top</a> | Find out more <a href="/about/">about this project</a>
+		</footer>
 
 		<script src="/js/main.js"></script>
 
