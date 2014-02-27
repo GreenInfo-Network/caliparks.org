@@ -191,6 +191,7 @@ function queryInstagramAPI(lat, lng, radius, callback) {
   request(url, function (err, response, body) {
 
     if (err) {
+      console.log("queryInstagramAPI error:", err);
       return callback(err);
     }
 
@@ -200,11 +201,11 @@ function queryInstagramAPI(lat, lng, radius, callback) {
         //photos = photos.concat(body.data); // Only if we are building an object to hand back up the recursion tree
 
         if (response.pagination) {
-          console.log("has more pages")
+          console.log("has more pages. TODO: add code to handle this!")
           console.log("pagination:", body.pagination);
           return callback(null, body);  // callback(err, result)
         } else {
-          console.log("no more pages")
+          //console.log("last or only page")
           return callback(null, body);  // callback(err, result)
         }
         //return callback(null, photos);  // callback(err, result)
@@ -231,12 +232,19 @@ function queryInstagramAPI(lat, lng, radius, callback) {
       }
     }
 
+    if (!err && response.statusCode == 500) {
+      return callback("An error occurred. Instagram message: code " + response.statusCode + " " + body); // TODO: better error obj
+    }
+
     if (!err && response.statusCode != 200) {
       try {
         body = JSON.parse(body);
         console.log("caught not 200:", body);
         return callback(null, body);
       } catch (e) {
+        console.log("JSON parsing failed");
+        console.log(response.statusCode);
+        console.log(response);
         return callback(e);
       }
     }
@@ -256,58 +264,56 @@ function instagramRecursionQueueTask(err, client, y, x, radius, polygon, park, d
     queryInstagramAPI(latMid, lngMid, radius, function(err, body) {
       if (err) {
         console.log(err);
-        // TODO: do something here
-        return;
+        // Don't do anything, just clean up
       } else {
         // success
         //console.log("body from query", body);
-        if (body) {
+        if (!body) {
+          console.log("no body!", err, body);
+          // Do something here!
+        } else {
           photos = body.data;
           count = photos.length;
-        } else {
-          console.log("no body!", err, body);
-        }
-      }
-      if (count) { // only if meaningful result. // TODO: handle this better
 
-        console.log("park", park.id, "got", count, "instagram photos");
+          console.log("park", park.id, "got", count, "instagram photos");
 
-        // If the count is 100, I think I need to recurse here.
+          // If the count is 100, I think I need to recurse here.
 
-        var metadata_id = saveInstagramHarvesterMetadata(client, park.id, latMid, lngMid, radius, new Date(), count);
+          var metadata_id = saveInstagramHarvesterMetadata(client, park.id, latMid, lngMid, radius, new Date(), count);
 
-        //metadata_id = 1; // It's currently fake anyway
+          //metadata_id = 1; // It's currently fake anyway
 
-        saveInstagramHarvesterResults(client, metadata_id, photos, park);
+          saveInstagramHarvesterResults(client, metadata_id, photos, park);
 
-        if (count >= 100) {
+          if (count >= 100) {
 
-          // new centers are +/- radius/2 in all directions. will be projected in the RecursionQueueTask.
-          var newCenters = [
-            [y - radius/2, x - radius/2],
-            [y - radius/2, x + radius/2],
-            [y + radius/2, x - radius/2],
-            [y + radius/2, x + radius/2],
-          ]
-          var newRadius = radius*Math.sqrt(2)/2
+            // new centers are +/- radius/2 in all directions. will be projected in the RecursionQueueTask.
+            var newCenters = [
+              [y - radius/2, x - radius/2],
+              [y - radius/2, x + radius/2],
+              [y + radius/2, x - radius/2],
+              [y + radius/2, x + radius/2],
+            ]
+            var newRadius = radius*Math.sqrt(2)/2
 
-          console.log("park", park.id, "photos >= 100 at depth", depth + ", SUBDIVIDE:", newCenters)
+            console.log("park", park.id, "photos >= 100 at depth", depth + ", SUBDIVIDE:", newCenters)
 
-          newCenters.forEach(function(newCenter) {
-            var newX = newCenter[1];
-            var newY = newCenter[0];
-            testProjectedCircleIntersectionWithPark(client, newX, newY, newRadius, park, function(err, newX, newY, newRadius, intersects) {
-              if (intersects === true) {
+            newCenters.forEach(function(newCenter) {
+              var newX = newCenter[1];
+              var newY = newCenter[0];
+              testProjectedCircleIntersectionWithPark(client, newX, newY, newRadius, park, function(err, newX, newY, newRadius, intersects) {
+                if (intersects === true) {
 
-                var nextDepth = depth + 1;
+                  var nextDepth = depth + 1;
 
-                liveTaskCounter[park.id] = liveTaskCounter[park.id] + 1;
-                //console.log("liveTaskCounter[", park.id, "] recursing:", liveTaskCounter[park.id]);
-                q.push({name: 'another task park: ' + park.id + ' depth ' + nextDepth, centerX: newX, centerY: newY, radius: newRadius}, instagramRecursionQueueTask(null, client, newY, newX, newRadius, polygon, park, nextDepth, q, callback));
+                  liveTaskCounter[park.id] = liveTaskCounter[park.id] + 1;
+                  //console.log("liveTaskCounter[", park.id, "] recursing:", liveTaskCounter[park.id]);
+                  q.push({name: 'another task park: ' + park.id + ' depth ' + nextDepth, centerX: newX, centerY: newY, radius: newRadius}, instagramRecursionQueueTask(null, client, newY, newX, newRadius, polygon, park, nextDepth, q, callback));
 
-              }
+                }
+              });
             });
-          });
+          }
         }
       }
 
