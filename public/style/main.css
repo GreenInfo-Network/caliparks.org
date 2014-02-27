@@ -296,6 +296,10 @@ body.openspaces .main-content #instagram-photos {
   text-align: right;
 }
 
+body.openspaces .main-content #instagram-photos h2 {
+  text-align: left;
+}
+
 body.openspaces .main-content #instagram-photos image {
   margin: 0;
   display: inline-block;
@@ -400,7 +404,7 @@ body.openspaces #park-template-wrapper .carousel-back-button {
 
 body.openspaces .carousel-container .carousel-back-button {
   opacity:1;
-  left: 0px;
+  left: -54px;
 }
 
 body.openspaces .carousel-container {
@@ -443,7 +447,7 @@ body.openspaces .carousel-forward-button, body.openspaces .carousel-back-button:
 body.openspaces .carousel-forward-button {
   transition:opacity .5s;
   opacity:1;
-  right: 0px;
+  right: -54px;
 }
 
 body.openspaces #park-template-wrapper .carousel-forward-button {

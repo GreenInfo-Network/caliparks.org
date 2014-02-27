@@ -39,27 +39,50 @@
     scrollElement = document.querySelector(optionsInternal.scrollSelector);
 
     //
-    // Cache nodes and set up nodes
+    // Private methods
     //
-    for(var i=0; imageElements.length > i; i++) {
 
-      if (i >= optionsInternal.loadWith) {
+    function init() {
+      
 
-        imageElements[i].style.backgroundImage = 'none !important';
-        imageElements[i].style.backgroundColor = 'rgb(136, 132, 98)';
+      initCache();
 
-        imageQueue.push(imageElements[i]);
+    }
+
+    function initCache() {
+
+      //
+      // Cache nodes and set up nodes
+      //
+      for(var i=0; imageElements.length > i; i++) {
+
+        if (i >= optionsInternal.loadWith) {
+
+          imageQueue.push(imageElements[i]);
+
+        }
 
       }
 
     }
 
     //
+    // Initialize!
+    //
+    init();
+
+    //
     // Set up scroll listener
     //
+    /*
     scrollElement.addEventListener('scroll', function(e) {
 
     }, false);
+*/
+
+    return {
+
+    }
 
   }
 

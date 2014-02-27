@@ -118,8 +118,19 @@
 
   }
 
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function() {  
+
+    //
+    // Invoke the header carousel
+    //
     var carousel = new SetUpCaousel('#coverphoto-carousel');
+
+    //
+    // Defered loading for Instagram photos
+    //
+    new instagramPhotos = new ImageDefer('#instagram-photos .instagram-photos');
+
+
   }, false);
 
   //Public interface
