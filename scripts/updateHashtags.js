@@ -130,13 +130,14 @@ my_sheet.getRows(1, function(err, row_data){
 
   dup_count = 0;
   dup_check = {};
-  dup_list = {};
+  dup_list = [];
   Object.keys(hashtags).forEach(function(key) {
 
     testTag = hashtags[key];
 
     if (dup_check[hashtags[key]]) {
       dup_count++;
+      dup_list.push(hashtags[key]);
     }
 
     dup_check[testTag] = true;
@@ -145,6 +146,7 @@ my_sheet.getRows(1, function(err, row_data){
 
   if (dup_count) {
     console.log(('Warning: ' + dup_count + ' duplicates were included in the google doc').yellow);
+    console.log(('Duplicates: ' + dup_list).yellow);
   } else {
     console.log(('Sweet! you have ' + Object.keys(hashtags).length + ' unique hashtags').green);
   }
@@ -289,7 +291,7 @@ my_sheet.getRows(1, function(err, row_data){
       prompt.start();
 
       console.log(' ');
-      console.log('If you wan\'t these written to disk say "yes" in the Approval prompt'.blue);
+      console.log('If you want these written to disk say "yes" in the Approval prompt'.blue);
       prompt.get(['Approval'], function (err, result) {
 
         if (result.Approval == 'yes') {
