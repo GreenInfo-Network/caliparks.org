@@ -183,8 +183,7 @@ function queryInstagramAPI(lat, lng, radius, callback) {
       max_id: 1,       //  Trying to trigger pagination by setting this? doesn't work.
       distance: radius,
       client_id: "a362b307ff034f53b29672a196b77b02",
-      min_timestamp: ~~(Date.now() / 1000) - 60*60*24*365*20, //15 days ago
-      //min_timestamp: ~~(Date.now() / 1000) - 60*60*24*365,
+      min_timestamp: ~~(Date.now() / 1000) - 60*60*24*365, // one year ago
       max_timestamp: ~~(Date.now() / 1000)
     }
   };
@@ -348,7 +347,8 @@ function getFlickrData(bbox, page, photos, callback) {
       bbox: bbox,
       has_geo: 1,
       extras: "geo,tags,date_upload,date_taken,owner_name,description,license,o_dims,url_b,url_l",
-      min_taken_date: ~~(Date.now() / 1000) - 60*60*24*365,
+      min_taken_date: ~~(Date.now() / 1000) - 60*60*24*365*30,
+      //min_taken_date: ~~(Date.now() / 1000) - 60*60*24*365,
       format: "json",
       nojsoncallback: 1,
       page: page,
@@ -368,7 +368,7 @@ function getFlickrData(bbox, page, photos, callback) {
         return getFlickrData(bbox, page + 1, photos, callback);
 
       } else {
-        return callback(null, photos);  // callback(err, result)
+        return callback(null, photos, page);  // callback(err, result)
       }
     
     } else {
@@ -388,12 +388,62 @@ function getFlickrData(bbox, page, photos, callback) {
 var getFlickrPhotosForPark = function(client, park, callback) {
   // return startPostgresClient(function(err, client) {
     return getBoundingBoxForPark(client, park, function(err, bbox) {
-      return getFlickrData(bbox, function(err, photos) {
-        return callback(null, photos);  // everything finished
+      // test bounding box against existing metadata?
+      return getFlickrData(bbox, function(err, photos, pages) {
+        var bboxArray = bbox.split(",");
+        var lngMin = bboxArray[0],
+            latMin = bboxArray[1],
+            lngMax = bboxArray[2],
+            latMax = bboxArray[3];
+        var metadata_id = saveFlickrHarvesterMetadata(client, park.id, latMin, lngMin, latMax, lngMax, new Date(), photos.length, pages);
+        saveFlickrHarvesterResults(client, metadata_id, photos, park);
+        return callback(null, photos, pages);  // everything finished
       });
     });
   // });
 };
+
+var saveFlickrHarvesterMetadata = function(client, park_id, latMin, lngMin, latMax, lngMax, timestamp, count, pages) {
+  var query = "insert into flickr_metadata (su_id, latmin, lngmin, latmax, lngmax, date, count, pages, the_geom) values ($1, $2, $3, $4, $5, $6, $7, $8, ST_MakeEnvelope($3,$2,$5,$4,4326))";
+  return client.query(query, [park_id, latMin, lngMin, latMax, lngMax, timestamp, count, pages], function(err, res) {
+    if (err) {
+      console.log("harvesterMetadata error", err);
+      throw err;
+    }
+    return 0; // TODO: change these
+
+  });
+
+  return 1; // TODO: change these
+};
+
+
+var saveFlickrHarvesterResults = function(client, metadata_id, photos, park) {
+  var query = "INSERT INTO flickr_photos (photoid, owner, secret, server, farm, title, latitude, longitude, accuracy, context, place_id, woeid, tags, dateupload, datetaken, ownername, description, license, o_width, o_height, url_l, height_l, width_l, harvested_park_id, harvested_park_name, the_geom) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, ST_SetSRID(ST_MakePoint($8, $7), 4326))";
+
+  photos.forEach(function(photo) {
+    if (photo) {
+      //console.log(photo);
+      var params = [photo.id, photo.owner, "secret goes here", photo.server, photo.farm, photo.title, photo.latitude, photo.longitude, photo.accuracy, photo.context, photo.place_id, photo.woeid, photo.tags, photo.dateupload, photo.datetaken, photo.ownername];
+      if (photo.description.length > 0)
+        params.push(photo.description._content);
+      else
+        params.push("");
+      params.push(photo.license, photo.o_width, photo.o_height, photo.url_l, photo.height_l, photo.width_l, park.id, park.name);
+      client.query(query, params, function(err, res) {
+        if (err) {
+          console.log("harvesterResults error", err);
+          //client.end();
+          //startPostgresClient(function(err, client) { return client;}); 
+          //throw err;
+        }
+      });
+    }
+  });
+  // return nothing?
+};
+
+
 
 /**
  * Fetch media associated with a specified park.
@@ -945,7 +995,7 @@ var getVenuesDataFromPostgres = function(client, limit, only_needing_update, cal
   });
 };
 
-var getParksDataFromPostgres = function(client, limit, callback) {
+var getParksDataFromPostgres = function(client, limit, socialMediaType, callback) {
   if (arguments.length < 3) {
     callback = arguments[arguments.length-1];
     limit = 500;
@@ -961,10 +1011,20 @@ var getParksDataFromPostgres = function(client, limit, callback) {
                 "where unit_name not like '%BLM%' order by su_id"].join("");
 */
   // TODO: figure out the correct time interval to use here
-  var query = ["select a.su_id as id, a.unit_name as name, a.gis_acres as size from ", cpad_table, " a ", 
-                "left join (select * from instagram_metadata where date > now() - interval '1 day') as b on a.su_id = b.su_id where ",
-                "a.unit_name not like '%BLM%' and a.su_id != 380 and a.su_id != 1651 and a.su_id != 8516 and ",
-                "b.count is null order by a.su_id"].join("");
+  var query = "select a.su_id as id, a.unit_name as name, a.gis_acres as size from " + cpad_table + " a ";
+
+  if (socialMediaType == "instagram") 
+    query += "left join (select * from instagram_metadata where date > now() - interval '1 day') as b on a.su_id = b.su_id where ";
+  if (socialMediaType == "flickr") 
+    query += "left join (select * from flickr_metadata where date > now() - interval '1 day') as b on a.su_id = b.su_id where ";
+
+  //query += "a.unit_name not like '%BLM%' and a.su_id != 380 and a.su_id != 1651 and a.su_id != 8516 and ";
+
+  if (socialMediaType == "instagram" || socialMediaType == "flickr")
+    query += "b.count is null ";
+
+  query += "order by a.su_id";
+
   client.query(query, function(err, res) {
     if (err) {
       throw err;
@@ -983,7 +1043,7 @@ var getParksDataFromPostgres = function(client, limit, callback) {
 
 var getInstagramPhotosForAllParks = function() {
   return startPostgresClient(function(err, client) {
-    return getParksDataFromPostgres(client, 250, function(err, parks) {
+    return getParksDataFromPostgres(client, 250, "instagram", function(err, parks) {
       async.eachLimit(parks, 1, function(park, next) {
         fs.exists(instagramFolder + park.id + ".json", function(exists) {
           if (!exists) {
@@ -1009,14 +1069,16 @@ var getInstagramPhotosForAllParks = function() {
 
 var getFlickrPhotosForAllParks = function() {
   return startPostgresClient(function(err, client) {
-    return getParksDataFromPostgres(client, 250, function(err, parks) {
+    return getParksDataFromPostgres(client, 250, "flickr", function(err, parks) {
       async.eachLimit(parks, 1, function(park, next) {
         fs.exists(flickrFolder + park.id + ".json", function(exists) {
           if (!exists) {
-            getFlickrPhotosForPark(client, park, function(err, media) {
-              console.log("[*] got", media.length, "photos for", park.name);
-              media.forEach(function(photo) { photo.park = park; });
-              writeDataToFile(flickrFolder + park.id + ".json", media, next);
+            getFlickrPhotosForPark(client, park, function(err, media, pages) {
+              console.log("[*] got", media.length, "photos for", park.id, park.name, "after", pages, "page(s)");
+              // Don't write to file anymore. Save directly to database in getFlickrPhotosForPark().
+              //media.forEach(function(photo) { photo.park = park; });
+              //writeDataToFile(flickrFolder + park.id + ".json", media, next);
+              next();
             });
           } else {
             console.log("[*] park " + park.name + " already exists. skipping.");
@@ -1101,7 +1163,7 @@ var getNextVenuesForAllVenues = function() {
 
 var getFoursquareVenuesForAllParks = function() {
   return startPostgresClient(function(err, client) {
-    return getParksDataFromPostgres(client, 250, function(err, parks) {
+    return getParksDataFromPostgres(client, 250, "foursquare", function(err, parks) {
       async.eachLimit(parks, 1, function(park, next) {
         fs.exists("4sqdata/" + park.id + ".json", function(exists) {
           if (!exists) {
