@@ -157,7 +157,7 @@ function getInstagramData(client, swProj, neProj, park, callback) {
         var queryX = x;
         var queryY = y;
 
-        //console.log("testing circle intersection, y:", j, "x:", i, radius, park.id);
+        console.log("testing circle intersection, y:", y, "x:", x, radius, park.id);
         testProjectedCircleIntersectionWithPark(client, queryX, queryY, radius, park, function(err, queryX, queryY, radius, result) {
 
           if (result === true) {
@@ -1135,7 +1135,7 @@ var getFoursquareVenuesForAllParks = function() {
 
 var saveFoursquareHarvesterMetadata = function(client, park_id, latMin, lngMin, latMax, lngMax, timestamp, count) {
   //console.log(latMin, lngMin, latMax, lngMax, timestamp, count);
-  var query = "insert into foursquare_metadata (su_id, latmin, lngmin, latmax, lngmax, date, count) values ($1, $2, $3, $4, $5, $6, $7)";
+  var query = "insert into foursquare_metadata (su_id, latmin, lngmin, latmax, lngmax, date, count, the_geom) values ($1, $2, $3, $4, $5, $6, $7, ST_MakeEnvelope($3,$2,$5,$4,4326))";
 
   return client.query(query, [park_id, latMin, lngMin, latMax, lngMax, timestamp, count], function(err, res) {
     if (err) {
@@ -1159,7 +1159,7 @@ var saveFoursquareHarvesterMetadata = function(client, park_id, latMin, lngMin, 
  * TODO: clean up my docstring formatting.
  */
 var saveFoursquareHarvesterResults = function(client, metadata_id, venues, park) {
-  var query = "insert into foursquare_venues (venueid, name, lat, lng, address, postcode, city, state, country, cc, categ_id, categ_name, verified, restricted, referral_id, harvested_park_id, harvested_park_name) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20)";
+  var query = "insert into foursquare_venues (venueid, name, lat, lng, address, postcode, city, state, country, cc, categ_id, categ_name, verified, restricted, referral_id, harvested_park_id, harvested_park_name, the_geom) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, ST_SetSRID(ST_MakePoint($4, $3), 4326))";
   console.log("saveFoursquareHarvesterResults", metadata_id, venues, park);
 
   venues.forEach(function(venue) {
