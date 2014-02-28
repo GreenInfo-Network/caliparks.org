@@ -39,6 +39,18 @@ twitterHarvesterTable:
 ### Flickr stuff ######################
 #######################################
 
+flickrHarvesterTable:
+	psql -U openspaces -h geo.local -c "drop table flickr_photos;" \
+	&& psql -U openspaces -h geo.local -c "create table flickr_photos (photoid bigint, owner varchar(20), secret varchar(20), server int, farm int, title varchar, latitude float, longitude float, accuracy int, context int, place_id varchar(20), woeid bigint, tags varchar, dateupload int, datetaken varchar(30), ownername varchar, description varchar, license int, o_width int, o_height int, url_l varchar(80), height_l int, width_l int, harvested_park_id bigint, harvested_park_name varchar(80));" \
+	&& psql -U openspaces -h geo.local -c "select AddGeometryColumn('flickr_photos','the_geom',4326,'POINT',2);"
+
+
+# This keeps track of all the harvester queries
+flickrMetadataTable:
+	psql -U openspaces -h geo.local -c "drop table flickr_metadata;" \
+	&& psql -U openspaces -h geo.local -c "create table flickr_metadata (su_id int, latMin float, lngMin float, latMax float, lngMax float, date timestamp, count int, pages int);" \
+	&& psql -U openspaces -h geo.local -c "select AddGeometryColumn('flickr_metadata','the_geom',4326,'POLYGON',2);"
+
 #TODO: include step to uniquify
 flickrParkTable:
 	psql -U openspaces -h geo.local -c "drop table park_flickr_photos;" \
