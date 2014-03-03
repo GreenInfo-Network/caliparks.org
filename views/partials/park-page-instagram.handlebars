@@ -1,10 +1,14 @@
 {{#if has_instagram_photos}}
 <div id="instagram-photos" style="font-size:0;line-height:0;">
 <h2><a href="/parks/most-instagram-photos/">People who use Instagram come here</a> <span>{{instagram_count}} photos</span></h2>
-  {{#each top_instagram_photos}}
-    <div class="instagram-photo" style="width:128px;height:128px;display:inline-block; background-image:url('{{standard_resolution}}');background-size: 128px 128px;"></div>
-  {{else}}
-    <span class="empty">No Instagram photos</span>
-  {{/each}}
+  <div class="instagram-photo-container">
+    {{#each top_instagram_photos}}
+      <div class="instagram-photo" style="width:128px;height:128px;display:inline-block; background-image:url('{{thumb}}');background-size: 128px 128px;"></div>
+    {{else}}
+      <span class="empty">No Instagram photos</span>
+    {{/each}}
+  </div>
+
+  {{#if queue_instagram_length}}<button>More</button>{{/if}}
 </div>
 {{/if}}

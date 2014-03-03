@@ -15,54 +15,42 @@
       listeners         = {},
       testing, animationInterval, forwardButton, backButton;
 
-  function ImageDefer(imagesSelector, options) {
+  function QueuedElementList(rootSelector, options) {
 
     var optionsInternal = {},
-        imageQueue      = [],
-        imageElements, scrollElement;
-
-    if (!imagesSelector) {
-      return false;
-    }
-
-    //
-    // Set defaults
-    //
-    optionsInternal.scrollSelector = options.scrollSelector || 'body';
-    optionsInternal.loadWith       = options.loadWith       || 10;
-    optionsInternal.buffer         = options.buffer         || 0;
-
-    //
-    // Select element
-    //
-    imageElements = document.querySelectorAll(imagesSelector);
-    scrollElement = document.querySelector(optionsInternal.scrollSelector);
+        rootElement;
 
     //
     // Private methods
     //
 
     function init() {
-      
 
-      initCache();
+      //
+      // Set defaults
+      //
+      optionsInternal.imageQueue = options.imageQueue || [];
+      optionsInternal.template   = options.template   || '';
+
+      //
+      // Select element
+      //
+      rootElement = document.querySelector(rootSelector);
+
+      console.log('optionsInternal.imageQueue', optionsInternal.imageQueue, optionsInternal.template);
+
 
     }
 
-    function initCache() {
+    function processTemplate(template, data) {
 
-      //
-      // Cache nodes and set up nodes
-      //
-      for(var i=0; imageElements.length > i; i++) {
+      Object.keys(data).forEach(function(key) {
 
-        if (i >= optionsInternal.loadWith) {
+        template = template.split('{' + key + '}').join(data[key]);
 
-          imageQueue.push(imageElements[i]);
+      });
 
-        }
-
-      }
+      return template;
 
     }
 
@@ -71,22 +59,13 @@
     //
     init();
 
-    //
-    // Set up scroll listener
-    //
-    /*
-    scrollElement.addEventListener('scroll', function(e) {
-
-    }, false);
-*/
-
     return {
 
     }
 
   }
 
-  window.STMN.ImageDefer = ImageDefer;
+  window.STMN.QueuedElementList = QueuedElementList;
 
   function Carousel(rootSelector) {
 

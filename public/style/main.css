@@ -287,7 +287,7 @@ body.openspaces .access-type-badge {
 }
 
 /* Instagram photos */
-body.openspaces .main-content #instagram-photos {
+body.openspaces .main-content #instagram-photos  {
   display: inline-block;
   width: 520px;
   vertical-align: top;
@@ -298,6 +298,7 @@ body.openspaces .main-content #instagram-photos {
 
 body.openspaces .main-content #instagram-photos h2 {
   text-align: left;
+  margin-left: 8px;
 }
 
 body.openspaces .main-content #instagram-photos image {

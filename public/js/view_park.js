@@ -61,12 +61,29 @@
 
   function initView(data) {
 
+    var instagramPhotos;
+
     if (data.UsCaShape.display) {
       displayUsCa(
         data.UsCaShape.rootSelector, 
         data.UsCaShape.options
       );
     }
+
+    //
+    // Instagram display
+    //
+    if (data.instagramQueue.display) {
+      instagramPhotos = new STMN.QueuedElementList('#instagram-photos .instagram-photos .instagram-photo-container', {
+        imageQueue : data.instagramQueue.photos,
+        template   : data.instagramQueue.template
+      });
+    }
+
+    //
+    // Invoke the header carousel
+    //
+    var carousel = new SetUpCaousel('#coverphoto-carousel');
 
   }
 
@@ -117,21 +134,6 @@
     }, false);
 
   }
-
-  document.addEventListener('DOMContentLoaded', function() {  
-
-    //
-    // Invoke the header carousel
-    //
-    var carousel = new SetUpCaousel('#coverphoto-carousel');
-
-    //
-    // Defered loading for Instagram photos
-    //
-    new instagramPhotos = new ImageDefer('#instagram-photos .instagram-photos');
-
-
-  }, false);
 
   //Public interface
   STMN.initView = initView;

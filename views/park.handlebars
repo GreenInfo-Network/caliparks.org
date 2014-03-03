@@ -49,21 +49,32 @@
 <script src="/js/view_park.js"></script>
 
 <script>
-	STMN.initView({
-		UsCaShape : {
-			display: document.querySelector('.has-coverphoto') ? true : false,
-			rootSelector : '#california_shape',
-			options      : {
-				canvasWidth  : 100,
-				canvasHeight : 150,
-				scale        : 600,
-				fillColor    : "rgb(34, 17, 2)",
-				stroke       : 'grey',
-				dotLocation  : null,
-				dotRadius    : 3,
-				dotColor     : 'white',
-				dotLocation  : [parseFloat('{{cpadPark.centroid_longitude}}' || 0, 10),parseFloat('{{cpadPark.centroid_latitude}}' || 0, 10)]
+
+	document.addEventListener('DOMContentLoaded', function() {  
+
+  	STMN.initView({
+			UsCaShape : {
+				display: document.querySelector('.has-coverphoto') ? true : false,
+				rootSelector : '#california_shape',
+				options      : {
+					canvasWidth  : 100,
+					canvasHeight : 150,
+					scale        : 600,
+					fillColor    : "rgb(34, 17, 2)",
+					stroke       : 'grey',
+					dotLocation  : null,
+					dotRadius    : 3,
+					dotColor     : 'white',
+					dotLocation  : [parseFloat('{{cpadPark.centroid_longitude}}' || 0, 10),parseFloat('{{cpadPark.centroid_latitude}}' || 0, 10)]
+				}
+			},
+			instagramQueue : {
+				display : {{instagram_count}} | 0,
+				photos  : {{{queue_instagram_photos}}},
+				template :'<div class="instagram-photo" style="width:128px;height:128px;display:inline-block; background-image:url(\'{img}\');background-size: 128px 128px;"></div>'
 			}
-		}
-	});
+		});  
+
+  }, false);
+
 </script>

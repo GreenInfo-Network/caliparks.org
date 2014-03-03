@@ -18,7 +18,9 @@ module.exports = function(req, res, data, callback) {
       foursquare_checkins = 0, 
       foursquare_tips     = 0, 
       tweet_iteration     = 0,
-      tweets_all, tweets_filtered;
+      instagramPreload    = [],
+      instagramPostload   = [],
+      tweets_all, tweets_filtered, thisOne;
 
   function fuzzyRound(N) {
     var rounded = Math.max(Math.round(N / 10) * 10);
@@ -132,6 +134,22 @@ module.exports = function(req, res, data, callback) {
                   //Limit Flickr photos
                   flesult.rows.length = 50;
 
+                  //separate the instagram into preload and post load
+                  // preloading 32
+                  instasult.rows.forEach(function(photo, i) {
+
+                    thisOne = photo;
+                    thisOne.thumb = thisOne.standard_resolution.split('_7').join('_5');
+                    thisOne.thumb = thisOne.standard_resolution.split('_7').join('_5');
+
+                    if(i < 32) {
+                      instagramPreload.push(photo);
+                    } else {
+                      instagramPostload.push(photo)
+                    }
+
+                  });
+
                   callback( null, {
                     appTitle         : 'Stamen Parks: California > ' + result.rows[0].unit_name,
                     park_id          : result.rows[0].su_id,
@@ -145,20 +163,22 @@ module.exports = function(req, res, data, callback) {
                       lat : gpsUtil.getDMSLatitude(result.rows[0].centroid_latitude),
                       lon : gpsUtil.getDMSLongitude(result.rows[0].centroid_longitude)
                     },
-                    cpadPark         : result.rows[0],
-                    hashtag          : hashtags[result.rows[0].su_id],
-                    tweets           : tweetsult.rows,
-                    tweet_count      : tweetsult.rows.length,
-                    has_tweets       : (tweetsult.rows.length > 0),
-                    has_instagram_photos : (instasult.rows.length > 0),
-                    top_instagram_photos : instasult.rows,
-                    instagram_count : instasult.rows.length,
-                    has_foursquare   : (venues_count > 0),
-                    venues_activity  : foursult.rows,
-                    venues_count     : foursult.rows.length < 1000000 ? venues_count : '1 M +',
-                    venues_checkins  : foursquare_checkins < 1000000 ? venues_checkins : '1 M +',
-                    venues_tips      : foursquare_tips < 1000000 ? venues_tips : '1 M +',
-                    parkShapeScale   : {
+                    cpadPark               : result.rows[0],
+                    hashtag                : hashtags[result.rows[0].su_id],
+                    tweets                 : tweetsult.rows,
+                    tweet_count            : tweetsult.rows.length,
+                    has_tweets             : (tweetsult.rows.length > 0),
+                    has_instagram_photos   : (instasult.rows.length > 0),
+                    top_instagram_photos   : instagramPreload,
+                    queue_instagram_photos : JSON.stringify(instagramPostload),
+                    queue_instagram_length : instagramPostload.length,
+                    instagram_count        : instasult.rows.length,
+                    has_foursquare         : (venues_count > 0),
+                    venues_activity        : foursult.rows,
+                    venues_count           : foursult.rows.length < 1000000 ? venues_count : '1 M +',
+                    venues_checkins        : foursquare_checkins < 1000000 ? venues_checkins : '1 M +',
+                    venues_tips            : foursquare_tips < 1000000 ? venues_tips : '1 M +',
+                    parkShapeScale         : {
                       'pixels' : scaleBarWidthPx,
                       'miles'  : fuzzyRound((totalDistanceInK/devideBy)/kInMiles),
                       'feet'   : fuzzyRound((totalDistanceInK/devideBy)*ftInK),
