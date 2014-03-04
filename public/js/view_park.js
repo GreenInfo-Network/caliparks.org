@@ -89,7 +89,6 @@
       });
 
       $('#instagram-photos button').on('click', function() {
-        console.log('instagramPhotos', instagramPhotos);
         instagramPhotos.writeNextBatch();
       });
 
