@@ -471,6 +471,10 @@ body.openspaces #tweets {
   margin-left: 0px; }
 
 body.openspaces .has-instagram-photos #tweets {
+  margin-left: 423px;
+  vertical-align: top; }
+
+body.openspaces .has-instagram-photos.has-foursquare #tweets {
   margin-left: 14px;
   vertical-align: top; }
 
