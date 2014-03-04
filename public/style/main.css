@@ -51,7 +51,7 @@ table {
 body.openspaces {
   font-family: "HelveticaNeue", "Helvetica Neue", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   font-weight: 300;
-  font-size: 18px;
+  font-size: 16px;
   color: #eedecc;
   background-color: #221102;
   background-image: url("/style/photo-back-template-bg.png");
@@ -90,12 +90,18 @@ body.openspaces h1 {
   font-size: 28px;
   font-weight: 600;
   margin-bottom: 5px;
-  line-height: 41px; }
+  line-height: 32px; }
 
 body.openspaces h2 {
   font-size: 20px;
   font-weight: 600;
   margin-bottom: 40px; }
+
+body.openspaces h3 {
+  font-size: 20px;
+  line-height: 32px;
+  font-weight: 600;
+  margin-bottom: 15px; }
 
 body.openspaces p, ul {
   margin-bottom: 15px; }
@@ -121,7 +127,7 @@ body.openspaces header {
   padding: 10px 40px;
   height: 20px;
   position: relative;
-  line-height: 20px;
+  line-height: 16px;
   width: 940px;
   margin: 0 auto;
   max-width: 1602px;
@@ -136,7 +142,7 @@ body.openspaces header a {
   color: #eedecc; }
 
 body.openspaces header nav {
-  font-size: 18px;
+  font-size: 16px;
   color: #eedecc;
   margin-left: -4px; }
 
@@ -148,7 +154,7 @@ body.openspaces footer {
   padding: 15px 40px;
   height: 126px;
   position: relative;
-  line-height: 30px;
+  line-height: 20px;
   width: 940px;
   margin: 0 auto;
   font-weight: 300; }
@@ -160,8 +166,8 @@ body.openspaces.photo-back-template article.about-this-page {
   /* Safari and Chrome */
   column-count: 2;
   margin: 0 43px 40px 40px;
-  line-height: 30px;
-  font-size: 18px;
+  line-height: 20px;
+  font-size: 16px;
   line-height: 26px; }
 
 body.openspaces.photo-back-template article.thin {
@@ -262,7 +268,8 @@ body.openspaces .main-content #instagram-photos .instagram-photo {
 
 body.openspaces .main-content #instagram-photos h2 {
   text-align: left;
-  margin-left: 8px; }
+  margin-left: 8px;
+  margin-top: 13px; }
 
 body.openspaces .main-content #instagram-photos image {
   margin: 0;
@@ -275,7 +282,7 @@ body.openspaces .main-content #instagram-photos button {
   background-color: transparent;
   display: block;
   text-align: center;
-  font-size: 18px;
+  font-size: 16px;
   margin: 015px auto; }
 
 /* search */
@@ -295,7 +302,7 @@ body.openspaces header #search input {
   display: inline-block;
   width: 200px;
   background-color: #453421;
-  font-size: 18px;
+  font-size: 16px;
   color: #eedecc;
   font-weight: 300; }
 
@@ -320,7 +327,7 @@ body.openspaces header.has-search-results #search-results {
   z-index: 2;
   background-color: white;
   color: black;
-  font-size: 18px;
+  font-size: 16px;
   padding: 3px;
   max-height: 50vh;
   overflow-y: auto;
@@ -441,8 +448,8 @@ body.openspaces .glop-park .park-name {
   left: 0px;
   color: white;
   padding: 10px;
-  font-size: 18px;
-  line-height: 30px;
+  font-size: 16px;
+  line-height: 20px;
   padding: 0px 10px;
   text-align: center;
   width: 100%;
@@ -483,7 +490,7 @@ body.openspaces #park-template-wrapper h2, body.openspaces #foursquare-stats tab
   margin-bottom: 20px; }
 
 body.openspaces #park-template-wrapper h2 span {
-  font-size: 18px;
+  font-size: 16px;
   margin-left: 11px; }
 
 body.openspaces #park-template-wrapper h2 a {
@@ -514,6 +521,11 @@ body.openspaces #park-shape {
   position: relative;
   background-repeat: no-repeat; }
 
+body.openspaces .park-lat-lon {
+  font-size: 20px;
+  line-height: 32px;
+  margin-bottom: 0px; }
+
 body.openspaces #park-shape .scale-area {
   position: absolute;
   bottom: -1px;
@@ -540,7 +552,7 @@ body.openspaces #park-shape .scale-area .scale-bar {
     padding: 0; }
 
   body.openspaces.photo-back-template {
-    font-size: 18px;
+    font-size: 16px;
     background-size: cover;
     background-position: top -40%; }
 
@@ -560,7 +572,7 @@ body.openspaces #park-shape .scale-area .scale-bar {
     /* Safari and Chrome */
     column-count: 1;
     text-align: center;
-    font-size: 18px; }
+    font-size: 16px; }
 
   body.openspaces section {
     padding: 0;
