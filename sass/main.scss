@@ -1,0 +1,662 @@
+@import 'reset';
+@import 'colors';
+@import 'fonts';
+
+/*
+*  Begin main theme
+*/
+body.openspaces {
+  font-family: $base-font-stack;
+  font-weight: $base-font-weight;
+  font-size: $base-font-size;
+  color:$light-brown;
+  background-color: $dark-brown;
+  background-image: url('/style/photo-back-template-bg.png');
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+  background-position: bottom center;
+  background-attachment: fixed;
+}
+
+body.openspaces.photo-back-template .photo-back-content {
+  width:1030px;
+  margin:0 auto;
+}
+
+body.openspaces .main-content {
+  width:1020px;
+  margin:0 auto;
+  position:relative;
+}
+
+body.openspaces input:focus {
+  outline-width: 0;
+}
+
+body.openspaces input::-webkit-input-placeholder {
+   color:$base-font-color;
+}
+
+body.openspaces input:-moz-placeholder { /* Firefox 18- */
+   color:$base-font-color;
+}
+
+body.openspaces input::-moz-placeholder {  /* Firefox 19+ */
+   color:$base-font-color; 
+}
+
+body.openspaces input:-ms-input-placeholder {  
+   color:$base-font-color;
+}
+
+body.openspaces h1 {
+  font-size: $header-font-size;
+  font-weight: $bold-font-weight;
+  margin-bottom: 5px;
+  line-height: $header-line-height;
+}
+
+body.openspaces h2 {
+  font-size: $sub-header-font-size;
+  font-weight: $bold-font-weight;
+  margin-bottom: 40px;
+}
+
+body.openspaces p, ul {
+  margin-bottom: 15px;
+}
+
+body.openspaces.photo-back-template h1 {
+  text-align: center;
+  color:$white;
+  font-family: $cooper-font-stack;
+  font-size: $bigger-header-font-size;
+  margin-bottom: 25px;
+  line-height:$bigger-header-line-height;
+}
+
+body.openspaces.photo-back-template p.subhead {
+  color:$white;
+  font-family: $cooper-font-stack;
+  font-size: $bigger-header-font-size;
+  text-align: center;
+  margin: 0 auto;
+  margin-bottom:40px;
+  width:900px;
+}
+
+body.openspaces header {
+  padding: 10px 40px;
+  height:20px;
+  position:relative;
+  line-height: 20px;
+  width: 940px;
+  margin: 0 auto;
+  max-width: 1602px;
+  background-color: $brown;
+  margin:0 auto;
+}
+
+body.openspaces.photo-back-template header {
+  margin-bottom: 65px;
+}
+
+body.openspaces header a {
+  text-decoration: none;
+   color:$base-font-color;
+}
+
+body.openspaces header nav {
+  font-size: $base-font-size;
+  color:$base-font-color;
+  margin-left:-4px;
+}
+
+body.openspaces header nav a {
+  text-decoration: none;
+   color:$base-font-color;
+}
+
+body.openspaces footer {
+  padding: 15px 40px;
+  height:126px;
+  position:relative;
+  line-height: $base-line-height;
+  width: 940px;
+  margin: 0 auto;
+  font-weight: $base-font-weight;
+}
+
+body.openspaces.photo-back-template article.about-this-page {
+  -moz-column-count:2; /* Firefox */
+  -webkit-column-count:2; /* Safari and Chrome */
+  column-count:2;
+  margin: 0 43px 40px 40px;
+  line-height:$base-line-height;
+  font-size: $base-font-size;
+  line-height: 26px;
+}
+
+body.openspaces.photo-back-template article.thin {
+  width:500px;
+  margin:0 auto;
+}
+
+body.openspaces section {
+  background-color: $light-brown;
+  color:$brown;
+  padding:33px;
+  position: relative;
+  z-index: 1;
+}
+
+body.openspaces.photo-back-template section {
+  background-color: transparent;
+  color:$base-font-color;
+}
+
+body.openspaces li {
+  margin-left: 20px;
+  list-style-type: disc;
+}
+
+body.openspaces a {
+  color:$blue;
+}
+
+body.openspaces p.breadcrumb {
+  margin-bottom: 20px;
+}
+
+body.openspaces .tweets {
+  margin-bottom: 20px;
+}
+
+body.openspaces #park-hash-tag {
+  height:67px;
+  background-color: $dark-brown;
+  top:80px; right:103px;
+  color:$white;
+  text-align: center;
+  padding:5px;
+  overflow: hidden;
+  font-size: 60px;
+  font-weight:$bold-font-weight;
+  z-index: 10;
+  font-family: $cooper-font-stack;
+  font-style: normal;
+  font-weight: $base-font-weight;
+  line-height: 67px;
+}
+
+body.openspaces .has-coverphoto #park-hash-tag {
+  position:absolute;
+  top: 403px;
+  left: 34px;
+  width:269px;
+}
+
+/* Flickr cover photo module */
+body.openspaces .has-coverphoto .coverphoto {
+  height:480px;
+  background: no-repeat center center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  position:relative;
+  width: 1018px;
+}
+
+body.openspaces #coverphoto-carousel {
+    width:1018px;
+    height:480px;
+  }
+
+body.openspaces .has-coverphoto .coverphoto span.attribution {
+  position:absolute;
+  right:40px; bottom:5px;
+  background-color:rgba(34, 17, 2,.4);
+  padding:10px;
+  line-height: 10px;
+  font-size:$tiny-font-size;
+}
+
+body.openspaces .has-coverphoto .coverphoto span.attribution a {
+  text-decoration: none;
+}
+
+/* California shape */
+body.openspaces #california_shape {
+  position: absolute;
+  top: 255px;
+  left: 27px;
+}
+
+/* Instagram photos */
+body.openspaces .main-content #instagram-photos  {
+  display: inline-block;
+  width: 520px;
+  vertical-align: top;
+  margin-left: 17px; 
+  margin-bottom: 40px;
+  text-align: right;
+}
+
+body.openspaces .main-content #instagram-photos .instagram-photo {
+  cursor: pointer;
+}
+
+body.openspaces .main-content #instagram-photos h2 {
+  text-align: left;
+  margin-left: 8px;
+
+}
+
+body.openspaces .main-content #instagram-photos image {
+  margin: 0;
+  display: inline-block;
+}
+
+body.openspaces .main-content #instagram-photos button {
+  text-decoration: underline;
+  color:$blue;
+  border:none;
+  background-color: transparent;
+  display:block;
+  text-align: center;
+  font-size: $base-font-size;
+  margin: 015px auto;
+}
+
+/* search */
+body.openspaces header #search {
+  top:5px;
+  right:40px;
+  position:absolute;
+  text-decoration: none;
+  text-align: right;
+  width:700px;
+  color: $base-font-color;
+}
+
+body.openspaces header #search input {
+  -webkit-appearance: none;
+  border:none; 
+  cursor: pointer;
+  display: inline-block; 
+  width: 200px;
+  background-color: $brown;
+  font-size: $base-font-size;
+  color:$light-brown;
+  font-weight: $base-font-weight;
+}
+
+body.openspaces header #search a {
+  text-decoration: none;
+}
+
+body.openspaces header #search button {
+  border: none;
+  background-image: url('/style/icon-search.png');
+  width: 29px;
+  height: 29px;
+  right: 0;
+  top: 0;
+  position: absolute;
+  cursor:pointer;
+}
+
+body.openspaces header #search-results {
+  display:none;
+}
+
+body.openspaces header.has-search-results #search-results {
+  position:absolute;
+  z-index: 2;
+  background-color:white;
+  color:black;
+  font-size:$base-font-size;
+  padding:3px;
+  max-height:50vh;
+  overflow-y:auto;
+  display:block;
+}
+
+body.openspaces header.has-search-results #search-results a {
+  color:black;
+  text-decoration: none;
+}
+
+body.openspaces header.has-search-results #search-results a:focus {
+  border:dotted 1px black;
+}
+
+body.openspaces header.has-search-results #search-results img {
+  display:none;
+}
+
+body.openspaces header.has-search-results #search-results div {
+  padding:3px 10px;
+}
+
+body.openspaces header.has-search-results #search-results div:hover {
+  background-color:$blue;
+  cursor: pointer;
+}
+
+/* Glop slider */
+body.openspaces .glop-slider {
+  overflow-x: auto;
+  height:210px;
+  width:100%;
+  white-space: nowrap;
+  scrollbar:none;
+}
+body.openspaces .glop-slider::-webkit-scrollbar { width: 0 !important }
+body.openspaces .glop-slider::-scrollbar { width: 0 !important }
+
+body.openspaces .not-scrolled .carousel-back-button {
+  opacity:0;
+  transition:opacity .5s;
+}
+
+body.openspaces #park-template-wrapper .carousel-back-button {
+  left: 34px;
+  top: 200px;
+}
+
+body.openspaces .carousel-container .carousel-back-button {
+  opacity:1;
+  left: -36px;
+}
+
+body.openspaces .carousel-container {
+  position: relative;
+}
+
+body.openspaces .carousel-forward-button, body.openspaces .carousel-back-button {
+  background-color: transparent;
+  width: 52px;
+  height: 52px;
+  border:none;
+  position: absolute;
+  top: 136px;
+  cursor: pointer;
+}
+
+body.openspaces .carousel-forward-button {
+  background-image: url('/style/forward-arrow-normal.png');
+}
+
+body.openspaces .carousel-forward-button:hover {
+  background-image: url('/style/forward-arrow-hover.png');
+}
+
+body.openspaces .carousel-back-button {
+  background-image: url('/style/back-arrow-normal.png');
+}
+
+body.openspaces .carousel-back-button:hover {
+  background-image: url('/style/back-arrow-hover.png');
+}
+
+
+body.openspaces .carousel-forward-button, body.openspaces .carousel-back-button:focus {
+  outline-width: 0;
+}
+
+body.openspaces .carousel-forward-button {
+  transition:opacity .5s;
+  opacity:1;
+  right: -36px;
+}
+
+body.openspaces #park-template-wrapper .carousel-forward-button {
+  right: 45px;
+  top: 200px;
+}
+
+body.openspaces .scrolled-furthest .carousel-forward-button {
+  opacity:0;
+}
+
+body.openspaces .glop-park {
+  display:inline-block;
+  width:200px;
+  height:200px;
+  margin-right: 53px;
+  position: relative;
+  transition:background-image .5s;
+}
+
+body.openspaces .glop-park .hashtag {
+  opacity:0;
+  transition:opacity .5s;
+  position: absolute;
+  top: 61px;
+  left: 32%;
+  color: $white;
+  background-color: $dark-brown;
+  padding: 10px;
+  font-family: $cooper-font-stack;
+  font-size: $sub-header-font-size;
+  line-height: $sub-header-line-height;
+  padding: 0px 10px;
+}
+
+body.openspaces .glop-park:hover .hashtag, body.openspaces #view-parks .glop-park .hashtag {
+  opacity:1;
+}
+
+body.openspaces .glop-park .park-name {
+  opacity:0;
+  transition:opacity .5s;
+  position: absolute;
+  top: 110px;
+  left: 0px;
+  color: $white;
+  padding: 10px;
+  font-size: $base-font-size;
+  line-height: $base-line-height;
+  padding: 0px 10px;
+  text-align: center;
+  width:100%;
+  white-space: pre-wrap;
+
+}
+
+body.openspaces .glop-park:hover .park-name, body.openspaces #view-parks .glop-park .park-name {
+  opacity:1;
+}
+
+/* Tweets */
+body.openspaces #tweets {
+  display:inline-block;
+  width: 508px;
+  display: inline-block;
+  vertical-align: top;
+  margin-left: 20px;
+  background-color: $white;
+  border-radius: 4px;
+  padding: 10px;
+  margin-left: 0px;
+}
+
+body.openspaces .has-instagram-photos #tweets {
+  margin-left: 14px;
+  vertical-align: top;
+}
+
+/* Foursquare Stats */
+body.openspaces #foursquare-stats {
+  display:inline-block;
+  width:400px;
+  vertical-align: top;
+}
+
+body.openspaces .has-instagram-photos.has-tweets #foursquare-stats {
+  vertical-align: bottom;
+}
+
+
+body.openspaces #park-template-wrapper h2, body.openspaces #foursquare-stats table, tfoot {
+  color: $gold;
+  font-size: $sub-header-font-size;
+  font-weight: $bold-font-weight;
+  margin-bottom: 20px;
+}
+
+body.openspaces #park-template-wrapper h2 span {
+  font-size: $base-font-size;
+  margin-left: 11px;
+}
+
+body.openspaces #park-template-wrapper h2 a {
+  color: $gold;
+  text-decoration: none;
+}
+
+body.openspaces #foursquare-stats table {
+  width:75%;
+  vertical-align: top;
+  text-align: center;
+}
+
+body.openspaces #foursquare-stats table tbody {
+  color: $dark-brown;
+  font-size: $sub-header-font-size;
+  font-weight: $bold-font-weight;
+}
+
+body.openspaces #foursquare-stats table tfoot {
+  text-transform: uppercase;
+  text-align: center;
+}
+
+/* Park Shape */
+body.openspaces #park-shape {
+  display:inline-block;
+  margin-top: 40px;
+  width:300px;
+  height:335px;
+  margin-bottom: 40px;
+  position: relative;
+  background-repeat: no-repeat;
+}
+
+body.openspaces #park-shape .scale-area {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  font-size: $tiny-font-size;
+  color: $dark-brown;
+  text-align: center;
+  height: 32px;
+}
+
+body.openspaces #park-shape .scale-area .scale-bar {
+  margin:0 auto;
+  width: 15px;
+  height: 15px;
+  background-color: $gold;
+}
+
+@media (max-width: 1230px) {
+  body.openspaces #tweets {
+    width: 40vw;
+  }
+}
+
+@media (min-width: 1550px) {
+  body.openspaces.photo-back-template .photo-back-content {
+    width:1600px;
+  }
+
+}
+
+@media (max-width: 320px) {
+  body.openspaces {
+    padding:0;
+  }
+
+  body.openspaces.photo-back-template {
+    font-size:$base-font-size;
+    background-size:cover;
+    background-position:top -40%; 
+  }
+
+  body.openspaces.photo-back-template h1 {
+    font-size:$header-font-size;
+  }
+
+  body.openspaces.photo-back-template p.subhead br {
+    display:none;
+  }
+
+  body.openspaces.photo-back-template .photo-back-content {
+    width:100vw;
+  }
+
+  body.openspaces.photo-back-template article.about-this-page {
+    -moz-column-count:1; /* Firefox */
+    -webkit-column-count:1; /* Safari and Chrome */
+    column-count:1;
+    text-align: center;
+    font-size: $base-font-size;
+  }
+
+  body.openspaces section {
+    padding:0;
+    padding-top:20px;
+  }
+
+  body.openspaces #park-info {
+    padding:40px;
+    width: 400px;
+  }
+
+  body.openspaces .has-coverphoto #park-hash-tag {
+    position:static;
+    width:100%;
+  }
+  body.openspaces .has-coverphoto .coverphoto {
+    height:200px;
+  }
+
+  body.openspaces #california_shape {
+    top: 255px;
+    left: 42px;
+  }
+
+  body.openspaces #tweets {
+    width: 100%;
+    margin:0;
+  }
+
+  #search {
+    display:none;
+  }
+
+  body.openspaces header {
+    padding:1px;
+    overflow:hidden;
+    height:35px;
+  }
+
+  body.openspaces header nav {
+    font-size:10px;
+    padding:0;
+  }
+
+  body.openspaces section {
+    padding:0;
+    padding-top:0px;
+  }
+  body.openspaces #park-shape {
+  
+  width:300px;
+  height:300px;
+  margin: 20px auto;
+}
+}
