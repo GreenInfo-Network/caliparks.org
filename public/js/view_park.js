@@ -61,6 +61,8 @@
 
   function initView(data) {
 
+    //TODO: move some of this logic out
+
     var instagramPhotos;
 
     //
