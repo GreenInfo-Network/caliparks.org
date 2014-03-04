@@ -307,6 +307,17 @@ body.openspaces .main-content #instagram-photos image {
   display: inline-block;
 }
 
+body.openspaces .main-content #instagram-photos button {
+  text-decoration: underline;
+  color:rgb(133, 187, 225);
+  border:none;
+  background-color: transparent;
+  display:block;
+  text-align: center;
+  font-size: 15px;
+  margin: 015px auto;
+}
+
 /* search */
 body.openspaces header #search {
 	top:5px;

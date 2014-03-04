@@ -13,12 +13,38 @@
       header            = document.querySelector('header'),
       searchResultClass = 'has-search-results',
       listeners         = {},
-      testing, animationInterval, forwardButton, backButton;
+      self              = this,
+      testing, animationInterval, forwardButton, backButton, currentBatch;
+
+  function on(event, fn, scope) {
+
+    var l = listeners;
+
+    l[event] = l[event] || [];
+
+    l[event].push(arguments);
+
+  }
+
+  function fire(event, eventFacade, scope) {
+
+    var l = listeners;
+
+    if (l[event]) {
+      l[event].forEach(function(subscription) {
+        scope = subscription[2] || scope;
+        subscription[1](eventFacade);
+      });
+    }
+
+  }
 
   function QueuedElementList(rootSelector, options) {
 
     var optionsInternal = {},
         rootElement;
+
+    this.listeners;
 
     //
     // Private methods
@@ -29,16 +55,45 @@
       //
       // Set defaults
       //
-      optionsInternal.imageQueue = options.imageQueue || [];
-      optionsInternal.template   = options.template   || '';
+      optionsInternal.queue     = options.queue     || [];
+      optionsInternal.template  = options.template  || '',
+      optionsInternal.batchSize = options.batchSize || 10;
 
       //
       // Select element
       //
+      console.log(rootSelector);
       rootElement = document.querySelector(rootSelector);
 
-      console.log('optionsInternal.imageQueue', optionsInternal.imageQueue, optionsInternal.template);
+    }
 
+    function getNextBatch() {
+
+      var batch = [];
+
+      for (var i=0; optionsInternal.batchSize > i && optionsInternal.queue.length > 0; i++) {
+
+        batch.push(optionsInternal.queue.shift());
+
+      }
+
+      currentBatch = batch;
+      return batch;
+
+    }
+
+    function writeNextBatch() {
+
+      var fragment;
+
+      getNextBatch().forEach(function(item) {
+        fragment = processTemplate(optionsInternal.template, item);
+        $(rootElement).append(fragment);
+      });
+
+      fire('writeBatch', optionsInternal);
+
+      return rootElement;
 
     }
 
@@ -60,7 +115,8 @@
     init();
 
     return {
-
+      writeNextBatch : writeNextBatch,
+      on : on
     }
 
   }
@@ -73,26 +129,6 @@
 
     if(!rootSelector || !rootElement) {
       return false;
-    }
-
-    function on(event, fn, scope) {
-
-      listeners[event] = listeners[event] || [];
-
-      listeners[event].push(arguments);
-
-    }
-
-    function fire(event, eventFacade) {
-      var scope = this;
-
-      if (listeners[event]) {
-        listeners[event].forEach(function(subscription) {
-          scope = subscription[2] || scope;
-          subscription[1](eventFacade);
-        });
-      }
-
     }
 
     function goForward() {

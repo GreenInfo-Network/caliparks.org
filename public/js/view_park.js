@@ -63,6 +63,14 @@
 
     var instagramPhotos;
 
+    //
+    // Invoke the header carousel
+    //
+    var carousel = new SetUpCaousel('#coverphoto-carousel');
+
+    //
+    // Draw California
+    //
     if (data.UsCaShape.display) {
       displayUsCa(
         data.UsCaShape.rootSelector, 
@@ -74,16 +82,23 @@
     // Instagram display
     //
     if (data.instagramQueue.display) {
-      instagramPhotos = new STMN.QueuedElementList('#instagram-photos .instagram-photos .instagram-photo-container', {
-        imageQueue : data.instagramQueue.photos,
-        template   : data.instagramQueue.template
+      instagramPhotos = new STMN.QueuedElementList('#instagram-photos .instagram-photo-container', {
+        queue     : data.instagramQueue.photos,
+        template  : data.instagramQueue.template,
+        batchSize : 100
+      });
+
+      $('#instagram-photos button').on('click', function() {
+        console.log('instagramPhotos', instagramPhotos);
+        instagramPhotos.writeNextBatch();
+      });
+
+      instagramPhotos.on('writeBatch',function(e) {
+        if (!e.queue.length) {
+          $('#instagram-photos button').hide();
+        }
       });
     }
-
-    //
-    // Invoke the header carousel
-    //
-    var carousel = new SetUpCaousel('#coverphoto-carousel');
 
   }
 
