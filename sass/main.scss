@@ -265,15 +265,17 @@ body.openspaces .main-content #instagram-photos image {
   display: inline-block;
 }
 
-body.openspaces .main-content #instagram-photos button {
-  text-decoration: underline;
+body.openspaces button.show-more {
+  text-decoration: underline !important;
   color:$blue;
   border:none;
   background-color: transparent;
   display:block;
   text-align: center;
-  font-size: $base-font-size;
+  font-size: $base-font-size !important;
   margin: 015px auto;
+  width:100%;
+  cursor:pointer;
 }
 
 /* search */

@@ -20,6 +20,8 @@ module.exports = function(req, res, data, callback) {
       tweet_iteration     = 0,
       instagramPreload    = [],
       instagramPostload   = [],
+      tweetsPreload       = [],
+      tweetsPostload      = [],
       tweets_all, tweets_filtered, thisOne;
 
   function fuzzyRound(N) {
@@ -150,6 +152,18 @@ module.exports = function(req, res, data, callback) {
 
                   });
 
+                  //separate the tweets into preload and post load
+                  // preloading 10
+                  tweetsult.rows.forEach(function(tweet, i) {
+
+                    if(i < 10) {
+                      tweetsPreload.push(tweet);
+                    } else {
+                      tweetsPostload.push(tweet)
+                    }
+
+                  });
+
                   callback( null, {
                     appTitle         : 'Stamen Parks: California > ' + result.rows[0].unit_name,
                     park_id          : result.rows[0].su_id,
@@ -165,7 +179,9 @@ module.exports = function(req, res, data, callback) {
                     },
                     cpadPark               : result.rows[0],
                     hashtag                : hashtags[result.rows[0].su_id],
-                    tweets                 : tweetsult.rows,
+                    tweets                 : tweetsPreload,
+                    tweets_queue           : JSON.stringify(tweetsPostload),
+                    tweets_queue_count     : tweetsPostload.length,
                     tweet_count            : tweetsult.rows.length,
                     has_tweets             : (tweetsult.rows.length > 0),
                     has_instagram_photos   : (instasult.rows.length > 0),

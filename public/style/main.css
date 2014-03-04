@@ -275,15 +275,17 @@ body.openspaces .main-content #instagram-photos image {
   margin: 0;
   display: inline-block; }
 
-body.openspaces .main-content #instagram-photos button {
-  text-decoration: underline;
+body.openspaces button.show-more {
+  text-decoration: underline !important;
   color: #85bbe1;
   border: none;
   background-color: transparent;
   display: block;
   text-align: center;
-  font-size: 16px;
-  margin: 015px auto; }
+  font-size: 16px !important;
+  margin: 015px auto;
+  width: 100%;
+  cursor: pointer; }
 
 /* search */
 body.openspaces header #search {

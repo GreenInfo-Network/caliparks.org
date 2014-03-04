@@ -62,7 +62,6 @@
       //
       // Select element
       //
-      console.log(rootSelector);
       rootElement = document.querySelector(rootSelector);
 
     }

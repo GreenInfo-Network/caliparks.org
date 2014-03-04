@@ -63,7 +63,7 @@
 
     //TODO: move some of this logic out
 
-    var instagramPhotos;
+    var instagramPhotos, tweets;
 
     //
     // Invoke the header carousel
@@ -103,6 +103,25 @@
       instagramPhotos.on('writeBatch',function(e) {
         if (!e.queue.length) {
           $('#instagram-photos button').hide();
+        }
+      });
+    }
+
+    if (data.twitterQueue.display) {
+      tweets = new STMN.QueuedElementList('#tweets ul', {
+        queue     : data.twitterQueue.tweets,
+        template  : data.twitterQueue.template,
+        batchSize : 100
+      });
+
+      $('#tweets .show-more').on('click', function() {
+
+        tweets.writeNextBatch();
+      });
+
+      tweets.on('writeBatch',function(e) {
+        if (!e.queue.length) {
+          $('#tweets .show-more').hide();
         }
       });
     }
