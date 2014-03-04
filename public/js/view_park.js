@@ -90,6 +90,10 @@
         batchSize : 100
       });
 
+      $('#instagram-photos .instagram-photo').on('click', function(e) {
+        location.href = e.target.getAttribute('data-link');
+      });
+
       $('#instagram-photos button').on('click', function() {
         instagramPhotos.writeNextBatch();
       });

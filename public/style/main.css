@@ -297,6 +297,10 @@ body.openspaces .main-content #instagram-photos  {
   text-align: right;
 }
 
+body.openspaces .main-content #instagram-photos .instagram-photo {
+  cursor: pointer;
+}
+
 body.openspaces .main-content #instagram-photos h2 {
   text-align: left;
   margin-left: 8px;
