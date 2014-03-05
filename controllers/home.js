@@ -16,6 +16,23 @@ module.exports = function(req, res, data, callback) {
       glop_slider_max   = 100,
       contextBiggestToSmallestDecorated;
 
+
+  function splitItems(array, splitAt) {
+    var arrays = [[],[]];
+
+    array.forEach(function(item, i) {
+
+      if(i < (splitAt || 20)) {
+        arrays[0].push(item);
+      } else {
+        arrays[1].push(item)
+      }
+
+    });
+
+    return arrays;
+  }
+
   return contextBiggestToSmallest({
   	//limit : 6
   }, function(err, contextDataBiggestToSmallest) {
@@ -56,23 +73,23 @@ module.exports = function(req, res, data, callback) {
             return callback(err);
           }
 
-          //
-          // Limit each to 20... unless I have time to set up 
-          // pagination
-          //
-          contextBiggestToSmallestDecorated.length = glop_slider_max;
-          contextDataMostPhotographed.parks.length = glop_slider_max;
-          contextDataMostTweets.parks.length       = glop_slider_max;
-          contextDataMostCheckins.parks.length     = glop_slider_max;
+          var biggestToSmallest = splitItems(contextBiggestToSmallestDecorated);
+          var mostPhotographed  = splitItems(contextDataMostPhotographed.parks);
+          var mostTweets        = splitItems(contextDataMostTweets.parks);
+          var mostCheckins      = splitItems(contextDataMostCheckins.parks);
 
           return callback(null, {
-            appTitle           : 'Stamen Parks',
-            parks              : contextBiggestToSmallestDecorated,
-            most_photographed  : contextDataMostPhotographed,
-            most_tweets        : contextDataMostTweets,
-            most_checkins      : contextDataMostCheckins,
-            suIdsByHashtagJSON : JSON.stringify(suIdsByHashtag),
-            hashtags           : hashtags
+            appTitle               : 'Stamen Parks',
+            parks                  : biggestToSmallest[0],
+            parksQueue             : JSON.stringify(biggestToSmallest[1]),
+            most_photographed      : mostPhotographed[0],
+            most_photographedQueue : JSON.stringify(mostPhotographed[1]),
+            most_tweets            : mostTweets[0],
+            most_tweetsQueue       : JSON.stringify(mostTweets[1]),
+            most_checkins          : mostCheckins[0],
+            most_checkinsQueue     : JSON.stringify(mostCheckins[1]),
+            suIdsByHashtagJSON     : JSON.stringify(suIdsByHashtag),
+            hashtags               : hashtags
           });
 
         });
