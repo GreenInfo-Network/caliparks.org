@@ -11,7 +11,9 @@
     //
     // Biggest to smallest carousel
     //
-    this.instance    = new STMN.Carousel(rootSelector);
+    this.instance    = new STMN.Carousel(rootSelector, {
+      slideClass : 'glop-park'
+    });
     this.rootElement = document.querySelector(rootSelector).parentNode;
     this.backElement = this.rootElement.querySelector('.carousel-back-button');
     this.backElement.addEventListener('click', function() {

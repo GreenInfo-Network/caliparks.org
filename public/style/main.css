@@ -490,7 +490,7 @@ body.openspaces .has-instagram-photos.has-tweets #foursquare-stats {
   vertical-align: bottom; }
 
 body.openspaces #park-template-wrapper h2, body.openspaces #foursquare-stats table, tfoot {
-  color: #888462;
+  color: #9a7922;
   font-size: 20px;
   font-weight: 600;
   margin-bottom: 20px; }
@@ -500,7 +500,7 @@ body.openspaces #park-template-wrapper h2 span {
   margin-left: 11px; }
 
 body.openspaces #park-template-wrapper h2 a {
-  color: #888462;
+  color: #9a7922;
   text-decoration: none; }
 
 body.openspaces #foursquare-stats table {
@@ -545,7 +545,7 @@ body.openspaces #park-shape .scale-area .scale-bar {
   margin: 0 auto;
   width: 15px;
   height: 15px;
-  background-color: #888462; }
+  background-color: #9a7922; }
 
 @media (max-width: 1230px) {
   body.openspaces #tweets {

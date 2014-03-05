@@ -122,9 +122,17 @@
 
   window.STMN.QueuedElementList = QueuedElementList;
 
-  function Carousel(rootSelector) {
+  function Carousel(rootSelector, options) {
 
-    var rootElement = document.querySelector(rootSelector);
+    options = options || {};
+
+    var rootElement     = document.querySelector(rootSelector),
+        coverPhotos,
+        optionsInternal = {};
+
+    optionsInternal.slideClass = options.slideClass || 'carousel-slide';
+
+    coverPhotos = $(rootSelector + ' .' + optionsInternal.slideClass);
 
     if(!rootSelector || !rootElement) {
       return false;
@@ -140,21 +148,11 @@
       var start = rootElement.scrollLeft,
           last  = 0;
 
-      animationInterval = setInterval(function() {
-
-        rootElement.scrollLeft += 8;
-
-        if (rootElement.scrollLeft === last || rootElement.scrollLeft > (Math.min(start+rootElement.offsetWidth, rootElement.scrollWidth-rootElement.offsetWidth))) {
-          clearInterval(animationInterval);
-          animationInterval = null;
-          fire('forward', {
-            target : rootElement
-          });
-        }
-
-        last = rootElement.scrollLeft;
-
-      }, 1);
+      $(rootElement).animate({'scrollLeft':start + (rootElement.offsetWidth+4)}, null, null, function() {
+        fire('forward', {
+          target : rootElement
+        });
+      });
 
     }
 
@@ -168,22 +166,11 @@
       var start = rootElement.scrollLeft,
           last  = 0;
 
-      animationInterval = setInterval(function() {
-
-        rootElement.scrollLeft -= 10;
-
-        if (rootElement.scrollLeft === last || rootElement.scrollLeft < Math.max(start-rootElement.offsetWidth, 0)+1) {
-          clearInterval(animationInterval);
-          animationInterval = null;
-
-          fire('backward', {
-            target : rootElement
-          });
-        }
-
-        last = rootElement.scrollLeft;
-
-      }, 1);
+      $(rootElement).animate({'scrollLeft':start - (rootElement.offsetWidth+4)}, null, null, function() {
+        fire('backward', {
+          target : rootElement
+        });
+      });
 
     }
 

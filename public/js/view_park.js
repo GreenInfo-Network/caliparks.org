@@ -132,10 +132,9 @@
 
     var that = this;
 
-    //
-    // Biggest to smallest carousel
-    //
-    this.instance    = new window.STMN.Carousel(rootSelector);
+    this.instance    = new window.STMN.Carousel(rootSelector, {
+      slideClass : 'coverphoto'
+    });
     this.rootElement = document.querySelector(rootSelector).parentNode;
     this.backElement = this.rootElement.querySelector('.carousel-back-button');
     this.backElement.addEventListener('click', function() {

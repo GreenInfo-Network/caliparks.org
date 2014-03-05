@@ -22,6 +22,8 @@ module.exports = function(req, res, data, callback) {
       instagramPostload   = [],
       tweetsPreload       = [],
       tweetsPostload      = [],
+      flickrPreload       = [],
+      flickrPostload      = [],
       tweets_all, tweets_filtered, thisOne;
 
   function fuzzyRound(N) {
@@ -133,9 +135,6 @@ module.exports = function(req, res, data, callback) {
                       displayMi        = fuzzyRound((totalDistanceInK/devideBy)/kInMiles),
                       displayFt        = fuzzyRound((totalDistanceInK/devideBy)*ftInK);
 
-                  //Limit Flickr photos
-                  flesult.rows.length = 50;
-
                   //separate the instagram into preload and post load
                   // preloading 32
                   instasult.rows.forEach(function(photo, i) {
@@ -164,13 +163,25 @@ module.exports = function(req, res, data, callback) {
 
                   });
 
+                  //separate flickr into preload and post load
+                  // preloading 5
+                  flesult.rows.forEach(function(photo, i) {
+
+                    if(i < 5) {
+                      flickrPreload.push(photo);
+                    } else {
+                      flickrPostload.push(photo)
+                    }
+
+                  });
+
                   callback( null, {
                     appTitle         : 'Stamen Parks: California > ' + result.rows[0].unit_name,
                     park_id          : result.rows[0].su_id,
                     name             : result.rows[0].unit_name,
                     agency_slug      : result.rows[0].agncy_name.split(' ').join('+').split(',')[0],
                     totalPhotos      : flesult.rows.length ? flesult.rows.length : 0,
-                    flickrPhotos     : flesult.rows,
+                    flickrPhotos     : flickrPreload,
                     noFlickrScroll   : (flesult.rows.length < 2),
                     coverPhoto       : flesult.rows.length ? flesult.rows[0] : null,
                     locationDisplay  : {
