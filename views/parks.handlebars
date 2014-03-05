@@ -5,7 +5,7 @@
     <!--div>I am a subnav</div-->
   </div>
 
-  <div style="text-align:center;margin-top:20px;">
+  <div style="text-align:center;margin-top:20px;" id="parks">
   {{#each parks}}
     {{>glop_park}}
   {{/each}}
@@ -16,3 +16,29 @@
   </div>
   }
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+
+    //
+    // Image defer
+    //
+    queue = new STMN.QueuedElementList('#parks', {
+      queue     : {{{parksQueue}}},
+      template  : '<style>  #glop-park-{su_id} {    background-image:url(\'http://rasterblaster.stamen.com/cpad/{su_id}-888462-200-200.png\');  }  #glop-park-635:hover {    background-image:url(\'http://rasterblaster.stamen.com/cpad/{su_id}-85BBE1-200-200.png\');  }</style><a href="/park/635"><div id="glop-park-{su_id}" class="glop-park" style="background-position: initial;" data-park-id="{su_id}"><span class="hashtag">#{hashtag}</span><span class="park-name">{unit_name}</span></div></a>',
+      batchSize : 100
+    });
+
+    var b = document.body;
+
+    document.addEventListener('scroll',function(e) {
+
+      console.log((b.scrollHeight-b.scrollTop), document.documentElement.clientHeight)
+
+      if ((b.scrollHeight-b.scrollTop) < (document.documentElement.clientHeight*2)) {
+        queue.writeNextBatch();
+      }
+    });
+
+  }, false);
+</script>

@@ -9,7 +9,6 @@ module.exports = function(req, res, data, callback) {
 	var contextDataDecorated;
 
 	return context({
-		limit : 200,
 		query : data.query
 	}, function(err, contextData) {
 
@@ -25,10 +24,23 @@ module.exports = function(req, res, data, callback) {
 			return park;
 		});
 
+		var contextParts = [[],[]];
+
+		contextDataDecorated.forEach(function(park, i) {
+
+			if (i < 40) {
+				contextParts[0].push(park);
+			} else {
+				contextParts[1].push(park);
+			}
+
+		});
+
 		return callback(null, {
-			appTitle : 'California parks: ' + contextData.title,
-		 	parks    : contextDataDecorated,
-		 	empty    : !(contextDataDecorated.length)
+			appTitle   : 'California parks: ' + contextData.title,
+		 	parks      : contextParts[0],
+		 	parksQueue : JSON.stringify(contextParts[1]),
+		 	empty      : !(contextDataDecorated.length)
 		});
 
 	});
