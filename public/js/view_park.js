@@ -63,12 +63,26 @@
 
     //TODO: move some of this logic out
 
-    var instagramPhotos, tweets;
+    var flickrPhotos, instagramPhotos, tweets;
 
     //
     // Invoke the header carousel
     //
     var carousel = new SetUpCaousel('#coverphoto-carousel');
+
+    if (data.flickrQueue.display) {
+      flickrPhotos = new STMN.QueuedElementList('#coverphoto-carousel', {
+        queue     : data.flickrQueue.photos,
+        template  : data.flickrQueue.template,
+        batchSize : 100
+      });
+
+      $('#coverphoto-carousel').on('scroll',function(e) {
+        if ((e.target.scrollWidth-e.target.scrollLeft) < e.target.offsetWidth*3) {
+          flickrPhotos.writeNextBatch();
+        }
+      });
+    }
 
     //
     // Draw California
@@ -133,7 +147,8 @@
     var that = this;
 
     this.instance    = new window.STMN.Carousel(rootSelector, {
-      slideClass : 'coverphoto'
+      slideClass : 'coverphoto',
+      snapToSlide : true
     });
     this.rootElement = document.querySelector(rootSelector).parentNode;
     this.backElement = this.rootElement.querySelector('.carousel-back-button');

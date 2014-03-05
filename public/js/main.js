@@ -130,6 +130,10 @@
         coverPhotos,
         optionsInternal = {};
 
+    rootElement.style.backgroundImage = 'url(/style/loader.gif)';
+    rootElement.style.backgroundRepeat = 'no-repeat';
+    rootElement.style.backgroundPosition = 'center';
+
     optionsInternal.slideClass = options.slideClass || 'carousel-slide';
 
     coverPhotos = $(rootSelector + ' .' + optionsInternal.slideClass);
@@ -146,9 +150,18 @@
       }
 
       var start = rootElement.scrollLeft,
-          last  = 0;
+          last  = 0, pos, next;
 
-      $(rootElement).animate({'scrollLeft':start + (rootElement.offsetWidth+4)}, null, null, function() {
+      if (options.snapToSlide) {
+        coverPhotos = $(rootSelector + ' .' + optionsInternal.slideClass);
+        next = Math.round(rootElement.scrollLeft/coverPhotos[0].offsetWidth)+1;
+        pos = (coverPhotos[next]) ? coverPhotos[next].offsetLeft : start;
+      } else {
+        pos = start + rootElement.offsetWidth;
+      }
+
+      $(rootElement).animate({'scrollLeft':pos}, null, null, function() {
+        
         fire('forward', {
           target : rootElement
         });
@@ -164,9 +177,17 @@
       }
 
       var start = rootElement.scrollLeft,
-          last  = 0;
+          last  = 0, pos, next;
 
-      $(rootElement).animate({'scrollLeft':start - (rootElement.offsetWidth+4)}, null, null, function() {
+      if (options.snapToSlide) {
+        coverPhotos = $(rootSelector + ' .' + optionsInternal.slideClass);
+        next = Math.round(rootElement.scrollLeft/coverPhotos[0].offsetWidth)-1;
+        pos = (coverPhotos[next]) ? coverPhotos[next].offsetLeft : start;
+      } else {
+        pos = start - rootElement.offsetWidth;
+      }
+
+      $(rootElement).animate({'scrollLeft':start - (rootElement.offsetWidth)}, null, null, function() {
         fire('backward', {
           target : rootElement
         });

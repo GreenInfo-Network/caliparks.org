@@ -182,6 +182,7 @@ module.exports = function(req, res, data, callback) {
                     agency_slug      : result.rows[0].agncy_name.split(' ').join('+').split(',')[0],
                     totalPhotos      : flesult.rows.length ? flesult.rows.length : 0,
                     flickrPhotos     : flickrPreload,
+                    queue_flickr_photos : JSON.stringify(flickrPostload),
                     noFlickrScroll   : (flesult.rows.length < 2),
                     coverPhoto       : flesult.rows.length ? flesult.rows[0] : null,
                     locationDisplay  : {
