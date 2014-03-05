@@ -130,9 +130,11 @@
         coverPhotos,
         optionsInternal = {};
 
-    rootElement.style.backgroundImage = 'url(/style/loader.gif)';
-    rootElement.style.backgroundRepeat = 'no-repeat';
-    rootElement.style.backgroundPosition = 'center';
+    if (options.showLoader) {
+      rootElement.style.backgroundImage    = 'url(/style/loader.gif)';
+      rootElement.style.backgroundRepeat   = 'no-repeat';
+      rootElement.style.backgroundPosition = 'center';
+    }
 
     optionsInternal.slideClass = options.slideClass || 'carousel-slide';
 

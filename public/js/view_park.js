@@ -148,7 +148,8 @@
 
     this.instance    = new window.STMN.Carousel(rootSelector, {
       slideClass : 'coverphoto',
-      snapToSlide : true
+      snapToSlide : true,
+      showLoader: true
     });
     this.rootElement = document.querySelector(rootSelector).parentNode;
     this.backElement = this.rootElement.querySelector('.carousel-back-button');
