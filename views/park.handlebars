@@ -12,11 +12,11 @@
 		{{#each flickrPhotos}}
 			{{>flickr_coverphoto}}
 		{{/each}}
+		</div>
 		<div style="position:absolute;right:43px;top:277px;color:#eeddca;text-align:right;white-space: initial;line-height: 27px;width:181px;">
     <span style="background-color:#9a7922;padding: 4px;">People who use Flickr come here</span><br>
     <span style="background-color:#9a7922;padding: 4px;font-size:12px;">{{#pluralize}}{{totalPhotos}} photo|photos{{/pluralize}} by {{#pluralize}}{{flotographer_count}} person|people{{/pluralize}}</span>
   </div>
-		</div>
 	{{/if}}
 	<button class="carousel-back-button">&nbsp;</button>
     <button class="carousel-forward-button">&nbsp;</button>
