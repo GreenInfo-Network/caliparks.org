@@ -563,8 +563,10 @@ body.openspaces #park-template-wrapper h2, body.openspaces #foursquare-stats tab
 }
 
 body.openspaces #park-template-wrapper h2 span {
-  font-size: $base-font-size;
-  margin-left: 11px;
+  font-size: $tiny-font-size;
+  margin-left: 10px;
+  color:$greenish-brown;
+  font-weight:$base-font-weight;
 }
 
 body.openspaces #park-template-wrapper h2 a {

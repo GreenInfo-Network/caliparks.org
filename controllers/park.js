@@ -137,7 +137,10 @@ module.exports = function(req, res, data, callback) {
 
                   //separate the instagram into preload and post load
                   // preloading 32
+                  var instographer_count = {};
                   instasult.rows.forEach(function(photo, i) {
+
+                    instographer_count[photo.username] = true;
 
                     thisOne = photo;
                     thisOne.thumb = thisOne.standard_resolution.split('_7').join('_5');
@@ -153,7 +156,10 @@ module.exports = function(req, res, data, callback) {
 
                   //separate the tweets into preload and post load
                   // preloading 10
+                  var tweeter_count = {};
                   tweetsult.rows.forEach(function(tweet, i) {
+
+                    tweeter_count[tweet.username] = true;
 
                     if(i < 10) {
                       tweetsPreload.push(tweet);
@@ -178,6 +184,8 @@ module.exports = function(req, res, data, callback) {
 
                   });
 
+
+
                   callback( null, {
                     appTitle         : 'Stamen Parks: California > ' + result.rows[0].unit_name,
                     park_id          : result.rows[0].su_id,
@@ -199,9 +207,11 @@ module.exports = function(req, res, data, callback) {
                     tweets_queue           : JSON.stringify(tweetsPostload),
                     tweets_queue_count     : tweetsPostload.length,
                     tweet_count            : tweetsult.rows.length,
+                    tweeter_count          : Object.keys(tweeter_count).length,
                     has_tweets             : (tweetsult.rows.length > 0),
                     has_instagram_photos   : (instasult.rows.length > 0),
                     top_instagram_photos   : instagramPreload,
+                    instographer_count     : Object.keys(instographer_count).length,
                     queue_instagram_photos : JSON.stringify(instagramPostload),
                     queue_instagram_length : instagramPostload.length,
                     instagram_count        : instasult.rows.length,

@@ -266,7 +266,7 @@ body.openspaces .has-coverphoto .coverphoto span.attribution {
   background-color: rgba(34, 17, 2, 0.4);
   padding: 10px;
   line-height: 10px;
-  font-size: 9px; }
+  font-size: 12px; }
 
 body.openspaces .has-coverphoto .coverphoto span.attribution a {
   text-decoration: none; }
@@ -542,8 +542,10 @@ body.openspaces #park-template-wrapper h2, body.openspaces #foursquare-stats tab
   margin-bottom: 20px; }
 
 body.openspaces #park-template-wrapper h2 span {
-  font-size: 18px;
-  margin-left: 11px; }
+  font-size: 12px;
+  margin-left: 10px;
+  color: #666640;
+  font-weight: 300; }
 
 body.openspaces #park-template-wrapper h2 a {
   color: #9a7922;
@@ -590,7 +592,7 @@ body.openspaces #park-shape .scale-area {
   position: absolute;
   bottom: -1px;
   left: 0;
-  font-size: 9px;
+  font-size: 12px;
   color: #301f0d;
   text-align: center;
   height: 32px; }
