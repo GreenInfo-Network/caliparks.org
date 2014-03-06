@@ -51,9 +51,9 @@ table {
 body.openspaces {
   font-family: "HelveticaNeue", "Helvetica Neue", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   font-weight: 300;
-  font-size: 16px;
-  color: #eedecc;
-  background-color: #221102;
+  font-size: 18px;
+  color: #cebc95;
+  background-color: #301f0d;
   background-image: url("/style/photo-back-template-bg.png");
   background-repeat: no-repeat;
   background-size: 100% auto;
@@ -73,18 +73,18 @@ body.openspaces input:focus {
   outline-width: 0; }
 
 body.openspaces input::-webkit-input-placeholder {
-  color: #eedecc; }
+  color: #cebc95; }
 
 body.openspaces input:-moz-placeholder {
   /* Firefox 18- */
-  color: #eedecc; }
+  color: #cebc95; }
 
 body.openspaces input::-moz-placeholder {
   /* Firefox 19+ */
-  color: #eedecc; }
+  color: #cebc95; }
 
 body.openspaces input:-ms-input-placeholder {
-  color: #eedecc; }
+  color: #cebc95; }
 
 body.openspaces h1 {
   font-size: 28px;
@@ -93,12 +93,13 @@ body.openspaces h1 {
   line-height: 32px; }
 
 body.openspaces h2 {
-  font-size: 20px;
+  font-size: 24px;
   font-weight: 600;
-  margin-bottom: 40px; }
+  margin-bottom: 40px;
+  color: #f0dfcb; }
 
 body.openspaces h3 {
-  font-size: 20px;
+  font-size: 24px;
   line-height: 32px;
   font-weight: 600;
   margin-bottom: 15px; }
@@ -111,16 +112,18 @@ body.openspaces.photo-back-template h1 {
   color: white;
   font-family: "cooper-black-std", sans-serif;
   font-size: 40px;
-  margin-bottom: 25px;
-  line-height: 55px; }
+  margin-bottom: 15px;
+  line-height: 55px;
+  font-weight: 600; }
 
 body.openspaces.photo-back-template p.subhead {
   color: white;
   font-family: "cooper-black-std", sans-serif;
   font-size: 40px;
+  font-weight: 600;
   text-align: center;
   margin: 0 auto;
-  margin-bottom: 40px;
+  margin-bottom: 60px;
   width: 900px; }
 
 body.openspaces header {
@@ -131,30 +134,30 @@ body.openspaces header {
   width: 940px;
   margin: 0 auto;
   max-width: 1602px;
-  background-color: #453421;
+  background-color: #453420;
   margin: 0 auto; }
 
 body.openspaces.photo-back-template header {
-  margin-bottom: 65px; }
+  margin-bottom: 60px; }
 
 body.openspaces header a {
   text-decoration: none;
-  color: #eedecc; }
+  color: #cebc95; }
 
 body.openspaces header nav {
-  font-size: 16px;
-  color: #eedecc;
+  font-size: 18px;
+  color: #cebc95;
   margin-left: -4px; }
 
 body.openspaces header nav a {
   text-decoration: none;
-  color: #eedecc; }
+  color: #f0dfcb; }
 
 body.openspaces footer {
   padding: 15px 40px;
   height: 126px;
   position: relative;
-  line-height: 20px;
+  line-height: 24px;
   width: 940px;
   margin: 0 auto;
   font-weight: 300; }
@@ -165,9 +168,14 @@ body.openspaces.photo-back-template article.about-this-page {
   -webkit-column-count: 2;
   /* Safari and Chrome */
   column-count: 2;
-  margin: 0 43px 40px 40px;
-  line-height: 20px;
-  font-size: 16px;
+  column-gap: 31px;
+  -moz-column-gap: 31px;
+  /* Firefox */
+  -webkit-column-gap: 31px;
+  /* Safari and Chrome */
+  margin: 0 43px 5px 40px;
+  line-height: 24px;
+  font-size: 18px;
   line-height: 26px; }
 
 body.openspaces.photo-back-template article.thin {
@@ -175,15 +183,16 @@ body.openspaces.photo-back-template article.thin {
   margin: 0 auto; }
 
 body.openspaces section {
-  background-color: #eedecc;
-  color: #453421;
+  background-color: #f0dfcb;
+  color: #453420;
   padding: 33px;
   position: relative;
   z-index: 1; }
 
 body.openspaces.photo-back-template section {
   background-color: transparent;
-  color: #eedecc; }
+  color: #cebc95;
+  padding: 40px; }
 
 body.openspaces li {
   margin-left: 20px;
@@ -200,7 +209,7 @@ body.openspaces .tweets {
 
 body.openspaces #park-hash-tag {
   height: 67px;
-  background-color: #221102;
+  background-color: #301f0d;
   top: 80px;
   right: 103px;
   color: white;
@@ -227,6 +236,12 @@ body.openspaces .stmn-carousel-module ::-webkit-scrollbar {
 
 body.openspaces .stmn-carousel-module ::-webkit-scrollbar-thumb {
   background-color: black; }
+
+body.openspaces .stmn-carousel-module {
+  scrollbar-highlight-color: aqua !important;
+  scrollbar-face-color: blue !important;
+  scrollbar-arrow-color: blue !important;
+  border-color: blue !important; }
 
 body.openspaces .has-coverphoto .coverphoto {
   height: 480px;
@@ -288,7 +303,7 @@ body.openspaces button.show-more {
   background-color: transparent;
   display: block;
   text-align: center;
-  font-size: 16px !important;
+  font-size: 18px !important;
   margin: 015px auto;
   width: 100%;
   cursor: pointer; }
@@ -301,7 +316,7 @@ body.openspaces header #search {
   text-decoration: none;
   text-align: right;
   width: 700px;
-  color: #eedecc; }
+  color: #cebc95; }
 
 body.openspaces header #search input {
   -webkit-appearance: none;
@@ -309,13 +324,28 @@ body.openspaces header #search input {
   cursor: pointer;
   display: inline-block;
   width: 200px;
-  background-color: #453421;
-  font-size: 16px;
-  color: #eedecc;
+  background-color: #453420;
+  font-size: 18px;
+  color: #f0dfcb;
   font-weight: 300; }
 
+body.openspaces header #search input::-webkit-input-placeholder {
+  color: #f0dfcb; }
+
+body.openspaces header #search input::-moz-placeholder {
+  color: #f0dfcb; }
+
+/* firefox 19+ */
+body.openspaces header #search input:-ms-input-placeholder {
+  color: #f0dfcb; }
+
+/* ie */
+body.openspaces header #search input:-moz-placeholder {
+  color: #f0dfcb; }
+
 body.openspaces header #search a {
-  text-decoration: none; }
+  text-decoration: none;
+  color: #f0dfcb; }
 
 body.openspaces header #search button {
   border: none;
@@ -335,7 +365,7 @@ body.openspaces header.has-search-results #search-results {
   z-index: 2;
   background-color: white;
   color: black;
-  font-size: 16px;
+  font-size: 18px;
   padding: 3px;
   max-height: 50vh;
   overflow-y: auto;
@@ -385,7 +415,11 @@ body.openspaces .carousel-container .carousel-back-button {
   left: -36px; }
 
 body.openspaces .carousel-container {
-  position: relative; }
+  position: relative;
+  margin-bottom: 25px; }
+
+body.openspaces .carousel-container h2 {
+  margin-bottom: 25px; }
 
 body.openspaces .carousel-forward-button, body.openspaces .carousel-back-button {
   background-color: transparent;
@@ -438,10 +472,10 @@ body.openspaces .glop-park .hashtag {
   top: 61px;
   left: 32%;
   color: white;
-  background-color: #221102;
+  background-color: #301f0d;
   padding: 10px;
   font-family: "cooper-black-std", sans-serif;
-  font-size: 20px;
+  font-size: 24px;
   line-height: 32px;
   padding: 0px 10px; }
 
@@ -456,8 +490,8 @@ body.openspaces .glop-park .park-name {
   left: 0px;
   color: white;
   padding: 10px;
-  font-size: 16px;
-  line-height: 20px;
+  font-size: 18px;
+  line-height: 24px;
   padding: 0px 10px;
   text-align: center;
   width: 100%;
@@ -497,12 +531,12 @@ body.openspaces .has-instagram-photos.has-tweets #foursquare-stats {
 
 body.openspaces #park-template-wrapper h2, body.openspaces #foursquare-stats table, tfoot {
   color: #9a7922;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 600;
   margin-bottom: 20px; }
 
 body.openspaces #park-template-wrapper h2 span {
-  font-size: 16px;
+  font-size: 18px;
   margin-left: 11px; }
 
 body.openspaces #park-template-wrapper h2 a {
@@ -515,13 +549,14 @@ body.openspaces #foursquare-stats table {
   text-align: center; }
 
 body.openspaces #foursquare-stats table tbody {
-  color: #221102;
-  font-size: 20px;
+  color: #301f0d;
+  font-size: 24px;
   font-weight: 600; }
 
-body.openspaces #foursquare-stats table tfoot {
+body.openspaces #foursquare-stats table tfoot td {
   text-transform: uppercase;
-  text-align: center; }
+  text-align: center;
+  font-size: 18px; }
 
 /* Park Shape */
 body.openspaces #park-shape {
@@ -534,7 +569,7 @@ body.openspaces #park-shape {
   background-repeat: no-repeat; }
 
 body.openspaces .park-lat-lon {
-  font-size: 20px;
+  font-size: 24px;
   line-height: 32px;
   margin-bottom: 0px; }
 
@@ -543,7 +578,7 @@ body.openspaces #park-shape .scale-area {
   bottom: -1px;
   left: 0;
   font-size: 9px;
-  color: #221102;
+  color: #301f0d;
   text-align: center;
   height: 32px; }
 
@@ -564,7 +599,7 @@ body.openspaces #park-shape .scale-area .scale-bar {
     padding: 0; }
 
   body.openspaces.photo-back-template {
-    font-size: 16px;
+    font-size: 18px;
     background-size: cover;
     background-position: top -40%; }
 
@@ -584,7 +619,7 @@ body.openspaces #park-shape .scale-area .scale-bar {
     /* Safari and Chrome */
     column-count: 1;
     text-align: center;
-    font-size: 16px; }
+    font-size: 18px; }
 
   body.openspaces section {
     padding: 0;

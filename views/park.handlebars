@@ -12,6 +12,10 @@
 		{{#each flickrPhotos}}
 			{{>flickr_coverphoto}}
 		{{/each}}
+		<div style="position:absolute;right:43px;top:277px;color:#eeddca;text-align:right;white-space: initial;line-height: 27px;width:181px;">
+    <span style="background-color:#9a7922;padding: 4px;">People who use Flickr come here</span><br>
+    <span style="background-color:#9a7922;padding: 4px;font-size:12px;">{{#pluralize}}{{totalPhotos}} photo|photos{{/pluralize}} by {{#pluralize}}{{flotographer_count}} person|people{{/pluralize}}</span>
+  </div>
 		</div>
 	{{/if}}
 	<button class="carousel-back-button">&nbsp;</button>
@@ -22,7 +26,7 @@
 	<section class="{{#if has_instagram_photos}} has-instagram-photos{{/if}}{{#if has_tweets}} has-tweets{{/if}}{{#if has_foursquare}} has-foursquare{{/if}}">
 		<div id="park-info" style="display:inline-block;width:400px;">
 			<h1 style="margin-bottom: 5px;">{{name}}</h1>
-			<p class="park-lat-lon">{{locationDisplay.lat}}, {{locationDisplay.lon}}</p>
+			<p class="park-lat-lon"><a href="https://www.google.com/maps/place/{{cpadPark.centroid_latitude}},{{cpadPark.centroid_longitude}}">{{locationDisplay.lat}}, {{locationDisplay.lon}}</a></p>
 			<p><a href="/parks/agency/{{agency_slug}}">{{#agencyNameDisplay}}{{cpadPark.agncy_name}}{{/agencyNameDisplay}}</a></p>
 			<!--div class="access-type-badge">{{cpadPark.park_area}} Miles</div-->
 			<div id="park-shape">

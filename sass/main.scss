@@ -60,6 +60,7 @@ body.openspaces h2 {
   font-size: $sub-header-font-size;
   font-weight: $bold-font-weight;
   margin-bottom: 40px;
+  color:$cream;
 }
 
 body.openspaces h3 {
@@ -78,17 +79,19 @@ body.openspaces.photo-back-template h1 {
   color:$white;
   font-family: $cooper-font-stack;
   font-size: $bigger-header-font-size;
-  margin-bottom: 25px;
+  margin-bottom: 15px;
   line-height:$bigger-header-line-height;
+  font-weight:$bold-font-weight;
 }
 
 body.openspaces.photo-back-template p.subhead {
   color:$white;
   font-family: $cooper-font-stack;
   font-size: $bigger-header-font-size;
+  font-weight: $bold-font-weight;
   text-align: center;
   margin: 0 auto;
-  margin-bottom:40px;
+  margin-bottom:60px;
   width:900px;
 }
 
@@ -105,7 +108,7 @@ body.openspaces header {
 }
 
 body.openspaces.photo-back-template header {
-  margin-bottom: 65px;
+  margin-bottom: 60px;
 }
 
 body.openspaces header a {
@@ -121,7 +124,7 @@ body.openspaces header nav {
 
 body.openspaces header nav a {
   text-decoration: none;
-   color:$base-font-color;
+   color:$cream;
 }
 
 body.openspaces footer {
@@ -138,7 +141,10 @@ body.openspaces.photo-back-template article.about-this-page {
   -moz-column-count:2; /* Firefox */
   -webkit-column-count:2; /* Safari and Chrome */
   column-count:2;
-  margin: 0 43px 40px 40px;
+  column-gap:31px;
+  -moz-column-gap:31px; /* Firefox */
+  -webkit-column-gap:31px; /* Safari and Chrome */
+  margin: 0 43px 5px 40px;
   line-height:$base-line-height;
   font-size: $base-font-size;
   line-height: 26px;
@@ -150,7 +156,7 @@ body.openspaces.photo-back-template article.thin {
 }
 
 body.openspaces section {
-  background-color: $light-brown;
+  background-color: $cream;
   color:$brown;
   padding:33px;
   position: relative;
@@ -160,6 +166,7 @@ body.openspaces section {
 body.openspaces.photo-back-template section {
   background-color: transparent;
   color:$base-font-color;
+  padding:40px;
 }
 
 body.openspaces li {
@@ -211,7 +218,14 @@ body.openspaces .stmn-carousel-module ::-webkit-scrollbar{
 
 body.openspaces .stmn-carousel-module ::-webkit-scrollbar-thumb{
   background-color:rgba(0,0,0,1);
-}  
+}
+
+body.openspaces .stmn-carousel-module {
+  scrollbar-highlight-color: aqua !important;
+  scrollbar-face-color: blue !important;
+  scrollbar-arrow-color: blue !important;
+  border-color: blue !important;
+}
 
 body.openspaces .has-coverphoto .coverphoto {
   height:480px;
@@ -306,12 +320,18 @@ body.openspaces header #search input {
   width: 200px;
   background-color: $brown;
   font-size: $base-font-size;
-  color:$light-brown;
+  color:$cream;
   font-weight: $base-font-weight;
 }
 
+body.openspaces header #search input::-webkit-input-placeholder { color:$cream; }
+body.openspaces header #search input::-moz-placeholder { color:$cream; } /* firefox 19+ */
+body.openspaces header #search input:-ms-input-placeholder { color:$cream; } /* ie */
+body.openspaces header #search input:-moz-placeholder { color:$cream; }
+
 body.openspaces header #search a {
   text-decoration: none;
+  color:$cream;
 }
 
 body.openspaces header #search button {
@@ -391,6 +411,11 @@ body.openspaces .carousel-container .carousel-back-button {
 
 body.openspaces .carousel-container {
   position: relative;
+  margin-bottom: 25px;
+}
+
+body.openspaces .carousel-container h2 {
+  margin-bottom: 25px;
 }
 
 body.openspaces .carousel-forward-button, body.openspaces .carousel-back-button {
@@ -525,7 +550,7 @@ body.openspaces .has-instagram-photos.has-tweets #foursquare-stats {
 
 body.openspaces #park-template-wrapper h2, body.openspaces #foursquare-stats table, tfoot {
   color: $gold;
-  font-size: $sub-header-font-size;
+  font-size: $base-font-size;
   font-weight: $bold-font-weight;
   margin-bottom: 20px;
 }
@@ -552,9 +577,10 @@ body.openspaces #foursquare-stats table tbody {
   font-weight: $bold-font-weight;
 }
 
-body.openspaces #foursquare-stats table tfoot {
+body.openspaces #foursquare-stats table tfoot td {
   text-transform: uppercase;
   text-align: center;
+  font-size:$base-font-size;
 }
 
 /* Park Shape */

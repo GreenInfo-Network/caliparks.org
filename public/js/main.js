@@ -136,6 +136,10 @@
       rootElement.style.backgroundPosition = 'center';
     }
 
+    if ($.browser.mozilla) {
+      rootElement.style.overflow = '-moz-scrollbars-none';
+    }
+
     optionsInternal.slideClass = options.slideClass || 'carousel-slide';
 
     coverPhotos = $(rootSelector + ' .' + optionsInternal.slideClass);

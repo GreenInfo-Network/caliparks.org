@@ -22,6 +22,17 @@ app.engine('handlebars', exphbs({
 			var name_parts = options.fn(this).split(',');
 
 			return (name_parts.length > 1) ? name_parts[1] + ' ' + name_parts[0] : name_parts[0];
+		},
+		pluralize : function(options) {
+
+			 var o = options.fn(this).split(' '),
+			     l = o[1].split('|');
+
+			 if ((o[0] | 0) === 1) {
+			 	return o[0] + ' ' +  l[0];
+			 } else {
+			 	return o[0] + ' ' +  l[1];
+			 }
 		}
 	}
 }));

@@ -165,7 +165,10 @@ module.exports = function(req, res, data, callback) {
 
                   //separate flickr into preload and post load
                   // preloading 5
+                  var flotographer_count = {};
                   flesult.rows.forEach(function(photo, i) {
+
+                    flotographer_count[photo.ownername] = true;
 
                     if(i < 5) {
                       flickrPreload.push(photo);
@@ -182,6 +185,7 @@ module.exports = function(req, res, data, callback) {
                     agency_slug      : result.rows[0].agncy_name.split(' ').join('+').split(',')[0],
                     totalPhotos      : flesult.rows.length ? flesult.rows.length : 0,
                     flickrPhotos     : flickrPreload,
+                    flotographer_count : Object.keys(flotographer_count).length,
                     queue_flickr_photos : JSON.stringify(flickrPostload),
                     noFlickrScroll   : (flesult.rows.length < 2),
                     coverPhoto       : flesult.rows.length ? flesult.rows[0] : null,
