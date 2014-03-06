@@ -4,7 +4,8 @@ module.exports = function(req, res, data, callback) {
 
 	var context  = require('../contexts/' + data.context + '.js'),
 	    hashtags = require('../public/data/hashtagsBySuId.json'),
-	    pg       = require('pg');
+	    pg       = require('pg'),
+	    sorts    = {};
 
 	var contextDataDecorated;
 
@@ -36,11 +37,34 @@ module.exports = function(req, res, data, callback) {
 
 		});
 
+		if (data.context !== 'biggest-to-smallest') {
+			sorts['biggest-to-smallest'] = 'park size';
+		} 
+
+		if (data.context !== 'most-tweets') {
+			sorts['most-tweets'] = 'most tweets';
+		} 
+
+		if (data.context !== 'most-photographed') {
+			sorts['most-photographed'] = 'most photographed';
+		}
+
 		return callback(null, {
 			appTitle   : 'California parks: ' + contextData.title,
 		 	parks      : contextParts[0],
 		 	parksQueue : JSON.stringify(contextParts[1]),
-		 	empty      : !(contextDataDecorated.length)
+		 	empty      : !(contextDataDecorated.length),
+		 	total      : contextDataDecorated.length,
+		 	sorts      : {
+		 		one : {
+		 			key   : Object.keys(sorts)[0],
+		 			value : sorts[Object.keys(sorts)[0]]
+		 		},
+		 		two : {
+		 			key   : Object.keys(sorts)[1],
+		 			value : sorts[Object.keys(sorts)[1]]
+		 		}
+		 	}
 		});
 
 	});
