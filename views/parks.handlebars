@@ -33,8 +33,6 @@
 
     document.addEventListener('scroll',function(e) {
 
-      console.log((b.scrollHeight-b.scrollTop), document.documentElement.clientHeight)
-
       if ((b.scrollHeight-b.scrollTop) < (document.documentElement.clientHeight*2)) {
         queue.writeNextBatch();
       }
