@@ -26,7 +26,7 @@
 	<section class="{{#if has_instagram_photos}} has-instagram-photos{{/if}}{{#if has_tweets}} has-tweets{{/if}}{{#if has_foursquare}} has-foursquare{{/if}}">
 		<div id="park-info" style="display:inline-block;width:400px;">
 			<h1 style="margin-bottom: 5px;">{{name}}</h1>
-			<p class="park-lat-lon"><a href="https://www.google.com/maps/place/{{cpadPark.centroid_latitude}},{{cpadPark.centroid_longitude}}">{{locationDisplay.lat}}, {{locationDisplay.lon}}</a></p>
+			<p class="park-lat-lon"><a title="Get Directions to {{name}}" href="https://www.google.com/maps/dir//{{cpadPark.centroid_latitude}},{{cpadPark.centroid_longitude}}/@{{cpadPark.centroid_latitude}},{{cpadPark.centroid_longitude}},7z">{{locationDisplay.lat}}, {{locationDisplay.lon}}</a></p>
 			<p><a href="/parks/agency/{{agency_slug}}">{{#agencyNameDisplay}}{{cpadPark.agncy_name}}{{/agencyNameDisplay}}</a></p>
 			<!--div class="access-type-badge">{{cpadPark.park_area}} Miles</div-->
 			<div id="park-shape">
