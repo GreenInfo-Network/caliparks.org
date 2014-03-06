@@ -189,7 +189,7 @@ body.openspaces .tweets {
 body.openspaces #park-hash-tag {
   height:67px;
   background-color: $dark-brown;
-  top:80px; right:103px;
+  top:168px;left: 34px;
   color:$white;
   text-align: center;
   padding:5px;
@@ -201,6 +201,8 @@ body.openspaces #park-hash-tag {
   font-style: normal;
   font-weight: $base-font-weight;
   line-height: 67px;
+  display:block;
+  position:absolute;
 }
 
 body.openspaces .has-coverphoto #park-hash-tag {
@@ -259,8 +261,13 @@ body.openspaces .has-coverphoto .coverphoto span.attribution a {
 /* California shape */
 body.openspaces #california_shape {
   position: absolute;
-  top: 255px;
+  top: 23px;
   left: 27px;
+  z-index:2;
+}
+
+body.openspaces .has-coverphoto #california_shape {
+  top: 255px;
 }
 
 /* Instagram photos */
@@ -581,6 +588,14 @@ body.openspaces #foursquare-stats table tfoot td {
   text-transform: uppercase;
   text-align: center;
   font-size:$base-font-size;
+}
+
+/* Park info */
+body.openspaces #park-info {
+    padding-top: 236px;
+}
+body.openspaces .has-coverphoto #park-info {
+    padding-top: 0px;
 }
 
 /* Park Shape */

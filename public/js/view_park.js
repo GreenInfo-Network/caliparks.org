@@ -68,9 +68,10 @@
     //
     // Invoke the header carousel
     //
-    var carousel = new SetUpCaousel('#coverphoto-carousel');
 
     if (data.flickrQueue.display) {
+      var carousel = new SetUpCaousel('#coverphoto-carousel');
+      
       flickrPhotos = new STMN.QueuedElementList('#coverphoto-carousel', {
         queue     : data.flickrQueue.photos,
         template  : data.flickrQueue.template,

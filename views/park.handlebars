@@ -58,12 +58,12 @@
 
   	STMN.initView({
   		flickrQueue : {
-  			display : {{totalPhotos}} | 0,
+  			display : {{totalPhotos}} | 0 && document.querySelector('.has-coverphoto'),
 				photos  : {{{queue_flickr_photos}}},
 				template :'<div class="coverphoto" style="background-image: url(\'http://farm{farm}.staticflickr.com/{server}/{photoid}_{secret}_b.jpg\'); filter: progid:DXImageTransform.Microsoft.AlphaImageLoader( src=\'http://farm{farm}.staticflickr.com/{server}/{photoid}_{secret}_b.jpg\', sizingMethod=\'scale\'); -ms-filter: progid:DXImageTransform.Microsoft.AlphaImageLoader( src=\'http://farm{farm}.staticflickr.com/{server}/{photoid}_{secret}_b.jpg\', sizingMethod=\'scale\'); display:inline-block;">  <span class="attribution">    <div style="display:inline-block;max-width:248px;overflow:hidden;text-overflow:ellipsis;margin-bottom: -2px;"><a href="http://flickr.com/{owner}/{photoid}" style="line-height:10px;">{title}</a></div> by <a href="http://flickr.com/{owner}">{ownername}</a> on <a href="http://flickr.com">Flickr</a>  </span></div>'
   		},
 			UsCaShape : {
-				display: document.querySelector('.has-coverphoto') ? true : false,
+				display: true,
 				rootSelector : '#california_shape',
 				options      : {
 					canvasWidth  : 100,
