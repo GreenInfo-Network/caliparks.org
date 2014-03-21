@@ -152,6 +152,8 @@ function getInstagramData(client, swProj, neProj, park, callback) {
 
     console.log("creating array, xMin:", xMin, "xMax:", xMax, "yMin:", yMin, "yMax:", yMax, "grid width", xWidth/5000, "grid height", yWidth/5000);
 
+    var totalCount = ((xMax-xMin)/radius) * ((yMax-yMin)/radius)
+    var i = 1;
     for (var x=xMin; x < xMax; x += radius) {
       for (var y=yMin; y < yMax; y += radius) {
         var queryX = x;
@@ -162,7 +164,7 @@ function getInstagramData(client, swProj, neProj, park, callback) {
 
           if (result === true) {
             liveTaskCounter[park.id] = liveTaskCounter[park.id] + 1;
-            q.push({name: "park:" + park.id, centerX: queryX, centerY: queryY, radius: radius}, instagramRecursionQueueTask(null, client, queryY, queryX, radius, null, park, 1, q, callback));
+            q.push({name: "park:" + park.id + "(" + i++ + " of " + totalCount + ")", centerX: queryX, centerY: queryY, radius: radius}, instagramRecursionQueueTask(null, client, queryY, queryX, radius, null, park, 1, q, callback));
           }
         });
       }
@@ -1013,10 +1015,15 @@ var getParksDataFromPostgres = function(client, limit, socialMediaType, callback
   // TODO: figure out the correct time interval to use here
   var query = "select a.su_id as id, a.unit_name as name, a.gis_acres as size from " + cpad_table + " a ";
 
-  if (socialMediaType == "instagram") 
-    query += "left join (select * from instagram_metadata where date > now() - interval '1 day') as b on a.su_id = b.su_id where ";
-  if (socialMediaType == "flickr") 
-    query += "left join (select * from flickr_metadata where date > now() - interval '1 day') as b on a.su_id = b.su_id where ";
+  if (socialMediaType == "instagram") {
+    query += "left join (select * from instagram_metadata where date > now() - interval '7 days') as b on a.su_id = b.su_id where ";
+    query += "a.su_id != 380 and "; // Has topology error. TODO: fix
+    query += "a.su_id != 1045 and "; // Sorry, BLM 
+    query += "a.su_id != 1651 and "; // Has topology error. TODO: fix
+    query += "a.su_id != 8516 and "; // Has topology error. TODO: fix
+  } else if (socialMediaType == "flickr") {
+    query += "left join (select * from flickr_metadata where date > now() - interval '7 days') as b on a.su_id = b.su_id where ";
+  }
 
   //query += "a.unit_name not like '%BLM%' and a.su_id != 380 and a.su_id != 1651 and a.su_id != 8516 and ";
 
