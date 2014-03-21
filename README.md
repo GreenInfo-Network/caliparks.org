@@ -27,52 +27,45 @@ We are collecting all geocoded tweets, flickr photos, instagram photos, and four
 
 
 Data collection
----------------
-
-*	Twitter
-
-	cron, logrotate, Python script.
-	Currently running in alan's homedir on geo.local
-
-*	Flickr
-
-	Command-line node app queries Flickr API for bounding box of each park.
-	Running locally on Alan's machine
-
-*	Foursquare
-
-	Command-line node app
-
-	Running locally on Alan's machine. Latest version not quite finished.
-
-*	Instagram
-
-	Command-line node app
-	Not finished.
+===============
+Twitter harvesting
+------------------
 
 
-Internal API
-------------
+*	cron calls logrotate nightly. This kicks or restarts the streaming python reader `twitter-streamer`.
 
-*	There isn't one.
+*	`twitter-streamer` saves tweets to csv files, which are separated into one per day by logrotate
 
-	Currently, we dump out flat JSON files containing social media counts for each park.
+*	A `Makefile` (also triggered by cron) then does some database stuff:
+	*	Load the latest csv into temporary table `tweets_harvest`
+	*	Intersect `tweets_harvest` with the parks table to produce a new table `park_tweets_temp`
+	*	Inserts the contents of `park_tweets_temp` into `park_tweets`	
+
+The twitter harvester is currently running in alan's homedir on geo.local.
+
+Note: because the twitter harvester is consuming tweets from the streaming API (unlike the other harvesters) it should not need to worry about importing duplicate tweets.
+	
+Foursquare harvesting
+---------------------
+
+Harvesting the venues the first time (determining the existence of venues in each park) is the hard part. This should be re-run periodically to catch any new venues that appear.
+
+
+*	Command-line node app that can either harvest venues or requery (update) them
+		 
+
+Flickr harvesting
+-----------------
+
+*	Command-line node app queries Flickr API for bounding box of each park.
 
 
 
-User interface
---------------
+Instagram harvesting
+--------------------
 
-http://parks.stamen.com
+*	Command-line node app
 
-*	Map/GLOP
-
-	Shows all parks
-
-
-*	Page Per Park
-
-	Prominently features each park's hashtag, and counts of social media activity in the park. Includes links to browse up and down the rankings of parks according to each social media type.
 
 
 
