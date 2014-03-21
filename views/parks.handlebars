@@ -1,5 +1,19 @@
+<script>
+var locationParts = location.href.split('/');
+if (locationParts[4] === 'nearest' && !locationParts[5]) {
+  document.addEventListener('DOMContentLoaded', function() {document.getElementById('view-parks').innerHTML = '<div style="margin-left: 45px;">Finding you...</div>';});
+
+  navigator.geolocation.getCurrentPosition(function(l) {
+    location.href='/parks/nearest/'+l.coords.latitude+','+l.coords.longitude;
+  },
+  function() {
+    location.href='/parks/nearest/37.7484,-122.4156';
+  });
+}
+</script>
+
 <div id="view-parks">
-  
+
   <div style="text-align:left;margin-left:43px;">
     <h1 style="font-size:42px;font-family:'HelveticaNeue','Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;text-align:left;margin-bottom:0px;">{{appTitle}}</h1>
     <div style="color:#cdbb95;"><strong>{{total}} parks</strong> | Sort by <a style="color:#9a7825;" href="/parks/{{sorts.one.key}}/">{{sorts.one.value}}</a> or <a style="color:#9a7825;" href="/parks/{{sorts.two.key}}/">{{sorts.two.value}}</a></div>
