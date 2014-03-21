@@ -30,7 +30,7 @@ module.exports = function(data, callback) {
 
             thisPlace = JSON.parse(body).results[0][0];
 
-            pgClient.query('select *, ST_Distance(geom, st_setsrid(st_makepoint('+loc[1]+','+loc[0]+'),4326)) as distance from cpad_2013b_superunits_ids_4326 order by distance asc;', function(err, result) {
+            pgClient.query('select *, ST_distance(geom, st_setsrid(st_makepoint('+loc[1]+','+loc[0]+'),4326)) as distance from (select * from cpad_2013b_superunits_ids_4326 where ST_DWithin(geom, st_setsrid(st_makepoint('+loc[1]+','+loc[0]+'),4326), .2)) as shortlist order by distance asc;', function(err, result) {
               if(err) {
                 return console.error('error running query', err);
               }
