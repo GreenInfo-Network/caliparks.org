@@ -36,7 +36,7 @@ Twitter harvesting
 
 *	`twitter-streamer` saves tweets to csv files, which are separated into one per day by logrotate
 
-*	A `Makefile` (also triggered by cron) then does some database stuff:
+*	Then `make twitterHarvesterTable` (also triggered by cron) then does some database stuff:
 	*	Load the latest csv into temporary table `tweets_harvest`
 	*	Intersect `tweets_harvest` with the parks table to produce a new table `park_tweets_temp`
 	*	Inserts the contents of `park_tweets_temp` into `park_tweets`	
@@ -48,23 +48,28 @@ Note: because the twitter harvester is consuming tweets from the streaming API (
 Foursquare harvesting
 ---------------------
 
-Harvesting the venues the first time (determining the existence of venues in each park) is the hard part. This should be re-run periodically to catch any new venues that appear.
+Harvesting the venues the first time (determining the existence of venues in each park) is the hard part. This should be re-run periodically to catch any new venues that appear. [more details needed here]
 
 
-*	Command-line node app that can either harvest venues or requery (update) them
+*	Command-line node app that can either harvest venues or requery (update) them.
+*	Doesn't require any `make` commands to process.
 		 
 
 Flickr harvesting
 -----------------
 
 *	Command-line node app queries Flickr API for bounding box of each park.
+*	Node app saves harvested photos to the table `flickr_photos`
+*	Then `make flickrParkTable` uniquifies the table, and inserts the results into `park_flickr_photos`
 
 
 
 Instagram harvesting
 --------------------
 
-*	Command-line node app
+*	Command-line node app queries Instagram API for an array of circles covering of each park.
+*	Node app saves harvested photos to the table `instagram_photos`
+*	Then `make instagramParkTable` uniquifies the table, and inserts the results into `park_instagram_photos`
 
 
 
