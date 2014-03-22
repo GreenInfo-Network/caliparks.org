@@ -973,10 +973,9 @@ var getVenuesDataFromPostgres = function(client, limit, only_needing_update, cal
     limit = 5000;
   }
 
-  // TODO: only select distinct venueids.
-  //var query = ["select venueid as id, name, next_count, checkinscount from park_contains_la_counts ", 
-  //              "where venueid = '51f76eb4498e953a9d95ed78' and next_count is null order by checkinscount desc limit " + limit].join("");
-  var query = ["select venueid as id from park_foursquare_venues"].join("");
+  // The "distinct" clause is probably not necessary because these venues will be distinctified 
+  // during the intersection with the parks shapes
+  var query = ["select distinct venueid as id from park_foursquare_venues"].join("");
   if (only_needing_update) {
     // Create list of all venueids which do not have an activity record within the last 24 hours.
     query = ["select a.venueid as id, b.timestamp as timestamp from park_foursquare_venues as a left join ",
