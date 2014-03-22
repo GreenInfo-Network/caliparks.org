@@ -11,9 +11,6 @@ var async = require("async"),
 var factory = new jsts.geom.GeometryFactory();
 var reader = new jsts.io.WKTReader(factory);
 
-var flickrFolder = "flickr_data_new/";
-var instagramFolder = "instagram_data/";
-
 var zerocount = 0,
     nonzerocount = 0,
     undefcount = 0,
@@ -1051,20 +1048,7 @@ var getInstagramPhotosForAllParks = function() {
   return startPostgresClient(function(err, client) {
     return getParksDataFromPostgres(client, 250, "instagram", function(err, parks) {
       async.eachLimit(parks, 1, function(park, next) {
-        fs.exists(instagramFolder + park.id + ".json", function(exists) {
-          if (!exists) {
-            getInstagramPhotosForPark(client, park, next);
-            //getInstagramPhotosForPark(client, park, function(err, media) {
-              //console.log("got media:", media);
-              //console.log("[*] got", media.length, "photos for", park.name);
-              //media.forEach(function(photo) { photo.park = park; });
-              //writeDataToFile(instagramFolder + park.id + ".json", media, next);
-            //});
-          } else {
-            console.log("[*] park " + park.name + " already exists. skipping.");
-            next();
-          }
-        });
+        getInstagramPhotosForPark(client, park, next);
       }, function() { 
         console.log("[*] done!");
         //client.end();  // Remove this because I'm accidentally calling this too early
@@ -1077,19 +1061,9 @@ var getFlickrPhotosForAllParks = function() {
   return startPostgresClient(function(err, client) {
     return getParksDataFromPostgres(client, 250, "flickr", function(err, parks) {
       async.eachLimit(parks, 1, function(park, next) {
-        fs.exists(flickrFolder + park.id + ".json", function(exists) {
-          if (!exists) {
-            getFlickrPhotosForPark(client, park, function(err, media, pages) {
-              console.log("[*] got", media.length, "photos for", park.id, park.name, "after", pages, "page(s)");
-              // Don't write to file anymore. Save directly to database in getFlickrPhotosForPark().
-              //media.forEach(function(photo) { photo.park = park; });
-              //writeDataToFile(flickrFolder + park.id + ".json", media, next);
-              next();
-            });
-          } else {
-            console.log("[*] park " + park.name + " already exists. skipping.");
-            next();
-          }
+        getFlickrPhotosForPark(client, park, function(err, media, pages) {
+          console.log("[*] got", media.length, "photos for", park.id, park.name, "after", pages, "page(s)");
+          next();
         });
       }, function() { 
         console.log("[*] done!");
@@ -1129,6 +1103,7 @@ var getNextVenuesForAllVenues = function() {
   return startPostgresClient(function(err, client) {
     return getVenuesDataFromPostgres(client, 5000, false, function(err, venues) {
       async.eachLimit(venues, 10, function(venue, next) {
+        // TODO: don't write to .json and instead save to db
         fs.exists("4sqnextvenues/venuenext." + venue.id + ".json", function(exists) {
           if (!exists) {
             getFoursquareNextVenues(venue.id, function(err, nextVenues) {
@@ -1171,25 +1146,14 @@ var getFoursquareVenuesForAllParks = function() {
   return startPostgresClient(function(err, client) {
     return getParksDataFromPostgres(client, 250, "foursquare", function(err, parks) {
       async.eachLimit(parks, 1, function(park, next) {
-        fs.exists("4sqdata/" + park.id + ".json", function(exists) {
-          if (!exists) {
-            getFoursquareVenuesForPark(client, park, function(err, venues) {
-              if (venues) {
-                console.log("[*] got", venues.length, "venues for", park.name);
-                venues.forEach(function(venue) { venue.park = park; });
-                var timestamp = new Date().getTime();
-                writeDataToFile("4sqdata/" + park.id + ".json", venues, next);
-                next();
-              } else {
-                // This is always happening because I'm not returning any venues back up the recursion
-                // But that's okay for now...
-                console.log("[*] got no venues for", park.name);
-                writeDataToFile("4sqdata/" + park.id + ".json", venues, next);
-                next();
-              }
-            });
+        getFoursquareVenuesForPark(client, park, function(err, venues) {
+          if (venues) {
+            console.log("[*] got", venues.length, "venues for", park.name);
+            next();
           } else {
-            console.log("[*] park " + park.name + " already exists. skipping.");
+            // This is always happening because I'm not returning any venues back up the recursion
+            // But that's okay for now...
+            console.log("[*] got no venues for", park.name);
             next();
           }
         });
