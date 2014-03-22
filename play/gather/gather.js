@@ -1300,10 +1300,10 @@ var main = function() {
   else if (argv.t == 'foursquare_update')
     getFullVenuesForAllVenues();
   else if (argv.t == 'foursquare_nextvenues')
-    console.log("foursquare_nextvenus not tested");
+    console.log("foursquare_nextvenues not tested");
     //getNextVenuesForAllVenues();
   else if (argv.t == 'twitter')
-    console.log("twitter not yet supported");
+    console.log("twitter not yet supported. Use python script");
   else if (argv.t == 'instagram')
     getInstagramPhotosForAllParks();
   else
