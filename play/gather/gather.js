@@ -1306,8 +1306,7 @@ var main = function() {
 	console.log("could not acquire lock for gather_instagram.lock");
       } else {
 
-        sleep.sleep(600);
-        //getInstagramPhotosForAllParks();
+        getInstagramPhotosForAllParks();
         lockFile.unlock('gather_instagram.lock', function (err) {
           if (err) console.log("couldn't unlock gather_instagram.lock")
           else console.log("unlocked gather_instagram.lock")
