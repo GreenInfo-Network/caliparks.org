@@ -486,9 +486,15 @@ function getFoursquareFullVenue(venue_id, callback) {
     }
 
     if (!err && response.statusCode == 200) {
-      body = JSON.parse(body);
-      venue = body.response.venue;
-      return callback(null, venue);
+      try {
+      	body = JSON.parse(body);
+      	venue = body.response.venue;
+      	return callback(null, venue);
+      } catch (e) {
+        // if JSON parsing fails
+	console.log("parsing failed:", body);
+        return callback(e);
+      }
     }
 
     if (!err && response.statusCode == 400) {
