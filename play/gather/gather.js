@@ -6,6 +6,7 @@ var async = require("async"),
     pg = require("pg"),
     request = require("request"),
     sleep = require("sleep"),
+    lockFile = require("lockfile"),
     jsts = require("jsts");
 
 var factory = new jsts.geom.GeometryFactory();
@@ -1257,21 +1258,65 @@ var main = function() {
       .describe('t', 'type of harvest: flickr, foursquare_venues, foursquare_update, foursquare_nextvenues, twitter, instagram')
       .argv;
 
-  if (argv.t == 'flickr')
-    getFlickrPhotosForAllParks();
-  else if (argv.t == 'foursquare_venues')
+  if (argv.t == 'flickr') {
+
+    lockFile.lock('gather_flickr.lock', function (err) {
+      if (err) {
+	console.log("could not acquire lock for gather_flickr.lock");
+      } else {
+      	getFlickrPhotosForAllParks();
+        lockFile.unlock('gather_flickr.lock', function (err) {
+          if (err) console.log("couldn't unlock gather_flickr.lock")
+          else console.log("unlocked gather_flickr.lock")
+        });
+      }
+    });
+
+  } else if (argv.t == 'foursquare_venues') {
+
     getFoursquareVenuesForAllParks();
-  else if (argv.t == 'foursquare_update')
-    getFullVenuesForAllVenues();
-  else if (argv.t == 'foursquare_nextvenues')
+
+  } else if (argv.t == 'foursquare_update') {
+
+    lockFile.lock('gather_foursquare_update.lock', function (err) {
+      if (err) {
+	console.log("could not acquire lock for gather_foursquare_update.lock");
+      } else {
+        getFullVenuesForAllVenues();
+        lockFile.unlock('gather_foursquare_update.lock', function (err) {
+          if (err) console.log("couldn't unlock gather_foursquare_update.lock")
+          else console.log("unlocked gather_foursquare_update.lock")
+        });
+      }
+    });
+
+  } else if (argv.t == 'foursquare_nextvenues') {
+
     console.log("foursquare_nextvenues not tested");
     //getNextVenuesForAllVenues();
-  else if (argv.t == 'twitter')
+
+  } else if (argv.t == 'twitter') {
+
     console.log("twitter not yet supported. Use python script");
-  else if (argv.t == 'instagram')
-    getInstagramPhotosForAllParks();
-  else
+
+  } else if (argv.t == 'instagram') {
+
+    lockFile.lock('gather_instagram.lock', function (err) {
+      if (err) {
+	console.log("could not acquire lock for gather_instagram.lock");
+      } else {
+
+        sleep.sleep(600);
+        //getInstagramPhotosForAllParks();
+        lockFile.unlock('gather_instagram.lock', function (err) {
+          if (err) console.log("couldn't unlock gather_instagram.lock")
+          else console.log("unlocked gather_instagram.lock")
+        });
+      }
+    });
+  } else {
     console.log(argv.t, "not understood");
+  }
 };
 
 main();
