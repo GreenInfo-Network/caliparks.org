@@ -57,9 +57,9 @@
     // Image defer
     //
     queue = new STMN.QueuedElementList(rootSelector, {
-      queue     : options.queue,
-      template  : '<style>  #glop-park-{su_id} {    background-image:url(\'http://rasterblaster.stamen.com/cpad/{su_id}-888462-200-200.png\');  }  #glop-park-635:hover {    background-image:url(\'http://rasterblaster.stamen.com/cpad/{su_id}-85BBE1-200-200.png\');  }</style><a href="/park/{su_id}"><div id="glop-park-{su_id}" class="glop-park" style="background-position: initial;" data-park-id="{su_id}"><span class="hashtag">#{hashtag}</span><span class="park-name">{unit_name}</span></div></a>',
-      batchSize : 100
+      queue      : options.queue.map(function(i) {i.width=200; i.height=200; return i;}), //Mix in the width and height
+      template   : STMN.glopTemplate,
+      batchSize  : 100
     });
 
     $(rootSelector).on('scroll',function(e) {

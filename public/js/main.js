@@ -108,6 +108,8 @@
 
     }
 
+    STMN.processTemplate = processTemplate;
+
     //
     // Initialize!
     //

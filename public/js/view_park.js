@@ -141,6 +141,21 @@
       });
     }
 
+    if (data.nearestParks) {
+
+      $.ajax('/parks/near/' + data.nearestParks.centroid[0] + ',' + data.nearestParks.centroid[1] + '.json?limit=6&not=' + data.su_id, {complete:function(r) {
+
+        r.responseJSON.response.parks.forEach(function(park) {
+          park.width  = '125';
+          park.height = '125';
+          $(data.nearestParks.rootSelector).append(STMN.processTemplate(data.nearestParks.template,park));
+          console.log(park.unit_name);
+        });
+
+      }});
+
+    }
+
   }
 
   function SetUpCaousel(rootSelector) {

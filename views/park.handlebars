@@ -46,8 +46,10 @@
 		{{/if}}
 	</section>
 
-	<section>
-		
+	<section class="extended-navigation">
+		<div id="nearest-parks">
+			
+		</div>
 	</section>
 
 </div>
@@ -61,6 +63,7 @@
 	document.addEventListener('DOMContentLoaded', function() {  
 
   	STMN.initView({
+  		su_id: {{cpadPark.su_id}},
   		flickrQueue : {
   			display : {{totalPhotos}} | 0 && document.querySelector('.has-coverphoto'),
 				photos  : {{{queue_flickr_photos}}},
@@ -90,6 +93,11 @@
 				display : {{tweet_count}} | 0,
 				tweets  : {{{tweets_queue}}},
 				template :'{{>tweets-js}}'
+			},
+			nearestParks : {
+				rootSelector : '#nearest-parks',
+				centroid     : [parseFloat('{{cpadPark.centroid_latitude}}' || 0, 10),parseFloat('{{cpadPark.centroid_longitude}}' || 0, 10)],
+				template     : '{{>glop_park-js}}'
 			}
 		});  
 

@@ -475,24 +475,25 @@ body.openspaces .glop-park {
   display:inline-block;
   width:200px;
   height:200px;
-  margin-right: 20px;
+  margin: 25px;
   position: relative;
   transition:background-image .5s;
+  overflow:hidden;
+  text-align:center;
 }
 
 body.openspaces .glop-park .hashtag {
   opacity:0;
   transition:opacity .5s;
-  position: absolute;
-  top: 61px;
-  left: 32%;
   color: $white;
   background-color: $dark-brown;
-  padding: 10px;
   font-family: $cooper-font-stack;
   font-size: $sub-header-font-size;
   line-height: $sub-header-line-height;
-  padding: 0px 10px;
+  display:inline-block;
+  padding:3px 7px;
+  margin:25% auto 0 auto;
+  text-align:center;
 }
 
 body.openspaces .glop-park:hover .hashtag, body.openspaces #view-parks .glop-park .hashtag {
@@ -502,22 +503,49 @@ body.openspaces .glop-park:hover .hashtag, body.openspaces #view-parks .glop-par
 body.openspaces .glop-park .park-name {
   opacity:0;
   transition:opacity .5s;
-  position: absolute;
-  top: 110px;
-  left: 0px;
   color: $white;
-  padding: 10px;
-  font-size: $base-font-size;
-  line-height: $base-line-height;
-  padding: 0px 10px;
+  font-size: $tiny-font-size;
+  line-height: $tiny-line-height;
   text-align: center;
   width:100%;
   white-space: pre-wrap;
-
+  display:block;
 }
 
 body.openspaces .glop-park:hover .park-name, body.openspaces #view-parks .glop-park .park-name {
   opacity:1;
+}
+
+/* nearest parks */
+
+body.openspaces #nearest-parks {
+  width:580px;
+  height: 344px;
+  display:inline-block;
+}
+
+body.openspaces #nearest-parks .glop-park {
+  width:125px;
+  height:125px;
+  margin:20px;
+}
+
+body.openspaces #nearest-parks .glop-park .hashtag {
+  margin-top:30%;
+}
+
+body.openspaces #nearest-parks .glop-park:hover .hashtag a:hover {
+  text-decoration:none;
+}
+
+body.openspaces #nearest-parks .glop-park .park-name {
+  display:none;
+}
+
+/* Park page extended navigation */
+
+body.openspaces section.extended-navigation {
+  background-color:$light-brown;
 }
 
 /* Tweets */
