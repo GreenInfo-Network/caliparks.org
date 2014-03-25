@@ -49,6 +49,11 @@ module.exports = function(data, callback) {
 
   }
 
+  function cpadRowFilter(item, i, array) {
+    delete item.geom;
+    return item;
+  }
+
   pgClient.connect(function(err) {
 
     if(err) {
@@ -58,13 +63,13 @@ module.exports = function(data, callback) {
     if (data.query) {
 
       getPlace(function(error, place) {
-        pgClient.query('select *, ST_distance(geom, st_setsrid(st_makepoint('+place.coordinates[1]+','+place.coordinates[0]+'),4326)) as distance from (select * from cpad_2013b_superunits_ids_4326 where ST_DWithin(geom, st_setsrid(st_makepoint('+place.coordinates[1]+','+place.coordinates[0]+'),4326), .2)) as shortlist order by distance asc;', function(err, result) {
+        pgClient.query('select *, ST_AsGeoJSON(geom) as geometry, ST_AsGeoJSON(ST_Centroid(geom)) as centroid, ST_distance(geom, st_setsrid(st_makepoint('+place.coordinates[1]+','+place.coordinates[0]+'),4326)) as distance from (select * from cpad_2013b_superunits_ids_4326 where ST_DWithin(geom, st_setsrid(st_makepoint('+place.coordinates[1]+','+place.coordinates[0]+'),4326), .2)) as shortlist order by distance asc;', function(err, result) {
           if(err) {
             return console.error('error running query', err);
           }
 
           callback(null, {
-            parks : result.rows,
+            parks : result.rows.map(cpadRowFilter),
             title : 'near ' + place.details.name
           });
 

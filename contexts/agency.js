@@ -24,7 +24,7 @@ module.exports = function(data, callback) {
       dbQuery = data.query.split('+').join(' ') || 'California Department of Parks and Recreation';
     }
 
-    pgClient.query('select *, ST_Distance(geom, st_setsrid(st_makepoint('+data.longitude+', '+data.latitude+'),4326)) as distance from cpad_2013b_superunits_ids_4326 order by distance asc;', function(err, result) {
+    pgClient.query('SELECT * FROM site_park WHERE agncy_name LIKE \'' + dbQuery + '%\'' + dbLimit + ';', function(err, result) {
       if(err) {
         return console.error('error running query', err);
       }
