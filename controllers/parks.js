@@ -2,8 +2,14 @@
 
 module.exports = function(req, res, data, callback) {
 
-	var context  = require('../contexts/' + data.context + '.js'),
-	    hashtags = require('../public/data/hashtagsBySuId.json'),
+	var context;
+	try {
+		context = require('../contexts/' + data.context + '.js');
+	} catch (err) {
+		res.redirect('/404');
+	}
+
+	var hashtags = require('../public/data/hashtagsBySuId.json'),
 	    pg       = require('pg'),
 	    sorts    = {};
 

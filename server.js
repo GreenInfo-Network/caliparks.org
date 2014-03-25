@@ -40,7 +40,7 @@ app.engine('handlebars', exphbs({
 app.set('view engine', 'handlebars');
 
 //TODO:Make a geojson format https://www.npmjs.org/package/geojson
-dataFormatResponders['json'] = function dataFormatResponderJSON(res, data, format, whitelist) {
+dataFormatResponders['.json'] = function dataFormatResponderJSON(res, data, format, whitelist) {
 
 	var dataOut = {};
 
@@ -197,7 +197,7 @@ app.get('/parks/:context', function(req,res) {
 
 });
 
-app.get('/parks/:context/:query.:format', function(req,res) {
+app.get('/parks/:context/:query:format(\.\\D+$)', function(req,res) {
 
 	require('./controllers/parks.js')(req, res, {
 		context : req.params.context,

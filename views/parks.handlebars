@@ -1,10 +1,10 @@
 <script>
 var locationParts = location.href.split('/');
-if (locationParts[4] === 'nearest' && !locationParts[5]) {
+if (locationParts[4] === 'near' && !locationParts[5]) {
   document.addEventListener('DOMContentLoaded', function() {document.getElementById('view-parks').innerHTML = '<div style="margin-left: 45px;">Finding you...</div>';});
 
   navigator.geolocation.getCurrentPosition(function(l) {
-    location.href='/parks/nearest/'+l.coords.latitude+','+l.coords.longitude;
+    location.href='/parks/near/'+l.coords.latitude+','+l.coords.longitude;
   },
   function() {
     location.href='/parks/nearest/37.7484,-122.4156';
@@ -28,7 +28,7 @@ if (locationParts[4] === 'nearest' && !locationParts[5]) {
     There are no parks to be found here. <a href="/wander">Here is one</a>.
   {{/if}}
   </div>
-  }
+
 </div>
 
 <script>
