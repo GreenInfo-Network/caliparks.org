@@ -15,9 +15,7 @@ module.exports = function(req, res, data, callback) {
 
 	var contextDataDecorated;
 
-	return context({
-		query : data.query
-	}, function(err, contextData) {
+	return context(data, function(err, contextData) {
 
 		if (err) {
 			return callback(err);

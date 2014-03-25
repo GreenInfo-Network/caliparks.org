@@ -201,7 +201,8 @@ app.get('/parks/:context/:query:format(\.\\D+$)', function(req,res) {
 
 	require('./controllers/parks.js')(req, res, {
 		context : req.params.context,
-		query   : req.params.query
+		query   : req.params.query,
+		options : req.query
 	}, function(err, templateData) {
 
 		dataRouteResponse(res, templateData, req.params.format, [
