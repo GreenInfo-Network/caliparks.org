@@ -20,3 +20,8 @@ This project uses <a href="http://sass-lang.com/">SASS</a>. DO NOT edit the .css
 To deploy
 ---------
 `git push heroku master`
+
+Hows it doing
+-------------
+
+<img src="http://graphite.stamen.com/render?width=400&from=-2hours&until=now&height=250&logBase=10&lineWidth=2&target=aliasByNode(metrics.histogram.heroku.stamen-openspaces.service.99percentile%2C5)&target=aliasByNode(metrics.histogram.heroku.stamen-openspaces.service.95percentile%2C5)&target=aliasByNode(metrics.histogram.heroku.stamen-openspaces.service.75percentile%2C5)&target=aliasByNode(metrics.histogram.heroku.stamen-openspaces.service.median%2C5)&title=Response%20Time&vtitle=ms&yMin=&_uniq=0.5447857580147684">
