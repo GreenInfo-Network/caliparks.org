@@ -336,18 +336,22 @@ body.openspaces header #search input {
   font-weight: 300; }
 
 body.openspaces header #search input::-webkit-input-placeholder {
-  color: #f0dfcb; }
+  color: #f0dfcb;
+  font-family: "HelveticaNeue", "Helvetica Neue", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; }
 
 body.openspaces header #search input::-moz-placeholder {
-  color: #f0dfcb; }
+  color: #f0dfcb;
+  font-family: "HelveticaNeue", "Helvetica Neue", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; }
 
 /* firefox 19+ */
 body.openspaces header #search input:-ms-input-placeholder {
-  color: #f0dfcb; }
+  color: #f0dfcb;
+  font-family: "HelveticaNeue", "Helvetica Neue", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; }
 
 /* ie */
 body.openspaces header #search input:-moz-placeholder {
-  color: #f0dfcb; }
+  color: #f0dfcb;
+  font-family: "HelveticaNeue", "Helvetica Neue", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; }
 
 body.openspaces header #search a {
   text-decoration: none;
@@ -375,7 +379,8 @@ body.openspaces header.has-search-results #search-results {
   padding: 3px;
   max-height: 50vh;
   overflow-y: auto;
-  display: block; }
+  display: block;
+  top: 36px; }
 
 body.openspaces header.has-search-results #search-results a {
   color: black;

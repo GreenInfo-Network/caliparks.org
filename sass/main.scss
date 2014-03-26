@@ -331,10 +331,10 @@ body.openspaces header #search input {
   font-weight: $base-font-weight;
 }
 
-body.openspaces header #search input::-webkit-input-placeholder { color:$cream; }
-body.openspaces header #search input::-moz-placeholder { color:$cream; } /* firefox 19+ */
-body.openspaces header #search input:-ms-input-placeholder { color:$cream; } /* ie */
-body.openspaces header #search input:-moz-placeholder { color:$cream; }
+body.openspaces header #search input::-webkit-input-placeholder { color:$cream;font-family: $base-font-stack; }
+body.openspaces header #search input::-moz-placeholder { color:$cream;font-family: $base-font-stack; } /* firefox 19+ */
+body.openspaces header #search input:-ms-input-placeholder { color:$cream;font-family: $base-font-stack; } /* ie */
+body.openspaces header #search input:-moz-placeholder { color:$cream;font-family: $base-font-stack; }
 
 body.openspaces header #search a {
   text-decoration: none;
@@ -366,6 +366,7 @@ body.openspaces header.has-search-results #search-results {
   max-height:50vh;
   overflow-y:auto;
   display:block;
+  top: 36px;
 }
 
 body.openspaces header.has-search-results #search-results a {

@@ -39,6 +39,20 @@
 
   }
 
+  function processTemplate(template, data) {
+
+    Object.keys(data).forEach(function(key) {
+
+      template = template.split('{' + key + '}').join(data[key]);
+
+    });
+
+    return template;
+
+  }
+
+  STMN.processTemplate = processTemplate;
+
   function QueuedElementList(rootSelector, options) {
 
     var optionsInternal = {},
@@ -95,20 +109,6 @@
       return rootElement;
 
     }
-
-    function processTemplate(template, data) {
-
-      Object.keys(data).forEach(function(key) {
-
-        template = template.split('{' + key + '}').join(data[key]);
-
-      });
-
-      return template;
-
-    }
-
-    STMN.processTemplate = processTemplate;
 
     //
     // Initialize!
