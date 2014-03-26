@@ -75,6 +75,51 @@ function dataRouteResponse(res, data, format, whitelist) {
 	return dataFormatResponders[format] ? dataFormatResponders[format].apply(this, arguments) : dataFormatResponders['*'].apply(this, arguments);
 }
 
+function go404(req,res) {
+
+	function go(suggestion) {
+		res.status(404);
+		res.render('404', {
+			coverPhoto : {
+				farm:9,
+				server:8429,
+				photoid:7492144602,
+				secret:'1706ca60db',
+				ownername:'Grand Canyon NPS',
+				owner:'grand_canyon_nps'
+			},
+			appTitle : 'Stamen Parks: #BZZT',
+			suggestion : suggestion
+		});
+	}
+
+	var dbCon    = process.env.DATABASE_URL,
+      pgClient = new pg.Client(dbCon);
+
+	var possibleHashtag,
+	    suIds           = require('./public/data/suIdsByHashtag.json');
+
+	if (req.params[0] && req.params[0].substring(1,6)) {
+		possibleHashtag = [req.params[0].substring(1,6),suIds[req.params[0].substring(1,6).toUpperCase()]];
+
+		if (possibleHashtag[1]) {
+			pgClient.connect(function(err) {
+				pgClient.query('select * from site_park where su_id = ' + possibleHashtag[1], function(err, result) {
+					go(result.rows.length ? {
+						name : result.rows[0].unit_name,
+						url  : '/#' + possibleHashtag[0].toUpperCase()
+					} : null);
+				});
+			});
+		} else {
+			go();
+		}
+		
+	} else {
+		go();
+	}
+
+}
 
 //
 // Setup Routes
@@ -152,18 +197,7 @@ app.get('/park/:id', function(req,res) {
 		if (templateData) {
 			res.render('park', templateData);
 		} else {
-			res.status(404);
-			res.render('404', {
-				coverPhoto : {
-					farm:9,
-					server:8429,
-					photoid:7492144602,
-					secret:'1706ca60db',
-					ownername:'Grand Canyon NPS',
-					owner:'grand_canyon_nps'
-				},
-				appTitle : 'Stamen Parks: #BZZT'
-			});
+			go404.apply(null,arguments);
 		}
 
 	});
@@ -263,22 +297,7 @@ app.get('/agency/:query', function(req,res) {
 
 //app.use('/js', express.static(__dirname + '/client/js'));
 
-app.get('*', function(req,res) {
-
-	res.status(404);
-		res.render('404', {
-			coverPhoto : {
-				farm:9,
-				server:8429,
-				photoid:7492144602,
-				secret:'1706ca60db',
-				ownername:'Grand Canyon NPS',
-				owner:'grand_canyon_nps'
-			},
-			appTitle : 'Stamen Parks: #BZZT'
-	});
-
-});
+app.get('*', go404);
 
 //
 // Go Go Go
