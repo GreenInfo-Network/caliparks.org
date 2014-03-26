@@ -167,7 +167,7 @@
       showLoader: true
     });
     this.rootElement = document.querySelector(rootSelector).parentNode;
-    this.backElement = this.rootElement.querySelector('.carousel-back-button');
+    this.backElement = this.rootElement.parentNode.querySelector('.carousel-back-button');
     this.backElement.addEventListener('click', function() {
       that.instance.goBackward();
     }, false);
@@ -199,7 +199,7 @@
         that.rootElement.classList.remove('not-scrolled');
       }
     });
-    this.forwardElement = this.rootElement.querySelector('.carousel-forward-button');
+    this.forwardElement = this.rootElement.parentNode.querySelector('.carousel-forward-button');
     this.forwardElement.addEventListener('click', function() {
       that.instance.goForward();
     }, false);

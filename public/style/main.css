@@ -402,7 +402,7 @@ body.openspaces header.has-search-results #search-results div:hover {
 /* Glop slider */
 body.openspaces .glop-slider {
   overflow-x: auto;
-  height: 210px;
+  height: 240px;
   width: 100%;
   white-space: nowrap;
   scrollbar: none; }

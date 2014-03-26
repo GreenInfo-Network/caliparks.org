@@ -31,44 +31,52 @@
 <section>
   <div class="carousel-container not-scrolled">
     <h2>{{#if reverseSort.size}}Explore tiny parks to giant parks...{{else}}Explore giant parks to tiny parks...{{/if}}</h2>
+    <div class="what-scrollbars">
     <article class="glop-slider" id="size-glop-slider">
       {{#each parks}}
         {{>glop_park}}
       {{/each}}
     </article>
+    </div>
     <button class="carousel-back-button">&nbsp;</button>
     <button class="carousel-forward-button">&nbsp;</button>
   </div>
 
   <div class="carousel-container not-scrolled">
     <h2>Which parks are {{#if reverseSort.tweets}}least{{else}}most{{/if}} tweeted about? <span style="background-color:#00b6f1;font-size:18px;padding: 3px;" class="token-twitter">Twitter</span></h2>
+    <div class="what-scrollbars">
     <article class="glop-slider" id="tweets-glop-slider">
       {{#each most_tweets}}
         {{>glop_park}}
       {{/each}}
     </article>
+    </div>
     <button class="carousel-back-button">&nbsp;</button>
     <button class="carousel-forward-button">&nbsp;</button>
   </div>
 
   <div class="carousel-container not-scrolled">
     <h2>Which are the {{#if reverseSort.photos}}least photographed{{else}}most photogenic{{/if}} parks? <span style="background-color:#ff0084;font-size:18px;padding: 3px;" class="token-flickr">Flickr</span> <span style="background-color:#4877a0;font-size:18px;padding: 3px;" class="token-instagram">Instagram</span></h2>
+    <div class="what-scrollbars">
     <article class="glop-slider" id="photos-glop-slider">
       {{#each most_photographed}}
         {{>glop_park}}
       {{/each}}
     </article>
+    </div>
     <button class="carousel-back-button">&nbsp;</button>
     <button class="carousel-forward-button">&nbsp;</button>
   </div>
 
   <div class="carousel-container not-scrolled">
     <h2>Where are people checking in {{#if reverseSort.checkins}}least{{/if}}? <span style="background-color:#66c100;font-size:18px;padding: 3px;" class="token-foursquare">Foursquare</span></h2>
+    <div class="what-scrollbars">
     <article class="glop-slider" id="checkins-glop-slider">
       {{#each most_checkins}}
         {{>glop_park}}
       {{/each}}
     </article>
+    </div>
     <button class="carousel-back-button">&nbsp;</button>
     <button class="carousel-forward-button">&nbsp;</button>
   </div>
