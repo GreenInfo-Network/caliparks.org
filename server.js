@@ -75,6 +75,7 @@ function dataRouteResponse(res, data, format, whitelist) {
 	return dataFormatResponders[format] ? dataFormatResponders[format].apply(this, arguments) : dataFormatResponders['*'].apply(this, arguments);
 }
 
+
 //
 // Setup Routes
 //

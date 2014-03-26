@@ -81,7 +81,8 @@ body.openspaces input:-moz-placeholder {
 
 body.openspaces input::-moz-placeholder {
   /* Firefox 19+ */
-  color: #cebc95; }
+  color: #cebc95;
+  opacity: 1; }
 
 body.openspaces input:-ms-input-placeholder {
   color: #cebc95; }
@@ -334,6 +335,9 @@ body.openspaces header #search input {
   font-size: 18px;
   color: #f0dfcb;
   font-weight: 300; }
+
+body.openspaces.ua-firefox header #search input {
+  padding-left: 8px; }
 
 body.openspaces header #search input::-webkit-input-placeholder {
   color: #f0dfcb;
