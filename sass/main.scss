@@ -228,6 +228,7 @@ body.openspaces .stmn-carousel-module {
   scrollbar-face-color: blue !important;
   scrollbar-arrow-color: blue !important;
   border-color: blue !important;
+  -webkit-transform:translate3d(0,0,0);
 }
 
 body.openspaces .has-coverphoto .coverphoto {
@@ -684,5 +685,10 @@ body.openspaces #park-shape .scale-area .scale-bar {
 }
 
 @media (max-width: 320px) {
- 
+ body.openspaces header #search input {
+  line-height:17px;
+ }
+ .stmn-carousel-module {
+  -webkit-overflow-scrolling: touch;
+ }
 }
