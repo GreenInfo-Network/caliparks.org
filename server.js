@@ -214,6 +214,22 @@ app.get('/parks/:context/:query:format(\.\\D+$)', function(req,res) {
 
 });
 
+app.get('/parks/:context:format(\.\\D+$)', function(req,res) {
+
+	require('./controllers/parks.js')(req, res, {
+		context : req.params.context,
+		options : req.query
+	}, function(err, templateData) {
+
+		dataRouteResponse(res, templateData, req.params.format, [
+			'parks',
+			'total'
+		]);
+
+	});
+
+});
+
 app.get('/parks/:context/:query', function(req,res) {
 
 	require('./controllers/parks.js')(req, res, {

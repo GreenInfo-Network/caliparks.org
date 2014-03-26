@@ -11,8 +11,8 @@ module.exports = function(data, callback) {
   var dbLimit = '',
       dbQuery = '',
       isLatLongTest = /^-?\d*.\d*\,-?\d*.\d*$/,
-      limit         = data.options.limit || 100000,
-      not           = data.options.not ? ' AND su_id <> ' + parseInt(data.options.not) : '',
+      limit         = ((data.options) ? data.options.limit : null) || 100000,
+      not           = ((data.options) ? data.options.not : null) ? ' AND su_id <> ' + parseInt(data.options.not) : '',
       thisPlace, loc, res;
 
   function getPlace(callback) {
