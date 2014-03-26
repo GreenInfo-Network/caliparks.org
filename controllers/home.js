@@ -14,7 +14,8 @@ module.exports = function(req, res, data, callback) {
       suIdsByHashtag    = require('../public/data/suIdsByHashtag.json'),
       hashtags          = require('../public/data/hashtagsBySuId.json'),
       glop_slider_max   = 100,
-      contextBiggestToSmallestDecorated;
+      sortSettings      = {},
+      sortItem, contextBiggestToSmallestDecorated;
 
 
   function splitItems(array, splitAt) {
@@ -73,6 +74,32 @@ module.exports = function(req, res, data, callback) {
             return callback(err);
           }
 
+          //
+          // If there are sort params in the URL set them.
+          //
+          if (req.query.sort) {
+            req.query.sort.split(',').forEach(function(option) {
+              sortItem = option.split(':');
+              sortSettings[sortItem[0]] = sortItem[1];
+            });
+
+            if (sortSettings['size'] === 'asc') {
+              contextBiggestToSmallestDecorated.reverse();
+            }
+
+            if (sortSettings['photos'] === 'asc') {
+              contextDataMostPhotographed.parks.reverse();
+            }
+
+            if (sortSettings['tweets'] === 'asc') {
+              contextDataMostTweets.parks.reverse();
+            }
+
+            if (sortSettings['checkins'] === 'asc') {
+              contextDataMostCheckins.parks.reverse();
+            }
+          }
+
           var biggestToSmallest = splitItems(contextBiggestToSmallestDecorated);
           var mostPhotographed  = splitItems(contextDataMostPhotographed.parks);
           var mostTweets        = splitItems(contextDataMostTweets.parks);
@@ -89,7 +116,13 @@ module.exports = function(req, res, data, callback) {
             most_checkins          : mostCheckins[0],
             most_checkinsQueue     : JSON.stringify(mostCheckins[1]),
             suIdsByHashtagJSON     : JSON.stringify(suIdsByHashtag),
-            hashtags               : hashtags
+            hashtags               : hashtags,
+            reverseSort : {
+              size:(sortSettings['size'] === 'asc'),
+              photos:(sortSettings['photos'] === 'asc'),
+              tweets:(sortSettings['tweets'] === 'asc'),
+              checkins:(sortSettings['checkins'] === 'asc')
+            }
           });
 
         });

@@ -29,6 +29,10 @@ module.exports = function(req, res, data, callback) {
 			return park;
 		});
 
+		if (data.reverse) {
+			contextDataDecorated.reverse();
+		}
+
 		var contextParts = [[],[]];
 
 		contextDataDecorated.forEach(function(park, i) {

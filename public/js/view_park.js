@@ -149,7 +149,6 @@
           park.width  = '125';
           park.height = '125';
           $(data.nearestParks.rootSelector).append(STMN.processTemplate(data.nearestParks.template,park));
-          console.log(park.unit_name);
         });
 
       }});
