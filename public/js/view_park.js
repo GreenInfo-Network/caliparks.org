@@ -78,6 +78,7 @@
         batchSize : 100
       });
 
+
       $('#coverphoto-carousel').on('scroll',function(e) {
         if ((e.target.scrollWidth-e.target.scrollLeft) < e.target.offsetWidth*3) {
           flickrPhotos.writeNextBatch();
