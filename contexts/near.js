@@ -37,7 +37,9 @@ module.exports = function(data, callback) {
           return callback(error);
         }
 
-        res = JSON.parse(body).results[0][0];
+        var geocoderRes = JSON.parse(body).results;
+
+        res = (geocoderRes && geocoderRes[0] && geocoderRes[0][0]) ? geocoderRes[0][0] : {lat:null,lon:null};
 
         callback(null, {
           'coordinates' : [res.lat, res.lon],
@@ -72,7 +74,7 @@ module.exports = function(data, callback) {
 
           callback(null, {
             parks : result.rows.map(cpadRowFilter),
-            title : place.details ? 'near ' + place.details.name : 'nearby'
+            title : place.details && place.details.name ? 'near ' + place.details.name : 'nearby'
           });
 
 
