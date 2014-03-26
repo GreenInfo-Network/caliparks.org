@@ -78,6 +78,11 @@ instagramMetadataTable:
 	&& psql -U openspaces -h geo.local -c "create table instagram_metadata (su_id int, lat float, lng float, radius float, date timestamp, count int);" \
 	&& psql -U openspaces -h geo.local -c "select AddGeometryColumn('instagram_metadata','the_geom',3310,'POLYGON',2);"
 
+instagramArrayTable:
+	psql -U openspaces -h geo.local -c "drop table if exists instagram_array;" \
+	&& psql -U openspaces -h geo.local -c "create table instagram_array (su_id int, lat float, lng float, radius float);" \
+	&& psql -U openspaces -h geo.local -c "select AddGeometryColumn('instagram_array','the_geom',3310,'POLYGON',2);"
+
 # Run daily to process harvested photos.
 instagramParkTable:
 	psql -U openspaces -h geo.local -c "drop table if exists instagram_photos_distinct;" \

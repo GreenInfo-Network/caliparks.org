@@ -2,7 +2,6 @@ var fs = require("fs"),
     util = require("util");
 var async = require("async"),
     connect = require("connect"),
-    d3 = require("d3"),
     pg = require("pg"),
     request = require("request"),
     sleep = require("sleep"),
@@ -25,7 +24,8 @@ var startPostgresClient = function(callback) {
     password: "",
     database: "openspaces",
     //database: "ggnpc",
-    host: "geo.local",
+    host: "localhost",
+    //host: "geo.local",
     port: 5432
   });
   client.connect();
@@ -103,6 +103,78 @@ function saveInstagramHarvesterResults(client, metadata_id, photos, park) {
   // return nothing?
 }
 
+function createInstagramArray() {
+  return startPostgresClient(function(err, client) {
+
+    var radius = 5000; // Instagram maximum radius allowed in metres
+
+    // Get bounds of all parks (start with just one). Ideally in projected space.
+
+    //park = {id:13647};//yosemite
+    park = {id:9365}; //point reyes
+
+    getProjectedSwNeForPark(client, null, function(err, sw, ne) {
+      if (err) {
+        console.log(err);
+      }
+
+      // create array of circles to blanket bounds
+
+      // for each circle
+        // test if it intersects any parks.
+        // Save metadata for circle (center, radius, list of park ids)
+
+      var swArray = sw.split(","),
+          neArray = ne.split(","),
+          yMin = +swArray[0],
+          xMin = +swArray[1],
+          yMax = +neArray[0],
+          xMax = +neArray[1];
+      console.log("bounds:", yMin, xMin, yMax, xMax);
+
+      var totalCount = ((xMax-xMin)/radius) * ((yMax-yMin)/radius)
+      var i = 1;
+      console.log("testing", totalCount, "circles");
+      for (var x=xMin; x < xMax; x += radius) {
+        for (var y=yMin; y < yMax; y += radius) {
+          var queryX = x;
+          var queryY = y;
+          testProjectedCircleIntersectionWithParks(client, queryX, queryY, radius, null, function(err, queryX, queryY, radius, result) {
+            //console.log("testing circle intersection, y:", queryY, "x:", queryX, radius);
+            if (result && result.length > 0) {
+              projectedCoordsToLatLng(client, queryY, queryX, function(err, latlng) {
+                var latMid = latlng[0];
+                var lngMid = latlng[1];
+
+                console.log("circle y:", queryY, "x:", queryX, "hit", result.length, "parks:", result);
+                saveInstagramArrayResult(client,latMid,lngMid,radius,result);
+              });
+            //} else {
+            //  console.log("got nothing!")
+            }
+          });
+        }
+      }
+    });
+  });
+}
+
+var saveInstagramArrayResult = function(client, lat, lng, radius, park_ids) {
+  var query = "insert into instagram_array (su_id, lat, lng, radius, the_geom) values ($1, $2, $3, $4, ST_Buffer(ST_Transform(ST_SetSRID(ST_makepoint($3, $2),4326),3310), $4))";
+
+  park_ids.forEach(function(park_id) {
+
+    console.log(query, park_id, lat, lng, radius);
+    client.query(query, [park_id, lat, lng, radius], function(err, res) {
+      if (err) {
+        console.log(err);
+        throw err;
+      }
+    });
+  });
+  // return nothing?
+};
+
 function getInstagramData(client, swProj, neProj, park, callback) {
 
   // Create a queue with a worker (that currently does nothing but call each task's callback)
@@ -158,9 +230,9 @@ function getInstagramData(client, swProj, neProj, park, callback) {
         var queryY = y;
 
         console.log("testing circle intersection, y:", y, "x:", x, radius, park.id);
-        testProjectedCircleIntersectionWithPark(client, queryX, queryY, radius, park, function(err, queryX, queryY, radius, result) {
+        testProjectedCircleIntersectionWithParks(client, queryX, queryY, radius, [park.id], function(err, queryX, queryY, radius, result) {
 
-          if (result === true) {
+          if (result && result.length > 0) {
             liveTaskCounter[park.id] = liveTaskCounter[park.id] + 1;
             q.push({name: "park:" + park.id + "(" + i++ + " of " + totalCount + ")", centerX: queryX, centerY: queryY, radius: radius}, instagramRecursionQueueTask(null, client, queryY, queryX, radius, null, park, 1, q, callback));
           }
@@ -792,14 +864,18 @@ var getSwNeFromPolygon = function(client, polygon, callback) {
  *
  * @param park Object{id} Park identifier.
  * @param callback Function(err, sw, ne) Called with the sw and nw coordinates (as strings).
+ *
+ * If park is null, will return sw, ne corners containing all parks
  */
 var getSwNeForPark = function(client, park, callback) {
   // connect to pg
   // query pg
   // callback with parsed bbox
 
-  var query = ["select su_id, unit_name, st_astext(st_envelope(geom))",
-               "as envelope from ", cpad_table, " where su_id = $1 limit 1"].join("");
+  if (park)
+    var query = "select su_id, unit_name, st_astext(st_envelope(geom)) as envelope from " + cpad_table + " where su_id = " + park.id + " limit 1";
+  else
+    var query = "select st_astext(st_envelope(st_setsrid(st_extent(geom),4326))) as envelope from " + cpad_table;
 
   return client.query(query, [park.id], function(err, res) {
     if (err) {
@@ -819,16 +895,20 @@ var getSwNeForPark = function(client, park, callback) {
  *
  * @param park Object{id} Park identifier.
  * @param callback Function(err, sw, ne) Called with the sw and nw coordinates (as strings).
+ * 
+ * If park is null, will return sw, ne corners containing all parks
  */
 var getProjectedSwNeForPark = function(client, park, callback) {
   // connect to pg
   // query pg
   // callback with parsed bbox
 
-  var query = ["select su_id, unit_name, st_astext(st_envelope(st_transform(geom,3310)))",
-               "as envelope from ", cpad_table, " where su_id = $1 limit 1"].join("");
+  if (park)
+    var query = "select su_id, unit_name, st_astext(st_envelope(st_transform(geom,3310))) as envelope from " + cpad_table + " where su_id = " + park.id + " limit 1";
+  else
+    var query = "select st_astext(st_envelope(st_transform(st_setsrid(st_extent(geom),4326),3310))) as envelope from " + cpad_table;
 
-  return client.query(query, [park.id], function(err, res) {
+  return client.query(query, function(err, res) {
     if (err) {
       throw err;
     }
@@ -912,20 +992,38 @@ var testBboxIntersectionWithPark = function(client, bbox, park, callback) {
   });
 };
 
-var testProjectedCircleIntersectionWithPark = function(client, centerX, centerY, radius, park, callback) {
-  // Introduce an extra buffer here?
-  var query = ["select ST_Intersects(ST_Buffer(ST_SetSRID(ST_MakePoint(", centerX, ",", centerY, "),3310),", radius, "),st_transform(geom,3310)) from ", cpad_table, " where su_id = $1"].join("");
 
-  return client.query(query, [park.id], function(err, res) {
+/**
+ *  The parks argument should be an array of park superunit ids.
+ *  If parks is null, will test against all parks.
+ *  Returns a list of park ids that intersect the circle, or an empty array if none.
+ */
+
+var testProjectedCircleIntersectionWithParks = function(client, centerX, centerY, radius, parks, callback) {
+  //var query = ["select su_id from cpad_2013b_superunits_ids where (su_id = $1) and ST_Intersects(ST_Buffer(ST_SetSRID(ST_MakePoint(", centerX, ",", centerY, "),3310),", radius, "),st_transform(geom,3310))"].join("")
+  var query = "select su_id from cpad_2013b_superunits_ids where ";
+  if (parks) { // should test if it's an array, too
+    query += "(";
+    su_ids = []
+    parks.forEach(function(park_id) {
+      su_ids.push("su_id = " + park_id);
+    });
+    query += su_ids.join(" or ");
+    query += ") and ";
+  }
+  query += " ST_Intersects(ST_Buffer(ST_SetSRID(ST_MakePoint(" + centerX + "," + centerY + "),3310)," + radius + "),st_transform(geom,3310))";
+
+  return client.query(query, function(err, res) {
     if (err) {
       //throw err;
       // TODO: deal with this better
       console.log("projection test error, proceeding...", centerX, centerY, radius, "park:", park.id);
       return callback(null, centerX, centerY, radius, false);
     }
-    var result = res.rows[0];
+    //var result = res.rows;
+    var result = res.rows.map(function(row) { return row.su_id; });
     // client.end();
-    return callback(null, centerX, centerY, radius, result.st_intersects);
+    return callback(null, centerX, centerY, radius, result);
   });
 };
 
@@ -1319,6 +1417,11 @@ var main = function() {
         });
       }
     });
+
+  } else if (argv.t == 'create_instagram_array') {
+
+    createInstagramArray();
+
   } else {
     console.log(argv.t, "not understood");
   }
