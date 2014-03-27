@@ -55,11 +55,23 @@
 		<div id="nearest-parks">
 			
 		</div>
-		<div style="display:inline-block;border:solid 1px red;text-align:center;">
+		<div id="social-nav-container" style="display:inline-block;width: 364px;text-align:center;vertical-align:top;">
 			<div>#{{hashtag}}</div>
-			<div>
-				<div>#PEEK</div><div>34 PHOTOS by 2 PEOPLE</div><div>#PEEK</div>
-				<div>On Flickr</div>
+			<div class="social-nav-item social-nav-flickr">
+				<div class="hashtag-back"></div><div class="network-totals">{{#pluralize}}{{totalPhotos}} PHOTO|PHOTOS{{/pluralize}} by {{#pluralize}}{{flotographer_count}} PERSON|PEOPLE{{/pluralize}}</div><div class="hashtag-forward"></div>
+				<div>ON FLICKR</div>
+			</div>
+			<div class="social-nav-item social-nav-instagram">
+				<div class="hashtag-back"></div><div class="network-totals">{{#pluralize}}{{instagram_count}} PHOTO|PHOTOS{{/pluralize}} by {{#pluralize}}{{instographer_count}} PERSON|PEOPLE{{/pluralize}}</div><div class="hashtag-forward"></div>
+				<div>ON INSTAGRAM</div>
+			</div>
+			<div class="social-nav-item social-nav-foursquare">
+				<div class="hashtag-back"></div><div class="network-totals">{{#pluralize}}{{venues_count}} VENUE|VENUES{{/pluralize}} & {{#pluralize}}{{venues_checkins}} CHECKIN|CHECKINS{{/pluralize}}</div><div class="hashtag-forward"></div>
+				<div>ON FOURSQUARE</div>
+			</div>
+			<div class="social-nav-item social-nav-twitter">
+				<div class="hashtag-back"></div><div class="network-totals">{{#pluralize}}{{tweet_count}} TWEET|TWEETS{{/pluralize}} by {{#pluralize}}{{tweeter_count}} PERSON|PEOPLE{{/pluralize}}</div><div class="hashtag-forward"></div>
+				<div>ON TWITTER</div>
 			</div>
 		</div>
 	</section>
@@ -110,7 +122,8 @@
 				rootSelector : '#nearest-parks',
 				centroid     : [parseFloat('{{cpadPark.centroid_latitude}}' || 0, 10),parseFloat('{{cpadPark.centroid_longitude}}' || 0, 10)],
 				template     : '{{>glop_park-js}}'
-			}
+			},
+			socialNav : '#social-nav-container'
 		});  
 
   }, false);

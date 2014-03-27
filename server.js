@@ -27,12 +27,12 @@ app.engine('handlebars', exphbs({
 		pluralize : function(options) {
 
 			 var o = options.fn(this).split(' '),
-			     l = o[1].split('|');
+			     l = o[o.length-1].split('|');
 
-			 if ((o[0] | 0) === 1) {
-			 	return o[0] + ' ' +  l[0];
+			 if ((o[0] | 0) === 1 && o.length === 2) {
+			 	return options.fn(this).split(l[0])[0] + ' ' +  l[0];
 			 } else {
-			 	return o[0] + ' ' +  l[1];
+			 	return options.fn(this).split(l[0])[0] + ' ' +  l[1];
 			 }
 		}
 	}
