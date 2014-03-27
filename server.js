@@ -127,9 +127,9 @@ function go404(req,res) {
 // Setup Routes
 //
 
-app.use('/style', express.static('./public/style'));
-app.use('/js',    express.static('./public/js'));
-app.use('/data',  express.static('./public/data'));
+app.use('/style', express.static('./public/style', { maxAge: 3600e3 }));
+app.use('/js',    express.static('./public/js', { maxAge: 3600e3 }));
+app.use('/data',  express.static('./public/data', { maxAge: 3600e3 }));
 
 
 app.get('/', function(req,res) {
