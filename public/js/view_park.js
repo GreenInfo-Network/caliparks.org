@@ -183,19 +183,19 @@
 
     if (data.socialNav) {
 
-      $.ajax('http://api.parks.stamen.com/parks/most-flickr-photos.json', {complete:function(r) {
+      $.ajax('/parks/most-flickr-photos.json', {complete:function(r) {
 
         processSocialNavItem('flickr','flickr', r);
 
-        $.ajax('http://api.parks.stamen.com/parks/most-instagram-photos.json', {complete:function(r) {
+        $.ajax('/parks/most-instagram-photos.json', {complete:function(r) {
 
           processSocialNavItem('instagram', 'instagram', r);
 
-          $.ajax('http://api.parks.stamen.com/parks/most-checkins.json', {complete:function(r) {
+          $.ajax('/parks/most-checkins.json', {complete:function(r) {
 
             processSocialNavItem('foursquare', 'checkins', r);
 
-            $.ajax('http://api.parks.stamen.com/parks/most-tweets.json', {complete:function(r) {
+            $.ajax('/parks/most-tweets.json', {complete:function(r) {
 
               processSocialNavItem('twitter', 'tweets', r);
 
