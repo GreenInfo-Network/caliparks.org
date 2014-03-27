@@ -527,7 +527,7 @@ body.openspaces #nearest-parks .glop-park {
 body.openspaces #nearest-parks .glop-park .hashtag {
   margin-top: 30%; }
 
-body.openspaces #nearest-parks .glop-park:hover .hashtag a:hover {
+body.openspaces #nearest-parks a:hover {
   text-decoration: none; }
 
 body.openspaces #nearest-parks .glop-park .park-name {
@@ -635,6 +635,97 @@ body.openspaces #park-shape .scale-area .scale-bar {
   width: 15px;
   height: 15px;
   background-color: #9a7922; }
+
+/* Social Nav */
+body.openspaces #social-nav-container {
+  font-size: 12px;
+  margin-left: 64px; }
+
+body.openspaces .social-nav-main-hashtag {
+  color: white;
+  background-color: #301f0d;
+  font-family: "cooper-black-std", sans-serif;
+  font-size: 18px;
+  line-height: 30px;
+  display: inline-block;
+  padding: 0 5px;
+  margin-bottom: 23px; }
+
+body.openspaces .social-nav-item div {
+  display: inline-block; }
+
+body.openspaces .hashtag-back a {
+  text-decoration: none;
+  color: white !important; }
+
+body.openspaces .hashtag-forward, .hashtag-back {
+  color: white;
+  background-color: #301f0d;
+  font-family: "cooper-black-std", sans-serif;
+  font-size: 12px;
+  display: inline-block;
+  width: 51px;
+  padding: 0px 6px 6px 6px;
+  height: 16px;
+  line-height: 2;
+  text-align: center;
+  vertical-align: middle; }
+
+body.openspaces .hashtag-forward a {
+  text-decoration: none;
+  color: white !important; }
+
+body.openspaces .social-nav-item {
+  display: inline-block;
+  vertical-align: middle;
+  margin-bottom: 12px; }
+
+body.openspaces .social-nav-item div.which-network {
+  color: #9a7825;
+  font-size: 12px;
+  line-height: 23px;
+  whitespace: pre;
+  display: block; }
+
+body.openspaces .network-totals {
+  color: white;
+  height: 14px;
+  line-height: 16px;
+  font-size: 12px;
+  padding: 4px;
+  margin: 0;
+  overflow: hidden;
+  vertical-align: middle; }
+
+body.openspaces .social-nav-flickr .network-totals {
+  background-color: #ff0084;
+  width: 177px; }
+
+body.openspaces .social-nav-instagram .network-totals {
+  background-color: #4877a0;
+  width: 182px; }
+
+body.openspaces .social-nav-foursquare .network-totals {
+  background-color: #66c100;
+  width: 191px; }
+
+body.openspaces .social-nav-twitter .network-totals {
+  background-color: #00b6f1;
+  width: 195px; }
+
+body.openspaces .social-back-arrow {
+  background-image: url("/style/social-nav-arrow-back.png");
+  background-repeat: no-repeat;
+  width: 24px;
+  display: inline-block;
+  height: 14px; }
+
+body.openspaces .social-forward-arrow {
+  background-image: url("/style/social-nav-arrow-forward.png");
+  background-repeat: no-repeat;
+  width: 24px;
+  display: inline-block;
+  height: 14px; }
 
 @media (max-width: 1230px) {
   body.openspaces #tweets {

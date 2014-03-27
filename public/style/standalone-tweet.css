@@ -124,10 +124,6 @@
     outline: 0;
 }
 
-a:hover b,a:focus b,a:hover span,a:focus span,h3 a:hover,h3 a:focus,.timeline-header a:hover,.timeline-header a:focus,.e-entry-title .link:hover,.e-entry-title .link:focus,.footer a.expand:hover,.footer a.expand:focus,a.permalink:hover,a.permalink:focus,a.long-permalink:hover,a.long-permalink:focus,.cards-base p a:hover,.cards-base p a:focus,.retweet-credit a:hover,.retweet-credit a:focus {
-    text-decoration: underline;
-}
-
 html,.p-author .profile .p-name,.custom-timeline-owner-profile .p-name,.cards-base p,.cards-base p a,.timeline-header .custom-timeline-summary,.timeline-header .custom-timeline-summary a:link,.timeline-header .custom-timeline-summary a:visited,.timeline-header .summary,.timeline-header .summary a:link,.timeline-header .summary a:visited,.p-author a.profile:hover .p-name,.p-author a.profile:focus .p-name {
     color: #292f33;
 }
