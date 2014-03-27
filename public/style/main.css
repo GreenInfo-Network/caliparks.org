@@ -544,10 +544,12 @@ body.openspaces #tweets {
   display: inline-block;
   vertical-align: top;
   margin-left: 20px;
-  background-color: white;
   border-radius: 4px;
   padding: 10px;
   margin-left: 0px; }
+
+#tweets ul li {
+  margin: 5px 0 10px 0; }
 
 body.openspaces .has-instagram-photos #tweets {
   margin-left: 423px;

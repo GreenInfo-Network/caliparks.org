@@ -2,10 +2,6 @@
 <link rel="stylesheet" type="text/css" href="/style/standalone-tweet.css">
 <div id="tweets">
   <h2><a href="/parks/most-tweets/">#{{hashtag}} on Twitter</a> <span>{{#pluralize}}{{tweet_count}} tweet|tweets{{/pluralize}} by {{#pluralize}}{{tweeter_count}} person|people{{/pluralize}}</span></h2>
-  <div style="width:100%;padding:10px;">
-    <textarea style="width:97%;border:solid 1px #ccc;border-radius:4px;">#{{hashtag}}</textarea>
-    <a class="follow-button profile" href="https://twitter.com/TotalTrafficMOD" role="button" data-scribe="component:followbutton" title="Follow TotalTrafficMOD on Twitter"><i class="ic-button-bird"></i>Tweet</a>
-  </div>
   <ul>
   {{#each tweets}}
     <li>{{>twitter_hashtag_post}}</li>
