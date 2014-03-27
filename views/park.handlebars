@@ -48,30 +48,137 @@
 		{{/if}}
 	</section>
 
+	<style>
+	#social-nav-container {
+		font-size: 12px;
+		margin-left: 64px;
+	}
+
+	.social-nav-main-hashtag {
+		color: white;
+		background-color: #301f0d;
+		font-family: "cooper-black-std", sans-serif;
+		font-size: 18px;
+		line-height: 30px;
+		display:inline-block;
+		padding:0 5px;
+		margin-bottom: 23px;
+	}
+
+	.social-nav-item div {
+		display:inline-block;
+	}
+
+	.hashtag-back a {
+		text-decoration:none;
+		color:white !important;
+	}
+
+	.hashtag-forward, .hashtag-back {
+		color: white;
+		background-color: #301f0d;
+		font-family: "cooper-black-std", sans-serif;
+		font-size: 12px;
+		display:inline-block;
+		width: 51px;
+		padding: 0px 6px 6px 6px;
+		height: 16px;
+		line-height: 2;
+		text-align: center;
+		vertical-align: middle;
+	}
+
+	.hashtag-forward a {
+		text-decoration:none;
+		color:white !important;
+	}
+
+	.social-nav-item {
+		display:inline-block;
+		vertical-align: middle;
+	}
+
+	.social-nav-item div.which-network {
+		color:#9a7825;
+		font-size:12px;
+		line-height: 23px;
+		whitespace:pre;
+		display:block;
+	}
+
+	.network-totals {
+		color: white;
+		height: 14px;
+		line-height: 16px;
+		font-size: 12px;
+		padding: 4px;
+		margin: 0;
+		overflow:hidden;
+		vertical-align: middle;
+	}
+
+	.social-nav-flickr .network-totals {
+		background-color:#ff0084;
+		width:177px;
+	}
+
+	.social-nav-instagram .network-totals {
+		background-color:#4877a0;
+		width: 182px;
+	}
+
+	.social-nav-foursquare .network-totals {
+		background-color:#66c100;
+		width: 191px;
+	}
+
+	.social-nav-twitter .network-totals {
+		background-color:#00b6f1;
+		width: 195px;
+	}
+
+	.social-back-arrow {
+		background-image: url('/style/social-nav-arrow-back.png');
+		background-repeat:no-repeat;
+		width:24px;
+		width="19px"
+		display:inline-block;
+		height: 14px;
+	}
+	.social-forward-arrow {
+		background-image: url('/style/social-nav-arrow-forward.png');
+		background-repeat:no-repeat;
+		width:24px;
+		width="19px"
+		display:inline-block;
+		height: 14px;
+	}
+	</style>
+
 	<section class="extended-navigation" style="position:relative;padding-top: 56px;">
 		<div class="extended-navigaton-header-back" style="overflow:hidden;height:25px;position:absolute;top:33px;right:33px;left:33px;">......................................................................................................................................................................................................................................................................................</div>
 		<div style="font-weight:bold;position:absolute;top:33px;left:33px;display:inline-block;background-color:#cebc95;padding-right:3px;">Explore parks near #{{hashtag}} on a map</div>
-		<div style="font-weight:bold;position:absolute;top:33px;right:33px;display:inline-block;background-color:#cebc95;padding-left:3px;">and social media.</div>
+		<div style="font-weight:bold;position:absolute;top:33px;right:45px;display:inline-block;background-color:#cebc95;padding-left:3px;">and social media.</div>
 		<div id="nearest-parks">
 			
 		</div>
-		<div id="social-nav-container" style="display:inline-block;width: 364px;text-align:center;vertical-align:top;">
-			<div>#{{hashtag}}</div>
+		<div id="social-nav-container" style="display:inline-block;width: 377px;text-align:center;vertical-align:top;padding-top: 35px;">
+			<div><div class="social-nav-main-hashtag">#{{hashtag}}</div></div>
 			<div class="social-nav-item social-nav-flickr">
-				<div class="hashtag-back"></div><div class="network-totals">{{#pluralize}}{{totalPhotos}} PHOTO|PHOTOS{{/pluralize}} by {{#pluralize}}{{flotographer_count}} PERSON|PEOPLE{{/pluralize}}</div><div class="hashtag-forward"></div>
-				<div>ON FLICKR</div>
+				<div class="hashtag-back">&nbsp;</div><div class="social-back-arrow"></div><div class="network-totals">{{#pluralize}}{{totalPhotos}} PHOTO|PHOTOS{{/pluralize}} by {{#pluralize}}{{flotographer_count}} PERSON|PEOPLE{{/pluralize}}</div><div class="social-forward-arrow"></div><div class="hashtag-forward">&nbsp;</div>
+				<div class="which-network">ON FLICKR</div>
 			</div>
 			<div class="social-nav-item social-nav-instagram">
-				<div class="hashtag-back"></div><div class="network-totals">{{#pluralize}}{{instagram_count}} PHOTO|PHOTOS{{/pluralize}} by {{#pluralize}}{{instographer_count}} PERSON|PEOPLE{{/pluralize}}</div><div class="hashtag-forward"></div>
-				<div>ON INSTAGRAM</div>
+				<div class="hashtag-back">&nbsp;</div><div class="social-back-arrow"></div><div class="network-totals">{{#pluralize}}{{instagram_count}} PHOTO|PHOTOS{{/pluralize}} by {{#pluralize}}{{instographer_count}} PERSON|PEOPLE{{/pluralize}}</div><div class="social-forward-arrow"></div><div class="hashtag-forward">&nbsp;</div>
+				<div class="which-network">ON INSTAGRAM</div>
 			</div>
 			<div class="social-nav-item social-nav-foursquare">
-				<div class="hashtag-back"></div><div class="network-totals">{{#pluralize}}{{venues_count}} VENUE|VENUES{{/pluralize}} & {{#pluralize}}{{venues_checkins}} CHECKIN|CHECKINS{{/pluralize}}</div><div class="hashtag-forward"></div>
-				<div>ON FOURSQUARE</div>
+				<div class="hashtag-back">&nbsp;</div><div class="social-back-arrow"></div><div class="network-totals">{{#pluralize}}{{venues_count}} VENUE|VENUES{{/pluralize}} & {{#pluralize}}{{venues_checkins}} CHECKIN|CHECKINS{{/pluralize}}</div><div class="social-forward-arrow"></div><div class="hashtag-forward">&nbsp;</div>
+				<div class="which-network">ON FOURSQUARE</div>
 			</div>
 			<div class="social-nav-item social-nav-twitter">
-				<div class="hashtag-back"></div><div class="network-totals">{{#pluralize}}{{tweet_count}} TWEET|TWEETS{{/pluralize}} by {{#pluralize}}{{tweeter_count}} PERSON|PEOPLE{{/pluralize}}</div><div class="hashtag-forward"></div>
-				<div>ON TWITTER</div>
+				<div class="hashtag-back">&nbsp;</div><div class="social-back-arrow"></div><div class="network-totals">{{#pluralize}}{{tweet_count}} TWEET|TWEETS{{/pluralize}} by {{#pluralize}}{{tweeter_count}} PERSON|PEOPLE{{/pluralize}}</div><div class="social-forward-arrow"></div><div class="hashtag-forward">&nbsp;</div>
+				<div class="which-network">ON TWITTER</div>
 			</div>
 		</div>
 	</section>

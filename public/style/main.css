@@ -515,7 +515,7 @@ body.openspaces .glop-park:hover .park-name, body.openspaces #view-parks .glop-p
 
 /* nearest parks */
 body.openspaces #nearest-parks {
-  width: 580px;
+  width: 496px;
   height: 344px;
   display: inline-block; }
 

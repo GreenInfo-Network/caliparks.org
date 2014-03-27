@@ -63,11 +63,12 @@ module.exports = function(options) {
               //
               // Actually just return the db record
               //
+              cb();
               return match_map[item.su_id];
             }));
           });
 
-        })
+        });
       }
 
   }

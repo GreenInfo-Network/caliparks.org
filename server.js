@@ -48,6 +48,8 @@ dataFormatResponders['.json'] = function dataFormatResponderJSON(res, data, form
 		dataOut[item] = data[item];
 	});
 
+
+	res.header("Access-Control-Allow-Origin", "*");
 	res.json({
 		status   : 'ok',
 		response : dataOut

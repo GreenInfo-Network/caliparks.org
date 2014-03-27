@@ -156,87 +156,57 @@
 
     }
 
+    var positions = {},
+        social_nav_data = {},
+        social_nav_template = '<a href="/park/{su_id}">#{hashtag}</a>';
+    function processSocialNavItem(network, property, r) {
+        
+      if (r.responseJSON.response) {
+        social_nav_data[property] = r.responseJSON.response.parks;
+
+        r.responseJSON.response.parks.forEach(function(p, i, array) {
+          if (p.su_id === data.su_id) {
+            positions[property] = i;
+          }
+        });
+
+        if (positions[property]-1) {
+          $(data.socialNav + ' .social-nav-'+network+' .hashtag-back').html( STMN.processTemplate(social_nav_template,social_nav_data[property][positions[property]-1]) );
+        }
+
+        if (positions[property]+1) {
+          $(data.socialNav + ' .social-nav-'+network+' .hashtag-forward').html( STMN.processTemplate(social_nav_template,social_nav_data[property][positions[property]+1]) );
+        }
+      }
+
+    }
+
     if (data.socialNav) {
-      var positions = {};
-      var social_nav_data = {};
-      var social_nav_template = '<a href="/park/{su_id}">#{hashtag}</a>';
-      $.ajax('/parks/most-flickr-photos.json', {complete:function(r) {
 
-        social_nav_data.flickr = r.responseJSON.response.parks;
-        r.responseJSON.response.parks.forEach(function(p, i, array) {
-          if (p.su_id === data.su_id) {
-            positions.flickr = i;
-          }
-        });
+      $.ajax('http://local.studio.stamen.com:5000/parks/most-flickr-photos.json', {complete:function(r) {
 
-        console.log(positions, $(data.socialNav + ' .social-nav-flickr .hashtag-back'));
+        processSocialNavItem('flickr','flickr', r);
 
-        if (positions.flickr-1) {
-          $(data.socialNav + ' .social-nav-flickr .hashtag-back').html( STMN.processTemplate(social_nav_template,social_nav_data.flickr[positions.flickr-1]) );
-        }
+        $.ajax('http://local.studio.stamen.com:5000/parks/most-instagram-photos.json', {complete:function(r) {
 
-        if (positions.flickr+1) {
-          $(data.socialNav + ' .social-nav-flickr .hashtag-forward').html( STMN.processTemplate(social_nav_template,social_nav_data.flickr[positions.flickr+1]) );
-        }
+          processSocialNavItem('instagram', 'instagram', r);
 
-      }});
+          $.ajax('http://local.studio.stamen.com:5000/parks/most-checkins.json', {complete:function(r) {
 
-      $.ajax('/parks/most-instagram-photos.json', {complete:function(r) {
+            processSocialNavItem('foursquare', 'checkins', r);
 
-        social_nav_data.instagram = r.responseJSON.response.parks;
-        r.responseJSON.response.parks.forEach(function(p, i, array) {
-          if (p.su_id === data.su_id) {
-            positions.instagram = i;
-          }
-        });
+            $.ajax('http://local.studio.stamen.com:5000/parks/most-tweets.json', {complete:function(r) {
 
-        if (positions.instagram-1) {
-          $(data.socialNav + ' .social-nav-instagram .hashtag-back').html( STMN.processTemplate(social_nav_template,social_nav_data.instagram[positions.instagram-1]) );
-        }
+              processSocialNavItem('twitter', 'tweets', r);
 
-        if (positions.instagram+1) {
-          $(data.socialNav + ' .social-nav-instagram .hashtag-forward').html( STMN.processTemplate(social_nav_template,social_nav_data.instagram[positions.instagram+1]) );
-        }
+            }});
+
+          }});
+
+        }});
 
       }});
 
-      $.ajax('/parks/most-checkins.json', {complete:function(r) {
-
-        social_nav_data.checkins = r.responseJSON.response.parks;
-        r.responseJSON.response.parks.forEach(function(p, i, array) {
-          if (p.su_id === data.su_id) {
-            positions.checkins = i;
-          }
-        });
-
-        if (positions.checkins-1) {
-          $(data.socialNav + ' .social-nav-foursquare .hashtag-back').html( STMN.processTemplate(social_nav_template,social_nav_data.checkins[positions.checkins-1]) );
-        }
-
-        if (positions.checkins+1) {
-          $(data.socialNav + ' .social-nav-foursquare .hashtag-forward').html( STMN.processTemplate(social_nav_template,social_nav_data.checkins[positions.checkins+1]) );
-        }
-
-      }});
-
-      $.ajax('/parks/most-tweets.json', {complete:function(r) {
-
-        social_nav_data.tweets = r.responseJSON.response.parks;
-        r.responseJSON.response.parks.forEach(function(p, i, array) {
-          if (p.su_id === data.su_id) {
-            positions.tweets = i;
-          }
-        });
-
-        if (positions.tweets-1) {
-          $(data.socialNav + ' .social-nav-twitter .hashtag-back').html( STMN.processTemplate(social_nav_template,social_nav_data.tweets[positions.tweets-1]) );
-        }
-
-        if (positions.tweets+1) {
-          $(data.socialNav + ' .social-nav-twitter .hashtag-forward').html( STMN.processTemplate(social_nav_template,social_nav_data.tweets[positions.tweets+1]) );
-        }
-
-      }});
     }
   }
 
