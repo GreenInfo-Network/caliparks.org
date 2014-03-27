@@ -78,11 +78,6 @@ instagramMetadataTable:
 	&& psql -U openspaces -h geo.local -c "create table instagram_metadata (su_id int, lat float, lng float, radius float, date timestamp, count int);" \
 	&& psql -U openspaces -h geo.local -c "select AddGeometryColumn('instagram_metadata','the_geom',3310,'POLYGON',2);"
 
-instagramArrayTable:
-	psql -U openspaces -h geo.local -c "drop table if exists instagram_array;" \
-	&& psql -U openspaces -h geo.local -c "create table instagram_array (su_id int, lat float, lng float, radius float);" \
-	&& psql -U openspaces -h geo.local -c "select AddGeometryColumn('instagram_array','the_geom',3310,'POLYGON',2);"
-
 # Run daily to process harvested photos.
 instagramParkTable:
 	psql -U openspaces -h geo.local -c "drop table if exists instagram_photos_distinct;" \
@@ -126,6 +121,22 @@ foursquareParkTable:
 foursquareVenuesActivityView:
 	psql -U openspaces -h geo.local -c "drop view park_foursquare_venues_activity;" \
 	&& psql -U openspaces -h geo.local -c "create view park_foursquare_venues_activity as select a.*, b.timestamp, b.checkinscount, b.userscount, b.tipcount, b.likescount, b.mayor_id, b.mayor_firstname, b.mayor_lastname from park_foursquare_venues a left join (select distinct on (venueid) * from foursquare_venue_activity order by venueid, timestamp desc) as b on a.venueid = b.venueid;"
+
+#######################################
+### Harvester initialization grids ####
+#######################################
+
+# Run once to create the table.
+latlngArrayTable:
+	psql -U openspaces -h geo.local -c "drop table if exists latlng_array;" \
+	&& psql -U openspaces -h geo.local -c "create table latlng_array (su_id int, latMin float, lngMin float, latMax float, lngMax float);" \
+	&& psql -U openspaces -h geo.local -c "select AddGeometryColumn('latlng_array','the_geom',4326,'POLYGON',2);"
+
+# Run once to create the table.
+instagramArrayTable:
+	psql -U openspaces -h geo.local -c "drop table if exists instagram_array;" \
+	&& psql -U openspaces -h geo.local -c "create table instagram_array (su_id int, lat float, lng float, radius float);" \
+	&& psql -U openspaces -h geo.local -c "select AddGeometryColumn('instagram_array','the_geom',3310,'POLYGON',2);"
 
 #######################################
 ### Totals ############################

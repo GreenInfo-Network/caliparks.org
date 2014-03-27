@@ -103,15 +103,86 @@ function saveInstagramHarvesterResults(client, metadata_id, photos, park) {
   // return nothing?
 }
 
+function createLatLngArray() {
+  return startPostgresClient(function(err, client) {
+    var cellSize = 0.1; // In decimal degrees
+
+    // Get bounds of all parks, in lat lng
+
+    getSwNeForPark(client, null, function(err, sw, ne) {
+      if (err) {
+        console.log(err);
+      }
+
+      // create grid of latlng squares to blanket bounds
+
+      // for each square
+        // test if it intersects any parks.
+        // Save metadata for square (corners, list of park ids)
+
+      var swArray = sw.split(","),
+          neArray = ne.split(","),
+          yMin = +swArray[0],
+          xMin = +swArray[1],
+          yMax = +neArray[0],
+          xMax = +neArray[1];
+      console.log("bounds:", yMin, xMin, yMax, xMax);
+
+      yMin = Math.floor(yMin/cellSize) * cellSize;
+      xMin = Math.floor(xMin/cellSize) * cellSize;
+      yMax = Math.ceil(yMax/cellSize) * cellSize;
+      xMax = Math.ceil(xMax/cellSize) * cellSize;
+
+      console.log("expanded bounds:", yMin, xMin, yMax, xMax);
+
+      var totalCount = Math.round(((xMax-xMin)/cellSize) * ((yMax-yMin)/cellSize))
+      var i = 1;
+      console.log("testing", totalCount, "squares");
+      for (var x=xMin; x < xMax; x += cellSize) {
+        for (var y=yMin; y < yMax; y += cellSize) {
+          var queryX = Math.round(x/cellSize) * cellSize;
+          var queryY = Math.round(y/cellSize) * cellSize;
+          // test box with parks
+          console.log("testing bbox intersection, y:", queryY, "x:", queryX);
+          testBboxIntersectionWithParks(client, [[queryY,queryX],[queryY+cellSize,queryX+cellSize]], null, function(err, result) {
+            if (result && result.length > 0) {
+
+              console.log("bbox y:", queryY, "x:", queryX, "hit", result.length, "parks:", result.join(","));
+              saveLatLngArrayResult(client,queryY,queryX,queryY+cellSize,queryX+cellSize,result);
+            } 
+            if (i % 100 == 0) console.log("done", i, "of", totalCount);
+            i++;
+          });
+        }
+      }
+    });
+  });
+}
+
+var saveLatLngArrayResult = function(client, latMin, lngMin, latMax, lngMax, park_ids) {
+  var query = "insert into latlng_array (su_id, latMin, lngMin, latMax, lngMax, the_geom) values ($1, $2, $3, $4, $5, ST_MakeEnvelope($3,$2,$5,$4,4326))";
+
+  park_ids.forEach(function(park_id) {
+
+    client.query(query, [park_id, latMin, lngMin, latMax, lngMax], function(err, res) {
+      if (err) {
+        console.log(err);
+        throw err;
+      }
+    });
+  });
+  // return nothing?
+};
+
 function createInstagramArray() {
   return startPostgresClient(function(err, client) {
 
     var radius = 5000; // Instagram maximum radius allowed in metres
 
-    // Get bounds of all parks (start with just one). Ideally in projected space.
+    // Get bounds of all parks in projected units.
 
-    //park = {id:13647};//yosemite
-    park = {id:9365}; //point reyes
+    //park = {id:13647}; //yosemite
+    //park = {id:9365}; //point reyes
 
     getProjectedSwNeForPark(client, null, function(err, sw, ne) {
       if (err) {
@@ -146,12 +217,14 @@ function createInstagramArray() {
                 var latMid = latlng[0];
                 var lngMid = latlng[1];
 
-                console.log("circle y:", queryY, "x:", queryX, "hit", result.length, "parks:", result);
+                console.log("circle y:", queryY, "x:", queryX, "hit", result.length, "parks:", result.join(","));
                 saveInstagramArrayResult(client,latMid,lngMid,radius,result);
               });
             //} else {
             //  console.log("got nothing!")
             }
+            if (i % 100 == 0) console.log("done", i, "of", totalCount);
+            i++;
           });
         }
       }
@@ -164,7 +237,6 @@ var saveInstagramArrayResult = function(client, lat, lng, radius, park_ids) {
 
   park_ids.forEach(function(park_id) {
 
-    console.log(query, park_id, lat, lng, radius);
     client.query(query, [park_id, lat, lng, radius], function(err, res) {
       if (err) {
         console.log(err);
@@ -777,9 +849,8 @@ function foursquareRecursionQueueTask(err, client, sw, ne, polygon, park, depth,
 
       bboxes.forEach(function(bbox) {
         // Test each new bbox against the extent of the original polygon
-        testBboxIntersectionWithPark(client, bbox, park, function(err, intersects) {
-          //console.log("intersects:", intersects);
-          if (intersects) {
+        testBboxIntersectionWithParks(client, bbox, park, function(err, result) {
+          if (result && result.length > 0) {
 
             var nextDepth = depth + 1;
 
@@ -877,7 +948,7 @@ var getSwNeForPark = function(client, park, callback) {
   else
     var query = "select st_astext(st_envelope(st_setsrid(st_extent(geom),4326))) as envelope from " + cpad_table;
 
-  return client.query(query, [park.id], function(err, res) {
+  return client.query(query, function(err, res) {
     if (err) {
       throw err;
     }
@@ -979,16 +1050,34 @@ var getPolygonForPark = function(client, park, callback) {
   });
 };
 
-var testBboxIntersectionWithPark = function(client, bbox, park, callback) {
-  var query = ["select ST_Intersects(ST_MakeEnvelope(", bbox[0][1], ",", bbox[0][0], ",", bbox[1][1], ",", bbox[1][0], ",4326),geom) from ", cpad_table, " where su_id = $1"].join("");
+/**
+ *  The parks argument should be an array of park superunit ids.
+ *  If parks is null, will test against all parks.
+ *  Returns a list of park ids that intersect the bbox, or an empty array if none.
+ */
 
-  return client.query(query, [park.id], function(err, res) {
+var testBboxIntersectionWithParks = function(client, bbox, parks, callback) {
+  //var query = ["select ST_Intersects(ST_MakeEnvelope(", bbox[0][1], ",", bbox[0][0], ",", bbox[1][1], ",", bbox[1][0], ",4326),geom) from ", cpad_table, " where su_id = $1"].join("");
+  var query = "select su_id from " + cpad_table + " where ";
+  if (parks) { // should test if it's an array, too
+    query += "(";
+    su_ids = []
+    parks.forEach(function(park_id) {
+      su_ids.push("su_id = " + park_id);
+    });
+    query += su_ids.join(" or ");
+    query += ") and ";
+  }
+  query += " ST_Intersects(ST_MakeEnvelope(" + bbox[0][1] + "," + bbox[0][0] + "," + bbox[1][1] + "," + bbox[1][0] + ",4326),geom)";
+
+
+  return client.query(query, function(err, res) {
     if (err) {
       throw err;
     }
-    var result = res.rows[0];
+    var result = res.rows.map(function(row) { return row.su_id; });
     // client.end();
-     callback(null, result.st_intersects);
+     callback(null, result);
   });
 };
 
@@ -1001,7 +1090,7 @@ var testBboxIntersectionWithPark = function(client, bbox, park, callback) {
 
 var testProjectedCircleIntersectionWithParks = function(client, centerX, centerY, radius, parks, callback) {
   //var query = ["select su_id from cpad_2013b_superunits_ids where (su_id = $1) and ST_Intersects(ST_Buffer(ST_SetSRID(ST_MakePoint(", centerX, ",", centerY, "),3310),", radius, "),st_transform(geom,3310))"].join("")
-  var query = "select su_id from cpad_2013b_superunits_ids where ";
+  var query = "select su_id from " + cpad_table + " where ";
   if (parks) { // should test if it's an array, too
     query += "(";
     su_ids = []
@@ -1421,6 +1510,10 @@ var main = function() {
   } else if (argv.t == 'create_instagram_array') {
 
     createInstagramArray();
+
+  } else if (argv.t == 'create_latlng_array') {
+
+    createLatLngArray();
 
   } else {
     console.log(argv.t, "not understood");
