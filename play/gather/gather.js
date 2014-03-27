@@ -372,8 +372,8 @@ function instagramRecursionQueueTask(err, client, y, x, radius, polygon, park, d
             newCenters.forEach(function(newCenter) {
               var newX = newCenter[1];
               var newY = newCenter[0];
-              testProjectedCircleIntersectionWithPark(client, newX, newY, newRadius, park, function(err, newX, newY, newRadius, intersects) {
-                if (intersects === true) {
+              testProjectedCircleIntersectionWithParks(client, newX, newY, newRadius, [park.id], function(err, newX, newY, newRadius, result) {
+                if (result && result.length > 0) {
 
                   var nextDepth = depth + 1;
 
