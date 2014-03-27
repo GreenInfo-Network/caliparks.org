@@ -35,15 +35,20 @@ module.exports = function(req, res, data, callback) {
 
 		var contextParts = [[],[]];
 
-		contextDataDecorated.forEach(function(park, i) {
+		if(!req.params.format) {
+			contextDataDecorated.forEach(function(park, i) {
 
-			if (i < 40) {
-				contextParts[0].push(park);
-			} else {
-				contextParts[1].push(park);
-			}
+				if (i < 40) {
+					contextParts[0].push(park);
+				} else {
+					contextParts[1].push(park);
+				}
 
-		});
+			});
+		} else {
+			contextParts = [contextDataDecorated,[]];
+		}
+		
 
 		if (data.context !== 'biggest-to-smallest') {
 			sorts['biggest-to-smallest'] = 'park size';

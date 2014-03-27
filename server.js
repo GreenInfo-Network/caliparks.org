@@ -218,20 +218,6 @@ app.get('/parks/', function(req,res) {
 
 });
 
-app.get('/parks/:context', function(req,res) {
-
-	require('./controllers/parks.js')(req, res, {
-		context : req.params.context
-	}, function(err, templateData) {
-
-		templateData.layout = 'photo-back';
-
-		res.render('parks', templateData);
-
-	});
-
-});
-
 app.get('/parks/:context/:query:format(\.\\D+$)', function(req,res) {
 
 	require('./controllers/parks.js')(req, res, {
@@ -249,7 +235,7 @@ app.get('/parks/:context/:query:format(\.\\D+$)', function(req,res) {
 
 });
 
-app.get('/parks/:context:format(\.\\D+$)', function(req,res) {
+app.get('/parks/:context(\\D+):format(\.\\D+$)', function(req,res) {
 
 	require('./controllers/parks.js')(req, res, {
 		context : req.params.context,
@@ -260,6 +246,20 @@ app.get('/parks/:context:format(\.\\D+$)', function(req,res) {
 			'parks',
 			'total'
 		]);
+
+	});
+
+});
+
+app.get('/parks/:context', function(req,res) {
+
+	require('./controllers/parks.js')(req, res, {
+		context : req.params.context
+	}, function(err, templateData) {
+
+		templateData.layout = 'photo-back';
+
+		res.render('parks', templateData);
 
 	});
 
