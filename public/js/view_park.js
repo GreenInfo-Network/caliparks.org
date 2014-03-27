@@ -161,7 +161,7 @@
         social_nav_template = '<a href="/park/{su_id}">#{hashtag}</a>';
     function processSocialNavItem(network, property, r) {
         
-      if (r.responseJSON.response) {
+      if (r.responseJSON && r.responseJSON.response) {
         social_nav_data[property] = r.responseJSON.response.parks;
 
         r.responseJSON.response.parks.forEach(function(p, i, array) {
@@ -183,19 +183,19 @@
 
     if (data.socialNav) {
 
-      $.ajax('http://local.studio.stamen.com:5000/parks/most-flickr-photos.json', {complete:function(r) {
+      $.ajax('http://api.parks.stamen.com/parks/most-flickr-photos.json', {complete:function(r) {
 
         processSocialNavItem('flickr','flickr', r);
 
-        $.ajax('http://local.studio.stamen.com:5000/parks/most-instagram-photos.json', {complete:function(r) {
+        $.ajax('http://api.parks.stamen.com/parks/most-instagram-photos.json', {complete:function(r) {
 
           processSocialNavItem('instagram', 'instagram', r);
 
-          $.ajax('http://local.studio.stamen.com:5000/parks/most-checkins.json', {complete:function(r) {
+          $.ajax('http://api.parks.stamen.com/parks/most-checkins.json', {complete:function(r) {
 
             processSocialNavItem('foursquare', 'checkins', r);
 
-            $.ajax('http://local.studio.stamen.com:5000/parks/most-tweets.json', {complete:function(r) {
+            $.ajax('http://api.parks.stamen.com/parks/most-tweets.json', {complete:function(r) {
 
               processSocialNavItem('twitter', 'tweets', r);
 
