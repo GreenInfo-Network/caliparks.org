@@ -208,6 +208,40 @@
       }});
 
     }
+
+    if (data.contentColumns) {
+      new contentColumns(data.contentColumns);
+    }
+  }
+
+  function contentColumns(rootSelector) {
+    var contentColumnContainer = document.querySelector(rootSelector),
+        alphadog               = contentColumnContainer.querySelector('.alphadog'),
+        friend                 = contentColumnContainer.querySelector('.friend'),
+        holder;
+
+    function heightCheck() {
+      if(alphadog.offsetHeight > friend.offsetHeight) {
+        friend.style.height = Math.max(alphadog.offsetHeight, '670') + 'px';
+      }
+    }
+
+    heightCheck();
+
+    $(alphadog).bind('DOMSubtreeModified', function() {
+
+      if (!holder) {
+
+        holder = true;
+
+        setTimeout(function() {
+          heightCheck();
+          holder = null;
+        }, 250);
+
+      }
+
+    });
   }
 
   function SetUpCaousel(rootSelector) {

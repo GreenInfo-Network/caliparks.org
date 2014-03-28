@@ -132,7 +132,7 @@ body.openspaces header {
   height: 20px;
   position: relative;
   line-height: 16px;
-  width: 940px;
+  width: 938px;
   margin: 0 auto;
   max-width: 1602px;
   background-color: #453420;
@@ -159,7 +159,7 @@ body.openspaces footer {
   height: 126px;
   position: relative;
   line-height: 24px;
-  width: 940px;
+  width: 938px;
   margin: 0 auto;
   font-weight: 300; }
 
@@ -286,10 +286,8 @@ body.openspaces .has-coverphoto #california_shape {
 /* Instagram photos */
 body.openspaces .main-content #instagram-photos {
   display: inline-block;
-  width: 520px;
+  width: 512px;
   vertical-align: top;
-  margin-left: 17px;
-  margin-bottom: 40px;
   text-align: right; }
 
 body.openspaces .main-content #instagram-photos .instagram-photo {
@@ -297,8 +295,15 @@ body.openspaces .main-content #instagram-photos .instagram-photo {
 
 body.openspaces .main-content #instagram-photos h2 {
   text-align: left;
-  margin-left: 8px;
-  margin-top: 13px; }
+  margin-bottom: 10px; }
+
+body.openspaces .main-content #instagram-photos button {
+  line-height: 30px;
+  padding-top: 0;
+  margin-top: 0; }
+
+body.openspaces .main-content #instagram-photos h2 a {
+  line-height: 30px; }
 
 body.openspaces .main-content #instagram-photos image {
   margin: 0;
@@ -312,9 +317,12 @@ body.openspaces button.show-more {
   display: block;
   text-align: center;
   font-size: 18px !important;
-  margin: 015px auto;
+  margin: 15px auto 0 auto;
   width: 100%;
   cursor: pointer; }
+
+body.openspaces .has-instagram-photos.has-tweets #tweets {
+  margin-top: 40px; }
 
 /* search */
 body.openspaces header #search {
@@ -540,39 +548,46 @@ body.openspaces section.extended-navigation {
 /* Tweets */
 body.openspaces #tweets {
   display: inline-block;
-  width: 508px;
+  width: 512px;
   display: inline-block;
   vertical-align: top;
   margin-left: 20px;
   border-radius: 4px;
-  padding: 10px;
   margin-left: 0px; }
 
 #tweets ul li {
-  margin: 5px 0 10px 0; }
+  margin: 5px 0 0 0; }
 
-body.openspaces .has-instagram-photos #tweets {
-  margin-left: 423px;
-  vertical-align: top; }
+#tweets .footer {
+  padding-bottom: 9px; }
 
-body.openspaces .has-instagram-photos.has-foursquare #tweets {
-  margin-left: 14px;
-  vertical-align: top; }
+#tweets .show-more {
+  margin-top: 10px; }
 
 /* Foursquare Stats */
 body.openspaces #foursquare-stats {
-  display: inline-block;
+  display: none;
   width: 400px;
   vertical-align: top; }
 
-body.openspaces .has-instagram-photos.has-tweets #foursquare-stats {
-  vertical-align: bottom; }
+body.openspaces .main-content .has-instagram-photos.has-tweets #foursquare-stats,
+body.openspaces .main-content .has-instagram-photos #foursquare-stats,
+body.openspaces .main-content .has-tweets #foursquare-stats {
+  display: inline-block; }
+
+body.openspaces .main-content .alphadog #foursquare-stats {
+  position: relative;
+  display: inline-block;
+  margin-left: 20px;
+  margin-left: 184px; }
+
+body.openspaces #foursquare-stats h2 {
+  margin-bottom: 10px; }
 
 body.openspaces #park-template-wrapper h2, body.openspaces #foursquare-stats table, tfoot {
   color: #9a7922;
   font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 20px; }
+  font-weight: 600; }
 
 body.openspaces #park-template-wrapper h2 span {
   font-size: 12px;
@@ -597,7 +612,9 @@ body.openspaces #foursquare-stats table tbody {
 body.openspaces #foursquare-stats table tfoot td {
   text-transform: uppercase;
   text-align: center;
-  font-size: 18px; }
+  font-size: 18px;
+  line-height: 14px;
+  padding-top: 10px; }
 
 /* Park info */
 body.openspaces #park-info {
@@ -727,9 +744,7 @@ body.openspaces .social-forward-arrow {
   display: inline-block;
   height: 14px; }
 
-@media (max-width: 1230px) {
-  body.openspaces #tweets {
-    width: 40vw; } }
+/* move to two */
 @media (min-width: 1550px) {
   body.openspaces.photo-back-template .photo-back-content {
     width: 1600px; } }

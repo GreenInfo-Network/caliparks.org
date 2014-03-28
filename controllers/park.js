@@ -209,6 +209,7 @@ module.exports = function(req, res, data, callback) {
                     tweets_queue_count     : tweetsPostload.length,
                     tweet_count            : tweetsult.rows.length,
                     tweeter_count          : Object.keys(tweeter_count).length,
+                    empty_right_column     : !(tweetsult.rows.length > 0) && !instasult.rows.length,
                     has_tweets             : (tweetsult.rows.length > 0),
                     has_instagram_photos   : (instasult.rows.length > 0),
                     top_instagram_photos   : instagramPreload,

@@ -101,7 +101,7 @@ body.openspaces header {
   height:20px;
   position:relative;
   line-height: 16px;
-  width: 940px;
+  width: 938px;
   margin: 0 auto;
   max-width: 1602px;
   background-color: $brown;
@@ -133,7 +133,7 @@ body.openspaces footer {
   height:126px;
   position:relative;
   line-height: $base-line-height;
-  width: 940px;
+  width: 938px;
   margin: 0 auto;
   font-weight: $base-font-weight;
 }
@@ -275,10 +275,8 @@ body.openspaces .has-coverphoto #california_shape {
 /* Instagram photos */
 body.openspaces .main-content #instagram-photos  {
   display: inline-block;
-  width: 520px;
+  width: 512px;
   vertical-align: top;
-  margin-left: 17px; 
-  margin-bottom: 40px;
   text-align: right;
 }
 
@@ -288,8 +286,17 @@ body.openspaces .main-content #instagram-photos .instagram-photo {
 
 body.openspaces .main-content #instagram-photos h2 {
   text-align: left;
-  margin-left: 8px;
-  margin-top: 13px;
+  margin-bottom: 10px;
+}
+
+body.openspaces .main-content #instagram-photos button {
+  line-height: 30px;
+  padding-top:0;
+  margin-top:0;
+}
+
+body.openspaces .main-content #instagram-photos h2 a {
+  line-height: 30px;
 }
 
 body.openspaces .main-content #instagram-photos image {
@@ -305,9 +312,13 @@ body.openspaces button.show-more {
   display:block;
   text-align: center;
   font-size: $base-font-size !important;
-  margin: 015px auto;
+  margin: 15px auto 0 auto;
   width:100%;
   cursor:pointer;
+}
+
+body.openspaces .has-instagram-photos.has-tweets #tweets {
+  margin-top:40px;
 }
 
 /* search */
@@ -558,12 +569,11 @@ body.openspaces section.extended-navigation {
 /* Tweets */
 body.openspaces #tweets {
   display:inline-block;
-  width: 508px;
+  width: 512px;
   display: inline-block;
   vertical-align: top;
   margin-left: 20px;
   border-radius: 4px;
-  padding: 10px;
   margin-left: 0px;
 }
 
@@ -572,28 +582,39 @@ body.openspaces #tweets ul {
 }
 
 #tweets ul li {
-  margin:5px 0 10px 0;
+  margin:5px 0 0 0;
 }
 
-body.openspaces .has-instagram-photos #tweets {
-  margin-left: 423px;
-  vertical-align: top;
+#tweets .footer {
+  padding-bottom: 9px;
 }
 
-body.openspaces .has-instagram-photos.has-foursquare #tweets {
-  margin-left: 14px;
-  vertical-align: top;
+#tweets .show-more {
+  margin-top:10px;
 }
 
 /* Foursquare Stats */
 body.openspaces #foursquare-stats {
-  display:inline-block;
+  display:none;
   width:400px;
   vertical-align: top;
 }
 
-body.openspaces .has-instagram-photos.has-tweets #foursquare-stats {
-  vertical-align: bottom;
+body.openspaces .main-content .has-instagram-photos.has-tweets #foursquare-stats,
+body.openspaces .main-content .has-instagram-photos #foursquare-stats,
+body.openspaces .main-content .has-tweets #foursquare-stats {
+  display: inline-block;
+}
+
+body.openspaces .main-content .alphadog #foursquare-stats {
+  position:relative;
+  display: inline-block;
+  margin-left:20px;
+  margin-left: 184px;
+}
+
+body.openspaces #foursquare-stats h2 {
+  margin-bottom: 10px;
 }
 
 
@@ -601,7 +622,6 @@ body.openspaces #park-template-wrapper h2, body.openspaces #foursquare-stats tab
   color: $gold;
   font-size: $base-font-size;
   font-weight: $bold-font-weight;
-  margin-bottom: 20px;
 }
 
 body.openspaces #park-template-wrapper h2 span {
@@ -632,6 +652,8 @@ body.openspaces #foursquare-stats table tfoot td {
   text-transform: uppercase;
   text-align: center;
   font-size:$base-font-size;
+  line-height: 14px;
+  padding-top: 10px;
 }
 
 /* Park info */
@@ -679,115 +701,110 @@ body.openspaces #park-shape .scale-area .scale-bar {
 /* Social Nav */
 
 body.openspaces #social-nav-container {
-    font-size: 12px;
-    margin-left: 64px;
-  }
-
-  body.openspaces .social-nav-main-hashtag {
-    color: white;
-    background-color: #301f0d;
-    font-family: "cooper-black-std", sans-serif;
-    font-size: 18px;
-    line-height: 30px;
-    display:inline-block;
-    padding:0 5px;
-    margin-bottom: 23px;
-  }
-
-  body.openspaces .social-nav-item div {
-    display:inline-block;
-  }
-
-  body.openspaces .hashtag-back a {
-    text-decoration:none;
-    color:white !important;
-  }
-
-  body.openspaces .hashtag-forward, .hashtag-back {
-    color: white;
-    background-color: #301f0d;
-    font-family: "cooper-black-std", sans-serif;
-    font-size: 12px;
-    display:inline-block;
-    width: 51px;
-    padding: 0px 6px 6px 6px;
-    height: 16px;
-    line-height: 2;
-    text-align: center;
-    vertical-align: middle;
-  }
-
-  body.openspaces .hashtag-forward a {
-    text-decoration:none;
-    color:white !important;
-  }
-
-  body.openspaces .social-nav-item {
-    display:inline-block;
-    vertical-align: middle;
-    margin-bottom: 12px;
-  }
-
-  body.openspaces .social-nav-item div.which-network {
-    color:#9a7825;
-    font-size:12px;
-    line-height: 23px;
-    whitespace:pre;
-    display:block;
-  }
-
-  body.openspaces .network-totals {
-    color: white;
-    height: 14px;
-    line-height: 16px;
-    font-size: 12px;
-    padding: 4px;
-    margin: 0;
-    overflow:hidden;
-    vertical-align: middle;
-  }
-
-  body.openspaces .social-nav-flickr .network-totals {
-    background-color:#ff0084;
-    width:177px;
-  }
-
-  body.openspaces .social-nav-instagram .network-totals {
-    background-color:#4877a0;
-    width: 182px;
-  }
-
-  body.openspaces .social-nav-foursquare .network-totals {
-    background-color:#66c100;
-    width: 191px;
-  }
-
-  body.openspaces .social-nav-twitter .network-totals {
-    background-color:#00b6f1;
-    width: 195px;
-  }
-
-  body.openspaces .social-back-arrow {
-    background-image: url('/style/social-nav-arrow-back.png');
-    background-repeat:no-repeat;
-    width:24px;
-    display:inline-block;
-    height: 14px;
-  }
-  body.openspaces .social-forward-arrow {
-    background-image: url('/style/social-nav-arrow-forward.png');
-    background-repeat:no-repeat;
-    width:24px;
-    display:inline-block;
-    height: 14px;
-  }
-
-
-@media (max-width: 1230px) {
-  body.openspaces #tweets {
-    width: 40vw;
-  }
+  font-size: 12px;
+  margin-left: 64px;
 }
+
+body.openspaces .social-nav-main-hashtag {
+  color: white;
+  background-color: #301f0d;
+  font-family: "cooper-black-std", sans-serif;
+  font-size: 18px;
+  line-height: 30px;
+  display:inline-block;
+  padding:0 5px;
+  margin-bottom: 23px;
+}
+
+body.openspaces .social-nav-item div {
+  display:inline-block;
+}
+
+body.openspaces .hashtag-back a {
+  text-decoration:none;
+  color:white !important;
+}
+
+body.openspaces .hashtag-forward, .hashtag-back {
+  color: white;
+  background-color: #301f0d;
+  font-family: "cooper-black-std", sans-serif;
+  font-size: 12px;
+  display:inline-block;
+  width: 51px;
+  padding: 0px 6px 6px 6px;
+  height: 16px;
+  line-height: 2;
+  text-align: center;
+  vertical-align: middle;
+}
+
+body.openspaces .hashtag-forward a {
+  text-decoration:none;
+  color:white !important;
+}
+
+body.openspaces .social-nav-item {
+  display:inline-block;
+  vertical-align: middle;
+  margin-bottom: 12px;
+}
+
+body.openspaces .social-nav-item div.which-network {
+  color:#9a7825;
+  font-size:12px;
+  line-height: 23px;
+  whitespace:pre;
+  display:block;
+}
+
+body.openspaces .network-totals {
+  color: white;
+  height: 14px;
+  line-height: 16px;
+  font-size: 12px;
+  padding: 4px;
+  margin: 0;
+  overflow:hidden;
+  vertical-align: middle;
+}
+
+body.openspaces .social-nav-flickr .network-totals {
+  background-color:#ff0084;
+  width:177px;
+}
+
+body.openspaces .social-nav-instagram .network-totals {
+  background-color:#4877a0;
+  width: 182px;
+}
+
+body.openspaces .social-nav-foursquare .network-totals {
+  background-color:#66c100;
+  width: 191px;
+}
+
+body.openspaces .social-nav-twitter .network-totals {
+  background-color:#00b6f1;
+  width: 195px;
+}
+
+body.openspaces .social-back-arrow {
+  background-image: url('/style/social-nav-arrow-back.png');
+  background-repeat:no-repeat;
+  width:24px;
+  display:inline-block;
+  height: 14px;
+}
+body.openspaces .social-forward-arrow {
+  background-image: url('/style/social-nav-arrow-forward.png');
+  background-repeat:no-repeat;
+  width:24px;
+  display:inline-block;
+  height: 14px;
+}
+
+/* move to two */
 
 @media (min-width: 1550px) {
   body.openspaces.photo-back-template .photo-back-content {
