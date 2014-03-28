@@ -142,13 +142,16 @@ function createLatLngArray() {
         for (var y=yMin; y < yMax; y += cellSize) {
           var queryX = Math.round(x/cellSize) * cellSize;
           var queryY = Math.round(y/cellSize) * cellSize;
+          var queryY2 = queryY+cellSize;
+          var queryX2 = queryX+cellSize;
+          var bbox = [[queryY,queryX],[queryY2,queryX2]];
           // test box with parks
           console.log("testing bbox intersection, y:", queryY, "x:", queryX);
-          testBboxIntersectionWithParks(client, [[queryY,queryX],[queryY+cellSize,queryX+cellSize]], null, function(err, result) {
+          testBboxIntersectionWithParks(client, bbox, null, function(err, bbox, result) {
             if (result && result.length > 0) {
 
-              console.log("bbox y:", queryY, "x:", queryX, "hit", result.length, "parks:", result.join(","));
-              saveLatLngArrayResult(client,queryY,queryX,queryY+cellSize,queryX+cellSize,result);
+              console.log("bbox y:", bbox[0][0], "x:", bbox[0][1], "hit", result.length, "parks:", result.join(","));
+              saveLatLngArrayResult(client,bbox[0][0],bbox[0][1],bbox[1][0],bbox[1][1],result);
             } 
             if (i % 100 == 0) console.log("done", i, "of", totalCount);
             i++;
@@ -849,7 +852,7 @@ function foursquareRecursionQueueTask(err, client, sw, ne, polygon, park, depth,
 
       bboxes.forEach(function(bbox) {
         // Test each new bbox against the extent of the original polygon
-        testBboxIntersectionWithParks(client, bbox, park, function(err, result) {
+        testBboxIntersectionWithParks(client, bbox, park, function(err, bbox, result) {
           if (result && result.length > 0) {
 
             var nextDepth = depth + 1;
@@ -1077,7 +1080,7 @@ var testBboxIntersectionWithParks = function(client, bbox, parks, callback) {
     }
     var result = res.rows.map(function(row) { return row.su_id; });
     // client.end();
-     callback(null, result);
+    callback(null, bbox, result);
   });
 };
 
