@@ -187,7 +187,7 @@ module.exports = function(req, res, data, callback) {
 
 
                   callback( null, {
-                    appTitle         : 'Stamen Parks: California > ' + result.rows[0].unit_name,
+                    appTitle         : 'California Open Spaces > ' + result.rows[0].unit_name,
                     park_id          : result.rows[0].su_id,
                     name             : result.rows[0].unit_name,
                     agency_slug      : result.rows[0].agncy_name.split(' ').join('+').split(',')[0],

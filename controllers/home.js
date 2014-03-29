@@ -106,7 +106,7 @@ module.exports = function(req, res, data, callback) {
           var mostCheckins      = splitItems(contextDataMostCheckins.parks);
 
           return callback(null, {
-            appTitle               : 'Stamen Parks',
+            appTitle               : 'California Open Spaces',
             parks                  : biggestToSmallest[0],
             parksQueue             : JSON.stringify(biggestToSmallest[1]),
             most_photographed      : mostPhotographed[0],

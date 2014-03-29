@@ -67,7 +67,7 @@ dataFormatResponders['*'] = function dataFormatResponder404(res, data, format, w
 				ownername:'Grand Canyon NPS',
 				owner:'grand_canyon_nps'
 			},
-			appTitle : 'Stamen Parks: #BZZT'
+			appTitle : 'California Open Spaces: #BZZT'
 	});
 }
 
@@ -90,7 +90,7 @@ function go404(req,res) {
 				ownername:'Grand Canyon NPS',
 				owner:'grand_canyon_nps'
 			},
-			appTitle : 'Stamen Parks: #BZZT',
+			appTitle : 'California Open Spaces: #BZZT',
 			suggestion : suggestion
 		});
 	}
@@ -150,7 +150,7 @@ app.get('/', function(req,res) {
 app.get('/about', function(req,res) {
 
 	res.render('about', {
-		appTitle : 'Stamen Parks: About',
+		appTitle : 'California Open Spaces: About',
 		layout   : 'photo-back'
 	});
 

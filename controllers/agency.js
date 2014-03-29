@@ -23,7 +23,7 @@ module.exports = function(req, res, data, callback) {
 			agency_name_parts = result.rows[0].agncy_name.split(',');
 
 			callback(null, {
-				appTitle : 'Stamen Parks: California > Parks within ' + (agency_name_parts.length > 1 ? agency_name_parts[1] + ' ' + agency_name_parts[0] : agency_name_parts[0]),
+				appTitle : 'California Open Spaces > Parks within ' + (agency_name_parts.length > 1 ? agency_name_parts[1] + ' ' + agency_name_parts[0] : agency_name_parts[0]),
 			 	name     : result.rows[0].agncy_name,
 			 	parks    : result.rows
 			});

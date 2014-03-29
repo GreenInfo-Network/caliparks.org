@@ -19,7 +19,7 @@ module.exports = function(req, res, data, callback) {
 			}
 
 			callback(null, {
-				app_title : 'Stamen Parks',
+				app_title : 'California Open Spaces',
 			 	agencies  : result.rows
 			});
 
