@@ -258,6 +258,8 @@ defineElementGetter(Element.prototype, 'classList', function () {
 
     if (l[event]) {
       l[event].forEach(function(subscription) {
+
+        console.log('fire function', subscription[1]);
         scope = subscription[2] || scope;
         subscription[1](eventFacade);
       });

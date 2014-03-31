@@ -253,40 +253,40 @@
       snapToSlide : true,
       showLoader: true
     });
-    this.rootElement = document.querySelector(rootSelector).parentNode;
-    this.backElement = this.rootElement.parentNode.querySelector('.carousel-back-button');
+    this.rootElement = document.querySelector(rootSelector);
+    this.backElement = this.rootElement.parentNode.parentNode.querySelector('.carousel-back-button');
     this.backElement.addEventListener('click', function() {
       that.instance.goBackward();
     }, false);
     this.instance.on('forward', function(e) {
 
       if (e.target.scrollLeft > (e.target.scrollWidth-(e.target.offsetWidth+e.target.offsetWidth/2))) {
-        that.rootElement.classList.add('scrolled-furthest');
+        that.rootElement.parentNode.parentNode.classList.add('scrolled-furthest');
       } else {
-        that.rootElement.classList.remove('scrolled-furthest');
+        that.rootElement.parentNode.parentNode.classList.remove('scrolled-furthest');
       }
 
       if (e.target.scrollLeft < (e.target.offsetWidth/2)) {
-        that.rootElement.classList.add('not-scrolled');
+        that.rootElement.parentNode.parentNode.classList.add('not-scrolled');
       } else {
-        that.rootElement.classList.remove('not-scrolled');
+        that.rootElement.parentNode.parentNode.classList.remove('not-scrolled');
       }
     });
     this.instance.on('backward', function(e) {
 
       if (e.target.scrollLeft > (e.target.scrollWidth-(e.target.offsetWidth+e.target.offsetWidth/2))) {
-        that.rootElement.classList.add('scrolled-furthest');
+        that.rootElement.parentNode.parentNode.classList.add('scrolled-furthest');
       } else {
-        that.rootElement.classList.remove('scrolled-furthest');
+        that.rootElement.parentNode.parentNode.classList.remove('scrolled-furthest');
       }
 
       if (e.target.scrollLeft < (e.target.offsetWidth/2)) {
-        that.rootElement.classList.add('not-scrolled');
+        that.rootElement.parentNode.parentNode.classList.add('not-scrolled');
       } else {
-        that.rootElement.classList.remove('not-scrolled');
+        that.rootElement.parentNode.parentNode.classList.remove('not-scrolled');
       }
     });
-    this.forwardElement = this.rootElement.parentNode.querySelector('.carousel-forward-button');
+    this.forwardElement = this.rootElement.parentNode.parentNode.querySelector('.carousel-forward-button');
     this.forwardElement.addEventListener('click', function() {
       that.instance.goForward();
     }, false);
