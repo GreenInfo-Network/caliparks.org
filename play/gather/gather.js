@@ -208,15 +208,31 @@ function createInstagramArray(callback) {
           xMax = +neArray[1];
       console.log("bounds:", yMin, xMin, yMax, xMax);
 
-      var totalCount = ((xMax-xMin)/radius) * ((yMax-yMin)/radius)
+      // Using a hexagonal layout algorithm...
+      // X spacing is 2 * cos(PI/6) * radius
+      // Y spacing is 1.5 * radius
+      // Every other row is offset by cos(PI/6) * radius  
+      var xSpacing = 2 * Math.cos(Math.PI/6) * radius;
+      var ySpacing = 1.5 * radius;
+      var rowOffset = Math.cos(Math.PI/6) * radius;
+
+
+      var totalCount = Math.floor((xMax-xMin)/xSpacing) * Math.floor((yMax-yMin)/ySpacing)
       var i = 1;
+      var row = 0;
       console.log("testing", totalCount, "circles");
-      for (var x=xMin; x < xMax; x += radius) {
-        for (var y=yMin; y < yMax; y += radius) {
+      for (var y=yMin; y < yMax; y += ySpacing, row++) {
+        //console.log("y", y);
+        for (var x = row % 2 ? xMin+rowOffset : xMin; x < xMax; x += xSpacing) {
+          //console.log("row", row, "x", x, "y", y);
+          //if (row % 2) { x += rowOffset; } // odd numbered rows will be offset
           var queryX = x;
           var queryY = y;
           testProjectedCircleIntersectionWithParks(client, queryX, queryY, radius, null, function(err, queryX, queryY, radius, result) {
-            //console.log("testing circle intersection, y:", queryY, "x:", queryX, radius);
+            if (err) {
+              console.log("error of some kind", err);
+            }
+            console.log("testing circle intersection, y:", queryY, "x:", queryX, radius);
             if (result && result.length > 0) {
               projectedCoordsToLatLng(client, queryY, queryX, function(err, latlng) {
                 var latMid = latlng[0];
@@ -1129,6 +1145,7 @@ var testProjectedCircleIntersectionWithParks = function(client, centerX, centerY
   }
   query += " ST_Intersects(ST_Buffer(ST_SetSRID(ST_MakePoint(" + centerX + "," + centerY + "),3310)," + radius + "),st_transform(geom,3310))";
 
+  console.log("testProjectedCircle", query);
   return client.query(query, function(err, res) {
     if (err) {
       //throw err;
@@ -1139,6 +1156,7 @@ var testProjectedCircleIntersectionWithParks = function(client, centerX, centerY
     //var result = res.rows;
     var result = res.rows.map(function(row) { return row.su_id; });
     // client.end();
+    console.log("testProjectedCircle", result);
     return callback(null, centerX, centerY, radius, result);
   });
 };
