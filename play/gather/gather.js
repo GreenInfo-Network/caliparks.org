@@ -24,8 +24,8 @@ var startPostgresClient = function(callback) {
     password: "",
     database: "openspaces",
     //database: "ggnpc",
-    host: "localhost",
-    //host: "geo.local",
+    //host: "localhost",
+    host: "geo.local",
     port: 5432
   });
   client.connect();
@@ -103,7 +103,7 @@ function saveInstagramHarvesterResults(client, metadata_id, photos, park) {
   // return nothing?
 }
 
-function createLatLngArray() {
+function createLatLngArray(callback) {
   return startPostgresClient(function(err, client) {
     var cellSize = 0.1; // In decimal degrees
 
@@ -158,6 +158,8 @@ function createLatLngArray() {
           });
         }
       }
+      console.log("done", i, "of", totalCount);
+      callback();
     });
   });
 }
@@ -177,7 +179,7 @@ var saveLatLngArrayResult = function(client, latMin, lngMin, latMax, lngMax, par
   // return nothing?
 };
 
-function createInstagramArray() {
+function createInstagramArray(callback) {
   return startPostgresClient(function(err, client) {
 
     var radius = 5000; // Instagram maximum radius allowed in metres
@@ -231,6 +233,8 @@ function createInstagramArray() {
           });
         }
       }
+      console.log("done", i, "of", totalCount);
+      callback();
     });
   });
 }
@@ -550,6 +554,22 @@ var getFlickrPhotosForPark = function(client, park, callback) {
   // });
 };
 
+var getFlickrPhotosForBbox = function(client, latMin, lngMin, latMax, lngMax, callback) {
+  // Need to reorder the lat/lng to match expected format of bbox
+  return getFlickrData([lngMin,latMin,lngMax,latMax].join(","), function(err, photos, pages) {
+/*
+    var bboxArray = bbox.split(",");
+    var lngMin = bboxArray[0],
+        latMin = bboxArray[1],
+        lngMax = bboxArray[2],
+        latMax = bboxArray[3];
+*/
+    var metadata_id = saveFlickrHarvesterMetadata(client, null, latMin, lngMin, latMax, lngMax, new Date(), photos.length, pages);
+    saveFlickrHarvesterResults(client, metadata_id, photos, null);
+    return callback(null, photos, pages);  // everything finished
+  });
+};
+
 var saveFlickrHarvesterMetadata = function(client, park_id, latMin, lngMin, latMax, lngMax, timestamp, count, pages) {
   var query = "insert into flickr_metadata (su_id, latmin, lngmin, latmax, lngmax, date, count, pages, the_geom) values ($1, $2, $3, $4, $5, $6, $7, $8, ST_MakeEnvelope($3,$2,$5,$4,4326))";
   return client.query(query, [park_id, latMin, lngMin, latMax, lngMax, timestamp, count, pages], function(err, res) {
@@ -567,6 +587,10 @@ var saveFlickrHarvesterMetadata = function(client, park_id, latMin, lngMin, latM
 
 var saveFlickrHarvesterResults = function(client, metadata_id, photos, park) {
   var query = "INSERT INTO flickr_photos (photoid, owner, secret, server, farm, title, latitude, longitude, accuracy, context, place_id, woeid, tags, dateupload, datetaken, ownername, description, license, o_width, o_height, url_l, height_l, width_l, harvested_park_id, harvested_park_name, the_geom) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, ST_SetSRID(ST_MakePoint($8, $7), 4326))";
+
+  if (!park) {
+    park = { id: null, name: null };
+  }
 
   photos.forEach(function(photo) {
     if (photo) {
@@ -1190,11 +1214,7 @@ var getVenuesDataFromPostgres = function(client, limit, only_needing_update, cal
   });
 };
 
-var getParksDataFromPostgres = function(client, limit, socialMediaType, callback) {
-  if (arguments.length < 3) {
-    callback = arguments[arguments.length-1];
-    limit = 500;
-  }
+var getParksDataFromPostgres = function(client, socialMediaType, callback) {
   //var query = ["select su_id as id, unit_name as name, gis_acres as size from ", cpad_table, " ", 
   //              "where unit_name like '%Guadalupe River Park%' order by size desc limit " + limit].join("");
   // Ignore the limit
@@ -1241,14 +1261,43 @@ var getParksDataFromPostgres = function(client, limit, socialMediaType, callback
   });
 };
 
-var getInstagramPhotosForAllParks = function() {
+var getGridCellsFromPostgres = function(client, callback) {
+  var query = "select distinct latmin, lngmin, latmax, lngmax from latlng_array order by latmin, lngmin, latmax, lngmax";
+
+  client.query(query, function(err, res) {
+    if (err) {
+      throw err;
+    }
+    console.log("got", res.rows.length, "grid cells from database that need harvesting");
+    var cells = res.rows;
+    callback(null, cells);
+  });
+};
+
+var getInstagramPhotosForAllParks = function(callback) {
   return startPostgresClient(function(err, client) {
-    return getParksDataFromPostgres(client, 250, "instagram", function(err, parks) {
+    return getParksDataFromPostgres(client, "instagram", function(err, parks) {
       async.eachLimit(parks, 1, function(park, next) {
         getInstagramPhotosForPark(client, park, next);
       }, function() { 
         console.log("[*] done!");
-        //client.end();  // Remove this because I'm accidentally calling this too early
+        callback();
+      });
+    });
+  });
+};
+
+var getFlickrPhotosForAllGridCells = function(callback) {
+  return startPostgresClient(function(err, client) {
+    return getGridCellsFromPostgres(client, function(err, cells) {
+      async.eachLimit(cells, 1, function(cell, next) {
+        getFlickrPhotosForBbox(client, cell.latmin, cell.lngmin, cell.latmax, cell.lngmax, function(err, media, pages) {
+          console.log("[*] got", media.length, "photos for ", cell.latmin, cell.lngmin, cell.latmax, cell.lngmax, "after", pages, "page(s)");
+          next();
+        });
+      }, function() { 
+        console.log("[*] done!");
+        callback();
       });
     });
   });
@@ -1256,7 +1305,7 @@ var getInstagramPhotosForAllParks = function() {
 
 var getFlickrPhotosForAllParks = function() {
   return startPostgresClient(function(err, client) {
-    return getParksDataFromPostgres(client, 250, "flickr", function(err, parks) {
+    return getParksDataFromPostgres(client, "flickr", function(err, parks) {
       async.eachLimit(parks, 1, function(park, next) {
         getFlickrPhotosForPark(client, park, function(err, media, pages) {
           console.log("[*] got", media.length, "photos for", park.id, park.name, "after", pages, "page(s)");
@@ -1264,13 +1313,13 @@ var getFlickrPhotosForAllParks = function() {
         });
       }, function() { 
         console.log("[*] done!");
-        client.end(); 
+        //client.end(); 
       });
     });
   });
 };
 
-var getFullVenuesForAllVenues = function() {
+var getFullVenuesForAllVenues = function(callback) {
   return startPostgresClient(function(err, client) {
     return getVenuesDataFromPostgres(client, 5000, true, function(err, venues) {
       async.eachLimit(venues, 10, function(venue, next) {
@@ -1282,8 +1331,6 @@ var getFullVenuesForAllVenues = function() {
           }
         });
       }, function(err) {
-        // This is getting called before everything terminates... because of nested asyncs?
-        
         var total = existscount + nonzerocount + zerocount + undefcount;
         console.log("Already exist: " + existscount + " non-zero: " + nonzerocount + " zero: " + zerocount + " undef: " + undefcount + " total: " + total);
         if (err) {
@@ -1291,12 +1338,13 @@ var getFullVenuesForAllVenues = function() {
         } else {
           console.log("[*] done!");
         }
+        callback();
       });
     });
   });
 };
 
-var getNextVenuesForAllVenues = function() {
+var getNextVenuesForAllVenues = function(callback) {
   return startPostgresClient(function(err, client) {
     return getVenuesDataFromPostgres(client, 5000, false, function(err, venues) {
       async.eachLimit(venues, 10, function(venue, next) {
@@ -1334,14 +1382,15 @@ var getNextVenuesForAllVenues = function() {
         } else {
           console.log("[*] done!");
         }
+        callback();
       });
     });
   });
 };
 
-var getFoursquareVenuesForAllParks = function() {
+var getFoursquareVenuesForAllParks = function(callback) {
   return startPostgresClient(function(err, client) {
-    return getParksDataFromPostgres(client, 250, "foursquare", function(err, parks) {
+    return getParksDataFromPostgres(client, "foursquare", function(err, parks) {
       async.eachLimit(parks, 1, function(park, next) {
         getFoursquareVenuesForPark(client, park, function(err, venues) {
           if (venues) {
@@ -1356,7 +1405,7 @@ var getFoursquareVenuesForAllParks = function() {
         });
       }, function() { 
         console.log("[*] done!");
-        //client.end();
+        callback();
       });
     });
   });
@@ -1458,30 +1507,36 @@ var main = function() {
 
     lockFile.lock('gather_flickr.lock', function (err) {
       if (err) {
-	console.log("could not acquire lock for gather_flickr.lock");
+        console.log("could not acquire lock for gather_flickr.lock");
       } else {
-      	getFlickrPhotosForAllParks();
-        lockFile.unlock('gather_flickr.lock', function (err) {
-          if (err) console.log("couldn't unlock gather_flickr.lock")
-          else console.log("unlocked gather_flickr.lock")
+        getFlickrPhotosForAllGridCells(function() {
+          lockFile.unlock('gather_flickr.lock', function (err) {
+            if (err) console.log("couldn't unlock gather_flickr.lock")
+            else console.log("unlocked gather_flickr.lock")
+          });
+          process.exit();
         });
       }
     });
 
   } else if (argv.t == 'foursquare_venues') {
 
-    getFoursquareVenuesForAllParks();
+    getFoursquareVenuesForAllParks(function() {
+      process.exit();
+    });
 
   } else if (argv.t == 'foursquare_update') {
 
     lockFile.lock('gather_foursquare_update.lock', function (err) {
       if (err) {
-	console.log("could not acquire lock for gather_foursquare_update.lock");
+        console.log("could not acquire lock for gather_foursquare_update.lock");
       } else {
-        getFullVenuesForAllVenues();
-        lockFile.unlock('gather_foursquare_update.lock', function (err) {
-          if (err) console.log("couldn't unlock gather_foursquare_update.lock")
-          else console.log("unlocked gather_foursquare_update.lock")
+        getFullVenuesForAllVenues(function() {
+          lockFile.unlock('gather_foursquare_update.lock', function (err) {
+            if (err) console.log("couldn't unlock gather_foursquare_update.lock")
+            else console.log("unlocked gather_foursquare_update.lock")
+          });
+          process.exit();
         });
       }
     });
@@ -1499,24 +1554,26 @@ var main = function() {
 
     lockFile.lock('gather_instagram.lock', function (err) {
       if (err) {
-	console.log("could not acquire lock for gather_instagram.lock");
+        console.log("could not acquire lock for gather_instagram.lock");
       } else {
 
-        getInstagramPhotosForAllParks();
-        lockFile.unlock('gather_instagram.lock', function (err) {
-          if (err) console.log("couldn't unlock gather_instagram.lock")
-          else console.log("unlocked gather_instagram.lock")
+        getInstagramPhotosForAllParks(function() {
+          lockFile.unlock('gather_instagram.lock', function (err) {
+            if (err) console.log("couldn't unlock gather_instagram.lock")
+            else console.log("unlocked gather_instagram.lock")
+          });
+          process.exit()
         });
       }
     });
 
   } else if (argv.t == 'create_instagram_array') {
 
-    createInstagramArray();
+    createInstagramArray(function() { process.exit() });
 
   } else if (argv.t == 'create_latlng_array') {
 
-    createLatLngArray();
+    createLatLngArray(function() { process.exit() });
 
   } else {
     console.log(argv.t, "not understood");
