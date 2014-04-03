@@ -5,6 +5,7 @@ var async = require("async"),
     pg = require("pg"),
     request = require("request"),
     sleep = require("sleep"),
+    env = require("require-env"),
     jsts = require("jsts");
 
 var factory = new jsts.geom.GeometryFactory();
@@ -17,7 +18,7 @@ var zerocount = 0,
 
 var startPostgresClient = function(callback) {
   // postgres
-  var client = new pg.Client(process.env.DATABASE_URL);
+  var client = new pg.Client(env.require("DATABASE_URL"));
   client.connect();
   console.log("[*] connected to db");
   callback(null, client);
