@@ -16,9 +16,7 @@ var zerocount = 0,
     undefcount = 0,
     existscount = 0;
 
-var startPostgresClient = function(callback) {
-  // postgres
-  var client = new pg.Client({
+var connString = {
     user: "openspaces",
     //user: "ggnpc",
     password: "",
@@ -27,7 +25,11 @@ var startPostgresClient = function(callback) {
     //host: "localhost",
     host: "geo.local",
     port: 5432
-  });
+};
+
+var startPostgresClient = function(callback) {
+  // postgres
+  var client = new pg.Client(connString);
   client.connect();
   console.log("[*] connected to db");
   callback(null, client);
@@ -217,7 +219,7 @@ function createInstagramArray(callback) {
       var rowOffset = Math.cos(Math.PI/6) * radius;
 
 
-      var totalCount = Math.floor((xMax-xMin)/xSpacing) * Math.floor((yMax-yMin)/ySpacing)
+      var totalCount = (1+Math.floor((xMax-xMin)/xSpacing)) * (1+Math.floor((yMax-yMin)/ySpacing));
       var i = 1;
       var row = 0;
       console.log("testing", totalCount, "circles");
@@ -232,7 +234,7 @@ function createInstagramArray(callback) {
             if (err) {
               console.log("error of some kind", err);
             }
-            console.log("testing circle intersection, y:", queryY, "x:", queryX, radius);
+            console.log("testing circle intersection, y:", queryY, "x:", queryX, radius, result);
             if (result && result.length > 0) {
               projectedCoordsToLatLng(client, queryY, queryX, function(err, latlng) {
                 var latMid = latlng[0];
