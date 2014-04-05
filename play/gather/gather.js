@@ -272,71 +272,22 @@ var saveInstagramArrayResult = function(client, lat, lng, radius, park_ids) {
   // return nothing?
 };
 
-function getInstagramData(client, swProj, neProj, park, callback) {
+function getInstagramPhotosForCircles(client, circles, callback) {
 
   // Create a queue with a worker (that currently does nothing but call each task's callback)
   var q = async.queue(function (task, callback) {
     console.log('starting', task.name, task.centerX, task.centerY, task.radius);
     callback();
-  }, 1);  // TODO: increase this.
+  }, 10);  // TODO: increase this.
 
+  circles.forEach(function(circle) {  // Can be synchronous since we're firing of queue tasks
+    liveTaskCounter["circles"] = 1;
+    latLngToProjectedCoords(client, circle.lat, circle.lng, function(err, coords) {
+      q.push({name: "", centerX: coords[1], centerY: coords[0], radius: circle.radius}, instagramRecursionQueueTask(null, client, coords[0], coords[1], circle.radius, null, circle.parks, 1, q, callback));
 
-  var radius = 5000; // Instagram maximum radius allowed in metres
+    });
+  });
 
-  // Get park's projected bounds. Determine center 
-
-  //determine which circles to query to cover the given bbox, etc etc.
-
-  var swArray = swProj.split(","),
-      neArray = neProj.split(","),
-      yMin = +swArray[0],
-      xMin = +swArray[1],
-      yMax = +neArray[0],
-      xMax = +neArray[1];
-
-  var yMid = (yMin + yMax) / 2,
-      xMid = (xMin + xMax) / 2;
-
-  var xWidth = xMax - xMin;
-  var yWidth = yMax - yMin;
-
-  var a = xMax - xMid;
-  var b = yMax - yMid;
-  var c = Math.sqrt(Math.pow(a,2) + Math.pow(b,2));
-
-  if (c < radius) {
-    console.log("park", park.id, park.name, "has radius of", c, "which is smaller than the maximum", radius);
-    radius = c;
-
-    liveTaskCounter[park.id] = 1;
-    q.push({name: "park:" + park.id, centerX: xMid, centerY: yMid, radius: radius}, instagramRecursionQueueTask(null, client, yMid, xMid, radius, null, park, 1, q, callback));
-
-  } else {
-    console.log("park", park.id, park.name, "has radius of", c, "which is larger than the maximum", radius);
-    // Here we subdivide the park into individual circles.
-
-    liveTaskCounter[park.id] = 0;
-
-    console.log("creating array, xMin:", xMin, "xMax:", xMax, "yMin:", yMin, "yMax:", yMax, "grid width", xWidth/5000, "grid height", yWidth/5000);
-
-    var totalCount = ((xMax-xMin)/radius) * ((yMax-yMin)/radius)
-    var i = 1;
-    for (var x=xMin; x < xMax; x += radius) {
-      for (var y=yMin; y < yMax; y += radius) {
-        var queryX = x;
-        var queryY = y;
-
-        console.log("testing circle intersection, y:", y, "x:", x, radius, park.id);
-        testProjectedCircleIntersectionWithParks(client, queryX, queryY, radius, [park.id], function(err, queryX, queryY, radius, result) {
-
-          if (result && result.length > 0) {
-            liveTaskCounter[park.id] = liveTaskCounter[park.id] + 1;
-            q.push({name: "park:" + park.id + "(" + i++ + " of " + totalCount + ")", centerX: queryX, centerY: queryY, radius: radius}, instagramRecursionQueueTask(null, client, queryY, queryX, radius, null, park, 1, q, callback));
-          }
-        });
-      }
-    }
-  }
 }
 
 function queryInstagramAPI(lat, lng, radius, callback) {
@@ -421,7 +372,7 @@ function queryInstagramAPI(lat, lng, radius, callback) {
   });
 }
 
-function instagramRecursionQueueTask(err, client, y, x, radius, polygon, park, depth, q, callback) {
+function instagramRecursionQueueTask(err, client, y, x, radius, polygon, parks, depth, q, callback) {
   // This stuff should be moved into a task that can be added to a queue. 
 
   // Since we are using projected coordiantes, need to convert to latlng for Instagram API
@@ -443,40 +394,71 @@ function instagramRecursionQueueTask(err, client, y, x, radius, polygon, park, d
           photos = body.data;
           count = photos.length;
 
-          console.log("park", park.id, "got", count, "instagram photos");
+          console.log(latMid, lngMid, radius, "depth", depth, "got", count, "instagram photos");
 
           // If the count is 100, I think I need to recurse here.
 
-          var metadata_id = saveInstagramHarvesterMetadata(client, park.id, latMid, lngMid, radius, new Date(), count);
+          var metadata_id = saveInstagramHarvesterMetadata(client, null, latMid, lngMid, radius, new Date(), count);
 
           //metadata_id = 1; // It's currently fake anyway
 
-          saveInstagramHarvesterResults(client, metadata_id, photos, park);
+          saveInstagramHarvesterResults(client, metadata_id, photos, null);
 
           if (count >= 100) {
 
-            // new centers are +/- radius/2 in all directions. will be projected in the RecursionQueueTask.
+            /*
+            //2 * newRadius must equal Math.cos(Math.PI/6) * oldRadius. Trust me.
+            var newSpacing = radius*Math.cos(Math.PI/6)/2;
             var newCenters = [
-              [y - radius/2, x - radius/2],
-              [y - radius/2, x + radius/2],
-              [y + radius/2, x - radius/2],
-              [y + radius/2, x + radius/2],
+              [y, x],
+              [y + 2*newSpacing, x],
+              [y - 2*newSpacing, x],
+              [y + newSpacing, x - newSpacing*Math.sqrt(3)],
+              [y - newSpacing, x - newSpacing*Math.sqrt(3)],
+              [y + newSpacing, x + newSpacing*Math.sqrt(3)],
+              [y - newSpacing, x + newSpacing*Math.sqrt(3)]
             ]
-            var newRadius = radius*Math.sqrt(2)/2
+            var newRadius = radius/2;
+            */
+            // I think instead I'll jump down another step, filling each circle (really, I just need to fill a hexagon) with 19 circles instead of 7. Will produce much less overlap and redundancy.
+            var newSpacing = radius*Math.cos(Math.PI/6)/4;
+            var newCenters = [
+              [y, x],
+              [y + 2*newSpacing, x],
+              [y - 2*newSpacing, x],
+              [y + 4*newSpacing, x],
+              [y - 4*newSpacing, x],
+              [y + newSpacing, x - newSpacing*Math.sqrt(3)],
+              [y - newSpacing, x - newSpacing*Math.sqrt(3)],
+              [y + newSpacing, x + newSpacing*Math.sqrt(3)],
+              [y - newSpacing, x + newSpacing*Math.sqrt(3)],
+              [y + 3*newSpacing, x - newSpacing*Math.sqrt(3)],
+              [y - 3*newSpacing, x - newSpacing*Math.sqrt(3)],
+              [y + 3*newSpacing, x + newSpacing*Math.sqrt(3)],
+              [y - 3*newSpacing, x + newSpacing*Math.sqrt(3)],
+              [y, x + 2*newSpacing*Math.sqrt(3)],
+              [y, x - 2*newSpacing*Math.sqrt(3)],
+              [y + 2*newSpacing, x + 2*newSpacing*Math.sqrt(3)],
+              [y + 2*newSpacing, x - 2*newSpacing*Math.sqrt(3)],
+              [y - 2*newSpacing, x + 2*newSpacing*Math.sqrt(3)],
+              [y - 2*newSpacing, x - 2*newSpacing*Math.sqrt(3)]
+            ]
+            var newRadius = radius/4;
 
-            console.log("park", park.id, "photos >= 100 at depth", depth + ", SUBDIVIDE:", newCenters)
+
+            console.log(latMid, lngMid, radius, "got photos >= 100 at depth", depth + ", SUBDIVIDE:", newCenters)
 
             newCenters.forEach(function(newCenter) {
               var newX = newCenter[1];
               var newY = newCenter[0];
-              testProjectedCircleIntersectionWithParks(client, newX, newY, newRadius, [park.id], function(err, newX, newY, newRadius, result) {
+              // TODO: change this to test only against the list of park IDs returned 
+              testProjectedCircleIntersectionWithParks(client, newX, newY, newRadius, parks, function(err, newX, newY, newRadius, result) {
                 if (result && result.length > 0) {
 
                   var nextDepth = depth + 1;
 
-                  liveTaskCounter[park.id] = liveTaskCounter[park.id] + 1;
-                  //console.log("liveTaskCounter[", park.id, "] recursing:", liveTaskCounter[park.id]);
-                  q.push({name: 'another task park: ' + park.id + ' depth ' + nextDepth, centerX: newX, centerY: newY, radius: newRadius}, instagramRecursionQueueTask(null, client, newY, newX, newRadius, polygon, park, nextDepth, q, callback));
+                  liveTaskCounter["circles"] = liveTaskCounter["circles"] + 1;
+                  q.push({name: 'another task, depth ' + nextDepth, centerX: newX, centerY: newY, radius: newRadius}, instagramRecursionQueueTask(null, client, newY, newX, newRadius, polygon, result, nextDepth, q, callback));
 
                 }
               });
@@ -485,12 +467,12 @@ function instagramRecursionQueueTask(err, client, y, x, radius, polygon, park, d
         }
       }
 
-      liveTaskCounter[park.id] = liveTaskCounter[park.id] - 1;
+      liveTaskCounter["circles"] = liveTaskCounter["circles"] - 1;
 
-      if (liveTaskCounter[park.id] == 0) {
+      if (liveTaskCounter["circles"] == 0) {
         // This happens more than it should, and sooner than it should. The live task counter is not staying updated?
-        console.log('park', park.id, 'all items have been processed');
-        return callback(null);
+        console.log('all items have been processed');
+        //return callback(null);
       } // else, return nothing?
     });
   });
@@ -630,22 +612,6 @@ var saveFlickrHarvesterResults = function(client, metadata_id, photos, park) {
     }
   });
   // return nothing?
-};
-
-
-
-/**
- * Fetch media associated with a specified park.
- *
- * @param park Object{id} Park identifier.
- * @param callback Function(err, media[]) Called with a list of media associated with a park.
- */
-var getInstagramPhotosForPark = function(client, park, callback) {
-  return getProjectedSwNeForPark(client, park, function(err, sw, ne) {
-    return getInstagramData(client, sw, ne, park, function(err, photos) { 
-      return callback(null, photos);
-    });
-  });
 };
 
 
@@ -1037,6 +1003,23 @@ var getProjectedSwNeForPark = function(client, park, callback) {
   });
 };
 
+var latLngToProjectedCoords = function(client, lat, lng, callback) {
+  // connect to pg
+  // query pg
+  // callback with parsed bbox
+
+  var query = "select st_y(a) as y, st_x(a) as x from (select st_astext(st_transform(ST_GeomFromText('POINT(" + lng + " " + lat + ")',4326),3310)) as a) as query";
+
+  return client.query(query, function(err, res) {
+    if (err) {
+      throw err;
+    }
+    var coords = [res.rows[0].y, res.rows[0].x];
+    return callback (null, coords);
+
+  });
+};
+
 var projectedCoordsToLatLng = function(client, y, x, callback) {
   // connect to pg
   // query pg
@@ -1147,7 +1130,7 @@ var testProjectedCircleIntersectionWithParks = function(client, centerX, centerY
   }
   query += " ST_Intersects(ST_Buffer(ST_SetSRID(ST_MakePoint(" + centerX + "," + centerY + "),3310)," + radius + "),st_transform(geom,3310))";
 
-  console.log("testProjectedCircle", query);
+  //console.log("testProjectedCircle", query);
   return client.query(query, function(err, res) {
     if (err) {
       //throw err;
@@ -1158,7 +1141,7 @@ var testProjectedCircleIntersectionWithParks = function(client, centerX, centerY
     //var result = res.rows;
     var result = res.rows.map(function(row) { return row.su_id; });
     // client.end();
-    console.log("testProjectedCircle", result);
+    console.log("testProjectedCircle result:", result);
     return callback(null, centerX, centerY, radius, result);
   });
 };
@@ -1294,12 +1277,23 @@ var getGridCellsFromPostgres = function(client, callback) {
   });
 };
 
-var getInstagramPhotosForAllParks = function(callback) {
+var getCirclesFromPostgres = function(client, callback) {
+  var query = "select lat, lng, radius, array_agg(su_id) as parks from instagram_array group by lat, lng, radius limit 100";
+
+  client.query(query, function(err, res) {
+    if (err) {
+      throw err;
+    }
+    console.log("got", res.rows.length, "circles from database that need harvesting");
+    var circles = res.rows;
+    callback(null, client, circles);
+  });
+};
+
+var getInstagramPhotosForAllCircles = function(callback) {
   return startPostgresClient(function(err, client) {
-    return getParksDataFromPostgres(client, "instagram", function(err, parks) {
-      async.eachLimit(parks, 1, function(park, next) {
-        getInstagramPhotosForPark(client, park, next);
-      }, function() { 
+    return getCirclesFromPostgres(client, function(err, client, circles) {
+      getInstagramPhotosForCircles(client, circles, function(err) {
         console.log("[*] done!");
         callback();
       });
@@ -1577,7 +1571,7 @@ var main = function() {
         console.log("could not acquire lock for gather_instagram.lock");
       } else {
 
-        getInstagramPhotosForAllParks(function() {
+        getInstagramPhotosForAllCircles(function() {
           lockFile.unlock('gather_instagram.lock', function (err) {
             if (err) console.log("couldn't unlock gather_instagram.lock")
             else console.log("unlocked gather_instagram.lock")
