@@ -404,7 +404,7 @@ function instagramRecursionQueueTask(err, client, y, x, radius, polygon, parks, 
 
           saveInstagramHarvesterResults(client, metadata_id, photos, null);
 
-          if (count >= 100) {
+          if (count >= 100 && radius > 10) {	// TODO improve this. For now, stop if radius drops below X metres!
 
             /*
             //2 * newRadius must equal Math.cos(Math.PI/6) * oldRadius. Trust me.
@@ -1278,7 +1278,11 @@ var getGridCellsFromPostgres = function(client, callback) {
 };
 
 var getCirclesFromPostgres = function(client, callback) {
-  var query = "select lat, lng, radius, array_agg(su_id) as parks from instagram_array group by lat, lng, radius limit 100";
+  var query = "select lat, lng, radius, array_agg(su_id) as parks from instagram_array group by lat, lng, radius order by lat desc, lng, radius";
+  // A few around the bay area 
+  //var query = "select lat, lng, radius, array_agg(su_id) as parks from instagram_array where lat < 37.8 and lat > 37.6 and lng < -122.35 group by lat, lng, radius order by lat desc, lng, radius";
+  // Just one circle on SF
+  //var query = "select lat, lng, radius, array_agg(su_id) as parks from instagram_array where lat < 37.8 and lat > 37.75 and lng < -122.35 and lng > -122.5 group by lat, lng, radius order by lat desc, lng, radius";
 
   client.query(query, function(err, res) {
     if (err) {
