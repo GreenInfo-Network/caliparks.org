@@ -393,6 +393,7 @@ body.openspaces header.has-search-results #search-results {
   max-height: 50vh;
   overflow-y: auto;
   display: block;
+  min-width:227px;
   top: 36px; }
 
 body.openspaces header.has-search-results #search-results a {

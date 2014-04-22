@@ -15,6 +15,11 @@ module.exports = function(req, res, data, callback) {
 
 	var contextDataDecorated;
 
+	//
+	// Add querystring but don't clobber anything called query from the caller
+	// 
+	data._query = req.query;
+
 	return context(data, function(err, contextData) {
 
 		if (err) {

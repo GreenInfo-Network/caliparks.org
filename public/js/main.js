@@ -516,7 +516,7 @@ defineElementGetter(Element.prototype, 'classList', function () {
         if (e.target.value.length > 3 && new RegExp('.*'+e.target.value.toLowerCase()+'.*').test(park.park_name.toLowerCase())) {
 
           found = true;
-          results.style.left = (searchbox.parentNode.offsetLeft + searchbox.offsetLeft + 10) + 'px';
+          results.style.right =  '0px';
 
           results.innerHTML += '<div><a href="/park/'+park.id+'" data-resultid="'+i+'">'+park.park_name+'</a></div>';
 

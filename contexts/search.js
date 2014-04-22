@@ -9,7 +9,8 @@ module.exports = function(data, callback) {
       pgClient       = new pg.Client(dbCon);
 
   var dbLimit = '',
-      dbQuery = '';
+      dbQuery = '',
+      searchQuery;
 
     pgClient.connect(function(err) {
 
@@ -21,11 +22,13 @@ module.exports = function(data, callback) {
       dbLimit = ' LIMIT ' + data.limit;
     }
 
-    if (data.query) {
-      dbQuery = sanitizer.sanitize(data.query).split('+').join(' ') || 'California Department of Parks and Recreation';
+    searchQuery = data.query || data._query.q;
+
+    if (searchQuery) {
+      dbQuery = sanitizer.sanitize(searchQuery.toLowerCase()).split('+').join(' ') || 'yosemite';
     }
 
-    pgClient.query('SELECT * FROM site_park WHERE agncy_name LIKE \'' + dbQuery + '%\'' + dbLimit + ';', function(err, result) {
+    pgClient.query('SELECT * FROM cpad_2013b_superunits_ids_4326 WHERE LOWER( unit_name ) LIKE \'%' + dbQuery + '%\'' + dbLimit + ';', function(err, result) {
       if(err) {
         return console.error('error running query', err);
       }
