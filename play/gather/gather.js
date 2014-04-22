@@ -513,7 +513,7 @@ function getFlickrData(bbox, page, photos, callback) {
       
       photos = photos.concat(body.photos.photo);
 
-      if (hasMorePages(body) && page <= body.photos.page) {
+      if (hasMorePages(body) && page <= body.photos.page && page < 100) {	//Stop after 100. TODO: do this better.
         console.log("[*] found another page for", bbox , ":", body.photos.page, "out of", body.photos.pages);
         console.log("[*] current page:", page);
         return getFlickrData(bbox, page + 1, photos, callback);
@@ -595,7 +595,7 @@ var saveFlickrHarvesterResults = function(client, metadata_id, photos, park) {
   photos.forEach(function(photo) {
     if (photo) {
       //console.log(photo);
-      var params = [photo.id, photo.owner, "secret goes here", photo.server, photo.farm, photo.title, photo.latitude, photo.longitude, photo.accuracy, photo.context, photo.place_id, photo.woeid, photo.tags, photo.dateupload, photo.datetaken, photo.ownername];
+      var params = [photo.id, photo.owner, photo.secret, photo.server, photo.farm, photo.title, photo.latitude, photo.longitude, photo.accuracy, photo.context, photo.place_id, photo.woeid, photo.tags, photo.dateupload, photo.datetaken, photo.ownername];
       if (photo.description.length > 0)
         params.push(photo.description._content);
       else
