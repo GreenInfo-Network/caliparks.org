@@ -190,11 +190,15 @@ app.get('/wander', function(req,res) {
 
 });
 
-app.get('/park/:id', function(req,res) {
+app.get('/park/:id', function(req,res, next) {
 
 	require('./controllers/park.js')(req, res, {
 		overrideTemplates : overrideTemplates
 	}, function(err, templateData) {
+
+		if (err) {
+			return next(err);
+		}
 
 		if (templateData) {
 			res.render('park', templateData);
@@ -206,11 +210,15 @@ app.get('/park/:id', function(req,res) {
 
 });
 
-app.get('/parks/', function(req,res) {
+app.get('/parks/', function(req,res, next) {
 
 	require('./controllers/parks.js')(req, res, {
 		context : 'biggest-to-smallest'
 	}, function(err, templateData) {
+
+		if (err) {
+			return next(err);
+		}
 
 		templateData.layout = 'photo-back';
 
@@ -220,7 +228,7 @@ app.get('/parks/', function(req,res) {
 
 });
 
-app.get('/parks/:context/:query:format(\.\\D+$)', function(req,res) {
+app.get('/parks/:context/:query:format(\.\\D+$)', function(req,res, next) {
 
 	require('./controllers/parks.js')(req, res, {
 		context : req.params.context,
@@ -228,6 +236,10 @@ app.get('/parks/:context/:query:format(\.\\D+$)', function(req,res) {
 		options : req.query
 	}, function(err, templateData) {
 
+		if (err) {
+			return next(err);
+		}
+
 		dataRouteResponse(res, templateData, req.params.format, [
 			'parks',
 			'total'
@@ -237,13 +249,17 @@ app.get('/parks/:context/:query:format(\.\\D+$)', function(req,res) {
 
 });
 
-app.get('/parks/:context(\\D+):format(\.\\D+$)', function(req,res) {
+app.get('/parks/:context(\\D+):format(\.\\D+$)', function(req,res, next) {
 
 	require('./controllers/parks.js')(req, res, {
 		context : req.params.context,
 		options : req.query
 	}, function(err, templateData) {
 
+		if (err) {
+			return next(err);
+		}
+
 		dataRouteResponse(res, templateData, req.params.format, [
 			'parks',
 			'total'
@@ -253,11 +269,15 @@ app.get('/parks/:context(\\D+):format(\.\\D+$)', function(req,res) {
 
 });
 
-app.get('/parks/:context', function(req,res) {
+app.get('/parks/:context', function(req,res, next) {
 
 	require('./controllers/parks.js')(req, res, {
 		context : req.params.context
 	}, function(err, templateData) {
+
+		if (err) {
+			return next(err);
+		}
 
 		templateData.layout = 'photo-back';
 
@@ -267,13 +287,17 @@ app.get('/parks/:context', function(req,res) {
 
 });
 
-app.get('/parks/:context/:query', function(req,res) {
+app.get('/parks/:context/:query', function(req,res, next) {
 
 	require('./controllers/parks.js')(req, res, {
 		context : req.params.context,
 		query   : req.params.query
 	}, function(err, templateData) {
 
+		if (err) {
+			return next(err);
+		}
+
 		templateData.layout = 'photo-back';
 
 		res.render('parks', templateData);
@@ -282,12 +306,16 @@ app.get('/parks/:context/:query', function(req,res) {
 
 });
 
-app.get('/agency/:query', function(req,res) {
+app.get('/agency/:query', function(req,res, next) {
 
 	require('./controllers/parks.js')(req, res, {
 		context : 'agency',
 		query   : req.params.query
 	}, function(err, templateData) {
+
+		if (err) {
+			return next(err);
+		}
 
 		templateData.layout = 'photo-back';
 

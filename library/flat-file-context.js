@@ -1,6 +1,15 @@
 'use strict';
 
+var pg = require('pg');
+
+var contexts = {};
+
 module.exports = function(options) {
+  if (contexts[options.name] === undefined) {
+    contexts[options.name] = require('../public/data/context-' + options.name + '.json');
+  }
+
+  var context = contexts[options.name];
 
   return function(data, callback) {
 
@@ -18,10 +27,7 @@ module.exports = function(options) {
         return callback('You need to pass a title parameter');
       }
 
-      var pg = require('pg');
-
-      var context   = require('../public/data/context-' + options.name + '.json'),
-          match_map = {};
+      var match_map = {};
 
       function finish(context) {
 

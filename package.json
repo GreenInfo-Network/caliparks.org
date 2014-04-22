@@ -28,7 +28,8 @@
     "colors": "~0.6.2",
     "prompt": "~0.2.12",
     "numeral": "~1.5.3",
-    "gps-distance": "0.0.3"
+    "gps-distance": "0.0.3",
+    "async": "~0.7.0"
   },
   "devDependencies": {
     "mocha": "1.17.0"
