@@ -160,6 +160,9 @@
         social_nav_data = {},
         social_nav_template = '<a href="/park/{su_id}">#{hashtag}</a>';
     function processSocialNavItem(network, property, r) {
+
+      var plus,
+          minus;
         
       if (r.responseJSON && r.responseJSON.response) {
         social_nav_data[property] = r.responseJSON.response.parks;
@@ -171,11 +174,21 @@
         });
 
         if (positions[property]-1) {
-          $(data.socialNav + ' .social-nav-'+network+' .hashtag-back').html( STMN.processTemplate(social_nav_template,social_nav_data[property][positions[property]-1]) );
+          minus = social_nav_data[property][positions[property]-1];
+
+          if (minus) {
+            $(data.socialNav + ' .social-nav-'+network+' .hashtag-back').html( STMN.processTemplate(social_nav_template,minus) );
+          }
+
         }
 
         if (positions[property]+1) {
-          $(data.socialNav + ' .social-nav-'+network+' .hashtag-forward').html( STMN.processTemplate(social_nav_template,social_nav_data[property][positions[property]+1]) );
+          plus = social_nav_data[property][positions[property]+1];
+
+          if (plus) {
+            $(data.socialNav + ' .social-nav-'+network+' .hashtag-forward').html( STMN.processTemplate(social_nav_template,plus) );
+          }
+
         }
       }
 
