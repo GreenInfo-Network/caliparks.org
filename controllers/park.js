@@ -96,18 +96,18 @@ module.exports = function(req, res, data, callback) {
         instasult: async.apply(pgClient.query.bind(pgClient), 'select * from site_instagram_photos where su_id = $1 limit 9000', [park_id]),
         foursult: async.apply(pgClient.query.bind(pgClient), 'select * from site_foursquare_venues_activity where su_id = $1 limit 9000', [park_id]),
         tweetsult: async.apply(pgClient.query.bind(pgClient), 'select * from site_tweets where su_id = $1 limit 9000', [park_id])
-      }, function(err, data) {
+      }, function(err, apiResponse) {
         if (err) {
           console.error('error running query', err);
           pgClient.end();
           return callback(err);
         }
 
-        var result = data.result,
-            flesult = data.flesult,
-            instasult = data.instasult,
-            foursult = data.foursult,
-            tweetsult = data.tweetsult;
+        var result = apiResponse.result,
+            flesult = apiResponse.flesult,
+            instasult = apiResponse.instasult,
+            foursult = apiResponse.foursult,
+            tweetsult = apiResponse.tweetsult;
 
         //
         // Was a park found? if not, just 404
