@@ -91,11 +91,11 @@ module.exports = function(req, res, data, callback) {
 			}
 
       return async.parallel({
-        result: async.apply(pgClient.query.bind(pgClient), 'select * from site_park where su_id = $1 limit 100', [park_id]),
-        flesult: async.apply(pgClient.query.bind(pgClient), 'select * from site_park_flickr_photos where containing_park_id = $1 limit 100', [park_id]),
-        instasult: async.apply(pgClient.query.bind(pgClient), 'select * from site_instagram_photos where su_id = $1 limit 100', [park_id]),
-        foursult: async.apply(pgClient.query.bind(pgClient), 'select * from site_foursquare_venues_activity where su_id = $1 limit 100', [park_id]),
-        tweetsult: async.apply(pgClient.query.bind(pgClient), 'select * from site_tweets where su_id = $1 limit 100', [park_id])
+        result: async.apply(pgClient.query.bind(pgClient), 'select * from site_park where su_id = $1 limit 9000', [park_id]),
+        flesult: async.apply(pgClient.query.bind(pgClient), 'select * from site_park_flickr_photos where containing_park_id = $1 limit 9000', [park_id]),
+        instasult: async.apply(pgClient.query.bind(pgClient), 'select * from site_instagram_photos where su_id = $1 limit 9000', [park_id]),
+        foursult: async.apply(pgClient.query.bind(pgClient), 'select * from site_foursquare_venues_activity where su_id = $1 limit 9000', [park_id]),
+        tweetsult: async.apply(pgClient.query.bind(pgClient), 'select * from site_tweets where su_id = $1 limit 9000', [park_id])
       }, function(err, data) {
         if (err) {
           console.error('error running query', err);
@@ -127,7 +127,7 @@ module.exports = function(req, res, data, callback) {
               venues_tips      = numeral(foursquare_tips).format('0,0');
 
           var bbox;
-          
+
           try {
             bbox = JSON.parse(result.rows[0].bbox).coordinates[0];
           } catch (err) {
