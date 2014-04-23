@@ -110,7 +110,7 @@ module.exports = function(req, res, data, callback) {
             tweetsult = apiResponse.tweetsult;
 
         //
-        // Was a park found? if not, just 404
+        // Was a park found? if not, just 404 y
         //
         if (result.rows[0]) {
 
