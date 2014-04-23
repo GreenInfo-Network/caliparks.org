@@ -497,7 +497,7 @@ function getFlickrData(bbox, page, photos, callback) {
       api_key: "f17cc9d3f73f0b45640451a6d3c1946d",
       bbox: bbox,
       has_geo: 1,
-      extras: "geo,tags,date_upload,date_taken,owner_name,description,license,o_dims,url_b,url_l",
+      extras: "geo,tags,date_upload,date_taken,owner_name,description,license,url_s,url_m,url_n,url_z,url_c,url_l,url_o",
       min_taken_date: ~~(Date.now() / 1000) - 60*60*24*365*30,
       //min_taken_date: ~~(Date.now() / 1000) - 60*60*24*365,
       format: "json",
@@ -586,7 +586,7 @@ var saveFlickrHarvesterMetadata = function(client, park_id, latMin, lngMin, latM
 
 
 var saveFlickrHarvesterResults = function(client, metadata_id, photos, park) {
-  var query = "INSERT INTO flickr_photos (photoid, owner, secret, server, farm, title, latitude, longitude, accuracy, context, place_id, woeid, tags, dateupload, datetaken, ownername, description, license, o_width, o_height, url_l, height_l, width_l, harvested_park_id, harvested_park_name, the_geom) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, ST_SetSRID(ST_MakePoint($8, $7), 4326))";
+  var query = "INSERT INTO flickr_photos (photoid, owner, secret, server, farm, title, latitude, longitude, accuracy, context, place_id, woeid, tags, dateupload, datetaken, ownername, description, license, url_o, width_o, height_o, url_largest, height_largest, width_largest, largest_size, the_geom) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, ST_SetSRID(ST_MakePoint($8, $7), 4326))";
 
   if (!park) {
     park = { id: null, name: null };
@@ -600,7 +600,42 @@ var saveFlickrHarvesterResults = function(client, metadata_id, photos, park) {
         params.push(photo.description._content);
       else
         params.push("");
-      params.push(photo.license, photo.o_width, photo.o_height, photo.url_l, photo.height_l, photo.width_l, park.id, park.name);
+      // Here, figure out which is the largest photo size, and use that instead of url_l. Then save largest_size, too.
+      var url_largest = photo.url_s;
+      var width_largest = photo.width_s;
+      var height_largest = photo.height_s;
+      var largest_size = "s";
+      if (photo.url_m) {
+        url_largest = photo.url_m;
+        width_largest = photo.width_m;
+        height_largest = photo.height_m;
+        largest_size = "m";
+      }
+      if (photo.url_n) {
+        url_largest = photo.url_n;
+        width_largest = photo.width_n;
+        height_largest = photo.height_n;
+        largest_size = "n";
+      }
+      if (photo.url_z) {
+        url_largest = photo.url_z;
+        width_largest = photo.width_z;
+        height_largest = photo.height_z;
+        largest_size = "z";
+      }
+      if (photo.url_c) {
+        url_largest = photo.url_c;
+        width_largest = photo.width_c;
+        height_largest = photo.height_c;
+        largest_size = "c";
+      }
+      if (photo.url_l) {
+        url_largest = photo.url_l;
+        width_largest = photo.width_l;
+        height_largest = photo.height_l;
+        largest_size = "l";
+      }
+      params.push(photo.license, photo.url_o, photo.width_o, photo.height_o, url_largest, height_largest, width_largest, largest_size);
       client.query(query, params, function(err, res) {
         if (err) {
           console.log("harvesterResults error", err);
