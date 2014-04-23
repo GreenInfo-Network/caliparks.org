@@ -8,21 +8,9 @@ var async    = require('async'),
     distance = require('gps-distance'),
     numeral  = require('numeral');
 
-var dbCon    = process.env.DATABASE_URL;
-
-var template  = 'park',
-    hashtags  = require('../public/data/hashtagsBySuId.json'),
-    contexts  = {},
-    foursquare_checkins = 0, 
-    foursquare_tips     = 0, 
-    tweet_iteration     = 0,
-    instagramPreload    = [],
-    instagramPostload   = [],
-    tweetsPreload       = [],
-    tweetsPostload      = [],
-    flickrPreload       = [],
-    flickrPostload      = [],
-    tweets_all, tweets_filtered, thisOne;
+var dbCon    = process.env.DATABASE_URL,
+    hashtags = require('../public/data/hashtagsBySuId.json'),
+    contexts = {};
 
 function fuzzyRound(N) {
   var rounded = Math.max(Math.round(N / 10) * 10);
@@ -45,6 +33,18 @@ module.exports = function(req, res, data, callback) {
 
     var park_id = req.params.id,
         positions = {};
+
+    var template  = 'park',
+        foursquare_checkins = 0, 
+        foursquare_tips     = 0, 
+        tweet_iteration     = 0,
+        instagramPreload    = [],
+        instagramPostload   = [],
+        tweetsPreload       = [],
+        tweetsPostload      = [],
+        flickrPreload       = [],
+        flickrPostload      = [],
+        tweets_all, tweets_filtered, thisOne;
 
     //
     // Get positions
