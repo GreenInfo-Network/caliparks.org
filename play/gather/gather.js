@@ -564,7 +564,8 @@ var getFlickrPhotosForBbox = function(client, latMin, lngMin, latMax, lngMax, ca
         lngMax = bboxArray[2],
         latMax = bboxArray[3];
 */
-    var metadata_id = saveFlickrHarvesterMetadata(client, null, latMin, lngMin, latMax, lngMax, new Date(), photos.length, pages);
+    var length = photos ? photos.length : 0;
+    var metadata_id = saveFlickrHarvesterMetadata(client, null, latMin, lngMin, latMax, lngMax, new Date(), length, pages);
     saveFlickrHarvesterResults(client, metadata_id, photos, null);
     return callback(null, photos, pages);  // everything finished
   });
@@ -592,7 +593,7 @@ var saveFlickrHarvesterResults = function(client, metadata_id, photos, park) {
     park = { id: null, name: null };
   }
 
-  photos.forEach(function(photo) {
+  if (photos) photos.forEach(function(photo) {
     if (photo) {
       //console.log(photo);
       var params = [photo.id, photo.owner, photo.secret, photo.server, photo.farm, photo.title, photo.latitude, photo.longitude, photo.accuracy, photo.context, photo.place_id, photo.woeid, photo.tags, photo.dateupload, photo.datetaken, photo.ownername];
@@ -1345,7 +1346,8 @@ var getFlickrPhotosForAllGridCells = function(callback) {
     return getGridCellsFromPostgres(client, function(err, cells) {
       async.eachLimit(cells, 1, function(cell, next) {
         getFlickrPhotosForBbox(client, cell.latmin, cell.lngmin, cell.latmax, cell.lngmax, function(err, media, pages) {
-          console.log("[*] got", media.length, "photos for ", cell.latmin, cell.lngmin, cell.latmax, cell.lngmax, "after", pages, "page(s)");
+          var length = media ? media.length : 0;
+          console.log("[*] got", length, "photos for ", cell.latmin, cell.lngmin, cell.latmax, cell.lngmax, "after", pages, "page(s)");
           next();
         });
       }, function() { 
