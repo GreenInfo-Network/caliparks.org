@@ -30,10 +30,10 @@
     "numeral": "~1.5.3",
     "gps-distance": "0.0.3",
     "async": "~0.7.0",
-    "sanitizer": "~0.1.1"
-  },
-  "devDependencies": {
-    "mocha": "1.17.0"
+    "sanitizer": "~0.1.1",
+    "mocha": "~1.18.2",
+    "should": "~3.3.1",
+    "expect": "~0.1.1"
   },
   "license": "MIT",
   "engines": {
