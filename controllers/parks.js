@@ -68,7 +68,7 @@ module.exports = function(req, res, data, callback) {
 		}
 
 		return callback(null, {
-			appTitle   : 'California parks: ' + contextData.title,
+			appTitle   : contextData.title,
 		 	parks      : contextParts[0],
 		 	parksQueue : JSON.stringify(contextParts[1]),
 		 	empty      : !(contextDataDecorated.length),

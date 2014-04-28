@@ -32,7 +32,7 @@ module.exports = function(data, callback) {
 
       callback(null, {
         parks : result.rows,
-        title : dbQuery
+        title : result.rows[0].agncy_name
       });
 
 
