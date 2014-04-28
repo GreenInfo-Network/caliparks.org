@@ -32,7 +32,7 @@ module.exports = function(data, callback) {
 
       callback(null, {
         parks : result.rows,
-        title : result.rows[0].agncy_name
+        title : (result.rows.length) ? result.rows[0].agncy_name : 'California Parks'
       });
 
 
