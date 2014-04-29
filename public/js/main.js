@@ -480,7 +480,17 @@ defineElementGetter(Element.prototype, 'classList', function () {
     results.innerHTML = '';
   }
 
-  searchbox.addEventListener('keyup', debounce(function(e) {
+  var disableScroll = function(e){
+    if (e.keyCode === 40 || e.keyCode === 38) {
+        e.preventDefault();
+        return false;
+    }
+  };
+
+  $(searchbox).keyup(debounce(function(e) {
+    if (e.keyCode === 40 || e.keyCode === 38) {
+        e.preventDefault();
+    }
 
     var found;
 
@@ -494,11 +504,11 @@ defineElementGetter(Element.prototype, 'classList', function () {
     //
     // Is it a keydown? Go to the menu
     //
-    if (e.keyIdentifier == 'Down' && header.classList.contains('has-search-results')) {
+    if (e.keyCode == 40 && header.classList.contains('has-search-results')) {
 
       results.querySelector('a').focus();
 
-      return true;
+      return false;
 
     }
 
@@ -531,11 +541,24 @@ defineElementGetter(Element.prototype, 'classList', function () {
 
       testing = null;
 
+      return false;
+
     }
 
-  },250), false);
+  },250));
 
-  results.addEventListener('keyup', debounce(function(e) {
+  $(results).keypress(function(e) {
+    if(e.keyCode == 38 || e.keyCode == 40) {
+      e.preventDefault();
+    }
+  });
+  $(results).keydown(function(e) {
+    if(e.keyCode == 38 || e.keyCode == 40) {
+      e.preventDefault();
+    }
+  });
+
+  $(results).keyup(debounce(function(e) {
 
     var links;
 
@@ -549,25 +572,29 @@ defineElementGetter(Element.prototype, 'classList', function () {
     //
     // Down means go down the list
     //
-    if (e.keyIdentifier == 'Down' && header.classList.contains('has-search-results')) {
+    if (e.keyCode == 40 && header.classList.contains('has-search-results')) {
 
       if (e.target.parentNode && e.target.parentNode.nextSibling) {
         e.target.parentNode.nextSibling.querySelector('a').focus();
       }
+
+      e.stopImmediatePropagation();
 
     }
 
     //
     // Up means go up the list
     //
-    if (e.keyIdentifier == 'Up' && header.classList.contains('has-search-results')) {
+    if (e.keyCode == 38 && header.classList.contains('has-search-results')) {
 
       if (e.target.parentNode && e.target.parentNode.previousSibling) {
         e.target.parentNode.previousSibling.querySelector('a').focus();
       }
 
+      e.stopImmediatePropagation();
+
     }
 
-  },250), false);
+  },250));
 
 }(window));

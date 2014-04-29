@@ -73,18 +73,22 @@ body.openspaces input:focus {
   outline-width: 0; }
 
 body.openspaces input::-webkit-input-placeholder {
+  font-family: "HelveticaNeue", "Helvetica Neue", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif !important;
   color: #cebc95; }
 
 body.openspaces input:-moz-placeholder {
   /* Firefox 18- */
+  font-family: "HelveticaNeue", "Helvetica Neue", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif !important;
   color: #cebc95; }
 
 body.openspaces input::-moz-placeholder {
   /* Firefox 19+ */
+  font-family: "HelveticaNeue", "Helvetica Neue", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif !important;
   color: #cebc95;
   opacity: 1; }
 
 body.openspaces input:-ms-input-placeholder {
+  font-family: "HelveticaNeue", "Helvetica Neue", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif !important;
   color: #cebc95; }
 
 body.openspaces h1 {
@@ -343,28 +347,29 @@ body.openspaces header #search input {
   background-color: #453420;
   font-size: 18px;
   color: #f0dfcb;
-  font-weight: 300; }
+  font-weight: 300;
+  font-family: "HelveticaNeue", "Helvetica Neue", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif !important; }
 
 body.openspaces.ua-firefox header #search input {
   padding-left: 8px; }
 
 body.openspaces header #search input::-webkit-input-placeholder {
   color: #f0dfcb;
-  font-family: "HelveticaNeue", "Helvetica Neue", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; }
+  font-family: "HelveticaNeue", "Helvetica Neue", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif !important; }
 
 body.openspaces header #search input::-moz-placeholder {
   color: #f0dfcb;
-  font-family: "HelveticaNeue", "Helvetica Neue", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; }
+  font-family: "HelveticaNeue", "Helvetica Neue", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif !important; }
 
 /* firefox 19+ */
 body.openspaces header #search input:-ms-input-placeholder {
   color: #f0dfcb;
-  font-family: "HelveticaNeue", "Helvetica Neue", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; }
+  font-family: "HelveticaNeue", "Helvetica Neue", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif !important; }
 
 /* ie */
 body.openspaces header #search input:-moz-placeholder {
   color: #f0dfcb;
-  font-family: "HelveticaNeue", "Helvetica Neue", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; }
+  font-family: "HelveticaNeue", "Helvetica Neue", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif !important; }
 
 body.openspaces header #search a {
   text-decoration: none;
@@ -386,28 +391,37 @@ body.openspaces header #search-results {
 body.openspaces header.has-search-results #search-results {
   position: absolute;
   z-index: 2;
-  background-color: white;
-  color: black;
+  background-color: #453420;
+  color: white;
   font-size: 18px;
-  padding: 3px;
+  padding: 0 0 6px 0;
   max-height: 50vh;
   overflow-y: auto;
   display: block;
-  min-width:227px;
-  top: 36px; }
+  max-width: 203px;
+  top: 35px;
+  text-align: left;
+  font-weight: 300;
+  cursor: pointer;
+  font-family: "HelveticaNeue", "Helvetica Neue", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif !important; }
 
 body.openspaces header.has-search-results #search-results a {
-  color: black;
+  color: white;
   text-decoration: none; }
 
 body.openspaces header.has-search-results #search-results a:focus {
-  border: dotted 1px black; }
+  border: dotted 1px rgba(69, 52, 32, 0.4); }
 
 body.openspaces header.has-search-results #search-results img {
   display: none; }
 
 body.openspaces header.has-search-results #search-results div {
-  padding: 3px 10px; }
+  padding: 5px 10px;
+  width: 203px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 20px;
+  max-width: 193px; }
 
 body.openspaces header.has-search-results #search-results div:hover {
   background-color: #85bbe1;

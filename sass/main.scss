@@ -34,19 +34,23 @@ body.openspaces input:focus {
 }
 
 body.openspaces input::-webkit-input-placeholder {
+  font-family: $base-font-stack !important;
    color:$base-font-color;
 }
 
 body.openspaces input:-moz-placeholder { /* Firefox 18- */
+  font-family: $base-font-stack !important;
    color:$base-font-color;
 }
 
 body.openspaces input::-moz-placeholder {  /* Firefox 19+ */
+  font-family: $base-font-stack !important;
    color:$base-font-color;
    opacity: 1;
 }
 
 body.openspaces input:-ms-input-placeholder {  
+  font-family: $base-font-stack !important;
    color:$base-font-color;
 }
 
@@ -342,16 +346,17 @@ body.openspaces header #search input {
   font-size: $base-font-size;
   color:$cream;
   font-weight: $base-font-weight;
+  font-family: $base-font-stack !important;
 }
 
 body.openspaces.ua-firefox header #search input {
   padding-left: 8px;
 }
 
-body.openspaces header #search input::-webkit-input-placeholder { color:$cream;font-family: $base-font-stack; }
-body.openspaces header #search input::-moz-placeholder { color:$cream;font-family: $base-font-stack; } /* firefox 19+ */
-body.openspaces header #search input:-ms-input-placeholder { color:$cream;font-family: $base-font-stack; } /* ie */
-body.openspaces header #search input:-moz-placeholder { color:$cream;font-family: $base-font-stack; }
+body.openspaces header #search input::-webkit-input-placeholder { color:$cream;font-family: $base-font-stack !important; }
+body.openspaces header #search input::-moz-placeholder { color:$cream;font-family: $base-font-stack !important; } /* firefox 19+ */
+body.openspaces header #search input:-ms-input-placeholder { color:$cream;font-family: $base-font-stack !important; } /* ie */
+body.openspaces header #search input:-moz-placeholder { color:$cream;font-family: $base-font-stack !important; }
 
 body.openspaces header #search a {
   text-decoration: none;
@@ -374,38 +379,45 @@ body.openspaces header #search-results {
 }
 
 body.openspaces header.has-search-results #search-results {
-  position:absolute;
+  position: absolute;
   z-index: 2;
-  background-color:white;
-  color:black;
-  font-size:$base-font-size;
-  padding:3px;
-  max-height:50vh;
-  overflow-y:auto;
-  display:block;
-  top: 36px;
+  background-color: rgba(69,52,32,1);
+  color: white;
+  font-size: 18px;
+ padding: 0 0 6px 0;
+  max-height: 50vh;
+  overflow-y: auto;
+  display: block;
+  max-width: 203px;
+  top: 35px;
+  text-align: left;
+  font-weight: 300;
+  cursor: pointer; 
+  font-family: $base-font-stack !important;
 }
 
 body.openspaces header.has-search-results #search-results a {
-  color:black;
-  text-decoration: none;
-}
+  color: white;
+  text-decoration: none; }
 
 body.openspaces header.has-search-results #search-results a:focus {
-  border:dotted 1px black;
-}
+  border: dotted 1px rgba(69,52,32,.4); }
 
 body.openspaces header.has-search-results #search-results img {
-  display:none;
-}
+  display: none; }
 
 body.openspaces header.has-search-results #search-results div {
-  padding:3px 10px;
+  padding: 5px 10px;
+  width: 203px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  line-height: 20px;
+  max-width: 193px;
 }
 
 body.openspaces header.has-search-results #search-results div:hover {
-  background-color:$blue;
-  cursor: pointer;
+  background-color: #85bbe1;
+  cursor: pointer; 
 }
 
 /* Glop slider */
