@@ -261,6 +261,16 @@ body.openspaces .has-coverphoto .coverphoto {
   position: relative;
   width: 1018px; }
 
+body.openspaces #coverphoto-carousel .flickr-title {
+  display: inline-block;
+  max-width: 248px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: -2px; }
+
+body.openspaces #coverphoto-carousel .flickr-title .title-link {
+  line-height: 12px; }
+
 body.openspaces #coverphoto-carousel {
   width: 1018px;
   height: 480px; }
