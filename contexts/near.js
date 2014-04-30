@@ -67,7 +67,7 @@ module.exports = function(data, callback) {
     if (data.query) {
 
       getPlace(function(error, place) {
-        pgClient.query('select *, ST_AsGeoJSON(geom) as geometry, ST_AsGeoJSON(ST_Centroid(geom)) as centroid, ST_distance(geom, st_setsrid(st_makepoint('+place.coordinates[1]+','+place.coordinates[0]+'),4326)) as distance from (select * from cpad_2013b_superunits_ids_4326 where ST_DWithin(geom, st_setsrid(st_makepoint('+place.coordinates[1]+','+place.coordinates[0]+'),4326), .2)'+not+' LIMIT '+limit+') as shortlist order by distance asc;', function(err, result) {
+        pgClient.query('select *, ST_AsGeoJSON(geom) as geometry, ST_AsGeoJSON(ST_Centroid(geom)) as centroid, ST_distance(geom, st_setsrid(st_makepoint('+place.coordinates[1]+','+place.coordinates[0]+'),4326)) as distance from (select * from cpad_2013b_superunits_ids_4326 where ST_DWithin(geom, st_setsrid(st_makepoint('+place.coordinates[1]+','+place.coordinates[0]+'),4326), .3)'+not+' LIMIT '+limit+') as shortlist order by distance asc;', function(err, result) {
           if(err) {
             return console.error('error running query', err);
           }
