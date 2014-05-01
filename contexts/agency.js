@@ -34,9 +34,18 @@ module.exports = function(data, callback) {
         return console.error('error running query', err);
       }
 
+      var titleArray = result.rows[0].agncy_name.split(','),
+          title;
+
+      if (titleArray.length === 2) {
+        title = titleArray[1] + ' ' + titleArray[0];
+      } else {
+        title = titleArray[0];
+      }
+
       callback(null, {
         parks : result.rows,
-        title : (result.rows.length) ? result.rows[0].agncy_name : 'California Parks'
+        title : (result.rows.length) ? title : 'California Parks'
       });
 
 
