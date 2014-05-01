@@ -1,6 +1,7 @@
 'use strict';
 
-var pg        = require('pg'),
+var async     = require('async'),
+    pg        = require('pg'),
     sanitizer = require('sanitizer');
 
 module.exports = function(data, callback) {
@@ -8,7 +9,7 @@ module.exports = function(data, callback) {
   var dbCon          = process.env.DATABASE_URL,
       pgClient       = new pg.Client(dbCon);
 
-  var dbLimit = '',
+  var dbLimit = 10000,
       dbQuery = '';
 
     pgClient.connect(function(err) {
@@ -18,14 +19,17 @@ module.exports = function(data, callback) {
     }
 
     if (data.limit) {
-      dbLimit = ' LIMIT ' + data.limit;
+      dbLimit = data.limit;
     }
 
     if (data.query) {
       dbQuery = sanitizer.sanitize(data.query).split('+').join(' ') || 'California Department of Parks and Recreation';
     }
 
-    pgClient.query('SELECT * FROM site_park WHERE agncy_name LIKE \'' + dbQuery + '%\'' + dbLimit + ';', function(err, result) {
+    pgClient.query({
+      text   : 'SELECT * FROM site_park WHERE agncy_name = $1 LIMIT $2;',
+      values : [dbQuery,dbLimit]
+    }, function(err, result) {
       if(err) {
         return console.error('error running query', err);
       }

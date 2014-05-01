@@ -199,7 +199,7 @@ module.exports = function(req, res, data, callback) {
             appTitle         : 'California Open Spaces > ' + result.rows[0].unit_name,
             park_id          : result.rows[0].su_id,
             name             : result.rows[0].unit_name,
-            agency_slug      : result.rows[0].agncy_name.split(' ').join('+').split(',')[0],
+            agency_slug      : result.rows[0].agncy_name.split(' ').join('+'),
             totalPhotos      : flesult.rows.length ? flesult.rows.length : 0,
             flickrPhotos     : flickrPreload,
             flotographer_count : Object.keys(flotographer_count).length,
