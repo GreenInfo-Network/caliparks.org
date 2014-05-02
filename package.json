@@ -11,7 +11,8 @@
     }
   ],
   "scripts": {
-    "start": "node server"
+    "start": "node server",
+    "test": "mocha test"
   },
   "repository": {
     "type": "git",

@@ -8,6 +8,7 @@ var http              = require('http'),
 	  pg                = require('pg');
 
 var app      = express();
+module.exports = app;
 
 var appTitle             = config.app.name,
 		dataFormatResponders = {};
