@@ -302,7 +302,7 @@ body.openspaces .main-content #instagram-photos {
   display: inline-block;
   width: 512px;
   vertical-align: top;
-  text-align: right; }
+  text-align: left; }
 
 body.openspaces .main-content #instagram-photos .instagram-photo {
   cursor: pointer; }
