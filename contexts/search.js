@@ -35,7 +35,7 @@ module.exports = function(data, callback) {
 
       callback(null, {
         parks : result.rows,
-        title : dbQuery
+        title : sanitizer.sanitize(dbQuery)
       });
 
 

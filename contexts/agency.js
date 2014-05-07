@@ -34,13 +34,13 @@ module.exports = function(data, callback) {
         return console.error('error running query', err);
       }
 
-      var titleArray = result.rows[0].agncy_name.split(','),
+      var titleArray = (result.rows.length) ? sanitizer.sanitize(result.rows[0].agncy_name).split(',') : null,
           title;
 
-      if (titleArray.length === 2) {
+      if (titleArray) {
         title = titleArray[1] + ' ' + titleArray[0];
       } else {
-        title = titleArray[0];
+        title = (titleArray) ? titleArray[0] : sanitizer.sanitize(result);
       }
 
       callback(null, {

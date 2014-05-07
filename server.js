@@ -198,21 +198,25 @@ app.get('/wander', function(req,res) {
 
 app.get('/park/:id', function(req,res, next) {
 
-	require('./controllers/park.js')(req, res, {
-		overrideTemplates : overrideTemplates
-	}, function(err, templateData) {
+	if (typeof req.params.id === 'number') {
+		require('./controllers/park.js')(req, res, {
+			overrideTemplates : overrideTemplates
+		}, function(err, templateData) {
 
-		if (err) {
-			return next(err);
-		}
+			if (err) {
+				return next(err);
+			}
 
-		if (templateData) {
-			res.render('park', templateData);
-		} else {
-			go404.apply(null,arguments);
-		}
+			if (templateData) {
+				res.render('park', templateData);
+			} else {
+				go404.apply(null,arguments);
+			}
 
-	});
+		});
+	} else {
+		go404.apply(null,arguments);
+	}
 
 });
 
