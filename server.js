@@ -5,13 +5,21 @@ var http              = require('http'),
 	  exphbs            = require('express3-handlebars'),
 	  config            = require('./config.json'),
 	  overrideTemplates = require('./override-templates.json'),
-	  pg                = require('pg');
+	  pg                = require('pg'),
+	  memwatch          = require('memwatch');
 
 var app      = express();
 module.exports = app;
 
 var appTitle             = config.app.name,
 		dataFormatResponders = {};
+
+//
+// Handle memory leaks
+//
+memwatch.on('leak', function(info) {
+	console.log('Memory Leak detected:', info);
+});
 	
 //
 // Setup Express

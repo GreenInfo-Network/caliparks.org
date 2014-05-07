@@ -2,7 +2,7 @@
 
 module.exports = function(req, res, data, callback) {
 
-	var pg      = require('pg');
+	var pg = require('pg');
 
 	var contextBiggestToSmallest = require('../contexts/biggest-to-smallest.js'),
       contextMostPhotographed  = require('../contexts/most-photographed.js'),
@@ -104,6 +104,8 @@ module.exports = function(req, res, data, callback) {
           var mostPhotographed  = splitItems(contextDataMostPhotographed.parks);
           var mostTweets        = splitItems(contextDataMostTweets.parks);
           var mostCheckins      = splitItems(contextDataMostCheckins.parks);
+
+          pgClient.end();
 
           return callback(null, {
             appTitle               : 'California Open Spaces',
