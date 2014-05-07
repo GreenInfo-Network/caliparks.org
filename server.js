@@ -198,7 +198,7 @@ app.get('/wander', function(req,res) {
 
 app.get('/park/:id', function(req,res, next) {
 
-	if (typeof req.params.id === 'number') {
+	if (!Number.isNaN(parseInt(req.params.id))) {
 		require('./controllers/park.js')(req, res, {
 			overrideTemplates : overrideTemplates
 		}, function(err, templateData) {
