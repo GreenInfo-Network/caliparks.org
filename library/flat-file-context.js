@@ -59,17 +59,26 @@ module.exports = function(options) {
       } else {
         pg.connect(process.env.DATABASE_URL, function(err, client, cb) {
 
+          if (err) {
+            return console.error(err);
+          }
+
           client.query(theseOptions.query, function(err, response) {
+
+            if (err) {
+              return console.error(err);
+            }
 
             response.rows.forEach(function(park) {
               match_map[park.su_id] = park;
             });
 
+            cb();
+
             finish(context.map(function(item) {
               //
               // Actually just return the db record
               //
-              cb();
               return match_map[item.su_id];
             }));
           });
