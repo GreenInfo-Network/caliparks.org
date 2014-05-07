@@ -1,46 +1,45 @@
 'use strict';
 
+var pg = require('pg');
+
+var contextBiggestToSmallest = require('../contexts/biggest-to-smallest.js'),
+    contextMostPhotographed  = require('../contexts/most-photographed.js'),
+    contextMostTweets        = require('../contexts/most-tweets.js'),
+    contextMostCheckins      = require('../contexts/most-checkins.js');
+
+var suIdsByHashtag  = require('../public/data/suIdsByHashtag.json'),
+    hashtags        = require('../public/data/hashtagsBySuId.json'),
+    glop_slider_max = 100,
+    sortSettings    = {};
+
+function splitItems(array, splitAt) {
+  var arrays = [[],[]];
+
+  array.forEach(function(item, i) {
+
+    if(i < (splitAt || 20)) {
+      arrays[0].push(item);
+    } else {
+      arrays[1].push(item)
+    }
+
+  });
+
+  return arrays;
+}
+
 module.exports = function(req, res, data, callback) {
 
-	var pg = require('pg');
+	var sortItem, contextBiggestToSmallestDecorated;
 
-	var contextBiggestToSmallest = require('../contexts/biggest-to-smallest.js'),
-      contextMostPhotographed  = require('../contexts/most-photographed.js'),
-      contextMostTweets        = require('../contexts/most-tweets.js'),
-      contextMostCheckins      = require('../contexts/most-checkins.js');
-
-	var dbCon             = process.env.DATABASE_URL,
-      pgClient          = new pg.Client(dbCon),
-      suIdsByHashtag    = require('../public/data/suIdsByHashtag.json'),
-      hashtags          = require('../public/data/hashtagsBySuId.json'),
-      glop_slider_max   = 100,
-      sortSettings      = {},
-      sortItem, contextBiggestToSmallestDecorated;
-
-
-  function splitItems(array, splitAt) {
-    var arrays = [[],[]];
-
-    array.forEach(function(item, i) {
-
-      if(i < (splitAt || 20)) {
-        arrays[0].push(item);
-      } else {
-        arrays[1].push(item)
-      }
-
-    });
-
-    return arrays;
-  }
 
   return contextBiggestToSmallest({
-  	//limit : 6
+    //limit : 6
   }, function(err, contextDataBiggestToSmallest) {
 
-		if (err) {
-			return callback(err);
-		}
+    if (err) {
+      return callback(err);
+    }
 
     //
     // Decorate the BiggestToSmallestContext
@@ -50,7 +49,7 @@ module.exports = function(req, res, data, callback) {
       return park;
     });
 
-		return contextMostPhotographed({
+    return contextMostPhotographed({
       mixData : contextBiggestToSmallestDecorated
     }, function(err, contextDataMostPhotographed) {
 
@@ -105,8 +104,6 @@ module.exports = function(req, res, data, callback) {
           var mostTweets        = splitItems(contextDataMostTweets.parks);
           var mostCheckins      = splitItems(contextDataMostCheckins.parks);
 
-          pgClient.end();
-
           return callback(null, {
             appTitle               : 'California Open Spaces',
             parks                  : biggestToSmallest[0],
@@ -133,6 +130,6 @@ module.exports = function(req, res, data, callback) {
 
     });
 
-	});
+  });
 
 }

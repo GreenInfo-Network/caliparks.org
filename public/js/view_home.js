@@ -28,7 +28,6 @@
         that.rootElement.classList.remove('scrolled-furthest');
       }
 
-      console.log(that.rootElement);
       if (e.target.scrollLeft < (e.target.offsetWidth/2)) {
         that.rootElement.classList.add('not-scrolled');
       } else {
