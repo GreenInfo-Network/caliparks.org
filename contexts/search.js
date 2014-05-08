@@ -1,21 +1,24 @@
 'use strict';
 
-var pg        = require('pg'),
+var env       = require('require-env'),
+    pg        = require('pg'),
     sanitizer = require('sanitizer');
 
-module.exports = function(data, callback) {
-
-  var dbCon          = process.env.DATABASE_URL,
-      pgClient       = new pg.Client(dbCon);
+module.exports = function(data, _callback) {
 
   var dbLimit = '',
-      dbQuery = '',
+      dbQuery = 'yosemite', // default
       searchQuery;
 
-    pgClient.connect(function(err) {
+  return pg.connect(env.require('DATABASE_URL'), function(err, client, done) {
+    var callback = function() {
+      done.apply(null, arguments);
+      return _callback.apply(null, arguments);
+    };
 
-    if(err) {
-      return console.error('could not connect to postgres', err);
+    if (err) {
+      console.error('could not connect to postgres', err);
+      return callback(err);
     }
 
     if (data.limit) {
@@ -25,23 +28,19 @@ module.exports = function(data, callback) {
     searchQuery = data.query || data._query.q;
 
     if (searchQuery) {
-      dbQuery = sanitizer.sanitize(searchQuery.toLowerCase()).split('+').join(' ') || 'yosemite';
+      dbQuery = sanitizer.sanitize(searchQuery.toLowerCase()).split('+').join(' ') || dbQuery;
     }
 
-    pgClient.query('SELECT * FROM cpad_2013b_superunits_ids_4326 WHERE LOWER( unit_name ) LIKE \'%' + dbQuery + '%\'' + dbLimit + ';', function(err, result) {
+    return client.query('SELECT * FROM cpad_2013b_superunits_ids_4326 WHERE LOWER( unit_name ) LIKE \'%' + dbQuery + '%\'' + dbLimit + ';', function(err, result) {
       if(err) {
-        return console.error('error running query', err);
+        console.error('error running query', err);
+        return callback(err);
       }
 
-      callback(null, {
+      return callback(null, {
         parks : result.rows,
         title : sanitizer.sanitize(dbQuery)
       });
-
-
-      pgClient.end();
     });
-
   });
-
-}
+};
