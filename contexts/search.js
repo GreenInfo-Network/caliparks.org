@@ -28,10 +28,10 @@ module.exports = function(data, _callback) {
     searchQuery = data.query || data._query.q;
 
     if (searchQuery) {
-      dbQuery = sanitizer.sanitize(searchQuery.toLowerCase()).split('+').join(' ') || dbQuery;
+      dbQuery = sanitizer.sanitize(searchQuery.toLowerCase()).split('+').join(' ') || sanitizer.sanitize(dbQuery);
     }
 
-    return client.query('SELECT * FROM cpad_2013b_superunits_ids_4326 WHERE LOWER( unit_name ) LIKE \'%' + dbQuery + '%\'' + dbLimit + ';', function(err, result) {
+    return client.query('SELECT * FROM cpad_2013b_superunits_ids_4326 WHERE LOWER( unit_name ) LIKE \'%' + dbQuery.split("'").join("") + '%\'' + dbLimit, function(err, result) {
       if(err) {
         console.error('error running query', err);
         return callback(err);

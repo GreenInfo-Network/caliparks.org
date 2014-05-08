@@ -6,7 +6,20 @@ module.exports = function(req, res, data, callback) {
 	try {
 		context = require('../contexts/' + data.context + '.js');
 	} catch (err) {
-		res.redirect('/404');
+		console.error('Context could not be loaded:',err);
+		res.status(404);
+		res.render('404', {
+			coverPhoto : {
+				farm:9,
+				server:8429,
+				photoid:7492144602,
+				secret:'1706ca60db',
+				ownername:'Grand Canyon NPS',
+				owner:'grand_canyon_nps'
+			},
+			appTitle : 'California Open Spaces: #BZZT',
+			suggestion : suggestion
+		});
 	}
 
 	var hashtags = require('../public/data/hashtagsBySuId.json'),
