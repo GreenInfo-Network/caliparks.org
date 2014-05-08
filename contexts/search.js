@@ -12,7 +12,7 @@ module.exports = function(data, _callback) {
 
   return pg.connect(env.require('DATABASE_URL'), function(err, client, done) {
     var callback = function() {
-      done.apply(null, arguments);
+      done();
       return _callback.apply(null, arguments);
     };
 
