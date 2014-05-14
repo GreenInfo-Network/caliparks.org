@@ -7,7 +7,9 @@ var env               = require('require-env'),
     pg                = require('pg'),
     memwatch          = require('memwatch');
 
-var FEATURED_PARKS = require("./public/data/featured_parks.json");
+var FEATURED_PARKS = require("./public/data/featured_parks.json"),
+    SUPER_UNIT_IDS_BY_HASHTAG = require('./public/data/suIdsByHashtag.json');
+
 
 var app      = express();
 module.exports = app;
@@ -109,11 +111,10 @@ function go404(req, res, next) {
     });
   }
 
-  var possibleHashtag,
-      suIds           = require('./public/data/suIdsByHashtag.json');
+  var possibleHashtag;
 
   if (req.params[0] && req.params[0].substring(1,6)) {
-    possibleHashtag = [req.params[0].substring(1,6),suIds[req.params[0].substring(1,6).toUpperCase()]];
+    possibleHashtag = [req.params[0].substring(1,6),SUPER_UNIT_IDS_BY_HASHTAG[req.params[0].substring(1,6).toUpperCase()]];
 
     if (possibleHashtag[1]) {
       pg.connect(env.require('DATABASE_URL'), function(err, client, done) {
