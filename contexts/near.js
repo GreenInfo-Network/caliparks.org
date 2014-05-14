@@ -6,12 +6,10 @@ var env     = require('require-env'),
 
 module.exports = function(data, callback) {
 
-  var dbLimit = '',
-      dbQuery = '',
-      isLatLongTest = /^-?\d*.\d*\,-?\d*.\d*$/,
+  var isLatLongTest = /^-?\d*.\d*\,-?\d*.\d*$/,
       limit         = ((data.options) ? data.options.limit : null) || 100000,
       not           = ((data.options) ? data.options.not : null) ? ' AND su_id <> ' + parseInt(data.options.not) : '',
-      thisPlace, loc, res;
+      loc, res;
 
   function getPlace(callback) {
 
