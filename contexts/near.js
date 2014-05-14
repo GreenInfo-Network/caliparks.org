@@ -16,6 +16,7 @@ module.exports = function(data, callback) {
     if (data.query && isLatLongTest.test(data.query)) {
       loc = data.query.split(',');
 
+      // TODO fetch the map id from the environment
       request('http://api.tiles.mapbox.com/v3/stamen.hckn2ljm/geocode/'+loc[1]+','+loc[0]+'.json', function (error, response, body) {
         if (error) {
           return callback(error);
