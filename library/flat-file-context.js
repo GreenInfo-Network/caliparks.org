@@ -1,6 +1,7 @@
 'use strict';
 
-var pg = require('pg');
+var env = require('require-env'),
+    pg  = require('pg');
 
 var contexts = {};
 
@@ -29,7 +30,7 @@ module.exports = function(options) {
 
       var match_map = {};
 
-      function finish(context) {
+      function finish(context, callback) {
 
         callback(null, {
           parks : context,
@@ -45,42 +46,46 @@ module.exports = function(options) {
       //
       if (typeof data.mixData === "object") {
 
-          data.mixData.forEach(function(park) {
-              match_map[park.su_id] = park;
-          });
+        data.mixData.forEach(function(park) {
+            match_map[park.su_id] = park;
+        });
 
-          finish(context.map(function(item) {
-            //
-            // Actually just return the db record
-            //
-            return match_map[item.su_id];
-          }));
+        finish(context.map(function(item) {
+          //
+          // Actually just return the db record
+          //
+          return match_map[item.su_id];
+        }), callback);
 
       } else {
-        pg.connect(process.env.DATABASE_URL, function(err, client, cb) {
+        pg.connect(env.require('DATABASE_URL'), function(err, client, done) {
+          var _callback = callback;
+
+          callback = function() {
+            done();
+            return _callback.apply(null, arguments);
+          };
 
           if (err) {
-            return console.error(err);
+            return callback(err);
           }
 
           client.query(theseOptions.query, function(err, response) {
 
             if (err) {
-              return console.error(err);
+              return callback(err);
             }
 
             response.rows.forEach(function(park) {
               match_map[park.su_id] = park;
             });
 
-            cb();
-
-            finish(context.map(function(item) {
+            return finish(context.map(function(item) {
               //
               // Actually just return the db record
               //
               return match_map[item.su_id];
-            }));
+            }), callback);
           });
 
         });
