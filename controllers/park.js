@@ -75,20 +75,20 @@ module.exports = function(req, res, data, callback) {
       }
     });
 
-	  //
-		// Get special template if one exists
-		//
-		if (data.overrideTemplates[park_id]) {
+    //
+    // Get special template if one exists
+    //
+    if (data.overrideTemplates[park_id]) {
       template = data.overrideTemplates[park_id].template;
-		  title    = data.overrideTemplates[park_id].title;
-		}
+      title    = data.overrideTemplates[park_id].title;
+    }
 
-		pgClient.connect(function(err) {
-			if(err) {
-				console.error('could not connect to postgres', err);
+    pgClient.connect(function(err) {
+      if(err) {
+        console.error('could not connect to postgres', err);
         pgClient.end();
         return callback(err);
-			}
+      }
 
       return async.parallel({
         result: async.apply(pgClient.query.bind(pgClient), 'select * from site_park where su_id = $1 limit 9000', [park_id]),
@@ -247,6 +247,6 @@ module.exports = function(req, res, data, callback) {
         pgClient.end();
 
       });
-		});
+    });
 
 }
