@@ -20,7 +20,7 @@ function splitItems(array, splitAt) {
     if(i < (splitAt || 20)) {
       arrays[0].push(item);
     } else {
-      arrays[1].push(item)
+      arrays[1].push(item);
     }
 
   });
@@ -30,7 +30,7 @@ function splitItems(array, splitAt) {
 
 module.exports = function(req, res, data, callback) {
 
-	var sortItem, contextBiggestToSmallestDecorated;
+  var sortItem, contextBiggestToSmallestDecorated;
 
 
   return contextBiggestToSmallest({
@@ -132,4 +132,4 @@ module.exports = function(req, res, data, callback) {
 
   });
 
-}
+};
