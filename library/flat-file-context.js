@@ -17,15 +17,15 @@ module.exports = function(options) {
       var theseOptions = options;
 
       if (!options.name) {
-        return callback('You need to pass a name parameter');
+        return callback(new Error('You need to pass a name parameter'));
       }
 
       if (!options.query) {
-        return callback('You need to pass a query parameter');
+        return callback(new Error('You need to pass a query parameter'));
       }
 
       if (!options.title) {
-        return callback('You need to pass a title parameter');
+        return callback(new Error('You need to pass a title parameter'));
       }
 
       var match_map = {};
