@@ -1,6 +1,0 @@
-{
-	"app": {
-		"name" : "openspaces",
-		"port" : 3000
-	}
-}

@@ -1,9 +1,7 @@
 'use strict';
 
-var http              = require('http'),
-    express           = require('express'),
+var express           = require('express'),
     exphbs            = require('express3-handlebars'),
-    config            = require('./config.json'),
     overrideTemplates = require('./override-templates.json'),
     pg                = require('pg'),
     memwatch          = require('memwatch');
@@ -11,8 +9,7 @@ var http              = require('http'),
 var app      = express();
 module.exports = app;
 
-var appTitle             = config.app.name,
-    dataFormatResponders = {};
+var dataFormatResponders = {};
 
 //
 // Handle memory leaks
