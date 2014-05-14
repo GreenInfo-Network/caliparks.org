@@ -1,38 +1,34 @@
 'use strict';
 
-module.exports = function(data, callback) {
+var env = require('require-env'),
+    pg  = require('pg');
 
-  var pg = require('pg');
-
-  var dbCon          = process.env.DATABASE_URL,
-      pgClient       = new pg.Client(dbCon);
-
+module.exports = function(data, _callback) {
   var dbLimit = '';
 
-    pgClient.connect(function(err) {
+  return pg.connect(env.require('DATABASE_URL'), function(err, client, done) {
+    var callback = function() {
+      done();
+      return _callback.apply(null, arguments);
+    };
 
-    if(err) {
-      return console.error('could not connect to postgres', err);
+    if (err) {
+      return callback(err);
     }
 
     if (data.limit) {
       dbLimit = ' LIMIT ' + data.limit;
     }
 
-    pgClient.query('SELECT su_id, unit_name FROM site_park ORDER BY park_area Desc' + dbLimit + ';', function(err, result) {
-      if(err) {
-        return console.error('error running query', err);
+    return client.query('SELECT su_id, unit_name FROM site_park ORDER BY park_area Desc' + dbLimit + ';', function(err, result) {
+      if (err) {
+        return callback(err);
       }
 
-      callback(null, {
+      return callback(null, {
         parks : result.rows,
         title : 'Biggest to smallest'
       });
-
-
-      pgClient.end();
     });
-
   });
-
-}
+};

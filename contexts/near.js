@@ -1,12 +1,10 @@
 'use strict';
 
+var env     = require('require-env'),
+    pg      = require('pg'),
+    request = require('request');
+
 module.exports = function(data, callback) {
-
-  var pg      = require('pg'),
-      request = require('request');
-
-  var dbCon          = process.env.DATABASE_URL,
-      pgClient       = new pg.Client(dbCon);
 
   var dbLimit = '',
       dbQuery = '',
@@ -58,37 +56,38 @@ module.exports = function(data, callback) {
     return item;
   }
 
-  pgClient.connect(function(err) {
+  pg.connect(env.require('DATABASE_URL'), function(err, client, done) {
+    var _callback = callback;
 
-    if(err) {
-      return console.error('could not connect to postgres', err);
+    callback = function() {
+      done();
+      return _callback.apply(null, arguments);
+    };
+
+    if (err) {
+      return callback(err);
     }
 
     if (data.query) {
-
       getPlace(function(error, place) {
-        pgClient.query('select *, ST_AsGeoJSON(geom) as geometry, ST_AsGeoJSON(ST_Centroid(geom)) as centroid, ST_distance(geom, st_setsrid(st_makepoint('+place.coordinates[1]+','+place.coordinates[0]+'),4326)) as distance from (select * from cpad_2013b_superunits_ids_4326 where ST_DWithin(geom, st_setsrid(st_makepoint('+place.coordinates[1]+','+place.coordinates[0]+'),4326), .3)'+not+' LIMIT '+limit+') as shortlist order by distance asc;', function(err, result) {
+        client.query('select *, ST_AsGeoJSON(geom) as geometry, ST_AsGeoJSON(ST_Centroid(geom)) as centroid, ST_distance(geom, st_setsrid(st_makepoint('+place.coordinates[1]+','+place.coordinates[0]+'),4326)) as distance from (select * from cpad_2013b_superunits_ids_4326 where ST_DWithin(geom, st_setsrid(st_makepoint('+place.coordinates[1]+','+place.coordinates[0]+'),4326), .3)'+not+' LIMIT '+limit+') as shortlist order by distance asc;', function(err, result) {
           if(err) {
-            return console.error('error running query', err);
+            return callback(err);
           }
 
-          callback(null, {
+          return callback(null, {
             parks : result.rows.map(cpadRowFilter),
             title : place.details && place.details.name ? 'near ' + place.details.name : 'nearby'
           });
-
-
-          pgClient.end();
         });
       });
 
     } else {
-      callback(null, {
+      return callback(null, {
         parks : [],
         title : 'near you'
       });
     }
 
   });
-
-}
+};

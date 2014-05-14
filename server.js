@@ -1,6 +1,7 @@
 'use strict';
 
-var express           = require('express'),
+var env               = require('require-env'),
+    express           = require('express'),
     exphbs            = require('express3-handlebars'),
     overrideTemplates = require('./override-templates.json'),
     pg                = require('pg'),
@@ -88,7 +89,7 @@ function dataRouteResponse(res, data, format, whitelist) {
   return dataFormatResponders[format] ? dataFormatResponders[format].apply(this, arguments) : dataFormatResponders['*'].apply(this, arguments);
 }
 
-function go404(req,res) {
+function go404(req, res, next) {
 
   function go(suggestion) {
     res.status(404);
@@ -106,9 +107,6 @@ function go404(req,res) {
     });
   }
 
-  var dbCon    = process.env.DATABASE_URL,
-      pgClient = new pg.Client(dbCon);
-
   var possibleHashtag,
       suIds           = require('./public/data/suIdsByHashtag.json');
 
@@ -116,12 +114,24 @@ function go404(req,res) {
     possibleHashtag = [req.params[0].substring(1,6),suIds[req.params[0].substring(1,6).toUpperCase()]];
 
     if (possibleHashtag[1]) {
-      pgClient.connect(function(err) {
-        pgClient.query('select * from site_park where su_id = ' + possibleHashtag[1], function(err, result) {
+      pg.connect(env.require('DATABASE_URL'), function(err, client, done) {
+        if (err) {
+          done();
+          return next(err);
+        }
+
+        client.query('select * from site_park where su_id = ' + possibleHashtag[1], function(err, result) {
+          if (err) {
+            done();
+            return next(err);
+          }
+
           go(result.rows.length ? {
             name : result.rows[0].unit_name,
             url  : '/#' + possibleHashtag[0].toUpperCase()
           } : null);
+
+          done();
         });
       });
     } else {
@@ -143,12 +153,11 @@ app.use('/js',    express.static('./public/js', { maxAge: 3600e3 }));
 app.use('/data',  express.static('./public/data', { maxAge: 3600e3 }));
 
 
-app.get('/', function(req,res) {
+app.get('/', function(req, res, next) {
 
   require('./controllers/home.js')(req, res, {}, function(err, templateData) {
-
     if (err) {
-      return console.error(err);
+      return next(err);
     }
 
     templateData.layout = 'photo-back';
