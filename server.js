@@ -42,9 +42,9 @@ app.engine('handlebars', exphbs({
           l = o[o.length-1].split('|');
 
       if ((o[0] | 0) === 1 && o.length === 2) {
-       return options.fn(this).split(l[0])[0] + ' ' +  l[0];
+        return options.fn(this).split(l[0])[0] + ' ' +  l[0];
       } else {
-       return options.fn(this).split(l[0])[0] + ' ' +  l[1];
+        return options.fn(this).split(l[0])[0] + ' ' +  l[1];
       }
     }
   }
