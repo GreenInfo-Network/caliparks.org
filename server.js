@@ -37,14 +37,14 @@ app.engine('handlebars', exphbs({
       options = (typeof arguments[0] !== 'object') ? arguments[1] : arguments[0];
       number  = (typeof arguments[0] !== 'object') ? arguments[0] : null; //If not, the number is already in the string
 
-       var o = (number) ? [number,options.fn(this)] : options.fn(this).split(' '),
-           l = o[o.length-1].split('|');
+      var o = (number) ? [number,options.fn(this)] : options.fn(this).split(' '),
+          l = o[o.length-1].split('|');
 
-       if ((o[0] | 0) === 1 && o.length === 2) {
-        return options.fn(this).split(l[0])[0] + ' ' +  l[0];
-       } else {
-        return options.fn(this).split(l[0])[0] + ' ' +  l[1];
-       }
+      if ((o[0] | 0) === 1 && o.length === 2) {
+       return options.fn(this).split(l[0])[0] + ' ' +  l[0];
+      } else {
+       return options.fn(this).split(l[0])[0] + ' ' +  l[1];
+      }
     }
   }
 }));
@@ -65,22 +65,22 @@ dataFormatResponders['.json'] = function dataFormatResponderJSON(res, data, form
     status   : 'ok',
     response : dataOut
   });
-}
+};
 
 dataFormatResponders['*'] = function dataFormatResponder404(res, data, format, whitelist) {
   res.status(404);
-      res.render('404', {
-      coverPhoto : {
-        farm:9,
-        server:8429,
-        photoid:7492144602,
-        secret:'1706ca60db',
-        ownername:'Grand Canyon NPS',
-        owner:'grand_canyon_nps'
-      },
-      appTitle : 'California Open Spaces: #BZZT'
+  res.render('404', {
+    coverPhoto : {
+      farm:9,
+      server:8429,
+      photoid:7492144602,
+      secret:'1706ca60db',
+      ownername:'Grand Canyon NPS',
+      owner:'grand_canyon_nps'
+    },
+    appTitle : 'California Open Spaces: #BZZT'
   });
-}
+};
 
 function dataRouteResponse(res, data, format, whitelist) {
   data.methodDescription = data.appTitle;
