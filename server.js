@@ -212,7 +212,7 @@ app.get('/wander', function(req,res) {
 
 });
 
-app.get('/park/:id(\d+)', function(req,res, next) {
+app.get('/park/:id(\\d+)', function(req,res, next) {
 
   if (!Number.isNaN(parseInt(req.params.id))) {
     require('./controllers/park.js')(req, res, {
