@@ -37,8 +37,7 @@
     "expect": "~0.1.1",
     "supertest": "~0.12.0",
     "memwatch": "~0.2.2",
-    "require-env": "0.0.4",
-    "node-rss": "~1.0.1"
+    "require-env": "0.0.4"
   },
   "license": "MIT",
   "engines": {

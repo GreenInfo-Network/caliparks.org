@@ -5,8 +5,7 @@ var env               = require('require-env'),
     exphbs            = require('express3-handlebars'),
     overrideTemplates = require('./override-templates.json'),
     pg                = require('pg'),
-    memwatch          = require('memwatch'),
-    rss               = require('node-rss');
+    memwatch          = require('memwatch');
 
 var FEATURED_PARKS = require("./public/data/featured_parks.json"),
     SUPER_UNIT_IDS_BY_HASHTAG = require('./public/data/suIdsByHashtag.json');
