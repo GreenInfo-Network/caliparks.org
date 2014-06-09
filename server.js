@@ -236,6 +236,42 @@ app.get('/park/:id(\\d+)', function(req,res, next) {
 
 });
 
+app.get('/park/:id(\\d+):format(\.\\D+$)', function(req,res, next) {
+
+  if (!Number.isNaN(parseInt(req.params.id))) {
+    require('./controllers/park.js')(req, res, {
+      overrideTemplates : overrideTemplates
+    }, function(err, templateData) {
+
+      if (err) {
+        return next(err);
+      }
+
+      if (templateData) {
+        dataRouteResponse(res, templateData, req.params.format, [
+          'park_id',
+          'name',
+          'hashtag',
+          'coverPhoto',
+          'flickrPhotos',
+          'tweets',
+          'venues_activity',
+          'venues_checkins',
+          'venues_tips',
+          'centroid',
+          'cpadPark'
+        ]);
+      } else {
+        go404.apply(null,arguments);
+      }
+
+    });
+  } else {
+    go404.apply(null,arguments);
+  }
+
+});
+
 app.get('/parks/', function(req,res, next) {
 
   require('./controllers/parks.js')(req, res, {
