@@ -5,7 +5,8 @@ var env               = require('require-env'),
     exphbs            = require('express3-handlebars'),
     overrideTemplates = require('./override-templates.json'),
     pg                = require('pg'),
-    memwatch          = require('memwatch');
+    memwatch          = require('memwatch'),
+    rss               = require('node-rss');
 
 var FEATURED_PARKS = require("./public/data/featured_parks.json"),
     SUPER_UNIT_IDS_BY_HASHTAG = require('./public/data/suIdsByHashtag.json');
@@ -224,6 +225,7 @@ app.get('/park/:id(\\d+)', function(req,res, next) {
       }
 
       if (templateData) {
+        templateData.hasAPI = true;
         res.render('park', templateData);
       } else {
         go404.apply(null,arguments);
@@ -341,6 +343,7 @@ app.get('/parks/:context', function(req,res, next) {
       return next(err);
     }
 
+    templateData.hasAPI = true;
     templateData.layout = 'photo-back';
 
     res.render('parks', templateData);
@@ -360,6 +363,7 @@ app.get('/parks/:context/:query', function(req,res, next) {
       return next(err);
     }
 
+    templateData.hasAPI = true;
     templateData.layout = 'photo-back';
 
     res.render('parks', templateData);

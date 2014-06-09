@@ -15,7 +15,10 @@ module.exports = function(req, res, data, callback) {
 			return console.error('could not connect to postgres', err);
 		}
 
-		pgClient.query('SELECT * FROM site_park where agncy_id = ' + req.params.id + ' ORDER BY agncy_name ASC;', function(err, result) {
+		pgClient.query({
+			text   : 'SELECT * FROM site_park where agncy_id = $1 ORDER BY agncy_name ASC;',
+			values : [req.params.id]
+		}, function(err, result) {
 			if(err) {
 				return console.error('error running query', err);
 			}
