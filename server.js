@@ -123,7 +123,10 @@ function go404(req, res, next) {
           return next(err);
         }
 
-        client.query('select * from site_park where su_id = ' + possibleHashtag[1], function(err, result) {
+        client.query({
+          text : 'select * from site_park where su_id = $1',
+          values : [possibleHashtag[1]]
+        }, function(err, result) {
           if (err) {
             done();
             return next(err);
