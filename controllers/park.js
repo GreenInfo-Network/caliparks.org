@@ -92,10 +92,10 @@ module.exports = function(req, res, data, callback) {
 
       return async.parallel({
         result: async.apply(pgClient.query.bind(pgClient), 'select * from site_park where su_id = $1 limit 9000', [park_id]),
-        flesult: async.apply(pgClient.query.bind(pgClient), 'select * from site_park_flickr_photos where containing_park_id = $1 limit 9000', [park_id]),
+        flesult: async.apply(pgClient.query.bind(pgClient), 'select photoid, owner, secret, server, farm, title, latitude, longitude, accuracy, woeid, tags, dateupload, datetaken, ownername, description, license, o_width, o_height, url_l, height_l, width_l from site_park_flickr_photos where containing_park_id = $1 limit 9000', [park_id]),
         instasult: async.apply(pgClient.query.bind(pgClient), 'select * from site_instagram_photos where su_id = $1 limit 9000', [park_id]),
-        foursult: async.apply(pgClient.query.bind(pgClient), 'select * from site_foursquare_venues_activity where su_id = $1 limit 9000', [park_id]),
-        tweetsult: async.apply(pgClient.query.bind(pgClient), 'select * from site_tweets where su_id = $1 limit 9000', [park_id])
+        foursult: async.apply(pgClient.query.bind(pgClient), 'select id,venueid,name,lat,lng,address,postcode,city,state,country,cc,categ_id,categ_name,verified,restricted,referral_id,checkinscount,tipcount,likescount,mayor_id,mayor_firstname,mayor_lastname from site_foursquare_venues_activity where su_id = $1 limit 9000', [park_id]),
+        tweetsult: async.apply(pgClient.query.bind(pgClient), 'select id_str, place, coords, username, fullname, client, date, retweet_count, favorite_count, lang, content from site_tweets where su_id = $1 limit 9000', [park_id])
       }, function(err, apiResponse) {
         if (err) {
           console.error('error running query', err);
