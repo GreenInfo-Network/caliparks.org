@@ -10,7 +10,8 @@ var async    = require('async'),
 
 var dbCon    = process.env.DATABASE_URL,
     hashtags = require('../public/data/hashtagsBySuId.json'),
-    contexts = {};
+    contexts = {},
+    cpadModified;
 
 function fuzzyRound(N) {
   var rounded = Math.max(Math.round(N / 10) * 10);
@@ -193,7 +194,12 @@ module.exports = function(req, res, data, callback) {
 
           });
 
-
+          //
+          // Modify CPAD to work better as an API output
+          //
+          cpadModified            = result.rows[0]
+          cpadModified.park_shape = JSON.parse(result.rows[0].park_shape);
+          cpadModified.bbox       = JSON.parse(result.rows[0].bbox);
 
           callback( null, {
             appTitle         : 'California Open Spaces > ' + result.rows[0].unit_name,
