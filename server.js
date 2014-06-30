@@ -231,12 +231,12 @@ app.get('/park/:id(\\d+)', function(req,res, next) {
         templateData.hasAPI = true;
         res.render('park', templateData);
       } else {
-        go404.apply(null,arguments);
+        go404.apply(null,[req, res, next]);
       }
 
     });
   } else {
-    go404.apply(null,arguments);
+    go404.apply(null,[req, res, next]);
   }
 
 });
