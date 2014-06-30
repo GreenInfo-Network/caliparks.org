@@ -96,6 +96,7 @@ function dataRouteResponse(res, data, format, whitelist) {
 function go404(req, res, next) {
 
   function go(suggestion) {
+
     res.status(404);
     res.render('404', {
       coverPhoto : {
@@ -113,7 +114,7 @@ function go404(req, res, next) {
 
   var possibleHashtag;
 
-  if (req.params[0] && req.params[0].substring(1,6)) {
+  if (req && req.params[0] && req.params[0].substring(1,6)) {
     possibleHashtag = [req.params[0].substring(1,6),SUPER_UNIT_IDS_BY_HASHTAG[req.params[0].substring(1,6).toUpperCase()]];
 
     if (possibleHashtag[1]) {
@@ -266,12 +267,12 @@ app.get('/park/:id(\\d+):format(\.\\D+$)', function(req,res, next) {
           'cpadPark'
         ]);
       } else {
-        go404.apply(null,arguments);
+        go404.apply(null,[req, res, next]);
       }
 
     });
   } else {
-    go404.apply(null,arguments);
+    go404.apply(null,[req, res, next]);
   }
 
 });
