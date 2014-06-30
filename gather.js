@@ -261,71 +261,22 @@ var saveInstagramArrayResult = function(client, lat, lng, radius, park_ids) {
   // return nothing?
 };
 
-function getInstagramData(client, swProj, neProj, park, callback) {
+function getInstagramPhotosForCircles(client, circles, callback) {
 
   // Create a queue with a worker (that currently does nothing but call each task's callback)
   var q = async.queue(function (task, callback) {
     console.log('starting', task.name, task.centerX, task.centerY, task.radius);
     callback();
-  }, 1);  // TODO: increase this.
+  }, 10);  // TODO: increase this.
 
+  circles.forEach(function(circle) {  // Can be synchronous since we're firing of queue tasks
+    liveTaskCounter["circles"] = 1;
+    latLngToProjectedCoords(client, circle.lat, circle.lng, function(err, coords) {
+      q.push({name: "", centerX: coords[1], centerY: coords[0], radius: circle.radius}, instagramRecursionQueueTask(null, client, coords[0], coords[1], circle.radius, null, circle.parks, 1, q, callback));
 
-  var radius = 5000; // Instagram maximum radius allowed in metres
+    });
+  });
 
-  // Get park's projected bounds. Determine center 
-
-  //determine which circles to query to cover the given bbox, etc etc.
-
-  var swArray = swProj.split(","),
-      neArray = neProj.split(","),
-      yMin = +swArray[0],
-      xMin = +swArray[1],
-      yMax = +neArray[0],
-      xMax = +neArray[1];
-
-  var yMid = (yMin + yMax) / 2,
-      xMid = (xMin + xMax) / 2;
-
-  var xWidth = xMax - xMin;
-  var yWidth = yMax - yMin;
-
-  var a = xMax - xMid;
-  var b = yMax - yMid;
-  var c = Math.sqrt(Math.pow(a,2) + Math.pow(b,2));
-
-  if (c < radius) {
-    console.log("park", park.id, park.name, "has radius of", c, "which is smaller than the maximum", radius);
-    radius = c;
-
-    liveTaskCounter[park.id] = 1;
-    q.push({name: "park:" + park.id, centerX: xMid, centerY: yMid, radius: radius}, instagramRecursionQueueTask(null, client, yMid, xMid, radius, null, park, 1, q, callback));
-
-  } else {
-    console.log("park", park.id, park.name, "has radius of", c, "which is larger than the maximum", radius);
-    // Here we subdivide the park into individual circles.
-
-    liveTaskCounter[park.id] = 0;
-
-    console.log("creating array, xMin:", xMin, "xMax:", xMax, "yMin:", yMin, "yMax:", yMax, "grid width", xWidth/5000, "grid height", yWidth/5000);
-
-    var totalCount = ((xMax-xMin)/radius) * ((yMax-yMin)/radius)
-    var i = 1;
-    for (var x=xMin; x < xMax; x += radius) {
-      for (var y=yMin; y < yMax; y += radius) {
-        var queryX = x;
-        var queryY = y;
-
-        console.log("testing circle intersection, y:", y, "x:", x, radius, park.id);
-        testProjectedCircleIntersectionWithParks(client, queryX, queryY, radius, [park.id], function(err, queryX, queryY, radius, result) {
-
-          if (result && result.length > 0) {
-            liveTaskCounter[park.id] = liveTaskCounter[park.id] + 1;
-            q.push({name: "park:" + park.id + "(" + i++ + " of " + totalCount + ")", centerX: queryX, centerY: queryY, radius: radius}, instagramRecursionQueueTask(null, client, queryY, queryX, radius, null, park, 1, q, callback));
-          }
-        });
-      }
-    }
-  }
 }
 
 function queryInstagramAPI(lat, lng, radius, callback) {
@@ -410,7 +361,7 @@ function queryInstagramAPI(lat, lng, radius, callback) {
   });
 }
 
-function instagramRecursionQueueTask(err, client, y, x, radius, polygon, park, depth, q, callback) {
+function instagramRecursionQueueTask(err, client, y, x, radius, polygon, parks, depth, q, callback) {
   // This stuff should be moved into a task that can be added to a queue. 
 
   // Since we are using projected coordiantes, need to convert to latlng for Instagram API
@@ -432,40 +383,71 @@ function instagramRecursionQueueTask(err, client, y, x, radius, polygon, park, d
           photos = body.data;
           count = photos.length;
 
-          console.log("park", park.id, "got", count, "instagram photos");
+          console.log(latMid, lngMid, radius, "depth", depth, "got", count, "instagram photos");
 
           // If the count is 100, I think I need to recurse here.
 
-          var metadata_id = saveInstagramHarvesterMetadata(client, park.id, latMid, lngMid, radius, new Date(), count);
+          var metadata_id = saveInstagramHarvesterMetadata(client, null, latMid, lngMid, radius, new Date(), count);
 
           //metadata_id = 1; // It's currently fake anyway
 
-          saveInstagramHarvesterResults(client, metadata_id, photos, park);
+          saveInstagramHarvesterResults(client, metadata_id, photos, null);
 
-          if (count >= 100) {
+          if (count >= 100 && radius > 10) {	// TODO improve this. For now, stop if radius drops below X metres!
 
-            // new centers are +/- radius/2 in all directions. will be projected in the RecursionQueueTask.
+            /*
+            //2 * newRadius must equal Math.cos(Math.PI/6) * oldRadius. Trust me.
+            var newSpacing = radius*Math.cos(Math.PI/6)/2;
             var newCenters = [
-              [y - radius/2, x - radius/2],
-              [y - radius/2, x + radius/2],
-              [y + radius/2, x - radius/2],
-              [y + radius/2, x + radius/2],
+              [y, x],
+              [y + 2*newSpacing, x],
+              [y - 2*newSpacing, x],
+              [y + newSpacing, x - newSpacing*Math.sqrt(3)],
+              [y - newSpacing, x - newSpacing*Math.sqrt(3)],
+              [y + newSpacing, x + newSpacing*Math.sqrt(3)],
+              [y - newSpacing, x + newSpacing*Math.sqrt(3)]
             ]
-            var newRadius = radius*Math.sqrt(2)/2
+            var newRadius = radius/2;
+            */
+            // I think instead I'll jump down another step, filling each circle (really, I just need to fill a hexagon) with 19 circles instead of 7. Will produce much less overlap and redundancy.
+            var newSpacing = radius*Math.cos(Math.PI/6)/4;
+            var newCenters = [
+              [y, x],
+              [y + 2*newSpacing, x],
+              [y - 2*newSpacing, x],
+              [y + 4*newSpacing, x],
+              [y - 4*newSpacing, x],
+              [y + newSpacing, x - newSpacing*Math.sqrt(3)],
+              [y - newSpacing, x - newSpacing*Math.sqrt(3)],
+              [y + newSpacing, x + newSpacing*Math.sqrt(3)],
+              [y - newSpacing, x + newSpacing*Math.sqrt(3)],
+              [y + 3*newSpacing, x - newSpacing*Math.sqrt(3)],
+              [y - 3*newSpacing, x - newSpacing*Math.sqrt(3)],
+              [y + 3*newSpacing, x + newSpacing*Math.sqrt(3)],
+              [y - 3*newSpacing, x + newSpacing*Math.sqrt(3)],
+              [y, x + 2*newSpacing*Math.sqrt(3)],
+              [y, x - 2*newSpacing*Math.sqrt(3)],
+              [y + 2*newSpacing, x + 2*newSpacing*Math.sqrt(3)],
+              [y + 2*newSpacing, x - 2*newSpacing*Math.sqrt(3)],
+              [y - 2*newSpacing, x + 2*newSpacing*Math.sqrt(3)],
+              [y - 2*newSpacing, x - 2*newSpacing*Math.sqrt(3)]
+            ]
+            var newRadius = radius/4;
 
-            console.log("park", park.id, "photos >= 100 at depth", depth + ", SUBDIVIDE:", newCenters)
+
+            console.log(latMid, lngMid, radius, "got photos >= 100 at depth", depth + ", SUBDIVIDE:", newCenters)
 
             newCenters.forEach(function(newCenter) {
               var newX = newCenter[1];
               var newY = newCenter[0];
-              testProjectedCircleIntersectionWithParks(client, newX, newY, newRadius, [park.id], function(err, newX, newY, newRadius, result) {
+              // TODO: change this to test only against the list of park IDs returned 
+              testProjectedCircleIntersectionWithParks(client, newX, newY, newRadius, parks, function(err, newX, newY, newRadius, result) {
                 if (result && result.length > 0) {
 
                   var nextDepth = depth + 1;
 
-                  liveTaskCounter[park.id] = liveTaskCounter[park.id] + 1;
-                  //console.log("liveTaskCounter[", park.id, "] recursing:", liveTaskCounter[park.id]);
-                  q.push({name: 'another task park: ' + park.id + ' depth ' + nextDepth, centerX: newX, centerY: newY, radius: newRadius}, instagramRecursionQueueTask(null, client, newY, newX, newRadius, polygon, park, nextDepth, q, callback));
+                  liveTaskCounter["circles"] = liveTaskCounter["circles"] + 1;
+                  q.push({name: 'another task, depth ' + nextDepth, centerX: newX, centerY: newY, radius: newRadius}, instagramRecursionQueueTask(null, client, newY, newX, newRadius, polygon, result, nextDepth, q, callback));
 
                 }
               });
@@ -474,12 +456,12 @@ function instagramRecursionQueueTask(err, client, y, x, radius, polygon, park, d
         }
       }
 
-      liveTaskCounter[park.id] = liveTaskCounter[park.id] - 1;
+      liveTaskCounter["circles"] = liveTaskCounter["circles"] - 1;
 
-      if (liveTaskCounter[park.id] == 0) {
+      if (liveTaskCounter["circles"] == 0) {
         // This happens more than it should, and sooner than it should. The live task counter is not staying updated?
-        console.log('park', park.id, 'all items have been processed');
-        return callback(null);
+        console.log('all items have been processed');
+        //return callback(null);
       } // else, return nothing?
     });
   });
@@ -504,7 +486,7 @@ function getFlickrData(bbox, page, photos, callback) {
       api_key: "f17cc9d3f73f0b45640451a6d3c1946d",
       bbox: bbox,
       has_geo: 1,
-      extras: "geo,tags,date_upload,date_taken,owner_name,description,license,o_dims,url_b,url_l",
+      extras: "geo,tags,date_upload,date_taken,owner_name,description,license,url_s,url_m,url_n,url_z,url_c,url_l,url_o",
       min_taken_date: ~~(Date.now() / 1000) - 60*60*24*365*30,
       //min_taken_date: ~~(Date.now() / 1000) - 60*60*24*365,
       format: "json",
@@ -520,7 +502,7 @@ function getFlickrData(bbox, page, photos, callback) {
       
       photos = photos.concat(body.photos.photo);
 
-      if (hasMorePages(body) && page <= body.photos.page) {
+      if (hasMorePages(body) && page <= body.photos.page && page < 100) {      //Stop after 100. TODO: do this better.
         console.log("[*] found another page for", bbox , ":", body.photos.page, "out of", body.photos.pages);
         console.log("[*] current page:", page);
         return getFlickrData(bbox, page + 1, photos, callback);
@@ -571,7 +553,8 @@ var getFlickrPhotosForBbox = function(client, latMin, lngMin, latMax, lngMax, ca
         lngMax = bboxArray[2],
         latMax = bboxArray[3];
 */
-    var metadata_id = saveFlickrHarvesterMetadata(client, null, latMin, lngMin, latMax, lngMax, new Date(), photos.length, pages);
+    var length = photos ? photos.length : 0;
+    var metadata_id = saveFlickrHarvesterMetadata(client, null, latMin, lngMin, latMax, lngMax, new Date(), length, pages);
     saveFlickrHarvesterResults(client, metadata_id, photos, null);
     return callback(null, photos, pages);  // everything finished
   });
@@ -593,21 +576,56 @@ var saveFlickrHarvesterMetadata = function(client, park_id, latMin, lngMin, latM
 
 
 var saveFlickrHarvesterResults = function(client, metadata_id, photos, park) {
-  var query = "INSERT INTO flickr_photos (photoid, owner, secret, server, farm, title, latitude, longitude, accuracy, context, place_id, woeid, tags, dateupload, datetaken, ownername, description, license, o_width, o_height, url_l, height_l, width_l, harvested_park_id, harvested_park_name, the_geom) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, ST_SetSRID(ST_MakePoint($8, $7), 4326))";
+  var query = "INSERT INTO flickr_photos (photoid, owner, secret, server, farm, title, latitude, longitude, accuracy, context, place_id, woeid, tags, dateupload, datetaken, ownername, description, license, url_o, width_o, height_o, url_largest, height_largest, width_largest, largest_size, the_geom) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, ST_SetSRID(ST_MakePoint($8, $7), 4326))";
 
   if (!park) {
     park = { id: null, name: null };
   }
 
-  photos.forEach(function(photo) {
+  if (photos) photos.forEach(function(photo) {
     if (photo) {
       //console.log(photo);
-      var params = [photo.id, photo.owner, "secret goes here", photo.server, photo.farm, photo.title, photo.latitude, photo.longitude, photo.accuracy, photo.context, photo.place_id, photo.woeid, photo.tags, photo.dateupload, photo.datetaken, photo.ownername];
+      var params = [photo.id, photo.owner, photo.secret, photo.server, photo.farm, photo.title, photo.latitude, photo.longitude, photo.accuracy, photo.context, photo.place_id, photo.woeid, photo.tags, photo.dateupload, photo.datetaken, photo.ownername];
       if (photo.description.length > 0)
         params.push(photo.description._content);
       else
         params.push("");
-      params.push(photo.license, photo.o_width, photo.o_height, photo.url_l, photo.height_l, photo.width_l, park.id, park.name);
+      // Here, figure out which is the largest photo size, and use that instead of url_l. Then save largest_size, too.
+      var url_largest = photo.url_s;
+      var width_largest = photo.width_s;
+      var height_largest = photo.height_s;
+      var largest_size = "s";
+      if (photo.url_m) {
+        url_largest = photo.url_m;
+        width_largest = photo.width_m;
+        height_largest = photo.height_m;
+        largest_size = "m";
+      }
+      if (photo.url_n) {
+        url_largest = photo.url_n;
+        width_largest = photo.width_n;
+        height_largest = photo.height_n;
+        largest_size = "n";
+      }
+      if (photo.url_z) {
+        url_largest = photo.url_z;
+        width_largest = photo.width_z;
+        height_largest = photo.height_z;
+        largest_size = "z";
+      }
+      if (photo.url_c) {
+        url_largest = photo.url_c;
+        width_largest = photo.width_c;
+        height_largest = photo.height_c;
+        largest_size = "c";
+      }
+      if (photo.url_l) {
+        url_largest = photo.url_l;
+        width_largest = photo.width_l;
+        height_largest = photo.height_l;
+        largest_size = "l";
+      }
+      params.push(photo.license, photo.url_o, photo.width_o, photo.height_o, url_largest, height_largest, width_largest, largest_size);
       client.query(query, params, function(err, res) {
         if (err) {
           console.log("harvesterResults error", err);
@@ -619,22 +637,6 @@ var saveFlickrHarvesterResults = function(client, metadata_id, photos, park) {
     }
   });
   // return nothing?
-};
-
-
-
-/**
- * Fetch media associated with a specified park.
- *
- * @param park Object{id} Park identifier.
- * @param callback Function(err, media[]) Called with a list of media associated with a park.
- */
-var getInstagramPhotosForPark = function(client, park, callback) {
-  return getProjectedSwNeForPark(client, park, function(err, sw, ne) {
-    return getInstagramData(client, sw, ne, park, function(err, photos) { 
-      return callback(null, photos);
-    });
-  });
 };
 
 
@@ -791,7 +793,7 @@ function queryFoursquareAPI(sw, ne, callback) {
   });
 }
 
-function foursquareRecursionQueueTask(err, client, sw, ne, polygon, park, depth, q, callback) {
+function foursquareRecursionQueueTask(err, client, sw, ne, depth, q, callback) {
   queryFoursquareAPI(sw, ne, function(err, body) {
     var venues;
     var count;
@@ -822,7 +824,7 @@ function foursquareRecursionQueueTask(err, client, sw, ne, polygon, park, depth,
 
     }
 
-    console.log("park", park.id, "depth", depth, "got", count, "venues", sw, ne);
+    console.log("depth", depth, "got", count, "venues", sw, ne);
 
     var swArray = sw.split(","),
         neArray = ne.split(","),
@@ -835,14 +837,14 @@ function foursquareRecursionQueueTask(err, client, sw, ne, polygon, park, depth,
 
     // Right now this metadata_id is faked.
     // Todo: save information about return code/status
-    var metadata_id = saveFoursquareHarvesterMetadata(client, park.id, latMin, lngMin, latMax, lngMax, date, count);
+    var metadata_id = saveFoursquareHarvesterMetadata(client, latMin, lngMin, latMax, lngMax, date, count);
 
     // Store the list of venues to the database, including the the id of the
     // metadata record, so we can track which request this came from.
     // TODO: check for error
     // TODO: possibly I should only save results if count <= 50 (a recursion leaf), to avoid duplicates in database
 
-    saveFoursquareHarvesterResults(client, metadata_id, venues, park);
+    saveFoursquareHarvesterResults(client, metadata_id, venues);
 
     // TODO: figure this out: will this recursion solve the problem of missing out
     // on venues inside parks of there are lots of parks outside the bounds (but
@@ -851,58 +853,63 @@ function foursquareRecursionQueueTask(err, client, sw, ne, polygon, park, depth,
     if (count >= 50 || geocode_too_big) {
       // If the number of venues is 50, subdivide the bounds and recurse.
 
-      var latMid = (latMin + latMax) / 2,
-          lngMid = (lngMin + lngMax) / 2;
+      if ((latMax - latMin < .001) && (lngMax - lngMin < .001)) {
+        console.log("depth", depth, "bbox smaller than .001 degrees. Will not subdivide further");
+      } else {
 
-      console.log("park", park.id, "venues >= 50, subdivide:", latMin, latMid, latMax, lngMin, lngMid, lngMax);
-      var lowerLeft = [latMin,lngMin],
-          centerLeft = [latMid,lngMin],
-          upperLeft = [latMax,lngMin],
-          lowerCenter = [latMin, lngMid],
-          center = [latMid, lngMid],
-          upperCenter = [latMax, lngMid],
-          lowerRight = [latMin, lngMax],
-          centerRight = [latMid, lngMax],
-          upperRight = [latMax,lngMax];
+        var latMid = (latMin + latMax) / 2,
+            lngMid = (lngMin + lngMax) / 2;
 
-      var bboxes = [
-        [lowerLeft, center],
-        [centerLeft, upperCenter],
-        [lowerCenter, centerRight],
-        [center, upperRight]
-      ];
+        console.log("venues >= 50, subdivide:", latMin, latMid, latMax, lngMin, lngMid, lngMax);
+        var lowerLeft = [latMin,lngMin],
+            centerLeft = [latMid,lngMin],
+            upperLeft = [latMax,lngMin],
+            lowerCenter = [latMin, lngMid],
+            center = [latMid, lngMid],
+            upperCenter = [latMax, lngMid],
+            lowerRight = [latMin, lngMax],
+            centerRight = [latMid, lngMax],
+            upperRight = [latMax,lngMax];
 
-      // Recurse and query again for each quadrant of the original bbox.
-      // Keep adding venues to the same "venues" object.
-      // When the function is called recursively here, the callback simply returns
-      // the collected venues. The top level function is called with a different
-      // callback that writes out all the collected venues to a file.
-      // TODO: I don't think the venues object is even used anymore. Remove it?
+        var bboxes = [
+          [lowerLeft, center],
+          [centerLeft, upperCenter],
+          [lowerCenter, centerRight],
+          [center, upperRight]
+        ];
 
-      // TODO: is this the right way to do this, asynchronously?
+        // Recurse and query again for each quadrant of the original bbox.
+        // Keep adding venues to the same "venues" object.
+        // When the function is called recursively here, the callback simply returns
+        // the collected venues. The top level function is called with a different
+        // callback that writes out all the collected venues to a file.
+        // TODO: I don't think the venues object is even used anymore. Remove it?
 
-      bboxes.forEach(function(bbox) {
-        // Test each new bbox against the extent of the original polygon
-        testBboxIntersectionWithParks(client, bbox, park, function(err, bbox, result) {
-          if (result && result.length > 0) {
+        // TODO: is this the right way to do this, asynchronously?
 
-            var nextDepth = depth + 1;
+        bboxes.forEach(function(bbox) {
+          // Test each new bbox against parks in the database (null tests against all parks) 
+          testBboxIntersectionWithParks(client, bbox, null, function(err, bbox, result) {
+            if (result && result.length > 0) {
 
-            liveTaskCounter[park.id] = liveTaskCounter[park.id] + 1;
-            //console.log("liveTaskCounter[", park.id, "] recursing:", liveTaskCounter[park.id]);
-            q.push({name: 'another task park: ' + park.id + ' depth ' + nextDepth, sw: bbox[0].join(), ne: bbox[1].join()}, foursquareRecursionQueueTask(null, client, bbox[0].join(), bbox[1].join(), polygon, park, nextDepth, q, callback));
-          } else {
-            //console.log(bbox, "does not intersect, skipping");
-          }
+              var nextDepth = depth + 1;
+
+              liveTaskCounter["4sqgrid"] = liveTaskCounter["4sqgrid"] + 1;
+              //console.log("liveTaskCounter[", "4sqgrid", "] recursing:", liveTaskCounter["4sqgrid"]);
+              q.push({name: 'another task depth ' + nextDepth, sw: bbox[0].join(), ne: bbox[1].join()}, foursquareRecursionQueueTask(null, client, bbox[0].join(), bbox[1].join(), nextDepth, q, callback));
+            } else {
+              //console.log(bbox, "does not intersect, skipping");
+            }
+          });
         });
-      });
+      }
     }
 
-    liveTaskCounter[park.id] = liveTaskCounter[park.id] - 1;
-    //console.log("liveTaskCounter[", park.id, "]:", liveTaskCounter[park.id]);
-    if (liveTaskCounter[park.id] == 0) {
+    liveTaskCounter["4sqgrid"] = liveTaskCounter["4sqgrid"] - 1;
+    //console.log("liveTaskCounter[", "4sqgrid", "]:", liveTaskCounter["4sqgrid"]);
+    if (liveTaskCounter["4sqgrid"] == 0) {
       // This happens more than it should, and sooner than it should. The live task counter is not staying updated?
-      console.log('park', park.id, 'all items have been processed');
+      console.log('all items have been processed');
       return callback(null);
     } // else, return nothing?
   });
@@ -910,7 +917,7 @@ function foursquareRecursionQueueTask(err, client, sw, ne, polygon, park, depth,
 
 var liveTaskCounter = {};
 
-function getFoursquareData(client, sw, ne, polygon, park, depth, callback) {
+function getFoursquareData(client, sw, ne, depth, callback) {
 
   // Create a queue with a worker (that currently does nothing but call each task's callback)
   var q = async.queue(function (task, callback) {
@@ -921,31 +928,11 @@ function getFoursquareData(client, sw, ne, polygon, park, depth, callback) {
   // Add one task. This task will push additional tasks onto the queue if needed.
   // Callback is only called when the task counter reaches zero again
   var depth = 0;
-  liveTaskCounter[park.id] = 1;
-  q.push({name: 'top level park: '+ park.id, sw: sw, ne: ne}, foursquareRecursionQueueTask(null, client, sw, ne, polygon, park, depth, q, callback));
+  liveTaskCounter["4sqgrid"] = 1;
+  q.push({name: 'top level', sw: sw, ne: ne}, foursquareRecursionQueueTask(null, client, sw, ne, depth, q, callback));
 
 }
 
-
-/**
- * Fetch venues associated with a specified park.
- *
- * @param park Object{id} Park identifier.
- * @param callback Function(err, venues[]) Called with a list of venues associated with a park.
- */
- // add error checking at every level
-var getFoursquareVenuesForPark = function(client, park, callback) {
-  // return startPostgresClient(function(err, client) {
-  return getPolygonForPark(client, park, function(err, polygon) {
-
-    return getSwNeFromPolygon(client, polygon, function(err, sw, ne) {
-    //return getSwNeForPark(client, park, function(err, sw, ne) {
-      return getFoursquareData(client, sw, ne, polygon, park, 0, function(err, venues) {
-        return callback(null, venues);  // everything finished
-      });
-    });
-  });
-};
 
 /**
  * Get the sw, ne corners of a polygon.
@@ -1022,6 +1009,23 @@ var getProjectedSwNeForPark = function(client, park, callback) {
         ne = envelope[1];
     // client.end();
     return callback(null, sw, ne);
+
+  });
+};
+
+var latLngToProjectedCoords = function(client, lat, lng, callback) {
+  // connect to pg
+  // query pg
+  // callback with parsed bbox
+
+  var query = "select st_y(a) as y, st_x(a) as x from (select st_astext(st_transform(ST_GeomFromText('POINT(" + lng + " " + lat + ")',4326),3310)) as a) as query";
+
+  return client.query(query, function(err, res) {
+    if (err) {
+      throw err;
+    }
+    var coords = [res.rows[0].y, res.rows[0].x];
+    return callback (null, coords);
 
   });
 };
@@ -1136,7 +1140,7 @@ var testProjectedCircleIntersectionWithParks = function(client, centerX, centerY
   }
   query += " ST_Intersects(ST_Buffer(ST_SetSRID(ST_MakePoint(" + centerX + "," + centerY + "),3310)," + radius + "),st_transform(geom,3310))";
 
-  console.log("testProjectedCircle", query);
+  //console.log("testProjectedCircle", query);
   return client.query(query, function(err, res) {
     if (err) {
       //throw err;
@@ -1147,7 +1151,7 @@ var testProjectedCircleIntersectionWithParks = function(client, centerX, centerY
     //var result = res.rows;
     var result = res.rows.map(function(row) { return row.su_id; });
     // client.end();
-    console.log("testProjectedCircle", result);
+    console.log("testProjectedCircle result:", result);
     return callback(null, centerX, centerY, radius, result);
   });
 };
@@ -1271,7 +1275,12 @@ var getParksDataFromPostgres = function(client, socialMediaType, callback) {
 };
 
 var getGridCellsFromPostgres = function(client, callback) {
-  var query = "select distinct latmin, lngmin, latmax, lngmax from latlng_array order by latmin, lngmin, latmax, lngmax";
+  //var query = "select distinct latmin, lngmin, latmax, lngmax from latlng_array order by latmin, lngmin, latmax, lngmax";
+  // Find only those needing update:
+  //var query = "select distinct a.latmin, a.lngmin, a.latmax, a.lngmax from latlng_array as a left join (select * from foursquare_metadata where date > (CURRENT_TIMESTAMP - INTERVAL '7 days')) as b on a.latmin = b.latmin and a.lngmin = b.lngmin and a.latmax = b.latmax and a.lngmax = b.lngmax where date is null order by a.latmin, a.lngmin, a.latmax, a.lngmax";
+  //var query = "select a.latmin, a.lngmin, a.latmax, a.lngmax, a.parks, b.date, b.count from (select latmin, lngmin, latmax, lngmax, array_agg(su_id) as parks from latlng_array group by latmin, lngmin, latmax, lngmax order by latmin, lngmin, latmax, lngmax) as a left join (select distinct on (latmin, lngmin, latmax, lngmax) * from foursquare_metadata where date > (CURRENT_TIMESTAMP - INTERVAL '7 days') order by latmin, lngmin, latmax, lngmax, date desc) as b on a.latmin = b.latmin and a.lngmin = b.lngmin and a.latmax = b.latmax and a.lngmax = b.lngmax order by a.latmin, a.lngmin, a.latmax, a.lngmax";
+  //var query = "select distinct latmin, lngmin, latmax, lngmax from latlng_array where latmin = 34.7 and lngmin = -120.5 order by latmin, lngmin, latmax, lngmax";
+  var query = "select distinct latmin, lngmin, latmax, lngmax from latlng_array order by latmin, lngmin desc, latmax, lngmax desc";
 
   client.query(query, function(err, res) {
     if (err) {
@@ -1283,26 +1292,27 @@ var getGridCellsFromPostgres = function(client, callback) {
   });
 };
 
-var getInstagramPhotosForAllParks = function(callback) {
-  return startPostgresClient(function(err, client) {
-    return getParksDataFromPostgres(client, "instagram", function(err, parks) {
-      async.eachLimit(parks, 1, function(park, next) {
-        getInstagramPhotosForPark(client, park, next);
-      }, function() { 
-        console.log("[*] done!");
-        callback();
-      });
-    });
+var getCirclesFromPostgres = function(client, callback) {
+  var query = "select lat, lng, radius, array_agg(su_id) as parks from instagram_array group by lat, lng, radius order by lat desc, lng, radius";
+  // A few around the bay area 
+  //var query = "select lat, lng, radius, array_agg(su_id) as parks from instagram_array where lat < 37.8 and lat > 37.6 and lng < -122.35 group by lat, lng, radius order by lat desc, lng, radius";
+  // Just one circle on SF
+  //var query = "select lat, lng, radius, array_agg(su_id) as parks from instagram_array where lat < 37.8 and lat > 37.75 and lng < -122.35 and lng > -122.5 group by lat, lng, radius order by lat desc, lng, radius";
+
+  client.query(query, function(err, res) {
+    if (err) {
+      throw err;
+    }
+    console.log("got", res.rows.length, "circles from database that need harvesting");
+    var circles = res.rows;
+    callback(null, client, circles);
   });
 };
 
 var getInstagramPhotosForAllCircles = function(callback) {
   return startPostgresClient(function(err, client) {
-    return getCirclesFromPostgres(client, function(err, circles) {
-      async.eachLimit(circles, 1, function(circle, next) {
-        getInstagramPhotosForPark(client, park, next);
-        getInstagramPhotosForCircle(client, circle.center, circle.radius, next);
-      }, function() { 
+    return getCirclesFromPostgres(client, function(err, client, circles) {
+      getInstagramPhotosForCircles(client, circles, function(err) {
         console.log("[*] done!");
         callback();
       });
@@ -1315,7 +1325,8 @@ var getFlickrPhotosForAllGridCells = function(callback) {
     return getGridCellsFromPostgres(client, function(err, cells) {
       async.eachLimit(cells, 1, function(cell, next) {
         getFlickrPhotosForBbox(client, cell.latmin, cell.lngmin, cell.latmax, cell.lngmax, function(err, media, pages) {
-          console.log("[*] got", media.length, "photos for ", cell.latmin, cell.lngmin, cell.latmax, cell.lngmax, "after", pages, "page(s)");
+          var length = media ? media.length : 0;
+          console.log("[*] got", length, "photos for ", cell.latmin, cell.lngmin, cell.latmax, cell.lngmax, "after", pages, "page(s)");
           next();
         });
       }, function() { 
@@ -1411,6 +1422,31 @@ var getNextVenuesForAllVenues = function(callback) {
   });
 };
 
+var getFoursquareVenuesForAllGridCells = function(callback) {
+  return startPostgresClient(function(err, client) {
+    return getGridCellsFromPostgres(client, function(err, cells) {
+      async.eachLimit(cells, 1, function(cell, next) {
+        getFoursquareData(client, [cell.latmin,cell.lngmin].join(), [cell.latmax,cell.lngmax].join(), 0, function(err, venues) {
+        //getFoursquareVenuesForBbox(client, cell.latmin, cell.lngmin, cell.latmax, cell.lngmax, function(err, venues) {
+
+          if (venues) {
+            console.log("[*] got", venues.length, "venues for", cell.latmin, cell.lngmin, cell.latmax, cell.lngmax);
+            next();
+          } else {
+            // This is always happening because I'm not returning any venues back up the recursion
+            // But that's okay for now...
+            console.log("[*] got no venues for", cell.latmin, cell.lngmin, cell.latmax, cell.lngmax);
+            next();
+          }
+        });
+      }, function() { 
+        console.log("[*] done!");
+        callback();
+      });
+    });
+  });
+};
+
 var getFoursquareVenuesForAllParks = function(callback) {
   return startPostgresClient(function(err, client) {
     return getParksDataFromPostgres(client, "foursquare", function(err, parks) {
@@ -1434,13 +1470,13 @@ var getFoursquareVenuesForAllParks = function(callback) {
   });
 };
 
-var saveFoursquareHarvesterMetadata = function(client, park_id, latMin, lngMin, latMax, lngMax, timestamp, count) {
+var saveFoursquareHarvesterMetadata = function(client, latMin, lngMin, latMax, lngMax, timestamp, count) {
   //console.log(latMin, lngMin, latMax, lngMax, timestamp, count);
   var query = "insert into foursquare_metadata (su_id, latmin, lngmin, latmax, lngmax, date, count, the_geom) values ($1, $2, $3, $4, $5, $6, $7, ST_MakeEnvelope($3,$2,$5,$4,4326))";
 
-  return client.query(query, [park_id, latMin, lngMin, latMax, lngMax, timestamp, count], function(err, res) {
+  return client.query(query, [null, latMin, lngMin, latMax, lngMax, timestamp, count], function(err, res) {
     if (err) {
-      console.log(err);
+      console.log("harvester metadata insert error", err);
       throw err;
     }
     return 0; // TODO: change these
@@ -1459,25 +1495,24 @@ var saveFoursquareHarvesterMetadata = function(client, park_id, latMin, lngMin, 
  * @param park  ...a park object with .id and .name attributes
  * TODO: clean up my docstring formatting.
  */
-var saveFoursquareHarvesterResults = function(client, metadata_id, venues, park) {
-  var query = "insert into foursquare_venues (venueid, name, lat, lng, address, postcode, city, state, country, cc, categ_id, categ_name, verified, restricted, referral_id, harvested_park_id, harvested_park_name, the_geom) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, ST_SetSRID(ST_MakePoint($4, $3), 4326))";
-  console.log("saveFoursquareHarvesterResults", metadata_id, venues, park);
+var saveFoursquareHarvesterResults = function(client, metadata_id, venues) {
+  var query = "insert into foursquare_venues (venueid, name, lat, lng, address, postcode, city, state, country, cc, categ_id, categ_name, verified, restricted, referral_id, the_geom) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, ST_SetSRID(ST_MakePoint($4, $3), 4326))";
+  //console.log("saveFoursquareHarvesterResults", metadata_id, venues);
 
   venues.forEach(function(venue) {
     if (venue) {
       //console.log(venue);
-      venue.park = park;
       var params = [venue.id, venue.name, venue.location.lat, venue.location.lng, venue.location.address, venue.location.postalCode, venue.location.city, venue.location.state, venue.location.country, venue.location.cc];
       if (venue.categories.length > 0)
         params.push(venue.categories[0].id, venue.categories[0].name);
       else
         params.push("", "");
-      params.push(venue.verified, venue.restricted, venue.referralId, park.id, park.name);
+      params.push(venue.verified, venue.restricted, venue.referralId);
       // TODO: save the activity to the separate activity table in another db call
       //params.push(venue.verified, venue.restricted, venue.stats.checkinsCount, venue.stats.usersCount, venue.stats.tipCount, venue.referralId, park.id, park.name);
       client.query(query, params, function(err, res) {
         if (err) {
-          console.log(err);
+          console.log("harvester results insert error", err);
           //client.end();
           //startPostgresClient(function(err, client) { return client;}); 
           //throw err;
@@ -1532,7 +1567,8 @@ var main = function() {
 
   } else if (argv.t == 'foursquare_venues') {
 
-    getFoursquareVenuesForAllParks(process.exit);
+    //getFoursquareVenuesForAllParks(process.exit);
+    getFoursquareVenuesForAllGridCells(process.exit);
 
   } else if (argv.t == 'foursquare_update') {
 
