@@ -291,7 +291,7 @@ function queryInstagramAPI(lat, lng, radius, callback) {
       count: 200,       // 100 seems to be their maximum
       max_id: 1,       //  Trying to trigger pagination by setting this? doesn't work.
       distance: radius,
-      client_id: "a362b307ff034f53b29672a196b77b02",
+      client_id: env.require("INSTAGRAM_CLIENT_ID"),
       min_timestamp: ~~(Date.now() / 1000) - 60*60*24*365, // one year ago
       max_timestamp: ~~(Date.now() / 1000)
     }
@@ -483,7 +483,7 @@ function getFlickrData(bbox, page, photos, callback) {
     url: "http://api.flickr.com/services/rest",
     qs: {
       method: "flickr.photos.search",
-      api_key: "f17cc9d3f73f0b45640451a6d3c1946d",
+      api_key: env.require("FLICKR_CLIENT_ID"),
       bbox: bbox,
       has_geo: 1,
       extras: "geo,tags,date_upload,date_taken,owner_name,description,license,url_s,url_m,url_n,url_z,url_c,url_l,url_o",
@@ -655,9 +655,9 @@ function getFoursquareFullVenue(venue_id, callback) {
   var url = {
     url: urlstr,
     qs: {
-      client_id: "FD34PSNKBUM51D3ATKTMO0G5OTS4YJSWQJ3PA4MLQRZVWELZ",
-      client_secret: "MTABKIIFVMV5VNOEXCNQSZC1VZXLJHQZYCWUSIJPNOUOGRTE",
-      v:"20130805"
+      client_id: env.require("FOURSQUARE_CLIENT_ID"),
+      client_secret: env.require("FOURSQUARE_CLIENT_SECRET"),
+      v:"20140630"
     }
   };
   request(url, function (err, response, body) {
@@ -722,9 +722,9 @@ function getFoursquareNextVenues(venue_id, callback) {
   var url = {
     url: urlstr,
     qs: {
-      client_id: "FD34PSNKBUM51D3ATKTMO0G5OTS4YJSWQJ3PA4MLQRZVWELZ",
-      client_secret: "MTABKIIFVMV5VNOEXCNQSZC1VZXLJHQZYCWUSIJPNOUOGRTE",
-      v:"20130805"
+      client_id: env.require("FOURSQUARE_CLIENT_ID"),
+      client_secret: env.require("FOURSQUARE_CLIENT_SECRET"),
+      v:"20140630"
     }
   };
   request(url, function (err, response, body) {
@@ -765,9 +765,9 @@ function queryFoursquareAPI(sw, ne, callback) {
       limit: 50,
       sw: sw,
       ne: ne,
-      client_id: "FD34PSNKBUM51D3ATKTMO0G5OTS4YJSWQJ3PA4MLQRZVWELZ",
-      client_secret: "MTABKIIFVMV5VNOEXCNQSZC1VZXLJHQZYCWUSIJPNOUOGRTE",
-      v:"20130805"
+      client_id: env.require("FOURSQUARE_CLIENT_ID"),
+      client_secret: env.require("FOURSQUARE_CLIENT_SECRET"),
+      v:"20140630"
     }
   };
   request(url, function (err, response, body) {

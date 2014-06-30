@@ -15,6 +15,18 @@ Testing locally
 
 Run using Foreman. 
 
+Set up a .env file that looks like something this:
+
+	DATABASE_URL=postgres://username@hostname/dbname
+	FLICKR_CLIENT_ID=YOURCLIENTIDHERE
+	FLICKR_CLIENT_SECRET=YOURCLIENTSECRETHERE
+	FOURSQUARE_CLIENT_ID=YOURCLIENTIDHERE
+	FOURSQUARE_CLIENT_SECRET=YOURCLIENTSECRETHERE
+	INSTAGRAM_CLIENT_ID=YOURCLIENTIDHERE
+	INSTAGRAM_CLIENT_SECRET=YOURCLIENTSECRETHERE
+
+Then run one of the harvester commands.
+
 For example: `foreman run flickr`
 
 
