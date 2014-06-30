@@ -111,7 +111,7 @@ module.exports = function(req, res, data, callback) {
             tweetsult = apiResponse.tweetsult;
 
         //
-        // Was a park found? if not, just 404 y
+        // Was a park found? if not, just 404
         //
         if (result.rows[0]) {
 
@@ -198,8 +198,13 @@ module.exports = function(req, res, data, callback) {
           // Modify CPAD to work better as an API output
           //
           cpadModified            = result.rows[0]
-          cpadModified.park_shape = JSON.parse(result.rows[0].park_shape);
-          cpadModified.bbox       = JSON.parse(result.rows[0].bbox);
+          
+          try {
+            cpadModified.park_shape = JSON.parse(result.rows[0].park_shape);
+            cpadModified.bbox       = JSON.parse(result.rows[0].bbox);
+          } catch (e) {
+            callback(e);
+          }
 
           callback( null, {
             appTitle         : 'California Open Spaces > ' + result.rows[0].unit_name,

@@ -22,10 +22,14 @@ module.exports = function(data, callback) {
           return callback(error);
         }
 
-        callback(null, {
-          'coordinates' : loc,
-          'details'     : JSON.parse(body).results[0][0]
-        });
+        try {
+          callback(null, {
+            'coordinates' : loc,
+            'details'     : JSON.parse(body).results[0][0]
+          });
+        } catch (e) {
+          callback(e);
+        }
       });
     } else if(data.query) {
 
@@ -34,7 +38,11 @@ module.exports = function(data, callback) {
           return callback(error);
         }
 
-        var geocoderRes = JSON.parse(body).results;
+        try {
+          var geocoderRes = JSON.parse(body).results;
+        } catch (e) {
+          callback(e);
+        }
 
         res = (geocoderRes && geocoderRes[0] && geocoderRes[0][0]) ? geocoderRes[0][0] : {lat:null,lon:null};
 
