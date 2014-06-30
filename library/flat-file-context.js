@@ -5,6 +5,15 @@ var env = require('require-env'),
 
 var contexts = {};
 
+function validateQuery (queryObject) {
+
+  if (typeof queryObject === 'object') {
+    return queryObject;
+  } else {
+    return false;
+  }
+}
+
 module.exports = function(options) {
   if (contexts[options.name] === undefined) {
     contexts[options.name] = require('../public/data/context-' + options.name + '.json');
@@ -56,7 +65,7 @@ module.exports = function(options) {
         return match_map[item.su_id];
       }), callback);
 
-    } else {
+    } else if (validateQuery(theseOptions.query)){
       pg.connect(env.require('DATABASE_URL'), function(err, client, done) {
         var _callback = callback;
 
@@ -69,7 +78,7 @@ module.exports = function(options) {
           return callback(err);
         }
 
-        client.query(theseOptions.query, function(err, response) {
+        client.query(validateQuery(theseOptions.query), function(err, response) {
 
           if (err) {
             return callback(err);
@@ -87,6 +96,8 @@ module.exports = function(options) {
           }), callback);
         });
       });
+    } else {
+      callback();
     }
   };
 };

@@ -284,7 +284,7 @@ app.get('/parks/', function(req,res, next) {
   }, function(err, templateData) {
 
     if (err) {
-      return next(err);
+      go404.apply(null,[req, res, next]);
     }
 
     templateData.layout = 'photo-back';
@@ -342,7 +342,7 @@ app.get('/parks/:context', function(req,res, next) {
     context : req.params.context
   }, function(err, templateData) {
 
-    if (err) {
+    if (err || !templateData) {
       return next(err);
     }
 

@@ -42,6 +42,10 @@ module.exports = function(req, res, data, callback) {
 		//
 		// Decorate the BiggestToSmallestContext
 		//
+		if (!contextData) {
+			return callback();
+		}
+
 		contextDataDecorated = contextData.parks.map(function(park) {
 			park.hashtag = hashtags[park.su_id];
 			return park;

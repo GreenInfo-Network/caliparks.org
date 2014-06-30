@@ -2,7 +2,10 @@
 
 var flatFileContext = require('../library/flat-file-context.js')({
   name  : 'flickr-photos',
-  query : 'select su_id, unit_name from site_park',
+  query : {
+    text   : 'select su_id, unit_name from site_park',
+    values : []
+  },
   title : 'Most Flickr photos'
 });
 
