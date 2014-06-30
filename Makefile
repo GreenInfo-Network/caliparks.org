@@ -42,7 +42,7 @@ twitterHarvesterTable:
 # Run once to create the table.
 flickrHarvesterTable:
 	psql -U openspaces -h geo.local -c "drop table if exists flickr_photos;" \
-	&& psql -U openspaces -h geo.local -c "create table flickr_photos (photoid bigint, owner varchar(20), secret varchar(20), server int, farm int, title varchar, latitude float, longitude float, accuracy int, context int, place_id varchar(20), woeid bigint, tags varchar, dateupload int, datetaken varchar(30), ownername varchar, description varchar, license int, o_width int, o_height int, url_l varchar(80), height_l int, width_l int, harvested_park_id bigint, harvested_park_name varchar(80));" \
+	&& psql -U openspaces -h geo.local -c "create table flickr_photos (photoid bigint, owner varchar(20), secret varchar(20), server int, farm int, title varchar, latitude float, longitude float, accuracy int, context int, place_id varchar(20), woeid bigint, tags varchar, dateupload int, datetaken varchar(30), ownername varchar, description varchar, license int, url_o varchar(80), width_o int, height_o int, url_largest varchar(80), height_largest int, width_largest int, largest_size char);" \
 	&& psql -U openspaces -h geo.local -c "select AddGeometryColumn('flickr_photos','the_geom',4326,'POINT',2);"
 
 # This keeps track of all the harvester queries
@@ -60,6 +60,8 @@ flickrParkTable:
 	&& psql -U openspaces -h geo.local -c "create table park_flickr_photos_temp as select park.su_id as su_id, park.unit_name as su_name, photo.* from cpad_2013b_superunits_ids as park join flickr_photos_distinct as photo on ST_Contains(park.geom,photo.the_geom);" \
 	&& psql -U openspaces -h geo.local -c "insert into park_flickr_photos select * from park_flickr_photos_temp;"
 # TODO: need to check that photos don't already exist in park_flickr_photos...
+# TODO: we are going to change this, so that each new harvest replaces the old park_flickr_photos table.
+# TODO: dump all harvested photos into an S3 bucket
 
 #######################################
 ### Instagram stuff ###################
@@ -95,7 +97,7 @@ instagramParkTable:
 # Run once to create the table.
 foursquareHarvesterTable:
 	psql -U openspaces -h geo.local -c "drop table if exists foursquare_venues;" \
-	&& psql -U openspaces -h geo.local -c "create table foursquare_venues (id serial, venueid varchar(80), name varchar(255), lat numeric(15,12), lng numeric(15,12), address varchar(255), postcode varchar(20), city varchar(80), state varchar(40), country varchar(40), cc varchar(10), categ_id varchar(80), categ_name varchar(80), verified boolean, restricted boolean, referral_id varchar(80), harvested_park_id bigint, harvested_park_name varchar(80));" \
+	&& psql -U openspaces -h geo.local -c "create table foursquare_venues (id serial, venueid varchar(80), name varchar(255), lat double precision, lng double precision, address varchar(255), postcode varchar(20), city varchar(80), state varchar(40), country varchar(40), cc varchar(10), categ_id varchar(80), categ_name varchar(80), verified boolean, restricted boolean, referral_id varchar(80), harvested_park_id bigint, harvested_park_name varchar(80));" \
 	&& psql -U openspaces -h geo.local -c "select AddGeometryColumn('foursquare_venues','the_geom',4326,'POINT',2);"
 
 # This keeps track of all the harvester queries
