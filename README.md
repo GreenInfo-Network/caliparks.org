@@ -3,22 +3,7 @@ OpenSpaces
 
 Mapping social media activity in parks and other open spaces in California.
 
-This is a nodejs application using express3x on Heroku
-
-
-Deploy instructions
-=====================
-* Make sure you are up to date with the latest from the nodejs branch
-* Get your repo prepaired to deploy using the following command: `heroku git:remote -a stamen-openspaces`
-* Once all of the Heroku stuff is installed, you should be able to deploy using this command
-
-`git push heroku master`
-
-You may need to update with `git pull --rebase heroku master` first.
-
-Starting dev instance
-=====================
-`foreman start`
+This repository branch `local-harvester` contains our early rough versions of the social media harvesting code. We are moving all of this functionality to the `node-harvester` branch will is designed to run on heroku, but will also be capable of running locally if desired. This `local-harvester` branch should not be used.
 
 More about the project
 =====================
@@ -53,7 +38,9 @@ Harvesting the venues the first time (determining the existence of venues in eac
 
 *	Command-line node app that can either harvest venues or requery (update) them.
 *	Doesn't require any `make` commands to process.
-		 
+
+Running the command line app:
+`env FOURSQUARE_CLIENT_ID=YOURCLIENTIDHERE FOURSQUARE_CLIENT_SECRET=YOURCLIENTSECRETHERE node ./gather.js -t foursquare_update`
 
 Flickr harvesting
 -----------------
@@ -63,6 +50,8 @@ Flickr harvesting
 *	Then `make flickrParkTable` uniquifies the table, and inserts the results into `park_flickr_photos`
 
 
+Running the command line app:
+`env FLICKR_CLIENT_ID=YOURCLIENTIDHERE node ./gather.js -t flickr`
 
 Instagram harvesting
 --------------------
@@ -71,6 +60,7 @@ Instagram harvesting
 *	Node app saves harvested photos to the table `instagram_photos`
 *	Then `make instagramParkTable` uniquifies the table, and inserts the results into `park_instagram_photos`
 
-
+Running the command line app:
+`env INSTAGRAM_CLIENT_ID=YOURCLIENTIDHERE node ./gather.js -t instagram`
 
 
