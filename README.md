@@ -1,4 +1,4 @@
-OpenSpaces
+parks.stamen.com social media harvesters
 ==========
 
 Mapping social media activity in parks and other open spaces in California.
