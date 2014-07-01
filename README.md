@@ -1,7 +1,6 @@
-Social media harvesters
+parks.stamen.com social media harvesters
 =========
 Mapping social media activity in parks and other open spaces in California.
-
 
 This repository contains the Heroku-based node.js social media harvesters.
 
@@ -9,7 +8,13 @@ Most of this code has been copied over from the [local-harvester branch](https:/
 
 These harvesters collect geotagged content from Flickr, Foursquare, and Instagram. (currently Twitter is handled using a separate codebase).
 
+More about the project
+=====================
 
+We are collecting all geocoded tweets, flickr photos, instagram photos, and foursquare venues (and check-in counts) within the boundaries of every open space listed in the [California Protected Areas Database (CPAD)](http://calands.org), specifically the CPAD "superunits". In this document "parks" and "open spaces" are used interchangeably, but we really mean "superunits".
+
+Data collection
+===============
 Testing locally
 ---------------
 
@@ -29,6 +34,32 @@ Then run one of the harvester commands.
 
 For example: `foreman run flickr`
 
+Foursquare harvesting
+---------------------
+
+Harvesting the venues the first time (determining the existence of venues in each park) is the hard part. This should be re-run periodically to catch any new venues that appear. [more details needed here]
+
+To collect venues the first time: 
+
+Locally: `foreman run foursquare_venues`
+
+To update the checkin counts for already-harvested venues:
+
+Locally: `foreman run foursquare_update`
+
+Flickr harvesting
+-----------------
+
+*	Command-line node app queries Flickr API for bounding box of each park. To run locally: `foreman run flickr`
+*	Node app saves harvested photos to the table `flickr_photos`
+*	Then `make flickrParkTable` uniquifies the table, and inserts the results into `park_flickr_photos`
+
+Instagram harvesting
+--------------------
+
+*	Command-line node app queries Instagram API for an array of circles covering of each park. To run locally: `foreman run instagram`
+*	Node app saves harvested photos to the table `instagram_photos`
+*	Then `make instagramParkTable` uniquifies the table, and inserts the results into `park_instagram_photos`
 
 About the algorithms
 --------------------
