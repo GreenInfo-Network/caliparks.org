@@ -64,3 +64,7 @@ Running the command line app:
 `env INSTAGRAM_CLIENT_ID=YOURCLIENTIDHERE node ./gather.js -t instagram`
 
 
+Other contents of this repo
+===========================
+
+This `local-harvester` branch also contains some prototype D3 code for sorting and displaying park shapes in a non-spatial layout. This "Graphical List of Places" (aka the "GLOP") was fully re-implemented in the `master` branch. The `css`, `data`, and `js` directories are related to this prototype.
