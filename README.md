@@ -20,3 +20,7 @@ This project uses <a href="http://sass-lang.com/">SASS</a>. DO NOT edit the .css
 To deploy
 ---------
 `git push heroku master`
+
+The Harvesters
+---------
+Interested in the social media harvesters which make this all possible? Sure you are! They are in a different [branch](https://github.com/stamen/parks.stamen.com/tree/node-harvester)
