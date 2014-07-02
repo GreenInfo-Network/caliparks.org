@@ -480,7 +480,7 @@ function getFlickrData(bbox, page, photos, callback) {
 
   console.log("[*] getting page", page);
   var url = {
-    url: "http://api.flickr.com/services/rest",
+    url: "https://api.flickr.com/services/rest",
     qs: {
       method: "flickr.photos.search",
       api_key: env.require("FLICKR_CLIENT_ID"),
@@ -497,6 +497,10 @@ function getFlickrData(bbox, page, photos, callback) {
   };
   request(url, function (error, response, body) {
     
+    if (error) {
+      return callback(error);
+    }
+
     if (!error && response.statusCode == 200) {
       body = JSON.parse(body);
       
@@ -510,10 +514,28 @@ function getFlickrData(bbox, page, photos, callback) {
       } else {
         return callback(null, photos, page);  // callback(err, result)
       }
-    
-    } else {
-      return callback(error);
     }
+
+    if (!error && response.statusCode == 403) {
+      console.log("caught code 403 forbidden");
+      body = JSON.parse(body);
+      console.log("body", body);
+      return callback(body); // Return body as error
+    }
+
+    if (!error && response.statusCode != 200) {
+      try {
+        body = JSON.parse(body);
+        console.log("caught not 200:", body);
+        return callback(body); // Return body as error
+      } catch (e) {
+        // if JSON parsing fails
+        console.log("caught not 200");
+        return callback(e);
+      }
+    }
+
+    return callback();
   });
 
 }
