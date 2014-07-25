@@ -66,7 +66,13 @@ module.exports = function(data, callback) {
   pg.connect(env.require('DATABASE_URL'), function(err, client, done) {
     var _callback = callback;
 
-    callback = function() {
+    callback = function(err) {
+
+      if (err) {
+        done();
+        return _callback.apply(err);
+      }
+
       done();
       return _callback.apply(null, arguments);
     };
@@ -76,7 +82,12 @@ module.exports = function(data, callback) {
     }
 
     if (data.query) {
-      getPlace(function(error, place) {
+      getPlace(function(err, place) {
+
+        if (err) {
+          callback(err);
+        }
+
         client.query({
           text   : 'select *, ST_AsGeoJSON(geom) as geometry, ST_AsGeoJSON(ST_Centroid(geom)) as centroid, ST_distance(geom, st_setsrid(st_makepoint($1,$2),4326)) as distance from (select * from cpad_2013b_superunits_ids_4326 where ST_DWithin(geom, st_setsrid(st_makepoint($1,$2),4326), .3)'+not+' LIMIT $3) as shortlist order by distance asc;',
           values : [place.coordinates[1],place.coordinates[0],limit]
