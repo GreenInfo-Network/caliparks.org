@@ -67,12 +67,6 @@ module.exports = function(data, callback) {
     var _callback = callback;
 
     callback = function(err) {
-
-      if (err) {
-        done();
-        return _callback.apply(err);
-      }
-
       done();
       return _callback.apply(null, arguments);
     };
@@ -85,7 +79,7 @@ module.exports = function(data, callback) {
       getPlace(function(err, place) {
 
         if (err) {
-          callback(err);
+          return callback(err);
         }
 
         client.query({
