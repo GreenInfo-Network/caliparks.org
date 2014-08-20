@@ -38,7 +38,7 @@ module.exports = function(data, _callback) {
       var titleArray = (result.rows.length) ? sanitizer.sanitize(result.rows[0].agncy_name).split(',') : null,
           title;
 
-      if (titleArray) {
+      if (titleArray[1]) {
         title = titleArray[1] + ' ' + titleArray[0];
       } else {
         title = (titleArray) ? titleArray[0] : sanitizer.sanitize(result);
