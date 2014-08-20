@@ -63,9 +63,11 @@ module.exports = function(options) {
         // Actually just return the db record
         //
 
-        for (var i in item) {
-          if (i !== 'su_id') {
-            match_map[item.su_id][i] = item[i];
+        if (match_map[item.su_id]) {
+          for (var i in item) {
+            if (i !== 'su_id' && match_map[item.su_id]) {
+              match_map[item.su_id][i] = item[i];
+            }
           }
         }
 
@@ -100,9 +102,11 @@ module.exports = function(options) {
             // Actually just return the db record
             //
 
-            for (var i in item) {
-              if (i !== 'su_id') {
-                match_map[item.su_id][i] = item[i];
+            if (match_map[item.su_id]) {
+              for (var i in item) {
+                if (i !== 'su_id' && match_map[item.su_id]) {
+                  match_map[item.su_id][i] = item[i];
+                }
               }
             }
 
