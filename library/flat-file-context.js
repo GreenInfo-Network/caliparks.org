@@ -62,6 +62,13 @@ module.exports = function(options) {
         //
         // Actually just return the db record
         //
+
+        for (var i in item) {
+          if (i !== 'su_id') {
+            match_map[item.su_id][i] = item[i];
+          }
+        }
+
         return match_map[item.su_id];
       }), callback);
 
@@ -92,6 +99,13 @@ module.exports = function(options) {
             //
             // Actually just return the db record
             //
+
+            for (var i in item) {
+              if (i !== 'su_id') {
+                match_map[item.su_id][i] = item[i];
+              }
+            }
+
             return match_map[item.su_id];
           }), callback);
         });
