@@ -8,9 +8,11 @@ var env               = require('require-env'),
     memwatch          = require('memwatch'),
     raven             = require('raven');
 
-var FEATURED_PARKS = require("./public/data/featured_parks.json"),
-    SUPER_UNIT_IDS_BY_HASHTAG = require('./public/data/suIdsByHashtag.json');
+var FEATURED_PARKS            = require("./public/data/featured_parks.json"),
+    SUPER_UNIT_IDS_BY_HASHTAG = require('./public/data/suIdsByHashtag.json'),
+    ravenClient               = new raven.Client('https://ae78cdedeadb48f383a2372764455d9f:0652e85de44c49f18bf6b1478451b262@app.getsentry.com/28256');
 
+ravenClient.patchGlobal();
 
 var app      = express();
 module.exports = app;
@@ -24,8 +26,6 @@ memwatch.on('leak', function(info) {
   console.log('Memory Leak detected:', info);
 });
 
-app.use(raven.middleware.express('https://ae78cdedeadb48f383a2372764455d9f:0652e85de44c49f18bf6b1478451b262@app.getsentry.com/28256'));
-  
 //
 // Setup Express
 //
@@ -147,7 +147,7 @@ function go404(req, res, next) {
     } else {
       go();
     }
-    
+
   } else {
     go();
   }
