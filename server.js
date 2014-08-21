@@ -12,8 +12,6 @@ var FEATURED_PARKS            = require("./public/data/featured_parks.json"),
     SUPER_UNIT_IDS_BY_HASHTAG = require('./public/data/suIdsByHashtag.json'),
     ravenClient               = new raven.Client('https://ae78cdedeadb48f383a2372764455d9f:0652e85de44c49f18bf6b1478451b262@app.getsentry.com/28256');
 
-ravenClient.patchGlobal();
-
 var app      = express();
 module.exports = app;
 
@@ -24,6 +22,11 @@ var dataFormatResponders = {};
 //
 memwatch.on('leak', function(info) {
   console.log('Memory Leak detected:', info);
+});
+
+ravenClient.patchGlobal(function() {
+  console.log('Uncaught error. Reporting to Sentry and exiting.');
+  process.exit(1);
 });
 
 //
@@ -124,6 +127,7 @@ function go404(req, res, next) {
       pg.connect(env.require('DATABASE_URL'), function(err, client, done) {
         if (err) {
           done();
+          ravenClient.captureError(new Error(err));
           return next(err);
         }
 
@@ -132,6 +136,7 @@ function go404(req, res, next) {
           values : [possibleHashtag[1]]
         }, function(err, result) {
           if (err) {
+            ravenClient.captureError(new Error(err));
             done();
             return next(err);
           }
@@ -167,6 +172,7 @@ app.get('/', function(req, res, next) {
 
   require('./controllers/home.js')(req, res, {}, function(err, templateData) {
     if (err) {
+      ravenClient.captureError(new Error(err));
       return next(err);
     }
 
@@ -190,6 +196,8 @@ app.get('/agencies', function(req,res) {
 
   require('./controllers/agencies.js')(req, res, {}, function(err, templateData) {
 
+    ravenClient.captureError(new Error(err));
+
     res.render('agencies', templateData);
 
   });
@@ -198,6 +206,8 @@ app.get('/agencies', function(req,res) {
 app.get('/agency/:id', function(req,res) {
 
   require('./controllers/agency.js')(req, res, {}, function(err, templateData) {
+
+    ravenClient.captureError(new Error(err));
 
     res.render('agency', templateData);
 
@@ -227,6 +237,7 @@ app.get('/park/:id(\\d+)', function(req,res, next) {
     }, function(err, templateData) {
 
       if (err) {
+        ravenClient.captureError(new Error(err));
         return next(err);
       }
 
@@ -252,6 +263,7 @@ app.get('/park/:id(\\d+):format(\.\\D+$)', function(req,res, next) {
     }, function(err, templateData) {
 
       if (err) {
+        ravenClient.captureError(new Error(err));
         return next(err);
       }
 
@@ -287,6 +299,7 @@ app.get('/parks/', function(req,res, next) {
   }, function(err, templateData) {
 
     if (err) {
+      ravenClient.captureError(new Error(err));
       go404.apply(null,[req, res, next]);
     }
 
@@ -307,6 +320,7 @@ app.get('/parks/:context/:query:format(\.\\D+$)', function(req,res, next) {
   }, function(err, templateData) {
 
     if (err) {
+      ravenClient.captureError(new Error(err));
       return next(err);
     }
 
@@ -327,6 +341,7 @@ app.get('/parks/:context(\\D+):format(\.\\D+$)', function(req,res, next) {
   }, function(err, templateData) {
 
     if (err) {
+      ravenClient.captureError(new Error(err));
       return next(err);
     }
 
@@ -346,6 +361,7 @@ app.get('/parks/:context', function(req,res, next) {
   }, function(err, templateData) {
 
     if (err || !templateData) {
+      ravenClient.captureError(new Error(err));
       return next(err);
     }
 
@@ -366,6 +382,7 @@ app.get('/parks/:context/:query', function(req,res, next) {
   }, function(err, templateData) {
 
     if (err) {
+      ravenClient.captureError(new Error(err));
       return next(err);
     }
 
@@ -386,6 +403,7 @@ app.get('/agency/:query', function(req,res, next) {
   }, function(err, templateData) {
 
     if (err) {
+      ravenClient.captureError(new Error(err));
       return next(err);
     }
 
