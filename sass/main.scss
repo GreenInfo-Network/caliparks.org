@@ -49,7 +49,7 @@ body.openspaces input::-moz-placeholder {  /* Firefox 19+ */
    opacity: 1;
 }
 
-body.openspaces input:-ms-input-placeholder {  
+body.openspaces input:-ms-input-placeholder {
   font-family: $base-font-stack !important;
    color:$base-font-color;
 }
@@ -221,7 +221,7 @@ body.openspaces .has-coverphoto #park-hash-tag {
 
 body.openspaces .stmn-carousel-module ::-webkit-scrollbar{
   width:20px;
-} 
+}
 
 body.openspaces .stmn-carousel-module ::-webkit-scrollbar-thumb{
   background-color:rgba(0,0,0,1);
@@ -342,9 +342,9 @@ body.openspaces header #search {
 
 body.openspaces header #search input {
   -webkit-appearance: none;
-  border:none; 
+  border:none;
   cursor: pointer;
-  display: inline-block; 
+  display: inline-block;
   width: 200px;
   background-color: $brown;
   font-size: $base-font-size;
@@ -396,7 +396,7 @@ body.openspaces header.has-search-results #search-results {
   top: 35px;
   text-align: left;
   font-weight: 300;
-  cursor: pointer; 
+  cursor: pointer;
   font-family: $base-font-stack !important;
 }
 
@@ -421,7 +421,7 @@ body.openspaces header.has-search-results #search-results div {
 
 body.openspaces header.has-search-results #search-results div:hover {
   background-color: #85bbe1;
-  cursor: pointer; 
+  cursor: pointer;
 }
 
 /* Glop slider */
@@ -594,7 +594,7 @@ body.openspaces #tweets {
 }
 
 body.openspaces #tweets ul {
-  
+
 }
 
 #tweets ul li {
@@ -821,19 +821,69 @@ body.openspaces .social-forward-arrow {
 }
 
 /* move to two */
+@media only screen
+and (max-width : 640px) {
 
-@media (min-width: 1550px) {
-  body.openspaces.photo-back-template .photo-back-content {
-    width:1600px;
-  }
+  body.openspaces {
 
-}
+    header {
 
-@media (max-width: 320px) {
- body.openspaces header #search input {
-  line-height:17px;
+      height:10px;
+      background:transparent;
+
+      #search, nav {
+       display:none;
+      }
+
+    }
+
+    .stmn-carousel-module {
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .glop-slider {
+      height: 60px;
+
+      .hashtag {
+        opacity:1;
+        font-size: 11px;
+        background-color: transparent;
+        padding:0;
+        margin:0;
+        line-height:15px;
+      }
+    }
+
+    .glop-park {
+      width:50px;
+      height:50px;
+      background-size:50px;
+    }
+
+
+    &.photo-back-template {
+
+      header {
+        margin-bottom: 10px;
+      }
+
+      .carousel-back-button, .carousel-forward-button {
+        display:none;
+      }
+
+      .photo-back-content {
+        width:auto;
+
+        h1, p.subhead {
+          font-size: 20px;
+          line-height: 25px;
+          width:auto;
+          margin-bottom:0;
+        }
+
+      }
+    }
+
  }
- .stmn-carousel-module {
-  -webkit-overflow-scrolling: touch;
- }
+
 }
