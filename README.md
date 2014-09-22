@@ -15,6 +15,11 @@ We are collecting all geocoded tweets, flickr photos, instagram photos, and four
 
 Data collection
 ===============
+Setting up the database tables
+------------------------------
+*Add more here*
+
+
 Testing locally
 ---------------
 
