@@ -2,19 +2,7 @@
    v2.0 | 20110126
    License: none (public domain)
 */
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed,
-figure, figcaption, footer, header, hgroup,
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
   margin: 0;
   padding: 0;
   border: 0;
@@ -23,8 +11,7 @@ time, mark, audio, video {
   vertical-align: baseline; }
 
 /* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure,
-footer, header, hgroup, menu, nav, section {
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
   display: block; }
 
 body {
@@ -36,8 +23,7 @@ ol, ul {
 blockquote, q {
   quotes: none; }
 
-blockquote:before, blockquote:after,
-q:before, q:after {
+blockquote:before, blockquote:after, q:before, q:after {
   content: '';
   content: none; }
 
@@ -54,7 +40,7 @@ body.openspaces {
   font-size: 18px;
   color: #cebc95;
   background-color: #301f0d;
-  background-image: url("/style/photo-back-template-bg.png");
+  background-image: url('/style/photo-back-template-bg.png');
   background-repeat: no-repeat;
   background-size: 100% auto;
   background-position: bottom center;
@@ -387,7 +373,7 @@ body.openspaces header #search a {
 
 body.openspaces header #search button {
   border: none;
-  background-image: url("/style/icon-search.png");
+  background-image: url('/style/icon-search.png');
   width: 29px;
   height: 29px;
   right: 0;
@@ -453,7 +439,7 @@ body.openspaces .glop-slider::-scrollbar {
 
 body.openspaces .not-scrolled .carousel-back-button {
   opacity: 0;
-  transition: opacity .5s; }
+  transition: opacity 0.5s; }
 
 body.openspaces #park-template-wrapper .carousel-back-button {
   left: 34px;
@@ -480,22 +466,22 @@ body.openspaces .carousel-forward-button, body.openspaces .carousel-back-button 
   cursor: pointer; }
 
 body.openspaces .carousel-forward-button {
-  background-image: url("/style/forward-arrow-normal.png"); }
+  background-image: url('/style/forward-arrow-normal.png'); }
 
 body.openspaces .carousel-forward-button:hover {
-  background-image: url("/style/forward-arrow-hover.png"); }
+  background-image: url('/style/forward-arrow-hover.png'); }
 
 body.openspaces .carousel-back-button {
-  background-image: url("/style/back-arrow-normal.png"); }
+  background-image: url('/style/back-arrow-normal.png'); }
 
 body.openspaces .carousel-back-button:hover {
-  background-image: url("/style/back-arrow-hover.png"); }
+  background-image: url('/style/back-arrow-hover.png'); }
 
 body.openspaces .carousel-forward-button, body.openspaces .carousel-back-button:focus {
   outline-width: 0; }
 
 body.openspaces .carousel-forward-button {
-  transition: opacity .5s;
+  transition: opacity 0.5s;
   opacity: 1;
   right: -36px; }
 
@@ -512,13 +498,13 @@ body.openspaces .glop-park {
   height: 200px;
   margin: 25px;
   position: relative;
-  transition: background-image .5s;
+  transition: background-image 0.5s;
   overflow: hidden;
   text-align: center; }
 
 body.openspaces .glop-park .hashtag {
   opacity: 0;
-  transition: opacity .5s;
+  transition: opacity 0.5s;
   color: white;
   background-color: #301f0d;
   font-family: "cooper-black-std", sans-serif;
@@ -534,7 +520,7 @@ body.openspaces .glop-park:hover .hashtag, body.openspaces #view-parks .glop-par
 
 body.openspaces .glop-park .park-name {
   opacity: 0;
-  transition: opacity .5s;
+  transition: opacity 0.5s;
   color: white;
   font-size: 12px;
   line-height: 25px;
@@ -595,9 +581,7 @@ body.openspaces #foursquare-stats {
   width: 400px;
   vertical-align: top; }
 
-body.openspaces .main-content .has-instagram-photos.has-tweets #foursquare-stats,
-body.openspaces .main-content .has-instagram-photos #foursquare-stats,
-body.openspaces .main-content .has-tweets #foursquare-stats {
+body.openspaces .main-content .has-instagram-photos.has-tweets #foursquare-stats, body.openspaces .main-content .has-instagram-photos #foursquare-stats, body.openspaces .main-content .has-tweets #foursquare-stats {
   display: inline-block; }
 
 body.openspaces .main-content .alphadog #foursquare-stats {
@@ -756,14 +740,14 @@ body.openspaces .social-nav-twitter .network-totals {
   width: 195px; }
 
 body.openspaces .social-back-arrow {
-  background-image: url("/style/social-nav-arrow-back.png");
+  background-image: url('/style/social-nav-arrow-back.png');
   background-repeat: no-repeat;
   width: 24px;
   display: inline-block;
   height: 14px; }
 
 body.openspaces .social-forward-arrow {
-  background-image: url("/style/social-nav-arrow-forward.png");
+  background-image: url('/style/social-nav-arrow-forward.png');
   background-repeat: no-repeat;
   width: 24px;
   display: inline-block;
