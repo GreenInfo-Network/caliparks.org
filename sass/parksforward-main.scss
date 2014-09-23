@@ -1,2 +1,37 @@
-/* Parks forward responsive styles */
+@import "reset";
+@import "colors";
+@import "bourbon";
+@import "neat";
 
+/*
+*  Styles for everything
+*/
+body.parksforward.responsive {
+  @include outer-container;
+
+  background-color:$light-brown;
+  font-size: 14px;
+
+  header {
+    @include span-columns(6 of 6);
+  }
+
+  div.content {
+    @include span-columns(6 of 6);
+  }
+
+  footer {
+    @include span-columns(6 of 6);
+  }
+}
+
+
+/*
+*  Styles for Mobile
+*/
+
+
+
+/*
+*  Styles for Desktop
+*/

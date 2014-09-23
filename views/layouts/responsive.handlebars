@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="/style/parksforward-main.css" type="text/css" media="screen">
     <script type="text/javascript" src="//use.typekit.net/lgw5hdh.js"></script>
     <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+    <script src="/js/vendor/jquery/jquery-1.10.2.js"></script>
+    <script src="http://code.jquery.com/jquery-migrate-1.2.1.js"></script>
 
     {{>tracking}}
   </head>
@@ -23,13 +25,9 @@
 
     <header id="the-top">
       <h1 style='font-family:"cooper-black-std",sans-serif;'>Caliparks</h1>
-      <div id="search"><div><form action="/parks/search/"><a href="/wander?from={{park_id}}">wander</a>&nbsp;&nbsp;|<input type="search" name='q' placeholder="search"><button style="border:none;background-image:url('/style/icon-search.png');width:29px;height:29px;"></button></form></div></div>
-      <div id="search-results"></div>
+      <div id="search"><div><a href="/wander?from={{park_id}}">wander</a></div>
     </header>
-    <script src="/js/vendor/jquery/jquery-1.10.2.js"></script>
-    <script src="http://code.jquery.com/jquery-migrate-1.2.1.js"></script>
-    <div class="photo-back-content">
-
+    <div class="content">
       {{{body}}}
     </div>
 
