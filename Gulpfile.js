@@ -11,7 +11,7 @@ var gulp           = require('gulp'),
 var paths = {
     scss      : './sass/*.scss',
     templates : './views/*.handlebars',
-    js        : './js/*.js'
+    js        : './public/js/*.js'
 };
 
 gulp.task('styles', function () {
@@ -35,11 +35,11 @@ gulp.task('uglify', function() {
 gulp.task('polyfill', function() {
   gulp.src(paths.js)
     .pipe(autopolyfiller('polyfills.js'))
-    .pipe(gulp.dest('./public/js'));
+    .pipe(gulp.dest('./public/js/helpers'));
 });
 
 gulp.task('default',function(){
-  gulp.start('lint');
+  //gulp.start('lint');
   gulp.start('polyfill');
   gulp.start('uglify');
   gulp.start('styles');
@@ -47,7 +47,7 @@ gulp.task('default',function(){
 
 // Watch Files For Changes
 gulp.task('watch', function() {
-    gulp.watch(paths.js, ['lint','uglify', 'polyfill']);
+    gulp.watch(paths.js, [/*'lint',*/'uglify', 'polyfill']);
     console.log('watching directory:' + paths.js);
 
     gulp.watch(paths.scss, ['styles']);

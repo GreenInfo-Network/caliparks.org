@@ -176,7 +176,7 @@ app.get('/', function(req, res, next) {
       return next(err);
     }
 
-    templateData.layout = 'photo-back';
+    templateData.layout = 'responsive';
 
     res.render('home', templateData);
 

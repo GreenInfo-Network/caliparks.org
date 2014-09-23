@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+  <head>
+    <meta charset="utf-8">
+
+    <title>{{appTitle}}</title>
+    <meta name="description" content="">
+    <meta name="author" content="Stamen Design">
+
+    <meta name="viewport" content="width=device-width; initial-scale=1">
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" href="/style/parksforward-main.css" type="text/css" media="screen">
+    <script type="text/javascript" src="//use.typekit.net/lgw5hdh.js"></script>
+    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+
+    {{>tracking}}
+  </head>
+
+  <body class="parksforward responsive" ontouchstart="">
+
+    <header id="the-top">
+      <h1 style='font-family:"cooper-black-std",sans-serif;'>Caliparks</h1>
+      <div id="search"><div><form action="/parks/search/"><a href="/wander?from={{park_id}}">wander</a>&nbsp;&nbsp;|<input type="search" name='q' placeholder="search"><button style="border:none;background-image:url('/style/icon-search.png');width:29px;height:29px;"></button></form></div></div>
+      <div id="search-results"></div>
+    </header>
+    <script src="/js/vendor/jquery/jquery-1.10.2.js"></script>
+    <script src="http://code.jquery.com/jquery-migrate-1.2.1.js"></script>
+    <div class="photo-back-content">
+
+      {{{body}}}
+    </div>
+
+    <footer>
+      <a href="#the-top">Top</a> | Find out more <a href="/about/">about this project</a> | <a href="/wander?from={{park_id}}">wander</a>{{#if hasAPI}} | <a href="javascript:location.href=location.href+'.json';">JSON</a>{{/if}}
+    </footer>
+
+    <script src="/js/main.js"></script>
+
+  </body>
+</html>
