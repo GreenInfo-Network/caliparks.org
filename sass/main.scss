@@ -9,8 +9,8 @@ body.openspaces {
   font-family: $base-font-stack;
   font-weight: $base-font-weight;
   font-size: $base-font-size;
-  color:$light-brown;
-  background-color: $dark-brown;
+  color:$ui-light;
+  background-color: $ui-dark;
   background-image: url('/style/photo-back-template-bg.png');
   background-repeat: no-repeat;
   background-size: 100% auto;
@@ -65,7 +65,7 @@ body.openspaces h2 {
   font-size: $sub-header-font-size;
   font-weight: $bold-font-weight;
   margin-bottom: 40px;
-  color:$cream;
+  color:$ui-superlite;
 }
 
 body.openspaces h3 {
@@ -108,7 +108,7 @@ body.openspaces header {
   width: 938px;
   margin: 0 auto;
   max-width: 1602px;
-  background-color: $brown;
+  background-color: $ui-middle;
   margin:0 auto;
 }
 
@@ -129,7 +129,7 @@ body.openspaces header nav {
 
 body.openspaces header nav a {
   text-decoration: none;
-   color:$cream;
+   color:$ui-superlite;
 }
 
 body.openspaces footer {
@@ -161,8 +161,8 @@ body.openspaces.photo-back-template article.thin {
 }
 
 body.openspaces section {
-  background-color: $cream;
-  color:$brown;
+  background-color: $ui-superlite;
+  color:$ui-middle;
   padding:33px;
   position: relative;
   z-index: 1;
@@ -180,7 +180,7 @@ body.openspaces li {
 }
 
 body.openspaces a {
-  color:$blue;
+  color:$ui-links;
 }
 
 body.openspaces p.breadcrumb {
@@ -193,7 +193,7 @@ body.openspaces .tweets {
 
 body.openspaces #park-hash-tag {
   height:67px;
-  background-color: $dark-brown;
+  background-color: $ui-dark;
   top:168px;left: 34px;
   color:$white;
   text-align: center;
@@ -314,7 +314,7 @@ body.openspaces .main-content #instagram-photos image {
 
 body.openspaces button.show-more {
   text-decoration: underline !important;
-  color:$blue;
+  color:$ui-links;
   border:none;
   background-color: transparent;
   display:block;
@@ -346,9 +346,9 @@ body.openspaces header #search input {
   cursor: pointer;
   display: inline-block;
   width: 200px;
-  background-color: $brown;
+  background-color: $ui-middle;
   font-size: $base-font-size;
-  color:$cream;
+  color:$ui-superlite;
   font-weight: $base-font-weight;
   font-family: $base-font-stack !important;
 }
@@ -357,14 +357,14 @@ body.openspaces.ua-firefox header #search input {
   padding-left: 8px;
 }
 
-body.openspaces header #search input::-webkit-input-placeholder { color:$cream;font-family: $base-font-stack !important; }
-body.openspaces header #search input::-moz-placeholder { color:$cream;font-family: $base-font-stack !important; } /* firefox 19+ */
-body.openspaces header #search input:-ms-input-placeholder { color:$cream;font-family: $base-font-stack !important; } /* ie */
-body.openspaces header #search input:-moz-placeholder { color:$cream;font-family: $base-font-stack !important; }
+body.openspaces header #search input::-webkit-input-placeholder { color:$ui-superlite;font-family: $base-font-stack !important; }
+body.openspaces header #search input::-moz-placeholder { color:$ui-superlite;font-family: $base-font-stack !important; } /* firefox 19+ */
+body.openspaces header #search input:-ms-input-placeholder { color:$ui-superlite;font-family: $base-font-stack !important; } /* ie */
+body.openspaces header #search input:-moz-placeholder { color:$ui-superlite;font-family: $base-font-stack !important; }
 
 body.openspaces header #search a {
   text-decoration: none;
-  color:$cream;
+  color:$ui-superlite;
 }
 
 body.openspaces header #search button {
@@ -520,7 +520,7 @@ body.openspaces .glop-park .hashtag {
   opacity:0;
   transition:opacity .5s;
   color: $white;
-  background-color: $dark-brown;
+  background-color: $ui-dark;
   font-family: $cooper-font-stack;
   font-size: $sub-header-font-size;
   line-height: $sub-header-line-height;
@@ -579,7 +579,7 @@ body.openspaces #nearest-parks .glop-park .park-name {
 /* Park page extended navigation */
 
 body.openspaces section.extended-navigation {
-  background-color:$light-brown;
+  background-color:$ui-light;
 }
 
 /* Tweets */
@@ -635,7 +635,7 @@ body.openspaces #foursquare-stats h2 {
 
 
 body.openspaces #park-template-wrapper h2, body.openspaces #foursquare-stats table, tfoot {
-  color: $gold;
+  color: $ui-hilite;
   font-size: $base-font-size;
   font-weight: $bold-font-weight;
 }
@@ -643,12 +643,12 @@ body.openspaces #park-template-wrapper h2, body.openspaces #foursquare-stats tab
 body.openspaces #park-template-wrapper h2 span {
   font-size: $tiny-font-size;
   margin-left: 10px;
-  color:$greenish-brown;
+  color:$ui-accent;
   font-weight:$base-font-weight;
 }
 
 body.openspaces #park-template-wrapper h2 a {
-  color: $gold;
+  color: $ui-hilite;
   text-decoration: none;
 }
 
@@ -659,7 +659,7 @@ body.openspaces #foursquare-stats table {
 }
 
 body.openspaces #foursquare-stats table tbody {
-  color: $dark-brown;
+  color: $ui-dark;
   font-size: $sub-header-font-size;
   font-weight: $bold-font-weight;
 }
@@ -702,7 +702,7 @@ body.openspaces #park-shape .scale-area {
   bottom: -1px;
   left: 0;
   font-size: $tiny-font-size;
-  color: $dark-brown;
+  color: $ui-dark;
   text-align: center;
   height: 32px;
 }
@@ -711,7 +711,7 @@ body.openspaces #park-shape .scale-area .scale-bar {
   margin:0 auto;
   width: 15px;
   height: 15px;
-  background-color: $gold;
+  background-color: $ui-hilite;
 }
 
 /* Social Nav */

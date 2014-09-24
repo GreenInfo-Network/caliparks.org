@@ -1,10 +1,3 @@
-<!--style>
-	#park-shape {
-		background-image:url('http://rasterblaster.stamen.com/cpad/{{cpadPark.su_id}}-888462-300-300.png');
-		background-repeat:none;
-	}
-</style-->
-
 <div id="park-template-wrapper" class="{{# if coverPhoto}}has-coverphoto {{/if}} not-scrolled{{#if noFlickrScroll}} scrolled-furthest{{/if}}">
 
 	{{# if coverPhoto}}
@@ -15,51 +8,14 @@
 		{{/each}}
 		</div>
 		</div>
-		<div style="position:absolute;right:43px;top:277px;color:#eeddca;text-align:right;white-space: initial;line-height: 27px;width:181px;">
-    <a style="text-decoration:none;color:#f0dfcb;" href="/parks/most-flickr-photos/"><span style="background-color:#9a7922;padding: 4px;font-weight:bold;">People who use Flickr come here</span></a><br>
-    <span style="background-color:#9a7922;padding: 4px;font-size:12px;">{{#pluralize}}{{totalPhotos}} photo|photos{{/pluralize}} by {{#pluralize}}{{flotographer_count}} person|people{{/pluralize}}</span>
+		<div id="people-from" style="position:absolute;top:277px;text-align:right;white-space: initial;line-height: 27px;width:181px;">
+    <a style="text-decoration:none;" href="/parks/most-flickr-photos/"><span style="padding: 4px;font-weight:bold;">People who use Flickr come here</span></a><br>
+    <span style="padding: 4px;font-size:12px;">{{#pluralize}}{{totalPhotos}} photo|photos{{/pluralize}} by {{#pluralize}}{{flotographer_count}} person|people{{/pluralize}}</span>
   </div>
 	{{/if}}
 	<button class="carousel-back-button">&nbsp;</button>
     <button class="carousel-forward-button">&nbsp;</button>
-	<div id="park-hash-tag">#{{hashtag}}</div>
-	<div id="california_shape"></div>
 
-	<style>
-		section.details {
-			width: 952px;
-		}
-
-		.content-column {
-			display:inline-block;
-			vertical-align:top;
-		}
-
-		.content-column.friend {
-			position:relative;
-			margin-right:27px;
-			width: 401px;
-			height: 800px;
-			min-height: 817px;
-		}
-
-		{{#if flickrPhotos}}
-		.content-column.friend {
-			height: 670px;
-			min-height: 670px;
-		}
-		{{/if}}
-
-		.content-column.alphadog {
-			width: 512px;
-		}
-
-		#foursquare-stats {
-			position:absolute;
-			bottom:0;
-			left: 0;
-		}
-	</style>
 	<section class="details {{#if has_instagram_photos}} has-instagram-photos{{/if}}{{#if has_tweets}} has-tweets{{/if}}{{#if has_foursquare}} has-foursquare{{/if}}">
 		<div class="content-column friend">
 			<div id="park-info" style="display:inline-block;width:400px;">
@@ -67,13 +23,6 @@
 	      <p class="park-lat-lon"><a title="Get Directions to {{name}}" href="https://www.google.com/maps/dir//{{cpadPark.centroid_latitude}},{{cpadPark.centroid_longitude}}/@{{cpadPark.centroid_latitude}},{{cpadPark.centroid_longitude}},7z">{{locationDisplay.lat}}, {{locationDisplay.lon}}</a></p>
 	      <p><a href="/parks/agency/{{agency_slug}}">{{#agencyNameDisplay}}{{cpadPark.agncy_name}}{{/agencyNameDisplay}}</a></p>
 	      <!--div class="access-type-badge">{{cpadPark.park_area}} Miles</div-->
-	      <div id="park-shape" style="text-align:center;">
-	      	<img src="http://rasterblaster.stamen.com/cpad/{{cpadPark.su_id}}-888462-300-300.png" alt="{{name}}" title="{{name}}">
-	        <div class="scale-area">
-	          <div class="scale-bar"></div>
-	          <span>{{parkShapeScale.best}} {{parkShapeScale.label}}</span>
-	        </div>
-	      </div>
 	    </div>
 	    {{>park-page-foursquare}}
 		</div>
@@ -88,8 +37,8 @@
 
 	<section class="extended-navigation" style="position:relative;padding-top: 56px;width: 952px;">
 		<div class="extended-navigaton-header-back" style="overflow:hidden;height:25px;position:absolute;top:33px;right: 48px;left:33px;">......................................................................................................................................................................................................................................................................................</div>
-		<div style="font-weight:bold;position:absolute;top:33px;left:33px;display:inline-block;background-color:#cebc95;padding-right:3px;">Explore parks near #{{hashtag}} on a map</div>
-		<div style="font-weight:bold;position:absolute;top:33px;right:45px;display:inline-block;background-color:#cebc95;padding-left:3px;">and social media.</div>
+		<div class="explore-parks-near" style="font-weight:bold;position:absolute;top:33px;left:33px;display:inline-block;bpadding-right:3px;">Explore parks near #{{hashtag}} on a map</div>
+		<div class="explore-parks-near" style="font-weight:bold;position:absolute;top:33px;right:45px;display:inline-block;padding-left:3px;">and social media.</div>
 		<div id="nearest-parks">
 			
 		</div>

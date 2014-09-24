@@ -46,7 +46,7 @@ body.parksforward.responsive {
   max-width: 68em;
   margin-left: auto;
   margin-right: auto;
-  background-color: #cebc95;
+  background-color: #FEFEE7;
   font-size: 16px;
   font-family: "HelveticaNeue", "Helvetica Neue", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; }
   body.parksforward.responsive:after {
@@ -56,12 +56,13 @@ body.parksforward.responsive {
   body.parksforward.responsive h1 {
     font-size: 200%; }
   body.parksforward.responsive a {
-    color: #85bbe1;
+    color: white;
     text-decoration: none; }
   body.parksforward.responsive input {
     outline: none;
     width: 100%;
-    border: solid 1px red; }
+    border: solid 1px red;
+    padding: 10px 54px 10px 10px; }
     body.parksforward.responsive input[type="search"]::-webkit-search-decoration, body.parksforward.responsive input[type="search"]::-webkit-search-results-button, body.parksforward.responsive input[type="search"]::-webkit-search-results-decoration {
       display: none; }
   body.parksforward.responsive header {
@@ -71,13 +72,15 @@ body.parksforward.responsive {
     width: 100%;
     padding: 10px;
     position: relative;
-    background-color: #301f0d;
+    background-color: #72C4B9;
     color: white; }
     body.parksforward.responsive header:last-child {
       margin-right: 0; }
     body.parksforward.responsive header .logo {
       font-size: 200%;
       font-family: "cooper-black-std", sans-serif; }
+      body.parksforward.responsive header .logo a {
+        color: white; }
     body.parksforward.responsive header nav {
       position: absolute;
       bottom: 10px;
@@ -88,11 +91,14 @@ body.parksforward.responsive {
     margin-right: 4.82916%;
     width: 100%;
     position: relative;
-    background-color: white; }
+    background-color: white;
+    /* Flickr cover photo module */ }
     body.parksforward.responsive div.content:last-child {
       margin-right: 0; }
+    body.parksforward.responsive div.content .explore-parks-near {
+      background-color: #A4D0C4; }
     body.parksforward.responsive div.content section#search-box {
-      background-color: #f0dfcb; }
+      background-color: #A4D0C4; }
       body.parksforward.responsive div.content section#search-box input {
         background-color: transparent;
         border: none;
@@ -117,6 +123,87 @@ body.parksforward.responsive {
             width: 2em;
             height: 2em;
             fill: blue; }
+    body.parksforward.responsive div.content .stmn-carousel-module ::-webkit-scrollbar {
+      width: 20px; }
+    body.parksforward.responsive div.content .stmn-carousel-module ::-webkit-scrollbar-thumb {
+      background-color: black; }
+    body.parksforward.responsive div.content .stmn-carousel-module {
+      scrollbar-highlight-color: aqua !important;
+      scrollbar-face-color: blue !important;
+      scrollbar-arrow-color: blue !important;
+      border-color: blue !important;
+      -webkit-transform: translate3d(0, 0, 0); }
+    body.parksforward.responsive div.content .has-coverphoto .coverphoto {
+      height: 480px;
+      background: no-repeat center center;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-size: cover;
+      position: relative;
+      width: 100%; }
+    body.parksforward.responsive div.content #coverphoto-carousel .flickr-title {
+      display: inline-block;
+      max-width: 248px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: -2px; }
+    body.parksforward.responsive div.content #people-from {
+      right: 10px;
+      color: white; }
+      body.parksforward.responsive div.content #people-from a {
+        color: white; }
+      body.parksforward.responsive div.content #people-from span {
+        background-color: #A4D0C4; }
+    body.parksforward.responsive div.content #coverphoto-carousel {
+      transition: height 0.5s;
+      width: 100%;
+      height: 480px; }
+    body.parksforward.responsive div.content .has-coverphoto .coverphoto span.attribution {
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+      background-color: rgba(34, 17, 2, 0.4);
+      padding: 10px;
+      line-height: 10px;
+      font-size: 60%; }
+    body.parksforward.responsive div.content .has-coverphoto .coverphoto span.attribution {
+      color: white; }
+      body.parksforward.responsive div.content .has-coverphoto .coverphoto span.attribution a {
+        text-decoration: none; }
+    body.parksforward.responsive div.content .carousel-container {
+      position: relative;
+      margin-bottom: 25px; }
+    body.parksforward.responsive div.content .carousel-container h2 {
+      margin-bottom: 25px; }
+    body.parksforward.responsive div.content .carousel-forward-button, body.parksforward.responsive div.content .carousel-back-button {
+      background-color: transparent;
+      width: 52px;
+      height: 52px;
+      top: 143px;
+      border: none;
+      position: absolute;
+      cursor: pointer; }
+    body.parksforward.responsive div.content .carousel-forward-button {
+      background-image: url('/style/forward-arrow-normal.png'); }
+    body.parksforward.responsive div.content .carousel-forward-button:hover {
+      background-image: url('/style/forward-arrow-hover.png'); }
+    body.parksforward.responsive div.content .carousel-back-button {
+      background-image: url('/style/back-arrow-normal.png'); }
+    body.parksforward.responsive div.content .carousel-back-button:hover {
+      background-image: url('/style/back-arrow-hover.png'); }
+    body.parksforward.responsive div.content .carousel-forward-button, body.parksforward.responsive div.content body.openspaces .carousel-back-button:focus {
+      outline-width: 0; }
+    body.parksforward.responsive div.content .carousel-forward-button {
+      transition: opacity 0.5s;
+      opacity: 1;
+      right: 10px; }
+    body.parksforward.responsive div.content .carousel-back-button {
+      transition: opacity 0.5s;
+      left: 10px; }
+    body.parksforward.responsive div.content .not-scrolled .carousel-back-button {
+      opacity: 0;
+      transition: opacity 0.5s; }
   body.parksforward.responsive footer {
     float: left;
     display: block;
@@ -124,14 +211,21 @@ body.parksforward.responsive {
     width: 100%;
     padding: 10px;
     position: relative;
-    background-color: #301f0d;
+    background-color: #72C4B9;
     color: white; }
     body.parksforward.responsive footer:last-child {
       margin-right: 0; }
 
 /*
-*  Styles for Mobile
-*/
-/*
 *  Styles for Desktop
 */
+/*
+*  Styles for Mobile
+*/
+@media (max-width: 720px) {
+  body.parksforward.responsive div.content .has-coverphoto .coverphoto {
+    height: 200px; }
+  body.parksforward.responsive div.content #coverphoto-carousel {
+    height: 200px; }
+  body.parksforward.responsive div.content #people-from {
+    display: none; } }
