@@ -1,34 +1,39 @@
 
+
+<section id="search-box">
+  <form action="/parks/search/" type="get">
+    <input type="search" results="5" autosave="STMN-parksforward" name="q" placeholder="San Francisco, Ca">
+    <div class="search-actions">
+      <button class="locate-me"><img src="/style/locate-me.svg">Locate me</button>
+      <button class="go"><img src="/style/spyglass.svg">Search</button>
+    </div>
+  </form>
+</section>
+
 <script>
-  (function(window) {
+  //
+  // Good enough for scaffold. Will go in JS file
+  //
+  document.querySelector('.search-actions .locate-me').addEventListener('click', function(e) {
+    e.preventDefault();
+    location.href='/parks/near/';
+  }, false);
 
-    if(location.hash && location.hash.length > 1) {
-
-      var suIdsByHashtag = {{{suIdsByHashtagJSON}}};
-
-      if(Object.keys(suIdsByHashtag).length) {
-
-        location.href = suIdsByHashtag[location.hash.substring(1).toUpperCase()] ? '/park/' + suIdsByHashtag[location.hash.substring(1).toUpperCase()] : '/404';
-
-      }
-
-    }
-
-  }(window))
+  document.querySelector('#search-box form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    location.href='/parks/search/' + document.querySelector('#search-box input').value;
+  }, false);
 </script>
 
-<div style="opacity:0;height:0;width:0;overflow:hidden;">
-<img src="/style/forward-arrow-normal.png">
-<img src="/style/forward-arrow-hover.png">
-<img src="/style/back-arrow-normal.png">
-<img src="/style/back-arrow-hover.png">
-</div>
+<section id="stories" style="height:500px;">
 
-<h1>Stories pour out of our parks every day.</h1>
+  <div>
+    
+  </div>
+  
+</section>
 
-<p class="subhead">We’re here to listen.</p>
-
-<section>
+<!--section>
   <div class="carousel-container not-scrolled">
     <h2>{{#if reverseSort.size}}Explore tiny parks to giant parks...{{else}}Explore giant parks to tiny parks...{{/if}}</h2>
     <div class="what-scrollbars">
@@ -80,9 +85,9 @@
     <button class="carousel-back-button">&nbsp;</button>
     <button class="carousel-forward-button">&nbsp;</button>
   </div>
-</section>
+</section-->
 
-<article class="about-this-page">
+<!--article class="about-this-page">
   <p>From family vacations in a national park to mornings at the dog run or lazy days on the beach, Californians live their lives outdoors—and share their experiences online on <a href="http://www.twitter.com/">Twitter</a>, <a href="http://www.flickr.com/">Flickr</a>, <a href="http://instagram.com/">Instagram</a>, and <a href="http://foursquare.com/">Foursquare</a>.</p>
 
   <p>The idea is pretty simple. We’ve taken the actual shape of every park in California and used it as a window to watch social media streaming out of our parks.</p>
@@ -99,7 +104,7 @@
   </ul>
 
   <p><a href="/about">Learn more about our project</a>.</p>
-</article>
+</article-->
 
 <script>
 if (!window.STMN) {

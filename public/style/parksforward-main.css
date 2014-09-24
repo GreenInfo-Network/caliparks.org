@@ -37,6 +37,9 @@ table {
   box-sizing: border-box; }
 
 /*
+*  Variables for everything
+*/
+/*
 *  Styles for everything
 */
 body.parksforward.responsive {
@@ -44,30 +47,85 @@ body.parksforward.responsive {
   margin-left: auto;
   margin-right: auto;
   background-color: #cebc95;
-  font-size: 14px; }
+  font-size: 16px;
+  font-family: "HelveticaNeue", "Helvetica Neue", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; }
   body.parksforward.responsive:after {
     content: "";
     display: table;
     clear: both; }
+  body.parksforward.responsive h1 {
+    font-size: 200%; }
+  body.parksforward.responsive a {
+    color: #85bbe1;
+    text-decoration: none; }
+  body.parksforward.responsive input {
+    outline: none;
+    width: 100%;
+    border: solid 1px red; }
+    body.parksforward.responsive input[type="search"]::-webkit-search-decoration, body.parksforward.responsive input[type="search"]::-webkit-search-results-button, body.parksforward.responsive input[type="search"]::-webkit-search-results-decoration {
+      display: none; }
   body.parksforward.responsive header {
     float: left;
     display: block;
     margin-right: 4.82916%;
-    width: 100%; }
+    width: 100%;
+    padding: 10px;
+    position: relative;
+    background-color: #301f0d;
+    color: white; }
     body.parksforward.responsive header:last-child {
       margin-right: 0; }
+    body.parksforward.responsive header .logo {
+      font-size: 200%;
+      font-family: "cooper-black-std", sans-serif; }
+    body.parksforward.responsive header nav {
+      position: absolute;
+      bottom: 10px;
+      right: 10px; }
   body.parksforward.responsive div.content {
     float: left;
     display: block;
     margin-right: 4.82916%;
-    width: 100%; }
+    width: 100%;
+    position: relative;
+    background-color: white; }
     body.parksforward.responsive div.content:last-child {
       margin-right: 0; }
+    body.parksforward.responsive div.content section#search-box {
+      background-color: #f0dfcb; }
+      body.parksforward.responsive div.content section#search-box input {
+        background-color: transparent;
+        border: none;
+        padding: 10px 500px 10px 10px; }
+      body.parksforward.responsive div.content section#search-box div.search-actions {
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 3px 10px; }
+        body.parksforward.responsive div.content section#search-box div.search-actions button {
+          padding: 0;
+          margin: 0;
+          height: 2em;
+          width: 2em;
+          display: inline-block;
+          vertical-align: middle;
+          background-color: transparent;
+          border: none;
+          color: transparent;
+          cursor: pointer; }
+          body.parksforward.responsive div.content section#search-box div.search-actions button img {
+            width: 2em;
+            height: 2em;
+            fill: blue; }
   body.parksforward.responsive footer {
     float: left;
     display: block;
     margin-right: 4.82916%;
-    width: 100%; }
+    width: 100%;
+    padding: 10px;
+    position: relative;
+    background-color: #301f0d;
+    color: white; }
     body.parksforward.responsive footer:last-child {
       margin-right: 0; }
 

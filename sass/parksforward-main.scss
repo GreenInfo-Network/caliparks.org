@@ -4,24 +4,107 @@
 @import "neat";
 
 /*
+*  Variables for everything
+*/
+$box-padding: 10px;
+
+/*
 *  Styles for everything
 */
 body.parksforward.responsive {
   @include outer-container;
+  background-color: $light-brown;
+  font-size: 16px;
+  font-family: "HelveticaNeue", "Helvetica Neue", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 
-  background-color:$light-brown;
-  font-size: 14px;
+  h1 {
+    font-size:200%;
+  }
+
+  a {
+    color:$blue;
+    text-decoration: none;
+  }
+
+  input {
+    outline: none;
+    width:100%;
+    border:solid 1px red;
+    &[type="search"]::-webkit-search-decoration,
+    &[type="search"]::-webkit-search-results-button,
+    &[type="search"]::-webkit-search-results-decoration {
+      display: none;
+    }
+  }
 
   header {
     @include span-columns(6 of 6);
+    padding:$box-padding;
+    position:relative;
+
+    background-color:$dark-brown;
+    color:$white;
+
+    .logo {
+      font-size:200%;
+      font-family:"cooper-black-std",sans-serif;
+    }
+
+    nav {
+      position:absolute;
+      bottom:$box-padding; right:$box-padding;
+    }
   }
 
   div.content {
     @include span-columns(6 of 6);
+    position:relative;
+
+    background-color:$white;
+
+    section {
+      &#search-box {
+        background-color: $cream;
+        input {
+          background-color:transparent;
+          border:none;
+          padding:$box-padding 500px $box-padding $box-padding;
+        }
+        div.search-actions {
+          position:absolute;
+          top: 0; right: 0;
+          padding: 3px $box-padding;
+
+          button {
+            padding:0;
+            margin:0;
+            height:2em;
+            width:2em;
+            display:inline-block;
+            vertical-align: middle;
+            background-color:transparent;
+            border:none;
+            color:transparent;
+            cursor: pointer;
+
+            img {
+              width:2em;
+              height:2em;
+              fill:blue;
+            }
+          }
+        }
+      }
+    }
   }
 
   footer {
     @include span-columns(6 of 6);
+    padding:$box-padding;
+    position:relative;
+
+    background-color:$dark-brown;
+    color:$white;
   }
 }
 
