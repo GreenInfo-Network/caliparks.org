@@ -304,7 +304,7 @@ app.get('/parks/', function(req,res, next) {
       go404.apply(null,[req, res, next]);
     }
 
-    templateData.layout = 'photo-back';
+    templateData.layout = 'responsive';
 
     res.render('parks', templateData);
 
@@ -367,7 +367,7 @@ app.get('/parks/:context', function(req,res, next) {
     }
 
     templateData.hasAPI = true;
-    templateData.layout = 'photo-back';
+    templateData.layout = 'responsive';
 
     res.render('parks', templateData);
 
@@ -388,7 +388,7 @@ app.get('/parks/:context/:query', function(req,res, next) {
     }
 
     templateData.hasAPI = true;
-    templateData.layout = 'photo-back';
+    templateData.layout = 'responsive';
 
     res.render('parks', templateData);
 
@@ -408,7 +408,7 @@ app.get('/agency/:query', function(req,res, next) {
       return next(err);
     }
 
-    templateData.layout = 'photo-back';
+    templateData.layout = 'responsive';
 
     res.render('parks', templateData);
 

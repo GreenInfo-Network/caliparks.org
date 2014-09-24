@@ -12,16 +12,16 @@ if (locationParts[4] === 'near' && !locationParts[5]) {
 }
 </script>
 
-<div id="view-parks">
+<div class="content-column" id="view-parks">
 
-  <div style="text-align:left;margin-left:43px;">
-    <h1 style="font-size:42px;font-family:'HelveticaNeue','Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;text-align:left;margin-bottom:0px;text-transform:capitalize">{{appTitle}}</h1>
-    <div style="color:#cdbb95;"><strong>{{#pluralize}}{{total}} park|parks{{/pluralize}}</strong> | Sort by <a style="color:#9a7825;" href="/parks/{{sorts.one.key}}/">{{sorts.one.value}}</a> or <a style="color:#9a7825;" href="/parks/{{sorts.two.key}}/">{{sorts.two.value}}</a></div>
+  <div>
+    <h1>{{appTitle}}</h1>
+    <div ><strong>{{#pluralize}}{{total}} park|parks{{/pluralize}}</strong> | Sort by <a href="/parks/{{sorts.one.key}}/">{{sorts.one.value}}</a> or <a href="/parks/{{sorts.two.key}}/">{{sorts.two.value}}</a></div>
   </div>
 
-  <div style="text-align:center;margin-top:20px;" id="parks">
+  <div  id="parks">
   {{#each parks}}
-    {{>glop_park}}
+      <li><a href="/park/{{su_id}}">{{unit_name}}</a></li>
   {{/each}}
 
   {{#if empty}}
@@ -39,7 +39,7 @@ if (locationParts[4] === 'near' && !locationParts[5]) {
     //
     queue = new STMN.QueuedElementList('#parks', {
       queue     : {{{parksQueue}}},
-      template  : '<style>  #glop-park-{su_id} {    background-image:url(\'http://rasterblaster.stamen.com/cpad/{su_id}-888462-200-200.png\');  }  #glop-park-{su_id}:hover {    background-image:url(\'http://rasterblaster.stamen.com/cpad/{su_id}-85BBE1-200-200.png\');  }</style><a href="/park/{su_id}"><div id="glop-park-{su_id}" class="glop-park" style="background-position: initial;" data-park-id="{su_id}"><span class="hashtag">#{hashtag}</span><span class="park-name">{unit_name}</span></div></a>',
+      template  : '<li><a href="/park/{su_id}">{unit_name}</a></li>',
       batchSize : 100
     });
 

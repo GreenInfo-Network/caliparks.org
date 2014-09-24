@@ -46,7 +46,7 @@ body.parksforward.responsive {
   max-width: 68em;
   margin-left: auto;
   margin-right: auto;
-  background-color: #FEFEE7;
+  background-color: #9A9C9F;
   font-size: 16px;
   font-family: "HelveticaNeue", "Helvetica Neue", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; }
   body.parksforward.responsive:after {
@@ -54,28 +54,39 @@ body.parksforward.responsive {
     display: table;
     clear: both; }
   body.parksforward.responsive h1 {
-    font-size: 200%; }
+    font-size: 200%;
+    margin-bottom: 15px;
+    clear: both; }
   body.parksforward.responsive a {
-    color: white;
+    color: #A4D0C4;
     text-decoration: none; }
+  body.parksforward.responsive p {
+    margin-bottom: 15px; }
   body.parksforward.responsive input {
     outline: none;
     width: 100%;
-    border: solid 1px red;
-    padding: 10px 54px 10px 10px; }
+    border: solid 1px red; }
     body.parksforward.responsive input[type="search"]::-webkit-search-decoration, body.parksforward.responsive input[type="search"]::-webkit-search-results-button, body.parksforward.responsive input[type="search"]::-webkit-search-results-decoration {
       display: none; }
+    body.parksforward.responsive input[type="search"]::-webkit-search-cancel-button {
+      -webkit-appearance: none;
+      /* Now your own custom styles */
+      height: 10px;
+      width: 10px;
+      background: red; }
   body.parksforward.responsive header {
     float: left;
     display: block;
     margin-right: 4.82916%;
     width: 100%;
-    padding: 10px;
+    padding: 15px;
     position: relative;
     background-color: #72C4B9;
     color: white; }
     body.parksforward.responsive header:last-child {
       margin-right: 0; }
+    body.parksforward.responsive header a {
+      color: white; }
     body.parksforward.responsive header .logo {
       font-size: 200%;
       font-family: "cooper-black-std", sans-serif; }
@@ -83,8 +94,8 @@ body.parksforward.responsive {
         color: white; }
     body.parksforward.responsive header nav {
       position: absolute;
-      bottom: 10px;
-      right: 10px; }
+      bottom: 15px;
+      right: 15px; }
   body.parksforward.responsive div.content {
     float: left;
     display: block;
@@ -97,17 +108,19 @@ body.parksforward.responsive {
       margin-right: 0; }
     body.parksforward.responsive div.content .explore-parks-near {
       background-color: #A4D0C4; }
+    body.parksforward.responsive div.content .content-column {
+      padding: 15px; }
     body.parksforward.responsive div.content section#search-box {
       background-color: #A4D0C4; }
       body.parksforward.responsive div.content section#search-box input {
         background-color: transparent;
         border: none;
-        padding: 10px 500px 10px 10px; }
+        padding: 15px 70px 15px 15px; }
       body.parksforward.responsive div.content section#search-box div.search-actions {
         position: absolute;
-        top: 0;
+        top: 6px;
         right: 0;
-        padding: 3px 10px; }
+        padding: 3px 15px; }
         body.parksforward.responsive div.content section#search-box div.search-actions button {
           padding: 0;
           margin: 0;
@@ -123,6 +136,40 @@ body.parksforward.responsive {
             width: 2em;
             height: 2em;
             fill: blue; }
+    body.parksforward.responsive div.content ul.activity-icons {
+      display: inline-block;
+      margin-bottom: 15px;
+      vertical-align: top;
+      white-space: nowrap; }
+      body.parksforward.responsive div.content ul.activity-icons li {
+        display: inline-block;
+        margin-right: 10px;
+        border: solid transparent 1px;
+        padding: 3px;
+        border-radius: 4px;
+        background-color: #A4D0C4;
+        width: 30px;
+        height: 30px; }
+        body.parksforward.responsive div.content ul.activity-icons li img {
+          width: 20px;
+          height: 20px;
+          fill-color: white; }
+    body.parksforward.responsive div.content ul.social-badges {
+      font-size: 60%;
+      font-weight: bolder;
+      display: inline-block;
+      margin-bottom: 15px;
+      vertical-align: top;
+      white-space: nowrap;
+      overflow: hidden; }
+      body.parksforward.responsive div.content ul.social-badges li {
+        display: inline-block;
+        margin-right: 10px;
+        border: solid transparent 1px;
+        padding: 3px;
+        border-radius: 4px;
+        background-color: #A4D0C4;
+        height: 30px; }
     body.parksforward.responsive div.content .stmn-carousel-module ::-webkit-scrollbar {
       width: 20px; }
     body.parksforward.responsive div.content .stmn-carousel-module ::-webkit-scrollbar-thumb {
@@ -149,28 +196,28 @@ body.parksforward.responsive {
       text-overflow: ellipsis;
       margin-bottom: -2px; }
     body.parksforward.responsive div.content #people-from {
-      right: 10px;
+      right: 15px;
       color: white; }
       body.parksforward.responsive div.content #people-from a {
         color: white; }
       body.parksforward.responsive div.content #people-from span {
-        background-color: #A4D0C4; }
+        background-color: #72C4B9; }
     body.parksforward.responsive div.content #coverphoto-carousel {
       transition: height 0.5s;
       width: 100%;
       height: 480px; }
     body.parksforward.responsive div.content .has-coverphoto .coverphoto span.attribution {
       position: absolute;
-      right: 10px;
-      bottom: 10px;
-      background-color: rgba(34, 17, 2, 0.4);
+      right: 15px;
+      bottom: 15px;
+      background-color: #9A9C9F;
       padding: 10px;
       line-height: 10px;
-      font-size: 60%; }
-    body.parksforward.responsive div.content .has-coverphoto .coverphoto span.attribution {
+      font-size: 60%;
       color: white; }
       body.parksforward.responsive div.content .has-coverphoto .coverphoto span.attribution a {
-        text-decoration: none; }
+        text-decoration: none;
+        color: white; }
     body.parksforward.responsive div.content .carousel-container {
       position: relative;
       margin-bottom: 25px; }
@@ -209,12 +256,14 @@ body.parksforward.responsive {
     display: block;
     margin-right: 4.82916%;
     width: 100%;
-    padding: 10px;
+    padding: 15px;
     position: relative;
     background-color: #72C4B9;
     color: white; }
     body.parksforward.responsive footer:last-child {
       margin-right: 0; }
+    body.parksforward.responsive footer a {
+      color: white; }
 
 /*
 *  Styles for Desktop
@@ -227,5 +276,9 @@ body.parksforward.responsive {
     height: 200px; }
   body.parksforward.responsive div.content #coverphoto-carousel {
     height: 200px; }
+  body.parksforward.responsive div.content .carousel-forward-button {
+    display: none; }
+  body.parksforward.responsive div.content .carousel-back-button {
+    display: none; }
   body.parksforward.responsive div.content #people-from {
     display: none; } }

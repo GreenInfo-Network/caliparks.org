@@ -2,72 +2,44 @@
 
 	{{# if coverPhoto}}
 		<div class="what-scrollbars">
-		<div id="coverphoto-carousel" style="overflow:hidden;overflow-x:auto;white-space:nowrap;">
-		{{#each flickrPhotos}}
-			{{>flickr_coverphoto}}
-		{{/each}}
-		</div>
+			<div id="coverphoto-carousel" style="overflow:hidden;overflow-x:auto;white-space:nowrap;">
+			{{#each flickrPhotos}}
+				{{>flickr_coverphoto}}
+			{{/each}}
+			</div>
 		</div>
 		<div id="people-from" style="position:absolute;top:277px;text-align:right;white-space: initial;line-height: 27px;width:181px;">
-    <a style="text-decoration:none;" href="/parks/most-flickr-photos/"><span style="padding: 4px;font-weight:bold;">People who use Flickr come here</span></a><br>
-    <span style="padding: 4px;font-size:12px;">{{#pluralize}}{{totalPhotos}} photo|photos{{/pluralize}} by {{#pluralize}}{{flotographer_count}} person|people{{/pluralize}}</span>
+	    <a style="text-decoration:none;" href="/parks/most-flickr-photos/"><span style="padding: 4px;font-weight:bold;">People who use Flickr come here</span></a><br>
+	    <span style="padding: 4px;font-size:12px;">{{#pluralize}}{{totalPhotos}} photo|photos{{/pluralize}} by {{#pluralize}}{{flotographer_count}} person|people{{/pluralize}}</span>
   </div>
+  <button class="carousel-back-button">&nbsp;</button>
+  <button class="carousel-forward-button">&nbsp;</button>
 	{{/if}}
-	<button class="carousel-back-button">&nbsp;</button>
-    <button class="carousel-forward-button">&nbsp;</button>
 
 	<section class="details {{#if has_instagram_photos}} has-instagram-photos{{/if}}{{#if has_tweets}} has-tweets{{/if}}{{#if has_foursquare}} has-foursquare{{/if}}">
 		<div class="content-column friend">
-			<div id="park-info" style="display:inline-block;width:400px;">
-	      <h1 style="margin-bottom: 5px;">{{name}}</h1>
+			<div id="park-info">
+	      <h1>{{name}}</h1>
+	      <ul class="activity-icons">
+	      	<li><img src="/style/activity-backpacking.svg"></li>
+	      	<li><img src="/style/activity-boating.svg"></li>
+	      	<li><img src="/style/activity-caving.svg"></li>
+	      	<li><img src="/style/activity-fishing.svg"></li>
+	      </ul>
+	      <ul class="social-badges">
+	      	<li class="social-badge-tweets">400 Tweets</li>
+	      	<li class="social-badge-photos">300 Photos</li>
+	      	<li class="social-badge-venues">40 Venues</li>
+	      	<li class="social-badge-checkins">80 Checkins</li>
+	      </ul>
 	      <p class="park-lat-lon"><a title="Get Directions to {{name}}" href="https://www.google.com/maps/dir//{{cpadPark.centroid_latitude}},{{cpadPark.centroid_longitude}}/@{{cpadPark.centroid_latitude}},{{cpadPark.centroid_longitude}},7z">{{locationDisplay.lat}}, {{locationDisplay.lon}}</a></p>
 	      <p><a href="/parks/agency/{{agency_slug}}">{{#agencyNameDisplay}}{{cpadPark.agncy_name}}{{/agencyNameDisplay}}</a></p>
-	      <!--div class="access-type-badge">{{cpadPark.park_area}} Miles</div-->
 	    </div>
-	    {{>park-page-foursquare}}
 		</div>
 		<div class="content-column alphadog">
-			{{#if empty_right_column}}
-				{{>park-page-foursquare}}
-			{{/if}}
 			{{>park-page-instagram}}
 			{{>park-page-tweets}}
-		</div>
-	</section>
-
-	<section class="extended-navigation" style="position:relative;padding-top: 56px;width: 952px;">
-		<div class="extended-navigaton-header-back" style="overflow:hidden;height:25px;position:absolute;top:33px;right: 48px;left:33px;">......................................................................................................................................................................................................................................................................................</div>
-		<div class="explore-parks-near" style="font-weight:bold;position:absolute;top:33px;left:33px;display:inline-block;bpadding-right:3px;">Explore parks near #{{hashtag}} on a map</div>
-		<div class="explore-parks-near" style="font-weight:bold;position:absolute;top:33px;right:45px;display:inline-block;padding-left:3px;">and social media.</div>
-		<div id="nearest-parks">
-			
-		</div>
-		<div id="social-nav-container" style="display:inline-block;width: 377px;text-align:center;vertical-align:top;padding-top: 35px;">
-			<div><div class="social-nav-main-hashtag">#{{hashtag}}</div></div>
-			{{#if flickrPhotos}}
-			<div class="social-nav-item social-nav-flickr">
-				<div class="hashtag-back">&nbsp;</div><div class="social-back-arrow"></div><div class="network-totals">{{#pluralize}}{{totalPhotos}} PHOTO|PHOTOS{{/pluralize}} by {{#pluralize}}{{flotographer_count}} PERSON|PEOPLE{{/pluralize}}</div><div class="social-forward-arrow"></div><div class="hashtag-forward">&nbsp;</div>
-				<div class="which-network">ON FLICKR</div>
-			</div>
-			{{/if}}
-			{{#if has_instagram_photos}}
-			<div class="social-nav-item social-nav-instagram">
-				<div class="hashtag-back">&nbsp;</div><div class="social-back-arrow"></div><div class="network-totals">{{#pluralize}}{{instagram_count}} PHOTO|PHOTOS{{/pluralize}} by {{#pluralize}}{{instographer_count}} PERSON|PEOPLE{{/pluralize}}</div><div class="social-forward-arrow"></div><div class="hashtag-forward">&nbsp;</div>
-				<div class="which-network">ON INSTAGRAM</div>
-			</div>
-			{{/if}}
-			{{#if has_foursquare}}
-			<div class="social-nav-item social-nav-foursquare">
-				<div class="hashtag-back">&nbsp;</div><div class="social-back-arrow"></div><div class="network-totals">{{#pluralize}}{{venues_count}} VENUE|VENUES{{/pluralize}} & {{#pluralize}}{{venues_checkins}} CHECKIN|CHECKINS{{/pluralize}}</div><div class="social-forward-arrow"></div><div class="hashtag-forward">&nbsp;</div>
-				<div class="which-network">ON FOURSQUARE</div>
-			</div>
-			{{/if}}
-			{{#if has_tweets}}
-			<div class="social-nav-item social-nav-twitter">
-				<div class="hashtag-back">&nbsp;</div><div class="social-back-arrow"></div><div class="network-totals">{{#pluralize}}{{tweet_count}} TWEET|TWEETS{{/pluralize}} by {{#pluralize}}{{tweeter_count}} PERSON|PEOPLE{{/pluralize}}</div><div class="social-forward-arrow"></div><div class="hashtag-forward">&nbsp;</div>
-				<div class="which-network">ON TWITTER</div>
-			</div>
-			{{/if}}
+			{{>park-page-foursquare}}
 		</div>
 	</section>
 
@@ -112,14 +84,7 @@
 				display : {{tweet_count}} | 0,
 				tweets  : {{{tweets_queue}}},
 				template :'{{>tweets-js}}'
-			},
-			nearestParks : {
-				rootSelector : '#nearest-parks',
-				centroid     : [parseFloat('{{cpadPark.centroid_latitude}}' || 0, 10),parseFloat('{{cpadPark.centroid_longitude}}' || 0, 10)],
-				template     : '{{>glop_park-js}}'
-			},
-			socialNav : '#social-nav-container',
-			contentColumns : 'section.details'
+			}
 		});  
 
   }, false);
