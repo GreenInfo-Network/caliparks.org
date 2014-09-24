@@ -597,4 +597,23 @@ defineElementGetter(Element.prototype, 'classList', function () {
 
   },250));
 
+  //
+  // Hacky stuff to get the Parks Forward scaffold to work
+  //
+
+  //
+  // Good enough for scaffold. Will go in JS file
+  //
+  if (document.querySelector('#search-box form')) {
+      document.querySelector('.search-actions .locate-me').addEventListener('click', function(e) {
+      e.preventDefault();
+      location.href='/parks/near/';
+    }, false);
+
+    document.querySelector('#search-box form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      location.href='/parks/search/' + document.querySelector('#search-box input').value;
+    }, false);
+  }
+
 }(window));

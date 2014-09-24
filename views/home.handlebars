@@ -10,21 +10,6 @@
   </form>
 </section>
 
-<script>
-  //
-  // Good enough for scaffold. Will go in JS file
-  //
-  document.querySelector('.search-actions .locate-me').addEventListener('click', function(e) {
-    e.preventDefault();
-    location.href='/parks/near/';
-  }, false);
-
-  document.querySelector('#search-box form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    location.href='/parks/search/' + document.querySelector('#search-box input').value;
-  }, false);
-</script>
-
 <section id="stories" style="height:500px;">
 
   <div>
@@ -32,79 +17,6 @@
   </div>
   
 </section>
-
-<!--section>
-  <div class="carousel-container not-scrolled">
-    <h2>{{#if reverseSort.size}}Explore tiny parks to giant parks...{{else}}Explore giant parks to tiny parks...{{/if}}</h2>
-    <div class="what-scrollbars">
-    <article class="glop-slider" id="size-glop-slider">
-      {{#each parks}}
-        {{>glop_park}}
-      {{/each}}
-    </article>
-    </div>
-    <button class="carousel-back-button">&nbsp;</button>
-    <button class="carousel-forward-button">&nbsp;</button>
-  </div>
-
-  <div class="carousel-container not-scrolled">
-    <h2>Which parks are {{#if reverseSort.tweets}}least{{else}}most{{/if}} tweeted about? <span style="background-color:#00b6f1;font-size:18px;padding: 3px;" class="token-twitter">Twitter</span></h2>
-    <div class="what-scrollbars">
-    <article class="glop-slider" id="tweets-glop-slider">
-      {{#each most_tweets}}
-        {{>glop_park}}
-      {{/each}}
-    </article>
-    </div>
-    <button class="carousel-back-button">&nbsp;</button>
-    <button class="carousel-forward-button">&nbsp;</button>
-  </div>
-
-  <div class="carousel-container not-scrolled">
-    <h2>Which are the {{#if reverseSort.photos}}least photographed{{else}}most photogenic{{/if}} parks? <span style="background-color:#ff0084;font-size:18px;padding: 3px;" class="token-flickr">Flickr</span> <span style="background-color:#4877a0;font-size:18px;padding: 3px;" class="token-instagram">Instagram</span></h2>
-    <div class="what-scrollbars">
-    <article class="glop-slider" id="photos-glop-slider">
-      {{#each most_photographed}}
-        {{>glop_park}}
-      {{/each}}
-    </article>
-    </div>
-    <button class="carousel-back-button">&nbsp;</button>
-    <button class="carousel-forward-button">&nbsp;</button>
-  </div>
-
-  <div class="carousel-container not-scrolled">
-    <h2>Where are people checking in {{#if reverseSort.checkins}}least{{/if}}? <span style="background-color:#66c100;font-size:18px;padding: 3px;" class="token-foursquare">Foursquare</span></h2>
-    <div class="what-scrollbars">
-    <article class="glop-slider" id="checkins-glop-slider">
-      {{#each most_checkins}}
-        {{>glop_park}}
-      {{/each}}
-    </article>
-    </div>
-    <button class="carousel-back-button">&nbsp;</button>
-    <button class="carousel-forward-button">&nbsp;</button>
-  </div>
-</section-->
-
-<!--article class="about-this-page">
-  <p>From family vacations in a national park to mornings at the dog run or lazy days on the beach, Californians live their lives outdoors—and share their experiences online on <a href="http://www.twitter.com/">Twitter</a>, <a href="http://www.flickr.com/">Flickr</a>, <a href="http://instagram.com/">Instagram</a>, and <a href="http://foursquare.com/">Foursquare</a>.</p>
-
-  <p>The idea is pretty simple. We’ve taken the actual shape of every park in California and used it as a window to watch social media streaming out of our parks.</p>
-
-  <p>From the teeny pocket park down the street to huge Stanislaus National Forest—the state’s biggest!—this project bears witness to a simple story a million different ways: parks are part of our lives in California.</p>
-
-  <p>We hope that this project helps connect Californians with their parks—from the liveliest and loudest to the quiet and secluded. And that park rangers, managers, and advocates find these stories and connect with the Californians who use their parks.</p>
-
-  <ul>
-  <li>Explore social media from giant parks to tiny parks….</li>
-  <li>Which parks are most tweeted about?</li>
-  <li>Which are the most photogenic parks?</li>
-  <li>Where are people checking in?</li>
-  </ul>
-
-  <p><a href="/about">Learn more about our project</a>.</p>
-</article-->
 
 <script>
 if (!window.STMN) {
