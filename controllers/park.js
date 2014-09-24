@@ -234,6 +234,7 @@ module.exports = function(req, res, data, callback) {
             has_instagram_photos   : (instasult.rows.length > 0),
             top_instagram_photos   : instagramPreload,
             instographer_count     : Object.keys(instographer_count).length,
+            total_any_photos       : (flesult.rows.length + instasult.rows.length),
             queue_instagram_photos : JSON.stringify(instagramPostload),
             queue_instagram_length : instagramPostload.length,
             instagram_count        : instasult.rows.length,

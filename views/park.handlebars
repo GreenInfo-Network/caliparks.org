@@ -27,10 +27,10 @@
 	      	<li><img src="/style/activity-fishing.svg"></li>
 	      </ul>
 	      <ul class="social-badges">
-	      	<li class="social-badge-tweets">400 Tweets</li>
-	      	<li class="social-badge-photos">300 Photos</li>
-	      	<li class="social-badge-venues">40 Venues</li>
-	      	<li class="social-badge-checkins">80 Checkins</li>
+	      	<li class="social-badge-tweets">{{#pluralize}}{{tweet_count}} tweet|tweets{{/pluralize}}</li>
+	      	<li class="social-badge-photos">{{#pluralize}}{{total_any_photos}} photo|photos{{/pluralize}}</li>
+	      	<li class="social-badge-venues">{{#pluralize}}{{venues_count}} venue|venues{{/pluralize}}</li>
+	      	<li class="social-badge-checkins">{{#pluralize}}{{venues_checkins}} checkin|checkins{{/pluralize}}</li>
 	      </ul>
 	      <p class="park-lat-lon"><a title="Get Directions to {{name}}" href="https://www.google.com/maps/dir//{{cpadPark.centroid_latitude}},{{cpadPark.centroid_longitude}}/@{{cpadPark.centroid_latitude}},{{cpadPark.centroid_longitude}},7z">{{locationDisplay.lat}}, {{locationDisplay.lon}}</a></p>
 	      <p><a href="/parks/agency/{{agency_slug}}">{{#agencyNameDisplay}}{{cpadPark.agncy_name}}{{/agencyNameDisplay}}</a></p>
