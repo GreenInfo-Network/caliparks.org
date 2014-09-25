@@ -61,6 +61,27 @@
 
   function initView(data) {
 
+    //
+    // Staging area for Parks forward stuff
+    //
+
+    // create a map in the "map" div, set the view to a given place and zoom
+    console.log(data);
+    var map = L.map('map', {
+      scrollWheelZoom:false,
+      dragging:false,
+      touchZoom:false,
+      doubleClickZoom:false,
+      keyboard:false,
+      tap:false,
+      zoomControl:false
+    }).setView(data.centroid, 14);
+
+    // add an OpenStreetMap tile layer
+    L.tileLayer('https://b.tiles.mapbox.com/v3/stamen.parksforward/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
     //TODO: move some of this logic out
 
     var flickrPhotos, instagramPhotos, tweets;

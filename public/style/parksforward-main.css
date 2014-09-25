@@ -126,6 +126,10 @@ body.parksforward.responsive {
       background-color: #A4D0C4; }
     body.parksforward.responsive div.content .content-column {
       padding: 15px; }
+    body.parksforward.responsive div.content #map {
+      width: 100%;
+      height: 300px;
+      margin-bottom: 15px; }
     body.parksforward.responsive div.content section#search-box {
       background-color: #A4D0C4; }
       body.parksforward.responsive div.content section#search-box input {

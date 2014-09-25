@@ -43,6 +43,8 @@
 	    </div>
 		</div>
 		<div class="content-column alphadog">
+			<div id="map"></div>
+			{{>search-box}}
 			{{>park-page-instagram}}
 			{{>park-page-tweets}}
 			{{>park-page-foursquare}}
@@ -51,6 +53,8 @@
 
 </div>
 
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
 <script src="/js/vendor/topojson.v1.min.js"></script>
 <script src="/js/vendor/d3.v3.min.js"></script>
 <script src="/js/view_park.js"></script>
@@ -61,6 +65,7 @@
 
   	STMN.initView({
   		su_id: {{cpadPark.su_id}},
+  		centroid  : [parseFloat('{{cpadPark.centroid_latitude}}' || 0, 10),parseFloat('{{cpadPark.centroid_longitude}}' || 0, 10)],
   		flickrQueue : {
   			display : {{totalPhotos}} | 0 && document.querySelector('.has-coverphoto'),
 				photos  : {{{queue_flickr_photos}}},

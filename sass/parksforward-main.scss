@@ -117,6 +117,12 @@ body.parksforward.responsive {
       padding:$box-padding;
     }
 
+    #map {
+      width:100%;
+      height:300px;
+      margin-bottom:$box-padding;
+    }
+
     section {
       &#search-box {
         background-color: $ui-accent;
