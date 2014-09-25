@@ -21,10 +21,10 @@
 			<div id="park-info">
 	      <h1>{{name}}</h1>
 	      <ul class="activity-icons">
-	      	<li><img src="/style/activity-backpacking.svg"></li>
-	      	<li><img src="/style/activity-boating.svg"></li>
-	      	<li><img src="/style/activity-caving.svg"></li>
-	      	<li><img src="/style/activity-fishing.svg"></li>
+	      	<li title="Backpacking"><img src="/style/activity-backpacking.svg"></li>
+	      	<li title="Boating"><img src="/style/activity-boating.svg"></li>
+	      	<li title="Caving"><img src="/style/activity-caving.svg"></li>
+	      	<li title="Fishing"><img src="/style/activity-fishing.svg"></li>
 	      </ul>
 	      <ul class="social-badges">
 	      	<li class="social-badge-tweets">{{#pluralize}}{{tweet_count}} tweet|tweets{{/pluralize}}</li>
@@ -34,6 +34,12 @@
 	      </ul>
 	      <p class="park-lat-lon"><a title="Get Directions to {{name}}" href="https://www.google.com/maps/dir//{{cpadPark.centroid_latitude}},{{cpadPark.centroid_longitude}}/@{{cpadPark.centroid_latitude}},{{cpadPark.centroid_longitude}},7z">{{locationDisplay.lat}}, {{locationDisplay.lon}}</a></p>
 	      <p><a href="/parks/agency/{{agency_slug}}">{{#agencyNameDisplay}}{{cpadPark.agncy_name}}{{/agencyNameDisplay}}</a></p>
+	    </div>
+	    <div>
+	    	<button>Book a campsite</button>
+	    	<button>Get directions</button>
+	    	<button>Like this park</button>
+	    	<button>Tweet about this park</button>
 	    </div>
 		</div>
 		<div class="content-column alphadog">
