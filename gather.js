@@ -269,8 +269,10 @@ function getInstagramPhotosForCircles(client, circles, callback) {
     callback();
   }, 10);  // TODO: increase this.
 
+  liveTaskCounter["circles"] = 0;
   circles.forEach(function(circle) {  // Can be synchronous since we're firing of queue tasks
-    liveTaskCounter["circles"] = 1;
+    liveTaskCounter["circles"] = liveTaskCounter["circles"] + 1;
+    console.log("circle tasks:", liveTaskCounter["circles"]);
     latLngToProjectedCoords(client, circle.lat, circle.lng, function(err, coords) {
       q.push({name: "", centerX: coords[1], centerY: coords[0], radius: circle.radius}, instagramRecursionQueueTask(null, client, coords[0], coords[1], circle.radius, null, circle.parks, 1, q, callback));
 
@@ -323,10 +325,10 @@ function queryInstagramAPI(lat, lng, radius, callback) {
       }
     }
 
-    if (!err && response.statusCode == 400) {
+    if ((!err && response.statusCode == 400) || (!err && response.statusCode == 429)) {
       try {
         body = JSON.parse(body);
-        if (body.code == 420) {
+        if (body.code == 420 || body.code == 429) {
           var sleeptime = 600;
           console.log("rate limited, sleeping", sleeptime, "seconds...");
           sleep.sleep(sleeptime);
@@ -347,7 +349,7 @@ function queryInstagramAPI(lat, lng, radius, callback) {
     if (!err && response.statusCode != 200) {
       try {
         body = JSON.parse(body);
-        console.log("caught not 200:", body);
+        console.log("caught not 200:", response.statusCode, "body:", body);
         return callback(null, body);
       } catch (e) {
         console.log("JSON parsing failed");
@@ -447,6 +449,7 @@ function instagramRecursionQueueTask(err, client, y, x, radius, polygon, parks, 
                   var nextDepth = depth + 1;
 
                   liveTaskCounter["circles"] = liveTaskCounter["circles"] + 1;
+                  console.log("circle tasks:", liveTaskCounter["circles"]);
                   q.push({name: 'another task, depth ' + nextDepth, centerX: newX, centerY: newY, radius: newRadius}, instagramRecursionQueueTask(null, client, newY, newX, newRadius, polygon, result, nextDepth, q, callback));
 
                 }
@@ -458,10 +461,11 @@ function instagramRecursionQueueTask(err, client, y, x, radius, polygon, parks, 
 
       liveTaskCounter["circles"] = liveTaskCounter["circles"] - 1;
 
+      console.log("circle tasks:", liveTaskCounter["circles"]);
       if (liveTaskCounter["circles"] == 0) {
         // This happens more than it should, and sooner than it should. The live task counter is not staying updated?
         console.log('all items have been processed');
-        //return callback(null);
+        return callback(null);
       } // else, return nothing?
     });
   });
