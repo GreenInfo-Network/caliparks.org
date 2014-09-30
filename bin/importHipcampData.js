@@ -19,15 +19,7 @@ try {
   process.exit(1);
 }
 
-//
-// Load Hipcamp data
-//
-try {
-  hipcampData = require(config.hipcamp.activities);
-} catch (err) {
-  console.error(err);
-  process.exit(1);
-}
+
 
 //
 // Connect to DB
