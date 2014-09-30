@@ -1,0 +1,17 @@
+{
+  "postgres" : {
+    "user"     : "openspaces",
+    "database" : "openspaces_dev",
+    "host"     : "localhost",
+    "tables"   : {
+      "activities" : "site_hipcamp_activities"
+    }
+  },
+  "hipcamp" : {
+    "activities"  : "../raw/hipcamp-suid.json",
+    "su_idColumn" : "cpadSunma"
+  },
+  "CPAD" : {
+    "idColumn" : "su_id"
+  }
+}
