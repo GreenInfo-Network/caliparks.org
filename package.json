@@ -6,12 +6,13 @@
   "license": "ISC",
   "dependencies": {
     "async": "~0.6.2",
-    "sleep": "~1.1.3",
-    "request": "~2.34.0",
-    "pg": "~2.11.1",
-    "jsts": "~0.13.4",
     "connect": "~2.14.3",
+    "jsts": "~0.13.4",
     "optimist": "~0.6.1",
-    "require-env": "0.0.4"
+    "pg": "~2.11.1",
+    "pgexplode": "^1.0.0",
+    "request": "~2.34.0",
+    "require-env": "0.0.4",
+    "sleep": "~1.1.3"
   }
 }

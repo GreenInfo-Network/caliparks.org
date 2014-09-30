@@ -1,4 +1,5 @@
 #SHELL := /bin/bash
+PATH := node_modules/.bin:$(PATH)
 DATED=$(shell date '+%Y-%m-%d')
 
 latest:
@@ -146,3 +147,43 @@ instagramArrayTable:
 
 parkTotals:
 	psql -U openspaces -h geo.local -c "create view park_totals as select parks.su_id, parks.unit_name, parks.agncy_id, parks.agncy_name, parks.gis_acres, foursquare.venuecount, foursquare.checkinscount, foursquare.userscount, flickr.flickrphotos, flickr.flickrusers, instagram.instagramphotos, instagram.instagramusers, twitter.tweets, twitter.twitterusers from cpad_2013b_superunits_ids as parks left join (select su_id, count(venueid) as venuecount, sum(checkinscount) as checkinscount, sum(userscount) as userscount from park_foursquare_venues_activity group by su_id) as foursquare on parks.su_id = foursquare.su_id left join (select su_id, count(photoid) as flickrphotos, count(distinct owner) as flickrusers from park_flickr_photos group by su_id) as flickr on parks.su_id = flickr.su_id left join (select su_id, count(photoid) as instagramphotos, count(distinct userid) as instagramusers from park_instagram_photos group by su_id) as instagram on parks.su_id = instagram.su_id left join (select su_id, count(id_str) as tweets, count(distinct username) as twitterusers from park_tweets group by su_id) as twitter on parks.su_id = twitter.su_id;"
+
+deps/gdal:
+	@type ogr2ogr 2> /dev/null 1>&2 || brew install gdal || (echo "Please install gdal" && false)
+
+deps/pv:
+	@type pv 2> /dev/null 1>&2 || brew install pv || (echo "Please install pv" && false)
+
+deps/npm:
+	@npm install
+
+data/CPAD_Units_nightly.zip:
+	mkdir $$(dirname $@)
+	curl -sL http://websites.greeninfo.org/common_data/California/Public_Lands/CPAD/dev/CPAD2014a4/CPAD_Units_nightly.zip -o $@
+
+db: deps/npm
+	@(set -a && source .env && export $$(pgexplode | xargs) && \
+		psql -c "SELECT 1" > /dev/null 2>&1 || \
+		createdb)
+
+db/postgis: db
+	@(set -a && source .env && export $$(pgexplode | xargs) && \
+		psql -c "SELECT postgis_version()" > /dev/null 2>&1 || \
+		psql -c "CREATE EXTENSION postgis")
+
+db/cpad: db data/CPAD_Units_nightly.zip deps/gdal deps/pv deps/npm db/postgis
+	@(set -a && source .env && export $$(pgexplode | xargs) && \
+		psql -c "\d cpad_units" > /dev/null 2>&1 || \
+		ogr2ogr --config PG_USE_COPY YES \
+			-t_srs EPSG:3857 \
+			-nlt PROMOTE_TO_MULTI \
+			-nln cpad_units \
+			-lco GEOMETRY_NAME=geom \
+			-lco SRID=3857 \
+			-f PGDump /vsistdout/ \
+			/vsizip/$(word 2,$^)/CPAD_Units_nightly.shp | pv | psql -q)
+
+db/cpad_superunits: db/cpad
+	@(set -a && source .env && export $$(pgexplode | xargs) && \
+		psql -c "\d cpad_superunits" > /dev/null 2>&1 || \
+		psql -f sql/cpad_superunits.sql)
