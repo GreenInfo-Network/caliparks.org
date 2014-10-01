@@ -486,6 +486,10 @@ function getFlickrData(bbox, page, photos, callback) {
   }
 
   console.log("[*] getting page", page);
+
+  // TODO safe_search: 1
+  // TODO content_type: 1
+  // TODO media: photos
   var url = {
     url: "https://api.flickr.com/services/rest",
     qs: {
