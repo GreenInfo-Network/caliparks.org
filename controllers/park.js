@@ -96,7 +96,8 @@ module.exports = function(req, res, data, callback) {
         flesult: async.apply(pgClient.query.bind(pgClient), 'select photoid, owner, secret, server, farm, title, latitude, longitude, accuracy, woeid, tags, dateupload, datetaken, ownername, description, license, o_width, o_height, url_l, height_l, width_l from site_park_flickr_photos where containing_park_id = $1 limit 9000', [park_id]),
         instasult: async.apply(pgClient.query.bind(pgClient), 'select * from site_instagram_photos where su_id = $1 limit 9000', [park_id]),
         foursult: async.apply(pgClient.query.bind(pgClient), 'select id,venueid,name,lat,lng,address,postcode,city,state,country,cc,categ_id,categ_name,verified,restricted,referral_id,checkinscount,tipcount,likescount,mayor_id,mayor_firstname,mayor_lastname from site_foursquare_venues_activity where su_id = $1 limit 9000', [park_id]),
-        tweetsult: async.apply(pgClient.query.bind(pgClient), 'select id_str, place, coords, username, fullname, client, date, retweet_count, favorite_count, lang, content from site_tweets where su_id = $1 limit 9000', [park_id])
+        tweetsult: async.apply(pgClient.query.bind(pgClient), 'select id_str, place, coords, username, fullname, client, date, retweet_count, favorite_count, lang, content from site_tweets where su_id = $1 limit 9000', [park_id]),
+        hipcampsult: async.apply(pgClient.query.bind(pgClient), 'select * from site_hipcamp_activities where su_id=$1', [park_id])
       }, function(err, apiResponse) {
         if (err) {
           console.error('error running query', err);
@@ -104,11 +105,12 @@ module.exports = function(req, res, data, callback) {
           return callback(err);
         }
 
-        var result = apiResponse.result,
-            flesult = apiResponse.flesult,
-            instasult = apiResponse.instasult,
-            foursult = apiResponse.foursult,
-            tweetsult = apiResponse.tweetsult;
+        var result      = apiResponse.result,
+            flesult     = apiResponse.flesult,
+            instasult   = apiResponse.instasult,
+            foursult    = apiResponse.foursult,
+            tweetsult   = apiResponse.tweetsult,
+            hipcampsult = apiResponse.hipcampsult;
 
         //
         // Was a park found? if not, just 404
@@ -123,9 +125,12 @@ module.exports = function(req, res, data, callback) {
             foursquare_tips += venue.tipcount;
           });
 
-          var venues_count     = numeral(foursult.rows.length).format('0,0'),
-              venues_checkins  = numeral(foursquare_checkins).format('0,0'),
-              venues_tips      = numeral(foursquare_tips).format('0,0');
+          var venues_count               = numeral(foursult.rows.length).format('0,0'),
+              venues_checkins            = numeral(foursquare_checkins).format('0,0'),
+              venues_tips                = numeral(foursquare_tips).format('0,0'),
+              hasHipcamp                 = (hipcampsult.rows.length > 0),
+              hipcampActivities          = (hasHipcamp) ? hipcampsult.rows[0].activities : null,
+              hipcampActivitiesOrganized = [];
 
           var bbox;
 
@@ -195,6 +200,28 @@ module.exports = function(req, res, data, callback) {
           });
 
           //
+          // If the park has hipcamp activities, organize them
+          //
+          if (hasHipcamp) {
+
+            //
+            // Filter out non activities
+            //
+            delete hipcampActivities['cpadparkname'];
+            delete hipcampActivities['hipcampparkname'];
+            delete hipcampActivities['cpadSunma'];
+            delete hipcampActivities['activityCount'];
+            delete hipcampActivities['other'];
+
+            for(var i in hipcampActivities) {
+              if (hipcampActivities.hasOwnProperty(i) && hipcampActivities[i]) {
+                hipcampActivitiesOrganized.push({'name':i});
+              }
+            }
+
+          }
+
+          //
           // Modify CPAD to work better as an API output
           //
           cpadModified            = result.rows[0]
@@ -234,6 +261,8 @@ module.exports = function(req, res, data, callback) {
             has_instagram_photos   : (instasult.rows.length > 0),
             top_instagram_photos   : instagramPreload,
             instographer_count     : Object.keys(instographer_count).length,
+            hasHipcamp             : hasHipcamp,
+            hipcampActivities      : hipcampActivitiesOrganized,
             total_any_photos       : (flesult.rows.length + instasult.rows.length),
             queue_instagram_photos : JSON.stringify(instagramPostload),
             queue_instagram_length : instagramPostload.length,

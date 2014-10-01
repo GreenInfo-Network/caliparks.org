@@ -20,12 +20,13 @@
 		<div class="content-column friend">
 			<div id="park-info">
 	      <h1>{{name}}</h1>
+	      {{#if hasHipcamp}}
 	      <ul class="activity-icons">
-	      	<li title="Backpacking"><img src="/style/activity-backpacking.svg"></li>
-	      	<li title="Boating"><img src="/style/activity-boating.svg"></li>
-	      	<li title="Caving"><img src="/style/activity-caving.svg"></li>
-	      	<li title="Fishing"><img src="/style/activity-fishing.svg"></li>
+	      	{{#each hipcampActivities}}
+	      	<li title="{{name}}"><img src="/style/activity-{{name}}.svg" alt="{{name}} happens here" title="{{name}}"></li>
+	      	{{/each}}
 	      </ul>
+	      {{/if}}
 	      <ul class="social-badges">
 	      	<li class="social-badge-tweets">{{#pluralize}}{{tweet_count}} tweet|tweets{{/pluralize}}</li>
 	      	<li class="social-badge-photos">{{#pluralize}}{{total_any_photos}} photo|photos{{/pluralize}}</li>
