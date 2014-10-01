@@ -6,7 +6,7 @@ CREATE MATERIALIZED VIEW cpad_superunits AS
     MAX(mng_agncy) mng_agncy,
     MAX(access_typ) access_typ,
     SUM(gis_acres) gis_acres,
-    ST_Union(geom) geom
+    ST_Collect(geom) geom
   FROM cpad_units
   GROUP BY su_n_m_a
   ORDER BY ST_GeoHash(ST_SetSRID(ST_Extent(geom), 4326));
