@@ -657,7 +657,7 @@ var saveFlickrHarvesterResults = function(client, metadata_id, photos, park) {
       params.push(photo.license, photo.url_o, photo.width_o, photo.height_o, url_largest, height_largest, width_largest, largest_size);
       client.query(query, params, function(err, res) {
         if (err) {
-          console.log("harvesterResults error", err);
+          console.log("harvesterResults error", err.detail);
           //client.end();
           //startPostgresClient(function(err, client) { return client;});
           //throw err;

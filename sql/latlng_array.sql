@@ -21,5 +21,5 @@ CREATE MATERIALIZED VIEW latlng_array AS
     ST_YMax(cells.geom) latmax,
     ST_XMax(cells.geom) lngmax,
     cells.geom the_geom
-  FROM cpad_superunits, cells
-  WHERE cpad_superunits.geom && ST_Transform(cells.geom, 3857);
+  FROM cpad_superunits
+  JOIN cells ON ST_Intersects(cpad_superunits.geom, ST_Transform(cells.geom, 3857));
