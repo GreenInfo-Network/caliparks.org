@@ -1,0 +1,30 @@
+DROP TABLE IF EXISTS flickr_photos;
+CREATE TABLE flickr_photos (
+  photoid bigint,
+  owner varchar(20),
+  secret varchar(20),
+  server int,
+  farm int,
+  title varchar,
+  latitude float,
+  longitude float,
+  accuracy int,
+  context int,
+  place_id varchar(20),
+  woeid bigint,
+  tags varchar,
+  dateupload int,
+  datetaken varchar(30),
+  ownername varchar,
+  description varchar,
+  license int,
+  url_o varchar(80),
+  width_o int,
+  height_o int,
+  url_largest varchar(80),
+  height_largest int,
+  width_largest int,
+  largest_size char,
+  the_geom geometry(Point, 4326)
+);
+

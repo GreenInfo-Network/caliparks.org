@@ -34,24 +34,11 @@ twitterHarvesterTable:
 	&& psql -U openspaces -h geo.local -c "UPDATE tweets_harvest SET the_geom = GeometryFromText(wkt, 4326);" \
 	&& psql -U openspaces -h geo.local -c "create table park_tweets_temp as select park.su_id as su_id, park.unit_name as su_name, tweet.* from cpad_2013b_superunits_ids as park join tweets_harvest as tweet on ST_Contains(park.geom,tweet.the_geom);" \
 	&& psql -U openspaces -h geo.local -c "insert into park_tweets select * from park_tweets_temp;" \
-	&& psql -U openspaces -h geo.local -c "drop table if exists park_tweets_temp;"
+&& psql -U openspaces -h geo.local -c "drop table if exists park_tweets_temp;"
 
 #######################################
 ### Flickr stuff ######################
 #######################################
-
-# Run once to create the table.
-flickrHarvesterTable:
-	psql -U openspaces -h geo.local -c "drop table if exists flickr_photos;" \
-	&& psql -U openspaces -h geo.local -c "create table flickr_photos (photoid bigint, owner varchar(20), secret varchar(20), server int, farm int, title varchar, latitude float, longitude float, accuracy int, context int, place_id varchar(20), woeid bigint, tags varchar, dateupload int, datetaken varchar(30), ownername varchar, description varchar, license int, url_o varchar(80), width_o int, height_o int, url_largest varchar(80), height_largest int, width_largest int, largest_size char);" \
-	&& psql -U openspaces -h geo.local -c "select AddGeometryColumn('flickr_photos','the_geom',4326,'POINT',2);"
-
-# This keeps track of all the harvester queries
-# Run once to create the table.
-flickrMetadataTable:
-	psql -U openspaces -h geo.local -c "drop table if exists flickr_metadata;" \
-	&& psql -U openspaces -h geo.local -c "create table flickr_metadata (su_id int, latMin float, lngMin float, latMax float, lngMax float, date timestamp, count int, pages int);" \
-	&& psql -U openspaces -h geo.local -c "select AddGeometryColumn('flickr_metadata','the_geom',4326,'POLYGON',2);"
 
 # Run daily to process harvested photos.
 flickrParkTable:
@@ -125,16 +112,6 @@ foursquareVenuesActivityView:
 	psql -U openspaces -h geo.local -c "drop view park_foursquare_venues_activity;" \
 	&& psql -U openspaces -h geo.local -c "create view park_foursquare_venues_activity as select a.*, b.timestamp, b.checkinscount, b.userscount, b.tipcount, b.likescount, b.mayor_id, b.mayor_firstname, b.mayor_lastname from park_foursquare_venues a left join (select distinct on (venueid) * from foursquare_venue_activity order by venueid, timestamp desc) as b on a.venueid = b.venueid;"
 
-#######################################
-### Harvester initialization grids ####
-#######################################
-
-# Run once to create the table.
-latlngArrayTable:
-	psql -U openspaces -h geo.local -c "drop table if exists latlng_array;" \
-	&& psql -U openspaces -h geo.local -c "create table latlng_array (su_id int, latMin float, lngMin float, latMax float, lngMax float);" \
-	&& psql -U openspaces -h geo.local -c "select AddGeometryColumn('latlng_array','the_geom',4326,'POLYGON',2);"
-
 # Run once to create the table.
 instagramArrayTable:
 	psql -U openspaces -h geo.local -c "drop table if exists instagram_array;" \
@@ -147,6 +124,12 @@ instagramArrayTable:
 
 parkTotals:
 	psql -U openspaces -h geo.local -c "create view park_totals as select parks.su_id, parks.unit_name, parks.agncy_id, parks.agncy_name, parks.gis_acres, foursquare.venuecount, foursquare.checkinscount, foursquare.userscount, flickr.flickrphotos, flickr.flickrusers, instagram.instagramphotos, instagram.instagramusers, twitter.tweets, twitter.twitterusers from cpad_2013b_superunits_ids as parks left join (select su_id, count(venueid) as venuecount, sum(checkinscount) as checkinscount, sum(userscount) as userscount from park_foursquare_venues_activity group by su_id) as foursquare on parks.su_id = foursquare.su_id left join (select su_id, count(photoid) as flickrphotos, count(distinct owner) as flickrusers from park_flickr_photos group by su_id) as flickr on parks.su_id = flickr.su_id left join (select su_id, count(photoid) as instagramphotos, count(distinct userid) as instagramusers from park_instagram_photos group by su_id) as instagram on parks.su_id = instagram.su_id left join (select su_id, count(id_str) as tweets, count(distinct username) as twitterusers from park_tweets group by su_id) as twitter on parks.su_id = twitter.su_id;"
+
+flickr: db/flickr deps/foreman
+	foreman run flickr
+
+deps/foreman:
+	@type ogr2ogr 2> /dev/null 1>&2 || sudo gem install foreman || (echo "Please install foreman" && false)
 
 deps/gdal:
 	@type ogr2ogr 2> /dev/null 1>&2 || brew install gdal || (echo "Please install gdal" && false)
@@ -166,9 +149,11 @@ db: deps/npm
 		psql -c "SELECT 1" > /dev/null 2>&1 || \
 		createdb)
 
+db/all: db/cpad_superunits db/flickr
+
 db/postgis: db
 	@(set -a && source .env && export $$(pgexplode | xargs) && \
-		psql -c "SELECT postgis_version()" > /dev/null 2>&1 || \
+		psql -c "\dx postgis" > /dev/null 2>&1 || \
 		psql -c "CREATE EXTENSION postgis")
 
 db/cpad: db data/CPAD_Units_nightly.zip deps/gdal deps/pv deps/npm db/postgis
@@ -187,3 +172,31 @@ db/cpad_superunits: db/cpad
 	@(set -a && source .env && export $$(pgexplode | xargs) && \
 		psql -c "\d cpad_superunits" > /dev/null 2>&1 || \
 		psql -f sql/cpad_superunits.sql)
+
+db/CDB_RectangleGrid: db
+	@(set -a && source .env && export $$(pgexplode | xargs) && \
+		psql -c "\sf CDB_RectangleGrid" > /dev/null 2>&1 || \
+		psql -f sql/CDB_RectangleGrid.sql)
+
+db/flickr: db/flickr_metadata db/flickr_photos db/latlng_array
+
+db/flickr_photos: db
+	@(set -a && source .env && export $$(pgexplode | xargs) && \
+		psql -c "\d flickr_photos" > /dev/null 2>&1 || \
+		psql -f sql/flickr_photos.sql)
+
+# This keeps track of all the harvester queries
+# Run once to create the table.
+db/flickr_metadata: db
+	@(set -a && source .env && export $$(pgexplode | xargs) && \
+		psql -c "\d flickr_metadata" > /dev/null 2>&1 || \
+		psql -f sql/flickr_metadata.sql)
+
+#######################################
+### Harvester initialization grids ####
+#######################################
+
+db/latlng_array: db/CDB_RectangleGrid
+	@(set -a && source .env && export $$(pgexplode | xargs) && \
+		psql -c "\d latlng_array" > /dev/null 2>&1 || \
+		psql -f sql/latlng_array.sql)
