@@ -1,7 +1,7 @@
 DROP MATERIALIZED VIEW IF EXISTS latlng_array;
 CREATE MATERIALIZED VIEW latlng_array AS
   WITH cells AS (
-    SELECT (ST_Dump(CDB_RectangleGrid(ST_SetSRID(ST_Extent(geom), 4326), 0.1, 0.1))).  geom
+    SELECT (ST_Dump(CDB_RectangleGrid(ST_SetSRID(ST_Extent(geom), 4326), 0.1, 0.1))).geom
     FROM cpad_superunits
   )
   SELECT
