@@ -24,10 +24,12 @@ memwatch.on('leak', function(info) {
   console.log('Memory Leak detected:', info);
 });
 
-ravenClient.patchGlobal(function() {
-  console.log('Uncaught error. Reporting to Sentry and exiting.');
-  process.exit(1);
-});
+if (env.require('NODE_ENV') !== 'development') {
+  ravenClient.patchGlobal(function() {
+    console.log('Uncaught error. Reporting to Sentry and exiting.');
+    process.exit(1);
+  });
+}
 
 //
 // Setup Express
