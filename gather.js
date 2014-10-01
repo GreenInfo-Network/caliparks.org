@@ -99,82 +99,6 @@ function saveInstagramHarvesterResults(client, metadata_id, photos, park) {
   // return nothing?
 }
 
-function createLatLngArray(callback) {
-  return startPostgresClient(function(err, client) {
-    var cellSize = 0.1; // In decimal degrees
-
-    // Get bounds of all parks, in lat lng
-
-    getSwNeForPark(client, null, function(err, sw, ne) {
-      if (err) {
-        console.log(err);
-      }
-
-      // create grid of latlng squares to blanket bounds
-
-      // for each square
-        // test if it intersects any parks.
-        // Save metadata for square (corners, list of park ids)
-
-      var swArray = sw.split(","),
-          neArray = ne.split(","),
-          yMin = +swArray[0],
-          xMin = +swArray[1],
-          yMax = +neArray[0],
-          xMax = +neArray[1];
-      console.log("bounds:", yMin, xMin, yMax, xMax);
-
-      yMin = Math.floor(yMin/cellSize) * cellSize;
-      xMin = Math.floor(xMin/cellSize) * cellSize;
-      yMax = Math.ceil(yMax/cellSize) * cellSize;
-      xMax = Math.ceil(xMax/cellSize) * cellSize;
-
-      console.log("expanded bounds:", yMin, xMin, yMax, xMax);
-
-      var totalCount = Math.round(((xMax-xMin)/cellSize) * ((yMax-yMin)/cellSize))
-      var i = 1;
-      console.log("testing", totalCount, "squares");
-      for (var x=xMin; x < xMax; x += cellSize) {
-        for (var y=yMin; y < yMax; y += cellSize) {
-          var queryX = Math.round(x/cellSize) * cellSize;
-          var queryY = Math.round(y/cellSize) * cellSize;
-          var queryY2 = queryY+cellSize;
-          var queryX2 = queryX+cellSize;
-          var bbox = [[queryY,queryX],[queryY2,queryX2]];
-          // test box with parks
-          console.log("testing bbox intersection, y:", queryY, "x:", queryX);
-          testBboxIntersectionWithParks(client, bbox, null, function(err, bbox, result) {
-            if (result && result.length > 0) {
-
-              console.log("bbox y:", bbox[0][0], "x:", bbox[0][1], "hit", result.length, "parks:", result.join(","));
-              saveLatLngArrayResult(client,bbox[0][0],bbox[0][1],bbox[1][0],bbox[1][1],result);
-            }
-            if (i % 100 == 0) console.log("done", i, "of", totalCount);
-            i++;
-          });
-        }
-      }
-      console.log("done", i, "of", totalCount);
-      callback();
-    });
-  });
-}
-
-var saveLatLngArrayResult = function(client, latMin, lngMin, latMax, lngMax, park_ids) {
-  var query = "insert into latlng_array (su_id, latMin, lngMin, latMax, lngMax, the_geom) values ($1, $2, $3, $4, $5, ST_MakeEnvelope($3,$2,$5,$4,4326))";
-
-  park_ids.forEach(function(park_id) {
-
-    client.query(query, [park_id, latMin, lngMin, latMax, lngMax], function(err, res) {
-      if (err) {
-        console.log(err);
-        throw err;
-      }
-    });
-  });
-  // return nothing?
-};
-
 function createInstagramArray(callback) {
   return startPostgresClient(function(err, client) {
 
@@ -771,54 +695,6 @@ function getFoursquareData(client, sw, ne, depth, callback) {
 
 
 /**
- * Get the sw, ne corners of a polygon.
- *
- * @param polygon object.
- * @param callback Function(err, sw, ne) Called with the sw and nw coordinates (as strings).
- */
-var getSwNeFromPolygon = function(client, polygon, callback) {
-  var envelope = polygon.getEnvelope().getCoordinates();
-
-  // For some reason getEnvelope returns a geometry, not an envelope
-
-  var sw = [envelope[0].y,envelope[0].x].join(),
-      ne = [envelope[2].y,envelope[2].x].join();
-
-  return callback(null, sw, ne);
-};
-
-/**
- * Get the sw, ne corners for a park.
- *
- * @param park Object{id} Park identifier.
- * @param callback Function(err, sw, ne) Called with the sw and nw coordinates (as strings).
- *
- * If park is null, will return sw, ne corners containing all parks
- */
-var getSwNeForPark = function(client, park, callback) {
-  // connect to pg
-  // query pg
-  // callback with parsed bbox
-
-  if (park)
-    var query = "select su_id, unit_name, st_astext(st_envelope(geom)) as envelope from " + cpad_table + " where su_id = " + park.id + " limit 1";
-  else
-    var query = "select st_astext(st_envelope(st_setsrid(st_extent(geom),4326))) as envelope from " + cpad_table;
-
-  return client.query(query, function(err, res) {
-    if (err) {
-      throw err;
-    }
-    var envelope = wkt2swne(res.rows[0]);
-    var sw = envelope[0],
-        ne = envelope[1];
-    // client.end();
-    return callback(null, sw, ne);
-
-  });
-};
-
-/**
  * Get the sw, ne corners for a park.
  *
  * @param park Object{id} Park identifier.
@@ -1375,10 +1251,6 @@ var main = function() {
   } else if (argv.t == 'create_instagram_array') {
 
     createInstagramArray(process.exit);
-
-  } else if (argv.t == 'create_latlng_array') {
-
-    createLatLngArray(process.exit);
 
   } else {
     console.log(argv.t, "not understood");
