@@ -9,6 +9,6 @@ CREATE MATERIALIZED VIEW cpad_superunits AS
     ST_Union(geom) geom
   FROM cpad_units
   GROUP BY su_n_m_a
-  ORDER BY ST_GeoHash(ST_Transform(ST_SetSRID(ST_Extent(geom), 3857), 4326));
+  ORDER BY ST_GeoHash(ST_SetSRID(ST_Extent(geom), 4326));
 CREATE INDEX cpad_superunits_pk ON cpad_superunits (superunit_id);
 CREATE INDEX cpad_superunits_geom_idx ON cpad_superunits USING GIST(geom);

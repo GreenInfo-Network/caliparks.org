@@ -36,7 +36,7 @@ CREATE OR REPLACE FUNCTION update_flickr_photos() RETURNS TRIGGER AS $$
       -- check intersection on INSERT
       PERFORM superunit_id
       FROM cpad_superunits
-      WHERE ST_Intersects(ST_Transform(NEW.the_geom, 3857), geom);
+      WHERE ST_Intersects(NEW.the_geom, geom);
 
       IF NOT FOUND THEN
         RETURN NULL; -- don't insert
