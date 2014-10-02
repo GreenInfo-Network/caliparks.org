@@ -6,7 +6,8 @@ var env               = require('require-env'),
     overrideTemplates = require('./override-templates.json'),
     pg                = require('pg'),
     memwatch          = require('memwatch'),
-    raven             = require('raven');
+    raven             = require('raven'),
+    i18n              = require("i18n");
 
 var FEATURED_PARKS            = require("./public/data/featured_parks.json"),
     SUPER_UNIT_IDS_BY_HASHTAG = require('./public/data/suIdsByHashtag.json'),
@@ -17,6 +18,13 @@ module.exports = app;
 
 var dataFormatResponders = {};
 
+var languageFriendlyNames = {
+    "english" : "en",
+    "espanol" : "es",
+    "ingles"  : "en",
+    "spanish" : "es"
+}
+
 //
 // Handle memory leaks
 //
@@ -24,6 +32,9 @@ memwatch.on('leak', function(info) {
   console.log('Memory Leak detected:', info);
 });
 
+//
+// Set up Sentry logging
+//
 if (env.require('NODE_ENV') !== 'development') {
   ravenClient.patchGlobal(function() {
     console.log('Uncaught error. Reporting to Sentry and exiting.');
@@ -31,19 +42,34 @@ if (env.require('NODE_ENV') !== 'development') {
   });
 }
 
+// you'll need cookies
+app.use(express.cookieParser());
+
+//
+// Internationalization time (i18n)
+//
+i18n.configure({
+    locales:['en', 'es'],
+    directory: './locales',
+    cookie: 'localeparks'
+});
+
+// init i18n module for this loop
+app.use(i18n.init);
+
 //
 // Setup Express
 //
 app.engine('handlebars', exphbs({
   defaultLayout : 'main',
   helpers       : {
-    agencyNameDisplay : function(options) {
+    "agencyNameDisplay" : function(options) {
 
       var name_parts = options.fn(this).split(',');
 
       return (name_parts.length > 1) ? name_parts[1] + ' ' + name_parts[0] : name_parts[0];
     },
-    pluralize : function() {
+    "pluralize" : function() {
 
       var options, number;
 
@@ -58,10 +84,17 @@ app.engine('handlebars', exphbs({
       } else {
         return options.fn(this).split(l[0])[0] + ' ' +  l[1];
       }
+    },
+    "__" : function () {
+      return i18n.__.apply(this, [arguments[0].fn(this)]);
+    },
+    "__n" : function () {
+      return i18n.__n.apply(this, [arguments[0].fn(this)]);
     }
   }
 }));
 app.set('view engine', 'handlebars');
+
 
 //TODO:Make a geojson format https://www.npmjs.org/package/geojson
 dataFormatResponders['.json'] = function dataFormatResponderJSON(res, data, format, whitelist) {
@@ -169,7 +202,6 @@ app.use('/style', express.static('./public/style', { maxAge: 3600e3 }));
 app.use('/js',    express.static('./public/js', { maxAge: 3600e3 }));
 app.use('/data',  express.static('./public/data', { maxAge: 3600e3 }));
 
-
 app.get('/', function(req, res, next) {
 
   require('./controllers/home.js')(req, res, {}, function(err, templateData) {
@@ -183,6 +215,20 @@ app.get('/', function(req, res, next) {
     res.render('home', templateData);
 
   });
+});
+
+app.get('/ispeak/:language', function(req, res, next) {
+
+  res.cookie('localeparks', languageFriendlyNames[req.params.language] || req.params.language, { maxAge: 900000, httpOnly: true });
+
+  res.redirect('/');
+});
+
+app.get('/hablas/:language', function(req, res, next) {
+
+  res.cookie('localeparks', languageFriendlyNames[req.params.language] || req.params.language, { maxAge: 900000, httpOnly: true });
+
+  res.redirect('/');
 });
 
 app.get('/about', function(req,res) {
