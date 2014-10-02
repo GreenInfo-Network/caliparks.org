@@ -1100,7 +1100,7 @@ var getParksDataFromPostgres = function(socialMediaType, callback) {
 };
 
 var getCirclesFromPostgres = function(callback) {
-  var query = "select lat, lng, radius, array_agg(su_id) as parks from instagram_array group by lat, lng, radius order by lat desc, lng, radius";
+  var query = "select lat, lng, radius as parks from instagram_array order by lat desc, lng, radius";
   // A few around the bay area
   //var query = "select lat, lng, radius, array_agg(su_id) as parks from instagram_array where lat < 37.8 and lat > 37.6 and lng < -122.35 group by lat, lng, radius order by lat desc, lng, radius";
   // Just one circle on SF
