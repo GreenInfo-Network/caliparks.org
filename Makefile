@@ -167,27 +167,18 @@ db/cpad: db data/CPAD_Units_nightly.zip deps/gdal deps/pv deps/npm db/postgis
 
 db/cpad_superunits: db/cpad
 	@(set -a && source .env && export $$(pgexplode | xargs) && \
-		psql -c "\d cpad_superunits" > /dev/null 2>&1 || \
-		psql -f sql/cpad_superunits.sql)
+		psql -c "\d $(subst db/,,$@)" > /dev/null 2>&1 || \
+		psql -f sql/$(subst db/,,$@).sql)
 
 db/CDB_RectangleGrid: db
 	@(set -a && source .env && export $$(pgexplode | xargs) && \
-		psql -c "\sf CDB_RectangleGrid" > /dev/null 2>&1 || \
-		psql -f sql/CDB_RectangleGrid.sql)
+		psql -c "\sf $(subst db/,,$@)" > /dev/null 2>&1 || \
+		psql -f sql/$(subst db/,,$@).sql)
 
-db/flickr: db/flickr_metadata db/flickr_photos db/latlng_array
-
-db/flickr_photos: db
+db/CDB_HexagonGrid: db
 	@(set -a && source .env && export $$(pgexplode | xargs) && \
-		psql -c "\d flickr_photos" > /dev/null 2>&1 || \
-		psql -f sql/flickr_photos.sql)
-
-# This keeps track of all the harvester queries
-# Run once to create the table.
-db/flickr_metadata: db
-	@(set -a && source .env && export $$(pgexplode | xargs) && \
-		psql -c "\d flickr_metadata" > /dev/null 2>&1 || \
-		psql -f sql/flickr_metadata.sql)
+		psql -c "\sf $(subst db/,,$@)" > /dev/null 2>&1 || \
+		psql -f sql/$(subst db/,,$@).sql)
 
 #######################################
 ### Harvester initialization grids ####
@@ -195,8 +186,26 @@ db/flickr_metadata: db
 
 db/latlng_array: db/CDB_RectangleGrid db/cpad_superunits
 	@(set -a && source .env && export $$(pgexplode | xargs) && \
-		psql -c "\d latlng_array" > /dev/null 2>&1 || \
-		psql -f sql/latlng_array.sql)
+		psql -c "\d $(subst db/,,$@)" > /dev/null 2>&1 || \
+		psql -f sql/$(subst db/,,$@).sql)
+
+#######################################
+### Flickr database tables ############
+#######################################
+
+db/flickr: db/flickr_metadata db/flickr_photos db/cpad_superunits db/latlng_array
+
+db/flickr_photos: db
+	@(set -a && source .env && export $$(pgexplode | xargs) && \
+		psql -c "\d $(subst db/,,$@)" > /dev/null 2>&1 || \
+		psql -f sql/$(subst db/,,$@).sql)
+
+# This keeps track of all the harvester queries
+# Run once to create the table.
+db/flickr_metadata: db
+	@(set -a && source .env && export $$(pgexplode | xargs) && \
+		psql -c "\d $(subst db/,,$@)" > /dev/null 2>&1 || \
+		psql -f sql/$(subst db/,,$@).sql)
 
 #######################################
 ### Instagram database tables #########
