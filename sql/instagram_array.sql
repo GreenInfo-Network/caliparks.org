@@ -42,7 +42,7 @@ CREATE TABLE instagram_array AS
   SELECT
     ST_Y(ST_Centroid(geom)) AS lat,
     ST_X(ST_Centroid(geom)) AS lng,
-    5000::double AS radius,
+    5000::float AS radius,
     geom AS the_geom
   FROM (
     SELECT GetIntersectingHexagons(ST_SetSRID(ST_Extent(geom), 3310), 5000) geom
