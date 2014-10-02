@@ -30,6 +30,7 @@ CREATE TABLE flickr_photos (
 
 CREATE INDEX flickr_photos_the_geom_gist ON flickr_photos USING GIST(the_geom);
 
+-- TODO duplicates update_instagram_photos
 CREATE OR REPLACE FUNCTION update_flickr_photos() RETURNS TRIGGER AS $$
   BEGIN
     IF (TG_OP = 'INSERT') THEN

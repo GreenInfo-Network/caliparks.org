@@ -55,19 +55,6 @@ flickrParkTable:
 ### Instagram stuff ###################
 #######################################
 
-# Run once to create the table.
-instagramHarvesterTable:
-	psql -U openspaces -h geo.local -c "drop table if exists instagram_photos;" \
-	&& psql -U openspaces -h geo.local -c "create table instagram_photos (photoid varchar(40), attribution varchar, latitude float, longitude float, placename varchar, placeid bigint, commentcount int, filter varchar(20), created_time bigint, link varchar, likescount int, standard_resolution varchar, width int, height int, caption varchar, username varchar(40), website varchar, profile_picture varchar, bio varchar, userid bigint)" \
-	&& psql -U openspaces -h geo.local -c "SELECT AddGeometryColumn('instagram_photos','the_geom',4326,'POINT',2);"
-
-# This keeps track of all the harvester queries. Note the instagram harvester uses EPSG:3310 not 4326
-# Run once to create the table.
-instagramMetadataTable:
-	psql -U openspaces -h geo.local -c "drop table if exists instagram_metadata;" \
-	&& psql -U openspaces -h geo.local -c "create table instagram_metadata (su_id int, lat float, lng float, radius float, date timestamp, count int);" \
-	&& psql -U openspaces -h geo.local -c "select AddGeometryColumn('instagram_metadata','the_geom',3310,'POLYGON',2);"
-
 # Run daily to process harvested photos.
 instagramParkTable:
 	psql -U openspaces -h geo.local -c "drop table if exists instagram_photos_distinct;" \
@@ -211,9 +198,19 @@ db/flickr_metadata: db
 ### Instagram database tables #########
 #######################################
 
-db/instagram: db/cpad_superunits db/instagram_array
+db/instagram: db/cpad_superunits db/instagram_array db/instagram_metadata db/instagram_photos
 
 db/instagram_array: db/cpad_superunits db/CDB_HexagonGrid
+	@(set -a && source .env && export $$(pgexplode | xargs) && \
+		psql -c "\d $(subst db/,,$@)" > /dev/null 2>&1 || \
+		psql -f sql/$(subst db/,,$@).sql)
+
+db/instagram_metadata: db
+	@(set -a && source .env && export $$(pgexplode | xargs) && \
+		psql -c "\d $(subst db/,,$@)" > /dev/null 2>&1 || \
+		psql -f sql/$(subst db/,,$@).sql)
+
+db/instagram_photos: db
 	@(set -a && source .env && export $$(pgexplode | xargs) && \
 		psql -c "\d $(subst db/,,$@)" > /dev/null 2>&1 || \
 		psql -f sql/$(subst db/,,$@).sql)
