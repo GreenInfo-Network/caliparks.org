@@ -112,12 +112,6 @@ foursquareVenuesActivityView:
 	psql -U openspaces -h geo.local -c "drop view park_foursquare_venues_activity;" \
 	&& psql -U openspaces -h geo.local -c "create view park_foursquare_venues_activity as select a.*, b.timestamp, b.checkinscount, b.userscount, b.tipcount, b.likescount, b.mayor_id, b.mayor_firstname, b.mayor_lastname from park_foursquare_venues a left join (select distinct on (venueid) * from foursquare_venue_activity order by venueid, timestamp desc) as b on a.venueid = b.venueid;"
 
-# Run once to create the table.
-instagramArrayTable:
-	psql -U openspaces -h geo.local -c "drop table if exists instagram_array;" \
-	&& psql -U openspaces -h geo.local -c "create table instagram_array (su_id int, lat float, lng float, radius float);" \
-	&& psql -U openspaces -h geo.local -c "select AddGeometryColumn('instagram_array','the_geom',3310,'POLYGON',2);"
-
 #######################################
 ### Totals ############################
 #######################################
@@ -127,6 +121,9 @@ parkTotals:
 
 flickr: db/flickr deps/foreman
 	foreman run flickr
+
+instagram: db/instagram deps/foreman
+	foreman run instagram
 
 deps/foreman:
 	@type ogr2ogr 2> /dev/null 1>&2 || sudo gem install foreman || (echo "Please install foreman" && false)
@@ -200,3 +197,14 @@ db/latlng_array: db/CDB_RectangleGrid db/cpad_superunits
 	@(set -a && source .env && export $$(pgexplode | xargs) && \
 		psql -c "\d latlng_array" > /dev/null 2>&1 || \
 		psql -f sql/latlng_array.sql)
+
+#######################################
+### Instagram database tables #########
+#######################################
+
+db/instagram: db/cpad_superunits db/instagram_array
+
+db/instagram_array: cb/cpad_superunits db/CDB_HexagonGrid
+	@(set -a && source .env && export $$(pgexplode | xargs) && \
+		psql -c "\d $(subst db/,,$@)" > /dev/null 2>&1 || \
+		psql -f sql/$(subst db/,,$@).sql)
