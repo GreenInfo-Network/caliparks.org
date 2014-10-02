@@ -217,7 +217,7 @@ app.get('/', function(req, res, next) {
   });
 });
 
-app.get('/ispeak/:language', function(req, res, next) {
+app.get('/speak/:language', function(req, res, next) {
 
   res.cookie('localeparks', languageFriendlyNames[req.params.language] || req.params.language, { maxAge: 900000, httpOnly: true });
 
