@@ -1127,9 +1127,13 @@ var getCirclesFromPostgres = function(callback) {
 
 var getInstagramPhotosForAllCircles = function(callback) {
   return getCirclesFromPostgres(function(err, circles) {
+    if (err) {
+      return callback(err);
+    }
+
     getInstagramPhotosForCircles(circles, function(err) {
       console.log("[*] done!");
-      callback();
+      callback(err);
     });
   });
 };
