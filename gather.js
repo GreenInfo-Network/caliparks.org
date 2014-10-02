@@ -7,7 +7,6 @@ var async = require("async"),
     connect = require("connect"),
     pg = require("pg"),
     request = require("request"),
-    sleep = require("sleep"),
     env = require("require-env"),
     jsts = require("jsts");
 
