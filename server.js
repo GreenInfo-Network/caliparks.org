@@ -35,7 +35,7 @@ memwatch.on('leak', function(info) {
 //
 // Set up Sentry logging
 //
-if (env.require('NODE_ENV') !== 'development') {
+if (env.contains('NODE_ENV') && env.require('NODE_ENV') !== 'development') {
   ravenClient.patchGlobal(function() {
     console.log('Uncaught error. Reporting to Sentry and exiting.');
     process.exit(1);
