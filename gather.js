@@ -817,7 +817,7 @@ var main = function() {
 
   } else if (argv.t == 'instagram') {
 
-    instagram.getPhotosForAllCircles(process.exit);
+    instagram.getPhotosForAllCircles();
 
   } else if (argv.t == 'create_instagram_array') {
 
