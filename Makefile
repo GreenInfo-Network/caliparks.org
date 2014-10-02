@@ -213,7 +213,7 @@ db/flickr_metadata: db
 
 db/instagram: db/cpad_superunits db/instagram_array
 
-db/instagram_array: cb/cpad_superunits db/CDB_HexagonGrid
+db/instagram_array: db/cpad_superunits db/CDB_HexagonGrid
 	@(set -a && source .env && export $$(pgexplode | xargs) && \
 		psql -c "\d $(subst db/,,$@)" > /dev/null 2>&1 || \
 		psql -f sql/$(subst db/,,$@).sql)
