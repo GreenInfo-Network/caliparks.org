@@ -160,11 +160,11 @@ db/cpad: db data/CPAD_Units_nightly.zip deps/gdal deps/pv deps/npm db/postgis
 	@(set -a && source .env && export $$(pgexplode | xargs) && \
 		psql -c "\d cpad_units" > /dev/null 2>&1 || \
 		ogr2ogr --config PG_USE_COPY YES \
-			-t_srs EPSG:4326 \
+			-t_srs EPSG:3310 \
 			-nlt PROMOTE_TO_MULTI \
 			-nln cpad_units \
 			-lco GEOMETRY_NAME=geom \
-			-lco SRID=4326 \
+			-lco SRID=3310 \
 			-f PGDump /vsistdout/ \
 			/vsizip/$(word 2,$^)/CPAD_Units_nightly.shp | pv | psql -q)
 
@@ -196,7 +196,7 @@ db/flickr_metadata: db
 ### Harvester initialization grids ####
 #######################################
 
-db/latlng_array: db/CDB_RectangleGrid
+db/latlng_array: db/CDB_RectangleGrid db/cpad_superunits
 	@(set -a && source .env && export $$(pgexplode | xargs) && \
 		psql -c "\d latlng_array" > /dev/null 2>&1 || \
 		psql -f sql/latlng_array.sql)

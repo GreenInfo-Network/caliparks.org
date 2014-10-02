@@ -21,16 +21,9 @@ var zerocount = 0,
     undefcount = 0,
     existscount = 0;
 
-var startPostgresClient = function(callback) {
-  // postgres
-  var client = new pg.Client(env.require("DATABASE_URL"));
-  client.connect();
-  console.log("[*] connected to db");
-  callback(null, client);
-};
-
-// Must be in 4326, lat lng.
-var cpad_table = "cpad_2013b_superunits_ids";
+// Expected to be in EPSG:3310.
+var CPAD_TABLE = "cpad_superunits",
+    DATABASE_URL = env.require("DATABASE_URL");
 
 function wkt2bbox(row) {
   // WKT envelope string -> bbox string. sorry.
@@ -59,24 +52,28 @@ function wkt2geom(row) {
   return geom;
 }
 
-var saveInstagramHarvesterMetadata = function(client, park_id, lat, lng, radius, timestamp, count) {
+var saveInstagramHarvesterMetadata = function(park_id, lat, lng, radius, timestamp, count) {
   var query = "insert into instagram_metadata (su_id, lat, lng, radius, date, count, the_geom) values ($1, $2, $3, $4, $5, $6, ST_Buffer(ST_Transform(ST_SetSRID(ST_makepoint($3, $2),4326),3310), $4))";
   //console.log("saveInstagramHarvesterMetadata");
 
-  return client.query(query, [park_id, lat, lng, radius, timestamp, count], function(err, res) {
+  return pg.connect(DATABASE_URL, function(err, client, done) {
     if (err) {
-      console.log(err);
       throw err;
     }
-    return 0; // TODO: change these
 
+    return client.query(query, [park_id, lat, lng, radius, timestamp, count], function(err, res) {
+      done();
+
+      if (err) {
+        console.log(err);
+        throw err;
+      }
+    });
   });
-
-  return 1; // TODO: change these
 };
 
 
-function saveInstagramHarvesterResults(client, metadata_id, photos, park) {
+function saveInstagramHarvesterResults(metadata_id, photos, park) {
   var query = "insert into instagram_photos (photoid, attribution, latitude, longitude, placename, placeid, commentcount, filter, created_time, link, likescount, standard_resolution, width, height, caption, username, website, profile_picture, bio, userid, the_geom) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, ST_SetSRID(ST_MakePoint($4,$3), 4326))";
   //console.log("saveInstagramHarvesterResults, metadata_id:", metadata_id, "num photos:", photos.length, "park:", park.id);
 
@@ -89,108 +86,139 @@ function saveInstagramHarvesterResults(client, metadata_id, photos, park) {
       else
         params.push("");
       params.push(photo.user.username, photo.user.website, photo.user.profile_picture, photo.user.bio, photo.user.id);
-      client.query(query, params, function (err, res) {
+
+      return pg.connect(DATABASE_URL, function(err, client, done) {
         if (err) {
-          console.log(err);
+          throw err;
         }
+
+        return client.query(query, params, function (err, res) {
+          done();
+
+          if (err) {
+            console.log(err);
+          }
+        });
       });
     }
   });
-  // return nothing?
 }
 
 function createInstagramArray(callback) {
-  return startPostgresClient(function(err, client) {
+  var radius = 5000; // Instagram maximum radius allowed in metres
 
-    var radius = 5000; // Instagram maximum radius allowed in metres
+  // Get bounds of all parks in projected units.
 
-    // Get bounds of all parks in projected units.
+  //park = {id:13647}; //yosemite
+  //park = {id:9365}; //point reyes
 
-    //park = {id:13647}; //yosemite
-    //park = {id:9365}; //point reyes
+  return getProjectedSwNeForPark(null, function(err, sw, ne) {
+    if (err) {
+      return callback(err);
+    }
 
-    getProjectedSwNeForPark(client, null, function(err, sw, ne) {
-      if (err) {
-        console.log(err);
-      }
+    // create array of circles to blanket bounds
 
-      // create array of circles to blanket bounds
+    // for each circle
+      // test if it intersects any parks.
+      // Save metadata for circle (center, radius, list of park ids)
 
-      // for each circle
-        // test if it intersects any parks.
-        // Save metadata for circle (center, radius, list of park ids)
+    var swArray = sw.split(","),
+        neArray = ne.split(","),
+        yMin = +swArray[0],
+        xMin = +swArray[1],
+        yMax = +neArray[0],
+        xMax = +neArray[1];
+    console.log("bounds:", yMin, xMin, yMax, xMax);
 
-      var swArray = sw.split(","),
-          neArray = ne.split(","),
-          yMin = +swArray[0],
-          xMin = +swArray[1],
-          yMax = +neArray[0],
-          xMax = +neArray[1];
-      console.log("bounds:", yMin, xMin, yMax, xMax);
+    // Using a hexagonal layout algorithm...
+    // X spacing is 2 * cos(PI/6) * radius
+    // Y spacing is 1.5 * radius
+    // Every other row is offset by cos(PI/6) * radius
+    var xSpacing = 2 * Math.cos(Math.PI/6) * radius;
+    var ySpacing = 1.5 * radius;
+    var rowOffset = Math.cos(Math.PI/6) * radius;
 
-      // Using a hexagonal layout algorithm...
-      // X spacing is 2 * cos(PI/6) * radius
-      // Y spacing is 1.5 * radius
-      // Every other row is offset by cos(PI/6) * radius
-      var xSpacing = 2 * Math.cos(Math.PI/6) * radius;
-      var ySpacing = 1.5 * radius;
-      var rowOffset = Math.cos(Math.PI/6) * radius;
+    var testQueue = async.queue(function(task, done) {
+      return testProjectedCircleIntersectionWithParks(task.x, task.y, task.radius, null, function(err, queryX, queryY, radius, result) {
+        if (err) {
+          console.log("error of some kind", err);
+          return done(err);
+        }
 
+        // console.log("testing circle intersection, y:", queryY, "x:", queryX, radius, result);
+        if (result && result.length > 0) {
+          return projectedCoordsToLatLng(queryY, queryX, function(err, latlng) {
+            var latMid = latlng[0];
+            var lngMid = latlng[1];
 
-      var totalCount = (1+Math.floor((xMax-xMin)/xSpacing)) * (1+Math.floor((yMax-yMin)/ySpacing));
-      var i = 1;
-      var row = 0;
-      console.log("testing", totalCount, "circles");
-      for (var y=yMin; y < yMax; y += ySpacing, row++) {
-        //console.log("y", y);
-        for (var x = row % 2 ? xMin+rowOffset : xMin; x < xMax; x += xSpacing) {
-          //console.log("row", row, "x", x, "y", y);
-          //if (row % 2) { x += rowOffset; } // odd numbered rows will be offset
-          var queryX = x;
-          var queryY = y;
-          testProjectedCircleIntersectionWithParks(client, queryX, queryY, radius, null, function(err, queryX, queryY, radius, result) {
-            if (err) {
-              console.log("error of some kind", err);
-            }
-            console.log("testing circle intersection, y:", queryY, "x:", queryX, radius, result);
-            if (result && result.length > 0) {
-              projectedCoordsToLatLng(client, queryY, queryX, function(err, latlng) {
-                var latMid = latlng[0];
-                var lngMid = latlng[1];
-
-                console.log("circle y:", queryY, "x:", queryX, "hit", result.length, "parks:", result.join(","));
-                saveInstagramArrayResult(client,latMid,lngMid,radius,result);
-              });
-            //} else {
-            //  console.log("got nothing!")
-            }
-            if (i % 100 == 0) console.log("done", i, "of", totalCount);
-            i++;
+            // console.log("circle y:", queryY, "x:", queryX, "hit", result.length, "parks:", result.join(","));
+            return saveInstagramArrayResult(latMid, lngMid, radius, result, done);
           });
         }
+
+        return done();
+      });
+    }, require("os").cpus().length);
+
+
+    var totalCount = (1+Math.floor((xMax-xMin)/xSpacing)) * (1+Math.floor((yMax-yMin)/ySpacing));
+    console.log("testing %d circles", totalCount);
+
+    for (var y = yMin, row = 0, i = 0; y < yMax; y += ySpacing, row++) {
+      // console.log("y", y);
+      for (var x = row % 2 ? xMin + rowOffset : xMin; x < xMax; x += xSpacing) {
+        //console.log("row", row, "x", x, "y", y);
+        //if (row % 2) { x += rowOffset; } // odd numbered rows will be offset
+        var queryX = x;
+        var queryY = y;
+
+        testQueue.push({
+          x: x,
+          y: y,
+          radius: radius
+        }, function(err) {
+          if (err) {
+            console.warn(err.message);
+          }
+
+          if (++i % 100 === 0 || i === totalCount) {
+            console.log("done %d of %d", i, totalCount);
+          }
+        });
       }
-      console.log("done", i, "of", totalCount);
-      callback();
-    });
+    }
+
+    callback();
   });
 }
 
-var saveInstagramArrayResult = function(client, lat, lng, radius, park_ids) {
-  var query = "insert into instagram_array (su_id, lat, lng, radius, the_geom) values ($1, $2, $3, $4, ST_Buffer(ST_Transform(ST_SetSRID(ST_makepoint($3, $2),4326),3310), $4))";
+var saveInstagramArrayResult = function(lat, lng, radius, parkIds, callback) {
+  callback = callback || function(err) {
+    if (err) {
+      throw err;
+    }
+  };
 
-  park_ids.forEach(function(park_id) {
+  var query = "insert into instagram_array (su_id, lat, lng, radius, the_geom) values ($1, $2, $3, $4, ST_Buffer(ST_Transform(ST_SetSRID(ST_MakePoint($3, $2), 4326), 3310), $4))";
 
-    client.query(query, [park_id, lat, lng, radius], function(err, res) {
-      if (err) {
-        console.log(err);
-        throw err;
-      }
+  return pg.connect(DATABASE_URL, function(err, client, done) {
+    if (err) {
+      console.log(err);
+      return callback(err);
+    }
+
+    return async.each(parkIds, function(parkId, done) {
+      return client.query(query, [parkId, lat, lng, radius], done);
+    }, function() {
+      done();
+
+      return callback.apply(null, arguments);
     });
   });
-  // return nothing?
 };
 
-function getInstagramPhotosForCircles(client, circles, callback) {
+function getInstagramPhotosForCircles(circles, callback) {
 
   // Create a queue with a worker (that currently does nothing but call each task's callback)
   var q = async.queue(function (task, callback) {
@@ -202,8 +230,8 @@ function getInstagramPhotosForCircles(client, circles, callback) {
   circles.forEach(function(circle) {  // Can be synchronous since we're firing of queue tasks
     liveTaskCounter["circles"] = liveTaskCounter["circles"] + 1;
     console.log("circle tasks:", liveTaskCounter["circles"]);
-    latLngToProjectedCoords(client, circle.lat, circle.lng, function(err, coords) {
-      q.push({name: "", centerX: coords[1], centerY: coords[0], radius: circle.radius}, instagramRecursionQueueTask(null, client, coords[0], coords[1], circle.radius, null, circle.parks, 1, q, callback));
+    latLngToProjectedCoords(circle.lat, circle.lng, function(err, coords) {
+      q.push({name: "", centerX: coords[1], centerY: coords[0], radius: circle.radius}, instagramRecursionQueueTask(null, coords[0], coords[1], circle.radius, null, circle.parks, 1, q, callback));
 
     });
   });
@@ -292,11 +320,11 @@ function queryInstagramAPI(lat, lng, radius, callback) {
   });
 }
 
-function instagramRecursionQueueTask(err, client, y, x, radius, polygon, parks, depth, q, callback) {
+function instagramRecursionQueueTask(err, y, x, radius, polygon, parks, depth, q, callback) {
   // This stuff should be moved into a task that can be added to a queue.
 
   // Since we are using projected coordiantes, need to convert to latlng for Instagram API
-  projectedCoordsToLatLng(client, y, x, function(err, latlng) {
+  projectedCoordsToLatLng(y, x, function(err, latlng) {
     var latMid = latlng[0];
     var lngMid = latlng[1];
 
@@ -318,11 +346,11 @@ function instagramRecursionQueueTask(err, client, y, x, radius, polygon, parks, 
 
           // If the count is 100, I think I need to recurse here.
 
-          var metadata_id = saveInstagramHarvesterMetadata(client, null, latMid, lngMid, radius, new Date(), count);
+          var metadata_id = saveInstagramHarvesterMetadata(null, latMid, lngMid, radius, new Date(), count);
 
           //metadata_id = 1; // It's currently fake anyway
 
-          saveInstagramHarvesterResults(client, metadata_id, photos, null);
+          saveInstagramHarvesterResults(metadata_id, photos, null);
 
           if (count >= 100 && radius > 10) {    // TODO improve this. For now, stop if radius drops below X metres!
 
@@ -372,14 +400,14 @@ function instagramRecursionQueueTask(err, client, y, x, radius, polygon, parks, 
               var newX = newCenter[1];
               var newY = newCenter[0];
               // TODO: change this to test only against the list of park IDs returned
-              testProjectedCircleIntersectionWithParks(client, newX, newY, newRadius, parks, function(err, newX, newY, newRadius, result) {
+              return testProjectedCircleIntersectionWithParks(newX, newY, newRadius, parks, function(err, newX, newY, newRadius, result) {
                 if (result && result.length > 0) {
 
                   var nextDepth = depth + 1;
 
                   liveTaskCounter["circles"] = liveTaskCounter["circles"] + 1;
                   console.log("circle tasks:", liveTaskCounter["circles"]);
-                  q.push({name: 'another task, depth ' + nextDepth, centerX: newX, centerY: newY, radius: newRadius}, instagramRecursionQueueTask(null, client, newY, newX, newRadius, polygon, result, nextDepth, q, callback));
+                  q.push({name: 'another task, depth ' + nextDepth, centerX: newX, centerY: newY, radius: newRadius}, instagramRecursionQueueTask(null, newY, newX, newRadius, polygon, result, nextDepth, q, callback));
 
                 }
               });
@@ -553,7 +581,7 @@ function queryFoursquareAPI(sw, ne, callback) {
   });
 }
 
-function foursquareRecursionQueueTask(err, client, sw, ne, depth, q, callback) {
+function foursquareRecursionQueueTask(err, sw, ne, depth, q, callback) {
   queryFoursquareAPI(sw, ne, function(err, body) {
     var venues;
     var count;
@@ -597,14 +625,14 @@ function foursquareRecursionQueueTask(err, client, sw, ne, depth, q, callback) {
 
     // Right now this metadata_id is faked.
     // Todo: save information about return code/status
-    var metadata_id = saveFoursquareHarvesterMetadata(client, latMin, lngMin, latMax, lngMax, date, count);
+    var metadata_id = saveFoursquareHarvesterMetadata(latMin, lngMin, latMax, lngMax, date, count);
 
     // Store the list of venues to the database, including the the id of the
     // metadata record, so we can track which request this came from.
     // TODO: check for error
     // TODO: possibly I should only save results if count <= 50 (a recursion leaf), to avoid duplicates in database
 
-    saveFoursquareHarvesterResults(client, metadata_id, venues);
+    saveFoursquareHarvesterResults(metadata_id, venues);
 
     // TODO: figure this out: will this recursion solve the problem of missing out
     // on venues inside parks of there are lots of parks outside the bounds (but
@@ -649,14 +677,14 @@ function foursquareRecursionQueueTask(err, client, sw, ne, depth, q, callback) {
 
         bboxes.forEach(function(bbox) {
           // Test each new bbox against parks in the database (null tests against all parks)
-          testBboxIntersectionWithParks(client, bbox, null, function(err, bbox, result) {
+          testBboxIntersectionWithParks(bbox, null, function(err, bbox, result) {
             if (result && result.length > 0) {
 
               var nextDepth = depth + 1;
 
               liveTaskCounter["4sqgrid"] = liveTaskCounter["4sqgrid"] + 1;
               //console.log("liveTaskCounter[", "4sqgrid", "] recursing:", liveTaskCounter["4sqgrid"]);
-              q.push({name: 'another task depth ' + nextDepth, sw: bbox[0].join(), ne: bbox[1].join()}, foursquareRecursionQueueTask(null, client, bbox[0].join(), bbox[1].join(), nextDepth, q, callback));
+              q.push({name: 'another task depth ' + nextDepth, sw: bbox[0].join(), ne: bbox[1].join()}, foursquareRecursionQueueTask(null, bbox[0].join(), bbox[1].join(), nextDepth, q, callback));
             } else {
               //console.log(bbox, "does not intersect, skipping");
             }
@@ -677,7 +705,7 @@ function foursquareRecursionQueueTask(err, client, sw, ne, depth, q, callback) {
 
 var liveTaskCounter = {};
 
-function getFoursquareData(client, sw, ne, depth, callback) {
+function getFoursquareData(sw, ne, depth, callback) {
 
   // Create a queue with a worker (that currently does nothing but call each task's callback)
   var q = async.queue(function (task, callback) {
@@ -689,7 +717,7 @@ function getFoursquareData(client, sw, ne, depth, callback) {
   // Callback is only called when the task counter reaches zero again
   var depth = 0;
   liveTaskCounter["4sqgrid"] = 1;
-  q.push({name: 'top level', sw: sw, ne: ne}, foursquareRecursionQueueTask(null, client, sw, ne, depth, q, callback));
+  q.push({name: 'top level', sw: sw, ne: ne}, foursquareRecursionQueueTask(null, sw, ne, depth, q, callback));
 
 }
 
@@ -702,60 +730,87 @@ function getFoursquareData(client, sw, ne, depth, callback) {
  *
  * If park is null, will return sw, ne corners containing all parks
  */
-var getProjectedSwNeForPark = function(client, park, callback) {
+var getProjectedSwNeForPark = function(park, callback) {
   // connect to pg
   // query pg
   // callback with parsed bbox
 
-  if (park)
-    var query = "select su_id, unit_name, st_astext(st_envelope(st_transform(geom,3310))) as envelope from " + cpad_table + " where su_id = " + park.id + " limit 1";
-  else
-    var query = "select st_astext(st_envelope(st_transform(st_setsrid(st_extent(geom),4326),3310))) as envelope from " + cpad_table;
+  var query;
 
-  return client.query(query, function(err, res) {
+  if (park) {
+    query = "select su_id, unit_name, st_astext(st_envelope(st_transform(geom,3310))) as envelope from " + CPAD_TABLE + " where su_id = " + park.id + " limit 1";
+  } else {
+    query = "select st_astext(st_envelope(st_setsrid(st_extent(geom),3310))) as envelope from " + CPAD_TABLE;
+  }
+
+  return pg.connect(DATABASE_URL, function(err, client, done) {
     if (err) {
-      throw err;
+      return callback(err);
     }
-    var envelope = wkt2swne(res.rows[0]);
-    var sw = envelope[0],
-        ne = envelope[1];
-    // client.end();
-    return callback(null, sw, ne);
 
+    return client.query(query, function(err, res) {
+      done();
+
+      if (err) {
+        return callback(err);
+      }
+
+      var envelope = wkt2swne(res.rows[0]);
+      var sw = envelope[0],
+          ne = envelope[1];
+
+      return callback(null, sw, ne);
+    });
   });
 };
 
-var latLngToProjectedCoords = function(client, lat, lng, callback) {
+var latLngToProjectedCoords = function(lat, lng, callback) {
   // connect to pg
   // query pg
   // callback with parsed bbox
 
   var query = "select st_y(a) as y, st_x(a) as x from (select st_astext(st_transform(ST_GeomFromText('POINT(" + lng + " " + lat + ")',4326),3310)) as a) as query";
 
-  return client.query(query, function(err, res) {
+  return pg.connect(DATABASE_URL, function(err, client, done) {
     if (err) {
-      throw err;
+      return callback(err);
     }
-    var coords = [res.rows[0].y, res.rows[0].x];
-    return callback (null, coords);
 
+    return client.query(query, function(err, res) {
+      done();
+
+      if (err) {
+        throw err;
+      }
+      var coords = [res.rows[0].y, res.rows[0].x];
+      return callback (null, coords);
+
+    });
   });
 };
 
-var projectedCoordsToLatLng = function(client, y, x, callback) {
+var projectedCoordsToLatLng = function(y, x, callback) {
   // connect to pg
   // query pg
   // callback with parsed bbox
 
   var query = "select st_y(a) as lat, st_x(a) as lng from (select st_astext(st_transform(ST_GeomFromText('POINT(" + x + " " + y + ")',3310),4326)) as a) as query";
 
-  return client.query(query, function(err, res) {
+  return pg.connect(DATABASE_URL, function(err, client, done) {
     if (err) {
-      throw err;
+      return callback(err);
     }
-    var coords = [res.rows[0].lat, res.rows[0].lng];
-    return callback (null, coords);
 
+    return client.query(query, function(err, res) {
+      done();
+
+      if (err) {
+        throw err;
+      }
+      var coords = [res.rows[0].lat, res.rows[0].lng];
+      return callback (null, coords);
+
+    });
   });
 };
 
@@ -765,38 +820,56 @@ var projectedCoordsToLatLng = function(client, y, x, callback) {
  * @param park Object{id} Park identifier.
  * @param callback Function(err, coords) Called with an array containing the park's bounding box.
  */
-var getBoundingBoxForPark = function(client, park, callback) {
+var getBoundingBoxForPark = function(park, callback) {
   // connect to pg
   // query pg
   // callback with parsed bbox
   //var query = ["select su_id, unit_name, st_astext(st_envelope(st_transform(st_buffer(st_envelope(geom), 500), 4326)))",
-  //             "as envelope from ", cpad_table, " where su_id = $1 limit 1"].join("");
+  //             "as envelope from ", CPAD_TABLE, " where su_id = $1 limit 1"].join("");
   var query = ["select su_id, unit_name, st_astext(st_envelope(geom)) ",
-               "as envelope from ", cpad_table, " where su_id = $1 limit 1"].join("");
+               "as envelope from ", CPAD_TABLE, " where su_id = $1 limit 1"].join("");
 
-  return client.query(query, [park.id], function(err, res) {
+  return pg.connect(DATABASE_URL, function(err, client, done) {
     if (err) {
-      throw err;
+      return callback(err);
     }
-    var envelope = wkt2bbox(res.rows[0]);
-    // client.end();
-    return callback(null, envelope);
 
+    return client.query(query, [park.id], function(err, res) {
+      done();
+
+      if (err) {
+        return callback(err);
+      }
+
+      var envelope = wkt2bbox(res.rows[0]);
+
+      return callback(null, envelope);
+
+    });
   });
 };
 
-var getPolygonForPark = function(client, park, callback) {
+var getPolygonForPark = function(park, callback) {
   var query = ["select unit_name, st_astext(geom)",
-               "as textgeom from ", cpad_table, " where su_id = $1 limit 1"].join("");
+               "as textgeom from ", CPAD_TABLE, " where su_id = $1 limit 1"].join("");
 
-  return client.query(query, [park.id], function(err, res) {
+  return pg.connect(DATABASE_URL, function(err, client, done) {
     if (err) {
-      throw err;
+      return callback(err);
     }
-    var polygon = wkt2geom(res.rows[0]);
-    // client.end();
-    return callback(null, polygon);
 
+    return client.query(query, [park.id], function(err, res) {
+      done();
+
+      if (err) {
+        return callback(err);
+      }
+
+      var polygon = wkt2geom(res.rows[0]);
+
+      return callback(null, polygon);
+
+    });
   });
 };
 
@@ -806,9 +879,9 @@ var getPolygonForPark = function(client, park, callback) {
  *  Returns a list of park ids that intersect the bbox, or an empty array if none.
  */
 
-var testBboxIntersectionWithParks = function(client, bbox, parks, callback) {
-  //var query = ["select ST_Intersects(ST_MakeEnvelope(", bbox[0][1], ",", bbox[0][0], ",", bbox[1][1], ",", bbox[1][0], ",4326),geom) from ", cpad_table, " where su_id = $1"].join("");
-  var query = "select su_id from " + cpad_table + " where ";
+var testBboxIntersectionWithParks = function(bbox, parks, callback) {
+  //var query = ["select ST_Intersects(ST_MakeEnvelope(", bbox[0][1], ",", bbox[0][0], ",", bbox[1][1], ",", bbox[1][0], ",4326),geom) from ", CPAD_TABLE, " where su_id = $1"].join("");
+  var query = "select su_id from " + CPAD_TABLE + " where ";
   if (parks) { // should test if it's an array, too
     query += "(";
     su_ids = []
@@ -821,13 +894,22 @@ var testBboxIntersectionWithParks = function(client, bbox, parks, callback) {
   query += " ST_Intersects(ST_MakeEnvelope(" + bbox[0][1] + "," + bbox[0][0] + "," + bbox[1][1] + "," + bbox[1][0] + ",4326),geom)";
 
 
-  return client.query(query, function(err, res) {
+  return pg.connect(DATABASE_URL, function(err, client, done) {
     if (err) {
-      throw err;
+      return callback(err);
     }
-    var result = res.rows.map(function(row) { return row.su_id; });
-    // client.end();
-    callback(null, bbox, result);
+
+    return client.query(query, function(err, res) {
+      done();
+
+      if (err) {
+        return callback(err);
+      }
+
+      var result = res.rows.map(function(row) { return row.su_id; });
+
+      return callback(null, bbox, result);
+    });
   });
 };
 
@@ -838,9 +920,9 @@ var testBboxIntersectionWithParks = function(client, bbox, parks, callback) {
  *  Returns a list of park ids that intersect the circle, or an empty array if none.
  */
 
-var testProjectedCircleIntersectionWithParks = function(client, centerX, centerY, radius, parks, callback) {
+var testProjectedCircleIntersectionWithParks = function(centerX, centerY, radius, parks, callback) {
   //var query = ["select su_id from cpad_2013b_superunits_ids where (su_id = $1) and ST_Intersects(ST_Buffer(ST_SetSRID(ST_MakePoint(", centerX, ",", centerY, "),3310),", radius, "),st_transform(geom,3310))"].join("")
-  var query = "select su_id from " + cpad_table + " where ";
+  var query = "select superunit_id from " + CPAD_TABLE + " where ";
   if (parks) { // should test if it's an array, too
     query += "(";
     su_ids = []
@@ -850,21 +932,31 @@ var testProjectedCircleIntersectionWithParks = function(client, centerX, centerY
     query += su_ids.join(" or ");
     query += ") and ";
   }
-  query += " ST_Intersects(ST_Buffer(ST_SetSRID(ST_MakePoint(" + centerX + "," + centerY + "),3310)," + radius + "),st_transform(geom,3310))";
+  query += util.format(" ST_DWithin('SRID=3310;POINT(%d %d)'::geometry, geom, %d)", centerX, centerY, radius);
 
   //console.log("testProjectedCircle", query);
-  return client.query(query, function(err, res) {
+  return pg.connect(DATABASE_URL, function(err, client, done) {
     if (err) {
-      //throw err;
-      // TODO: deal with this better
-      console.log("projection test error, proceeding...", centerX, centerY, radius, "park:", park.id);
-      return callback(null, centerX, centerY, radius, false);
+      return callback(err);
     }
-    //var result = res.rows;
-    var result = res.rows.map(function(row) { return row.su_id; });
-    // client.end();
-    console.log("testProjectedCircle result:", result);
-    return callback(null, centerX, centerY, radius, result);
+
+    return client.query(query, function(err, res) {
+      done();
+
+      if (err) {
+        console.warn(err.stack);
+
+        // TODO: deal with this better
+        console.log("projection test error, proceeding...", centerX, centerY, radius, "park:", park.id);
+        return callback(null, centerX, centerY, radius, false);
+      }
+
+      //var result = res.rows;
+      var result = res.rows.map(function(row) { return row.superunit_id; });
+
+      // console.log("testProjectedCircle result:", result);
+      return callback(null, centerX, centerY, radius, result);
+    });
   });
 };
 
@@ -874,7 +966,7 @@ var writeDataToFile = function(filename, data, callback) {
   callback = callback || noop;
 
   fs.writeFile(filename, JSON.stringify(data, null, 4), function(err) {
-    if(err) {
+    if (err) {
       console.log(err);
     } else {
       console.log("[*] data written to file", filename);
@@ -910,7 +1002,7 @@ var getVenuesDataFromJSON = function(callback) {
 /**
  * only_needing_update  boolean true = only ones needing updates, false = all venues
  **/
-var getVenuesDataFromPostgres = function(client, limit, only_needing_update, callback) {
+var getVenuesDataFromPostgres = function(limit, only_needing_update, callback) {
   if (arguments.length < 3) {
     callback = arguments[arguments.length-1];
     limit = 5000;
@@ -925,33 +1017,44 @@ var getVenuesDataFromPostgres = function(client, limit, only_needing_update, cal
               "(select venueid, timestamp from foursquare_venue_activity where timestamp > (CURRENT_TIMESTAMP - INTERVAL '1 day')) as b ",
               "on a.venueid = b.venueid where timestamp is null order by a.venueid"].join("");
   }
-  client.query(query, function(err, res) {
+
+  return pg.connect(DATABASE_URL, function(err, client, done) {
     if (err) {
-      throw err;
+      return callback(err);
     }
-    var venues = res.rows.map(function(row) {
-      return {
-        id: row.id,
-        name: row.name
-      };
+
+    return client.query(query, function(err, res) {
+      done();
+
+      if (err) {
+        return callback(err);
+      }
+
+      var venues = res.rows.map(function(row) {
+        return {
+          id: row.id,
+          name: row.name
+        };
+      });
+
+      return callback(null, venues);
     });
-    callback(null, venues);
   });
 };
 
-var getParksDataFromPostgres = function(client, socialMediaType, callback) {
-  //var query = ["select su_id as id, unit_name as name, gis_acres as size from ", cpad_table, " ",
+var getParksDataFromPostgres = function(socialMediaType, callback) {
+  //var query = ["select su_id as id, unit_name as name, gis_acres as size from ", CPAD_TABLE, " ",
   //              "where unit_name like '%Guadalupe River Park%' order by size desc limit " + limit].join("");
   // Ignore the limit
 /*
-  var query = ["select su_id as id, unit_name as name, gis_acres as size from ", cpad_table, " ",
+  var query = ["select su_id as id, unit_name as name, gis_acres as size from ", CPAD_TABLE, " ",
                 //"where unit_name like '%Shasta%'"].join("");
                 //"where unit_name like '%State Park%'"].join("");
                 //"where su_id = 4454"].join("");
                 "where unit_name not like '%BLM%' order by su_id"].join("");
 */
   // TODO: figure out the correct time interval to use here
-  var query = "select a.su_id as id, a.unit_name as name, a.gis_acres as size from " + cpad_table + " a ";
+  var query = "select a.su_id as id, a.unit_name as name, a.gis_acres as size from " + CPAD_TABLE + " a ";
 
   if (socialMediaType == "instagram") {
     query += "left join (select * from instagram_metadata where date > now() - interval '7 days') as b on a.su_id = b.su_id where ";
@@ -970,178 +1073,195 @@ var getParksDataFromPostgres = function(client, socialMediaType, callback) {
 
   query += "order by a.su_id";
 
-  client.query(query, function(err, res) {
+  return pg.connect(DATABASE_URL, function(err, client, done) {
     if (err) {
-      throw err;
+      return callback(err);
     }
-    console.log("got", res.rows.length, "parks from database that need harvesting");
-    var parks = res.rows.map(function(row) {
-      return {
-        id: row.id,
-        name: row.name,
-        size: ~~row.size
-      };
+
+    return client.query(query, function(err, res) {
+      done();
+
+      if (err) {
+        return callback(err);
+      }
+
+      console.log("got", res.rows.length, "parks from database that need harvesting");
+      var parks = res.rows.map(function(row) {
+        return {
+          id: row.id,
+          name: row.name,
+          size: ~~row.size
+        };
+      });
+
+      return callback(null, parks);
     });
-    callback(null, parks);
   });
 };
 
-var getCirclesFromPostgres = function(client, callback) {
+var getCirclesFromPostgres = function(callback) {
   var query = "select lat, lng, radius, array_agg(su_id) as parks from instagram_array group by lat, lng, radius order by lat desc, lng, radius";
   // A few around the bay area
   //var query = "select lat, lng, radius, array_agg(su_id) as parks from instagram_array where lat < 37.8 and lat > 37.6 and lng < -122.35 group by lat, lng, radius order by lat desc, lng, radius";
   // Just one circle on SF
   //var query = "select lat, lng, radius, array_agg(su_id) as parks from instagram_array where lat < 37.8 and lat > 37.75 and lng < -122.35 and lng > -122.5 group by lat, lng, radius order by lat desc, lng, radius";
 
-  client.query(query, function(err, res) {
+  return pg.connect(DATABASE_URL, function(err, client, done) {
     if (err) {
-      throw err;
+      return callback(err);
     }
-    console.log("got", res.rows.length, "circles from database that need harvesting");
-    var circles = res.rows;
-    callback(null, client, circles);
+
+    return client.query(query, function(err, res) {
+      done();
+
+      if (err) {
+        return callback(err);
+      }
+
+      console.log("got", res.rows.length, "circles from database that need harvesting");
+      var circles = res.rows;
+      return callback(null, circles);
+    });
   });
 };
 
 var getInstagramPhotosForAllCircles = function(callback) {
-  return startPostgresClient(function(err, client) {
-    return getCirclesFromPostgres(client, function(err, client, circles) {
-      getInstagramPhotosForCircles(client, circles, function(err) {
-        console.log("[*] done!");
-        callback();
-      });
+  return getCirclesFromPostgres(function(err, circles) {
+    getInstagramPhotosForCircles(circles, function(err) {
+      console.log("[*] done!");
+      callback();
     });
   });
 };
 
 var getFullVenuesForAllVenues = function(callback) {
-  return startPostgresClient(function(err, client) {
-    return getVenuesDataFromPostgres(client, 5000, true, function(err, venues) {
-      async.eachLimit(venues, 10, function(venue, next) {
-        getFoursquareFullVenue(venue.id, function(err, fullVenue) {
-          if (err) {
-            next();
-          } else {
-            saveFoursquareActivityResults(client, fullVenue, next);
-          }
-        });
-      }, function(err) {
-        var total = existscount + nonzerocount + zerocount + undefcount;
-        console.log("Already exist: " + existscount + " non-zero: " + nonzerocount + " zero: " + zerocount + " undef: " + undefcount + " total: " + total);
+  return getVenuesDataFromPostgres(5000, true, function(err, venues) {
+    async.eachLimit(venues, 10, function(venue, next) {
+      getFoursquareFullVenue(venue.id, function(err, fullVenue) {
         if (err) {
-          console.log("[*] done (with error)!");
+          next();
         } else {
-          console.log("[*] done!");
+          saveFoursquareActivityResults(fullVenue, next);
         }
-        callback();
       });
+    }, function(err) {
+      var total = existscount + nonzerocount + zerocount + undefcount;
+      console.log("Already exist: " + existscount + " non-zero: " + nonzerocount + " zero: " + zerocount + " undef: " + undefcount + " total: " + total);
+      if (err) {
+        console.log("[*] done (with error)!");
+      } else {
+        console.log("[*] done!");
+      }
+      callback();
     });
   });
 };
 
 var getNextVenuesForAllVenues = function(callback) {
-  return startPostgresClient(function(err, client) {
-    return getVenuesDataFromPostgres(client, 5000, false, function(err, venues) {
-      async.eachLimit(venues, 10, function(venue, next) {
-        // TODO: don't write to .json and instead save to db
-        fs.exists("4sqnextvenues/venuenext." + venue.id + ".json", function(exists) {
-          if (!exists) {
-            getFoursquareNextVenues(venue.id, function(err, nextVenues) {
-              if (nextVenues) {
-                console.log("[*] got", nextVenues.length, "next venues for id", venue.id);
-                nextVenues.forEach(function(nextvenue) { nextvenue.prev = venue; });
-                writeDataToFile("4sqnextvenues/venuenext." + venue.id + ".json", nextVenues, next);
-                if (nextVenues.length > 0) {
-                  nonzerocount++;
-                } else {
-                  zerocount++;
-                }
+  return getVenuesDataFromPostgres(5000, false, function(err, venues) {
+    async.eachLimit(venues, 10, function(venue, next) {
+      // TODO: don't write to .json and instead save to db
+      fs.exists("4sqnextvenues/venuenext." + venue.id + ".json", function(exists) {
+        if (!exists) {
+          getFoursquareNextVenues(venue.id, function(err, nextVenues) {
+            if (nextVenues) {
+              console.log("[*] got", nextVenues.length, "next venues for id", venue.id);
+              nextVenues.forEach(function(nextvenue) { nextvenue.prev = venue; });
+              writeDataToFile("4sqnextvenues/venuenext." + venue.id + ".json", nextVenues, next);
+              if (nextVenues.length > 0) {
+                nonzerocount++;
               } else {
-                console.log("[*] got no next venues for id", venue.id);
-                undefcount++;
+                zerocount++;
               }
-            });
-          } else {
-            console.log("[*] nextvenues for venue " + venue.id + " already exist. skipping.");
-            existscount++;
-            next();
-          }
-        });
-      }, function(err) {
-        // This is getting called before everything terminates... because of nested asyncs?
-
-        var total = existscount + nonzerocount + zerocount + undefcount;
-        console.log("Already exist: " + existscount + " non-zero: " + nonzerocount + " zero: " + zerocount + " undef: " + undefcount + " total: " + total);
-        if (err) {
-          console.log("[*] done (with error)!");
+            } else {
+              console.log("[*] got no next venues for id", venue.id);
+              undefcount++;
+            }
+          });
         } else {
-          console.log("[*] done!");
+          console.log("[*] nextvenues for venue " + venue.id + " already exist. skipping.");
+          existscount++;
+          next();
         }
-        callback();
       });
+    }, function(err) {
+      // This is getting called before everything terminates... because of nested asyncs?
+
+      var total = existscount + nonzerocount + zerocount + undefcount;
+      console.log("Already exist: " + existscount + " non-zero: " + nonzerocount + " zero: " + zerocount + " undef: " + undefcount + " total: " + total);
+      if (err) {
+        console.log("[*] done (with error)!");
+      } else {
+        console.log("[*] done!");
+      }
+      callback();
     });
   });
 };
 
 var getFoursquareVenuesForAllGridCells = function(callback) {
-  return startPostgresClient(function(err, client) {
-    return getGridCellsFromPostgres(client, function(err, cells) {
-      async.eachLimit(cells, 1, function(cell, next) {
-        getFoursquareData(client, [cell.latmin,cell.lngmin].join(), [cell.latmax,cell.lngmax].join(), 0, function(err, venues) {
-        //getFoursquareVenuesForBbox(client, cell.latmin, cell.lngmin, cell.latmax, cell.lngmax, function(err, venues) {
+  return getGridCellsFromPostgres(function(err, cells) {
+    async.eachLimit(cells, 1, function(cell, next) {
+      getFoursquareData([cell.latmin,cell.lngmin].join(), [cell.latmax,cell.lngmax].join(), 0, function(err, venues) {
+      //getFoursquareVenuesForBbox(cell.latmin, cell.lngmin, cell.latmax, cell.lngmax, function(err, venues) {
 
-          if (venues) {
-            console.log("[*] got", venues.length, "venues for", cell.latmin, cell.lngmin, cell.latmax, cell.lngmax);
-            next();
-          } else {
-            // This is always happening because I'm not returning any venues back up the recursion
-            // But that's okay for now...
-            console.log("[*] got no venues for", cell.latmin, cell.lngmin, cell.latmax, cell.lngmax);
-            next();
-          }
-        });
-      }, function() {
-        console.log("[*] done!");
-        callback();
+        if (venues) {
+          console.log("[*] got", venues.length, "venues for", cell.latmin, cell.lngmin, cell.latmax, cell.lngmax);
+          next();
+        } else {
+          // This is always happening because I'm not returning any venues back up the recursion
+          // But that's okay for now...
+          console.log("[*] got no venues for", cell.latmin, cell.lngmin, cell.latmax, cell.lngmax);
+          next();
+        }
       });
+    }, function() {
+      console.log("[*] done!");
+      callback();
     });
   });
 };
 
 var getFoursquareVenuesForAllParks = function(callback) {
-  return startPostgresClient(function(err, client) {
-    return getParksDataFromPostgres(client, "foursquare", function(err, parks) {
-      async.eachLimit(parks, 1, function(park, next) {
-        getFoursquareVenuesForPark(client, park, function(err, venues) {
-          if (venues) {
-            console.log("[*] got", venues.length, "venues for", park.name);
-            next();
-          } else {
-            // This is always happening because I'm not returning any venues back up the recursion
-            // But that's okay for now...
-            console.log("[*] got no venues for", park.name);
-            next();
-          }
-        });
-      }, function() {
-        console.log("[*] done!");
-        callback();
+  return getParksDataFromPostgres("foursquare", function(err, parks) {
+    async.eachLimit(parks, 1, function(park, next) {
+      getFoursquareVenuesForPark(park, function(err, venues) {
+        if (venues) {
+          console.log("[*] got", venues.length, "venues for", park.name);
+          next();
+        } else {
+          // This is always happening because I'm not returning any venues back up the recursion
+          // But that's okay for now...
+          console.log("[*] got no venues for", park.name);
+          next();
+        }
       });
+    }, function() {
+      console.log("[*] done!");
+      callback();
     });
   });
 };
 
-var saveFoursquareHarvesterMetadata = function(client, latMin, lngMin, latMax, lngMax, timestamp, count) {
+var saveFoursquareHarvesterMetadata = function(latMin, lngMin, latMax, lngMax, timestamp, count) {
   //console.log(latMin, lngMin, latMax, lngMax, timestamp, count);
   var query = "insert into foursquare_metadata (su_id, latmin, lngmin, latmax, lngmax, date, count, the_geom) values ($1, $2, $3, $4, $5, $6, $7, ST_MakeEnvelope($3,$2,$5,$4,4326))";
 
-  return client.query(query, [null, latMin, lngMin, latMax, lngMax, timestamp, count], function(err, res) {
+  return pg.connect(DATABASE_URL, function(err, client, done) {
     if (err) {
-      console.log("harvester metadata insert error", err);
       throw err;
     }
-    return 0; // TODO: change these
 
+    return client.query(query, [null, latMin, lngMin, latMax, lngMax, timestamp, count], function(err, res) {
+      done();
+
+      if (err) {
+        console.log("harvester metadata insert error", err);
+        throw err;
+      }
+      return 0; // TODO: change these
+
+    });
   });
 
   return 1; // TODO: change these
@@ -1150,13 +1270,12 @@ var saveFoursquareHarvesterMetadata = function(client, latMin, lngMin, latMax, l
 /**
  * Save foursquare venues returned from the harvester.
  *
- * @param client    ...the database connection
  * @param metadata_id  ...the database id of the metadata record storing information about the current API query
  * @param venues    ...an array of venues
  * @param park  ...a park object with .id and .name attributes
  * TODO: clean up my docstring formatting.
  */
-var saveFoursquareHarvesterResults = function(client, metadata_id, venues) {
+var saveFoursquareHarvesterResults = function(metadata_id, venues) {
   var query = "insert into foursquare_venues (venueid, name, lat, lng, address, postcode, city, state, country, cc, categ_id, categ_name, verified, restricted, referral_id, the_geom) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, ST_SetSRID(ST_MakePoint($4, $3), 4326))";
   //console.log("saveFoursquareHarvesterResults", metadata_id, venues);
 
@@ -1171,13 +1290,19 @@ var saveFoursquareHarvesterResults = function(client, metadata_id, venues) {
       params.push(venue.verified, venue.restricted, venue.referralId);
       // TODO: save the activity to the separate activity table in another db call
       //params.push(venue.verified, venue.restricted, venue.stats.checkinsCount, venue.stats.usersCount, venue.stats.tipCount, venue.referralId, park.id, park.name);
-      client.query(query, params, function(err, res) {
+      return pg.connect(DATABASE_URL, function(err, client, done) {
         if (err) {
-          console.log("harvester results insert error", err);
-          //client.end();
-          //startPostgresClient(function(err, client) { return client;});
-          //throw err;
+          throw err;
         }
+
+        return client.query(query, params, function(err, res) {
+          done();
+
+          if (err) {
+            console.log("harvester results insert error", err);
+            throw err;
+          }
+        });
       });
     }
   });
@@ -1187,31 +1312,37 @@ var saveFoursquareHarvesterResults = function(client, metadata_id, venues) {
 /**
  * Save foursquare venues returned from the activity updater.
  *
- * @param client    ...the database connection
  * @param venue    ...a venue object returned from the forusquare API
  * @param callback    callback to run next
  * TODO: clean up my docstring formatting.
  */
-var saveFoursquareActivityResults = function(client, venue, callback) {
+var saveFoursquareActivityResults = function(venue, callback) {
   var query = "insert into foursquare_venue_activity (venueid, checkinscount, userscount, tipcount, likescount, mayor_id, mayor_firstname, mayor_lastname) values ($1, $2, $3, $4, $5, $6, $7, $8)";
   console.log("saveFoursquareActivityResults", venue.id);
 
   //console.log(venue);
   var params = [venue.id, venue.stats.checkinsCount, venue.stats.usersCount, venue.stats.tipCount, venue.likes.count];
-  if (venue.hasOwnProperty('mayor') && venue.mayor.hasOwnProperty('user'))
+  if (venue.hasOwnProperty('mayor') && venue.mayor.hasOwnProperty('user')) {
     params.push(venue.mayor.user.id, venue.mayor.user.firstName, venue.mayor.user.lastName);
-  else
+  } else {
     params.push("", "", "");
-  client.query(query, params, function(err, res) {
+  }
+
+  return pg.connect(DATABASE_URL, function(err, client, done) {
     if (err) {
-      console.log("saveFoursquareActivity error", err, venue);
-      //client.end();
-      //startPostgresClient(function(err, client) { return client;});
-      //throw err;
+      return callback(err);
     }
-    callback(err);
+
+    return client.query(query, params, function(err, res) {
+      done();
+
+      if (err) {
+        console.log("saveFoursquareActivity error", err, venue);
+      }
+
+      return callback(err);
+    });
   });
-  // return nothing?
 };
 
 var main = function() {
@@ -1250,7 +1381,11 @@ var main = function() {
 
   } else if (argv.t == 'create_instagram_array') {
 
-    createInstagramArray(process.exit);
+    createInstagramArray(function(err) {
+      if (err) {
+        throw err;
+      }
+    });
 
   } else {
     console.log(argv.t, "not understood");
