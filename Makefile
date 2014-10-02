@@ -37,34 +37,6 @@ twitterHarvesterTable:
 && psql -U openspaces -h geo.local -c "drop table if exists park_tweets_temp;"
 
 #######################################
-### Flickr stuff ######################
-#######################################
-
-# Run daily to process harvested photos.
-flickrParkTable:
-	psql -U openspaces -h geo.local -c "drop table if exists flickr_photos_distinct;" \
-	&& psql -U openspaces -h geo.local -c "create table flickr_photos_distinct as select distinct on (photoid) * from flickr_photos;" \
-	&& psql -U openspaces -h geo.local -c "drop table if exists park_flickr_photos_temp;" \
-	&& psql -U openspaces -h geo.local -c "create table park_flickr_photos_temp as select park.su_id as su_id, park.unit_name as su_name, photo.* from cpad_2013b_superunits_ids as park join flickr_photos_distinct as photo on ST_Contains(park.geom,photo.the_geom);" \
-	&& psql -U openspaces -h geo.local -c "insert into park_flickr_photos select * from park_flickr_photos_temp;"
-# TODO: need to check that photos don't already exist in park_flickr_photos...
-# TODO: we are going to change this, so that each new harvest replaces the old park_flickr_photos table.
-# TODO: dump all harvested photos into an S3 bucket
-
-#######################################
-### Instagram stuff ###################
-#######################################
-
-# Run daily to process harvested photos.
-instagramParkTable:
-	psql -U openspaces -h geo.local -c "drop table if exists instagram_photos_distinct;" \
-	&& psql -U openspaces -h geo.local -c "create table instagram_photos_distinct as select distinct on (photoid) * from instagram_photos;" \
-	&& psql -U openspaces -h geo.local -c "drop table if exists park_instagram_photos_temp;" \
-	&& psql -U openspaces -h geo.local -c "create table park_instagram_photos_temp as select park.su_id as su_id, park.unit_name as su_name, photo.* from cpad_2013b_superunits_ids as park join instagram_photos_distinct as photo on ST_Contains(park.geom,photo.the_geom);" \
-	&& psql -U openspaces -h geo.local -c "insert into park_instagram_photos select * from park_instagram_photos_temp;"
-# TODO: need to check that photos don't already exist in park_instagram_photos...
-
-#######################################
 ### Foursquare stuff ##################
 #######################################
 
