@@ -126,10 +126,42 @@ body.parksforward.responsive {
       background-color: #A4D0C4; }
     body.parksforward.responsive div.content .content-column {
       padding: 15px; }
-    body.parksforward.responsive div.content #map {
-      width: 100%;
-      height: 300px;
-      margin-bottom: 15px; }
+      body.parksforward.responsive div.content .content-column .map-group {
+        float: left;
+        display: block;
+        margin-right: 2.35765%;
+        width: 48.82117%;
+        display: table;
+        width: 100%;
+        table-layout: fixed; }
+        body.parksforward.responsive div.content .content-column .map-group:last-child {
+          margin-right: 0; }
+        body.parksforward.responsive div.content .content-column .map-group:after {
+          content: "";
+          display: table;
+          clear: both; }
+        body.parksforward.responsive div.content .content-column .map-group .map {
+          height: 300px;
+          margin-bottom: 15px; }
+          body.parksforward.responsive div.content .content-column .map-group .map .park-map-dot {
+            border-radius: 999px;
+            background-color: #72C4B9;
+            border: solid 1px white; }
+          body.parksforward.responsive div.content .content-column .map-group .map.in {
+            display: table-cell;
+            width: 66.66667%;
+            padding: 2.35765%;
+            border-right: solid 3px white; }
+            body.parksforward.responsive div.content .content-column .map-group .map.in .park-map-dot {
+              width: 50px;
+              height: 50px; }
+          body.parksforward.responsive div.content .content-column .map-group .map.out {
+            display: table-cell;
+            width: 33.33333%;
+            padding: 2.35765%; }
+            body.parksforward.responsive div.content .content-column .map-group .map.out .park-map-dot {
+              width: 25px;
+              height: 25px; }
     body.parksforward.responsive div.content section#search-box {
       background-color: #A4D0C4; }
       body.parksforward.responsive div.content section#search-box input {

@@ -66,8 +66,7 @@
     //
 
     // create a map in the "map" div, set the view to a given place and zoom
-    console.log(data);
-    var map = L.map('map', {
+    var map1 = L.map(document.querySelector('.map.in'), {
       scrollWheelZoom:false,
       dragging:false,
       touchZoom:false,
@@ -75,12 +74,31 @@
       keyboard:false,
       tap:false,
       zoomControl:false
-    }).setView(data.centroid, 14);
+    }).setView(data.centroid, 13);
 
     // add an OpenStreetMap tile layer
     L.tileLayer('https://b.tiles.mapbox.com/v3/stamen.parksforward/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
+    }).addTo(map1);
+
+    L.marker(data.centroid, {icon: L.divIcon({className: 'park-map-dot'})}).addTo(map1);
+
+    var map2 = L.map(document.querySelector('.map.out'), {
+      scrollWheelZoom:false,
+      dragging:false,
+      touchZoom:false,
+      doubleClickZoom:false,
+      keyboard:false,
+      tap:false,
+      zoomControl:false
+    }).setView(data.centroid, 7);
+
+    // add an OpenStreetMap tile layer
+    L.tileLayer('https://b.tiles.mapbox.com/v3/stamen.parksforward/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map2);
+
+    L.marker(data.centroid, {icon: L.divIcon({className: 'park-map-dot'})}).addTo(map2);
 
     //TODO: move some of this logic out
 
