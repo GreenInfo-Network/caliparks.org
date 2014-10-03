@@ -40,8 +40,8 @@ $$ LANGUAGE 'plpgsql';
 DROP TABLE IF EXISTS instagram_array;
 CREATE TABLE instagram_array AS
   SELECT
-    ST_Y(ST_Centroid(geom)) AS lat,
-    ST_X(ST_Centroid(geom)) AS lng,
+    ST_Y(ST_Transform(ST_Centroid(geom), 4326)) AS lat,
+    ST_X(ST_Transform(ST_Centroid(geom), 4326)) AS lng,
     5000::float AS radius,
     geom AS the_geom
   FROM (
