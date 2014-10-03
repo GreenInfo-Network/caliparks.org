@@ -47,3 +47,9 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER filter_instagram_by_park_shape
 BEFORE INSERT ON instagram_photos
   FOR EACH ROW EXECUTE PROCEDURE update_instagram_photos();
+
+CREATE OR REPLACE RULE instagram_photos_ignore_duplicate_inserts AS
+  ON INSERT TO instagram_photos
+    WHERE (EXISTS (SELECT 1
+      FROM instagram_photos
+      WHERE instagram_photos.photoid = NEW.photoid)) DO INSTEAD NOTHING;
