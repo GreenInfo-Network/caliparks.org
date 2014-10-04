@@ -123,6 +123,11 @@ db/CDB_HexagonGrid: db
 		psql -c "\sf $(subst db/,,$@)" > /dev/null 2>&1 || \
 		psql -f sql/$(subst db/,,$@).sql)
 
+db/GetIntersectingHexagons: db/CDB_HexagonGrid
+	@(set -a && source .env && export $$(pgexplode | xargs) && \
+		psql -c "\sf $(subst db/,,$@)" > /dev/null 2>&1 || \
+		psql -f sql/$(subst db/,,$@).sql)
+
 #######################################
 ### Harvester initialization grids ####
 #######################################
@@ -156,7 +161,7 @@ db/flickr_metadata: db
 
 db/instagram: db/cpad_superunits db/instagram_array db/instagram_metadata db/instagram_photos
 
-db/instagram_array: db/cpad_superunits db/CDB_HexagonGrid
+db/instagram_array: db/cpad_superunits db/GetIntersectingHexagons
 	@(set -a && source .env && export $$(pgexplode | xargs) && \
 		psql -c "\d $(subst db/,,$@)" > /dev/null 2>&1 || \
 		psql -f sql/$(subst db/,,$@).sql)
@@ -167,6 +172,11 @@ db/instagram_metadata: db
 		psql -f sql/$(subst db/,,$@).sql)
 
 db/instagram_photos: db
+	@(set -a && source .env && export $$(pgexplode | xargs) && \
+		psql -c "\d $(subst db/,,$@)" > /dev/null 2>&1 || \
+		psql -f sql/$(subst db/,,$@).sql)
+
+db/instagram_regions: db/cpad_superunits db/GetIntersectingHexagons
 	@(set -a && source .env && export $$(pgexplode | xargs) && \
 		psql -c "\d $(subst db/,,$@)" > /dev/null 2>&1 || \
 		psql -f sql/$(subst db/,,$@).sql)
