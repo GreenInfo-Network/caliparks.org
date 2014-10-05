@@ -816,15 +816,7 @@ var main = function() {
 
   } else if (argv.t == 'instagram') {
 
-    instagram.getPhotosForAllCircles();
-
-  } else if (argv.t == 'create_instagram_array') {
-
-    instagram.createInstagramArray(function(err) {
-      if (err) {
-        throw err;
-      }
-    });
+    instagram();
 
   } else {
     console.log(argv.t, "not understood");
