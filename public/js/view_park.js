@@ -73,7 +73,8 @@
       doubleClickZoom:false,
       keyboard:false,
       tap:false,
-      zoomControl:false
+      zoomControl:false,
+      attributionControl:false
     }).setView(data.centroid, 13);
 
     // add an OpenStreetMap tile layer
@@ -81,7 +82,7 @@
         attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map1);
 
-    L.marker(data.centroid, {icon: L.divIcon({className: 'park-map-dot'})}).addTo(map1);
+    L.marker(data.centroid, {icon: L.divIcon({className: 'park-map-dot',iconSize:false})}).addTo(map1);
 
     var map2 = L.map(document.querySelector('.map.out'), {
       scrollWheelZoom:false,
@@ -98,7 +99,7 @@
         attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map2);
 
-    L.marker(data.centroid, {icon: L.divIcon({className: 'park-map-dot'})}).addTo(map2);
+    L.marker(data.centroid, {icon: L.divIcon({className: 'park-map-dot',iconSize:false})}).addTo(map2);
 
     //TODO: move some of this logic out
 

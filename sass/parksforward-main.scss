@@ -128,28 +128,29 @@ body.parksforward.responsive {
           .park-map-dot {
             border-radius:999px;
             background-color:#72C4B9;
-            border:solid 1px white;
           }
           
           &.in {
-            @include span-columns(4 of 6);
+            @include span-columns(3 of 6);
             @include pad(); 
 
             border-right:solid 3px white;
 
             .park-map-dot {
-              width:50px;
-              height:50px;
+              width:25px;
+              height:25px;
+              border:solid 4px white;
             }
           }
 
           &.out {
-            @include span-columns(2 of 6);
+            @include span-columns(3 of 6);
             @include reset-display;
             @include pad(); 
             .park-map-dot {
-              width:25px;
-              height:25px;
+              width:15px;
+              height:15px;
+              border:solid 2px white;
             }
           }
         }

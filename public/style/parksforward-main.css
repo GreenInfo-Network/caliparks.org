@@ -145,23 +145,24 @@ body.parksforward.responsive {
           margin-bottom: 15px; }
           body.parksforward.responsive div.content .content-column .map-group .map .park-map-dot {
             border-radius: 999px;
-            background-color: #72C4B9;
-            border: solid 1px white; }
+            background-color: #72C4B9; }
           body.parksforward.responsive div.content .content-column .map-group .map.in {
             display: table-cell;
-            width: 66.66667%;
+            width: 50%;
             padding: 2.35765%;
             border-right: solid 3px white; }
             body.parksforward.responsive div.content .content-column .map-group .map.in .park-map-dot {
-              width: 50px;
-              height: 50px; }
+              width: 25px;
+              height: 25px;
+              border: solid 4px white; }
           body.parksforward.responsive div.content .content-column .map-group .map.out {
             display: table-cell;
-            width: 33.33333%;
+            width: 50%;
             padding: 2.35765%; }
             body.parksforward.responsive div.content .content-column .map-group .map.out .park-map-dot {
-              width: 25px;
-              height: 25px; }
+              width: 15px;
+              height: 15px;
+              border: solid 2px white; }
     body.parksforward.responsive div.content section#search-box {
       background-color: #A4D0C4; }
       body.parksforward.responsive div.content section#search-box input {
