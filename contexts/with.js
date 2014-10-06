@@ -16,11 +16,6 @@ module.exports = function(data, _callback) {
       return _callback.apply(null, arguments);
     };
 
-    if (err) {
-      console.error('could not connect to postgres', err);
-      return callback(err);
-    }
-
     if (data.limit) {
       dbLimit = ' LIMIT ' + data.limit;
     }
@@ -33,7 +28,7 @@ module.exports = function(data, _callback) {
     //
     // Split acivities into an array
     //
-    queryArray = dbQuery.split('+');
+    queryArray = sanitizer.sanitize(dbQuery).split('+');
 
     //
     // Limit the amount of activities which can be passed in
@@ -54,7 +49,7 @@ module.exports = function(data, _callback) {
       return " act."+activity+"::text='true'";
     }).join(' AND ');
 
-    return client.query({"name":"amenities","text":"SELECT cpad_2013b_superunits_ids_4326.su_id, activities, agncy_web, own_type, agncy_lev, agncy_name, agncy_id, superunit, label_name, unit_name FROM (SELECT su_id, activities, "+activitiesColumnSQLslug+" FROM site_hipcamp_activities) act INNER JOIN cpad_2013b_superunits_ids_4326 ON cpad_2013b_superunits_ids_4326.su_id=act.su_id WHERE " + activitiesWhereSQLslug}, function(err, result) {
+    return client.query({"text":"SELECT cpad_2013b_superunits_ids_4326.su_id, activities, agncy_web, own_type, agncy_lev, agncy_name, agncy_id, superunit, label_name, unit_name FROM (SELECT su_id, activities, "+activitiesColumnSQLslug+" FROM site_hipcamp_activities) act INNER JOIN cpad_2013b_superunits_ids_4326 ON cpad_2013b_superunits_ids_4326.su_id=act.su_id WHERE " + activitiesWhereSQLslug}, function(err, result) {
       if(err) {
         console.error('error running query', err);
         return callback(err);
