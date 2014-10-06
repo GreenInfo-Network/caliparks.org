@@ -1,62 +1,14 @@
 'use strict';
 
-var env     = require('require-env'),
-    pg      = require('pg'),
-    request = require('request');
+var env      = require('require-env'),
+    pg       = require('pg'),
+    getPlace = require('../library/get-place.js');
 
 module.exports = function(data, callback) {
 
-  var isLatLongTest = /^-?\d*.\d*\,-?\d*.\d*$/,
-      limit         = ((data.options) ? data.options.limit : null) || 100000,
-      not           = ((data.options) ? data.options.not : null) ? ' AND su_id <> ' + parseInt(data.options.not) : '',
-      loc, res;
+  var limit         = ((data.options) ? data.options.limit : null) || 100000,
+      not           = ((data.options) ? data.options.not : null) ? ' AND su_id <> ' + parseInt(data.options.not) : '';
 
-  function getPlace(callback) {
-
-    if (data.query && isLatLongTest.test(data.query)) {
-      loc = data.query.split(',');
-
-      // TODO fetch the map id from the environment
-      request('http://api.tiles.mapbox.com/v3/stamen.hckn2ljm/geocode/'+loc[1]+','+loc[0]+'.json', function (error, response, body) {
-        if (error) {
-          return callback(error);
-        }
-
-        try {
-          callback(null, {
-            'coordinates' : loc,
-            'details'     : JSON.parse(body).results[0][0]
-          });
-        } catch (e) {
-          callback(e);
-        }
-      });
-    } else if(data.query) {
-
-      request('http://api.tiles.mapbox.com/v3/stamen.hckn2ljm/geocode/'+data.query+'.json', function (error, response, body) {
-        if (error) {
-          return callback(error);
-        }
-
-        try {
-          var geocoderRes = JSON.parse(body).results;
-        } catch (e) {
-          callback(e);
-        }
-
-        res = (geocoderRes && geocoderRes[0] && geocoderRes[0][0]) ? geocoderRes[0][0] : {lat:null,lon:null};
-
-        callback(null, {
-          'coordinates' : [res.lat, res.lon],
-          'details'     : res
-        });
-      });
-
-    } else {
-      callback(null,null);
-    }
-
-  }
 
   function cpadRowFilter(item, i, array) {
     delete item.geom;
@@ -76,7 +28,7 @@ module.exports = function(data, callback) {
     }
 
     if (data.query) {
-      getPlace(function(err, place) {
+      getPlace(data.query, function(err, place) {
 
         if (err) {
           return callback(err);
