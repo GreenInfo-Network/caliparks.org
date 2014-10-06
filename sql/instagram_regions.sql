@@ -10,6 +10,8 @@ CREATE TABLE instagram_regions (
   geom geometry(Polygon, 3310) NOT NULL UNIQUE
 );
 
+CREATE INDEX instagram_regions_geom_gist ON instagram_regions USING GIST(geom);
+
 INSERT INTO instagram_regions (center, radius, geom)
   SELECT
     ST_Transform(ST_Centroid(geom), 4326) AS center,

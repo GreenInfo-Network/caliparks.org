@@ -159,17 +159,7 @@ db/flickr_metadata: db
 ### Instagram database tables #########
 #######################################
 
-db/instagram: db/cpad_superunits db/instagram_array db/instagram_metadata db/instagram_photos
-
-db/instagram_array: db/cpad_superunits db/GetIntersectingHexagons
-	@(set -a && source .env && export $$(pgexplode | xargs) && \
-		psql -c "\d $(subst db/,,$@)" > /dev/null 2>&1 || \
-		psql -f sql/$(subst db/,,$@).sql)
-
-db/instagram_metadata: db
-	@(set -a && source .env && export $$(pgexplode | xargs) && \
-		psql -c "\d $(subst db/,,$@)" > /dev/null 2>&1 || \
-		psql -f sql/$(subst db/,,$@).sql)
+db/instagram: db/cpad_superunits db/instagram_regions db/instagram_photos
 
 db/instagram_photos: db
 	@(set -a && source .env && export $$(pgexplode | xargs) && \
