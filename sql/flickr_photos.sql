@@ -1,34 +1,12 @@
 DROP TABLE IF EXISTS flickr_photos;
 CREATE TABLE flickr_photos (
-  photoid bigint PRIMARY KEY,
-  owner varchar(20),
-  secret varchar(20),
-  server int,
-  farm int,
-  title varchar,
-  latitude float,
-  longitude float,
-  accuracy int,
-  context int,
-  place_id varchar(20),
-  woeid bigint,
-  tags varchar,
-  dateupload int,
-  datetaken varchar(30),
-  ownername varchar,
-  description varchar,
-  license int,
-  url_o varchar(80),
-  width_o int,
-  height_o int,
-  url_largest varchar(80),
-  height_largest int,
-  width_largest int,
-  largest_size char,
-  the_geom geometry(Point, 4326)
+  id serial PRIMARY KEY,
+  photo_id bigint NOT NULL,
+  metadata json,
+  geom geometry(Point, 4326)
 );
 
-CREATE INDEX flickr_photos_the_geom_gist ON flickr_photos USING GIST(the_geom);
+CREATE INDEX flickr_photos_geom_gist ON flickr_photos USING GIST(geom);
 
 -- TODO duplicates update_instagram_photos
 CREATE OR REPLACE FUNCTION update_flickr_photos() RETURNS TRIGGER AS $$
@@ -36,8 +14,8 @@ CREATE OR REPLACE FUNCTION update_flickr_photos() RETURNS TRIGGER AS $$
     IF (TG_OP = 'INSERT') THEN
       -- check intersection on INSERT
       PERFORM superunit_id
-      FROM cpad_superunits
-      WHERE ST_Intersects(NEW.the_geom, geom);
+      FROM cpad_superunits cpad
+      WHERE ST_Intersects(ST_Transform(NEW.geom, ST_SRID(cpad.geom)), cpad.geom);
 
       IF NOT FOUND THEN
         RETURN NULL; -- don't insert

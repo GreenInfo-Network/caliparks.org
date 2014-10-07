@@ -141,9 +141,14 @@ db/latlng_array: db/CDB_RectangleGrid db/cpad_superunits
 ### Flickr database tables ############
 #######################################
 
-db/flickr: db/flickr_metadata db/flickr_photos db/cpad_superunits db/latlng_array
+db/flickr: db/flickr_metadata db/flickr_photos db/flickr_regions db/cpad_superunits db/latlng_array
 
 db/flickr_photos: db
+	@(set -a && source .env && export $$(pgexplode | xargs) && \
+		psql -c "\d $(subst db/,,$@)" > /dev/null 2>&1 || \
+		psql -f sql/$(subst db/,,$@).sql)
+
+db/flickr_regions: db/CDB_RectangleGrid db/cpad_superunits
 	@(set -a && source .env && export $$(pgexplode | xargs) && \
 		psql -c "\d $(subst db/,,$@)" > /dev/null 2>&1 || \
 		psql -f sql/$(subst db/,,$@).sql)

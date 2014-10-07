@@ -793,7 +793,7 @@ var main = function() {
 
   if (argv.t == 'flickr') {
 
-    flickr.getPhotosForAllGridCells(process.exit);
+    flickr();
 
   } else if (argv.t == 'foursquare_venues') {
 
