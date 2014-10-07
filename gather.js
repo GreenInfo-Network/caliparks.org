@@ -4,7 +4,6 @@ var fs = require("fs"),
     util = require("util");
 
 var async = require("async"),
-    connect = require("connect"),
     pg = require("pg"),
     request = require("request"),
     env = require("require-env"),
