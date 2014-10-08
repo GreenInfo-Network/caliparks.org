@@ -40,6 +40,8 @@ if (env.contains('NODE_ENV') && env.require('NODE_ENV') !== 'development') {
     console.log('Uncaught error. Reporting to Sentry and exiting.');
     process.exit(1);
   });
+} else {
+  ravenClient.captureError = function(e){};
 }
 
 // you'll need cookies
