@@ -7,7 +7,8 @@ var env               = require('require-env'),
     pg                = require('pg'),
     memwatch          = require('memwatch'),
     raven             = require('raven'),
-    i18n              = require("i18n");
+    i18n              = require("i18n"),
+    geoip             = require('geoip-lite');
 
 var FEATURED_PARKS            = require("./public/data/featured_parks.json"),
     SUPER_UNIT_IDS_BY_HASHTAG = require('./public/data/suIdsByHashtag.json'),
@@ -213,6 +214,7 @@ app.get('/', function(req, res, next) {
     }
 
     templateData.layout = 'responsive';
+    templateData.fuzzyLoc = geoip.lookup(req.connection.remoteAddress);
 
     res.render('home', templateData);
 
