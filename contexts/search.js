@@ -109,7 +109,7 @@ function buildQuery(dbQuery, data, callback) {
     return callback(null,fullQuery);
 
   } else {
-    fullQuery = {"text":'SELECT * FROM cpad_superunits_4326 WHERE unit_name iLIKE \'%' + dbQuery.split("'").join("") + '%\'' + dbLimit};
+    fullQuery = {"text":'SELECT * FROM cpad_superunits_4326 WHERE unit_name iLIKE \'%' + dbQuery.split("'").join("") + '%\''};
     return callback(null,fullQuery);
   }
 }
