@@ -1,19 +1,14 @@
 "use strict";
 
-var fs = require("fs"),
-    util = require("util");
+var fs = require("fs");
 
 var async = require("async"),
     pg = require("pg"),
     request = require("request"),
-    env = require("require-env"),
-    jsts = require("jsts");
+    env = require("require-env");
 
 var flickr = require("./lib/flickr"),
     instagram = require("./lib/instagram");
-
-var factory = new jsts.geom.GeometryFactory();
-var reader = new jsts.io.WKTReader(factory);
 
 var zerocount = 0,
     nonzerocount = 0,
@@ -23,21 +18,6 @@ var zerocount = 0,
 // Expected to be in EPSG:3310.
 var CPAD_TABLE = "cpad_superunits",
     DATABASE_URL = env.require("DATABASE_URL");
-
-function wkt2bbox(row) {
-  // WKT envelope string -> bbox string. sorry.
-  var envelope = row.envelope.replace(/[A-Z\(\)]+/g, ""),
-      envelope = envelope.split(",").map(function(e) { return e.split(" "); }),
-      envelope = [envelope[0], envelope[2]].join();
-
-  return envelope;
-}
-
-function wkt2geom(row) {
-  var geom = reader.read(row.textgeom);
-
-  return geom;
-}
 
 // Similar venues:
 // https://api.foursquare.com/v2/venues/VENUE_ID/similar
@@ -331,66 +311,6 @@ function getFoursquareData(sw, ne, depth, callback) {
   q.push({name: 'top level', sw: sw, ne: ne}, foursquareRecursionQueueTask(null, sw, ne, depth, q, callback));
 
 }
-
-
-/**
- * Get the bounding box for a park.
- *
- * @param park Object{id} Park identifier.
- * @param callback Function(err, coords) Called with an array containing the park's bounding box.
- */
-var getBoundingBoxForPark = function(park, callback) {
-  // connect to pg
-  // query pg
-  // callback with parsed bbox
-  //var query = ["select su_id, unit_name, st_astext(st_envelope(st_transform(st_buffer(st_envelope(geom), 500), 4326)))",
-  //             "as envelope from ", CPAD_TABLE, " where su_id = $1 limit 1"].join("");
-  var query = ["select su_id, unit_name, st_astext(st_envelope(geom)) ",
-               "as envelope from ", CPAD_TABLE, " where su_id = $1 limit 1"].join("");
-
-  return pg.connect(DATABASE_URL, function(err, client, done) {
-    if (err) {
-      return callback(err);
-    }
-
-    return client.query(query, [park.id], function(err, res) {
-      done();
-
-      if (err) {
-        return callback(err);
-      }
-
-      var envelope = wkt2bbox(res.rows[0]);
-
-      return callback(null, envelope);
-
-    });
-  });
-};
-
-var getPolygonForPark = function(park, callback) {
-  var query = ["select unit_name, st_astext(geom)",
-               "as textgeom from ", CPAD_TABLE, " where su_id = $1 limit 1"].join("");
-
-  return pg.connect(DATABASE_URL, function(err, client, done) {
-    if (err) {
-      return callback(err);
-    }
-
-    return client.query(query, [park.id], function(err, res) {
-      done();
-
-      if (err) {
-        return callback(err);
-      }
-
-      var polygon = wkt2geom(res.rows[0]);
-
-      return callback(null, polygon);
-
-    });
-  });
-};
 
 /**
  *  The parks argument should be an array of park superunit ids.
