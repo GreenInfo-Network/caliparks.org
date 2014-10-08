@@ -184,7 +184,7 @@
 
     if (data.nearestParks) {
 
-      $.ajax('/parks/near/' + data.nearestParks.centroid[0] + ',' + data.nearestParks.centroid[1] + '.json?limit=6&not=' + data.su_id, {complete:function(r) {
+      $.ajax('/parks/near/' + data.nearestParks.centroid[0] + ',' + data.nearestParks.centroid[1] + '.json?limit=6&not=' + data.superunit_id, {complete:function(r) {
 
         r.responseJSON.response.parks.forEach(function(park) {
           park.width  = '125';
@@ -198,7 +198,7 @@
 
     var positions = {},
         social_nav_data = {},
-        social_nav_template = '<a href="/park/{su_id}">#{hashtag}</a>';
+        social_nav_template = '<a href="/park/{superunit_id}">#{hashtag}</a>';
     function processSocialNavItem(network, property, r) {
 
       var plus,
@@ -208,7 +208,7 @@
         social_nav_data[property] = r.responseJSON.response.parks;
 
         r.responseJSON.response.parks.forEach(function(p, i, array) {
-          if (p.su_id === data.su_id) {
+          if (p.superunit_id === data.superunit_id) {
             positions[property] = i;
           }
         });

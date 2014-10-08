@@ -18,7 +18,7 @@ module.exports = function(data, _callback) {
 
     dbLimit = data.limit || 10000;
 
-    return client.query('SELECT su_id, unit_name FROM site_park ORDER BY park_area DESC LIMIT '+ dbLimit +';', function(err, result) {
+    return client.query('SELECT superunit_id, unit_name FROM cpad_superunits_4326 ORDER BY gis_acres DESC LIMIT '+ dbLimit +';', function(err, result) {
       if (err) {
         return callback(err);
       }

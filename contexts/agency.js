@@ -28,14 +28,14 @@ module.exports = function(data, _callback) {
     }
 
     return client.query({
-      text   : 'SELECT * FROM site_park WHERE agncy_name = $1 LIMIT $2;',
+      text   : 'SELECT * FROM cpad_superunits_4326 WHERE mng_agncy = $1 LIMIT $2;',
       values : [dbQuery,dbLimit]
     }, function(err, result) {
       if(err) {
         return callback(err);
       }
 
-      var titleArray = (result.rows.length) ? sanitizer.sanitize(result.rows[0].agncy_name).split(',') : null,
+      var titleArray = (result.rows.length) ? sanitizer.sanitize(result.rows[0].mng_agncy).split(',') : null,
           title;
 
       if (titleArray && titleArray.length > 1) {

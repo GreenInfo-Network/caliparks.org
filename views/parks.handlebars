@@ -21,7 +21,7 @@ if (locationParts[4] === 'near' && !locationParts[5]) {
 
   <div  id="parks">
   {{#each parks}}
-      <li><a href="/park/{{su_id}}">{{unit_name}}</a></li>
+      <li><a href="/park/{{superunit_id}}">{{unit_name}}</a></li>
   {{/each}}
 
   {{#if empty}}
@@ -39,7 +39,7 @@ if (locationParts[4] === 'near' && !locationParts[5]) {
     //
     queue = new STMN.QueuedElementList('#parks', {
       queue     : {{{parksQueue}}},
-      template  : '<li><a href="/park/{su_id}">{unit_name}</a></li>',
+      template  : '<li><a href="/park/{superunit_id}">{unit_name}</a></li>',
       batchSize : 100
     });
 

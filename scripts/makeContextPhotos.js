@@ -15,7 +15,7 @@ pg.connect('postgres://eric@localhost/eric', function(err, client, cb) {
     process.exit();
   }
 
-  client.query('select array_to_json(array_agg(row_to_json(t)))from (select su_id, flickrphotos + instagramphotos AS photographed from site_totals where flickrphotos + instagramphotos > 0 order by photographed Desc) t', function(err, response) {
+  client.query('select array_to_json(array_agg(row_to_json(t)))from (select superunit_id, flickrphotos + instagramphotos AS photographed from site_totals where flickrphotos + instagramphotos > 0 order by photographed Desc) t', function(err, response) {
 
     if (err) {
       return console.error(err);

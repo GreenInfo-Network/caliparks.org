@@ -55,7 +55,7 @@ module.exports = function(options) {
     if (typeof data.mixData === "object") {
 
       data.mixData.forEach(function(park) {
-        match_map[park.su_id] = park;
+        match_map[park.superunit_id] = park;
       });
 
       finish(context.map(function(item) {
@@ -63,15 +63,15 @@ module.exports = function(options) {
         // Actually just return the db record
         //
 
-        if (match_map[item.su_id]) {
+        if (match_map[item.superunit_id]) {
           for (var i in item) {
-            if (i !== 'su_id' && match_map[item.su_id]) {
-              match_map[item.su_id][i] = item[i];
+            if (i !== 'superunit_id' && match_map[item.superunit_id]) {
+              match_map[item.superunit_id][i] = item[i];
             }
           }
         }
 
-        return match_map[item.su_id];
+        return match_map[item.superunit_id];
       }), callback);
 
     } else if (validateQuery(theseOptions.query)){
@@ -94,7 +94,7 @@ module.exports = function(options) {
           }
 
           response.rows.forEach(function(park) {
-            match_map[park.su_id] = park;
+            match_map[park.superunit_id] = park;
           });
 
           return finish(context.map(function(item) {
@@ -102,15 +102,15 @@ module.exports = function(options) {
             // Actually just return the db record
             //
 
-            if (match_map[item.su_id]) {
+            if (match_map[item.superunit_id]) {
               for (var i in item) {
-                if (i !== 'su_id' && match_map[item.su_id]) {
-                  match_map[item.su_id][i] = item[i];
+                if (i !== 'superunit_id' && match_map[item.superunit_id]) {
+                  match_map[item.superunit_id][i] = item[i];
                 }
               }
             }
 
-            return match_map[item.su_id];
+            return match_map[item.superunit_id];
           }), callback);
         });
       });

@@ -160,7 +160,7 @@ my_sheet.getRows(1, function(err, row_data){
   //pg.connect('postgres://alan@localhost/openspaces_heroku', function(err, client, done) {
   //pg.connect('postgres://openspaces@localhost/openspaces', function(err, client, done) {
 
-    client.query('select *, (coalesce(checkinscount, 0) + coalesce(flickrphotos, 0) + coalesce(instagramphotos, 0) + coalesce(tweets, 0)) as bestest from park_totals order by bestest desc, su_id;', function(err, response) {
+    client.query('select *, (coalesce(checkinscount, 0) + coalesce(flickrphotos, 0) + coalesce(instagramphotos, 0) + coalesce(tweets, 0)) as bestest from park_totals order by bestest desc, superunit_id;', function(err, response) {
     //client.query('select * from cpad_2013b_superunits_ids', function(err, response) {
 
       //
@@ -168,7 +168,7 @@ my_sheet.getRows(1, function(err, row_data){
       //
       response.rows.forEach(function(park) {
 
-        rows_hash[park.su_id] = park;
+        rows_hash[park.superunit_id] = park;
 
         //
         // Filter out redundantly common strings in open spaces
@@ -195,62 +195,62 @@ my_sheet.getRows(1, function(err, row_data){
         //
         wordcount = trimmed_array.length;
 
-        if (hashtags[park.su_id]) {
+        if (hashtags[park.superunit_id]) {
 
-          console.log("hashtag", hashtags[park.su_id], "already exists for park", park.su_id + ",", park.unit_name);
+          console.log("hashtag", hashtags[park.superunit_id], "already exists for park", park.superunit_id + ",", park.unit_name);
 
         } else {
 
-          ids_to_test.push(park.su_id);
-          hashtags[park.su_id] = '';
+          ids_to_test.push(park.superunit_id);
+          hashtags[park.superunit_id] = '';
 
           if (wordcount === 1) {
 
-            hashtags[park.su_id] += trimmed_array[0].substring(0, 4);
+            hashtags[park.superunit_id] += trimmed_array[0].substring(0, 4);
           
           } else if (wordcount === 2) {
 
-            hashtags[park.su_id] += trimmed_array[0].substring(0, 2);
-            hashtags[park.su_id] += trimmed_array[1].substring(0, 2);
+            hashtags[park.superunit_id] += trimmed_array[0].substring(0, 2);
+            hashtags[park.superunit_id] += trimmed_array[1].substring(0, 2);
 
           } else if (wordcount === 3) {
 
-            hashtags[park.su_id] += trimmed_array[0].substring(0, 2);
-            hashtags[park.su_id] += trimmed_array[1].substring(0, 1);
-            hashtags[park.su_id] += trimmed_array[2].substring(0, 1);
+            hashtags[park.superunit_id] += trimmed_array[0].substring(0, 2);
+            hashtags[park.superunit_id] += trimmed_array[1].substring(0, 1);
+            hashtags[park.superunit_id] += trimmed_array[2].substring(0, 1);
 
           } else if (wordcount === 4) {
 
-            hashtags[park.su_id] += trimmed_array[0].substring(0, 1);
-            hashtags[park.su_id] += trimmed_array[1].substring(0, 1);
-            hashtags[park.su_id] += trimmed_array[2].substring(0, 1);
-            hashtags[park.su_id] += trimmed_array[3].substring(0, 1);
+            hashtags[park.superunit_id] += trimmed_array[0].substring(0, 1);
+            hashtags[park.superunit_id] += trimmed_array[1].substring(0, 1);
+            hashtags[park.superunit_id] += trimmed_array[2].substring(0, 1);
+            hashtags[park.superunit_id] += trimmed_array[3].substring(0, 1);
 
           } else if(wordcount > 3) {
 
-            hashtags[park.su_id] += trimmed_array[0].substring(0, 1);
-            hashtags[park.su_id] += trimmed_array[1].substring(0, 1);
-            hashtags[park.su_id] += trimmed_array[2].substring(0, 1);
-            hashtags[park.su_id] += trimmed_array[3].substring(0, 1);
+            hashtags[park.superunit_id] += trimmed_array[0].substring(0, 1);
+            hashtags[park.superunit_id] += trimmed_array[1].substring(0, 1);
+            hashtags[park.superunit_id] += trimmed_array[2].substring(0, 1);
+            hashtags[park.superunit_id] += trimmed_array[3].substring(0, 1);
 
           }
 
-          //console.log(hashtags[park.su_id]);
-          if (hashtags[park.su_id].length < 4) {
-            tooshort[park.su_id] = hashtags[park.su_id];
+          //console.log(hashtags[park.superunit_id]);
+          if (hashtags[park.superunit_id].length < 4) {
+            tooshort[park.superunit_id] = hashtags[park.superunit_id];
           }
 
         }
 
-        dup_check[hashtags[park.su_id]] = 0;
+        dup_check[hashtags[park.superunit_id]] = 0;
 
       });
 
       progressBarPg.update(.50);
 
       Object.keys(tooshort).forEach(function(key) {
-        //unboring(rows_hash[key].agncy_name).split(' ').join('').substring(0,4-tooshort[key].length);
-        hashtags[key] = unboring(rows_hash[key].agncy_name).split(' ').join('').substring(0,4-tooshort[key].length) + tooshort[key];
+        //unboring(rows_hash[key].mng_agncy).split(' ').join('').substring(0,4-tooshort[key].length);
+        hashtags[key] = unboring(rows_hash[key].mng_agncy).split(' ').join('').substring(0,4-tooshort[key].length) + tooshort[key];
 
         dup_check[hashtags[key]] = 0;
       });
@@ -260,7 +260,7 @@ my_sheet.getRows(1, function(err, row_data){
       //
       // THIS IS WHERE DUPLICATES ARE GIVEN NUMBERS... KIND OF A BIG DEAL
       // This sorts the array so that duplicates are resolved in order
-      // of su_id. This sort of assumes that su_ids will always be
+      // of superunit_id. This sort of assumes that superunit_ids will always be
       // created incrementally
       //
       //Object.keys(hashtags).sort().forEach(function(key) {

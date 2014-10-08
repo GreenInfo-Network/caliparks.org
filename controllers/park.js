@@ -45,33 +45,33 @@ module.exports = function(req, res, data, callback) {
         tweetsPostload      = [],
         flickrPreload       = [],
         flickrPostload      = [],
-        tweets_all, tweets_filtered, thisOne;
+        tweets_all, tweets_filtered, thisOne, centroid;
 
     //
     // Get positions
     //
     contexts.tweets.forEach(function(pos, i) {
-      if ((pos.su_id | 0) === (park_id | 0)) {
+      if ((pos.superunit_id | 0) === (park_id | 0)) {
         positions.tweets = i;
       }
     });
     contexts.foursquareCheckins.forEach(function(pos, i) {
-      if ((pos.su_id | 0) === (park_id | 0)) {
+      if ((pos.superunit_id | 0) === (park_id | 0)) {
         positions.foursquareCheckins = i;
       }
     });
     contexts.foursquareVenues.forEach(function(pos, i) {
-      if ((pos.su_id | 0) === (park_id | 0)) {
+      if ((pos.superunit_id | 0) === (park_id | 0)) {
         positions.foursquareVenues = i;
       }
     });
     contexts.flickrPhotos.forEach(function(pos, i) {
-      if ((pos.su_id | 0) === (park_id | 0)) {
+      if ((pos.superunit_id | 0) === (park_id | 0)) {
         positions.flickrPhotos = i;
       }
     });
     contexts.instagramPhotos.forEach(function(pos, i) {
-      if ((pos.su_id | 0) === (park_id | 0)) {
+      if ((pos.superunit_id | 0) === (park_id | 0)) {
         positions.instagramPhotos = i;
       }
     });
@@ -92,7 +92,7 @@ module.exports = function(req, res, data, callback) {
       }
 
       return async.parallel({
-        result: async.apply(pgClient.query.bind(pgClient), 'select * from site_park where su_id = $1 limit 9000', [park_id]),
+        result: async.apply(pgClient.query.bind(pgClient), 'select *, ST_AsGeoJSON(ST_Centroid(geom)) as centroid from cpad_superunits_4326 where superunit_id = $1 limit 9000', [park_id]),
         flesult: async.apply(pgClient.query.bind(pgClient), 'select photoid, owner, secret, server, farm, title, latitude, longitude, accuracy, woeid, tags, dateupload, datetaken, ownername, description, license, o_width, o_height, url_l, height_l, width_l from site_park_flickr_photos where containing_park_id = $1 limit 9000', [park_id]),
         instasult: async.apply(pgClient.query.bind(pgClient), 'select * from site_instagram_photos where su_id = $1 limit 9000', [park_id]),
         foursult: async.apply(pgClient.query.bind(pgClient), 'select id,venueid,name,lat,lng,address,postcode,city,state,country,cc,categ_id,categ_name,verified,restricted,referral_id,checkinscount,tipcount,likescount,mayor_id,mayor_firstname,mayor_lastname from site_foursquare_venues_activity where su_id = $1 limit 9000', [park_id]),
@@ -132,23 +132,6 @@ module.exports = function(req, res, data, callback) {
               hipcampActivities          = (hasHipcamp) ? hipcampsult.rows[0].activities : null,
               hipcampActivitiesOrganized = [];
 
-          var bbox;
-
-          try {
-            bbox = JSON.parse(result.rows[0].bbox).coordinates[0];
-          } catch (err) {
-            pgClient.end();
-            return callback(err);
-          }
-
-          var kInMiles         = 1.60934,
-              ftInK            = 3280.84,
-              imageWidthPx     = 300,
-              scaleBarWidthPx  = 15,
-              devideBy         = imageWidthPx / scaleBarWidthPx,
-              totalDistanceInK = distance(bbox[0][1], bbox[0][0], bbox[1][1], bbox[1][0]),
-              displayMi        = fuzzyRound((totalDistanceInK/devideBy)/kInMiles),
-              displayFt        = fuzzyRound((totalDistanceInK/devideBy)*ftInK);
 
           //separate the instagram into preload and post load
           // preloading 32
@@ -200,6 +183,15 @@ module.exports = function(req, res, data, callback) {
           });
 
           //
+          // Get the centroid of the CPAD geometry
+          //
+          try {
+            centroid = JSON.parse(result.rows[0].centroid).coordinates;
+          } catch (err) {
+            callback(err);
+          }
+
+          //
           // If the park has hipcamp activities, organize them
           //
           if (hasHipcamp) {
@@ -225,19 +217,12 @@ module.exports = function(req, res, data, callback) {
           // Modify CPAD to work better as an API output
           //
           cpadModified            = result.rows[0]
-          
-          try {
-            cpadModified.park_shape = JSON.parse(result.rows[0].park_shape);
-            cpadModified.bbox       = JSON.parse(result.rows[0].bbox);
-          } catch (e) {
-            callback(e);
-          }
 
           callback( null, {
             appTitle         : 'California Open Spaces > ' + result.rows[0].unit_name,
-            park_id          : result.rows[0].su_id,
+            park_id          : result.rows[0].superunit_id,
             name             : result.rows[0].unit_name,
-            agency_slug      : result.rows[0].agncy_name.split(' ').join('+'),
+            agency_slug      : result.rows[0].mng_agncy.split(' ').join('+'),
             totalPhotos      : flesult.rows.length ? flesult.rows.length : 0,
             flickrPhotos     : flickrPreload,
             flotographer_count : Object.keys(flotographer_count).length,
@@ -245,12 +230,14 @@ module.exports = function(req, res, data, callback) {
             noFlickrScroll   : (flesult.rows.length < 2),
             coverPhoto       : flesult.rows.length ? flesult.rows[0] : null,
             locationDisplay  : {
-              lat : gpsUtil.getDMSLatitude(result.rows[0].centroid_latitude),
-              lon : gpsUtil.getDMSLongitude(result.rows[0].centroid_longitude)
+              lat : gpsUtil.getDMSLatitude(centroid[1]),
+              lon : gpsUtil.getDMSLongitude(centroid[0])
             },
-            centroid               : [result.rows[0].centroid_latitude, result.rows[0].centroid_longitude],
+            centroid               : [centroid[1], centroid[0]],
+            centroid_longitude     : centroid[0],
+            centroid_latitude      : centroid[1],
             cpadPark               : result.rows[0],
-            hashtag                : hashtags[result.rows[0].su_id],
+            hashtag                : hashtags[result.rows[0].superunit_id],
             tweets                 : tweetsPreload,
             tweets_queue           : JSON.stringify(tweetsPostload),
             tweets_queue_count     : tweetsPostload.length,
@@ -271,14 +258,7 @@ module.exports = function(req, res, data, callback) {
             venues_activity        : foursult.rows,
             venues_count           : foursult.rows.length < 1000000 ? venues_count : '1 M +',
             venues_checkins        : foursquare_checkins < 1000000 ? venues_checkins : '1 M +',
-            venues_tips            : foursquare_tips < 1000000 ? venues_tips : '1 M +',
-            parkShapeScale         : {
-              'pixels' : scaleBarWidthPx,
-              'miles'  : fuzzyRound((totalDistanceInK/devideBy)/kInMiles),
-              'feet'   : fuzzyRound((totalDistanceInK/devideBy)*ftInK),
-              'best'   : displayMi > 0 ? numeral(displayMi, '0,0') : numeral(displayFt, '0,0'),
-              'label'  : displayMi > 0 ? (displayMi === 1 ? 'Mile' : 'Miles') : (displayFt === 1 ? 'Foot' : 'Feet')
-            }
+            venues_tips            : foursquare_tips < 1000000 ? venues_tips : '1 M +'
           } );
 
         } else {

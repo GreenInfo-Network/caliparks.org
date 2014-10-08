@@ -10,7 +10,7 @@ console.log('Making a JSON context file for Flickr...');
 
 pg.connect('postgres://eric@localhost/eric', function(err, client, cb) {
 
-  client.query('select array_to_json(array_agg(row_to_json(t)))from (select su_id, flickrphotos from site_totals where flickrphotos > 0 order by flickrphotos Desc) t', function(err, response) {
+  client.query('select array_to_json(array_agg(row_to_json(t)))from (select superunit_id, flickrphotos from site_totals where flickrphotos > 0 order by flickrphotos Desc) t', function(err, response) {
 
     console.log('Writing file to ' + process.argv[2]);
     fs.writeFileSync(process.argv[2], JSON.stringify(response.rows[0].array_to_json), {encoding:'utf8'});

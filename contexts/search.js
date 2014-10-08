@@ -42,7 +42,7 @@ function buildQuery(dbQuery, data, callback) {
 
     // Near
     var limit         = ((data.options) ? data.options.limit : null) || 100000,
-      not           = ((data.options) ? data.options.not : null) ? ' AND su_id <> ' + parseInt(data.options.not) : '';
+      not           = ((data.options) ? data.options.not : null) ? ' AND superunit_id <> ' + parseInt(data.options.not) : '';
 
     getPlace(data._query.near, function(err, place) {
 
@@ -51,7 +51,7 @@ function buildQuery(dbQuery, data, callback) {
       }
 
       fullQuery = {
-        text   : "select *, ST_AsGeoJSON(geom) as geometry, ST_AsGeoJSON(ST_Centroid(geom)) as centroid, ST_distance(geom, st_setsrid(st_makepoint($1,$2),4326)) as distance FROM (select * from cpad_2013b_superunits_ids_4326 INNER JOIN (SELECT su_id, activities, "+activitiesColumnSQLslug+" FROM site_hipcamp_activities) act on act.su_id=cpad_2013b_superunits_ids_4326.su_id WHERE ST_DWithin(geom, st_setsrid(st_makepoint($1,$2),4326), .3)"+not+" AND unit_name iLIKE '%" + dbQuery.split("'").join("") + "%' LIMIT $3) as shortlist order by distance asc;",
+        text   : "select *, ST_AsGeoJSON(geom) as geometry, ST_AsGeoJSON(ST_Centroid(geom)) as centroid, ST_distance(geom, st_setsrid(st_makepoint($1,$2),4326)) as distance FROM (select * from cpad_superunits_4326 INNER JOIN (SELECT su_id, activities, "+activitiesColumnSQLslug+" FROM site_hipcamp_activities) act on act.su_id=cpad_superunits_4326.superunit_id WHERE ST_DWithin(geom, st_setsrid(st_makepoint($1,$2),4326), .3)"+not+" AND unit_name iLIKE '%" + dbQuery.split("'").join("") + "%' LIMIT $3) as shortlist order by distance asc;",
         values : [place.coordinates[1],place.coordinates[0],limit]
       }
 
@@ -62,7 +62,7 @@ function buildQuery(dbQuery, data, callback) {
   } else if (data._query.near && data._query.near.length) { //Has near filter
 
     var limit         = ((data.options) ? data.options.limit : null) || 100000,
-      not           = ((data.options) ? data.options.not : null) ? ' AND su_id <> ' + parseInt(data.options.not) : '';
+      not           = ((data.options) ? data.options.not : null) ? ' AND superunit_id <> ' + parseInt(data.options.not) : '';
 
     getPlace(data._query.near, function(err, place) {
 
@@ -71,7 +71,7 @@ function buildQuery(dbQuery, data, callback) {
       }
 
       fullQuery = {
-        text   : 'select *, ST_AsGeoJSON(geom) as geometry, ST_AsGeoJSON(ST_Centroid(geom)) as centroid, ST_distance(geom, st_setsrid(st_makepoint($1,$2),4326)) as distance from (select * from cpad_2013b_superunits_ids_4326 where ST_DWithin(geom, st_setsrid(st_makepoint($1,$2),4326), .3)'+not+' AND unit_name iLIKE \'%' + dbQuery.split("'").join("") + '%\' LIMIT $3) as shortlist order by distance asc;',
+        text   : 'select *, ST_AsGeoJSON(geom) as geometry, ST_AsGeoJSON(ST_Centroid(geom)) as centroid, ST_distance(geom, st_setsrid(st_makepoint($1,$2),4326)) as distance from (select * from cpad_superunits_4326 where ST_DWithin(geom, st_setsrid(st_makepoint($1,$2),4326), .3)'+not+' AND unit_name iLIKE \'%' + dbQuery.split("'").join("") + '%\' LIMIT $3) as shortlist order by distance asc;',
         values : [place.coordinates[1],place.coordinates[0],limit]
       }
 
@@ -105,11 +105,11 @@ function buildQuery(dbQuery, data, callback) {
       return " act."+activity+"::text='true'";
     }).join(' AND ');
 
-    fullQuery = {"text":"SELECT cpad_2013b_superunits_ids_4326.su_id, activities, agncy_web, own_type, agncy_lev, agncy_name, agncy_id, superunit, label_name, unit_name FROM (SELECT su_id, activities, "+activitiesColumnSQLslug+" FROM site_hipcamp_activities) act INNER JOIN cpad_2013b_superunits_ids_4326 ON cpad_2013b_superunits_ids_4326.su_id=act.su_id WHERE " + activitiesWhereSQLslug + ' AND unit_name iLIKE \'%' + dbQuery.split("'").join("") + '%\'' + dbLimit}
+    fullQuery = {"text":"SELECT cpad_superunits_4326.superunit_id, * FROM (SELECT su_id, activities, "+activitiesColumnSQLslug+" FROM site_hipcamp_activities) act INNER JOIN cpad_superunits_4326 ON cpad_superunits_4326.superunit_id=act.su_id WHERE " + activitiesWhereSQLslug + ' AND unit_name iLIKE \'%' + dbQuery.split("'").join("") + '%\''}
     return callback(null,fullQuery);
 
   } else {
-    fullQuery = {"text":'SELECT * FROM cpad_2013b_superunits_ids_4326 WHERE unit_name iLIKE \'%' + dbQuery.split("'").join("") + '%\'' + dbLimit};
+    fullQuery = {"text":'SELECT * FROM cpad_superunits_4326 WHERE unit_name iLIKE \'%' + dbQuery.split("'").join("") + '%\'' + dbLimit};
     return callback(null,fullQuery);
   }
 }

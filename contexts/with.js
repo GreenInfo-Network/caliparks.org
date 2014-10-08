@@ -49,7 +49,7 @@ module.exports = function(data, _callback) {
       return " act."+activity+"::text='true'";
     }).join(' AND ');
 
-    return client.query({"text":"SELECT cpad_2013b_superunits_ids_4326.su_id, activities, agncy_web, own_type, agncy_lev, agncy_name, agncy_id, superunit, label_name, unit_name FROM (SELECT su_id, activities, "+activitiesColumnSQLslug+" FROM site_hipcamp_activities) act INNER JOIN cpad_2013b_superunits_ids_4326 ON cpad_2013b_superunits_ids_4326.su_id=act.su_id WHERE " + activitiesWhereSQLslug}, function(err, result) {
+    return client.query({"text":"SELECT cpad_superunits_4326.superunit_id, * FROM (SELECT su_id, activities, "+activitiesColumnSQLslug+" FROM site_hipcamp_activities) act INNER JOIN cpad_superunits_4326 ON cpad_superunits_4326.superunit_id=act.su_id WHERE " + activitiesWhereSQLslug}, function(err, result) {
       if(err) {
         console.error('error running query', err);
         return callback(err);

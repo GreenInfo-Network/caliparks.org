@@ -16,20 +16,20 @@ module.exports = function(req, res, data, callback) {
 		}
 
 		client.query({
-			text   : 'SELECT * FROM site_park where agncy_id = $1 ORDER BY agncy_name ASC;',
+			text   : 'SELECT * FROM cpad_superunits_4326 where agncy_id = $1 ORDER BY mng_agncy ASC;',
 			values : [req.params.id]
 		}, function(err, result) {
 			if(err) {
 				return console.error('error running query', err);
 			}
 
-			agency_name_parts = result.rows[0].agncy_name.split(',');
+			agency_name_parts = result.rows[0].mng_agncy.split(',');
 
 			done();
 
 			callback(null, {
 				appTitle : 'California Open Spaces > Parks within ' + (agency_name_parts.length > 1 ? agency_name_parts[1] + ' ' + agency_name_parts[0] : agency_name_parts[0]),
-			 	name     : result.rows[0].agncy_name,
+			 	name     : result.rows[0].mng_agncy,
 			 	parks    : result.rows
 			});
 		});

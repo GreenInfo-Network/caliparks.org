@@ -167,7 +167,7 @@ function go404(req, res, next) {
         }
 
         client.query({
-          text : 'select * from site_park where su_id = $1',
+          text : 'select * from cpad_superunits_4326 where superunit_id = $1',
           values : [possibleHashtag[1]]
         }, function(err, result) {
           if (err) {

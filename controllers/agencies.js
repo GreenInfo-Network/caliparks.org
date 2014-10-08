@@ -11,7 +11,7 @@ module.exports = function(req, res, data, callback) {
       return console.error('could not connect to postgres', err);
     }
 
-    client.query('SELECT agncy_id, agncy_name, count(agncy_id) as park_count FROM site_park GROUP BY agncy_id, agncy_name ORDER BY agncy_name ASC', function(err, result) {
+    client.query('SELECT agncy_id, mng_agncy, count(agncy_id) as park_count FROM cpad_superunits_4326 GROUP BY agncy_id, mng_agncy ORDER BY mng_agncy ASC', function(err, result) {
       if(err) {
         return console.error('error running query', err);
       }

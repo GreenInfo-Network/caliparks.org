@@ -34,7 +34,7 @@
 	      	<li class="social-badge-checkins">{{#pluralize}}{{venues_checkins}} checkin|checkins{{/pluralize}}</li>
 	      </ul>
 	      <p class="park-lat-lon"><a title="Get Directions to {{name}}" href="https://www.google.com/maps/dir//{{cpadPark.centroid_latitude}},{{cpadPark.centroid_longitude}}/@{{cpadPark.centroid_latitude}},{{cpadPark.centroid_longitude}},7z">{{locationDisplay.lat}}, {{locationDisplay.lon}}</a></p>
-	      <p><a href="/parks/agency/{{agency_slug}}">{{#agencyNameDisplay}}{{cpadPark.agncy_name}}{{/agencyNameDisplay}}</a></p>
+	      <p><a href="/parks/agency/{{agency_slug}}">{{#agencyNameDisplay}}{{cpadPark.mng_agncy}}{{/agencyNameDisplay}}</a></p>
 	    </div>
 	    <div>
 	    	<button>Book a campsite</button>
@@ -68,8 +68,8 @@
 	document.addEventListener('DOMContentLoaded', function() {  
 
   	STMN.initView({
-  		su_id: {{cpadPark.su_id}},
-  		centroid  : [parseFloat('{{cpadPark.centroid_latitude}}' || 0, 10),parseFloat('{{cpadPark.centroid_longitude}}' || 0, 10)],
+  		superunit_id: {{cpadPark.superunit_id}},
+  		centroid  : [parseFloat('{{centroid_latitude}}' || 0, 10),parseFloat('{{centroid_longitude}}' || 0, 10)],
   		flickrQueue : {
   			display : {{totalPhotos}} | 0 && document.querySelector('.has-coverphoto'),
 				photos  : {{{queue_flickr_photos}}},
@@ -87,7 +87,7 @@
 					dotLocation  : null,
 					dotRadius    : 3,
 					dotColor     : 'white',
-					dotLocation  : [parseFloat('{{cpadPark.centroid_longitude}}' || 0, 10),parseFloat('{{cpadPark.centroid_latitude}}' || 0, 10)]
+					dotLocation  : [parseFloat('{{centroid_longitude}}' || 0, 10),parseFloat('{{centroid_latitude}}' || 0, 10)]
 				}
 			},
 			instagramQueue : {
