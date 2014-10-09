@@ -8,7 +8,7 @@ var env               = require('require-env'),
     memwatch          = require('memwatch'),
     raven             = require('raven'),
     i18n              = require("i18n"),
-    geoip             = require('geoip-lite');
+    satelize          = require('satelize');
 
 var FEATURED_PARKS            = require("./public/data/featured_parks.json"),
     SUPER_UNIT_IDS_BY_HASHTAG = require('./public/data/suIdsByHashtag.json'),
@@ -214,11 +214,14 @@ app.get('/', function(req, res, next) {
     }
 
     templateData.layout = 'responsive';
-    templateData.fuzzyLoc = geoip.lookup(req.ip);
-    templateData.ip = req.ip;
-    templateData.ipforward = req.headers['X-Forwarded-For'];
+    satelize.satelize({ip:req.ip}, function(err, geoData) {
 
-    res.render('home', templateData);
+      templateData.fuzzyLoc = geoData;
+
+      res.render('home', templateData);
+    });
+
+
 
   });
 });
