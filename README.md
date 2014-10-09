@@ -11,7 +11,7 @@ How to parks.stamen.com
    * Pull the database `heroku pg:pull [your heroku db url] openspaces --app <your app name>`
    * Create a .ENV file in the root of repo with one line: `DATABASE_URL=postgres://[your local user]@localhost/[your local db]`
    * In the root of the repo run `npm install`
-   * then `foreman start`
+   * then `foreman start -f ProcfileDev`
 
 CSS and SASS
 ------------
