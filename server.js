@@ -216,7 +216,7 @@ app.get('/', function(req, res, next) {
     templateData.layout = 'responsive';
     satelize.satelize({ip:req.ip}, function(err, geoData) {
 
-      templateData.fuzzyLoc = geoData;
+      templateData.ip = req.ip;
 
       res.render('home', templateData);
     });
