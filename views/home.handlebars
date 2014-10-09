@@ -4,13 +4,37 @@
 
 <section id="stories" style="height:500px;">
 
+  <style>
+    body.parksforward.responsive .block-story {
+      width:200px;
+      height:200px;
+      border:solid 1px black;
+      display:inline-block;
+      background-size:cover;
+      background-position:center;
+      float:left;
+      padding:10px;
+      color:white;
+      font-size:35px;
+      line-height:40px;
+      padding-top:5%;
+      cursor:pointer;
+    }
+
+    body.parksforward.responsive .block-story a {
+      color:white;
+      background:rgba(154,156,159,.4);
+    }
+  </style>
+
   <div>
     {{#__}}The Dan{{/__}}
-    <p>-{{ip}}-</p>
     <ul>
-      <li>
-        <a href=""></a>
-      </li>
+      {{#each stories}}
+        <li>
+          {{>block-story this}}
+        </li>
+      {{/each}}
     </ul>
   </div>
 

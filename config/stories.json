@@ -1,0 +1,55 @@
+[
+  {
+    "copy"           : "Ride the singletrack",
+    "photo"          : "https://farm7.staticflickr.com/6237/6304761071_6ed6df0964_z.jpg",
+    "attributionUrl" : "https://www.flickr.com/photos/7701678@N07/6304761071",
+    "parks"          : [1767,1570,13774,1478,8048,1395,1668],
+    "slug"           : "ride-the-singletrack"
+  },
+  {
+    "copy"           : "Go off road",
+    "photo"          : "https://farm5.staticflickr.com/4133/4988821723_035ea5ec65_z.jpg",
+    "attributionUrl" : "https://www.flickr.com/photos/24958892@N00/4988821723",
+    "with"           : ["ohv"]
+  },
+  {
+    "copy"           : "Picnic with a crowd",
+    "photo"          : "https://farm9.staticflickr.com/8381/8554445889_0f33be0fe6_z.jpg",
+    "attributionUrl" : "https://www.flickr.com/photos/69383014@N02/8554445889",
+    "parks"          : [4617,3460,3048,9645,7921,2069,9605,12825,9476,13528,3873,7820,8326,513,9103,5909,5699,9269,9875,11581,5132],
+    "slug"           : "picnic-with-a-crowd"
+  },
+  {
+    "copy"           : "Hit the beach",
+    "photo"          : "https://farm9.staticflickr.com/8098/8485125960_eb48e6e824_z.jpg",
+    "attributionUrl" : "https://www.flickr.com/photos/22410928@N07/8485125960",
+    "parks"          : [14728,1617,1642,1672,1461,1762,1638,1485,1420,1575,1549,2050,1775,11800,1655,1474,1726,1695,5616,1554,1743,1429,1463,1669,1632,1727,12005,1619,1551,1950,1709,1615,12102,1686,1605,1793,1529,6039,1773,1724,1629,1657,1647,1786,1741,1674,1740,1693,1443,1622,1978,1467,1723,1637,1604,1591,1462,1607,1789,13878,1728,1752,1496,1646,1715,1466,12032],
+    "slug"           : "hit-the-beach"
+  },
+  {
+    "copy"           : "Walk the dog!",
+    "photo"          : "https://farm7.staticflickr.com/6011/5992804530_5eebfc9247_z.jpg",
+    "attributionUrl" : "https://www.flickr.com/photos/cruzincanines/5992804530",
+    "parks"          : [4617,3460,3048,9645,7921,2069,9605,12825,9476,13528,3873,7820,8326,513,9103,5909,5699,9269,9875,11581,5132],
+    "slug"           : "walk-the-dog"
+  },
+  {
+    "copy"           : "Climb the walls",
+    "photo"          : "https://farm8.staticflickr.com/7168/6677509939_89bc171f10_z.jpg",
+    "attributionUrl" : "https://www.flickr.com/photos/63106298@N02/6677509939",
+    "with"           : ["climbing"]
+  },
+  {
+    "copy"           : "Camp in the Woods",
+    "photo"          : "https://farm9.staticflickr.com/8318/7995114206_6b5f576cba_z.jpg",
+    "attributionUrl" : "https://www.flickr.com/photos/27819017@N02/7995114206",
+    "with"           : ["camping"]
+  },
+  {
+    "copy"           : "Spot wildflowers",
+    "photo"          : "https://farm9.staticflickr.com/8392/8459424122_8643a9f20e_z.jpg",
+    "attributionUrl" : "https://www.flickr.com/photos/11847703@N05/8459424122",
+    "parks"          : [14310,1396,1566,1424],
+    "slug"           : "spot-wildflowers"
+  }
+]

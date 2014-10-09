@@ -7,8 +7,7 @@ var env               = require('require-env'),
     pg                = require('pg'),
     memwatch          = require('memwatch'),
     raven             = require('raven'),
-    i18n              = require("i18n"),
-    satelize          = require('satelize');
+    i18n              = require("i18n");
 
 var FEATURED_PARKS            = require("./public/data/featured_parks.json"),
     SUPER_UNIT_IDS_BY_HASHTAG = require('./public/data/suIdsByHashtag.json'),
@@ -214,14 +213,8 @@ app.get('/', function(req, res, next) {
     }
 
     templateData.layout = 'responsive';
-    satelize.satelize({ip:req.ip}, function(err, geoData) {
 
-      templateData.ip = req.ip;
-
-      res.render('home', templateData);
-    });
-
-
+    res.render('home', templateData);
 
   });
 });
@@ -444,10 +437,14 @@ app.get('/parks/:context/:query', function(req,res, next) {
       return next(err);
     }
 
-    templateData.hasAPI = true;
-    templateData.layout = 'responsive';
+    if (templateData) {
+      templateData.hasAPI = true;
+      templateData.layout = 'responsive';
 
-    res.render('parks', templateData);
+      res.render('parks', templateData);
+    } else {
+      go404.apply(null,[req, res, next]);
+    }
 
   });
 

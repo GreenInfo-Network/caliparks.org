@@ -5,7 +5,8 @@ var pg = require('pg');
 var contextBiggestToSmallest = require('../contexts/biggest-to-smallest.js'),
     contextMostPhotographed  = require('../contexts/most-photographed.js'),
     contextMostTweets        = require('../contexts/most-tweets.js'),
-    contextMostCheckins      = require('../contexts/most-checkins.js');
+    contextMostCheckins      = require('../contexts/most-checkins.js'),
+    stories                  = require('../library/stories.js');
 
 var suIdsByHashtag  = require('../public/data/suIdsByHashtag.json'),
     hashtags        = require('../public/data/hashtagsBySuId.json'),
@@ -116,6 +117,7 @@ module.exports = function(req, res, data, callback) {
             most_checkinsQueue     : JSON.stringify(mostCheckins[1]),
             suIdsByHashtagJSON     : JSON.stringify(suIdsByHashtag),
             hashtags               : hashtags,
+            stories                : stories.get(),
             reverseSort : {
               size:(sortSettings['size'] === 'asc'),
               photos:(sortSettings['photos'] === 'asc'),
