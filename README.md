@@ -19,7 +19,7 @@ This project uses <a href="http://sass-lang.com/">SASS</a>. DO NOT edit the .css
 
 To deploy
 ---------
-`git push heroku master`
+`git push heroku parksforward:master`
 
 The Harvesters
 ---------
