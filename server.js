@@ -214,7 +214,7 @@ app.get('/', function(req, res, next) {
     }
 
     templateData.layout = 'responsive';
-    templateData.fuzzyLoc = geoip.lookup(req.connection.remoteAddress);
+    templateData.fuzzyLoc = geoip.lookup(req.ip);
     templateData.ip = req.ip;
     templateData.ipforward = req.headers['X-Forwarded-For'];
 
