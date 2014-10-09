@@ -6,7 +6,9 @@
 
   <div>
     {{#__}}The Dan{{/__}}
-    --{{fuzzyLoc}}--
+    <p>--{{fuzzyLoc}}--</p>
+    <p>--{{ip}}--</p>
+    <p>--{{ipforward}}--</p>
     {{#if fuzzyLoc.city}}<br>You are in {{fuzzyLoc.city}}{{/if}}
     <ul>
       <li>
