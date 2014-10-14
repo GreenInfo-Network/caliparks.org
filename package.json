@@ -11,7 +11,7 @@
     }
   ],
   "scripts": {
-    "start": "node server",
+    "start": "foreman start -f ProcfileDev",
     "test": "mocha test"
   },
   "repository": {

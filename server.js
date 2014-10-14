@@ -212,7 +212,7 @@ app.get('/', function(req, res, next) {
       return next(err);
     }
 
-    templateData.layout = 'responsive';
+    templateData.layout = 'responsive2';
 
     res.render('home', templateData);
 

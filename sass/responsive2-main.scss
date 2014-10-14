@@ -1,0 +1,214 @@
+@import "reset";
+@import "bourbon";
+@import "neat";
+
+/*
+*  Variables for everything
+*/
+$box-padding: 10px;
+
+$color-dark: #333;
+
+$animation-speed: .5s;
+
+$font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+
+/*
+*  Styles for everything
+*/
+body.parksforward.responsive2 {
+  @include outer-container;
+
+  background-color:$color-dark;
+  font-size: 37px;
+  color:#333;
+  max-width:1024px;
+  font-family: $font-family;
+  font-weight: 300;
+
+  a {
+    text-decoration:none;
+  }
+
+  h1, h2, h3, h4 {
+    color:white;
+  }
+
+  h1 {
+    font-size:150%;
+    margin-bottom:$box-padding;
+  }
+
+  //
+  // Blocks
+  //
+  .block-search-box {
+    padding:0;
+
+    form {
+      display:block;
+      position:relative;
+      width:100%;
+      height:100%;
+      padding:0 140px 0 0;
+      input[type=search] {
+        width: 100%;
+        border: solid 0px transparent;
+        border-radius: 10px 0px 0px 10px;
+        height: 58px;
+        font-size: 65%;
+        outline: none;
+
+        &[type="search"]::-webkit-search-decoration,
+        &[type="search"]::-webkit-search-results-button,
+        &[type="search"]::-webkit-search-results-decoration {
+          display: none;
+        }
+
+        &[type="search"]::-webkit-search-cancel-button {
+          -webkit-appearance: none;
+
+          /* Now your own custom styles */
+          height: 10px;
+          width: 10px;
+          background: #333;
+          border-radius:999px;
+        }
+
+        &::-webkit-input-placeholder {
+           font-family:$font-family;
+           padding-left:$box-padding;
+        }
+
+        &:-moz-placeholder { /* Firefox 18- */
+           font-family:$font-family;
+           padding-left:$box-padding;
+        }
+
+        &::-moz-placeholder {  /* Firefox 19+ */
+           font-family:$font-family;
+           padding-left:$box-padding;
+        }
+
+        &:-ms-input-placeholder {
+           font-family:$font-family;
+           padding-left:$box-padding;
+        }
+      }
+      .search-actions {
+        height: 58px;
+        background-color:white;
+        overflow:hidden;
+        width:140px;
+        position:absolute;
+        bottom:0;
+        right:0;
+        border-radius: 0px 10px 10px 0px;
+
+        button {
+          background-color:transparent;
+          border:solid 0px transparent;
+          overflow:hidden;
+          outline: none;
+
+          &.locate-me {
+            width: 34.5px;
+            padding: 0;
+            height: 34.5px;
+            position: absolute;
+            right: 93px;
+            top: 12px;
+            color: transparent;
+            cursor:pointer;
+
+            svg {
+              width:34.5px;
+              height:34.5px;
+              path {
+                fill: rgb(153, 153, 153);
+              }
+            }
+          }
+
+          &.go {
+            height: 100%;
+            width:78px;
+            position: absolute;
+            right: 0px;
+            background-color: rgb(0, 128, 252);
+            font-size: 65%;
+            color:white;
+            font-family:$font-family;
+            text-transform: uppercase;
+            cursor:pointer;
+          }
+        }
+      }
+    }
+  }
+
+  .block-header-search {
+
+    h1 {
+      margin-bottom:50px;
+    }
+
+    .block-search-box {
+      width:431px;
+      margin:0 auto;
+    }
+  }
+
+  //
+  // Layout sections
+  //
+
+  header {
+    @include span-columns(6 of 6);
+
+    height:281px;
+    padding:$box-padding;
+    transition:height $animation-speed;
+    background-color:rgb(60,37,24);
+    text-align:center;
+    background-image:url('/style/responsive2/blocks/header-search/bg-l.png');
+    background-size:cover;
+    background-position:center;
+  }
+
+  .content {
+    @include span-columns(6 of 6);
+
+    overflow:hidden;
+
+  }
+
+  footer {
+    @include span-columns(6 of 6);
+
+  }
+
+}
+
+/*
+*  Styles for Desktop
+*/
+
+/*
+*  Styles for Mobile
+*/
+@media (max-width : 720px) {
+  body.parksforward.responsive2 {
+
+    font-size: 35px;
+
+    h1 {
+      font-size:100%;
+    }
+
+    header {
+      height:239px;
+      background-image:url('/style/responsive2/blocks/header-search/bg-m.jpg');
+    }
+  }
+}
