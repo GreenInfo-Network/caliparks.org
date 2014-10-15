@@ -1,27 +1,16 @@
 'use strict';
 
-var util = require('util');
-
 var async    = require('async'),
+    env      = require('require-env'),
     pg       = require('pg'),
     gpsUtil  = require('gps-util'),
-    distance = require('gps-distance'),
     numeral  = require('numeral');
 
-var dbCon    = process.env.DATABASE_URL,
-    hashtags = require('../public/data/hashtagsBySuId.json'),
+var DATABASE_URL = env.require('DATABASE_URL');
+
+var hashtags = require('../public/data/hashtagsBySuId.json'),
     contexts = {},
     cpadModified;
-
-function fuzzyRound(N) {
-  var rounded = Math.max(Math.round(N / 10) * 10);
-  
-  if(rounded === 0) {
-    return N | 0;
-  } else {
-    return rounded;
-  }
-}
 
 contexts.tweets = require('../public/data/context-tweets.json');
 contexts.foursquareCheckins = require('../public/data/context-foursquare-checkins.json');
@@ -30,22 +19,21 @@ contexts.flickrPhotos = require('../public/data/context-flickr-photos.json');
 contexts.instagramPhotos = require('../public/data/context-instagram-photos.json');
 
 module.exports = function(req, res, data, callback) {
-    var pgClient = new pg.Client(dbCon);
-
     var park_id = req.params.id,
         positions = {};
 
     var template  = 'park',
-        foursquare_checkins = 0, 
-        foursquare_tips     = 0, 
-        tweet_iteration     = 0,
+        foursquare_checkins = 0,
+        foursquare_tips     = 0,
         instagramPreload    = [],
         instagramPostload   = [],
         tweetsPreload       = [],
         tweetsPostload      = [],
         flickrPreload       = [],
         flickrPostload      = [],
-        tweets_all, tweets_filtered, thisOne, centroid;
+        title,
+        thisOne,
+        centroid;
 
     //
     // Get positions
@@ -84,24 +72,25 @@ module.exports = function(req, res, data, callback) {
       title    = data.overrideTemplates[park_id].title;
     }
 
-    pgClient.connect(function(err) {
-      if(err) {
-        console.error('could not connect to postgres', err);
-        pgClient.end();
+    return pg.connect(DATABASE_URL, function(err, client, done) {
+      if (err) {
+        done();
         return callback(err);
       }
 
+      var query = client.query.bind(client);
+
       return async.parallel({
-        result: async.apply(pgClient.query.bind(pgClient), 'select *, ST_AsGeoJSON(ST_Centroid(geom)) as centroid from cpad_superunits_4326 where superunit_id = $1 limit 9000', [park_id]),
-        flesult: async.apply(pgClient.query.bind(pgClient), 'select photoid, owner, secret, server, farm, title, latitude, longitude, accuracy, woeid, tags, dateupload, datetaken, ownername, description, license, o_width, o_height, url_l, height_l, width_l from site_park_flickr_photos where containing_park_id = $1 limit 9000', [park_id]),
-        instasult: async.apply(pgClient.query.bind(pgClient), 'select * from site_instagram_photos where su_id = $1 limit 9000', [park_id]),
-        foursult: async.apply(pgClient.query.bind(pgClient), 'select id,venueid,name,lat,lng,address,postcode,city,state,country,cc,categ_id,categ_name,verified,restricted,referral_id,checkinscount,tipcount,likescount,mayor_id,mayor_firstname,mayor_lastname from site_foursquare_venues_activity where su_id = $1 limit 9000', [park_id]),
-        tweetsult: async.apply(pgClient.query.bind(pgClient), 'select id_str, place, coords, username, fullname, client, date, retweet_count, favorite_count, lang, content from site_tweets where su_id = $1 limit 9000', [park_id]),
-        hipcampsult: async.apply(pgClient.query.bind(pgClient), 'select * from site_hipcamp_activities where su_id=$1', [park_id])
+        result: async.apply(query, 'select *, ST_AsGeoJSON(ST_Centroid(geom)) as centroid from cpad_superunits_4326 where superunit_id = $1 limit 9000', [park_id]),
+        flesult: async.apply(query, 'select photoid, owner, secret, server, farm, title, latitude, longitude, accuracy, woeid, tags, dateupload, datetaken, ownername, description, license, o_width, o_height, url_l, height_l, width_l from site_park_flickr_photos where containing_park_id = $1 limit 9000', [park_id]),
+        instasult: async.apply(query, 'select * from site_instagram_photos where su_id = $1 limit 9000', [park_id]),
+        foursult: async.apply(query, 'select id,venueid,name,lat,lng,address,postcode,city,state,country,cc,categ_id,categ_name,verified,restricted,referral_id,checkinscount,tipcount,likescount,mayor_id,mayor_firstname,mayor_lastname from site_foursquare_venues_activity where su_id = $1 limit 9000', [park_id]),
+        tweetsult: async.apply(query, 'select id_str, place, coords, username, fullname, client, date, retweet_count, favorite_count, lang, content from site_tweets where su_id = $1 limit 9000', [park_id]),
+        hipcampsult: async.apply(query, 'select * from site_hipcamp_activities where su_id=$1', [park_id])
       }, function(err, apiResponse) {
+        done();
+
         if (err) {
-          console.error('error running query', err);
-          pgClient.end();
           return callback(err);
         }
 
@@ -147,9 +136,8 @@ module.exports = function(req, res, data, callback) {
             if(i < 32) {
               instagramPreload.push(photo);
             } else {
-              instagramPostload.push(photo)
+              instagramPostload.push(photo);
             }
-
           });
 
           //separate the tweets into preload and post load
@@ -162,9 +150,8 @@ module.exports = function(req, res, data, callback) {
             if(i < 10) {
               tweetsPreload.push(tweet);
             } else {
-              tweetsPostload.push(tweet)
+              tweetsPostload.push(tweet);
             }
-
           });
 
           //separate flickr into preload and post load
@@ -177,9 +164,8 @@ module.exports = function(req, res, data, callback) {
             if(i < 5) {
               flickrPreload.push(photo);
             } else {
-              flickrPostload.push(photo)
+              flickrPostload.push(photo);
             }
-
           });
 
           //
@@ -188,7 +174,7 @@ module.exports = function(req, res, data, callback) {
           try {
             centroid = JSON.parse(result.rows[0].centroid).coordinates;
           } catch (err) {
-            callback(err);
+            return callback(err);
           }
 
           //
@@ -216,9 +202,9 @@ module.exports = function(req, res, data, callback) {
           //
           // Modify CPAD to work better as an API output
           //
-          cpadModified            = result.rows[0]
+          cpadModified            = result.rows[0];
 
-          callback( null, {
+          return callback(null, {
             appTitle         : 'California Open Spaces > ' + result.rows[0].unit_name,
             park_id          : result.rows[0].superunit_id,
             name             : result.rows[0].unit_name,
@@ -259,15 +245,11 @@ module.exports = function(req, res, data, callback) {
             venues_count           : foursult.rows.length < 1000000 ? venues_count : '1 M +',
             venues_checkins        : foursquare_checkins < 1000000 ? venues_checkins : '1 M +',
             venues_tips            : foursquare_tips < 1000000 ? venues_tips : '1 M +'
-          } );
+          });
 
         } else {
-          callback( null, null );
+          return callback();
         }
-      
-        pgClient.end();
-
       });
     });
-
-}
+};
