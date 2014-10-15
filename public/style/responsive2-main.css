@@ -74,6 +74,7 @@ body.parksforward.responsive2 {
       body.parksforward.responsive2 .block-search-box form input[type=search] {
         width: 100%;
         border: solid 0px transparent;
+        -webkit-appearance: none;
         border-radius: 10px 0px 0px 10px;
         height: 58px;
         font-size: 65%;
@@ -151,13 +152,19 @@ body.parksforward.responsive2 {
     body.parksforward.responsive2 .block-header-search h1 {
       margin-bottom: 50px; }
     body.parksforward.responsive2 .block-header-search .block-search-box {
-      width: 431px;
+      max-width: 431px;
       margin: 0 auto; }
   body.parksforward.responsive2 .block-story {
     height: 100%;
     width: 100%;
     background-size: cover;
     background-position: center; }
+    body.parksforward.responsive2 .block-story a {
+      color: white;
+      display: inline-block;
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 0px 10px;
+      margin: 5px; }
   body.parksforward.responsive2.index header {
     float: left;
     display: block;
@@ -217,12 +224,14 @@ body.parksforward.responsive2 {
 
 @media (max-width: 720px) {
   body.parksforward.responsive2 {
-    font-size: 35px; }
+    font-size: 17px; }
     body.parksforward.responsive2 h1 {
       font-size: 100%; }
     body.parksforward.responsive2 .block-header-search {
-      height: 239px;
+      height: 119px;
       background-image: url('/style/responsive2/blocks/header-search/bg-m.jpg'); }
+      body.parksforward.responsive2 .block-header-search h1 {
+        margin-bottom: 10px; }
     body.parksforward.responsive2.index .content section#stories ul {
       padding-right: 0; }
       body.parksforward.responsive2.index .content section#stories ul li {
