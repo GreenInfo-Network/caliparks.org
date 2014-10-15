@@ -5,7 +5,7 @@
 /*
 *  Variables for everything
 */
-$box-padding: 10px;
+$box-padding: 5px;
 
 $color-dark: #333;
 
@@ -174,12 +174,28 @@ body.parksforward.responsive2 {
     background-size:cover;
     background-position:center;
 
-    a {
-      color: white;
-      display: inline-block;
-      background-color: rgba(0,0,0,.5);
-      padding: 0px 10px;
-      margin: 5px;
+    .details {
+
+      padding-top: 2px;
+
+      a {
+        color: white;
+        display: block;
+        background-color: rgba(27,30,88,.5);
+        padding: 0px 12px;
+        margin: $box-padding $box-padding 0 $box-padding;
+        overflow:hidden;
+      }
+
+      a.attribution-link {
+        padding: 0;
+        font-size: 50%;
+        line-height: 1em;
+        height: 1em;
+        margin-top: 0px;
+        padding-left: 12px;
+        background-color: rgba(0,0,0,.5);
+      }
     }
   }
 
@@ -250,7 +266,15 @@ body.parksforward.responsive2 {
 
     footer {
       @include span-columns(12 of 12);
+      background-color:black;
+      padding:20px;
+      font-size: 50%;
+      line-height: 50%;
+      color:white;
 
+      a {
+        color:white;
+      }
     }
   }
 
@@ -322,6 +346,12 @@ body.parksforward.responsive2 {
 
           }
         }
+      }
+
+      footer {
+        font-size: 75%;
+        line-height: 75%;
+        padding: 17px;
       }
     }
   }
