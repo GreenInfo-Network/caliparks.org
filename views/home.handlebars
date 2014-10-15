@@ -1,27 +1,4 @@
-<section id="stories" style="height:500px;">
-
-  <style>
-    body.parksforward.responsive .block-story {
-      width:200px;
-      height:200px;
-      border:solid 1px black;
-      display:inline-block;
-      background-size:cover;
-      background-position:center;
-      float:left;
-      padding:10px;
-      color:white;
-      font-size:35px;
-      line-height:40px;
-      padding-top:5%;
-      cursor:pointer;
-    }
-
-    body.parksforward.responsive .block-story a {
-      color:white;
-      background:rgba(154,156,159,.4);
-    }
-  </style>
+<section id="stories">
 
   <div>
     <ul>
@@ -34,17 +11,4 @@
   </div>
 
 </section>
-
-<script>
-if (!window.STMN) {
-  window.STMN = {};
-}
-window.STMN.parkShapes = {
-  parksQueue             : {{{parksQueue}}},
-  most_photographedQueue : {{{most_photographedQueue}}},
-  most_tweetsQueue       : {{{most_tweetsQueue}}},
-  most_checkinsQueue     : {{{most_checkinsQueue}}}
-}
-window.STMN.glopTemplate = '{{>glop_park-js}}';
-</script>
 <script src="/js/view_home.js"></script>

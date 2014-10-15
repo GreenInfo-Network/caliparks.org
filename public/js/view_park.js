@@ -111,7 +111,7 @@
 
     if (data.flickrQueue.display) {
       var carousel = new SetUpCaousel('#coverphoto-carousel');
-      
+
       flickrPhotos = new STMN.QueuedElementList('#coverphoto-carousel', {
         queue     : data.flickrQueue.photos,
         template  : data.flickrQueue.template,
@@ -131,7 +131,7 @@
     //
     if (data.UsCaShape.display) {
       displayUsCa(
-        data.UsCaShape.rootSelector, 
+        data.UsCaShape.rootSelector,
         data.UsCaShape.options
       );
     }
@@ -203,7 +203,7 @@
 
       var plus,
           minus;
-        
+
       if (r.responseJSON && r.responseJSON.response) {
         social_nav_data[property] = r.responseJSON.response.parks;
 
