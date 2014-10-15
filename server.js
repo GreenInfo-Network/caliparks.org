@@ -2,7 +2,7 @@
 
 var env               = require('require-env'),
     express           = require('express'),
-    exphbs            = require('express3-handlebars'),
+    exphbs            = require('express-handlebars'),
     overrideTemplates = require('./override-templates.json'),
     pg                = require('pg'),
     memwatch          = require('memwatch'),
