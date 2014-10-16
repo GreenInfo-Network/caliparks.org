@@ -6,7 +6,8 @@ var async    = require('async'),
     gpsUtil  = require('gps-util'),
     numeral  = require('numeral');
 
-var flickr = require('../lib/flickr'),
+var cpad = require('../lib/cpad'),
+    flickr = require('../lib/flickr'),
     foursquare = require('../lib/foursquare'),
     instagram = require('../lib/instagram');
 
@@ -85,7 +86,7 @@ module.exports = function(req, res, data, callback) {
       var query = client.query.bind(client);
 
       return async.parallel({
-        result: async.apply(query, 'select *, ST_AsGeoJSON(ST_Centroid(geom)) as centroid from cpad_superunits_4326 where superunit_id = $1 limit 9000', [park_id]),
+        result: async.apply(cpad.getPark, park_id),
         flesult: async.apply(flickr.getPhotosForPark, park_id),
         instasult: async.apply(instagram.getPhotosForPark, park_id),
         foursult: async.apply(foursquare.getVenuesForPark, park_id),
@@ -108,7 +109,7 @@ module.exports = function(req, res, data, callback) {
         //
         // Was a park found? if not, just 404
         //
-        if (result.rows[0]) {
+        if (result) {
 
           //
           // Get checkins and tips count from Foursquare
@@ -176,7 +177,7 @@ module.exports = function(req, res, data, callback) {
           // Get the centroid of the CPAD geometry
           //
           try {
-            centroid = JSON.parse(result.rows[0].centroid).coordinates;
+            centroid = JSON.parse(result.centroid).coordinates;
           } catch (err) {
             return callback(err);
           }
@@ -206,13 +207,13 @@ module.exports = function(req, res, data, callback) {
           //
           // Modify CPAD to work better as an API output
           //
-          cpadModified            = result.rows[0];
+          cpadModified            = result;
 
           return callback(null, {
-            appTitle         : 'California Open Spaces > ' + result.rows[0].unit_name,
-            park_id          : result.rows[0].superunit_id,
-            name             : result.rows[0].unit_name,
-            agency_slug      : result.rows[0].mng_agncy.split(' ').join('+'),
+            appTitle         : 'California Open Spaces > ' + result.unit_name,
+            park_id          : result.superunit_id,
+            name             : result.unit_name,
+            agency_slug      : result.mng_agncy.split(' ').join('+'),
             totalPhotos      : flesult.length ? flesult.length : 0,
             flickrPhotos     : flickrPreload,
             flotographer_count : Object.keys(flotographer_count).length,
@@ -226,8 +227,8 @@ module.exports = function(req, res, data, callback) {
             centroid               : [centroid[1], centroid[0]],
             centroid_longitude     : centroid[0],
             centroid_latitude      : centroid[1],
-            cpadPark               : result.rows[0],
-            hashtag                : hashtags[result.rows[0].superunit_id],
+            cpadPark               : result,
+            hashtag                : hashtags[result.superunit_id],
             tweets                 : tweetsPreload,
             tweets_queue           : JSON.stringify(tweetsPostload),
             tweets_queue_count     : tweetsPostload.length,
