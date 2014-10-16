@@ -9,7 +9,8 @@ var async    = require('async'),
 var cpad = require('../lib/cpad'),
     flickr = require('../lib/flickr'),
     foursquare = require('../lib/foursquare'),
-    instagram = require('../lib/instagram');
+    instagram = require('../lib/instagram'),
+    twitter = require('../lib/twitter');
 
 var DATABASE_URL = env.require('DATABASE_URL');
 
@@ -90,7 +91,7 @@ module.exports = function(req, res, data, callback) {
         flesult: async.apply(flickr.getPhotosForPark, park_id),
         instasult: async.apply(instagram.getPhotosForPark, park_id),
         foursult: async.apply(foursquare.getVenuesForPark, park_id),
-        tweetsult: async.apply(query, 'select id_str, place, coords, username, fullname, client, date, retweet_count, favorite_count, lang, content from site_tweets where su_id = $1 limit 9000', [park_id]),
+        tweetsult: async.apply(twitter.getTweetsForPark, park_id),
         hipcampsult: async.apply(query, 'select * from site_hipcamp_activities where su_id=$1', [park_id])
       }, function(err, apiResponse) {
         done();
@@ -148,7 +149,7 @@ module.exports = function(req, res, data, callback) {
           //separate the tweets into preload and post load
           // preloading 10
           var tweeter_count = {};
-          tweetsult.rows.forEach(function(tweet, i) {
+          tweetsult.forEach(function(tweet, i) {
 
             tweeter_count[tweet.username] = true;
 
@@ -232,10 +233,10 @@ module.exports = function(req, res, data, callback) {
             tweets                 : tweetsPreload,
             tweets_queue           : JSON.stringify(tweetsPostload),
             tweets_queue_count     : tweetsPostload.length,
-            tweet_count            : tweetsult.rows.length,
+            tweet_count            : tweetsult.length,
             tweeter_count          : Object.keys(tweeter_count).length,
-            empty_right_column     : !(tweetsult.rows.length > 0) && !instasult.length,
-            has_tweets             : (tweetsult.rows.length > 0),
+            empty_right_column     : !(tweetsult.length > 0) && !instasult.length,
+            has_tweets             : (tweetsult.length > 0),
             has_instagram_photos   : (instasult.length > 0),
             top_instagram_photos   : instagramPreload,
             instographer_count     : Object.keys(instographer_count).length,
