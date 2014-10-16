@@ -7,6 +7,7 @@ var async    = require('async'),
     numeral  = require('numeral');
 
 var flickr = require('../lib/flickr'),
+    foursquare = require('../lib/foursquare'),
     instagram = require('../lib/instagram');
 
 var DATABASE_URL = env.require('DATABASE_URL');
@@ -87,7 +88,7 @@ module.exports = function(req, res, data, callback) {
         result: async.apply(query, 'select *, ST_AsGeoJSON(ST_Centroid(geom)) as centroid from cpad_superunits_4326 where superunit_id = $1 limit 9000', [park_id]),
         flesult: async.apply(flickr.getPhotosForPark, park_id),
         instasult: async.apply(instagram.getPhotosForPark, park_id),
-        foursult: async.apply(query, 'select id,venueid,name,lat,lng,address,postcode,city,state,country,cc,categ_id,categ_name,verified,restricted,referral_id,checkinscount,tipcount,likescount,mayor_id,mayor_firstname,mayor_lastname from site_foursquare_venues_activity where su_id = $1 limit 9000', [park_id]),
+        foursult: async.apply(foursquare.getVenuesForPark, park_id),
         tweetsult: async.apply(query, 'select id_str, place, coords, username, fullname, client, date, retweet_count, favorite_count, lang, content from site_tweets where su_id = $1 limit 9000', [park_id]),
         hipcampsult: async.apply(query, 'select * from site_hipcamp_activities where su_id=$1', [park_id])
       }, function(err, apiResponse) {
@@ -112,12 +113,12 @@ module.exports = function(req, res, data, callback) {
           //
           // Get checkins and tips count from Foursquare
           //
-          foursult.rows.forEach(function(venue) {
+          foursult.forEach(function(venue) {
             foursquare_checkins += venue.checkinscount;
             foursquare_tips += venue.tipcount;
           });
 
-          var venues_count               = numeral(foursult.rows.length).format('0,0'),
+          var venues_count               = numeral(foursult.length).format('0,0'),
               venues_checkins            = numeral(foursquare_checkins).format('0,0'),
               venues_tips                = numeral(foursquare_tips).format('0,0'),
               hasHipcamp                 = (hipcampsult.rows.length > 0),
@@ -244,8 +245,8 @@ module.exports = function(req, res, data, callback) {
             queue_instagram_length : instagramPostload.length,
             instagram_count        : instasult.length,
             has_foursquare         : (venues_count > 0),
-            venues_activity        : foursult.rows,
-            venues_count           : foursult.rows.length < 1000000 ? venues_count : '1 M +',
+            venues_activity        : foursult,
+            venues_count           : foursult.length < 1000000 ? venues_count : '1 M +',
             venues_checkins        : foursquare_checkins < 1000000 ? venues_checkins : '1 M +',
             venues_tips            : foursquare_tips < 1000000 ? venues_tips : '1 M +'
           });
