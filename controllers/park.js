@@ -6,7 +6,8 @@ var async    = require('async'),
     gpsUtil  = require('gps-util'),
     numeral  = require('numeral');
 
-var instagram = require('../lib/instagram');
+var flickr = require('../lib/flickr'),
+    instagram = require('../lib/instagram');
 
 var DATABASE_URL = env.require('DATABASE_URL');
 
@@ -84,7 +85,7 @@ module.exports = function(req, res, data, callback) {
 
       return async.parallel({
         result: async.apply(query, 'select *, ST_AsGeoJSON(ST_Centroid(geom)) as centroid from cpad_superunits_4326 where superunit_id = $1 limit 9000', [park_id]),
-        flesult: async.apply(query, 'select photoid, owner, secret, server, farm, title, latitude, longitude, accuracy, woeid, tags, dateupload, datetaken, ownername, description, license, o_width, o_height, url_l, height_l, width_l from site_park_flickr_photos where containing_park_id = $1 limit 9000', [park_id]),
+        flesult: async.apply(flickr.getPhotosForPark, park_id),
         instasult: async.apply(instagram.getPhotosForPark, park_id),
         foursult: async.apply(query, 'select id,venueid,name,lat,lng,address,postcode,city,state,country,cc,categ_id,categ_name,verified,restricted,referral_id,checkinscount,tipcount,likescount,mayor_id,mayor_firstname,mayor_lastname from site_foursquare_venues_activity where su_id = $1 limit 9000', [park_id]),
         tweetsult: async.apply(query, 'select id_str, place, coords, username, fullname, client, date, retweet_count, favorite_count, lang, content from site_tweets where su_id = $1 limit 9000', [park_id]),
@@ -159,7 +160,7 @@ module.exports = function(req, res, data, callback) {
           //separate flickr into preload and post load
           // preloading 5
           var flotographer_count = {};
-          flesult.rows.forEach(function(photo, i) {
+          flesult.forEach(function(photo, i) {
 
             flotographer_count[photo.ownername] = true;
 
@@ -211,12 +212,12 @@ module.exports = function(req, res, data, callback) {
             park_id          : result.rows[0].superunit_id,
             name             : result.rows[0].unit_name,
             agency_slug      : result.rows[0].mng_agncy.split(' ').join('+'),
-            totalPhotos      : flesult.rows.length ? flesult.rows.length : 0,
+            totalPhotos      : flesult.length ? flesult.length : 0,
             flickrPhotos     : flickrPreload,
             flotographer_count : Object.keys(flotographer_count).length,
             queue_flickr_photos : JSON.stringify(flickrPostload),
-            noFlickrScroll   : (flesult.rows.length < 2),
-            coverPhoto       : flesult.rows.length ? flesult.rows[0] : null,
+            noFlickrScroll   : (flesult.length < 2),
+            coverPhoto       : flesult.length ? flesult[0] : null,
             locationDisplay  : {
               lat : gpsUtil.getDMSLatitude(centroid[1]),
               lon : gpsUtil.getDMSLongitude(centroid[0])
@@ -238,7 +239,7 @@ module.exports = function(req, res, data, callback) {
             instographer_count     : Object.keys(instographer_count).length,
             hasHipcamp             : hasHipcamp,
             hipcampActivities      : hipcampActivitiesOrganized,
-            total_any_photos       : (flesult.rows.length + instasult.length),
+            total_any_photos       : (flesult.length + instasult.length),
             queue_instagram_photos : JSON.stringify(instagramPostload),
             queue_instagram_length : instagramPostload.length,
             instagram_count        : instasult.length,
