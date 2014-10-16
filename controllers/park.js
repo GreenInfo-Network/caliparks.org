@@ -6,6 +6,8 @@ var async    = require('async'),
     gpsUtil  = require('gps-util'),
     numeral  = require('numeral');
 
+var instagram = require('../lib/instagram');
+
 var DATABASE_URL = env.require('DATABASE_URL');
 
 var hashtags = require('../public/data/hashtagsBySuId.json'),
@@ -83,7 +85,7 @@ module.exports = function(req, res, data, callback) {
       return async.parallel({
         result: async.apply(query, 'select *, ST_AsGeoJSON(ST_Centroid(geom)) as centroid from cpad_superunits_4326 where superunit_id = $1 limit 9000', [park_id]),
         flesult: async.apply(query, 'select photoid, owner, secret, server, farm, title, latitude, longitude, accuracy, woeid, tags, dateupload, datetaken, ownername, description, license, o_width, o_height, url_l, height_l, width_l from site_park_flickr_photos where containing_park_id = $1 limit 9000', [park_id]),
-        instasult: async.apply(query, 'select * from site_instagram_photos where su_id = $1 limit 9000', [park_id]),
+        instasult: async.apply(instagram.getPhotosForPark, park_id),
         foursult: async.apply(query, 'select id,venueid,name,lat,lng,address,postcode,city,state,country,cc,categ_id,categ_name,verified,restricted,referral_id,checkinscount,tipcount,likescount,mayor_id,mayor_firstname,mayor_lastname from site_foursquare_venues_activity where su_id = $1 limit 9000', [park_id]),
         tweetsult: async.apply(query, 'select id_str, place, coords, username, fullname, client, date, retweet_count, favorite_count, lang, content from site_tweets where su_id = $1 limit 9000', [park_id]),
         hipcampsult: async.apply(query, 'select * from site_hipcamp_activities where su_id=$1', [park_id])
@@ -125,7 +127,7 @@ module.exports = function(req, res, data, callback) {
           //separate the instagram into preload and post load
           // preloading 32
           var instographer_count = {};
-          instasult.rows.forEach(function(photo, i) {
+          instasult.forEach(function(photo, i) {
 
             instographer_count[photo.username] = true;
 
@@ -229,17 +231,17 @@ module.exports = function(req, res, data, callback) {
             tweets_queue_count     : tweetsPostload.length,
             tweet_count            : tweetsult.rows.length,
             tweeter_count          : Object.keys(tweeter_count).length,
-            empty_right_column     : !(tweetsult.rows.length > 0) && !instasult.rows.length,
+            empty_right_column     : !(tweetsult.rows.length > 0) && !instasult.length,
             has_tweets             : (tweetsult.rows.length > 0),
-            has_instagram_photos   : (instasult.rows.length > 0),
+            has_instagram_photos   : (instasult.length > 0),
             top_instagram_photos   : instagramPreload,
             instographer_count     : Object.keys(instographer_count).length,
             hasHipcamp             : hasHipcamp,
             hipcampActivities      : hipcampActivitiesOrganized,
-            total_any_photos       : (flesult.rows.length + instasult.rows.length),
+            total_any_photos       : (flesult.rows.length + instasult.length),
             queue_instagram_photos : JSON.stringify(instagramPostload),
             queue_instagram_length : instagramPostload.length,
-            instagram_count        : instasult.rows.length,
+            instagram_count        : instasult.length,
             has_foursquare         : (venues_count > 0),
             venues_activity        : foursult.rows,
             venues_count           : foursult.rows.length < 1000000 ? venues_count : '1 M +',
