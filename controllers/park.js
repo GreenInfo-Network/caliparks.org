@@ -9,6 +9,7 @@ var async    = require('async'),
 var cpad = require('../lib/cpad'),
     flickr = require('../lib/flickr'),
     foursquare = require('../lib/foursquare'),
+    hipcamp = require('../lib/hipcamp'),
     instagram = require('../lib/instagram'),
     twitter = require('../lib/twitter');
 
@@ -84,15 +85,13 @@ module.exports = function(req, res, data, callback) {
         return callback(err);
       }
 
-      var query = client.query.bind(client);
-
       return async.parallel({
         result: async.apply(cpad.getPark, park_id),
         flesult: async.apply(flickr.getPhotosForPark, park_id),
         instasult: async.apply(instagram.getPhotosForPark, park_id),
         foursult: async.apply(foursquare.getVenuesForPark, park_id),
         tweetsult: async.apply(twitter.getTweetsForPark, park_id),
-        hipcampsult: async.apply(query, 'select * from site_hipcamp_activities where su_id=$1', [park_id])
+        hipcampsult: async.apply(hipcamp.getActivitiesForPark, park_id)
       }, function(err, apiResponse) {
         done();
 
@@ -123,8 +122,8 @@ module.exports = function(req, res, data, callback) {
           var venues_count               = numeral(foursult.length).format('0,0'),
               venues_checkins            = numeral(foursquare_checkins).format('0,0'),
               venues_tips                = numeral(foursquare_tips).format('0,0'),
-              hasHipcamp                 = (hipcampsult.rows.length > 0),
-              hipcampActivities          = (hasHipcamp) ? hipcampsult.rows[0].activities : null,
+              hasHipcamp                 = !!hipcampsult,
+              hipcampActivities          = (hasHipcamp) ? hipcampsult.activities : null,
               hipcampActivitiesOrganized = [];
 
 
