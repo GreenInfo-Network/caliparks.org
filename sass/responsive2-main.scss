@@ -7,6 +7,8 @@
 */
 $box-padding: 5px;
 
+$border-radius:5px;
+
 $color-dark: #333;
 
 $animation-speed: .5s;
@@ -20,11 +22,13 @@ body.parksforward.responsive2 {
   @include outer-container;
 
   background-color:$color-dark;
-  font-size: 37px;
+  font-size: 24px;
+  line-height: 29px;
   color:#333;
   max-width:1024px;
   font-family: $font-family;
   font-weight: 300;
+  letter-spacing: .02em;
 
   a {
     text-decoration:none;
@@ -37,6 +41,16 @@ body.parksforward.responsive2 {
   h1 {
     font-size:150%;
     margin-bottom:$box-padding;
+  }
+
+  .shader {
+    position:absolute;
+    top:0;
+    right:0;
+    bottom:0;
+    left:0;
+    z-index:1;
+    background-color:rgba(0,0,0,.5);
   }
 
   //
@@ -55,8 +69,8 @@ body.parksforward.responsive2 {
         width: 100%;
         border: solid 0px transparent;
         -webkit-appearance: none;
-        border-radius: 10px 0px 0px 10px;
-        height: 58px;
+        border-radius: $border-radius 0px 0px $border-radius;
+        height: 41px;
         font-size: 65%;
         outline: none;
 
@@ -96,14 +110,14 @@ body.parksforward.responsive2 {
         }
       }
       .search-actions {
-        height: 58px;
+        height: 41px;
         background-color:white;
         overflow:hidden;
         width:140px;
         position:absolute;
         bottom:0;
         right:0;
-        border-radius: 0px 10px 10px 0px;
+        border-radius: 0px $border-radius $border-radius 0px;
 
         button {
           background-color:transparent;
@@ -114,16 +128,16 @@ body.parksforward.responsive2 {
           &.locate-me {
             width: 34.5px;
             padding: 0;
-            height: 34.5px;
+            height: 22.5px;
             position: absolute;
-            right: 93px;
-            top: 12px;
+            right: 53px;
+            top: 8px;
             color: transparent;
             cursor:pointer;
 
             svg {
-              width:34.5px;
-              height:34.5px;
+              width:22.5px;
+              height:22.5px;
               path {
                 fill: rgb(153, 153, 153);
               }
@@ -132,7 +146,7 @@ body.parksforward.responsive2 {
 
           &.go {
             height: 100%;
-            width:78px;
+            width: 54px;
             position: absolute;
             right: 0px;
             background-color: rgb(0, 128, 252);
@@ -149,22 +163,27 @@ body.parksforward.responsive2 {
 
   .block-header-search {
 
-    h1 {
-      margin-bottom:50px;
-    }
-
-    height:281px;
-    padding:$box-padding;
+    height:217px;
+    padding:40px 10px $box-padding 10px;
     transition:height $animation-speed;
     background-color:rgb(60,37,24);
     text-align:center;
     background-image:url('/style/responsive2/blocks/header-search/bg-l.png');
     background-size:cover;
     background-position:center;
+    position:relative;
+
+    h1 {
+      margin-bottom:40px;
+      z-index:10;
+      position:relative;
+    }
 
     .block-search-box {
-      max-width:431px;
+      max-width: 550px;
       margin:0 auto;
+      position:relative;
+      z-index:10;
     }
   }
 
