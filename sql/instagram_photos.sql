@@ -2,22 +2,24 @@ DROP TABLE IF EXISTS instagram_photos;
 CREATE TABLE instagram_photos (
   id serial PRIMARY KEY,
   photo_id varchar(40) UNIQUE,
+  superunit_id int NOT NULL,
   metadata json,
   geom geometry(Point, 4326)
 );
 
 CREATE INDEX instagram_photos_geom_gist ON instagram_photos USING GIST(geom);
+CREATE INDEX instagram_photos_superunit_id_idx ON instagram_photos(superunit_id);
 
 -- TODO duplicates update_flickr_photos except for the geometry transformation
 CREATE OR REPLACE FUNCTION update_instagram_photos() RETURNS TRIGGER AS $$
   BEGIN
-    IF (TG_OP = 'INSERT') THEN
+    IF (TG_OP = 'INSERT' AND NEW.superunit_id IS NULL) THEN
       -- check intersection on INSERT
-      PERFORM superunit_id
-      FROM cpad_superunits cpad
-      WHERE ST_Intersects(ST_Transform(NEW.geom, ST_SRID(cpad.geom)), cpad.geom);
+      NEW.superunit_id := (SELECT superunit_id
+        FROM cpad_superunits cpad
+        WHERE ST_Intersects(ST_Transform(NEW.geom, ST_SRID(cpad.geom)), cpad.geom));
 
-      IF NOT FOUND THEN
+      IF NEW.superunit_id IS NULL THEN
         RETURN NULL; -- don't insert
       END IF;
 
