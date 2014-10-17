@@ -56,6 +56,22 @@ module.exports = function(req, res, data, callback) {
         positions.foursquareVenues = i;
       }
     });
+
+    // Equivalent SQL (slow):
+    //   SELECT rank AS position
+    //   FROM (
+    //     SELECT superunit_id,
+    //            rank() OVER (ORDER BY photos DESC),
+    //            photos
+    //     FROM (
+    //       SELECT superunit_id,
+    //              COUNT(id) photos
+    //       FROM flickr_photos
+    //       GROUP BY superunit_id
+    //     ) AS _
+    //   ) AS _
+    //   WHERE superunit_id = 1396
+
     contexts.flickrPhotos.forEach(function(pos, i) {
       if ((pos.superunit_id | 0) === (park_id | 0)) {
         positions.flickrPhotos = i;
