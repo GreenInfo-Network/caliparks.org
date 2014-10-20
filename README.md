@@ -19,7 +19,7 @@ people are using parks and to connect with their customers and supporters.
 * Pull the database: `heroku pg:pull [your Heroku db name] openspaces --app <your app name>`
 * Create a `.env` file in the root of the repo with one line: `DATABASE_URL=postgres:///[your local db]`
 * In the root of the repo run `npm install`
-* then `foreman start -f ProcfileDev`
+* `npm start`
 
 ## CSS and SASS
 
