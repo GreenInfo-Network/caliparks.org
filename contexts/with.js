@@ -6,8 +6,7 @@ var env       = require('require-env'),
 
 module.exports = function(data, _callback) {
 
-  var dbLimit = '',
-      dbQuery = 'camping', // default
+  var dbQuery = 'camping', // default
       activitiesColumnSQLslug, activitiesWhereSQLslug, queryArray;
 
   return pg.connect(env.require('DATABASE_URL'), function(err, client, done) {
@@ -15,10 +14,6 @@ module.exports = function(data, _callback) {
       done();
       return _callback.apply(null, arguments);
     };
-
-    if (data.limit) {
-      dbLimit = ' LIMIT ' + data.limit;
-    }
 
     //
     // Use what the user has passed in and fall back on camping if needed
