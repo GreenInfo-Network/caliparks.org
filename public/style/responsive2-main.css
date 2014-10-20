@@ -88,7 +88,8 @@ body.parksforward.responsive2 {
         border-radius: 5px 0px 0px 5px;
         height: 41px;
         font-size: 65%;
-        outline: none; }
+        outline: none;
+        padding-left: 10px; }
         body.parksforward.responsive2 .block-search-box form input[type=search][type="search"]::-webkit-search-decoration, body.parksforward.responsive2 .block-search-box form input[type=search][type="search"]::-webkit-search-results-button, body.parksforward.responsive2 .block-search-box form input[type=search][type="search"]::-webkit-search-results-decoration {
           display: none; }
         body.parksforward.responsive2 .block-search-box form input[type=search][type="search"]::-webkit-search-cancel-button {
@@ -175,22 +176,40 @@ body.parksforward.responsive2 {
     background-size: cover;
     background-position: center; }
     body.parksforward.responsive2 .block-story .details {
-      padding-top: 2px; }
+      padding-top: 2px;
+      display: inline-block;
+      max-width: 100%;
+      overflow: hidden;
+      box-sizing: border-box; }
       body.parksforward.responsive2 .block-story .details a {
         color: white;
         display: block;
         background-color: rgba(27, 30, 88, 0.5);
         padding: 0px 12px;
         margin: 5px 5px 0 5px;
-        overflow: hidden; }
+        overflow: hidden;
+        box-sizing: border-box;
+        float: left;
+        max-width: 95%; }
+      body.parksforward.responsive2 .block-story .details a.main-link {
+        display: block;
+        width: 100%;
+        font-size: 170%;
+        line-height: 100%;
+        padding: 10px; }
       body.parksforward.responsive2 .block-story .details a.attribution-link {
-        padding: 0;
-        font-size: 50%;
-        line-height: 1em;
-        height: 1em;
-        margin-top: 0px;
-        padding-left: 12px;
-        background-color: rgba(0, 0, 0, 0.5); }
+        padding: 3px 52px;
+        background-position: 10px center;
+        display: inline-block;
+        height: 29px;
+        background-size: auto 16px;
+        width: 100%;
+        font-size: 62%;
+        line-height: 20px;
+        margin-top: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        background-image: url('responsive2/blocks/story/flickr-logo.svg');
+        background-repeat: no-repeat; }
   body.parksforward.responsive2.index header {
     float: left;
     display: block;

@@ -73,6 +73,7 @@ body.parksforward.responsive2 {
         height: 41px;
         font-size: 65%;
         outline: none;
+        padding-left:10px;
 
         &[type="search"]::-webkit-search-decoration,
         &[type="search"]::-webkit-search-results-button,
@@ -196,6 +197,10 @@ body.parksforward.responsive2 {
     .details {
 
       padding-top: 2px;
+      display:inline-block;
+      max-width:100%;
+      overflow:hidden;
+      box-sizing: border-box;
 
       a {
         color: white;
@@ -204,16 +209,32 @@ body.parksforward.responsive2 {
         padding: 0px 12px;
         margin: $box-padding $box-padding 0 $box-padding;
         overflow:hidden;
+        box-sizing: border-box;
+        float:left;
+        max-width:95%;
+      }
+
+      a.main-link {
+        display: block;
+        width: 100%;
+        font-size: 170%;
+        line-height: 100%;
+        padding:10px;
       }
 
       a.attribution-link {
-        padding: 0;
-        font-size: 50%;
-        line-height: 1em;
-        height: 1em;
-        margin-top: 0px;
-        padding-left: 12px;
+        padding: 3px 52px;
+        background-position:10px center;
+        display:inline-block;
+        height:29px;
+        background-size:auto 16px;
+        width:100%;
+        font-size:62%;
+        line-height:20px;
+        margin-top:0;
         background-color: rgba(0,0,0,.5);
+        background-image: url('responsive2/blocks/story/flickr-logo.svg');
+        background-repeat:no-repeat;
       }
     }
   }
