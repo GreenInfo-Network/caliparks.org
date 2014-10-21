@@ -254,6 +254,18 @@ body.parksforward.responsive2 {
             height: 500px; }
           body.parksforward.responsive2.index .content section#stories ul li:nth-of-type(2), body.parksforward.responsive2.index .content section#stories ul li:nth-of-type(3), body.parksforward.responsive2.index .content section#stories ul li:nth-of-type(6), body.parksforward.responsive2.index .content section#stories ul li:nth-of-type(7) {
             width: 50%; }
+            body.parksforward.responsive2.index .content section#stories ul li:nth-of-type(2) .details, body.parksforward.responsive2.index .content section#stories ul li:nth-of-type(3) .details, body.parksforward.responsive2.index .content section#stories ul li:nth-of-type(6) .details, body.parksforward.responsive2.index .content section#stories ul li:nth-of-type(7) .details {
+              width: auto; }
+              body.parksforward.responsive2.index .content section#stories ul li:nth-of-type(2) .details a.main-link, body.parksforward.responsive2.index .content section#stories ul li:nth-of-type(3) .details a.main-link, body.parksforward.responsive2.index .content section#stories ul li:nth-of-type(6) .details a.main-link, body.parksforward.responsive2.index .content section#stories ul li:nth-of-type(7) .details a.main-link {
+                width: auto;
+                font-size: 93%; }
+              body.parksforward.responsive2.index .content section#stories ul li:nth-of-type(2) .details a.attribution-link, body.parksforward.responsive2.index .content section#stories ul li:nth-of-type(3) .details a.attribution-link, body.parksforward.responsive2.index .content section#stories ul li:nth-of-type(6) .details a.attribution-link, body.parksforward.responsive2.index .content section#stories ul li:nth-of-type(7) .details a.attribution-link {
+                position: absolute;
+                top: 5px;
+                right: 0;
+                color: transparent;
+                background-color: transparent;
+                width: 40px; }
           body.parksforward.responsive2.index .content section#stories ul li:nth-of-type(5) {
             width: 50%;
             position: absolute;

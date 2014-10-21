@@ -288,6 +288,23 @@ body.parksforward.responsive2 {
 
               &:nth-of-type(2), &:nth-of-type(3), &:nth-of-type(6), &:nth-of-type(7) {
                 width:50%;
+                .details {
+                  width:auto;
+                  a {
+                    &.main-link {
+                      width:auto;
+                      font-size: 93%;
+                    }
+                    &.attribution-link {
+                      position:absolute;
+                      top: 5px;
+                      right:0;
+                      color:transparent;
+                      background-color:transparent;
+                      width:40px;
+                    }
+                  }
+                }
               }
 
               &:nth-of-type(5) {
