@@ -31,7 +31,18 @@
       <a href="#the-top">{{#__}}Top{{/__}}</a> | {{#__}}Find out more <a href="/about/">about this project</a>{{/__}} | <a href="/wander?from={{park_id}}">{{#__}}wander{{/__}}</a>{{#if hasAPI}} | <a href="javascript:location.href=location.href+'.json';">JSON</a>{{/if}}
     </footer>
 
-    <script src="/js/main.js"></script>
+    <script src="/js/vendor/require.js"></script>
+    <script>
+      require.config({
+        baseUrl: "/js/",
+        waitSeconds: 15
+      });
+      require( ["view_{{view}}"],
+        function(view) {
+            console.log('View loaded');
+        }
+      );
+    </script>
 
   </body>
 </html>

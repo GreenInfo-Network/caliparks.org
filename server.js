@@ -213,6 +213,7 @@ app.get('/', function(req, res, next) {
     }
 
     templateData.layout = 'responsive2';
+    templateData.view = 'home';
 
     res.render('home', templateData);
 
