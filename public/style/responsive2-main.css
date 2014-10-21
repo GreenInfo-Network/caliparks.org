@@ -39,6 +39,13 @@ table {
 /*
 *  Variables for everything
 */
+@-webkit-keyframes pulse_animation {
+  0% {
+    -webkit-transform: rotate(0deg); }
+
+  50% {
+    -webkit-transform: rotate(360deg); } }
+
 /*
 *  Styles for everything
 */
@@ -58,6 +65,11 @@ body.parksforward.responsive2 {
     content: "";
     display: table;
     clear: both; }
+  body.parksforward.responsive2 .pulse {
+    -webkit-animation-name: 'pulse_animation';
+    -webkit-animation-duration: 5000ms;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: ease; }
   body.parksforward.responsive2 a {
     text-decoration: none; }
   body.parksforward.responsive2 h1, body.parksforward.responsive2 h2, body.parksforward.responsive2 h3, body.parksforward.responsive2 h4 {
@@ -140,6 +152,7 @@ body.parksforward.responsive2 {
               width: 22.5px;
               height: 22.5px; }
               body.parksforward.responsive2 .block-search-box form .search-actions button.locate-me svg path {
+                transition: fill 0.5s;
                 fill: #999999; }
           body.parksforward.responsive2 .block-search-box form .search-actions button.go {
             height: 100%;

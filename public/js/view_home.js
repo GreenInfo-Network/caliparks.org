@@ -1,9 +1,10 @@
-require( ["vendor/jquery/jquery-1.10.2"],
-  function() {
-    'use strict';
+define(["require","exports","block-search-box","vendor/jquery/jquery-1.10.2"], function(require,exports, module) {
 
-    console.log('hi');
+  var BlockSearchBox = require("block-search-box");
 
-    
-  }
-);
+
+  var blockSearchBox = new BlockSearchBox('.block-search-box',{}, function(err, blockSearchBox) {
+    console.log('Block search box loaded', blockSearchBox);
+  });
+
+});

@@ -5,7 +5,7 @@ var gulp           = require('gulp'),
     rename         = require('gulp-rename'),
     handlebars     = require("gulp-compile-handlebars"),
     jshint         = require('gulp-jshint'),
-    uglify         = require('gulp-uglifyjs'),
+    uglify         = require('gulp-uglify'),
     autopolyfiller = require('gulp-autopolyfiller');
 
 var paths = {
@@ -24,12 +24,15 @@ gulp.task('styles', function () {
 
 gulp.task('lint', function() {
   return gulp.src(paths.js)
-    .pipe(jshint()).pipe(jshint.reporter('default', { verbose: true }));
+    .pipe(jshint())
+    .pipe(jshint.reporter('jshint-stylish'));
 });
 
 gulp.task('uglify', function() {
   gulp.src(paths.js)
-    .pipe(uglify())
+    .pipe(uglify({
+      outSourceMap : true
+    }))
     .pipe(gulp.dest('./public/js/dist'))
 });
 
@@ -40,7 +43,7 @@ gulp.task('polyfill', function() {
 });
 
 gulp.task('default',function(){
-  //gulp.start('lint');
+  gulp.start('lint');
   gulp.start('polyfill');
   gulp.start('uglify');
   gulp.start('styles');
