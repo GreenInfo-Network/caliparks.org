@@ -1,7 +1,9 @@
-'use static';
+require( ["vendor/jquery/jquery-1.10.2"],
+  function() {
+    'use strict';
 
-(function(window) {
+    console.log('hi');
 
-console.log('Test');
-
-}(window));
+    
+  }
+);

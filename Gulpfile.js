@@ -29,7 +29,8 @@ gulp.task('lint', function() {
 
 gulp.task('uglify', function() {
   gulp.src(paths.js)
-    .pipe(rename({extname:'.min.js'}));
+    .pipe(uglify())
+    .pipe(gulp.dest('./public/js/dist'))
 });
 
 gulp.task('polyfill', function() {
@@ -47,7 +48,7 @@ gulp.task('default',function(){
 
 // Watch Files For Changes
 gulp.task('watch', function() {
-    gulp.watch(paths.js, [/*'lint',*/'uglify', 'polyfill']);
+    gulp.watch(paths.js, ['lint','uglify', 'polyfill']);
     console.log('watching directory:' + paths.js);
 
     gulp.watch(paths.scss, ['styles']);
