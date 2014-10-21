@@ -74,6 +74,7 @@ body.parksforward.responsive2 {
         font-size: 65%;
         outline: none;
         padding-left:10px;
+        margin:0 10px;
 
         &[type="search"]::-webkit-search-decoration,
         &[type="search"]::-webkit-search-results-button,
@@ -193,6 +194,7 @@ body.parksforward.responsive2 {
     width:100%;
     background-size:cover;
     background-position:center;
+    position:relative;
 
     .details {
 
@@ -217,24 +219,23 @@ body.parksforward.responsive2 {
       a.main-link {
         display: block;
         width: 100%;
-        font-size: 170%;
-        line-height: 100%;
-        padding:10px;
+        padding: 5px 10px;
+        font-size: 130%;
       }
 
       a.attribution-link {
-        padding: 3px 52px;
-        background-position:10px center;
-        display:inline-block;
-        height:29px;
-        background-size:auto 16px;
-        width:100%;
-        font-size:62%;
-        line-height:20px;
-        margin-top:0;
-        background-color: rgba(0,0,0,.5);
+        padding: 3px 0 3px 46px;
+        background-position: 10px center;
+        display: inline-block;
+        height: 23px;
+        background-size: auto 12px;
+        width: 100%;
+        margin-top: 0;
+        background-color: rgba(0, 0, 0, 0.5);
         background-image: url('responsive2/blocks/story/flickr-logo.svg');
-        background-repeat:no-repeat;
+        background-repeat: no-repeat;
+        font-size: 50%;
+        line-height: 157%;
       }
     }
   }
@@ -340,11 +341,33 @@ body.parksforward.responsive2 {
     // Overrides for blocks
     //
     .block-header-search {
-      height: 119px;
+      height: 110px;
+      padding-top:10px;
       background-image:url('/style/responsive2/blocks/header-search/bg-m.jpg');
 
       h1 {
         margin-bottom: 10px;
+      }
+    }
+
+    .block-story {
+      .details {
+        a {
+          &.main-link {
+            font-size:100%;
+          }
+          &.attribution-link {
+            position:absolute;
+            top:10px;
+            right:0;
+            width:50px;
+            overflow:hidden;
+            color:transparent;
+            background-color:transparent;
+            padding:0;
+            margin:0;
+          }
+        }
       }
     }
 
