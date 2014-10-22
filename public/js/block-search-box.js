@@ -1,13 +1,16 @@
-define(["require","exports","module","vendor/typeahead","vendor/jquery/jquery-1.10.2","stamen-super-classy"], function(require,exports, module) {
+define(["require","exports","module","vendor/typeahead","vendor/bloodhound","vendor/jquery/jquery-1.10.2","stamen-super-classy"], function(require,exports, module) {
 
   'use strict';
 
   var StamenSuperClassy = require("stamen-super-classy");
 
-  var state = {},
-      rootNode, locateMeNode;
+  var state      = {},
+      activities = ["cpadparkname","hipcampparkname","cpadSunma","activityCount","backpacking","biking","boating","caving","fishing","foraging","hiking","horsebackRiding","kayakingCanoeing","kiteboardingWindsurfing","ohv","climbing","snowSports","sup","stargazing","surfing","swimming","whitewaterRaftingKayaking","wildlifeWatching","wineBeerTasting","camping","other"],
+      rootNode, locateMeNode, that;
 
   module.exports=function(rootSelector, config, callback) {
+
+    that = this;
 
     StamenSuperClassy.apply(this, arguments);
 
@@ -27,6 +30,7 @@ define(["require","exports","module","vendor/typeahead","vendor/jquery/jquery-1.
         locateMeNode.removeClass('pulse');
         locateMeNode.find('path').css({'fill':'inherit'});
       }
+      that.fire('loading', {show:show});
     }
 
     function initLocateMe() {
@@ -50,13 +54,59 @@ define(["require","exports","module","vendor/typeahead","vendor/jquery/jquery-1.
       });
     }
 
-    initLocateMe();
+    //
+    // Methods for working with the Typeahead module
+    //
+    function initTypeahead() {
 
-    this.on('ready', function() {
-      callback(null, this);
+      var substringMatcher = function(strs) {
+        return function findMatches(q, cb) {
+          var matches, substrRegex;
+
+          // an array that will be populated with substring matches
+          matches = [];
+
+          // regex used to determine if a string contains the substring `q`
+          substrRegex = new RegExp(q, 'i');
+
+          // iterate through the pool of strings and for any string that
+          // contains the substring `q`, add it to the `matches` array
+          $.each(strs, function(i, str) {
+            if (substrRegex.test(str)) {
+              // the typeahead jQuery plugin expects suggestions to a
+              // JavaScript object, refer to typeahead docs for more info
+              matches.push({ value: str });
+            }
+          });
+
+          cb(matches);
+        };
+      };
+
+      rootNode.find('input[type=search]').typeahead({
+        hint: true,
+        highlight: true,
+        minLength: 1,
+        width: '100%'
+      },
+      {
+        name: 'states',
+        displayKey: 'value',
+        source: substringMatcher(activities)
+      });
+
+      rootNode.find('input[type=search]').css('width','100%');
+    }
+
+    that.on('ready', function() {
+      callback(null, that);
     });
 
-    return this;
+    initLocateMe();
+    initTypeahead();
+    that.fire('ready');
+
+    return that;
 
   };
 

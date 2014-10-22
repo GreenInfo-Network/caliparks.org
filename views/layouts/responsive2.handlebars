@@ -13,6 +13,7 @@
     <![endif]-->
 
     <link rel="stylesheet" href="/style/responsive2-main.css" type="text/css" media="screen">
+    <link href="typeaheadjs.css" rel="stylesheet">
     <script type="text/javascript" src="//use.typekit.net/lgw5hdh.js"></script>
     <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
 
@@ -37,11 +38,9 @@
         jquery: 'jquery-1.10.2',
         waitSeconds: 15
       });
-      require( ["view_{{view}}"],
-        function(view) {
-            console.log('View loaded');
-        }
-      );
+      {{#if view}}
+      require( ["view_{{view}}"] );
+      {{/if}}
     </script>
 
   </body>

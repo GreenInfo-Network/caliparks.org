@@ -4,7 +4,9 @@ define(["require","exports","block-search-box","vendor/jquery/jquery-1.10.2"], f
 
 
   var blockSearchBox = new BlockSearchBox('.block-search-box',{}, function(err, blockSearchBox) {
-    console.log('Block search box loaded', blockSearchBox);
+
+    
+
   });
 
 });
