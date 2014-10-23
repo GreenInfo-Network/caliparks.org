@@ -1,8 +1,10 @@
 'use strict';
 
-var request = require('request');
+var request = require('request'),
+    env     = require('require-env');
 
 var isLatLongTest = /^-?\d*.\d*\,-?\d*.\d*$/,
+    googleApiKey  = env.require('GOOGLE_APP_KEY'),
     loc, res;
 
 module.exports = function getPlace(locString, callback) {
@@ -11,7 +13,7 @@ module.exports = function getPlace(locString, callback) {
     loc = locString.split(',');
 
     // TODO fetch the map id from the environment
-    request('http://api.tiles.mapbox.com/v3/stamen.hckn2ljm/geocode/'+loc[1]+','+loc[0]+'.json', function (error, response, body) {
+    request('https://maps.googleapis.com/maps/api/geocode/json?latlng='+loc[0]+','+loc[1]+'&key=' + googleApiKey, function (error, response, body) {
       if (error) {
         return callback(error);
       }
@@ -27,7 +29,7 @@ module.exports = function getPlace(locString, callback) {
     });
   } else if(locString) {
 
-    request('http://api.tiles.mapbox.com/v3/stamen.hckn2ljm/geocode/'+locString+'.json', function (error, response, body) {
+    request('https://maps.googleapis.com/maps/api/geocode/json?address='+locString+'&key=' + googleApiKey, function (error, response, body) {
       if (error) {
         return callback(error);
       }
@@ -38,10 +40,14 @@ module.exports = function getPlace(locString, callback) {
         callback(e);
       }
 
-      res = (geocoderRes && geocoderRes[0] && geocoderRes[0][0]) ? geocoderRes[0][0] : {lat:null,lon:null};
+      try {
+        res = geocoderRes[0].geometry.location;
+      } catch (err) {
+        callback(err);
+      }
 
       callback(null, {
-        'coordinates' : [res.lat, res.lon],
+        'coordinates' : [ res.lat, res.lng],
         'details'     : res
       });
     });
