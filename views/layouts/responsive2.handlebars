@@ -21,11 +21,7 @@
 
   <body class="parksforward responsive2 index" ontouchstart="">
 
-    {{>header-search}}
-    <div class="content">
-      {{{body}}}
-    </div>
-
+    {{{body}}}
     <footer>
       <a href="#the-top">{{#__}}Top{{/__}}</a> | {{#__}}Find out more <a href="/about/">about this project</a>{{/__}} | <a href="/wander?from={{park_id}}">{{#__}}wander{{/__}}</a>{{#if hasAPI}} | <a href="javascript:location.href=location.href+'.json';">JSON</a>{{/if}}
     </footer>

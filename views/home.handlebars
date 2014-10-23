@@ -1,13 +1,16 @@
-<section id="stories">
+{{>header-search}}
+<div class="content">
+  <section id="stories">
 
-  <div>
-    <ul>
-      {{#each stories}}
-        <li>
-          {{>block-story this}}
-        </li>
-      {{/each}}
-    </ul>
-  </div>
+    <div>
+      <ul>
+        {{#each stories}}
+          <li>
+            {{>block-story this}}
+          </li>
+        {{/each}}
+      </ul>
+    </div>
 
-</section>
+  </section>
+</div>
