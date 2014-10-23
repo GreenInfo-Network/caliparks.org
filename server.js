@@ -293,6 +293,7 @@ app.get('/park/:id(\\d+)', function(req,res, next) {
       if (templateData) {
         templateData.hasAPI = true;
         templateData.layout = 'responsive2';
+        templateData.view = 'park';
         res.render('park', templateData);
       } else {
         go404.apply(null,[req, res, next]);

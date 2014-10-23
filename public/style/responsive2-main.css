@@ -390,9 +390,33 @@ body.parksforward.responsive2 {
     float: left;
     display: block;
     margin-right: 2.35765%;
-    width: 100%; }
+    width: 100%;
+    display: table;
+    width: 100%;
+    table-layout: fixed; }
     body.parksforward.responsive2 .content.template-park:last-child {
       margin-right: 0; }
+    body.parksforward.responsive2 .content.template-park:after {
+      content: "";
+      display: table;
+      clear: both; }
+    body.parksforward.responsive2 .content.template-park section {
+      display: table-cell;
+      width: 50%;
+      padding: 2.35765%;
+      background-color: #cfd8dc; }
+      body.parksforward.responsive2 .content.template-park section#park-info {
+        height: 100px; }
+      body.parksforward.responsive2 .content.template-park section#maps {
+        height: 100px; }
+      @media screen and (max-width: 720px)  {
+        body.parksforward.responsive2 .content.template-park section {
+          float: left;
+          display: block;
+          margin-right: 2.35765%;
+          width: 100%; }
+          body.parksforward.responsive2 .content.template-park section:last-child {
+            margin-right: 0; } }
 
 @media screen and (max-width: 720px)  {
   body.parksforward.responsive2 {

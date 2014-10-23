@@ -1,3 +1,25 @@
 .content.template-park {
-  @include span-columns(12 of 12);
+
+  @include span-columns(12);
+  @include row(table);
+
+  section {
+
+    @include span-columns(6 of 12);
+    @include pad();
+    background-color:$color-lighter;
+
+    &#park-info {
+      height:100px;
+    }
+    &#maps {
+      @include reset-display;
+
+      height:100px;
+    }
+
+    @include media(max-width 720px) {
+      @include span-columns(12 of 12);
+    }
+  }
 }
