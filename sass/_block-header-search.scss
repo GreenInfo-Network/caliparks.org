@@ -1,0 +1,35 @@
+.block-header-search {
+
+  height:217px;
+  padding:40px 10px $box-padding 10px;
+  transition:height $animation-speed;
+  background-color:rgb(60,37,24);
+  text-align:center;
+  background-image:url('/style/responsive2/blocks/header-search/bg-l.png');
+  background-size:cover;
+  background-position:center;
+  position:relative;
+
+  h1 {
+    margin-bottom:40px;
+    z-index:10;
+    position:relative;
+  }
+
+  .block-search-box {
+    max-width: 550px;
+    margin:0 auto;
+    position:relative;
+    z-index:10;
+  }
+
+  @include media(max-width 720px) {
+    height: 110px;
+    padding-top:10px;
+    background-image:url('/style/responsive2/blocks/header-search/bg-m.jpg');
+
+    h1 {
+      margin-bottom: 10px;
+    }
+  }
+}
