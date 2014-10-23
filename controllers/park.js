@@ -83,14 +83,6 @@ module.exports = function(req, res, data, callback) {
       }
     });
 
-    //
-    // Get special template if one exists
-    //
-    if (data.overrideTemplates[park_id]) {
-      template = data.overrideTemplates[park_id].template;
-      title    = data.overrideTemplates[park_id].title;
-    }
-
   return async.parallel({
     result: async.apply(cpad.getPark, park_id),
     flesult: async.apply(flickr.getPhotosForPark, park_id),

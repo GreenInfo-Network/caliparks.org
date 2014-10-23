@@ -13,7 +13,7 @@ $color-dark: #333;
 
 $animation-speed: .5s;
 
-$font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+$font-family: "expressway", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 
 @-webkit-keyframes pulse_animation {
   0% { -webkit-transform: rotate(0deg);}
@@ -220,19 +220,18 @@ body.parksforward.responsive2 {
         }
 
         span.locate-me {
-          width: 34.5px;
+          width: 22.5px;
           padding: 0;
           height: 22.5px;
           position: absolute;
-          right: 53px;
+          right: 79px;
           top: 8px;
           color: transparent;
-          cursor:pointer;
-          outline:false;
+          cursor: pointer;
 
           svg {
-            width:22.5px;
-            height:22.5px;
+            width:22px;
+            height:23px;
             outline:false;
             path {
               transition:fill .5s;

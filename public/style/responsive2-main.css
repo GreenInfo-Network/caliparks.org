@@ -58,7 +58,7 @@ body.parksforward.responsive2 {
   line-height: 29px;
   color: #333;
   max-width: 1024px;
-  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-family: "expressway", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   font-weight: 300;
   letter-spacing: 0.02em; }
   body.parksforward.responsive2:after {
@@ -158,17 +158,17 @@ body.parksforward.responsive2 {
           background: #333;
           border-radius: 999px; }
         body.parksforward.responsive2 .block-search-box form input[type=search]::-webkit-input-placeholder {
-          font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; }
+          font-family: "expressway", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; }
         body.parksforward.responsive2 .block-search-box form input[type=search]:-moz-placeholder {
           /* Firefox 18- */
-          font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+          font-family: "expressway", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
           padding-left: 5px; }
         body.parksforward.responsive2 .block-search-box form input[type=search]::-moz-placeholder {
           /* Firefox 19+ */
-          font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+          font-family: "expressway", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
           padding-left: 5px; }
         body.parksforward.responsive2 .block-search-box form input[type=search]:-ms-input-placeholder {
-          font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+          font-family: "expressway", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
           padding-left: 5px; }
       body.parksforward.responsive2 .block-search-box form .search-actions {
         height: 41px;
@@ -192,22 +192,21 @@ body.parksforward.responsive2 {
             background-color: #0080fc;
             font-size: 65%;
             color: white;
-            font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+            font-family: "expressway", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
             text-transform: uppercase;
             cursor: pointer; }
         body.parksforward.responsive2 .block-search-box form .search-actions span.locate-me {
-          width: 34.5px;
+          width: 22.5px;
           padding: 0;
           height: 22.5px;
           position: absolute;
-          right: 53px;
+          right: 79px;
           top: 8px;
           color: transparent;
-          cursor: pointer;
-          outline: false; }
+          cursor: pointer; }
           body.parksforward.responsive2 .block-search-box form .search-actions span.locate-me svg {
-            width: 22.5px;
-            height: 22.5px;
+            width: 22px;
+            height: 23px;
             outline: false; }
             body.parksforward.responsive2 .block-search-box form .search-actions span.locate-me svg path {
               transition: fill 0.5s;

@@ -3,7 +3,6 @@
 var env               = require('require-env'),
     express           = require('express'),
     exphbs            = require('express-handlebars'),
-    overrideTemplates = require('./override-templates.json'),
     pg                = require('pg'),
     memwatch          = require('memwatch'),
     raven             = require('raven'),
@@ -284,7 +283,6 @@ app.get('/park/:id(\\d+)', function(req,res, next) {
 
   if (!Number.isNaN(parseInt(req.params.id))) {
     require('./controllers/park.js')(req, res, {
-      overrideTemplates : overrideTemplates
     }, function(err, templateData) {
 
       if (err) {
