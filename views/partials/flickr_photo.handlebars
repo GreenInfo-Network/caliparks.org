@@ -1,11 +1,3 @@
-<div class="flickr-photo-container">
-	<a href="http://flickr.com/photos/{{owner}}/{{photoid}}">
-	<img 
-		class="flickr-photo" 
-		src="http://farm{{farm}}.staticflickr.com/{{server}}/{{photoid}}_{{secret}}_b.jpg" 
-		alt="{{title}} by {{owner}}" 
-		border="0"
-	>
-	</a>
+<div data-flickr-url="http://flickr.com/photos/{{owner}}/{{photoid}}" style="background-image:url('http://farm{{farm}}.staticflickr.com/{{server}}/{{photoid}}_{{secret}}_b.jpg');">
 	<p><a href="http://flickr.com/photos/{{owner}}/{{photoid}}">{{title}} by {{owner}}</a></p>
 </div>

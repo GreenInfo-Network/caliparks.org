@@ -1,1 +1,1 @@
-define(["require","exports","block-search-box","vendor/jquery/jquery-1.10.2"],function(e){{var o=e("block-search-box");new o(".block-search-box",{},function(){})}});
+define(["require","exports","block-search-box","jquery"],function(e){{var o=e("block-search-box");new o(".block-search-box",{},function(){})}});

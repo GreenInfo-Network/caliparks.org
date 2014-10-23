@@ -1,4 +1,4 @@
-define(["require","exports","module","vendor/typeahead","vendor/bloodhound","vendor/jquery/jquery-1.10.2","stamen-super-classy"], function(require,exports, module) {
+define(["require","exports","module","vendor/typeahead","vendor/bloodhound","jquery","stamen-super-classy"], function(require,exports, module) {
 
   'use strict';
 

@@ -5,21 +5,25 @@
 
   section {
 
-    @include span-columns(6 of 12);
     @include pad();
     background-color:$color-lighter;
+    padding:0;
 
     &#park-info {
-      height:100px;
+      @include span-columns(8 of 12);
+      @include media(max-width 720px) {
+        @include span-columns(12 of 12);
+      }
     }
     &#maps {
       @include reset-display;
+      @include span-columns(4 of 12);
+      @include media(max-width 720px) {
+        @include span-columns(12 of 12);
+      }
 
-      height:100px;
-    }
-
-    @include media(max-width 720px) {
-      @include span-columns(12 of 12);
+      min-height:100%;
+      background-color:$color-lighter;
     }
   }
 }

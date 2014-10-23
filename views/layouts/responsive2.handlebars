@@ -19,7 +19,7 @@
     {{>tracking}}
   </head>
 
-  <body class="parksforward responsive2 index" ontouchstart="">
+  <body class="parksforward responsive2" ontouchstart="">
 
     {{{body}}}
     <footer>
@@ -29,9 +29,9 @@
     <script src="/js/dist/vendor/require.js"></script>
     <script>
       require.config({
-        baseUrl: "/js/dist",
-        jquery: 'jquery-1.10.2',
-        waitSeconds: 15
+        baseUrl     : "/js/dist",
+        paths       : {"jquery": 'vendor/jquery/jquery-1.10.2'},
+        waitSeconds : 15
       });
       {{#if view}}
       require( ["view_{{view}}"] );

@@ -1,4 +1,4 @@
-define(["require","exports","vendor/jquery/jquery-1.10.2"], function(require,exports, module) {
+define(["require","exports","jquery","block-photo-carousel"], function(require,exports, module) {
 
 
 

@@ -60,7 +60,21 @@ body.parksforward.responsive2 {
   max-width: 1024px;
   font-family: "expressway", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   font-weight: 300;
-  letter-spacing: 0.02em; }
+  letter-spacing: 0.02em;
+  /*
+ * responsive-carousel
+ * https://github.com/filamentgroup/responsive-carousel
+ *
+ * Copyright (c) 2012 Filament Group, Inc.
+ * Licensed under the MIT, GPL licenses.
+ */
+  /*
+ * responsive-carousel
+ * https://github.com/filamentgroup/responsive-carousel
+ *
+ * Copyright (c) 2012 Filament Group, Inc.
+ * Licensed under the MIT, GPL licenses.
+*/ }
   body.parksforward.responsive2:after {
     content: "";
     display: table;
@@ -358,6 +372,88 @@ body.parksforward.responsive2 {
             top: inherit;
             right: inherit;
             height: 250px; } }
+  body.parksforward.responsive2 .carousel {
+    width: 100%;
+    position: relative; }
+  body.parksforward.responsive2 .carousel .carousel-item {
+    display: none; }
+  body.parksforward.responsive2 .carousel .carousel-active {
+    display: block; }
+  body.parksforward.responsive2 .carousel .carousel-nav:nth-child(2) {
+    display: none; }
+  body.parksforward.responsive2 .carousel-slide {
+    position: relative;
+    overflow: hidden;
+    -webkit-transform: translate3d(0, 0, 0);
+    -moz-transform: translate3d(0, 0, 0);
+    -ms-transform: translate3d(0, 0, 0);
+    -o-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0); }
+  body.parksforward.responsive2 .carousel-slide .carousel-item {
+    position: absolute;
+    left: 100%;
+    top: 0;
+    width: 100%;
+    /* necessary for non-active slides */
+    display: block;
+    /* overrides basic carousel styles */
+    z-index: 1;
+    -webkit-transition: left 0.2s ease;
+    -moz-transition: left 0.2s ease;
+    -ms-transition: left 0.2s ease;
+    -o-transition: left 0.2s ease;
+    transition: left 0.2s ease; }
+  body.parksforward.responsive2 .carousel-no-transition .carousel-item {
+    -webkit-transition: none;
+    -moz-transition: none;
+    -ms-transition: none;
+    -o-transition: none;
+    transition: none; }
+  body.parksforward.responsive2 .carousel-slide .carousel-active {
+    left: 0;
+    position: relative;
+    z-index: 2; }
+  body.parksforward.responsive2 .carousel-slide .carousel-in {
+    left: 0; }
+  body.parksforward.responsive2 .carousel-slide-reverse .carousel-out {
+    left: 100%; }
+  body.parksforward.responsive2 .carousel-slide .carousel-out, body.parksforward.responsive2 .carousel-slide-reverse .carousel-in {
+    left: -100%; }
+  body.parksforward.responsive2 .carousel-slide-reverse .carousel-item {
+    -webkit-transition: left 0.1s ease;
+    -moz-transition: left 0.1s ease;
+    -ms-transition: left 0.1s ease;
+    -o-transition: left 0.1s ease;
+    transition: left 0.1s ease; }
+  body.parksforward.responsive2 .carousel-slide-reverse .carousel-active {
+    left: 0; }
+  body.parksforward.responsive2 .carousel {
+    height: 270px;
+    overflow: hidden; }
+    body.parksforward.responsive2 .carousel .carousel-item {
+      height: 270px;
+      background-size: cover;
+      background-position: center center;
+      background-color: #cfd8dc; }
+    body.parksforward.responsive2 .carousel .carousel-nav {
+      position: absolute;
+      top: 112px;
+      z-index: 10;
+      width: 100%; }
+      body.parksforward.responsive2 .carousel .carousel-nav a {
+        color: transparent;
+        width: 24px;
+        height: 24px;
+        margin: 10px;
+        outline: none; }
+        body.parksforward.responsive2 .carousel .carousel-nav a.prev {
+          float: left;
+          background-image: url('responsive2/blocks/photo-carousel/forward.svg');
+          transform: rotate(180deg);
+          -webkit-transform: rotate(180deg); }
+        body.parksforward.responsive2 .carousel .carousel-nav a.next {
+          float: right;
+          background-image: url('responsive2/blocks/photo-carousel/forward.svg'); }
   body.parksforward.responsive2 header {
     float: left;
     display: block;
@@ -401,22 +497,33 @@ body.parksforward.responsive2 {
       display: table;
       clear: both; }
     body.parksforward.responsive2 .content.template-park section {
-      display: table-cell;
-      width: 50%;
       padding: 2.35765%;
-      background-color: #cfd8dc; }
+      background-color: #cfd8dc;
+      padding: 0; }
       body.parksforward.responsive2 .content.template-park section#park-info {
-        height: 100px; }
+        display: table-cell;
+        width: 66.66667%; }
+        @media screen and (max-width: 720px)  {
+          body.parksforward.responsive2 .content.template-park section#park-info {
+            display: table-cell;
+            width: 100%; } }
       body.parksforward.responsive2 .content.template-park section#maps {
-        height: 100px; }
-      @media screen and (max-width: 720px)  {
-        body.parksforward.responsive2 .content.template-park section {
-          float: left;
-          display: block;
-          margin-right: 2.35765%;
-          width: 100%; }
-          body.parksforward.responsive2 .content.template-park section:last-child {
-            margin-right: 0; } }
+        float: left;
+        display: block;
+        margin-right: 2.35765%;
+        width: 31.76157%;
+        min-height: 100%;
+        background-color: #cfd8dc; }
+        body.parksforward.responsive2 .content.template-park section#maps:last-child {
+          margin-right: 0; }
+        @media screen and (max-width: 720px)  {
+          body.parksforward.responsive2 .content.template-park section#maps {
+            float: left;
+            display: block;
+            margin-right: 2.35765%;
+            width: 100%; }
+            body.parksforward.responsive2 .content.template-park section#maps:last-child {
+              margin-right: 0; } }
 
 @media screen and (max-width: 720px)  {
   body.parksforward.responsive2 {
