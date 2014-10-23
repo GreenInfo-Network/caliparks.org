@@ -339,19 +339,31 @@ body.parksforward.responsive2 {
           top: 501px;
           right: 0;
           height: 500px; }
+    @media screen and (max-width: 720px)  {
+      body.parksforward.responsive2 .block-stories-flexy ul {
+        padding-right: 0; }
+        body.parksforward.responsive2 .block-stories-flexy ul li {
+          height: 250px; }
+          body.parksforward.responsive2 .block-stories-flexy ul li:first-of-type {
+            width: inherit;
+            position: inherit;
+            top: inherit;
+            right: inherit;
+            height: 250px; }
+          body.parksforward.responsive2 .block-stories-flexy ul li:nth-of-type(2), body.parksforward.responsive2 .block-stories-flexy ul li:nth-of-type(3), body.parksforward.responsive2 .block-stories-flexy ul li:nth-of-type(6), body.parksforward.responsive2 .block-stories-flexy ul li:nth-of-type(7) {
+            width: inherit; }
+          body.parksforward.responsive2 .block-stories-flexy ul li:nth-of-type(5) {
+            width: inherit;
+            position: inherit;
+            top: inherit;
+            right: inherit;
+            height: 250px; } }
   body.parksforward.responsive2 header {
     float: left;
     display: block;
     margin-right: 2.35765%;
     width: 100%; }
     body.parksforward.responsive2 header:last-child {
-      margin-right: 0; }
-  body.parksforward.responsive2 .content {
-    float: left;
-    display: block;
-    margin-right: 2.35765%;
-    width: 100%; }
-    body.parksforward.responsive2 .content:last-child {
       margin-right: 0; }
   body.parksforward.responsive2 footer {
     float: left;
@@ -367,31 +379,27 @@ body.parksforward.responsive2 {
       margin-right: 0; }
     body.parksforward.responsive2 footer a {
       color: white; }
+  body.parksforward.responsive2 .content.template-home {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 100%; }
+    body.parksforward.responsive2 .content.template-home:last-child {
+      margin-right: 0; }
+  body.parksforward.responsive2 .content.template-park {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 100%; }
+    body.parksforward.responsive2 .content.template-park:last-child {
+      margin-right: 0; }
 
 @media screen and (max-width: 720px)  {
   body.parksforward.responsive2 {
     font-size: 17px; }
     body.parksforward.responsive2 h1 {
       font-size: 100%; }
-    body.parksforward.responsive2.index .content section#stories ul {
-      padding-right: 0; }
-      body.parksforward.responsive2.index .content section#stories ul li {
-        height: 250px; }
-        body.parksforward.responsive2.index .content section#stories ul li:first-of-type {
-          width: inherit;
-          position: inherit;
-          top: inherit;
-          right: inherit;
-          height: 250px; }
-        body.parksforward.responsive2.index .content section#stories ul li:nth-of-type(2), body.parksforward.responsive2.index .content section#stories ul li:nth-of-type(3), body.parksforward.responsive2.index .content section#stories ul li:nth-of-type(6), body.parksforward.responsive2.index .content section#stories ul li:nth-of-type(7) {
-          width: inherit; }
-        body.parksforward.responsive2.index .content section#stories ul li:nth-of-type(5) {
-          width: inherit;
-          position: inherit;
-          top: inherit;
-          right: inherit;
-          height: 250px; }
-    body.parksforward.responsive2.index footer {
+    body.parksforward.responsive2 footer {
       font-size: 75%;
       line-height: 75%;
       padding: 17px; } }

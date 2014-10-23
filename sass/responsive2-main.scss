@@ -80,13 +80,9 @@ body.parksforward.responsive2 {
   @import "block-stories-flexy";
 
   //
-  // Layout Sections
+  // Common layout sections
   //
   header {
-    @include span-columns(12 of 12);
-  }
-
-  .content {
     @include span-columns(12 of 12);
   }
 
@@ -103,6 +99,12 @@ body.parksforward.responsive2 {
     }
   }
 
+  //
+  // Template specific layouts
+  //
+  @import "template-home";
+  @import "template-park";
+
 }
 
 //
@@ -117,51 +119,10 @@ body.parksforward.responsive2 {
       font-size:100%;
     }
 
-    //
-    // Overrides for layouts
-    //
-    &.index {
-      .content {
-        section {
-          &#stories {
-
-            ul {
-              padding-right:0;
-
-              li {
-                height:250px;
-
-                &:first-of-type {
-                  width:inherit;
-                  position:inherit;
-                  top:inherit;
-                  right:inherit;
-                  height:250px;
-                }
-
-                &:nth-of-type(2), &:nth-of-type(3), &:nth-of-type(6), &:nth-of-type(7) {
-                  width:inherit;
-                }
-
-                &:nth-of-type(5) {
-                  width:inherit;
-                  position:inherit;
-                  top:inherit;
-                  right:inherit;
-                  height:250px;
-                }
-              }
-            }
-
-          }
-        }
-      }
-
-      footer {
-        font-size: 75%;
-        line-height: 75%;
-        padding: 17px;
-      }
+    footer {
+      font-size: 75%;
+      line-height: 75%;
+      padding: 17px;
     }
   }
 }

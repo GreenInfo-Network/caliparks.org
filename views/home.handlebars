@@ -1,16 +1,4 @@
 {{>header-search}}
-<div class="content">
-  <section id="stories" class="block-stories-flexy">
-
-    <div>
-      <ul>
-        {{#each stories}}
-          <li>
-            {{>block-story this}}
-          </li>
-        {{/each}}
-      </ul>
-    </div>
-
-  </section>
+<div class="content template-home">
+  {{>block-stories-flexy}}
 </div>

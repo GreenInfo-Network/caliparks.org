@@ -62,4 +62,35 @@
       }
     }
   }
+
+  @include media(max-width 720px) {
+    ul {
+      padding-right:0;
+
+      li {
+        height:250px;
+
+        &:first-of-type {
+          width:inherit;
+          position:inherit;
+          top:inherit;
+          right:inherit;
+          height:250px;
+        }
+
+        &:nth-of-type(2), &:nth-of-type(3), &:nth-of-type(6), &:nth-of-type(7) {
+          width:inherit;
+        }
+
+        &:nth-of-type(5) {
+          width:inherit;
+          position:inherit;
+          top:inherit;
+          right:inherit;
+          height:250px;
+        }
+      }
+    }
+
+  }
 }
