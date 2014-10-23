@@ -1,9 +1,9 @@
 .block-header-search {
 
   height:217px;
-  padding:40px 10px $box-padding 10px;
+  padding:40px $box-padding $box-padding-half $box-padding;
   transition:height $animation-speed;
-  background-color:rgb(60,37,24);
+  background-color:$color-dark;
   text-align:center;
   background-image:url('/style/responsive2/blocks/header-search/bg-l.png');
   background-size:cover;
@@ -25,11 +25,11 @@
 
   @include media(max-width 720px) {
     height: 110px;
-    padding-top:10px;
+    padding-top:$box-padding;
     background-image:url('/style/responsive2/blocks/header-search/bg-m.jpg');
 
     h1 {
-      margin-bottom: 10px;
+      margin-bottom: $box-padding;
     }
   }
 }

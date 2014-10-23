@@ -5,7 +5,7 @@
     width:100%;
 
     h3 {
-      color:#ccc;
+      color:$color-dark;
     }
 
     .tt-query,
@@ -19,13 +19,13 @@
       padding: 8px 12px;
       font-size: 14px;
       line-height: 1.428571429;
-      color: #999;
+      color: $color-dark;
       vertical-align: middle;
-      background-color: #ffffff;
-      border: 1px solid #cccccc;
+      background-color: $light-font-color;
+      border: 1px solid $color-dark;
       border-radius: 4px;
-      -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-      box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+      -webkit-box-shadow: inset 0 1px 1px $color-dark-transparent;
+      box-shadow: inset 0 1px 1px $color-dark-transparent;
       -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
       transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
     }
@@ -33,13 +33,12 @@
     .tt-dropdown-menu {
       min-width: 160px;
       margin-top: 2px;
-      padding: 10px;
-      background-color: #ffffff;
-      border: 1px solid #cccccc;
-      border: 1px solid rgba(0, 0, 0, 0.15);
+      padding: $box-padding;
+      background-color: $light-font-color;
+      border: 1px solid $color-dark;
       border-radius: 0 0 4px 4px;
-      -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+      -webkit-box-shadow: 0 6px 12px $color-dark-transparent;
+      box-shadow: 0 6px 12px $color-dark-transparent;
       background-clip: padding-box;
       text-align:left;
     }
@@ -51,11 +50,11 @@
         cursor:pointer;
 
       &.tt-cursor {
-        color:#fff;
-        background-color:#dfdfdf;
+        color:$light-font-color;
+        background-color:$color-dark;
 
         a {
-            color: #fff;
+            color: $light-font-color;
         }
       }
 
@@ -80,8 +79,8 @@
       height: 41px;
       font-size: 16px;
       outline: none;
-      padding-left:10px;
-      margin:0 10px;
+      padding-left:$box-padding;
+      margin:0 $box-padding;
 
       &[type="search"]::-webkit-search-decoration,
       &[type="search"]::-webkit-search-results-button,
@@ -95,7 +94,7 @@
         /* Now your own custom styles */
         height: 10px;
         width: 10px;
-        background: #333;
+        background: $color-dark;
         border-radius:999px;
       }
 
@@ -105,22 +104,22 @@
 
       &:-moz-placeholder { /* Firefox 18- */
          font-family:$font-family;
-         padding-left:$box-padding;
+         padding-left:$box-padding-half;
       }
 
       &::-moz-placeholder {  /* Firefox 19+ */
          font-family:$font-family;
-         padding-left:$box-padding;
+         padding-left:$box-padding-half;
       }
 
       &:-ms-input-placeholder {
          font-family:$font-family;
-         padding-left:$box-padding;
+         padding-left:$box-padding-half;
       }
     }
     .search-actions {
       height: 41px;
-      background-color:white;
+      background-color:$light-font-color;
       overflow:hidden;
       width:140px;
       position:absolute;
@@ -139,9 +138,9 @@
           width: 54px;
           position: absolute;
           right: 0px;
-          background-color: rgb(0, 128, 252);
+          background-color: $color-active;
           font-size: 65%;
-          color:white;
+          color:$light-font-color;
           font-family:$font-family;
           text-transform: uppercase;
           cursor:pointer;
@@ -164,7 +163,7 @@
           outline:false;
           path {
             transition:fill .5s;
-            fill: rgb(153, 153, 153);
+            fill: $color-dark;
             outline:false;
           }
         }

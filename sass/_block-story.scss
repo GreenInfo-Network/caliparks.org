@@ -15,11 +15,11 @@
     box-sizing: border-box;
 
     a {
-      color: white;
+      color: $light-font-color;
       display: block;
-      background-color: rgba(27,30,88,.5);
+      background-color: $color-notasdark-transparent;
       padding: 0px 12px;
-      margin: $box-padding $box-padding 0 $box-padding;
+      margin: $box-padding-half $box-padding-half 0 $box-padding-half;
       overflow:hidden;
       box-sizing: border-box;
       float:left;
@@ -41,7 +41,7 @@
       background-size: auto 12px;
       width: 100%;
       margin-top: 0;
-      background-color: rgba(0, 0, 0, 0.5);
+      background-color: $color-dark-transparent;
       background-image: url('responsive2/blocks/story/flickr-logo.svg');
       background-repeat: no-repeat;
       font-size: 50%;
