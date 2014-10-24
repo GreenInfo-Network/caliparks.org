@@ -99,21 +99,21 @@
       }
 
       &::-webkit-input-placeholder {
-         font-family:$font-family;
+         font-family:$font-family-sans;
       }
 
       &:-moz-placeholder { /* Firefox 18- */
-         font-family:$font-family;
+         font-family:$font-family-sans;
          padding-left:$box-padding-half;
       }
 
       &::-moz-placeholder {  /* Firefox 19+ */
-         font-family:$font-family;
+         font-family:$font-family-sans;
          padding-left:$box-padding-half;
       }
 
       &:-ms-input-placeholder {
-         font-family:$font-family;
+         font-family:$font-family-sans;
          padding-left:$box-padding-half;
       }
     }
@@ -141,7 +141,7 @@
           background-color: $color-active;
           font-size: 65%;
           color:$light-font-color;
-          font-family:$font-family;
+          font-family:$font-family-sans;
           text-transform: uppercase;
           cursor:pointer;
         }

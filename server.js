@@ -306,6 +306,34 @@ app.get('/park/:id(\\d+)', function(req,res, next) {
 
 });
 
+app.get('/park/:id(\\d+)/fragment-flickr', function(req,res, next) {
+
+  if (!Number.isNaN(parseInt(req.params.id))) {
+    require('./controllers/park.js')(req, res, {
+      "dataFilter" : "flickr",
+      "limit"      : req.query.limit,
+      "startat"    : req.query.startat
+    }, function(err, templateData) {
+
+      if (err) {
+        ravenClient.captureError(new Error(err));
+        return next(err);
+      }
+
+      if (templateData) {
+        templateData.layout = 'fragment';
+        res.render('park-flickr-fragment', templateData);
+      } else {
+        go404.apply(null,[req, res, next]);
+      }
+
+    });
+  } else {
+    go404.apply(null,[req, res, next]);
+  }
+
+});
+
 app.get('/park/:id(\\d+):format(\.\\D+$)', function(req,res, next) {
 
   if (!Number.isNaN(parseInt(req.params.id))) {

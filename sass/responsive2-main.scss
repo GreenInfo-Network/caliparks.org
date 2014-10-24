@@ -20,7 +20,8 @@ $color-active:rgb(2, 122, 187);
 
 $animation-speed: .5s;
 
-$font-family: "expressway", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+$font-family-serif: "jubilat", serif;
+$font-family-sans: "expressway", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 
 @-webkit-keyframes pulse_animation {
   0% { -webkit-transform: rotate(0deg);}
@@ -46,16 +47,18 @@ body.parksforward.responsive2 {
   line-height: 29px;
   color:$color-dark;
   max-width:1024px;
-  font-family: $font-family;
+  font-family: $font-family-sans;
   font-weight: 300;
-  letter-spacing: .02em;
+  letter-spacing: .09em;
 
   a {
     text-decoration:none;
   }
 
   h1, h2, h3, h4 {
+    font-family: $font-family-serif;
     color:$light-font-color;
+    font-weight: 600;
   }
 
   h1 {

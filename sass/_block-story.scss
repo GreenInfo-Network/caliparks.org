@@ -31,6 +31,8 @@
       width: 100%;
       padding: 5px 10px;
       font-size: 130%;
+      font-family:$font-family-serif;
+      font-weight:600;
     }
 
     a.attribution-link {
@@ -42,7 +44,7 @@
       width: 100%;
       margin-top: 0;
       background-color: $color-dark-transparent;
-      background-image: url('responsive2/blocks/story/flickr-logo.svg');
+      background-image: url('responsive2/flickr-logo.svg');
       background-repeat: no-repeat;
       font-size: 50%;
       line-height: 157%;

@@ -91,8 +91,26 @@
   .carousel-item {
     height: 270px;
     background-size:cover;
+    background-repeat:no-repeat;
     background-position:center center;
     background-color:$color-lighter;
+  }
+
+  .attribution {
+
+
+      background-image: url('responsive2/flickr-logo.svg');
+      background-repeat: no-repeat;
+      height: 24px;
+      width: 40px;
+      top: $box-padding;
+      right: $box-padding;
+      position: absolute;
+      cursor:pointer;
+
+      a {
+        display:none;
+      }
   }
 
   .carousel-nav {
