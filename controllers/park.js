@@ -304,7 +304,6 @@ module.exports = function(req, res, data, callback) {
       //
       // Hipcamp output
       //
-
       if (hipcampsult) {
         output['hasHipcamp']        = hasHipcamp;
         output['hipcampActivities'] = hipcampActivitiesOrganized;

@@ -20,6 +20,8 @@ $color-active:rgb(2, 122, 187);
 
 $animation-speed: .5s;
 
+$border-radius: 4px;
+
 $font-family-serif: "jubilat", serif;
 $font-family-sans: "expressway", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 
@@ -84,6 +86,7 @@ body.parksforward.responsive2 {
   @import "block-story";
   @import "block-stories-flexy";
   @import "block-photo-carousel";
+  @import "block-activity-icons";
 
   //
   // Common layout sections

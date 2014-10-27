@@ -1,0 +1,21 @@
+.block-activity-icons {
+  margin:0;
+  padding:0;
+  display:block;
+
+  li {
+    display:inline-block;
+    list-style-type:none;
+    width:42px;
+    height:42px;
+    color:transparent;
+    background-size:32px 32px;
+    background-position:center;
+    background-repeat:no-repeat;
+    background-color:rgb(32, 153, 241);
+    border:none;
+    border-radius:$border-radius $border-radius;
+    background-position: 5px 5px;
+    padding:10px;
+  }
+}

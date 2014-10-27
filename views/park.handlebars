@@ -1,6 +1,13 @@
 <div class="content template-{{view}}">
 	<section id="park-info">
 		{{>block-photo-carousel}}
+		<div class="park-details">
+			<p>{{cpadPark.mng_agncy}}</p>
+			<h1>{{name}}</h1>
+			{{#if hasHipcamp}}
+				{{>block-activity-icons}}
+			{{/if}}
+		</div>
 	</section>
 	<section id="maps">
 	</section>
