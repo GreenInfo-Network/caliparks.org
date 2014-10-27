@@ -462,7 +462,7 @@ body.parksforward.responsive2 {
     width: 100%; }
     body.parksforward.responsive2 .content.template-home:last-child {
       margin-right: 0; }
-  body.parksforward.responsive2 .content.template-park {
+  body.parksforward.responsive2 .content.template-park > div {
     float: left;
     display: block;
     margin-right: 2.35765%;
@@ -470,40 +470,46 @@ body.parksforward.responsive2 {
     display: table;
     width: 100%;
     table-layout: fixed; }
-    body.parksforward.responsive2 .content.template-park:last-child {
+    body.parksforward.responsive2 .content.template-park > div:last-child {
       margin-right: 0; }
-    body.parksforward.responsive2 .content.template-park:after {
+    body.parksforward.responsive2 .content.template-park > div:after {
       content: "";
       display: table;
       clear: both; }
-    body.parksforward.responsive2 .content.template-park section {
+    body.parksforward.responsive2 .content.template-park > div section {
       padding: 2.35765%;
       background-color: #cfd8dc;
       padding: 0; }
-      body.parksforward.responsive2 .content.template-park section#park-info {
+      body.parksforward.responsive2 .content.template-park > div section#park-info {
         display: table-cell;
-        width: 66.66667%; }
+        width: 50%; }
         @media screen and (max-width: 720px)  {
-          body.parksforward.responsive2 .content.template-park section#park-info {
+          body.parksforward.responsive2 .content.template-park > div section#park-info {
             display: table-cell;
             width: 100%; } }
-      body.parksforward.responsive2 .content.template-park section#maps {
+      body.parksforward.responsive2 .content.template-park > div section#maps {
         float: left;
         display: block;
         margin-right: 2.35765%;
-        width: 31.76157%;
-        min-height: 100%;
+        width: 48.82117%;
         background-color: #cfd8dc; }
-        body.parksforward.responsive2 .content.template-park section#maps:last-child {
+        body.parksforward.responsive2 .content.template-park > div section#maps:last-child {
           margin-right: 0; }
         @media screen and (max-width: 720px)  {
-          body.parksforward.responsive2 .content.template-park section#maps {
+          body.parksforward.responsive2 .content.template-park > div section#maps {
             float: left;
             display: block;
             margin-right: 2.35765%;
             width: 100%; }
-            body.parksforward.responsive2 .content.template-park section#maps:last-child {
+            body.parksforward.responsive2 .content.template-park > div section#maps:last-child {
               margin-right: 0; } }
+      body.parksforward.responsive2 .content.template-park > div section#get-out {
+        float: left;
+        display: block;
+        margin-right: 2.35765%;
+        width: 100%; }
+        body.parksforward.responsive2 .content.template-park > div section#get-out:last-child {
+          margin-right: 0; }
 
 @media screen and (max-width: 720px)  {
   body.parksforward.responsive2 {

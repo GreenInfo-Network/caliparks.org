@@ -1,14 +1,45 @@
 <div class="content template-{{view}}">
-	<section id="park-info">
-		{{>block-photo-carousel}}
-		<div class="park-details">
-			<p>{{cpadPark.mng_agncy}}</p>
-			<h1>{{name}}</h1>
-			{{#if hasHipcamp}}
-				{{>block-activity-icons}}
-			{{/if}}
-		</div>
-	</section>
-	<section id="maps">
-	</section>
+	<div>
+		<section id="park-info">
+			{{>block-photo-carousel}}
+			<div class="park-details">
+				<p>{{cpadPark.mng_agncy}}</p>
+				<h1>{{name}}</h1>
+				{{#if hasHipcamp}}
+					{{>block-activity-icons}}
+				{{/if}}
+				<p class="social-breakdown">
+					{{#if tweet_count}}
+						{{#pluralize}}{{tweet_count}} {{#__}}Tweet{{/__}}|{{#__}}Tweets{{/__}}{{/pluralize}}
+						&nbsp;&nbsp;
+					{{/if}}
+					{{#if total_any_photos}}
+						{{#pluralize}}{{total_any_photos}} {{#__}}Photo{{/__}}|{{#__}}Photos{{/__}}{{/pluralize}}
+						&nbsp;&nbsp;
+					{{/if}}
+					{{#if venues_count}}
+						{{#pluralize}}{{venues_count}} {{#__}}Venue{{/__}}|{{#__}}Venues{{/__}}{{/pluralize}}
+						&nbsp;&nbsp;
+					{{/if}}
+					{{#if venues_checkins}}
+						{{#pluralize}}{{venues_checkins}} {{#__}}Check-in{{/__}}|{{#__}}Check-ins{{/__}}{{/pluralize}}
+						&nbsp;&nbsp;
+					{{/if}}
+					{{#if venues_tips}}
+						{{#pluralize}}{{venues_tips}} {{#__}}Tip{{/__}}|{{#__}}Tips{{/__}}{{/pluralize}}
+						&nbsp;&nbsp;
+					{{/if}}
+				</p>
+			</div>
+		</section>
+		<section id="maps">
+			I am a map
+		</section>
+	</div>
+	<div>
+		<section id="get-out">
+			<h2>Get outside and...</h2>
+			{{> block-stories-flexy}}
+		</section>
+	</div>
 </div>

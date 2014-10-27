@@ -4,12 +4,13 @@ var async    = require('async'),
     gpsUtil  = require('gps-util'),
     numeral  = require('numeral');
 
-var cpad = require('../lib/cpad'),
-    flickr = require('../lib/flickr'),
+var cpad       = require('../lib/cpad'),
+    flickr     = require('../lib/flickr'),
     foursquare = require('../lib/foursquare'),
-    hipcamp = require('../lib/hipcamp'),
-    instagram = require('../lib/instagram'),
-    twitter = require('../lib/twitter');
+    hipcamp    = require('../lib/hipcamp'),
+    instagram  = require('../lib/instagram'),
+    twitter    = require('../lib/twitter'),
+    stories    = require('../library/stories.js');
 
 var hashtags = require('../public/data/hashtagsBySuId.json'),
     contexts = {},
@@ -315,6 +316,11 @@ module.exports = function(req, res, data, callback) {
       if (flesult && instasult) {
         output['total_any_photos'] = (flesult.length + instasult.length);
       }
+
+      //
+      // We always get
+      //
+      output['stories'] = stories.get();
 
 
       return callback(null, output);

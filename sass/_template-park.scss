@@ -1,29 +1,33 @@
 .content.template-park {
 
-  @include span-columns(12);
-  @include row(table);
+  > div {
+    @include span-columns(12);
+    @include row(table);
 
-  section {
+    section {
 
-    @include pad();
-    background-color:$color-lighter;
-    padding:0;
-
-    &#park-info {
-      @include span-columns(8 of 12);
-      @include media(max-width 720px) {
-        @include span-columns(12 of 12);
-      }
-    }
-    &#maps {
-      @include reset-display;
-      @include span-columns(4 of 12);
-      @include media(max-width 720px) {
-        @include span-columns(12 of 12);
-      }
-
-      min-height:100%;
+      @include pad();
       background-color:$color-lighter;
+      padding:0;
+
+      &#park-info {
+        @include span-columns(6 of 12);
+        @include media(max-width 720px) {
+          @include span-columns(12 of 12);
+        }
+      }
+      &#maps {
+        @include reset-display;
+        @include span-columns(6 of 12);
+        @include media(max-width 720px) {
+          @include span-columns(12 of 12);
+        }
+
+        background-color:$color-lighter;
+      }
+      &#get-out {
+        @include span-columns(12 of 12);
+      }
     }
   }
 }
