@@ -375,14 +375,47 @@ body.parksforward.responsive2 {
       white-space: nowrap;
       width: 100%; }
       body.parksforward.responsive2 .block-photo-carousel .slide-container > div {
+        position: relative;
         height: 100%;
         width: 100%;
         background-size: cover;
         display: inline-block;
         margin-left: -10px;
         background-position: center center; }
+        body.parksforward.responsive2 .block-photo-carousel .slide-container > div .attribution {
+          display: block;
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          cursor: pointer;
+          color: transparent;
+          height: 23px;
+          width: 50px;
+          background-image: url('responsive2/flickr-logo.svg');
+          background-repeat: no-repeat; }
+          body.parksforward.responsive2 .block-photo-carousel .slide-container > div .attribution > div, body.parksforward.responsive2 .block-photo-carousel .slide-container > div .attribution > a {
+            display: none; }
         body.parksforward.responsive2 .block-photo-carousel .slide-container > div:first-of-type {
           margin-left: 0px; }
+    body.parksforward.responsive2 .block-photo-carousel button {
+      z-index: 10;
+      position: absolute;
+      border: none;
+      background-color: transparent;
+      height: 25px;
+      width: 25px;
+      background-repeat: no-repeat;
+      background-size: cover;
+      outline: none;
+      top: 44%;
+      background-image: url('responsive2/blocks/photo-carousel/forward.svg');
+      cursor: pointer; }
+      body.parksforward.responsive2 .block-photo-carousel button.carousel-back-button {
+        left: 10px;
+        transform: rotate(180deg);
+        -webkit-transform: rotate(180deg); }
+      body.parksforward.responsive2 .block-photo-carousel button.carousel-forward-button {
+        right: 10px; }
   body.parksforward.responsive2 header {
     float: left;
     display: block;
