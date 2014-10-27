@@ -1,5 +1,13 @@
-<div class="carousel" data-transition="slide">
-    {{#each flickrPhotos}}
-      {{>flickr_photo this}}
-    {{/each}}
+<div class="block-photo-carousel what-scrollbars">
+  <div class="slide-container">
+  {{#each flickrPhotos}}
+    {{>flickr_coverphoto}}
+  {{/each}}
+  </div>
+  <div id="people-from" style="position:absolute;top:277px;text-align:right;white-space: initial;line-height: 27px;width:181px;">
+    <a style="text-decoration:none;" href="/parks/most-flickr-photos/"><span style="padding: 4px;font-weight:bold;">People who use Flickr come here</span></a><br>
+    <span style="padding: 4px;font-size:12px;">{{#pluralize}}{{totalPhotos}} photo|photos{{/pluralize}} by {{#pluralize}}{{flotographer_count}} person|people{{/pluralize}}</span>
+  </div>
+  <button class="carousel-back-button">&nbsp;</button>
+  <button class="carousel-forward-button">&nbsp;</button>
 </div>

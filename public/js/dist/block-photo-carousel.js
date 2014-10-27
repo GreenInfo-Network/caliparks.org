@@ -1,1 +1,1 @@
-define(["require","exports","module","jquery","vendor/responsive-carousel/responsive-carousel","vendor/responsive-carousel/responsive-carousel.keybd"],function(){console.log("Photo carousel",arguments)});
+define(["require","exports","module","jquery"],function(){});
