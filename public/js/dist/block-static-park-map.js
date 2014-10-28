@@ -1,0 +1,1 @@
+define(["require","exports","module","stamen-super-classy","gmaps","gmap-custom-tile-layer"],function(e,s,n){"use strict";var t=e("stamen-super-classy");n.exports=function(e,s,n){function r(){u.on("ready",function(){n(null,u)})}var u=this;return t.apply(u,arguments),r(),u}});

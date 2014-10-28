@@ -2,7 +2,7 @@
 	<div>
 		<section id="park-info">
 			{{>block-photo-carousel}}
-			<p class="site-name">Caliparks</p>
+			<p class="site-name">{{#__}}Caliparks{{/__}}</p>
 			<div class="park-details">
 				<p class="agency-name"><a href="#">{{cpadPark.mng_agncy}}</a></p>
 				<h1>{{name}}</h1>
@@ -35,11 +35,12 @@
 		</section>
 		<section id="maps">
 			I am a map
+			{{> block-static-park-map}}
 		</section>
 	</div>
 	<div>
 		<section id="get-out">
-			<h2>Get outside and...</h2>
+			<h2>{{#__}}Get outside and...{{/__}}</h2>
 			{{> block-stories-flexy}}
 		</section>
 	</div>

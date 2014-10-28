@@ -30,7 +30,10 @@
     <script>
       require.config({
         baseUrl     : "/js/dist",
-        paths       : {"jquery": 'vendor/jquery/jquery-1.10.2'},
+        paths       : {
+          "jquery": 'vendor/jquery/jquery-1.10.2',
+          "gmaps": "http://maps.google.com/maps/api/js?v=3&sensor=false"
+        },
         waitSeconds : 15
       });
       {{#if view}}
