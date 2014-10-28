@@ -12,33 +12,30 @@ module.exports = function getPlace(locString, callback) {
   if (locString && isLatLongTest.test(locString)) {
     loc = locString.split(',');
 
-    // TODO fetch the map id from the environment
-    request('https://maps.googleapis.com/maps/api/geocode/json?latlng='+loc[0]+','+loc[1]+'&key=' + googleApiKey, function (error, response, body) {
+    return request({
+      uri: 'https://maps.googleapis.com/maps/api/geocode/json?latlng='+loc[0]+','+loc[1]+'&key=' + googleApiKey,
+      json: true
+    }, function (error, response, body) {
       if (error) {
         return callback(error);
       }
 
-      try {
-        callback(null, {
-          'coordinates' : loc,
-          'details'     : JSON.parse(body).results[0][0]
-        });
-      } catch (e) {
-        callback(e);
-      }
+      return callback(null, {
+        'coordinates' : loc,
+        'details'     : body.results[0][0]
+      });
     });
   } else if(locString) {
 
-    request('https://maps.googleapis.com/maps/api/geocode/json?address='+locString+'&key=' + googleApiKey, function (error, response, body) {
+    return request({
+      uri: 'https://maps.googleapis.com/maps/api/geocode/json?address='+locString+'&key=' + googleApiKey,
+      json: true
+    }, function (error, response, body) {
       if (error) {
         return callback(error);
       }
 
-      try {
-        var geocoderRes = JSON.parse(body).results;
-      } catch (e) {
-        callback(e);
-      }
+      var geocoderRes = body.results;
 
       try {
         res = geocoderRes[0].geometry.location;
@@ -46,14 +43,12 @@ module.exports = function getPlace(locString, callback) {
         callback(err);
       }
 
-      callback(null, {
-        'coordinates' : [ res.lat, res.lng],
+      return callback(null, {
+        'coordinates' : [res.lat, res.lng],
         'details'     : res
       });
     });
-
-  } else {
-    callback(null,null);
   }
 
-}
+  return callback();
+};
