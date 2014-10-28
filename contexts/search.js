@@ -47,7 +47,7 @@ function buildQuery(dbQuery, data, callback) {
     getPlace(data._query.near, function(err, place) {
 
       if (err) {
-        callback(err);
+        return callback(err);
       }
 
       fullQuery = {
@@ -67,7 +67,7 @@ function buildQuery(dbQuery, data, callback) {
     getPlace(data._query.near, function(err, place) {
 
       if (err) {
-        callback(err);
+        return callback(err);
       }
 
       fullQuery = {
@@ -139,7 +139,7 @@ module.exports = function(data, _callback) {
     buildQuery(dbQuery, data, function(err, fullQuery) {
 
       if (err) {
-        callback(err);
+        return callback(err);
       }
 
       return client.query(fullQuery, function(err, result) {
