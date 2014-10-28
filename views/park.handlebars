@@ -2,8 +2,9 @@
 	<div>
 		<section id="park-info">
 			{{>block-photo-carousel}}
+			<p class="site-name">Caliparks</p>
 			<div class="park-details">
-				<p>{{cpadPark.mng_agncy}}</p>
+				<p class="agency-name"><a href="#">{{cpadPark.mng_agncy}}</a></p>
 				<h1>{{name}}</h1>
 				{{#if hasHipcamp}}
 					{{>block-activity-icons}}

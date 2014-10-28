@@ -4,6 +4,13 @@
     @include span-columns(12);
     @include row(table);
 
+    h1 {
+      color:$color-dark;
+      font-size:200%;
+      line-height: 85%;
+      margin-bottom:25px;
+    }
+
     section {
 
       @include pad();
@@ -11,14 +18,38 @@
       padding:0;
 
       &#park-info {
-        @include span-columns(6 of 12);
+        @include span-columns(7 of 12);
+
+        .site-name {
+          display:block;
+          background-color:$color-dark;
+          padding:0 $box-padding;
+          color:$light-font-color;
+          font-size: 75%;
+        }
+
+        .park-details {
+          padding:$box-padding;
+
+          .agency-name {
+          }
+
+          .block-activity-icons {
+            margin-bottom:$box-padding;
+          }
+
+          .social-breakdown {
+            font-size: 75%;
+          }
+        }
+
         @include media(max-width 720px) {
           @include span-columns(12 of 12);
         }
       }
       &#maps {
         @include reset-display;
-        @include span-columns(6 of 12);
+        @include span-columns(5 of 12);
         @include media(max-width 720px) {
           @include span-columns(12 of 12);
         }
@@ -27,6 +58,13 @@
       }
       &#get-out {
         @include span-columns(12 of 12);
+
+        h2 {
+          text-align:center;
+          font-size:120%;
+          color:$color-dark;
+          padding:30px;
+        }
       }
     }
   }

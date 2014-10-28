@@ -54,8 +54,8 @@ body.parksforward.responsive2 {
   margin-left: auto;
   margin-right: auto;
   background-color: #333;
-  font-size: 24px;
-  line-height: 29px;
+  font-size: 22px;
+  line-height: 27px;
   color: #333;
   max-width: 1024px;
   font-family: "expressway", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
@@ -78,7 +78,7 @@ body.parksforward.responsive2 {
     font-weight: 600; }
   body.parksforward.responsive2 h1 {
     font-size: 150%;
-    margin-bottom: 5px; }
+    margin-bottom: 10px; }
   body.parksforward.responsive2 .shader {
     position: absolute;
     top: 0;
@@ -113,7 +113,7 @@ body.parksforward.responsive2 {
       body.parksforward.responsive2 .block-search-box .twitter-typeahead .tt-dropdown-menu {
         min-width: 160px;
         margin-top: 2px;
-        padding: 10px;
+        padding: 20px;
         background-color: white;
         border: 1px solid #333;
         border-radius: 0 0 4px 4px;
@@ -147,8 +147,8 @@ body.parksforward.responsive2 {
         height: 41px;
         font-size: 16px;
         outline: none;
-        padding-left: 10px;
-        margin: 0 10px; }
+        padding-left: 20px;
+        margin: 0 20px; }
         body.parksforward.responsive2 .block-search-box form input[type=search][type="search"]::-webkit-search-decoration, body.parksforward.responsive2 .block-search-box form input[type=search][type="search"]::-webkit-search-results-button, body.parksforward.responsive2 .block-search-box form input[type=search][type="search"]::-webkit-search-results-decoration {
           display: none; }
         body.parksforward.responsive2 .block-search-box form input[type=search][type="search"]::-webkit-search-cancel-button {
@@ -163,14 +163,14 @@ body.parksforward.responsive2 {
         body.parksforward.responsive2 .block-search-box form input[type=search]:-moz-placeholder {
           /* Firefox 18- */
           font-family: "expressway", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-          padding-left: 5px; }
+          padding-left: 10px; }
         body.parksforward.responsive2 .block-search-box form input[type=search]::-moz-placeholder {
           /* Firefox 19+ */
           font-family: "expressway", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-          padding-left: 5px; }
+          padding-left: 10px; }
         body.parksforward.responsive2 .block-search-box form input[type=search]:-ms-input-placeholder {
           font-family: "expressway", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-          padding-left: 5px; }
+          padding-left: 10px; }
       body.parksforward.responsive2 .block-search-box form .search-actions {
         height: 41px;
         background-color: white;
@@ -215,7 +215,7 @@ body.parksforward.responsive2 {
               outline: false; }
   body.parksforward.responsive2 .block-header-search {
     height: 217px;
-    padding: 40px 10px 5px 10px;
+    padding: 40px 20px 10px 20px;
     transition: height 0.5s;
     background-color: #333;
     text-align: center;
@@ -235,10 +235,10 @@ body.parksforward.responsive2 {
     @media screen and (max-width: 720px)  {
       body.parksforward.responsive2 .block-header-search {
         height: 110px;
-        padding-top: 10px;
+        padding-top: 20px;
         background-image: url('/style/responsive2/blocks/header-search/bg-m.jpg'); }
         body.parksforward.responsive2 .block-header-search h1 {
-          margin-bottom: 10px; } }
+          margin-bottom: 20px; } }
   body.parksforward.responsive2 .block-story {
     height: 100%;
     width: 100%;
@@ -257,7 +257,7 @@ body.parksforward.responsive2 {
         display: block;
         background-color: rgba(27, 30, 88, 0.5);
         padding: 0px 12px;
-        margin: 5px 5px 0 5px;
+        margin: 10px 10px 0 10px;
         overflow: hidden;
         box-sizing: border-box;
         float: left;
@@ -385,12 +385,12 @@ body.parksforward.responsive2 {
         body.parksforward.responsive2 .block-photo-carousel .slide-container > div .attribution {
           display: block;
           position: absolute;
-          top: 10px;
-          right: 10px;
+          top: 20px;
+          right: 20px;
           cursor: pointer;
           color: transparent;
-          height: 23px;
-          width: 50px;
+          height: 12px;
+          width: 27px;
           background-image: url('responsive2/flickr-logo.svg');
           background-repeat: no-repeat; }
           body.parksforward.responsive2 .block-photo-carousel .slide-container > div .attribution > div, body.parksforward.responsive2 .block-photo-carousel .slide-container > div .attribution > a {
@@ -411,11 +411,11 @@ body.parksforward.responsive2 {
       background-image: url('responsive2/blocks/photo-carousel/forward.svg');
       cursor: pointer; }
       body.parksforward.responsive2 .block-photo-carousel button.carousel-back-button {
-        left: 10px;
+        left: 20px;
         transform: rotate(180deg);
         -webkit-transform: rotate(180deg); }
       body.parksforward.responsive2 .block-photo-carousel button.carousel-forward-button {
-        right: 10px; }
+        right: 20px; }
   body.parksforward.responsive2 .block-activity-icons {
     margin: 0;
     padding: 0;
@@ -476,13 +476,30 @@ body.parksforward.responsive2 {
       content: "";
       display: table;
       clear: both; }
+    body.parksforward.responsive2 .content.template-park > div h1 {
+      color: #333;
+      font-size: 200%;
+      line-height: 85%;
+      margin-bottom: 25px; }
     body.parksforward.responsive2 .content.template-park > div section {
       padding: 2.35765%;
       background-color: #cfd8dc;
       padding: 0; }
       body.parksforward.responsive2 .content.template-park > div section#park-info {
         display: table-cell;
-        width: 50%; }
+        width: 58.33333%; }
+        body.parksforward.responsive2 .content.template-park > div section#park-info .site-name {
+          display: block;
+          background-color: #333;
+          padding: 0 20px;
+          color: white;
+          font-size: 75%; }
+        body.parksforward.responsive2 .content.template-park > div section#park-info .park-details {
+          padding: 20px; }
+          body.parksforward.responsive2 .content.template-park > div section#park-info .park-details .block-activity-icons {
+            margin-bottom: 20px; }
+          body.parksforward.responsive2 .content.template-park > div section#park-info .park-details .social-breakdown {
+            font-size: 75%; }
         @media screen and (max-width: 720px)  {
           body.parksforward.responsive2 .content.template-park > div section#park-info {
             display: table-cell;
@@ -491,7 +508,7 @@ body.parksforward.responsive2 {
         float: left;
         display: block;
         margin-right: 2.35765%;
-        width: 48.82117%;
+        width: 40.29137%;
         background-color: #cfd8dc; }
         body.parksforward.responsive2 .content.template-park > div section#maps:last-child {
           margin-right: 0; }
@@ -510,6 +527,11 @@ body.parksforward.responsive2 {
         width: 100%; }
         body.parksforward.responsive2 .content.template-park > div section#get-out:last-child {
           margin-right: 0; }
+        body.parksforward.responsive2 .content.template-park > div section#get-out h2 {
+          text-align: center;
+          font-size: 120%;
+          color: #333;
+          padding: 30px; }
 
 @media screen and (max-width: 720px)  {
   body.parksforward.responsive2 {
