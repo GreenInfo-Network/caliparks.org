@@ -1,5 +1,34 @@
 PATH := node_modules/.bin:$(PATH)
 
+define EXPAND_EXPORTS
+export $(word 1, $(subst =, , $(1))) := $(word 2, $(subst =, , $(1)))
+endef
+
+# load .env
+$(foreach a,$(shell cat .env 2> /dev/null),$(eval $(call EXPAND_EXPORTS,$(a))))
+# expand PG* environment vars
+$(foreach a,$(shell set -a && source .env 2> /dev/null; node_modules/.bin/pgexplode),$(eval $(call EXPAND_EXPORTS,$(a))))
+
+define create_relation
+@psql -c "\d $(subst db/,,$@)" > /dev/null 2>&1 || \
+	psql -1 -f sql/$(subst db/,,$@).sql
+endef
+
+define create_extension
+@psql -c "\dx $(subst db/,,$@)" | grep $(subst db/,,$@) > /dev/null 2>&1 || \
+	psql -c "CREATE EXTENSION $(subst db/,,$@)"
+endef
+
+define create_function
+@psql -c "\df $(subst db/,,$@)" | grep -i $(subst db/,,$@) > /dev/null 2>&1 || \
+	psql -1 -f sql/$(subst db/,,$@).sql
+endef
+
+.PHONY: DATABASE_URL
+
+DATABASE_URL:
+	@test "${$@}" || (echo "$@ is undefined" && false)
+
 #######################################
 ### Twitter stuff #####################
 #######################################
@@ -24,31 +53,10 @@ twitterHarvesterTable:
 ### Foursquare stuff ##################
 #######################################
 
-# The venues returned from the harvester (not cropped to parks)
-# Run once to create the table.
-foursquareHarvesterTable:
-	psql -U openspaces -h geo.local -c "drop table if exists foursquare_venues;" \
-	&& psql -U openspaces -h geo.local -c "create table foursquare_venues (id serial, venueid varchar(80), name varchar(255), lat double precision, lng double precision, address varchar(255), postcode varchar(20), city varchar(80), state varchar(40), country varchar(40), cc varchar(10), categ_id varchar(80), categ_name varchar(80), verified boolean, restricted boolean, referral_id varchar(80), harvested_park_id bigint, harvested_park_name varchar(80));" \
-	&& psql -U openspaces -h geo.local -c "select AddGeometryColumn('foursquare_venues','the_geom',4326,'POINT',2);"
-
-# This keeps track of all the harvester queries
-# Run once to create the table.
-foursquareMetadataTable:
-	psql -U openspaces -h geo.local -c "drop table if exists foursquare_metadata;" \
-	&& psql -U openspaces -h geo.local -c "create table foursquare_metadata (su_id int, latMin float, lngMin float, latMax float, lngMax float, date timestamp, count int);" \
-	&& psql -U openspaces -h geo.local -c "select AddGeometryColumn('foursquare_metadata','the_geom',4326,'POLYGON',2);"
-
 # Run once to create the table.
 foursquareActivityTable:
 	psql -U openspaces -h geo.local -c "drop table if exists foursquare_venue_activity;" \
 	&& psql -U openspaces -h geo.local -c "create table foursquare_venue_activity (venueid varchar(80), timestamp timestamp default NOW(), checkinscount bigint, userscount bigint, tipcount bigint, likescount bigint, mayor_id varchar(20), mayor_firstname varchar(80), mayor_lastname varchar(80));" \
-
-# Run this whenever we reharvest foursquare_venues.
-foursquareParkTable:
-	psql -U openspaces -h geo.local -c "drop table if exists foursquare_venues_distinct;" \
-	&& psql -U openspaces -h geo.local -c "create table foursquare_venues_distinct as select distinct on (venueid) * from foursquare_venues;" \
-	&& psql -U openspaces -h geo.local -c "drop table if exists park_foursquare_venues;" \
-	&& psql -U openspaces -h geo.local -c "create table park_foursquare_venues as select park.su_id as su_id, park.unit_name as su_name, venue.* from cpad_2013b_superunits_ids as park join foursquare_venues_distinct as venue on ST_Contains(park.geom,venue.the_geom);"
 
 # Run once to create the table.
 foursquareVenuesActivityView:
@@ -64,6 +72,9 @@ parkTotals:
 
 flickr: db/flickr deps/foreman
 	foreman run flickr
+
+foursquare_venues: db/foursquare deps/foreman
+	foreman run foursquare_venues
 
 instagram: db/instagram deps/foreman
 	foreman run instagram
@@ -84,17 +95,14 @@ data/CPAD_Units_nightly.zip:
 	mkdir $$(dirname $@)
 	curl -sL http://websites.greeninfo.org/common_data/California/Public_Lands/CPAD/dev/CPAD2014a4/CPAD_Units_nightly.zip -o $@
 
-db: deps/npm
-	@(set -a && source .env && export $$(pgexplode | xargs) && \
-		psql -c "SELECT 1" > /dev/null 2>&1 || \
-		createdb)
+db: DATABASE_URL deps/npm
+	@psql -c "SELECT 1" > /dev/null 2>&1 || \
+	createdb
 
-db/all: db/cpad_superunits db/flickr
+db/all: db/cpad_superunits db/flickr db/foursquare db/instagram
 
 db/postgis: db
-	@(set -a && source .env && export $$(pgexplode | xargs) && \
-		psql -c "\dx postgis" > /dev/null 2>&1 || \
-		psql -c "CREATE EXTENSION postgis")
+	$(call create_extension)
 
 db/cpad: db data/CPAD_Units_nightly.zip deps/gdal deps/pv deps/npm db/postgis
 	@(set -a && source .env && export $$(pgexplode | xargs) && \
@@ -109,56 +117,40 @@ db/cpad: db data/CPAD_Units_nightly.zip deps/gdal deps/pv deps/npm db/postgis
 			/vsizip/$(word 2,$^)/CPAD_Units_nightly.shp | pv | psql -q)
 
 db/cpad_superunits: db/cpad
-	@(set -a && source .env && export $$(pgexplode | xargs) && \
-		psql -c "\d $(subst db/,,$@)" > /dev/null 2>&1 || \
-		psql -f sql/$(subst db/,,$@).sql)
+	$(call create_relation)
 
 db/CDB_RectangleGrid: db
-	@(set -a && source .env && export $$(pgexplode | xargs) && \
-		psql -c "\sf $(subst db/,,$@)" > /dev/null 2>&1 || \
-		psql -f sql/$(subst db/,,$@).sql)
+	$(call create_function)
 
 db/CDB_HexagonGrid: db
-	@(set -a && source .env && export $$(pgexplode | xargs) && \
-		psql -c "\sf $(subst db/,,$@)" > /dev/null 2>&1 || \
-		psql -f sql/$(subst db/,,$@).sql)
+	$(call create_function)
 
 db/GetIntersectingHexagons: db/CDB_HexagonGrid
-	@(set -a && source .env && export $$(pgexplode | xargs) && \
-		psql -c "\sf $(subst db/,,$@)" > /dev/null 2>&1 || \
-		psql -f sql/$(subst db/,,$@).sql)
-
-#######################################
-### Harvester initialization grids ####
-#######################################
-
-db/latlng_array: db/CDB_RectangleGrid db/cpad_superunits
-	@(set -a && source .env && export $$(pgexplode | xargs) && \
-		psql -c "\d $(subst db/,,$@)" > /dev/null 2>&1 || \
-		psql -f sql/$(subst db/,,$@).sql)
+	$(call create_function)
 
 #######################################
 ### Flickr database tables ############
 #######################################
 
-db/flickr: db/flickr_metadata db/flickr_photos db/flickr_regions db/cpad_superunits db/latlng_array
+db/flickr: db/flickr_photos db/flickr_regions db/cpad_superunits
 
 db/flickr_photos: db
-	@(set -a && source .env && export $$(pgexplode | xargs) && \
-		psql -c "\d $(subst db/,,$@)" > /dev/null 2>&1 || \
-		psql -f sql/$(subst db/,,$@).sql)
+	$(call create_relation)
 
 db/flickr_regions: db/CDB_RectangleGrid db/cpad_superunits
-	@(set -a && source .env && export $$(pgexplode | xargs) && \
-		psql -c "\d $(subst db/,,$@)" > /dev/null 2>&1 || \
-		psql -f sql/$(subst db/,,$@).sql)
+	$(call create_relation)
 
-# This keeps track of all the harvester queries
-# Run once to create the table.
-db/flickr_metadata: db
-	@(set -a && source .env && export $$(pgexplode | xargs) && \
-		psql -c "\d $(subst db/,,$@)" > /dev/null 2>&1 || \
-		psql -f sql/$(subst db/,,$@).sql)
+#######################################
+### Foursquare database tables ########
+#######################################
+
+db/foursquare: db/foursquare_venues db/foursquare_regions db/cpad_superunits
+
+db/foursquare_venues: db
+	$(call create_relation)
+
+db/foursquare_regions: db/CDB_RectangleGrid db/cpad_superunits
+	$(call create_relation)
 
 #######################################
 ### Instagram database tables #########
@@ -167,11 +159,7 @@ db/flickr_metadata: db
 db/instagram: db/cpad_superunits db/instagram_regions db/instagram_photos
 
 db/instagram_photos: db
-	@(set -a && source .env && export $$(pgexplode | xargs) && \
-		psql -c "\d $(subst db/,,$@)" > /dev/null 2>&1 || \
-		psql -f sql/$(subst db/,,$@).sql)
+	$(call create_relation)
 
 db/instagram_regions: db/cpad_superunits db/GetIntersectingHexagons
-	@(set -a && source .env && export $$(pgexplode | xargs) && \
-		psql -c "\d $(subst db/,,$@)" > /dev/null 2>&1 || \
-		psql -f sql/$(subst db/,,$@).sql)
+	$(call create_relation)
