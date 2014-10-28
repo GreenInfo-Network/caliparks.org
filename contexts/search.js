@@ -1,6 +1,7 @@
 'use strict';
 
 var env       = require('require-env'),
+    escape    = require('pg-escape'),
     pg        = require('pg'),
     sanitizer = require('sanitizer'),
     getPlace  = require('../library/get-place.js');
@@ -13,11 +14,11 @@ function buildQuery(dbQuery, data, callback) {
   // Decide which kind of search this is
   //
 
-  if (data._query.with && data._query.with.length && data._query.near && data._query.near.length) { //Has ammenities & near filter
+  if (data._query.with && data._query.with.length && data._query.near && data._query.near.length) { //Has amenities & near filter
 
     // With
     //
-    // Split acivities into an array
+    // Split activities into an array
     //
     queryArray = sanitizer.sanitize(data._query.with).split('+');
 
@@ -41,48 +42,84 @@ function buildQuery(dbQuery, data, callback) {
     }).join(' AND ');
 
     // Near
-    var limit         = ((data.options) ? data.options.limit : null) || 100000,
-      not           = ((data.options) ? data.options.not : null) ? ' AND superunit_id <> ' + parseInt(data.options.not) : '';
+    var limit = ((data.options) ? data.options.limit : null) || 100000,
+        not   = ((data.options) ? data.options.not : null) ? ' AND superunit_id <> ' + parseInt(data.options.not) : '';
 
-    getPlace(data._query.near, function(err, place) {
-
+    return getPlace(data._query.near, function(err, place) {
       if (err) {
         return callback(err);
       }
 
       fullQuery = {
-        text   : "select *, ST_AsGeoJSON(geom) as geometry, ST_AsGeoJSON(ST_Centroid(geom)) as centroid, ST_distance(geom, st_setsrid(st_makepoint($1,$2),4326)) as distance FROM (select * from cpad_superunits_4326 INNER JOIN (SELECT su_id, activities, "+activitiesColumnSQLslug+" FROM site_hipcamp_activities) act on act.su_id=cpad_superunits_4326.superunit_id WHERE ST_DWithin(geom, st_setsrid(st_makepoint($1,$2),4326), .3)"+not+" AND unit_name iLIKE '%" + dbQuery.split("'").join("") + "%' LIMIT $3) as shortlist order by distance asc;",
-        values : [place.coordinates[1],place.coordinates[0],limit]
-      }
+        text: escape([
+          'SELECT',
+          '  *,',
+          '  ST_AsGeoJSON(geom) AS geometry,',
+          '  ST_AsGeoJSON(ST_Centroid(geom)) AS centroid,',
+          '  ST_Distance(geom, ST_SetSRID(ST_MakePoint($1, $2), 4326)) AS distance',
+          'FROM (',
+          '  SELECT',
+          '    *',
+          '  FROM cpad_superunits_4326',
+          '  INNER JOIN (',
+          '    SELECT',
+          '      su_id,',
+          '      activities,',
+          '      %s',
+          '    FROM site_hipcamp_activities',
+          '  ) act',
+          '    ON act.su_id = cpad_superunits_4326.superunit_id',
+          '  WHERE ST_DWithin(geom, ST_SetSRID(ST_MakePoint($1, $2), 4326), .3)',
+          '    %s',
+          '    AND unit_name ILIKE %L',
+          '  LIMIT $3',
+          ') AS shortlist',
+          'ORDER BY distance ASC'
+        ].join('\n'), activitiesColumnSQLslug, not, '%' + dbQuery + '%'),
+        values: [place.coordinates[1], place.coordinates[0], limit]
+      };
 
-      return callback(null,fullQuery);
-
+      return callback(null, fullQuery);
     });
 
   } else if (data._query.near && data._query.near.length) { //Has near filter
 
-    var limit         = ((data.options) ? data.options.limit : null) || 100000,
-      not           = ((data.options) ? data.options.not : null) ? ' AND superunit_id <> ' + parseInt(data.options.not) : '';
+    var limit = ((data.options) ? data.options.limit : null) || 100000,
+        not   = ((data.options) ? data.options.not : null) ? ' AND superunit_id <> ' + parseInt(data.options.not) : '';
 
-    getPlace(data._query.near, function(err, place) {
-
+    return getPlace(data._query.near, function(err, place) {
       if (err) {
         return callback(err);
       }
 
       fullQuery = {
-        text   : 'select *, ST_AsGeoJSON(geom) as geometry, ST_AsGeoJSON(ST_Centroid(geom)) as centroid, ST_distance(geom, st_setsrid(st_makepoint($1,$2),4326)) as distance from (select * from cpad_superunits_4326 where ST_DWithin(geom, st_setsrid(st_makepoint($1,$2),4326), .3)'+not+' AND unit_name iLIKE \'%' + dbQuery.split("'").join("") + '%\' LIMIT $3) as shortlist order by distance asc;',
-        values : [place.coordinates[1],place.coordinates[0],limit]
-      }
+        text: escape([
+          'SELECT',
+          '  *,',
+          '  ST_AsGeoJSON(geom) AS geometry,',
+          '  ST_AsGeoJSON(ST_Centroid(geom)) AS centroid,',
+          '  ST_Distance(geom, ST_SetSRID(ST_MakePoint($1, $2), 4326)) AS distance',
+          'FROM (',
+          '  SELECT',
+          '    *',
+          '  FROM cpad_superunits_4326',
+          '  WHERE ST_DWithin(geom, ST_SetSRID(ST_MakePoint($1, $2), 4326), .3)',
+          '    %s',
+          '    AND unit_name ILIKE %L',
+          '  LIMIT $3',
+          ') AS shortlist',
+          'ORDER BY distance ASC'
+        ].join('\n'), not, '%' + dbQuery + '%'),
+        values: [place.coordinates[1], place.coordinates[0], limit]
+      };
 
-      return callback(null,fullQuery);
-
+      return callback(null, fullQuery);
     });
 
   } else if (data._query.with && data._query.with.length) { //Has ammenities filter
 
     //
-    // Split acivities into an array
+    // Split activities into an array
     //
     queryArray = sanitizer.sanitize(data._query.with).split('+');
 
@@ -95,22 +132,48 @@ function buildQuery(dbQuery, data, callback) {
     // Build column aliases for JSON select
     //
     activitiesColumnSQLslug = queryArray.map(function(activity) {
-      return "activities->'"+activity+"' as "+activity;
+      return "activities -> '" + activity + "' as " + activity;
     }).join(',');
 
     //
     // Build where statement for JSON select
     //
     activitiesWhereSQLslug = queryArray.map(function(activity) {
-      return " act."+activity+"::text='true'";
+      return ' act.' + activity + "::text='true'";
     }).join(' AND ');
 
-    fullQuery = {"text":"SELECT cpad_superunits_4326.superunit_id, * FROM (SELECT su_id, activities, "+activitiesColumnSQLslug+" FROM site_hipcamp_activities) act INNER JOIN cpad_superunits_4326 ON cpad_superunits_4326.superunit_id=act.su_id WHERE " + activitiesWhereSQLslug + ' AND unit_name iLIKE \'%' + dbQuery.split("'").join("") + '%\''}
-    return callback(null,fullQuery);
+    fullQuery = {
+      text: escape([
+        'SELECT',
+        'cpad_superunits_4326.superunit_id,',
+        '*',
+        'FROM (',
+        '  SELECT',
+        '  su_id,',
+        '  activities,',
+        '  %s',
+        '  FROM site_hipcamp_activities',
+        ') act',
+        'INNER JOIN cpad_superunits_4326 ON cpad_superunits_4326.superunit_id = act.su_id',
+        'WHERE %s',
+        '  AND unit_name ILIKE %L'
+      ].join('\n'), activitiesColumnSQLslug, activitiesWhereSQLslug, '%' + dbQuery + '%')
+    };
+
+    console.log(fullQuery.text);
+
+    return callback(null, fullQuery);
 
   } else {
-    fullQuery = {"text":'SELECT * FROM cpad_superunits_4326 WHERE unit_name iLIKE \'%' + dbQuery.split("'").join("") + '%\''};
-    return callback(null,fullQuery);
+    fullQuery = {
+      text: escape([
+        'SELECT *',
+        'FROM cpad_superunits_4326',
+        'WHERE unit_name ILIKE %L'
+      ].join('\n'), '%' + dbQuery + '%')
+    };
+
+    return callback(null, fullQuery);
   }
 }
 
