@@ -18,7 +18,7 @@ module.exports = function(req, res, data, callback) {
 				owner:'grand_canyon_nps'
 			},
 			appTitle : 'California Open Spaces: #BZZT',
-			suggestion : suggestion
+			suggestion : null
 		});
 	}
 
