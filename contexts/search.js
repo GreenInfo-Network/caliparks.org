@@ -30,7 +30,7 @@ function buildQuery(dbQuery, data, callback) {
     '  hipcamp AS (',
     '    SELECT COALESCE((activities ->> \'activityCount\')::integer, 0) AS activities FROM site_hipcamp_activities WHERE site_hipcamp_activities.su_id = shortlist.superunit_id',
     '  )',
-    '  SELECT (flickr.photos + instagram.photos + twitter.tweets + foursquare.venues + foursquare.tips) * (CASE WHEN hipcamp.activities > 0 THEN 10 ELSE 1 END) AS score',
+    '  SELECT (COALESCE(flickr.photos, 0) + COALESCE(instagram.photos, 0) + COALESCE(twitter.tweets, 0) + COALESCE(foursquare.venues, 0) + COALESCE(foursquare.tips, 0)) * (CASE WHEN hipcamp.activities > 0 THEN 10 ELSE 1 END) AS score',
     '  FROM flickr,',
     '    instagram,',
     '    twitter,',
