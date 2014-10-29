@@ -6,9 +6,38 @@ var env       = require('require-env'),
     sanitizer = require('sanitizer'),
     getPlace  = require('../library/get-place.js');
 
-function buildQuery(dbQuery, data, callback) {
+// score = (total tweets + total photos + total checkins + total tips) (* 10 if they have activity data)
 
+function buildQuery(dbQuery, data, callback) {
   var fullQuery, activitiesColumnSQLslug, activitiesWhereSQLslug, queryArray;
+
+  var scoreSubQuery = [
+    ', (',
+    '  WITH flickr AS (',
+    '    SELECT COUNT(id) AS photos FROM flickr_photos WHERE flickr_photos.superunit_id = shortlist.superunit_id',
+    '  ),',
+    '  instagram AS (',
+    '    SELECT COUNT(id) AS photos FROM instagram_photos WHERE instagram_photos.superunit_id = shortlist.superunit_id',
+    '  ),',
+    '  twitter AS (',
+    // site_tweets has old superunit ids
+    '    SELECT COUNT(su_id) AS tweets FROM site_tweets WHERE site_tweets.su_id = shortlist.superunit_id',
+    '  ),',
+    '  foursquare AS (',
+    // site_foursquare_venues_activity has old superunit ids
+    '    SELECT COUNT(id) AS venues, SUM(tipcount) AS tips FROM site_foursquare_venues_activity WHERE site_foursquare_venues_activity.su_id = shortlist.superunit_id',
+    '  ),',
+    '  hipcamp AS (',
+    '    SELECT COALESCE((activities ->> \'activityCount\')::integer, 0) AS activities FROM site_hipcamp_activities WHERE site_hipcamp_activities.su_id = shortlist.superunit_id',
+    '  )',
+    '  SELECT (flickr.photos + instagram.photos + twitter.tweets + foursquare.venues + foursquare.tips) * (CASE WHEN hipcamp.activities > 0 THEN 10 ELSE 1 END) AS score',
+    '  FROM flickr,',
+    '    instagram,',
+    '    twitter,',
+    '    foursquare,',
+    '    hipcamp',
+    ') AS score',
+  ].join('\n');
 
   //
   // Decide which kind of search this is
@@ -53,13 +82,17 @@ function buildQuery(dbQuery, data, callback) {
       fullQuery = {
         text: escape([
           'SELECT',
-          '  *,',
+          '  superunit_id,',
+          '  unit_name,',
           '  ST_AsGeoJSON(geom) AS geometry,',
           '  ST_AsGeoJSON(ST_Centroid(geom)) AS centroid,',
           '  ST_Distance(geom, ST_SetSRID(ST_MakePoint($1, $2), 4326)) AS distance',
+          '  %s',
           'FROM (',
           '  SELECT',
-          '    *',
+          '    superunit_id,',
+          '    unit_name,',
+          '    geom',
           '  FROM cpad_superunits_4326',
           '  INNER JOIN (',
           '    SELECT',
@@ -75,7 +108,7 @@ function buildQuery(dbQuery, data, callback) {
           '  LIMIT $3',
           ') AS shortlist',
           'ORDER BY distance ASC'
-        ].join('\n'), activitiesColumnSQLslug, not, '%' + dbQuery + '%'),
+        ].join('\n'), scoreSubQuery, activitiesColumnSQLslug, not, '%' + dbQuery + '%'),
         values: [place.coordinates[1], place.coordinates[0], limit]
       };
 
