@@ -7,8 +7,28 @@ var env       = require('require-env'),
     getPlace  = require('../library/get-place.js');
 
 function buildQuery(dbQuery, data, callback) {
+  // score = (total tweets + total photos + total checkins + total tips) (* 10 if they have activity data)
 
   var fullQuery, activitiesColumnSQLslug, activitiesWhereSQLslug, queryArray;
+
+  // TODO site_tweets needs to be updated with new superunit_ids
+  // TODO site_foursquare_venues_activity needs to be updated with new
+  // superunit_ids
+  var scoreSubQuery = [
+    ', (',
+    '  WITH stats AS (',
+    '    SELECT * FROM park_stats WHERE park_stats.superunit_id = shortlist.superunit_id',
+    '  ),',
+    '  hipcamp AS (',
+    '    SELECT (activities ->> \'activityCount\')::integer AS activities FROM site_hipcamp_activities WHERE site_hipcamp_activities.su_id = shortlist.superunit_id',
+    '  )',
+    '  SELECT (stats.flickr_photo_count + stats.instagram_photo_count + stats.tweet_count + stats.foursquare_venue_count + stats.foursquare_tip_count) * (CASE WHEN COALESCE(hipcamp.activities, 0) > 0 THEN 10 ELSE 1 END) AS score',
+    '  FROM stats,',
+    '    hipcamp',
+    ') AS score',
+  ].join('\n');
+
+  var scoreOrderBy = 'score DESC,';
 
   //
   // Decide which kind of search this is
@@ -57,6 +77,7 @@ function buildQuery(dbQuery, data, callback) {
           '  ST_AsGeoJSON(geom) AS geometry,',
           '  ST_AsGeoJSON(ST_Centroid(geom)) AS centroid,',
           '  ST_Distance(geom, ST_SetSRID(ST_MakePoint($1, $2), 4326)) AS distance',
+          '  %s',
           'FROM (',
           '  SELECT',
           '    *',
@@ -74,8 +95,8 @@ function buildQuery(dbQuery, data, callback) {
           '    AND unit_name ILIKE %L',
           '  LIMIT $3',
           ') AS shortlist',
-          'ORDER BY distance ASC'
-        ].join('\n'), activitiesColumnSQLslug, not, '%' + dbQuery + '%'),
+          'ORDER BY %s distance ASC'
+        ].join('\n'), scoreSubQuery, activitiesColumnSQLslug, not, '%' + dbQuery + '%', scoreOrderBy),
         values: [place.coordinates[1], place.coordinates[0], limit]
       };
 
@@ -99,6 +120,7 @@ function buildQuery(dbQuery, data, callback) {
           '  ST_AsGeoJSON(geom) AS geometry,',
           '  ST_AsGeoJSON(ST_Centroid(geom)) AS centroid,',
           '  ST_Distance(geom, ST_SetSRID(ST_MakePoint($1, $2), 4326)) AS distance',
+          '  %s',
           'FROM (',
           '  SELECT',
           '    *',
@@ -108,8 +130,8 @@ function buildQuery(dbQuery, data, callback) {
           '    AND unit_name ILIKE %L',
           '  LIMIT $3',
           ') AS shortlist',
-          'ORDER BY distance ASC'
-        ].join('\n'), not, '%' + dbQuery + '%'),
+          'ORDER BY %s distance ASC'
+        ].join('\n'), scoreSubQuery, not, '%' + dbQuery + '%', scoreOrderBy),
         values: [place.coordinates[1], place.coordinates[0], limit]
       };
 
@@ -145,8 +167,9 @@ function buildQuery(dbQuery, data, callback) {
     fullQuery = {
       text: escape([
         'SELECT',
-        'cpad_superunits_4326.superunit_id,',
-        '*',
+        '  shortlist.superunit_id,',
+        '  *',
+        '  %s',
         'FROM (',
         '  SELECT',
         '  su_id,',
@@ -154,23 +177,25 @@ function buildQuery(dbQuery, data, callback) {
         '  %s',
         '  FROM site_hipcamp_activities',
         ') act',
-        'INNER JOIN cpad_superunits_4326 ON cpad_superunits_4326.superunit_id = act.su_id',
+        'INNER JOIN cpad_superunits_4326 shortlist ON shortlist.superunit_id = act.su_id',
         'WHERE %s',
-        '  AND unit_name ILIKE %L'
-      ].join('\n'), activitiesColumnSQLslug, activitiesWhereSQLslug, '%' + dbQuery + '%')
+        '  AND unit_name ILIKE %L',
+        'ORDER BY %s shortlist.unit_name ASC'
+      ].join('\n'), scoreSubQuery, activitiesColumnSQLslug, activitiesWhereSQLslug, '%' + dbQuery + '%', scoreOrderBy)
     };
-
-    console.log(fullQuery.text);
 
     return callback(null, fullQuery);
 
   } else {
     fullQuery = {
       text: escape([
-        'SELECT *',
-        'FROM cpad_superunits_4326',
-        'WHERE unit_name ILIKE %L'
-      ].join('\n'), '%' + dbQuery + '%')
+        'SELECT',
+        '  *',
+        '  %s',
+        'FROM cpad_superunits_4326 shortlist',
+        'WHERE unit_name ILIKE %L',
+        'ORDER BY %s shortlist.unit_name ASC'
+      ].join('\n'), scoreSubQuery, '%' + dbQuery + '%', scoreOrderBy)
     };
 
     return callback(null, fullQuery);
