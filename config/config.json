@@ -1,7 +1,7 @@
 {
   "development": {
     "database": "openspaces2",
-    "dialect": "pg"
+    "dialect": "postgres"
   },
   "test": {
     "username": "root",

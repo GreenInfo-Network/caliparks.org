@@ -33,6 +33,7 @@
     "numeral": "~1.5.3",
     "pg": "~2.11.0",
     "pg-escape": "0.0.3",
+    "pgexplode": "^1.0.0",
     "progress-bar": "~0.1.1",
     "prompt": "~0.2.12",
     "raven": "~0.7.0",

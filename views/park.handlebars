@@ -1,47 +1,47 @@
 <div class="content template-{{view}}">
-	<div>
-		<section id="park-info">
-			{{>block-photo-carousel}}
-			<p class="site-name">{{#__}}Caliparks{{/__}}</p>
-			<div class="park-details">
-				<p class="agency-name"><a href="#">{{cpadPark.mng_agncy}}</a></p>
-				<h1>{{name}}</h1>
-				{{#if hasHipcamp}}
-					{{>block-activity-icons}}
-				{{/if}}
-				<p class="social-breakdown">
-					{{#if tweet_count}}
-						{{#pluralize}}{{tweet_count}} {{#__}}Tweet{{/__}}|{{#__}}Tweets{{/__}}{{/pluralize}}
-						&nbsp;&nbsp;
-					{{/if}}
-					{{#if total_any_photos}}
-						{{#pluralize}}{{total_any_photos}} {{#__}}Photo{{/__}}|{{#__}}Photos{{/__}}{{/pluralize}}
-						&nbsp;&nbsp;
-					{{/if}}
-					{{#if venues_count}}
-						{{#pluralize}}{{venues_count}} {{#__}}Venue{{/__}}|{{#__}}Venues{{/__}}{{/pluralize}}
-						&nbsp;&nbsp;
-					{{/if}}
-					{{#if venues_checkins}}
-						{{#pluralize}}{{venues_checkins}} {{#__}}Check-in{{/__}}|{{#__}}Check-ins{{/__}}{{/pluralize}}
-						&nbsp;&nbsp;
-					{{/if}}
-					{{#if venues_tips}}
-						{{#pluralize}}{{venues_tips}} {{#__}}Tip{{/__}}|{{#__}}Tips{{/__}}{{/pluralize}}
-						&nbsp;&nbsp;
-					{{/if}}
-				</p>
-			</div>
-		</section>
-		<section id="maps">
-			I am a map
-			{{> block-static-park-map}}
-		</section>
-	</div>
-	<div>
-		<section id="get-out">
-			<h2>{{#__}}Get outside and...{{/__}}</h2>
-			{{> block-stories-flexy}}
-		</section>
-	</div>
+  <div>
+    <section id="park-info">
+      {{> block-photo-carousel}}
+      <p class="site-name">{{#__}}Caliparks{{/__}}</p>
+      <div class="park-details">
+        <p class="agency-name"><a href="#">{{park.managingAgencyName}}</a></p>
+        <h1>{{park.name}}</h1>
+        {{#if park.hasHipcamp}}
+          {{> block-activity-icons}}
+        {{/if}}
+        <p class="social-breakdown">
+          {{#if park.tweetCount}}
+            {{#pluralize}}{{park.tweetCount}} {{#__}}Tweet{{/__}}|{{#__}}Tweets{{/__}}{{/pluralize}}
+            &nbsp;&nbsp;
+          {{/if}}
+          {{#if park.photoCount}}
+            {{#pluralize}}{{park.photoCount}} {{#__}}Photo{{/__}}|{{#__}}Photos{{/__}}{{/pluralize}}
+            &nbsp;&nbsp;
+          {{/if}}
+          {{#if park.venueCount}}
+            {{#pluralize}}{{park.venueCount}} {{#__}}Venue{{/__}}|{{#__}}Venues{{/__}}{{/pluralize}}
+            &nbsp;&nbsp;
+          {{/if}}
+          {{#if park.checkinCount}}
+            {{#pluralize}}{{park.checkinCount}} {{#__}}Check-in{{/__}}|{{#__}}Check-ins{{/__}}{{/pluralize}}
+            &nbsp;&nbsp;
+          {{/if}}
+          {{#if park.tipCount}}
+            {{#pluralize}}{{park.tipCount}} {{#__}}Tip{{/__}}|{{#__}}Tips{{/__}}{{/pluralize}}
+            &nbsp;&nbsp;
+          {{/if}}
+        </p>
+      </div>
+    </section>
+    <section id="maps">
+      I am a map
+      {{> block-static-park-map}}
+    </section>
+  </div>
+  <div>
+    <section id="get-out">
+      <h2>{{#__}}Get outside and...{{/__}}</h2>
+      {{> block-stories-flexy}}
+    </section>
+  </div>
 </div>

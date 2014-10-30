@@ -203,6 +203,8 @@ app.use('/style', express.static('./public/style', { maxAge: 3600e3 }));
 app.use('/js',    express.static('./public/js', { maxAge: 3600e3 }));
 app.use('/data',  express.static('./public/data', { maxAge: 3600e3 }));
 
+app.use("/park", require("./controllers/park2"));
+
 app.get('/', function(req, res, next) {
 
   require('./controllers/home.js')(req, res, {}, function(err, templateData) {
