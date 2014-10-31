@@ -5,7 +5,7 @@ CREATE TABLE foursquare_regions (
   locked_at timestamp with time zone,
   count integer NOT NULL DEFAULT 0,
   last_fetched timestamp,
-  split boolean DEFAULT false,
+  split boolean NOT NULL DEFAULT false,
   geom geometry(Polygon, 4326) NOT NULL
 );
 

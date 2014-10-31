@@ -6,7 +6,7 @@ CREATE TABLE instagram_regions (
   locked_at timestamp with time zone,
   count integer NOT NULL DEFAULT 0,
   last_fetched timestamp,
-  split boolean DEFAULT false,
+  split boolean NOT NULL DEFAULT false,
   geom geometry(Polygon, 3310) NOT NULL UNIQUE
 );
 
