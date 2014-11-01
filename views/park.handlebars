@@ -1,5 +1,5 @@
 <div class="content template-{{view}}">
-	<div>
+	<div class="row">
 		<section id="park-info">
 			{{>block-photo-carousel}}
 			<p class="site-name">{{#__}}Caliparks{{/__}}</p>
@@ -34,14 +34,18 @@
 			</div>
 		</section>
 		<section id="maps">
-			I am a map
 			{{> block-static-park-map}}
 		</section>
 	</div>
-	<div>
+	<div class="row">
 		<section id="get-out">
 			<h2>{{#__}}Get outside and...{{/__}}</h2>
 			{{> block-stories-flexy}}
 		</section>
 	</div>
 </div>
+<script>
+	var viewData = {
+		"centroid" : [{{{centroid}}}]
+	}
+</script>

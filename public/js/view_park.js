@@ -3,10 +3,9 @@ define(["require","exports","jquery","block-photo-carousel","block-static-park-m
   var BlockStaticParkMap = require("block-static-park-map");
 
   var blockStaticParkMap = new BlockStaticParkMap('.block-static-park-map', {
-
+    "centroid" : viewData.centroid
   }, function(err, blockStaticParkMap) {
 
-    
 
   });
 

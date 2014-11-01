@@ -1,1 +1,1 @@
-define(["require","exports","jquery","block-photo-carousel","block-static-park-map"],function(a){{var c=a("block-static-park-map");new c(".block-static-park-map",{},function(){})}});
+define(["require","exports","jquery","block-photo-carousel","block-static-park-map"],function(a){{var t=a("block-static-park-map");new t(".block-static-park-map",{centroid:viewData.centroid},function(){})}});

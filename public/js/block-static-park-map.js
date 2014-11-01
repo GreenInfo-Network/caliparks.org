@@ -1,4 +1,4 @@
-define(["require","exports","module","stamen-super-classy","gmaps","gmap-custom-tile-layer"], function(require,exports, module) {
+define(["require","exports","module","stamen-super-classy","gmap-custom-tile-layer"], function(require,exports, module) {
 
   'use strict';
 
@@ -13,14 +13,39 @@ define(["require","exports","module","stamen-super-classy","gmaps","gmap-custom-
 
     StamenSuperClassy.apply(that, arguments);
 
+    var rootNode   = that.get(rootSelector)[0],
+        bigMapNode = that.get('.big-park-map',rootNode)[0],
+        smallMapNode = that.get('.small-park-map',rootNode)[0];
+
     function initBigMap() {
-      
+      that.bigMap = new google.maps.Map(bigMapNode,{
+        mapTypeControl: false,
+        streetViewControl: false,
+        center: new google.maps.LatLng(options.centroid[0], options.centroid[1]),
+        zoom                : 11,
+        scrollwheel         : false,
+        disableDefaultUI    : true
+      });
+    }
+
+    function initSmallMap() {
+      that.smallMap = new google.maps.Map(smallMapNode,{
+        mapTypeControl: false,
+        streetViewControl: false,
+        center: new google.maps.LatLng(options.centroid[0], options.centroid[1]),
+        zoom                : 15,
+        scrollwheel         : false,
+        disableDefaultUI    : true
+      });
     }
 
     //
     // Init function
     //
     function initialize() {
+      initBigMap();
+      initSmallMap()
+
       that.on('ready', function() {
         callback(null, that);
       });
@@ -29,7 +54,9 @@ define(["require","exports","module","stamen-super-classy","gmaps","gmap-custom-
     //
     // GO GO GO!
     //
-    initialize();
+    google.maps.event.addDomListener(window, 'load', function() {
+      initialize();
+    });
 
     return that;
 

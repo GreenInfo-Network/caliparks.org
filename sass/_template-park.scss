@@ -1,7 +1,7 @@
 .content.template-park {
 
   > div {
-    @include span-columns(12);
+    @include span-columns(12 of 12);
     @include row(table);
 
     h1 {
@@ -16,6 +16,7 @@
       @include pad();
       background-color:$color-lighter;
       padding:0;
+      vertical-align:top;
 
       &#park-info {
         @include span-columns(7 of 12);
@@ -48,9 +49,9 @@
         }
       }
       &#maps {
-        @include reset-display;
         @include span-columns(5 of 12);
         @include media(max-width 720px) {
+          
           @include span-columns(12 of 12);
         }
 

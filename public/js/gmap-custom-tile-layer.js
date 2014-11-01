@@ -3,7 +3,7 @@
 //
 // Created by Stamen Design in 2014
 //
-define(["require","exports","module","stamen-super-classy","gmaps"], function(require,exports, module) {
+define(["require","exports","module","stamen-super-classy"], function(require,exports, module) {
 
   'use strict';
 
