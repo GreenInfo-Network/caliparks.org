@@ -31,7 +31,8 @@ Otherwise -- world of hurt.
 ## Uglify
 
 We use uglify to sqush our Javascript so it can load nice and fast. If you are developing and want to turn that off, have a look at the `Gulpfile.js`. Change this line:
-`
+
+``
 gulp.task('uglify', function() {
   gulp.src(paths.js)
     .pipe(uglify({
@@ -42,9 +43,11 @@ gulp.task('uglify', function() {
     }))
     .pipe(gulp.dest('./public/js/dist'))
 });
-`
+``
+
 To look like this:
-`
+
+``
 gulp.task('uglify', function() {
   gulp.src(paths.js)
     .pipe(uglify({
@@ -55,8 +58,7 @@ gulp.task('uglify', function() {
     }))
     .pipe(gulp.dest('./public/js/dist'))
 });
-`
-`
+``
 
 ## To deploy
 
