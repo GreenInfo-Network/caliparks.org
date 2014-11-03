@@ -1,1 +1,101 @@
-define(["require","exports","module","vendor/typeahead","vendor/bloodhound","jquery","stamen-super-classy"],function(e,i,t){"use strict";var a,n,o,s,r,l,c,u=e("stamen-super-classy"),d={},p={},h={};t.exports=function(e,i,t){function f(e,i,t){s=p[e],$.getJSON(i,function(i){p[e]=i,o.fire("dataUpdated",{old:s,"new":p[e]}),t&&t(null,i)})}function v(e){e?(n.addClass("pulse"),n.find("path").css({fill:"blue"})):(n.removeClass("pulse"),n.find("path").css({fill:"inherit"})),o.fire("loading",{show:e})}function y(){n.get()[0].addEventListener("click",function(){navigator.geolocation?(v(!0),navigator.geolocation.getCurrentPosition(function(e){e.coords&&(v(!1),location.href=l.val().length?"/parks/search/?q"+l.val()+"&near="+parseFloat(e.coords.latitude).toFixed(4)+","+parseFloat(e.coords.longitude).toFixed(4):"/parks/near/"+parseFloat(e.coords.latitude).toFixed(4)+","+parseFloat(e.coords.longitude).toFixed(4))},function(){v(!1)})):location.href="/parks/near"})}function k(){return h.activities=new Bloodhound({datumTokenizer:Bloodhound.tokenizers.obj.whitespace("value"),queryTokenizer:Bloodhound.tokenizers.whitespace,local:$.map(p.activities,function(e){return{value:e}})}),h.places=new Bloodhound({datumTokenizer:Bloodhound.tokenizers.obj.whitespace("value"),queryTokenizer:Bloodhound.tokenizers.whitespace,local:$.map(p.places,function(e){return{value:e}})}),h.activities.initialize(),h.places.initialize(),l.typeahead({hint:!0,highlight:!0,minLength:1},{name:"places",displayKey:"value",source:h.places.ttAdapter(),templates:{header:"<h3>Places</h3>"}},{name:"activities",displayKey:"value",source:h.activities.ttAdapter(),templates:{header:"<h3>Activities</h3>"}})}function m(e){return JSON.stringify(e).split("{").join("").split("}").join("").split(":").join("=").split(",").join("&").split('"').join("").split(" ").join("+")}function w(){r.bind("submit",function(e){e.preventDefault(),d.searchType.q||d.searchType.near||d.searchType.with?location.href="/parks/search?"+m(d.searchType):l.val().indexOf(" near ")>-1?(c=l.val().split(" near "),location.href="/parks/search?with="+c[0]+"&near="+c[1]):l.val().indexOf(" with ")>-1?(c=l.val().split(" with "),location.href="/parks/search?q="+c[0]+"&with="+c[1]):location.href="/parks/search?q="+l.val()}),l.bind("keyup",function(e){13!==e.keyCode&&13!==e.which&&39!==e.keyCode&&39!==e.which?(d.searchType={},e.preventDefault()):(13===e.keyCode||13===e.which)&&e.preventDefault()}),l.bind("typeahead:selected",function(e,i,t){"places"===t?d.searchType={near:i.value}:"activities"===t&&(d.searchType={"with":i.value})})}function g(){o.on("ready",function(){t(null,o)}),y(),w(),f("activities","/data/uniqueActivities.json",function(){f("places","/data/californiaCities.json",function(){k(),o.fire("ready")})})}return o=this,u.apply(this,arguments),a=$(e),n=a.find(".locate-me"),r=a.find("form"),l=a.find("input[type=search]"),g(),o}});
+define([ "require", "exports", "module", "vendor/typeahead", "vendor/bloodhound", "jquery", "stamen-super-classy" ], function(require, exports, module) {
+    "use strict";
+    var rootNode, locateMeNode, that, old, formNode, searchFieldNode, searchParts, StamenSuperClassy = require("stamen-super-classy"), state = {}, data = {}, bloodHoundSources = {};
+    module.exports = function(rootSelector, config, callback) {
+        function updateData(key, path, callback) {
+            old = data[key], $.getJSON(path, function(json) {
+                data[key] = json, that.fire("dataUpdated", {
+                    old: old,
+                    "new": data[key]
+                }), callback && callback(null, json);
+            });
+        }
+        function setLocateMeLoadingState(show) {
+            show ? (locateMeNode.addClass("pulse"), locateMeNode.find("path").css({
+                fill: "blue"
+            })) : (locateMeNode.removeClass("pulse"), locateMeNode.find("path").css({
+                fill: "inherit"
+            })), that.fire("loading", {
+                show: show
+            });
+        }
+        function initLocateMe() {
+            locateMeNode.get()[0].addEventListener("click", function() {
+                navigator.geolocation ? (setLocateMeLoadingState(!0), navigator.geolocation.getCurrentPosition(function(r) {
+                    r.coords && (setLocateMeLoadingState(!1), location.href = searchFieldNode.val().length ? "/parks/search/?q" + searchFieldNode.val() + "&near=" + parseFloat(r.coords.latitude).toFixed(4) + "," + parseFloat(r.coords.longitude).toFixed(4) : "/parks/near/" + parseFloat(r.coords.latitude).toFixed(4) + "," + parseFloat(r.coords.longitude).toFixed(4));
+                }, function() {
+                    setLocateMeLoadingState(!1);
+                })) : location.href = "/parks/near";
+            });
+        }
+        function initTypeahead() {
+            return bloodHoundSources.activities = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace("value"),
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                local: $.map(data.activities, function(activity) {
+                    return {
+                        value: activity
+                    };
+                })
+            }), bloodHoundSources.places = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace("value"),
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                local: $.map(data.places, function(city) {
+                    return {
+                        value: city
+                    };
+                })
+            }), bloodHoundSources.activities.initialize(), bloodHoundSources.places.initialize(), 
+            searchFieldNode.typeahead({
+                hint: !0,
+                highlight: !0,
+                minLength: 1
+            }, {
+                name: "places",
+                displayKey: "value",
+                source: bloodHoundSources.places.ttAdapter(),
+                templates: {
+                    header: "<h3>Places</h3>"
+                }
+            }, {
+                name: "activities",
+                displayKey: "value",
+                source: bloodHoundSources.activities.ttAdapter(),
+                templates: {
+                    header: "<h3>Activities</h3>"
+                }
+            });
+        }
+        function paramaterizeObject(obj) {
+            return JSON.stringify(obj).split("{").join("").split("}").join("").split(":").join("=").split(",").join("&").split('"').join("").split(" ").join("+");
+        }
+        function initForm() {
+            formNode.bind("submit", function(e) {
+                e.preventDefault(), state.searchType.q || state.searchType.near || state.searchType.with ? location.href = "/parks/search?" + paramaterizeObject(state.searchType) : searchFieldNode.val().indexOf(" near ") > -1 ? (searchParts = searchFieldNode.val().split(" near "), 
+                location.href = "/parks/search?with=" + searchParts[0] + "&near=" + searchParts[1]) : searchFieldNode.val().indexOf(" with ") > -1 ? (searchParts = searchFieldNode.val().split(" with "), 
+                location.href = "/parks/search?q=" + searchParts[0] + "&with=" + searchParts[1]) : location.href = "/parks/search?q=" + searchFieldNode.val();
+            }), searchFieldNode.bind("keyup", function(e) {
+                13 !== e.keyCode && 13 !== e.which && 39 !== e.keyCode && 39 !== e.which ? (state.searchType = {}, 
+                e.preventDefault()) : (13 === e.keyCode || 13 === e.which) && e.preventDefault();
+            }), searchFieldNode.bind("typeahead:selected", function(e, choice, category) {
+                "places" === category ? state.searchType = {
+                    near: choice.value
+                } : "activities" === category && (state.searchType = {
+                    "with": choice.value
+                });
+            });
+        }
+        function initialize() {
+            that.on("ready", function() {
+                callback(null, that);
+            }), initLocateMe(), initForm(), updateData("activities", "/data/uniqueActivities.json", function() {
+                updateData("places", "/data/californiaCities.json", function() {
+                    initTypeahead(), that.fire("ready");
+                });
+            });
+        }
+        return that = this, StamenSuperClassy.apply(this, arguments), rootNode = $(rootSelector), 
+        locateMeNode = rootNode.find(".locate-me"), formNode = rootNode.find("form"), searchFieldNode = rootNode.find("input[type=search]"), 
+        initialize(), that;
+    };
+});

@@ -1,1 +1,1 @@
-define(["require","exports","module","jquery"],function(){});
+define([ "require", "exports", "module", "jquery" ], function() {});

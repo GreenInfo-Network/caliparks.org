@@ -63,9 +63,22 @@ body.parksforward.responsive2 {
     font-weight: 600;
   }
 
+  input, button, select {
+    outline:none;
+  }
+
   h1 {
     font-size:150%;
     margin-bottom:$box-padding-half;
+  }
+
+  .action {
+    background-color:$color-active;
+    border-radius:$border-radius;
+    color:white;
+    border:none;
+    font-size: 75%;
+    padding: 5px;
   }
 
   .shader {

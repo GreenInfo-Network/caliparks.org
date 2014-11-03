@@ -31,7 +31,10 @@ gulp.task('lint', function() {
 gulp.task('uglify', function() {
   gulp.src(paths.js)
     .pipe(uglify({
-      outSourceMap : true
+      mangle: false,
+      output: {
+        beautify: true
+      }
     }))
     .pipe(gulp.dest('./public/js/dist'))
 });

@@ -21,6 +21,7 @@ define(["require","exports","module","stamen-super-classy"], function(require,ex
     function getTile(coord, zoom, ownerDocument) {
         var div = ownerDocument.createElement('DIV');
         var baseURL = that.processTemplate(config.tilePath, {
+          s : 'a',
           z : zoom,
           x : coord.x,
           y : coord.y

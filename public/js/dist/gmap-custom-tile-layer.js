@@ -1,1 +1,21 @@
-define(["require","exports","module","stamen-super-classy"],function(e,t,s){"use strict";var a=e("stamen-super-classy");s.exports=function(e){function t(t,a,r){var i=r.createElement("DIV"),n=s.processTemplate(e.tilePath,{z:a,x:t.x,y:t.y});return i.style.width=e.size+"px",i.style.height=e.size+"px",i.style.backgroundColor="white",i.style.backgroundImage="url("+n+")",i}var s=this;return a.apply(s,arguments),e.name="Stamen Parks Map",e.tileSize=new google.maps.Size(e.size,e.size),e.getTile=t,e.maxZoom=e.maxZoom||18,e}});
+define([ "require", "exports", "module", "stamen-super-classy" ], function(require, exports, module) {
+    "use strict";
+    var StamenSuperClassy = require("stamen-super-classy");
+    module.exports = function(config) {
+        function getTile(coord, zoom, ownerDocument) {
+            var div = ownerDocument.createElement("DIV"), baseURL = that.processTemplate(config.tilePath, {
+                s: "a",
+                z: zoom,
+                x: coord.x,
+                y: coord.y
+            });
+            return div.style.width = config.size + "px", div.style.height = config.size + "px", 
+            div.style.backgroundColor = "white", div.style.backgroundImage = "url(" + baseURL + ")", 
+            div;
+        }
+        var that = this;
+        return StamenSuperClassy.apply(that, arguments), config.name = "Stamen Parks Map", 
+        config.tileSize = new google.maps.Size(config.size, config.size), config.getTile = getTile, 
+        config.maxZoom = config.maxZoom || 18, config;
+    };
+});

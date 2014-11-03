@@ -196,17 +196,6 @@ module.exports = function(req, res, data, callback) {
         });
       }
 
-      if (result) {
-        //
-        // Get the centroid of the CPAD geometry
-        //
-        try {
-          centroid = JSON.parse(result.centroid).coordinates;
-        } catch (err) {
-          return callback(err);
-        }
-      }
-
       if (hipcampsult) {
         //
         // If the park has hipcamp activities, organize them
@@ -247,14 +236,9 @@ module.exports = function(req, res, data, callback) {
         output['appTitle']    = 'California Open Spaces > ' + result.unit_name;
         output['park_id']     = result.superunit_id;
         output['name']        = result.unit_name;
+        output['bbox']        = result.bbox;
         output['agency_slug'] = result.mng_agncy.split(' ').join('+');
-        output['locationDisplay'] = {
-          lat : gpsUtil.getDMSLatitude(centroid[1]),
-          lon : gpsUtil.getDMSLongitude(centroid[0])
-        };
-        output['centroid']           = [centroid[1], centroid[0]];
-        output['centroid_longitude'] = centroid[0];
-        output['centroid_latitude']  = centroid[1];
+        output['centroid']           = result.centroid;
         output['cpadPark']           = result;
       }
 

@@ -1,1 +1,84 @@
-define(["require","exports","module","stamen-super-classy","gmap-custom-tile-layer"],function(e,o,t){"use strict";var n=e("stamen-super-classy");t.exports=function(e,o,t){function a(){s.bigMap=new google.maps.Map(p,{mapTypeControl:!1,streetViewControl:!1,center:new google.maps.LatLng(o.centroid[0],o.centroid[1]),zoom:11,scrollwheel:!1,disableDefaultUI:!0})}function l(){s.smallMap=new google.maps.Map(m,{mapTypeControl:!1,streetViewControl:!1,center:new google.maps.LatLng(o.centroid[0],o.centroid[1]),zoom:15,scrollwheel:!1,disableDefaultUI:!0})}function r(){a(),l(),s.on("ready",function(){t(null,s)})}var s=this;n.apply(s,arguments);var i=s.get(e)[0],p=s.get(".big-park-map",i)[0],m=s.get(".small-park-map",i)[0];return google.maps.event.addDomListener(window,"load",function(){r()}),s}});
+define([ "require", "exports", "module", "detect-os", "stamen-super-classy", "gmap-custom-tile-layer" ], function(require, exports, module) {
+    "use strict";
+    var StamenSuperClassy = require("stamen-super-classy"), GmapCustomTileLayer = require("gmap-custom-tile-layer"), DetectOs = require("detect-os"), detectOs = new DetectOs();
+    module.exports = function(rootSelector, options, callback) {
+        function geoJSONBBoxToGoogleBounds(GeoJSONBBoxPolygon) {
+            for (var a, b, point, bounds = new google.maps.LatLngBounds(), ii = 0; ii < GeoJSONBBoxPolygon.coordinates[0].length; ii++) a = GeoJSONBBoxPolygon.coordinates[0][ii][1], 
+            b = GeoJSONBBoxPolygon.coordinates[0][ii][0], point = new google.maps.LatLng(a, b), 
+            bounds.extend(point);
+            return bounds;
+        }
+        function launchDirections() {
+            location.href = "iOS" === detectOs.getMobileOperatingSystem() ? "comgooglemaps://?q=" + encodeURIComponent(options.name) + "&center=" + options.centroid.coordinates[1] + ", " + options.centroid.coordinates[0] + "&zoom=15&views=transit" : "https://www.google.com/maps/dir//'" + options.centroid.coordinates[1] + ", " + options.centroid.coordinates[0] + "'";
+        }
+        function initStamenLayer() {
+            return that.parksLayer = new GmapCustomTileLayer({
+                tilePath: "http://{s}.map.parks.stamen.com/{z}/{x}/{y}.png",
+                size: 256
+            });
+        }
+        function initBigMap() {
+            that.bigMap = new google.maps.Map(bigMapNode, {
+                mapTypeControl: !1,
+                streetViewControl: !1,
+                center: new google.maps.LatLng(options.centroid.coordinates[1], options.centroid.coordinates[0]),
+                zoom: 15,
+                scrollwheel: !1,
+                disableDefaultUI: !0,
+                mapTypeControlOptions: {
+                    mapTypeIds: [ "parksLayer" ]
+                }
+            }), that.bigMap.fitBounds(geoJSONBBoxToGoogleBounds(options.bbox)), that.bigMap.mapTypes.set("parksLayer", that.parksLayer), 
+            that.bigMap.setMapTypeId("parksLayer");
+        }
+        function initSmallMap() {
+            that.smallMap = new google.maps.Map(smallMapNode, {
+                mapTypeControl: !1,
+                streetViewControl: !1,
+                center: new google.maps.LatLng(options.centroid.coordinates[1], options.centroid.coordinates[0]),
+                zoom: 6,
+                scrollwheel: !1,
+                disableDefaultUI: !0,
+                mapTypeControlOptions: {
+                    mapTypeIds: [ "parksLayer" ]
+                }
+            }), that.smallMapRect = new google.maps.Rectangle({
+                strokeColor: "#000",
+                strokeOpacity: .35,
+                strokeWeight: 1,
+                fillColor: "#000",
+                fillOpacity: .1,
+                map: that.smallMap,
+                bounds: geoJSONBBoxToGoogleBounds(options.bbox)
+            }), that.smallMapCircle = new google.maps.Marker({
+                icon: {
+                    path: google.maps.SymbolPath.CIRCLE,
+                    fillOpacity: 1,
+                    fillColor: "black",
+                    strokeOpacity: 1,
+                    strokeColor: "white",
+                    strokeWeight: 2,
+                    scale: 4
+                },
+                position: new google.maps.LatLng(options.centroid.coordinates[1], options.centroid.coordinates[0])
+            }), that.smallMapCircle.setMap(that.smallMap);
+        }
+        function initActions() {
+            var directionsAction = that.get(".directions-action", rootNode)[0];
+            directionsAction.addEventListener("click", function() {
+                return launchDirections();
+            }, !1);
+        }
+        function initialize() {
+            initStamenLayer(), initBigMap(), initSmallMap(), initActions(), that.on("ready", function() {
+                callback(null, that);
+            });
+        }
+        var that = this;
+        StamenSuperClassy.apply(that, arguments);
+        var rootNode = that.get(rootSelector)[0], bigMapNode = that.get(".big-park-map", rootNode)[0], smallMapNode = that.get(".small-park-map", rootNode)[0];
+        return google.maps.event.addDomListener(window, "load", function() {
+            initialize();
+        }), that;
+    };
+});

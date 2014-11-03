@@ -76,9 +76,18 @@ body.parksforward.responsive2 {
     font-family: "jubilat", serif;
     color: white;
     font-weight: 600; }
+  body.parksforward.responsive2 input, body.parksforward.responsive2 button, body.parksforward.responsive2 select {
+    outline: none; }
   body.parksforward.responsive2 h1 {
     font-size: 150%;
     margin-bottom: 10px; }
+  body.parksforward.responsive2 .action {
+    background-color: #027abb;
+    border-radius: 4px;
+    color: white;
+    border: none;
+    font-size: 75%;
+    padding: 5px; }
   body.parksforward.responsive2 .shader {
     position: absolute;
     top: 0;
@@ -439,17 +448,32 @@ body.parksforward.responsive2 {
     body.parksforward.responsive2 .block-static-park-map .big-park-map {
       width: 100%;
       height: 766px; }
+      body.parksforward.responsive2 .block-static-park-map .big-park-map .gmnoprint:last-of-type {
+        top: 0;
+        right: 0;
+        bottom: auto;
+        left: auto; }
+        body.parksforward.responsive2 .block-static-park-map .big-park-map .gmnoprint:last-of-type .gmnoprint {
+          border-color: #333; }
     body.parksforward.responsive2 .block-static-park-map .small-park-map {
       position: absolute;
-      width: 30%;
-      height: 20%;
+      width: 100px;
+      height: 100px;
       top: 10px;
       right: 10px;
-      border: solid 1px black; }
+      border: solid 1px black;
+      border-radius: 5px; }
       body.parksforward.responsive2 .block-static-park-map .small-park-map .gmnoprint a, body.parksforward.responsive2 .block-static-park-map .small-park-map .gmnoprint span {
         display: none; }
       body.parksforward.responsive2 .block-static-park-map .small-park-map .gmnoprint div {
         background: none !important; }
+      body.parksforward.responsive2 .block-static-park-map .small-park-map img[src="http://maps.gstatic.com/mapfiles/api-3/images/google_white2.png"], body.parksforward.responsive2 .block-static-park-map .small-park-map a[href^="http://maps.google.com/maps"] {
+        display: none !important; }
+    body.parksforward.responsive2 .block-static-park-map .directions-action {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      cursor: pointer; }
   body.parksforward.responsive2 header {
     float: left;
     display: block;

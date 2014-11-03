@@ -1,1 +1,25 @@
-define(["require","exports","module"],function(t,n,e){e.exports=function(){var t={};return this.on=function(n){t[n]||(t[n]=[]),t[n].push(arguments)},this.once=function(){return this.on.apply(this,[arguments[0],arguments[1],arguments[2],!0])},this.fire=function(n,e){t[n]&&(t[n].forEach(function(t){t[1]({listener:t[2],caller:e})}),t[n]=t[n].filter(function(t){return!t[3]}))},this.processTemplate=function(t,n){return Object.keys(n).forEach(function(e){t=t.split("{"+e+"}").join(n[e])}),t},this.get=function(t,n){return $?(n?$(n).find(t):$(t)).get():(n?n:document).querySelectorAll(t)},this}});
+define([ "require", "exports", "module" ], function(require, exports, module) {
+    module.exports = function() {
+        var listeners = {};
+        return this.on = function(type) {
+            listeners[type] || (listeners[type] = []), listeners[type].push(arguments);
+        }, this.once = function() {
+            return this.on.apply(this, [ arguments[0], arguments[1], arguments[2], !0 ]);
+        }, this.fire = function(type, data) {
+            listeners[type] && (listeners[type].forEach(function(listener) {
+                listener[1]({
+                    listener: listener[2],
+                    caller: data
+                });
+            }), listeners[type] = listeners[type].filter(function(p) {
+                return !p[3];
+            }));
+        }, this.processTemplate = function(template, data) {
+            return Object.keys(data).forEach(function(key) {
+                template = template.split("{" + key + "}").join(data[key]);
+            }), template;
+        }, this.get = function(selector, root) {
+            return $ ? (root ? $(root).find(selector) : $(selector)).get() : (root ? root : document).querySelectorAll(selector);
+        }, this;
+    };
+});

@@ -1,1 +1,6 @@
-define(["require","exports","block-search-box","jquery"],function(e){{var o=e("block-search-box");new o(".block-search-box",{},function(){})}});
+define([ "require", "exports", "block-search-box", "jquery" ], function(require) {
+    {
+        var BlockSearchBox = require("block-search-box");
+        new BlockSearchBox(".block-search-box", {}, function() {});
+    }
+});
