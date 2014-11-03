@@ -28,6 +28,36 @@ This project uses [SASS](http://sass-lang.com/). DO NOT edit the .css files in
 `public/style`. Instead, edit the `.scss` files in the `sass` directory.
 Otherwise -- world of hurt.
 
+## Uglify
+
+We use uglify to sqush our Javascript so it can load nice and fast. If you are developing and want to turn that off, have a look at the `Gulpfile.js`. Change this line:
+`
+gulp.task('uglify', function() {
+  gulp.src(paths.js)
+    .pipe(uglify({
+      mangle: true,
+      output: {
+        beautify: false
+      }
+    }))
+    .pipe(gulp.dest('./public/js/dist'))
+});
+`
+To look like this:
+`
+gulp.task('uglify', function() {
+  gulp.src(paths.js)
+    .pipe(uglify({
+      mangle: false,
+      output: {
+        beautify: true
+      }
+    }))
+    .pipe(gulp.dest('./public/js/dist'))
+});
+`
+`
+
 ## To deploy
 
 ```bash
