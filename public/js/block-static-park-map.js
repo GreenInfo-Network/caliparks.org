@@ -47,7 +47,7 @@ define(["require","exports","module","detect-os","stamen-super-classy","gmap-cus
     //
     function launchDirections() {
       if (detectOs.getMobileOperatingSystem() === 'iOS') {
-        location.href='comgooglemaps://?q='+encodeURIComponent(options.name)+'&center='+options.centroid.coordinates[1]+', '+options.centroid.coordinates[0]+'&zoom=15&views=transit';
+        location.href='comgooglemaps://?q='+options.name+'@'+options.centroid.coordinates[1]+', '+options.centroid.coordinates[0]+'&zoom=15&views=transit';
       } else {
         location.href='https://www.google.com/maps/dir//\''+options.centroid.coordinates[1]+', '+options.centroid.coordinates[0]+'\'';
       }
@@ -74,15 +74,15 @@ define(["require","exports","module","detect-os","stamen-super-classy","gmap-cus
         zoom                : 15,
         scrollwheel         : false,
         disableDefaultUI    : true,
+        draggable           : false,
         mapTypeControlOptions : {
           mapTypeIds : ['parksLayer']
         }
       });
 
-      that.bigMap.fitBounds(geoJSONBBoxToGoogleBounds(options.bbox));
-
       that.bigMap.mapTypes.set('parksLayer', that.parksLayer);
       that.bigMap.setMapTypeId('parksLayer');
+      that.bigMap.fitBounds(geoJSONBBoxToGoogleBounds(options.bbox));
     }
 
     function initSmallMap() {
@@ -93,6 +93,7 @@ define(["require","exports","module","detect-os","stamen-super-classy","gmap-cus
         zoom                : 6,
         scrollwheel         : false,
         disableDefaultUI    : true,
+        draggable           : false,
         mapTypeControlOptions : {
           mapTypeIds : ['parksLayer']
         }

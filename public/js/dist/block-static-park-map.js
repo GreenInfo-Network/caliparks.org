@@ -9,7 +9,7 @@ define([ "require", "exports", "module", "detect-os", "stamen-super-classy", "gm
             return bounds;
         }
         function launchDirections() {
-            location.href = "iOS" === detectOs.getMobileOperatingSystem() ? "comgooglemaps://?q=" + encodeURIComponent(options.name) + "&center=" + options.centroid.coordinates[1] + ", " + options.centroid.coordinates[0] + "&zoom=15&views=transit" : "https://www.google.com/maps/dir//'" + options.centroid.coordinates[1] + ", " + options.centroid.coordinates[0] + "'";
+            location.href = "iOS" === detectOs.getMobileOperatingSystem() ? "comgooglemaps://?q=" + options.name + "@" + options.centroid.coordinates[1] + ", " + options.centroid.coordinates[0] + "&zoom=15&views=transit" : "https://www.google.com/maps/dir//'" + options.centroid.coordinates[1] + ", " + options.centroid.coordinates[0] + "'";
         }
         function initStamenLayer() {
             return that.parksLayer = new GmapCustomTileLayer({
@@ -25,11 +25,12 @@ define([ "require", "exports", "module", "detect-os", "stamen-super-classy", "gm
                 zoom: 15,
                 scrollwheel: !1,
                 disableDefaultUI: !0,
+                draggable: !1,
                 mapTypeControlOptions: {
                     mapTypeIds: [ "parksLayer" ]
                 }
-            }), that.bigMap.fitBounds(geoJSONBBoxToGoogleBounds(options.bbox)), that.bigMap.mapTypes.set("parksLayer", that.parksLayer), 
-            that.bigMap.setMapTypeId("parksLayer");
+            }), that.bigMap.mapTypes.set("parksLayer", that.parksLayer), that.bigMap.setMapTypeId("parksLayer"), 
+            that.bigMap.fitBounds(geoJSONBBoxToGoogleBounds(options.bbox));
         }
         function initSmallMap() {
             that.smallMap = new google.maps.Map(smallMapNode, {
@@ -39,6 +40,7 @@ define([ "require", "exports", "module", "detect-os", "stamen-super-classy", "gm
                 zoom: 6,
                 scrollwheel: !1,
                 disableDefaultUI: !0,
+                draggable: !1,
                 mapTypeControlOptions: {
                     mapTypeIds: [ "parksLayer" ]
                 }
