@@ -35,6 +35,36 @@ define(["require","exports","module","jquery","content-carousel","stamen-super-c
       that.carouselInstance.goForward();
     }, false);
 
+    that.carouselInstance.on('forward', function(e) {
+
+      if (e.caller.target.scrollLeft > (e.caller.target.scrollWidth-(e.caller.target.offsetWidth+e.caller.target.offsetWidth/2))) {
+        rootNode.parentNode.parentNode.classList.add('scrolled-furthest');
+      } else {
+        rootNode.parentNode.parentNode.classList.remove('scrolled-furthest');
+      }
+
+      if (e.caller.target.scrollLeft < (e.caller.target.offsetWidth/2)) {
+        rootNode.parentNode.parentNode.classList.add('not-scrolled');
+      } else {
+        rootNode.parentNode.parentNode.classList.remove('not-scrolled');
+      }
+    });
+
+    that.carouselInstance.on('backward', function(e) {
+
+      if (e.caller.target.scrollLeft > (e.caller.target.scrollWidth-(e.caller.target.offsetWidth+e.caller.target.offsetWidth/2))) {
+        rootNode.parentNode.parentNode.classList.add('scrolled-furthest');
+      } else {
+        rootNode.parentNode.parentNode.classList.remove('scrolled-furthest');
+      }
+
+      if (e.caller.target.scrollLeft < (e.caller.target.offsetWidth/2)) {
+        rootNode.parentNode.parentNode.classList.add('not-scrolled');
+      } else {
+        rootNode.parentNode.parentNode.classList.remove('not-scrolled');
+      }
+    });
+
     return that;
 
  };

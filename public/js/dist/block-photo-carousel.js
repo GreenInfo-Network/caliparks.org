@@ -12,6 +12,12 @@ define([ "require", "exports", "module", "jquery", "content-carousel", "stamen-s
             that.carouselInstance.goBackward();
         }, !1), forwardButtonNode.addEventListener("click", function() {
             that.carouselInstance.goForward();
-        }, !1), that;
+        }, !1), that.carouselInstance.on("forward", function(e) {
+            e.caller.target.scrollLeft > e.caller.target.scrollWidth - (e.caller.target.offsetWidth + e.caller.target.offsetWidth / 2) ? rootNode.parentNode.parentNode.classList.add("scrolled-furthest") : rootNode.parentNode.parentNode.classList.remove("scrolled-furthest"), 
+            e.caller.target.scrollLeft < e.caller.target.offsetWidth / 2 ? rootNode.parentNode.parentNode.classList.add("not-scrolled") : rootNode.parentNode.parentNode.classList.remove("not-scrolled");
+        }), that.carouselInstance.on("backward", function(e) {
+            e.caller.target.scrollLeft > e.caller.target.scrollWidth - (e.caller.target.offsetWidth + e.caller.target.offsetWidth / 2) ? rootNode.parentNode.parentNode.classList.add("scrolled-furthest") : rootNode.parentNode.parentNode.classList.remove("scrolled-furthest"), 
+            e.caller.target.scrollLeft < e.caller.target.offsetWidth / 2 ? rootNode.parentNode.parentNode.classList.add("not-scrolled") : rootNode.parentNode.parentNode.classList.remove("not-scrolled");
+        }), that;
     };
 });
