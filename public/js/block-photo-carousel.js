@@ -21,51 +21,55 @@ define(["require","exports","module","jquery","content-carousel","stamen-super-c
         backButtonNode    = that.get(backButtonSelector, rootNode)[0],
         forwardButtonNode = that.get(forwardButtonSelector, rootNode)[0];
 
-    that.carouselInstance = new ContentCarousel(rootSelector + ' .slide-container', {
-      slideClass : 'coverphoto',
-      snapToSlide : true,
-      showLoader: true
-    });
+    if (rootNode) {
+      that.carouselInstance = new ContentCarousel(rootSelector + ' .slide-container', {
+        slideClass : 'coverphoto',
+        snapToSlide : true,
+        showLoader: true
+      });
 
-    backButtonNode.addEventListener('click', function() {
-      that.carouselInstance.goBackward();
-    }, false);
+      backButtonNode.addEventListener('click', function() {
+        that.carouselInstance.goBackward();
+      }, false);
 
-    forwardButtonNode.addEventListener('click', function() {
-      that.carouselInstance.goForward();
-    }, false);
+      forwardButtonNode.addEventListener('click', function() {
+        that.carouselInstance.goForward();
+      }, false);
 
-    that.carouselInstance.on('forward', function(e) {
+      that.carouselInstance.on('forward', function(e) {
 
-      if (e.caller.target.scrollLeft > (e.caller.target.scrollWidth-(e.caller.target.offsetWidth+e.caller.target.offsetWidth/2))) {
-        rootNode.parentNode.parentNode.classList.add('scrolled-furthest');
-      } else {
-        rootNode.parentNode.parentNode.classList.remove('scrolled-furthest');
-      }
+        if (e.caller.target.scrollLeft > (e.caller.target.scrollWidth-(e.caller.target.offsetWidth+e.caller.target.offsetWidth/2))) {
+          rootNode.parentNode.parentNode.classList.add('scrolled-furthest');
+        } else {
+          rootNode.parentNode.parentNode.classList.remove('scrolled-furthest');
+        }
 
-      if (e.caller.target.scrollLeft < (e.caller.target.offsetWidth/2)) {
-        rootNode.parentNode.parentNode.classList.add('not-scrolled');
-      } else {
-        rootNode.parentNode.parentNode.classList.remove('not-scrolled');
-      }
-    });
+        if (e.caller.target.scrollLeft < (e.caller.target.offsetWidth/2)) {
+          rootNode.parentNode.parentNode.classList.add('not-scrolled');
+        } else {
+          rootNode.parentNode.parentNode.classList.remove('not-scrolled');
+        }
+      });
 
-    that.carouselInstance.on('backward', function(e) {
+      that.carouselInstance.on('backward', function(e) {
 
-      if (e.caller.target.scrollLeft > (e.caller.target.scrollWidth-(e.caller.target.offsetWidth+e.caller.target.offsetWidth/2))) {
-        rootNode.parentNode.parentNode.classList.add('scrolled-furthest');
-      } else {
-        rootNode.parentNode.parentNode.classList.remove('scrolled-furthest');
-      }
+        if (e.caller.target.scrollLeft > (e.caller.target.scrollWidth-(e.caller.target.offsetWidth+e.caller.target.offsetWidth/2))) {
+          rootNode.parentNode.parentNode.classList.add('scrolled-furthest');
+        } else {
+          rootNode.parentNode.parentNode.classList.remove('scrolled-furthest');
+        }
 
-      if (e.caller.target.scrollLeft < (e.caller.target.offsetWidth/2)) {
-        rootNode.parentNode.parentNode.classList.add('not-scrolled');
-      } else {
-        rootNode.parentNode.parentNode.classList.remove('not-scrolled');
-      }
-    });
+        if (e.caller.target.scrollLeft < (e.caller.target.offsetWidth/2)) {
+          rootNode.parentNode.parentNode.classList.add('not-scrolled');
+        } else {
+          rootNode.parentNode.parentNode.classList.remove('not-scrolled');
+        }
+      });
 
-    return that;
+      return that;
+    } else {
+      return null;
+    }
 
  };
 

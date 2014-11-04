@@ -250,6 +250,7 @@ module.exports = function(req, res, data, callback) {
       //
       if (flesult) {
         output['totalPhotos']        = flesult.length ? flesult.length : 0;
+        output['hasFlickr']          = (output['totalPhotos'] > 0);
         output['flickrPhotos']       = flickrPreload;
         output['flotographer_count'] = Object.keys(flotographer_count).length;
       }

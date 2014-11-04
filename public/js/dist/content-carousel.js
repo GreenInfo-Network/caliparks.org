@@ -1,12 +1,18 @@
-define([ "require", "exports", "module", "jquery", "stamen-super-classy" ], function(require, exports, module) {
+define([ "require", "exports", "module", "jquery", "stamen-super-classy", "modernizr" ], function(require, exports, module) {
     "use strict";
     var StamenSuperClassy = require("stamen-super-classy");
     module.exports = function(rootSelector, options) {
         var animationInterval, that = this;
         StamenSuperClassy.apply(this, arguments), options = options || {};
         var coverPhotos, rootElement = document.querySelector(rootSelector), optionsInternal = {};
-        return rootElement.style.overflow = "auto", optionsInternal.slideClass = options.slideClass || "carousel-slide", 
-        coverPhotos = $(rootSelector + " ." + optionsInternal.slideClass), rootSelector && rootElement ? (that.goForward = function() {
+        if (rootElement.style.overflow = "auto", STMN && rootElement.parentNode.classList.contains("what-scrollbars") && "Windows" === STMN.OSName) {
+            var ws = rootElement.parentNode;
+            ws.style.overflow = "hidden", rootElement.style.margin = "0 -17px -17px 0", rootElement.style.height = rootElement.offsetHeight + 17 + "px", 
+            rootElement.style.width = rootElement.offsetWidth + 17 + "px";
+        }
+        return STMN && "Firefox" === STMN.ua.split(" ")[0] && (rootElement.style.overflow = "-moz-scrollbars-none"), 
+        optionsInternal.slideClass = options.slideClass || "carousel-slide", coverPhotos = $(rootSelector + " ." + optionsInternal.slideClass), 
+        rootSelector && rootElement ? (that.goForward = function() {
             animationInterval && (clearInterval(animationInterval), animationInterval = null);
             var pos, next, start = rootElement.scrollLeft;
             options.snapToSlide ? (coverPhotos = $(rootSelector + " ." + optionsInternal.slideClass), 

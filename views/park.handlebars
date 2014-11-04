@@ -1,7 +1,9 @@
 <div class="content template-{{view}}">
 	<div class="row">
 		<section id="park-info">
-			{{>block-photo-carousel}}
+			{{#if hasFlickr}}
+				{{>block-photo-carousel}}
+			{{/if}}
 			<p class="site-name">{{#__}}Caliparks{{/__}}</p>
 			<div class="park-details">
 				<p class="agency-name"><a href="#">{{cpadPark.mng_agncy}}</a></p>

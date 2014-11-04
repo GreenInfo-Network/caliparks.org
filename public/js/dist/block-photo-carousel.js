@@ -4,7 +4,7 @@ define([ "require", "exports", "module", "jquery", "content-carousel", "stamen-s
         var that = this, backButtonSelector = ".carousel-back-button", forwardButtonSelector = ".carousel-forward-button";
         StamenSuperClassy.apply(this, arguments);
         var rootNode = that.get(rootSelector)[0], backButtonNode = that.get(backButtonSelector, rootNode)[0], forwardButtonNode = that.get(forwardButtonSelector, rootNode)[0];
-        return that.carouselInstance = new ContentCarousel(rootSelector + " .slide-container", {
+        return rootNode ? (that.carouselInstance = new ContentCarousel(rootSelector + " .slide-container", {
             slideClass: "coverphoto",
             snapToSlide: !0,
             showLoader: !0
@@ -18,6 +18,6 @@ define([ "require", "exports", "module", "jquery", "content-carousel", "stamen-s
         }), that.carouselInstance.on("backward", function(e) {
             e.caller.target.scrollLeft > e.caller.target.scrollWidth - (e.caller.target.offsetWidth + e.caller.target.offsetWidth / 2) ? rootNode.parentNode.parentNode.classList.add("scrolled-furthest") : rootNode.parentNode.parentNode.classList.remove("scrolled-furthest"), 
             e.caller.target.scrollLeft < e.caller.target.offsetWidth / 2 ? rootNode.parentNode.parentNode.classList.add("not-scrolled") : rootNode.parentNode.parentNode.classList.remove("not-scrolled");
-        }), that;
+        }), that) : null;
     };
 });
