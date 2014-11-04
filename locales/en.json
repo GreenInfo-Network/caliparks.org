@@ -59,5 +59,17 @@
 	"Tip": "Tip",
 	"Tips": "Tips",
 	"Tweet": "Tweet",
-	"Tweets": "Tweets"
+	"Tweets": "Tweets",
+	"by": "by",
+	"on <a href=\"http://flickr.com\">Flickr</a>": "on <a href=\"http://flickr.com\">Flickr</a>",
+	"This park has backpacking": "This park has backpacking",
+	"This park has biking": "This park has biking",
+	"This park has hiking": "This park has hiking",
+	"This park has whitewaterRaftingKayaking": "This park has whitewaterRaftingKayaking",
+	"This park has camping": "This park has camping",
+	"Directions": "Directions",
+	"Clicking this takes you to Flickr": "Clicking this takes you to Flickr",
+	"park": "park",
+	"parks": "parks",
+	"Sort by <a href=\"/parks/biggest-to-smallest/\">park size</a> or <a href=\"/parks/most-tweets/\">most tweets": "Sort by <a href=\"/parks/biggest-to-smallest/\">park size</a> or <a href=\"/parks/most-tweets/\">most tweets"
 }
