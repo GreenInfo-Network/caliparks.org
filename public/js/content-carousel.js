@@ -1,7 +1,7 @@
 //
 // Tools for detecting the client OS
 //
-define(["require","exports","module","jquery","stamen-super-classy"], function(require,exports,module) {
+define(["require","exports","module","jquery","stamen-super-classy","modernizr"], function(require,exports,module) {
 
   'use strict';
 
@@ -39,21 +39,17 @@ define(["require","exports","module","jquery","stamen-super-classy"], function(r
     }
     */
 
-    /* TODO: Move this OS check to the detect-os module and use that
-    if(rootElement.parentNode.classList.contains('what-scrollbars') && OSName === 'Windows') {
+    if(STMN && rootElement.parentNode.classList.contains('what-scrollbars') && STMN.OSName === 'Windows') {
       var ws = rootElement.parentNode;
       ws.style.overflow = 'hidden';
       rootElement.style.margin = '0 -17px -17px 0';
       rootElement.style.height = rootElement.offsetHeight + 17 + 'px';
       rootElement.style.width = rootElement.offsetWidth + 17 + 'px';
     }
-    */
 
-    /* TODO: Replace with Modernizr
-    if (STMN.ua.split(' ')[0] === "Firefox") {
+    if (STMN && STMN.ua.split(' ')[0] === "Firefox") {
       rootElement.style.overflow = '-moz-scrollbars-none';
     }
-    */
 
     optionsInternal.slideClass = options.slideClass || 'carousel-slide';
 
