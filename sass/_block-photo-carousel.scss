@@ -9,14 +9,17 @@
     height:100%;
     overflow:hidden;overflow-x:auto;white-space:nowrap;
     width:100%;
+    box-sizing:border-box;
+    font-size: 0 ;
 
     > div {
-      position:relative;
       height:100%;
       width:100%;
-      background-size:cover;
+      box-sizing:border-box;
       display:inline-block;
-      margin-left:-10px;
+
+      background-size:cover;
+      display:block;
       background-position: center center;
 
       .attribution {
