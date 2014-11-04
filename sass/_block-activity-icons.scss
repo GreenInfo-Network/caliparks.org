@@ -17,5 +17,26 @@
     border-radius:$border-radius $border-radius;
     background-position: 5px 5px;
     padding:10px;
+    line-height: 58px;
+
+    &.outdoors {
+      background-color:#4BAE4F;
+    }
+
+    &.sports {
+      background-color:#FF9F00;
+    }
+
+    &.kids {
+      background-color:#9B26AF;
+    }
+
+    &.water {
+      background-color:#2095F2;
+    }
+
+    &.snow {
+      background-color:#00BBD3;
+    }
   }
 }

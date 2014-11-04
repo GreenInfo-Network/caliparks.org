@@ -12,7 +12,7 @@ var cpad       = require('../lib/cpad'),
     twitter    = require('../lib/twitter'),
     stories    = require('../library/stories.js');
 
-var hashtags = require('../public/data/hashtagsBySuId.json'),
+var activityCategories = require('../config/activityCategories'),
     contexts = {},
     cpadModified;
 
@@ -213,7 +213,10 @@ module.exports = function(req, res, data, callback) {
 
           for(var i in hipcampActivities) {
             if (hipcampActivities.hasOwnProperty(i) && hipcampActivities[i]) {
-              hipcampActivitiesOrganized.push({'name':i});
+              hipcampActivitiesOrganized.push({
+                'name'     : i,
+                'category' : activityCategories[i]
+              });
             }
           }
 

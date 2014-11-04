@@ -1,42 +1,23 @@
-<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="100" height="100" id="svg2" version="1.1" inkscape:version="0.48.2 r9819" sodipodi:docname="rock-climber.svg">
-  <title id="title3155">Rock Climbing</title>
-  <defs id="defs4"/>
-  <sodipodi:namedview id="base" pagecolor="#ffffff" bordercolor="#666666" borderopacity="1.0" inkscape:pageopacity="0.0" inkscape:pageshadow="2" inkscape:zoom="1.979899" inkscape:cx="24.897599" inkscape:cy="111.18954" inkscape:document-units="px" inkscape:current-layer="layer1" showgrid="false" inkscape:window-width="1280" inkscape:window-height="709" inkscape:window-x="0" inkscape:window-y="0" inkscape:window-maximized="1"/>
-  <metadata id="metadata7">
-    <rdf:RDF>
-      <cc:Work rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-        <dc:title>Rock Climbing</dc:title>
-        <dc:date>2014-01-30</dc:date>
-        <dc:creator>
-          <cc:Agent>
-            <dc:title>Alec Dhuse</dc:title>
-          </cc:Agent>
-        </dc:creator>
-        <dc:subject>
-          <rdf:Bag>
-            <rdf:li>Rock Climber</rdf:li>
-            <rdf:li>Climber</rdf:li>
-            <rdf:li>Climbing</rdf:li>
-          </rdf:Bag>
-        </dc:subject>
-        <cc:license rdf:resource="http://creativecommons.org/licenses/by/3.0/"/>
-      </cc:Work>
-      <cc:License rdf:about="http://creativecommons.org/licenses/by/3.0/">
-        <cc:permits rdf:resource="http://creativecommons.org/ns#Reproduction"/>
-        <cc:permits rdf:resource="http://creativecommons.org/ns#Distribution"/>
-        <cc:requires rdf:resource="http://creativecommons.org/ns#Notice"/>
-        <cc:requires rdf:resource="http://creativecommons.org/ns#Attribution"/>
-        <cc:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks"/>
-      </cc:License>
-    </rdf:RDF>
-  </metadata>
-  <g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1" transform="translate(0,-952.36218)">
-    <path sodipodi:type="arc" style="fill:white;fill-opacity:1;stroke:none" id="path3089" sodipodi:cx="8.5714283" sodipodi:cy="682.36218" sodipodi:rx="42.857143" sodipodi:ry="42.857143" d="m 51.428572,682.36218 a 42.857143,42.857143 0 1 1 -85.714287,0 42.857143,42.857143 0 1 1 85.714287,0 z" transform="matrix(0.14279177,0.03136927,-0.03136927,0.14279177,31.448182,898.85594)"/>
-    <path style="fill:white;fill-opacity:1;stroke:none" d="m 26.637499,1020.7685 c -1.310955,-1.2857 -7.770009,-8.5246 -9.087583,-10.0274 -1.303093,-1.4863 -1.611621,-2.0521 -1.932073,-3.543 -0.157448,-0.7326 -0.14979,-1.1858 0.0388,-2.2969 0.415495,-2.4479 1.508991,-4.2006 3.589013,-5.75282 l 1.172134,-0.87469 -0.145523,-8.94765 c -0.08003,-4.9212 -0.09228,-9.36968 -0.02722,-9.88549 0.141306,-1.12022 0.476545,-1.74894 1.226616,-2.30045 1.267121,-0.93169 3.088124,-0.94796 4.176213,-0.0373 1.035079,0.86628 1.211969,2.02074 1.372949,8.96041 0.219183,9.4488 -0.916168,10.41912 0.443838,9.89092 1.952969,-0.7585 3.669784,-2.62769 6.114926,-6.52965 2.809459,-4.48334 3.835485,-5.79466 4.824303,-6.16573 1.615843,-0.60638 3.58781,0.2561 4.19756,1.83588 0.296652,0.76859 0.166382,2.01858 -0.315203,3.0245 -0.614103,1.28273 -5.552028,9.1998 -6.290317,10.0854 -0.601975,0.72208 -1.264984,1.21016 -3.995881,2.94167 -1.800786,1.1417 -3.296295,2.1766 -3.323354,2.2998 -0.0648,0.295 1.102684,1.7273 3.227275,3.9595 2.255709,2.3698 4.318602,4.6435 4.274078,4.8462 -1.96995,1.614 -7.689916,10.322 -9.54055,8.5168 z" id="path3056" inkscape:connector-curvature="0" sodipodi:nodetypes="csssscsssssssssssssscc"/>
-    <path style="fill:white;fill-opacity:1;stroke:none" d="m 64.825028,1041.0515 c -1.0216,-0.4637 -1.9036,-1.1451 -6.0356,-4.6628 -2.288309,-1.9482 -4.911256,-4.1739 -5.828773,-4.946 l -1.668216,-1.4038 -3.875848,-1.0016 c -10.83941,-2.8011 -14.013811,-3.7079 -16.039128,-4.5817 -0.83234,-0.3592 -2.945443,-2.3523 -2.910153,-2.513 0.01282,-0.058 1.692627,-0.2371 2.991824,-1.6324 5.950502,-5.5249 9.394069,-13.218 15.435148,-18.5681 0.76685,-0.6562 1.085394,-0.7506 2.488705,-0.7381 2.646802,0.024 11.649701,1.0163 14.056241,1.5499 1.7698,0.3924 3.62277,0.7552 4.28478,1.7408 1.30374,1.941 1.08349,4.4237 -0.94756,5.6095 -1.31197,0.766 -3.66125,0.9782 -9.42086,0.3094 -5.161571,-0.5994 -5.711608,-0.5705 -6.894738,0.3632 -0.840749,0.6634 -6.283047,7.5653 -6.405706,8.1237 -0.0459,0.2089 0.914813,0.7072 2.17309,1.1271 0.746566,0.2492 2.844082,0.8792 4.661144,1.4001 3.347444,0.9596 4.686898,1.4214 5.508903,1.8994 0.552817,0.3215 10.891287,9.2907 12.070027,10.4715 1.17198,1.174 1.89601,2.2763 2.01431,3.0668 0.15244,1.0186 -0.37304,2.7857 -1.02316,3.4409 -1.26718,1.2769 -3.08635,1.6479 -4.63443,0.9452 z" id="path3058" inkscape:connector-curvature="0" sodipodi:nodetypes="csscsssccsssssssssssssc"/>
-    <path style="fill:white;fill-opacity:1;stroke:none" d="m 24.788945,1033.4871 c -0.828695,-1.5893 -2.410854,-6.6275 -2.359357,-7.1228 0.0515,-0.4953 2.705697,-1.6156 3.928534,-1.9633 1.490574,-0.415 1.957622,-0.3819 2.380732,0.1683 0.662743,0.8619 2.327817,5.2748 2.47594,6.5619 0.05399,0.4692 0.01094,0.5592 -0.392373,0.8204 -2.516725,1.2046 -5.407589,2.7205 -6.033476,1.5355 z" id="path3060" inkscape:connector-curvature="0" sodipodi:nodetypes="czcsscc"/>
-    <path style="fill:white;stroke:#000000;stroke-width:0.14148083px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" d="m 94.548688,958.35386 c -2.6503,-0.83126 -84.686385,0 -84.686385,0 0,0 -2.276136,1.09742 -2.627501,2.42539 -0.351366,1.32797 0.423584,3.07275 1.414808,4.44654 0.991224,1.37379 2.320011,3.01815 4.446541,3.23385 2.126531,0.21569 5.005465,-1.00695 6.66981,0.20211 1.664345,1.20906 2.60531,4.79783 4.244425,6.06347 1.639115,1.26563 15.010095,6.37209 16.775585,7.47827 1.76549,1.10618 15.290925,4.64698 16.977697,5.45712 1.68678,0.81013 6.53191,1.72626 8.28674,4.04231 1.75483,2.31605 4.02253,6.61318 4.64865,9.09518 0.62613,2.482 -1.62482,10.2664 0.40424,13.7439 2.02905,3.4775 8.26406,5.7462 11.31628,9.3269 3.05222,3.5807 4.70186,8.8404 5.86353,12.5015 1.16168,3.6612 -0.18288,7.5872 1.61693,9.0952 1.7998,1.5081 4.48116,1.8813 4.85077,0 0.3696,-1.8812 0.0968,-64.36199 -0.20212,-87.11174 z" id="path3068" inkscape:connector-curvature="0" sodipodi:nodetypes="cczzzzzzzzzzzzzzc"/>
-  </g>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 18.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1"
+	 id="svg2" inkscape:version="0.48.2 r9819" sodipodi:docname="rock-climber.svg" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 100"
+	 enable-background="new 0 0 100 100" xml:space="preserve">
+<title  id="title3155">Rock Climbing</title>
+<sodipodi:namedview  id="base" inkscape:window-maximized="1" inkscape:window-y="0" inkscape:current-layer="layer1" inkscape:window-x="0" inkscape:pageshadow="2" inkscape:document-units="px" inkscape:window-height="709" inkscape:pageopacity="0.0" inkscape:window-width="1280" showgrid="false" inkscape:cy="111.18954" inkscape:cx="24.897599" inkscape:zoom="1.979899" borderopacity="1.0" bordercolor="#666666" pagecolor="#ffffff">
+	</sodipodi:namedview>
+<g>
+	<path fill="#FFFFFF" d="M50.6,64.7c-0.9,0.3-1.9,0.5-2.9,0.5c-1.1,0-2.2-0.1-3.2-0.4L33,91.3c-1,2.4-3.9,3.3-6.4,1.8
+		c-2.5-1.4-3.7-4.5-2.6-7l14-32.4h17.9v-3l9-4.2c2.4-1.2,5.4,0.8,6.1,3.3l4.4,17.9c0.6,2.5-0.9,5.1-3.4,5.7
+		c-2.5,0.6-5.1-0.9-5.7-3.5l-2.8-11.4L50.6,64.7z"/>
+	<path fill="#FFFFFF" d="M58.8,46.1C78.4,36.3,86,2.8,86,0h-2.7c-1,7-9.4,35-24.5,43.1V46.1z"/>
+	<path fill="#FFFFFF" d="M22.7,38.8c1,1.6,3.1,2.3,4.9,1.6L38,36.3v14.5h17.9V34l16-25.8c1.2-1.9,0.6-4.4-1.3-5.6
+		c-1.9-1.2-4.4-0.6-5.4,1.2l-13.6,22l-8.2,0c-0.5,0-1.1,0.1-1.6,0.3l-14.2,5.6l-7.3-11.1c-1.2-1.9-3.7-2.4-5.5-1.2
+		c-1.9,1.2-2.4,3.7-1.2,5.6L22.7,38.8z"/>
+	<path fill="#FFFFFF" d="M45.7,24.2c3.9,0,7.1-3.2,7.1-7.2c0-4-3.2-7.2-7.1-7.2c-3.9,0-7.1,3.2-7.1,7.2C38.6,21,41.8,24.2,45.7,24.2
+		z"/>
+	<polygon fill="#FFFFFF" points="55.9,97.5 55.9,65.2 52.9,66.6 52.9,97.5 	"/>
+</g>
 </svg>

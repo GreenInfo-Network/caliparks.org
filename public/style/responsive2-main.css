@@ -442,7 +442,18 @@ body.parksforward.responsive2 {
       border: none;
       border-radius: 4px 4px;
       background-position: 5px 5px;
-      padding: 10px; }
+      padding: 10px;
+      line-height: 58px; }
+      body.parksforward.responsive2 .block-activity-icons li.outdoors {
+        background-color: #4BAE4F; }
+      body.parksforward.responsive2 .block-activity-icons li.sports {
+        background-color: #FF9F00; }
+      body.parksforward.responsive2 .block-activity-icons li.kids {
+        background-color: #9B26AF; }
+      body.parksforward.responsive2 .block-activity-icons li.water {
+        background-color: #2095F2; }
+      body.parksforward.responsive2 .block-activity-icons li.snow {
+        background-color: #00BBD3; }
   body.parksforward.responsive2 .block-static-park-map {
     position: relative; }
     body.parksforward.responsive2 .block-static-park-map .big-park-map {
@@ -540,7 +551,7 @@ body.parksforward.responsive2 {
         body.parksforward.responsive2 .content.template-park > div section#park-info .park-details {
           padding: 20px; }
           body.parksforward.responsive2 .content.template-park > div section#park-info .park-details .block-activity-icons {
-            margin-bottom: 20px; }
+            margin-bottom: 10px; }
           body.parksforward.responsive2 .content.template-park > div section#park-info .park-details .social-breakdown {
             font-size: 75%; }
         @media screen and (max-width: 720px)  {

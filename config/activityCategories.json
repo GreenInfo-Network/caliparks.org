@@ -1,0 +1,23 @@
+{
+  "backpacking" : "outdoors",
+  "biking" : "outdoors",
+  "boating" : "water",
+  "camping" : "outdoors",
+  "caving" : "outdoors",
+  "climbing" : "outdoors",
+  "fishing" : "water",
+  "foraging" : "outdoors",
+  "hiking" : "outdoors",
+  "horsebackRiding" : "outdoors",
+  "kayakingCanoeing" : "water",
+  "kiteboardingWindsurfing" : "water",
+  "ohv" : "outdoors",
+  "snowSports" : "snow",
+  "stargazing" : "outdoors",
+  "sup" : "water",
+  "surfing" : "water",
+  "swimming" : "water",
+  "whitewaterRaftingKayaking" : "",
+  "wildlifeWatching" : "outdoors",
+  "wineBeerTasting" : "outdoors"
+}
