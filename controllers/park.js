@@ -16,93 +16,36 @@ var activityCategories = require('../config/activityCategories'),
     contexts = {},
     cpadModified;
 
-contexts.tweets = require('../public/data/context-tweets.json');
-contexts.foursquareCheckins = require('../public/data/context-foursquare-checkins.json');
-contexts.foursquareVenues = require('../public/data/context-foursquare-venues.json');
-contexts.flickrPhotos = require('../public/data/context-flickr-photos.json');
-contexts.instagramPhotos = require('../public/data/context-instagram-photos.json');
-
-module.exports = function(req, res, data, callback) {
+module.exports = function(req, res, options, callback) {
     var park_id = req.params.id,
         positions = {};
 
     var template  = 'park',
         foursquare_checkins = 0,
         foursquare_tips     = 0,
-        instagramPreload    = [],
-        instagramPostload   = [],
-        tweetsPreload       = [],
-        tweetsPostload      = [],
-        flickrPreload       = [],
-        flickrPostload      = [],
         title,
         thisOne,
         centroid;
 
-    //
-    // Get positions
-    //
-    contexts.tweets.forEach(function(pos, i) {
-      if ((pos.superunit_id | 0) === (park_id | 0)) {
-        positions.tweets = i;
-      }
-    });
-    contexts.foursquareCheckins.forEach(function(pos, i) {
-      if ((pos.superunit_id | 0) === (park_id | 0)) {
-        positions.foursquareCheckins = i;
-      }
-    });
-    contexts.foursquareVenues.forEach(function(pos, i) {
-      if ((pos.superunit_id | 0) === (park_id | 0)) {
-        positions.foursquareVenues = i;
-      }
-    });
-
-    // Equivalent SQL (slow):
-    //   SELECT rank AS position
-    //   FROM (
-    //     SELECT superunit_id,
-    //            rank() OVER (ORDER BY photos DESC),
-    //            photos
-    //     FROM (
-    //       SELECT superunit_id,
-    //              COUNT(id) photos
-    //       FROM flickr_photos
-    //       GROUP BY superunit_id
-    //     ) AS _
-    //   ) AS _
-    //   WHERE superunit_id = 1396
-
-    contexts.flickrPhotos.forEach(function(pos, i) {
-      if ((pos.superunit_id | 0) === (park_id | 0)) {
-        positions.flickrPhotos = i;
-      }
-    });
-    contexts.instagramPhotos.forEach(function(pos, i) {
-      if ((pos.superunit_id | 0) === (park_id | 0)) {
-        positions.instagramPhotos = i;
-      }
-    });
-
   var dbRequests = {
-    result: async.apply(cpad.getPark, park_id, data),
-    flesult: async.apply(flickr.getPhotosForPark, park_id, data),
-    instasult: async.apply(instagram.getPhotosForPark, park_id, data),
-    foursult: async.apply(foursquare.getVenuesForPark, park_id, data),
-    tweetsult: async.apply(twitter.getTweetsForPark, park_id, data),
-    hipcampsult: async.apply(hipcamp.getActivitiesForPark, park_id, data)
+    cpad       : async.apply(cpad.getPark,                 park_id, options),
+    flickr     : async.apply(flickr.getPhotosForPark,      park_id, options),
+    instagram  : async.apply(instagram.getPhotosForPark,   park_id, options),
+    foursquare : async.apply(foursquare.getVenuesForPark,  park_id, options),
+    twitter    : async.apply(twitter.getTweetsForPark,     park_id, options),
+    hipcamp    : async.apply(hipcamp.getActivitiesForPark, park_id, options)
   };
 
   //
   // Data calls can be filtered for specific types of API calls
   // and fragments
   //
-  if (data.dataFilter) {
-    if (data.dataFilter === 'flickr') {
-      delete dbRequests['instasult'];
-      delete dbRequests['foursult'];
-      delete dbRequests['tweetsult'];
-      delete dbRequests['hipcampsult'];
+
+  if (options.dataFilter) {
+    for (var i in dbRequests) {
+      if (dbRequests.hasOwnProperty(i) && i !== options.dataFilter && i !== 'cpad') {
+        delete dbRequests[i];
+      }
     }
   }
 
@@ -111,92 +54,32 @@ module.exports = function(req, res, data, callback) {
       return callback(err);
     }
 
-    var result      = apiResponse.result,
-        flesult     = apiResponse.flesult,
-        instasult   = apiResponse.instasult,
-        foursult    = apiResponse.foursult,
-        tweetsult   = apiResponse.tweetsult,
-        hipcampsult = apiResponse.hipcampsult;
-
     //
     // Was a park found? if not, just 404
     //
-    if (result) {
+    if (apiResponse.cpad) {
 
       //
       // Get checkins and tips count from Foursquare
       //
-      if (foursult) {
-        foursult.forEach(function(venue) {
+      if (apiResponse.foursquare) {
+        apiResponse.foursquare.forEach(function(venue) {
           foursquare_checkins += venue.checkinscount;
           foursquare_tips += venue.tipcount;
         });
 
-        var venues_count               = numeral(foursult.length).format('0,0'),
+        var venues_count               = numeral(apiResponse.foursquare.length).format('0,0'),
             venues_checkins            = numeral(foursquare_checkins).format('0,0'),
             venues_tips                = numeral(foursquare_tips).format('0,0');
       }
 
-      if (hipcampsult) {
-        var hasHipcamp                 = !!hipcampsult,
-            hipcampActivities          = (hasHipcamp) ? hipcampsult.activities : null,
+      if (apiResponse.hipcamp) {
+        var hasHipcamp                 = !!apiResponse.hipcamp,
+            hipcampActivities          = (hasHipcamp) ? apiResponse.hipcamp.activities : null,
             hipcampActivitiesOrganized = [];
       }
 
-
-      //separate the instagram into preload and post load
-      // preloading 32
-      var instographer_count = {};
-      if (instasult) {
-        instasult.forEach(function(photo, i) {
-
-          instographer_count[photo.username] = true;
-
-          thisOne = photo;
-          thisOne.thumb = thisOne.standard_resolution.split('_7').join('_5');
-          thisOne.thumb = thisOne.standard_resolution.split('_7').join('_5');
-
-          if(i < 32) {
-            instagramPreload.push(photo);
-          } else {
-            instagramPostload.push(photo);
-          }
-        });
-      }
-
-      //separate the tweets into preload and post load
-      // preloading 10
-      var tweeter_count = {};
-      if (tweetsult) {
-        tweetsult.forEach(function(tweet, i) {
-
-          tweeter_count[tweet.username] = true;
-
-          if(i < 10) {
-            tweetsPreload.push(tweet);
-          } else {
-            tweetsPostload.push(tweet);
-          }
-        });
-      }
-
-      //separate flickr into preload and post load
-      // preloading 5
-      var flotographer_count = {};
-      if (flesult) {
-        flesult.forEach(function(photo, i) {
-
-          flotographer_count[photo.ownername] = true;
-
-          if(i < 5) {
-            flickrPreload.push(photo);
-          } else {
-            flickrPostload.push(photo);
-          }
-        });
-      }
-
-      if (hipcampsult) {
+      if (apiResponse.hipcamp) {
         //
         // If the park has hipcamp activities, organize them
         //
@@ -223,11 +106,11 @@ module.exports = function(req, res, data, callback) {
         }
       }
 
-      if (result) {
+      if (apiResponse.cpad) {
         //
         // Modify CPAD to work better as an API output
         //
-        cpadModified = result;
+        cpadModified = cpad;
       }
 
       var output = {};
@@ -235,80 +118,82 @@ module.exports = function(req, res, data, callback) {
       //
       // CPAD output
       //
-      if (result) {
-        output['appTitle']    = 'California Open Spaces > ' + result.unit_name;
-        output['park_id']     = result.superunit_id;
-        output['name']        = result.unit_name;
-        output['bbox']        = result.bbox;
-        output['agency_slug'] = result.mng_agncy.split(' ').join('+');
-        output['centroid']           = result.centroid;
-        output['cpadPark']           = result;
+      if (apiResponse.cpad) {
+        output['appTitle']    = 'California Open Spaces > ' + apiResponse.cpad.unit_name;
+        output['park_id']     = apiResponse.cpad.superunit_id;
+        output['name']        = apiResponse.cpad.unit_name;
+        output['bbox']        = apiResponse.cpad.bbox;
+        output['agency_slug'] = apiResponse.cpad.mng_agncy.split(' ').join('+');
+        output['centroid']           = apiResponse.cpad.centroid;
+        output['cpadPark']           = apiResponse.cpad;
       }
 
       //
       // Flickr output
       //
-      if (flesult) {
-        output['totalPhotos']        = flesult.length ? flesult.length : 0;
-        output['hasFlickr']          = (output['totalPhotos'] > 0);
-        output['flickrPhotos']       = flickrPreload;
-        output['flotographer_count'] = Object.keys(flotographer_count).length;
+      if (apiResponse.flickr) {
+        output.flickr = {
+          'total' : apiResponse.flickr.length,
+          'items' : apiResponse.flickr
+        }
       }
 
       //
       // Twitter output
       //
-      if (tweetsult) {
-        output['tweets']             = tweetsPreload;
-        output['tweets_queue']       = JSON.stringify(tweetsPostload);
-        output['tweets_queue_count'] = tweetsPostload.length;
-        output['tweet_count']        = tweetsult.length ? tweetsult.length : null;
-        output['tweeter_count']      = Object.keys(tweeter_count).length;
-        output['has_tweets']         = tweetsult.length > 0;
+      if (apiResponse.twitter) {
+        output.twitter = {
+          'total' : apiResponse.twitter.length,
+          'items' : apiResponse.twitter
+        }
       }
 
       //
       // Instagram output
       //
-      if (instasult) {
-        output['has_instagram_photos']   = instasult.length > 0;
-        output['top_instagram_photos']   = instagramPreload;
-        output['instographer_count']     = Object.keys(instographer_count).length;
-        output['queue_instagram_photos'] = JSON.stringify(instagramPostload);
-        output['queue_instagram_length'] = instagramPostload.length;
-        output['instagram_count']        = instasult.length;
+      if (apiResponse.instagram) {
+        output.instagram = {
+          'total' : apiResponse.instagram.length,
+          'items' : apiResponse.instagram
+        }
       }
 
       //
       // Foursquare output
       //
-      if (foursult) {
-        output['has_foursquare']  = (venues_count > 0);
-        output['venues_activity'] = foursult;
-        output['venues_count']    = foursult.length < 1000000 ? venues_count : '1 M +';
-        output['venues_checkins'] = foursquare_checkins < 1000000 ? venues_checkins : '1 M +';
-        output['venues_tips']     = foursquare_tips < 1000000 ? venues_tips : '1 M +';
+      if (apiResponse.foursquare) {
+        output.foursquare = {
+          'total'           : apiResponse.foursquare.length,
+          'items'           : apiResponse.foursquare,
+          'venues_count'    : apiResponse.foursquare.length < 1000000 ? venues_count : '1 M +',
+          'venues_checkins' : foursquare_checkins < 1000000 ? venues_checkins : '1 M +',
+          'venues_tips'     : foursquare_tips < 1000000 ? venues_tips : '1 M +'
+
+        }
       }
 
       //
       // Hipcamp output
       //
-      if (hipcampsult) {
-        output['hasHipcamp']        = hasHipcamp;
-        output['hipcampActivities'] = hipcampActivitiesOrganized;
+      if (apiResponse.hipcamp) {
+        output.hipcamp = {
+          'items' : hipcampActivitiesOrganized
+        }
       }
 
       //
       // Flickr + Instagram output
       //
-      if (flesult && instasult) {
-        output['total_any_photos'] = (flesult.length + instasult.length);
+      if (apiResponse.flickr && apiResponse.instagram) {
+        output.total_any_photos = (apiResponse.flickr.length + apiResponse.instagram.length);
       }
 
       //
-      // We always get
+      // We always get these unliess the the data is filtered
       //
-      output['stories'] = stories.get();
+      if (!options.dataFilter) {
+        output.stories = stories.get();
+      }
 
 
       return callback(null, output);

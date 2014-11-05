@@ -1,7 +1,7 @@
 <div class="content template-{{view}}">
 	<div class="row">
 		<section id="park-info">
-			{{#if hasFlickr}}
+			{{#if flickr}}
 				{{>block-photo-carousel}}
 			{{/if}}
 			<p class="site-name">{{#__}}Caliparks{{/__}}</p>
@@ -12,25 +12,25 @@
 					{{>block-activity-icons}}
 				{{/if}}
 				<p class="social-breakdown">
-					{{#if tweet_count}}
-						{{#pluralize}}{{tweet_count}} {{#__}}Tweet{{/__}}|{{#__}}Tweets{{/__}}{{/pluralize}}
-						&nbsp;&nbsp;
+					{{#if twitter}}
+						<span class="total{{twitter.total}}">{{#pluralize}}{{twitter.total}} {{#__}}Tweet{{/__}}|{{#__}}Tweets{{/__}}{{/pluralize}}
+						&nbsp;&nbsp;</span>
 					{{/if}}
 					{{#if total_any_photos}}
-						{{#pluralize}}{{total_any_photos}} {{#__}}Photo{{/__}}|{{#__}}Photos{{/__}}{{/pluralize}}
-						&nbsp;&nbsp;
+						<span class="total{{total_any_photos}}">{{#pluralize}}{{total_any_photos}} {{#__}}Photo{{/__}}|{{#__}}Photos{{/__}}{{/pluralize}}
+						&nbsp;&nbsp;</span>
 					{{/if}}
-					{{#if venues_count}}
-						{{#pluralize}}{{venues_count}} {{#__}}Venue{{/__}}|{{#__}}Venues{{/__}}{{/pluralize}}
-						&nbsp;&nbsp;
+					{{#if foursquare.venues_count}}
+						<span class="total{{foursquare.venues_count}}">{{#pluralize}}{{foursquare.venues_count}} {{#__}}Venue{{/__}}|{{#__}}Venues{{/__}}{{/pluralize}}
+						&nbsp;&nbsp;</span>
 					{{/if}}
-					{{#if venues_checkins}}
-						{{#pluralize}}{{venues_checkins}} {{#__}}Check-in{{/__}}|{{#__}}Check-ins{{/__}}{{/pluralize}}
-						&nbsp;&nbsp;
+					{{#if foursquare.venues_checkins}}
+						<span class="total{{foursquare.venues_checkins}}">{{#pluralize}}{{foursquare.venues_checkins}} {{#__}}Check-in{{/__}}|{{#__}}Check-ins{{/__}}{{/pluralize}}
+						&nbsp;&nbsp;</span>
 					{{/if}}
-					{{#if venues_tips}}
-						{{#pluralize}}{{venues_tips}} {{#__}}Tip{{/__}}|{{#__}}Tips{{/__}}{{/pluralize}}
-						&nbsp;&nbsp;
+					{{#if foursquare.venues_tips}}
+						<span class="total{{foursquare.venues_tips}}">{{#pluralize}}{{foursquare.venues_tips}} {{#__}}Tip{{/__}}|{{#__}}Tips{{/__}}{{/pluralize}}
+						&nbsp;&nbsp;</span>
 					{{/if}}
 				</p>
 			</div>

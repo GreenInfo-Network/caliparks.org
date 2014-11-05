@@ -556,6 +556,8 @@ body.parksforward.responsive2 {
             margin-bottom: 10px; }
           body.parksforward.responsive2 .content.template-park > div section#park-info .park-details .social-breakdown {
             font-size: 75%; }
+            body.parksforward.responsive2 .content.template-park > div section#park-info .park-details .social-breakdown .total0 {
+              display: none; }
         @media screen and (max-width: 720px)  {
           body.parksforward.responsive2 .content.template-park > div section#park-info {
             display: table-cell;

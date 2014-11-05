@@ -102,9 +102,13 @@ dataFormatResponders['.json'] = function dataFormatResponderJSON(res, data, form
 
   var dataOut = {};
 
-  whitelist.forEach(function(item) {
-    dataOut[item] = data[item];
-  });
+  if (whitelist) {
+    whitelist.forEach(function(item) {
+      dataOut[item] = data[item];
+    });
+  } else {
+    dataOut = data;
+  }
 
 
   res.header("Access-Control-Allow-Origin", "*");
@@ -306,11 +310,11 @@ app.get('/park/:id(\\d+)', function(req,res, next) {
 
 });
 
-app.get('/park/:id(\\d+)/fragment-flickr', function(req,res, next) {
+app.get('/park/:id(\\d+)/:dataFilter:format(\.\\D+$)', function(req,res, next) {
 
   if (!Number.isNaN(parseInt(req.params.id))) {
     require('./controllers/park.js')(req, res, {
-      "dataFilter" : "flickr",
+      "dataFilter" : req.params.dataFilter,
       "limit"      : req.query.limit,
       "startat"    : req.query.startat
     }, function(err, templateData) {
@@ -321,8 +325,7 @@ app.get('/park/:id(\\d+)/fragment-flickr', function(req,res, next) {
       }
 
       if (templateData) {
-        templateData.layout = 'fragment';
-        res.render('park-flickr-fragment', templateData);
+        dataRouteResponse(res, templateData, req.params.format);
       } else {
         go404.apply(null,[req, res, next]);
       }
@@ -337,9 +340,7 @@ app.get('/park/:id(\\d+)/fragment-flickr', function(req,res, next) {
 app.get('/park/:id(\\d+):format(\.\\D+$)', function(req,res, next) {
 
   if (!Number.isNaN(parseInt(req.params.id))) {
-    require('./controllers/park.js')(req, res, {
-      overrideTemplates : overrideTemplates
-    }, function(err, templateData) {
+    require('./controllers/park.js')(req, res, {}, function(err, templateData) {
 
       if (err) {
         ravenClient.captureError(new Error(err));
@@ -347,19 +348,7 @@ app.get('/park/:id(\\d+):format(\.\\D+$)', function(req,res, next) {
       }
 
       if (templateData) {
-        dataRouteResponse(res, templateData, req.params.format, [
-          'park_id',
-          'name',
-          'hashtag',
-          'coverPhoto',
-          'flickrPhotos',
-          'tweets',
-          'venues_activity',
-          'venues_checkins',
-          'venues_tips',
-          'centroid',
-          'cpadPark'
-        ]);
+        dataRouteResponse(res, templateData, req.params.format);
       } else {
         go404.apply(null,[req, res, next]);
       }
