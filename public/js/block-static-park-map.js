@@ -17,9 +17,9 @@ define(["require","exports","module","detect-os","stamen-super-classy","gmap-cus
 
     StamenSuperClassy.apply(that, arguments);
 
-    var rootNode   = that.get(rootSelector)[0],
-        bigMapNode = that.get('.big-park-map',rootNode)[0],
-        smallMapNode = that.get('.small-park-map',rootNode)[0];
+    var rootNode   = that.utils.get(rootSelector)[0],
+        bigMapNode = that.utils.get('.big-park-map',rootNode)[0],
+        smallMapNode = that.utils.get('.small-park-map',rootNode)[0];
 
     //
     // Converts GeoJSON bounding box to Google Maps bounds
@@ -66,8 +66,6 @@ define(["require","exports","module","detect-os","stamen-super-classy","gmap-cus
     }
 
     function initBigMap() {
-
-      console.log(google.maps.ControlPosition);
 
       that.bigMap = new google.maps.Map(bigMapNode,{
         mapTypeControl: false,
@@ -132,7 +130,7 @@ define(["require","exports","module","detect-os","stamen-super-classy","gmap-cus
     }
 
     function initActions() {
-      var directionsAction = that.get('.directions-action', rootNode)[0];
+      var directionsAction = that.utils.get('.directions-action', rootNode)[0];
 
       directionsAction.addEventListener('click', function() {
         return launchDirections();

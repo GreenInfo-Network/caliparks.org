@@ -1,7 +1,8 @@
-define(["require","exports","module","handlebars","jquery","content-carousel","stamen-super-classy"], function(require, exports, module, Handlebars) {
+define(["require","exports","module","jquery","content-carousel","stamen-super-classy","content-fetcher"], function(require, exports, module, Handlebars) {
 
  var StamenSuperClassy = require("stamen-super-classy"),
-     ContentCarousel   = require('content-carousel');
+     ContentCarousel   = require('content-carousel'),
+     ContentFetcher    = require('content-fetcher');
 
  /**
  * UI Block for displaying a photo Carousel
@@ -14,46 +15,17 @@ define(["require","exports","module","handlebars","jquery","content-carousel","s
     var that = this,
         backButtonSelector    = '.carousel-back-button',
         forwardButtonSelector = '.carousel-forward-button',
-        stopFetching          = false,
-        activeFetchRequest    = false,
-        fetchStartat          = 20,
-        fetchLimit            = 50,
-        photoTemplate         = null,
-        handlebars;
+        contentFetcher;
 
     StamenSuperClassy.apply(this, arguments);
 
-    var rootNode = that.get(rootSelector)[0],
-        backButtonNode     = that.get(backButtonSelector, rootNode)[0],
-        forwardButtonNode  = that.get(forwardButtonSelector, rootNode)[0],
-        slideContainerNode = that.get('.slide-container',rootNode)[0];
+    var rootNode = that.utils.get(rootSelector)[0],
+        backButtonNode     = that.utils.get(backButtonSelector, rootNode)[0],
+        forwardButtonNode  = that.utils.get(forwardButtonSelector, rootNode)[0],
+        slideContainerNode = that.utils.get('.slide-container',rootNode)[0];
 
     function fetchPhotos() {
-
-      if (!activeFetchRequest && !stopFetching) {
-        activeFetchRequest = true;
-        $.getJSON(location.href+'/flickr.json?startat='+fetchStartat+'&limit='+fetchLimit, function(data) {
-
-          if (data.status === 'ok' && data.response.flickr.total) {
-
-            if (data.response.flickr.total < fetchLimit) {
-              stopFetching = true;
-            }
-
-            fetchStartat += data.response.flickr.total;
-
-            data.response.flickr.items.forEach(function(photo) {
-              $(slideContainerNode).append(Handlebars.compile(photoTemplate)(photo));
-            });
-
-          } else {
-            stopFetching = true;
-          }
-
-          activeFetchRequest = false;
-        });
-      }
-
+      contentFetcher.fetch();
     }
 
     function init() {
@@ -110,14 +82,20 @@ define(["require","exports","module","handlebars","jquery","content-carousel","s
         }
       });
 
-      //
-      // Fetch a handlebars template for Flickr photos
-      //
-      $.ajax('/js/partials/flickr_coverphoto.handlebars', {
-        success : function(template) {
-          photoTemplate = template;
+      contentFetcher = new ContentFetcher(
+        slideContainerNode,
+        '/js/partials/flickr_coverphoto.handlebars',
+        location.href+'/flickr.json',
+        'response.flickr.items',
+        {
+          startat : 20,
+          srcArguments : {
+            startat : 20,
+            limit   : 50
+          }
         }
-      });
+      );
+
     }
 
     //

@@ -1,13 +1,8 @@
-define([ "require", "exports", "module", "handlebars", "jquery", "content-carousel", "stamen-super-classy" ], function(require, exports, module, Handlebars) {
-    var StamenSuperClassy = require("stamen-super-classy"), ContentCarousel = require("content-carousel");
+define([ "require", "exports", "module", "jquery", "content-carousel", "stamen-super-classy", "content-fetcher" ], function(require, exports, module) {
+    var StamenSuperClassy = require("stamen-super-classy"), ContentCarousel = require("content-carousel"), ContentFetcher = require("content-fetcher");
     module.exports = function(rootSelector) {
         function fetchPhotos() {
-            activeFetchRequest || stopFetching || (activeFetchRequest = !0, $.getJSON(location.href + "/flickr.json?startat=" + fetchStartat + "&limit=" + fetchLimit, function(data) {
-                "ok" === data.status && data.response.flickr.total ? (data.response.flickr.total < fetchLimit && (stopFetching = !0), 
-                fetchStartat += data.response.flickr.total, data.response.flickr.items.forEach(function(photo) {
-                    $(slideContainerNode).append(Handlebars.compile(photoTemplate)(photo));
-                })) : stopFetching = !0, activeFetchRequest = !1;
-            }));
+            contentFetcher.fetch();
         }
         function init() {
             var carouselSliderSelector = rootSelector + " .slide-container";
@@ -27,15 +22,17 @@ define([ "require", "exports", "module", "handlebars", "jquery", "content-carous
             }), that.carouselInstance.on("backward", function(e) {
                 e.caller.target.scrollLeft > e.caller.target.scrollWidth - (e.caller.target.offsetWidth + e.caller.target.offsetWidth / 2) ? rootNode.parentNode.parentNode.classList.add("scrolled-furthest") : rootNode.parentNode.parentNode.classList.remove("scrolled-furthest"), 
                 e.caller.target.scrollLeft < e.caller.target.offsetWidth / 2 ? rootNode.parentNode.parentNode.classList.add("not-scrolled") : rootNode.parentNode.parentNode.classList.remove("not-scrolled");
-            }), $.ajax("/js/partials/flickr_coverphoto.handlebars", {
-                success: function(template) {
-                    photoTemplate = template;
+            }), contentFetcher = new ContentFetcher(slideContainerNode, "/js/partials/flickr_coverphoto.handlebars", location.href + "/flickr.json", "response.flickr.items", {
+                startat: 20,
+                srcArguments: {
+                    startat: 20,
+                    limit: 50
                 }
             });
         }
-        var that = this, backButtonSelector = ".carousel-back-button", forwardButtonSelector = ".carousel-forward-button", stopFetching = !1, activeFetchRequest = !1, fetchStartat = 20, fetchLimit = 50, photoTemplate = null;
+        var contentFetcher, that = this, backButtonSelector = ".carousel-back-button", forwardButtonSelector = ".carousel-forward-button";
         StamenSuperClassy.apply(this, arguments);
-        var rootNode = that.get(rootSelector)[0], backButtonNode = that.get(backButtonSelector, rootNode)[0], forwardButtonNode = that.get(forwardButtonSelector, rootNode)[0], slideContainerNode = that.get(".slide-container", rootNode)[0];
+        var rootNode = that.utils.get(rootSelector)[0], backButtonNode = that.utils.get(backButtonSelector, rootNode)[0], forwardButtonNode = that.utils.get(forwardButtonSelector, rootNode)[0], slideContainerNode = that.utils.get(".slide-container", rootNode)[0];
         return rootNode ? (init(), that) : null;
     };
 });

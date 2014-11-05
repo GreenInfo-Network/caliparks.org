@@ -1,12 +1,3 @@
-if (!Array.prototype.forEach) {
-// Array.prototype.forEach
-Array.prototype.forEach = function forEach(callback, scope) {
-	for (var array = this, index = 0, length = array.length; index < length; ++index) {
-		callback.call(scope || window, array[index], index, array);
-	}
-};
-
-}
 if (!Array.prototype.map) {
 // Array.prototype.map
 Array.prototype.map = function map(callback, scope) {
@@ -413,6 +404,15 @@ Array.prototype.filter = function filter(callback, scope) {
 	}
 
 	return arrayB;
+};
+
+}
+if (!Array.prototype.forEach) {
+// Array.prototype.forEach
+Array.prototype.forEach = function forEach(callback, scope) {
+	for (var array = this, index = 0, length = array.length; index < length; ++index) {
+		callback.call(scope || window, array[index], index, array);
+	}
 };
 
 }

@@ -18,7 +18,7 @@ define([ "require", "exports", "module", "detect-os", "stamen-super-classy", "gm
             });
         }
         function initBigMap() {
-            console.log(google.maps.ControlPosition), that.bigMap = new google.maps.Map(bigMapNode, {
+            that.bigMap = new google.maps.Map(bigMapNode, {
                 mapTypeControl: !1,
                 streetViewControl: !1,
                 center: new google.maps.LatLng(viewOptions.centroid.coordinates[1], viewOptions.centroid.coordinates[0]),
@@ -71,7 +71,7 @@ define([ "require", "exports", "module", "detect-os", "stamen-super-classy", "gm
             }), that.smallMapCircle.setMap(that.smallMap);
         }
         function initActions() {
-            var directionsAction = that.get(".directions-action", rootNode)[0];
+            var directionsAction = that.utils.get(".directions-action", rootNode)[0];
             directionsAction.addEventListener("click", function() {
                 return launchDirections();
             }, !1);
@@ -83,7 +83,7 @@ define([ "require", "exports", "module", "detect-os", "stamen-super-classy", "gm
         }
         var that = this;
         StamenSuperClassy.apply(that, arguments);
-        var rootNode = that.get(rootSelector)[0], bigMapNode = that.get(".big-park-map", rootNode)[0], smallMapNode = that.get(".small-park-map", rootNode)[0];
+        var rootNode = that.utils.get(rootSelector)[0], bigMapNode = that.utils.get(".big-park-map", rootNode)[0], smallMapNode = that.utils.get(".small-park-map", rootNode)[0];
         return google.maps.event.addDomListener(window, "load", function() {
             initialize();
         }), that;

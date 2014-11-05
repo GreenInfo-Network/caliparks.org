@@ -2,12 +2,14 @@ define(["require","exports","module"], function(require, exports, module) {
 
   module.exports = function StamenBase() {
 
+    var that = this;
+
     var listeners = {};
 
     //
     // Subscribes a function to an event called by fire
     //
-    this.on = function on(type, callback, data, once) {
+    that.on = function on(type, callback, data, once) {
       if (!listeners[type]) {
         listeners[type] = [];
       }
@@ -18,8 +20,8 @@ define(["require","exports","module"], function(require, exports, module) {
     //
     // Just like on but it unsubscribes after one fire
     //
-    this.once = function once(type, callback, data) {
-      return this.on.apply(this, [
+    that.once = function once(type, callback, data) {
+      return this.on.apply(that, [
           arguments[0],
           arguments[1],
           arguments[2],
@@ -30,7 +32,7 @@ define(["require","exports","module"], function(require, exports, module) {
     //
     // Fire an event and run all subscribers
     //
-    this.fire = function fire(type, data) {
+    that.fire = function fire(type, data) {
       if(listeners[type]) {
         listeners[type].forEach(function(listener) {
           listener[1]({
@@ -59,13 +61,19 @@ define(["require","exports","module"], function(require, exports, module) {
     };
 
     //
-    // Gets an element by selector. Uses JQuery if available.
+    // These are things not meant for the implementer's interface
+    // but useful to the implementer
     //
-    this.get = function get(selector, root) {
-      if ($) {
-        return ((root) ? $(root).find(selector) : $(selector)).get();
-      } else {
-        return ((root) ? root : document).querySelectorAll(selector);
+    that.utils = {
+      //
+      // Gets an element by selector. Uses JQuery if available.
+      //
+      get : function get(selector, root) {
+        if ($) {
+          return ((root) ? $(root).find(selector) : $(selector)).get();
+        } else {
+          return ((root) ? root : document).querySelectorAll(selector);
+        }
       }
     };
 
