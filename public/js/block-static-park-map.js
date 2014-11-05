@@ -11,7 +11,7 @@ define(["require","exports","module","detect-os","stamen-super-classy","gmap-cus
   var state             = {},
       data              = {};
 
-  module.exports=function(rootSelector, options, callback) {
+  module.exports=function(rootSelector, viewOptions, callback) {
 
     var that = this;
 
@@ -47,9 +47,9 @@ define(["require","exports","module","detect-os","stamen-super-classy","gmap-cus
     //
     function launchDirections() {
       if (detectOs.getMobileOperatingSystem() === 'iOS') {
-        location.href='comgooglemaps://?q='+options.name+'@'+options.centroid.coordinates[1]+', '+options.centroid.coordinates[0]+'&zoom=15&views=transit';
+        location.href='comgooglemaps://?q='+viewOptions.name+'@'+viewOptions.centroid.coordinates[1]+', '+viewOptions.centroid.coordinates[0]+'&zoom=15&views=transit';
       } else {
-        location.href='https://www.google.com/maps/dir//\''+options.centroid.coordinates[1]+', '+options.centroid.coordinates[0]+'\'';
+        location.href='https://www.google.com/maps/dir//\''+viewOptions.centroid.coordinates[1]+', '+viewOptions.centroid.coordinates[0]+'\'';
       }
 
     }
@@ -67,29 +67,36 @@ define(["require","exports","module","detect-os","stamen-super-classy","gmap-cus
 
     function initBigMap() {
 
+      console.log(google.maps.ControlPosition);
+
       that.bigMap = new google.maps.Map(bigMapNode,{
         mapTypeControl: false,
         streetViewControl: false,
-        center: new google.maps.LatLng(options.centroid.coordinates[1], options.centroid.coordinates[0]),
+        center: new google.maps.LatLng(viewOptions.centroid.coordinates[1], viewOptions.centroid.coordinates[0]),
         zoom                : 15,
         scrollwheel         : false,
-        disableDefaultUI    : true,
+        disableDefaultUI    : false,
+        panControl          : false,
+        zoomControlOptions: {
+          style: 1,
+          position: 4
+        },
         draggable           : false,
-        mapTypeControlOptions : {
+        mapTypeControlviewOptions : {
           mapTypeIds : ['parksLayer']
         }
       });
 
       that.bigMap.mapTypes.set('parksLayer', that.parksLayer);
       that.bigMap.setMapTypeId('parksLayer');
-      that.bigMap.fitBounds(geoJSONBBoxToGoogleBounds(options.bbox));
+      that.bigMap.fitBounds(geoJSONBBoxToGoogleBounds(viewOptions.bbox));
     }
 
     function initSmallMap() {
       that.smallMap = new google.maps.Map(smallMapNode,{
         mapTypeControl: false,
         streetViewControl: false,
-        center: new google.maps.LatLng(options.centroid.coordinates[1], options.centroid.coordinates[0]),
+        center: new google.maps.LatLng(viewOptions.centroid.coordinates[1], viewOptions.centroid.coordinates[0]),
         zoom                : 6,
         scrollwheel         : false,
         disableDefaultUI    : true,
@@ -106,7 +113,7 @@ define(["require","exports","module","detect-os","stamen-super-classy","gmap-cus
         fillColor: '#000',
         fillOpacity: 0.1,
         map: that.smallMap,
-        bounds: geoJSONBBoxToGoogleBounds(options.bbox)
+        bounds: geoJSONBBoxToGoogleBounds(viewOptions.bbox)
       });
 
       that.smallMapCircle = new google.maps.Marker({
@@ -119,7 +126,7 @@ define(["require","exports","module","detect-os","stamen-super-classy","gmap-cus
             strokeWeight: 2.0,
             scale: 4.0
         },
-        position: new google.maps.LatLng(options.centroid.coordinates[1], options.centroid.coordinates[0])
+        position: new google.maps.LatLng(viewOptions.centroid.coordinates[1], viewOptions.centroid.coordinates[0])
       });
       that.smallMapCircle.setMap(that.smallMap);
     }

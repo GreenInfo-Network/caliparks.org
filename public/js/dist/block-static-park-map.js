@@ -1,7 +1,7 @@
 define([ "require", "exports", "module", "detect-os", "stamen-super-classy", "gmap-custom-tile-layer" ], function(require, exports, module) {
     "use strict";
     var StamenSuperClassy = require("stamen-super-classy"), GmapCustomTileLayer = require("gmap-custom-tile-layer"), DetectOs = require("detect-os"), detectOs = new DetectOs();
-    module.exports = function(rootSelector, options, callback) {
+    module.exports = function(rootSelector, viewOptions, callback) {
         function geoJSONBBoxToGoogleBounds(GeoJSONBBoxPolygon) {
             for (var a, b, point, bounds = new google.maps.LatLngBounds(), ii = 0; ii < GeoJSONBBoxPolygon.coordinates[0].length; ii++) a = GeoJSONBBoxPolygon.coordinates[0][ii][1], 
             b = GeoJSONBBoxPolygon.coordinates[0][ii][0], point = new google.maps.LatLng(a, b), 
@@ -9,7 +9,7 @@ define([ "require", "exports", "module", "detect-os", "stamen-super-classy", "gm
             return bounds;
         }
         function launchDirections() {
-            location.href = "iOS" === detectOs.getMobileOperatingSystem() ? "comgooglemaps://?q=" + options.name + "@" + options.centroid.coordinates[1] + ", " + options.centroid.coordinates[0] + "&zoom=15&views=transit" : "https://www.google.com/maps/dir//'" + options.centroid.coordinates[1] + ", " + options.centroid.coordinates[0] + "'";
+            location.href = "iOS" === detectOs.getMobileOperatingSystem() ? "comgooglemaps://?q=" + viewOptions.name + "@" + viewOptions.centroid.coordinates[1] + ", " + viewOptions.centroid.coordinates[0] + "&zoom=15&views=transit" : "https://www.google.com/maps/dir//'" + viewOptions.centroid.coordinates[1] + ", " + viewOptions.centroid.coordinates[0] + "'";
         }
         function initStamenLayer() {
             return that.parksLayer = new GmapCustomTileLayer({
@@ -18,25 +18,30 @@ define([ "require", "exports", "module", "detect-os", "stamen-super-classy", "gm
             });
         }
         function initBigMap() {
-            that.bigMap = new google.maps.Map(bigMapNode, {
+            console.log(google.maps.ControlPosition), that.bigMap = new google.maps.Map(bigMapNode, {
                 mapTypeControl: !1,
                 streetViewControl: !1,
-                center: new google.maps.LatLng(options.centroid.coordinates[1], options.centroid.coordinates[0]),
+                center: new google.maps.LatLng(viewOptions.centroid.coordinates[1], viewOptions.centroid.coordinates[0]),
                 zoom: 15,
                 scrollwheel: !1,
-                disableDefaultUI: !0,
+                disableDefaultUI: !1,
+                panControl: !1,
+                zoomControlOptions: {
+                    style: 1,
+                    position: 4
+                },
                 draggable: !1,
-                mapTypeControlOptions: {
+                mapTypeControlviewOptions: {
                     mapTypeIds: [ "parksLayer" ]
                 }
             }), that.bigMap.mapTypes.set("parksLayer", that.parksLayer), that.bigMap.setMapTypeId("parksLayer"), 
-            that.bigMap.fitBounds(geoJSONBBoxToGoogleBounds(options.bbox));
+            that.bigMap.fitBounds(geoJSONBBoxToGoogleBounds(viewOptions.bbox));
         }
         function initSmallMap() {
             that.smallMap = new google.maps.Map(smallMapNode, {
                 mapTypeControl: !1,
                 streetViewControl: !1,
-                center: new google.maps.LatLng(options.centroid.coordinates[1], options.centroid.coordinates[0]),
+                center: new google.maps.LatLng(viewOptions.centroid.coordinates[1], viewOptions.centroid.coordinates[0]),
                 zoom: 6,
                 scrollwheel: !1,
                 disableDefaultUI: !0,
@@ -51,7 +56,7 @@ define([ "require", "exports", "module", "detect-os", "stamen-super-classy", "gm
                 fillColor: "#000",
                 fillOpacity: .1,
                 map: that.smallMap,
-                bounds: geoJSONBBoxToGoogleBounds(options.bbox)
+                bounds: geoJSONBBoxToGoogleBounds(viewOptions.bbox)
             }), that.smallMapCircle = new google.maps.Marker({
                 icon: {
                     path: google.maps.SymbolPath.CIRCLE,
@@ -62,7 +67,7 @@ define([ "require", "exports", "module", "detect-os", "stamen-super-classy", "gm
                     strokeWeight: 2,
                     scale: 4
                 },
-                position: new google.maps.LatLng(options.centroid.coordinates[1], options.centroid.coordinates[0])
+                position: new google.maps.LatLng(viewOptions.centroid.coordinates[1], viewOptions.centroid.coordinates[0])
             }), that.smallMapCircle.setMap(that.smallMap);
         }
         function initActions() {
