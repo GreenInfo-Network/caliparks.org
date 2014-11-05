@@ -2,6 +2,16 @@ define(["require","exports","module","handlebars","jquery","stamen-super-classy"
 
  var StamenSuperClassy = require("stamen-super-classy");
 
+/**
+* ContentFetcher module
+* Fetches content from a json endpoint, grabs a handlebars template, and appends it to a div
+* @constructor
+* @param {string} rootSelector - The CSS selector leading to the outermost container
+* @param {string} templatePath - A URI pointing to a handlebars template
+* @param {string} src          - A URI pointing to a JSON endpoint
+* @param {string} responsePath - A dot separated path in the data response to an array which the module can use
+* @param {object} options      - Optional parameters (srcArguments (things appended to the src request), incrementArg (the src parameter to increment after every request))
+*/
  module.exports = function ContentFetcher(rootSelector, templatePath, src, responsePath, options) {
 
     var that               = this,
