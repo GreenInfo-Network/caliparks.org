@@ -206,6 +206,7 @@ function go404(req, res, next) {
 app.use('/style', express.static('./public/style', { maxAge: 3600e3 }));
 app.use('/js',    express.static('./public/js', { maxAge: 3600e3 }));
 app.use('/data',  express.static('./public/data', { maxAge: 3600e3 }));
+app.use('/js/partials',  express.static('./views/partials', { maxAge: 3600e3 }));
 
 app.get('/', function(req, res, next) {
 

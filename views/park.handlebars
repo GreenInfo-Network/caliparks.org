@@ -8,7 +8,7 @@
 			<div class="park-details">
 				<p class="agency-name"><a href="#">{{cpadPark.mng_agncy}}</a></p>
 				<h1>{{name}}</h1>
-				{{#if hasHipcamp}}
+				{{#if hipcamp}}
 					{{>block-activity-icons}}
 				{{/if}}
 				<p class="social-breakdown">
@@ -48,8 +48,8 @@
 </div>
 <script>
 	var viewData = {
-		"centroid" : {{{centroid}}},
-		"bbox"     : {{{bbox}}},
-		"name"     : "{{name}}"
+		"centroid"  : {{{centroid}}},
+		"bbox"      : {{{bbox}}},
+		"name"      : "{{name}}"
 	}
 </script>
