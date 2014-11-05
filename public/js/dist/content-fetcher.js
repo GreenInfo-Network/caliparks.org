@@ -14,13 +14,15 @@ define([ "require", "exports", "module", "handlebars", "jquery", "stamen-super-c
                 }
             });
         }
-        var templateCache, that = this, stopFetching = !1, activeFetchRequest = !1, fetchStartat = options.startat || 0, args = "";
+        var templateCache, that = this, stopFetching = !1, activeFetchRequest = !1, args = (options.startat || 0, 
+        "");
         return StamenSuperClassy.apply(this, arguments), that.fetch = function() {
             that.fire("begin-fetch"), activeFetchRequest || stopFetching || (activeFetchRequest = !0, 
-            options.srcArguments && (args = "?" + JSON.stringify(options.srcArguments).replace(/,/g, "&").replace(/[{|}]/g, "").replace(/[:]/g, "=")), 
+            options.srcArguments && (args = "?" + JSON.stringify(options.srcArguments).replace(/,/g, "&").replace(/[{|}]/g, "").replace(/[:]/g, "=").replace(/\"/g, "")), 
             $.getJSON(src + args, function(data) {
                 var array = responsePath.length ? getDataByStringPath(data, responsePath) : data;
-                "ok" === data.status && array.length ? (fetchStartat += array.length, array.forEach(function(item) {
+                "ok" === data.status && array.length ? (options.incrementArg && (options.srcArguments[options.incrementArg] += array.length), 
+                array.forEach(function(item) {
                     $(rootSelector).append(Handlebars.compile(templateCache)(item));
                 })) : stopFetching = !0, that.fire("finish-fetch"), activeFetchRequest = !1;
             }));

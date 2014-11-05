@@ -82,6 +82,10 @@ define(["require","exports","module","jquery","content-carousel","stamen-super-c
         }
       });
 
+      //
+      // Set up a fetcher which binds templates, content, and
+      // this page together... awww
+      //
       contentFetcher = new ContentFetcher(
         slideContainerNode,
         '/js/partials/flickr_coverphoto.handlebars',
@@ -89,6 +93,7 @@ define(["require","exports","module","jquery","content-carousel","stamen-super-c
         'response.flickr.items',
         {
           startat : 20,
+          incrementArg : 'startat',
           srcArguments : {
             startat : 20,
             limit   : 50

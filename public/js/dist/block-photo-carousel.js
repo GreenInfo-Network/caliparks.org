@@ -24,6 +24,7 @@ define([ "require", "exports", "module", "jquery", "content-carousel", "stamen-s
                 e.caller.target.scrollLeft < e.caller.target.offsetWidth / 2 ? rootNode.parentNode.parentNode.classList.add("not-scrolled") : rootNode.parentNode.parentNode.classList.remove("not-scrolled");
             }), contentFetcher = new ContentFetcher(slideContainerNode, "/js/partials/flickr_coverphoto.handlebars", location.href + "/flickr.json", "response.flickr.items", {
                 startat: 20,
+                incrementArg: "startat",
                 srcArguments: {
                     startat: 20,
                     limit: 50

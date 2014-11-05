@@ -31,7 +31,7 @@ define(["require","exports","module","handlebars","jquery","stamen-super-classy"
         activeFetchRequest = true;
 
         if (options.srcArguments) {
-          args = '?'+JSON.stringify(options.srcArguments).replace(/,/g, '&').replace(/[{|}]/g, '').replace(/[:]/g, '=');
+          args = '?'+JSON.stringify(options.srcArguments).replace(/,/g, '&').replace(/[{|}]/g, '').replace(/[:]/g, '=').replace(/\"/g, '');
         }
 
         $.getJSON(src+args, function(data) {
@@ -39,7 +39,9 @@ define(["require","exports","module","handlebars","jquery","stamen-super-classy"
 
           if (data.status === 'ok' && array.length) {
 
-            fetchStartat += array.length;
+            if (options.incrementArg) {
+              options.srcArguments[options.incrementArg] += array.length;
+            }
 
             array.forEach(function(item) {
               $(rootSelector).append(Handlebars.compile(templateCache)(item));
