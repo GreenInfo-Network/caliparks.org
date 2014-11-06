@@ -35,7 +35,9 @@ define([ "require", "exports", "module", "detect-os", "stamen-super-classy", "gm
                     mapTypeIds: [ "parksLayer" ]
                 }
             }), that.bigMap.mapTypes.set("parksLayer", that.parksLayer), that.bigMap.setMapTypeId("parksLayer"), 
-            that.bigMap.fitBounds(geoJSONBBoxToGoogleBounds(viewOptions.bbox));
+            that.bigMap.fitBounds(geoJSONBBoxToGoogleBounds(viewOptions.bbox)), google.maps.event.addDomListener(window, "resize", function() {
+                google.maps.event.trigger(that.bigMap.getCenter(), "resize"), that.bigMap.setCenter(that.bigMap.getCenter());
+            });
         }
         function initSmallMap() {
             that.smallMap = new google.maps.Map(smallMapNode, {

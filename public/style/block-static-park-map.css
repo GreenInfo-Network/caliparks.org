@@ -3,6 +3,9 @@
   .block-static-park-map .big-park-map {
     width: 100%;
     height: 766px; }
+    @media (max-width: 720px) {
+      .block-static-park-map .big-park-map {
+        height: 300px; } }
     .block-static-park-map .big-park-map .gmnoprint:last-of-type {
       top: 0;
       right: 0;
