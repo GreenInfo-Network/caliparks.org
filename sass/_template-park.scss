@@ -25,7 +25,7 @@
 
         .site-name {
           display:block;
-          background-color:$color-dark;
+          background-color:$color-notsodark;
           padding:0 $box-padding;
           color:$light-font-color;
           font-size: 75%;
@@ -73,6 +73,29 @@
           font-size:120%;
           color:$color-dark;
           padding:30px;
+        }
+      }
+      &#search-area {
+        @include span-columns(12 of 12);
+        height:72px;
+        text-align:center;
+        background-color:$color-notsodark;
+        padding: 15px 0;
+
+        >label {
+          margin-right:0.4em;
+          vertical-align: middle;
+          font-size: 110%;
+          color:$light-font-color;
+        }
+
+        .block-search-box {
+          width: 425px;
+          display:inline-block;
+
+          @include media(max-width 720px) {
+            width:90%;
+          }
         }
       }
     }

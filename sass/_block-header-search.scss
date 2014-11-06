@@ -21,6 +21,10 @@
     margin:0 auto;
     position:relative;
     z-index:10;
+
+    input {
+      padding:0 $box-padding;
+    }
   }
 
   @include media(max-width 720px) {

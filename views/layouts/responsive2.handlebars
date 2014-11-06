@@ -19,11 +19,17 @@
     {{>tracking}}
   </head>
 
-  <body class="parksforward responsive2" ontouchstart="">
+  <body class="parksforward responsive2" ontouchstart="" id="top">
 
     {{{body}}}
     <footer>
-      <a href="#the-top">{{#__}}Top{{/__}}</a> | {{#__}}Find out more <a href="/about/">about this project</a>{{/__}} | <a href="/wander?from={{park_id}}">{{#__}}wander{{/__}}</a>{{#if hasAPI}} | <a href="javascript:location.href=location.href+'.json';">JSON</a>{{/if}}
+      <section id="footer-actions">
+        <a href="#top">Top</a>
+        <a href="/wander?from={{id}}">Wander</a>
+        {{>uservoice}}
+      </section>
+      <section id="footer-credits">
+      </section>
     </footer>
     <script src="/js/dist/vendor/require.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCN-GnHQiVvap-YQh8QykZTxJTSLsxI2uw"></script>
