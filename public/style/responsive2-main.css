@@ -39,6 +39,23 @@ table {
 /*
 *  Variables for everything
 */
+@media screen and (min-width: 721px)  {
+  .fb-like {
+    z-index: 1;
+    transform: scale(1.58);
+    -ms-transform: scale(1.58);
+    -webkit-transform: scale(1.58);
+    -o-transform: scale(1.58);
+    -moz-transform: scale(1.58);
+    transform-origin: center left;
+    -ms-transform-origin: center left;
+    -webkit-transform-origin: center left;
+    -moz-transform-origin: center left;
+    -webkit-transform-origin: center left; }
+    .fb-like iframe {
+      margin-top: -2px;
+      margin-left: -2px; } }
+
 @-webkit-keyframes pulse_animation {
   0% {
     -webkit-transform: rotate(0deg); }
@@ -91,7 +108,8 @@ body.parksforward.responsive2 {
     font-size: 75%;
     padding: 5px;
     color: #027abb;
-    cursor: pointer; }
+    cursor: pointer;
+    display: inline-block; }
     body.parksforward.responsive2 .action.active {
       background-color: #027abb;
       color: white; }
