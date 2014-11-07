@@ -84,12 +84,17 @@ body.parksforward.responsive2 {
   body.parksforward.responsive2 p {
     margin-bottom: 10px; }
   body.parksforward.responsive2 .action {
-    background-color: #027abb;
+    background-color: transparent;
     border-radius: 4px;
     color: white;
-    border: none;
+    border: solid 1px #027abb;
     font-size: 75%;
-    padding: 5px; }
+    padding: 5px;
+    color: #027abb;
+    cursor: pointer; }
+    body.parksforward.responsive2 .action.active {
+      background-color: #027abb;
+      color: white; }
   body.parksforward.responsive2 .shader {
     position: absolute;
     top: 0;
@@ -559,8 +564,7 @@ body.parksforward.responsive2 {
     body.parksforward.responsive2 .block-static-park-map .directions-action {
       position: absolute;
       top: 10px;
-      left: 10px;
-      cursor: pointer; }
+      left: 10px; }
   body.parksforward.responsive2 header {
     float: left;
     display: block;

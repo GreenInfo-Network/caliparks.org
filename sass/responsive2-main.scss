@@ -77,12 +77,19 @@ body.parksforward.responsive2 {
   }
 
   .action {
-    background-color:$color-active;
+    background-color:transparent;
     border-radius:$border-radius;
     color:white;
-    border:none;
+    border:solid 1px $color-active;
     font-size: 75%;
     padding: 5px;
+    color:$color-active;
+    cursor:pointer;
+
+    &.active {
+      background-color:$color-active;
+      color:$light-font-color;
+    }
   }
 
   .shader {
