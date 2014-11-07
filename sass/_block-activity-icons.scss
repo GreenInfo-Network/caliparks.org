@@ -38,5 +38,13 @@
     &.snow {
       background-color:#00BBD3;
     }
+
+    @include media(max-width 720px) {
+      width:25px;
+      height:25px;
+      background-size:15px 15px;
+      line-height: 10px;
+      font-size: 0px;
+    }
   }
 }

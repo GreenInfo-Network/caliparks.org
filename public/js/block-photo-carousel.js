@@ -96,7 +96,7 @@ define(["require","exports","module","jquery","content-carousel","stamen-super-c
           incrementArg : 'startat',
           srcArguments : {
             startat : 20,
-            limit   : 50
+            limit   : 20
           }
         }
       );

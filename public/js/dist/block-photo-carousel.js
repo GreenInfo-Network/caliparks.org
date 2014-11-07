@@ -27,7 +27,7 @@ define([ "require", "exports", "module", "jquery", "content-carousel", "stamen-s
                 incrementArg: "startat",
                 srcArguments: {
                     startat: 20,
-                    limit: 50
+                    limit: 20
                 }
             });
         }

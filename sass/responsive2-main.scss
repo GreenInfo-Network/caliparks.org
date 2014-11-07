@@ -72,6 +72,10 @@ body.parksforward.responsive2 {
     margin-bottom:$box-padding-half;
   }
 
+  p {
+    margin-bottom:$box-padding-half;
+  }
+
   .action {
     background-color:$color-active;
     border-radius:$border-radius;
@@ -235,6 +239,7 @@ body.parksforward.responsive2 {
   body.parksforward.responsive2 {
 
     font-size: 17px;
+    line-height: 20px;
 
     h1 {
       font-size:100%;

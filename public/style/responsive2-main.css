@@ -81,6 +81,8 @@ body.parksforward.responsive2 {
   body.parksforward.responsive2 h1 {
     font-size: 150%;
     margin-bottom: 10px; }
+  body.parksforward.responsive2 p {
+    margin-bottom: 10px; }
   body.parksforward.responsive2 .action {
     background-color: #027abb;
     border-radius: 4px;
@@ -386,7 +388,8 @@ body.parksforward.responsive2 {
       white-space: nowrap;
       width: 100%;
       box-sizing: border-box;
-      font-size: 0; }
+      font-size: 0;
+      -webkit-overflow-scrolling: touch; }
       body.parksforward.responsive2 .block-photo-carousel .slide-container > div {
         height: 100%;
         width: 100%;
@@ -516,6 +519,13 @@ body.parksforward.responsive2 {
         background-color: #2095F2; }
       body.parksforward.responsive2 .block-activity-icons li.snow {
         background-color: #00BBD3; }
+      @media screen and (max-width: 720px)  {
+        body.parksforward.responsive2 .block-activity-icons li {
+          width: 25px;
+          height: 25px;
+          background-size: 15px 15px;
+          line-height: 10px;
+          font-size: 0px; } }
   body.parksforward.responsive2 .block-static-park-map {
     position: relative; }
     body.parksforward.responsive2 .block-static-park-map .big-park-map {
@@ -753,6 +763,7 @@ body.parksforward.responsive2 {
 
 @media screen and (max-width: 720px)  {
   body.parksforward.responsive2 {
-    font-size: 17px; }
+    font-size: 17px;
+    line-height: 20px; }
     body.parksforward.responsive2 h1 {
       font-size: 100%; } }
