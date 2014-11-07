@@ -90,8 +90,11 @@ define(["require","exports","module","detect-os","stamen-super-classy","gmap-cus
       that.bigMap.fitBounds(geoJSONBBoxToGoogleBounds(viewOptions.bbox));
 
       setTimeout(function() {
-        that.bigMap.setZoom(that.bigMap.getZoom()+1);
-      }, 200);
+        var zoom = that.bigMap.getZoom();
+        if (zoom < 16) {
+          that.bigMap.setZoom(zoom+1);
+        }
+      }, 250);
 
       google.maps.event.addDomListener(window, "resize", function() {
        google.maps.event.trigger(that.bigMap.getCenter(), "resize");

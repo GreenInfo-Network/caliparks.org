@@ -1,7 +1,7 @@
 <div class="content template-{{view}}">
 	<div class="row">
 		<section id="park-info">
-			{{#if flickr}}
+			{{#if flickr.total}}
 				{{>block-photo-carousel}}
 			{{/if}}
 			<p class="site-name">{{#__}}Caliparks{{/__}}</p>
@@ -33,13 +33,18 @@
 						&nbsp;&nbsp;</span>
 					{{/if}}
 				</p>
+				<div>
+					<button>Park Info</button>
+					<button>Camp Here</button>
+					<button>Camp Here</button>
+				</div>
 			</div>
 		</section>
 		<section id="maps">
 			{{> block-static-park-map}}
 		</section>
 	</div>
-	{{#if instagram}}
+	{{#if instagram.total}}
 	<div class="row">
 		{{>block-instagram-strip}}
 	</div>

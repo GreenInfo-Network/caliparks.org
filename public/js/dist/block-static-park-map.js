@@ -36,8 +36,9 @@ define([ "require", "exports", "module", "detect-os", "stamen-super-classy", "gm
                 }
             }), that.bigMap.mapTypes.set("parksLayer", that.parksLayer), that.bigMap.setMapTypeId("parksLayer"), 
             that.bigMap.fitBounds(geoJSONBBoxToGoogleBounds(viewOptions.bbox)), setTimeout(function() {
-                that.bigMap.setZoom(that.bigMap.getZoom() + 1);
-            }, 200), google.maps.event.addDomListener(window, "resize", function() {
+                var zoom = that.bigMap.getZoom();
+                16 > zoom && that.bigMap.setZoom(zoom + 1);
+            }, 250), google.maps.event.addDomListener(window, "resize", function() {
                 google.maps.event.trigger(that.bigMap.getCenter(), "resize"), that.bigMap.setCenter(that.bigMap.getCenter());
             });
         }
