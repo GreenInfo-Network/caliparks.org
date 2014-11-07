@@ -563,14 +563,102 @@ body.parksforward.responsive2 {
     margin-right: 2.35765%;
     width: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    padding: 20px;
-    font-size: 50%;
+    font-size: 60%;
     line-height: 50%;
     color: white; }
     body.parksforward.responsive2 footer:last-child {
       margin-right: 0; }
     body.parksforward.responsive2 footer a {
       color: white; }
+    body.parksforward.responsive2 footer #footer-actions {
+      float: left;
+      display: block;
+      margin-right: 2.35765%;
+      width: 100%;
+      background-color: #37474f; }
+      body.parksforward.responsive2 footer #footer-actions:last-child {
+        margin-right: 0; }
+      body.parksforward.responsive2 footer #footer-actions a {
+        display: inline-block;
+        box-sizing: border-box;
+        width: 33.33%;
+        border: solid 1px rgba(255, 255, 255, 0.3);
+        border-width: 1px 1px 0 0;
+        padding: 20px 45px;
+        background-color: #37474f;
+        background-repeat: no-repeat;
+        background-size: auto 50%;
+        background-position: 10px;
+        float: left; }
+        body.parksforward.responsive2 footer #footer-actions a.top-action {
+          background-image: url('/style/responsive2/footer/circle-arrow.svg'); }
+        body.parksforward.responsive2 footer #footer-actions a.wander-action {
+          background-image: url('/style/responsive2/footer/circle-walking.svg'); }
+        body.parksforward.responsive2 footer #footer-actions a.contact-action {
+          background-image: url('/style/responsive2/footer/speech-bubble.svg'); }
+        body.parksforward.responsive2 footer #footer-actions a:last-of-type {
+          border-right-width: 0; }
+        @media screen and (max-width: 720px)  {
+          body.parksforward.responsive2 footer #footer-actions a {
+            float: auto;
+            width: 100%;
+            border-right-width: 0; } }
+    body.parksforward.responsive2 footer #footer-credits {
+      float: left;
+      display: block;
+      margin-right: 2.35765%;
+      width: 100%;
+      background-color: #cfd8dc;
+      display: inline-block; }
+      body.parksforward.responsive2 footer #footer-credits:last-child {
+        margin-right: 0; }
+      body.parksforward.responsive2 footer #footer-credits > div {
+        height: 138px;
+        padding: 20px; }
+        body.parksforward.responsive2 footer #footer-credits > div h2 {
+          font-family: "expressway", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+          color: #333;
+          margin-bottom: 12%; }
+        body.parksforward.responsive2 footer #footer-credits > div .stamen-logo {
+          width: 83px;
+          height: 22px;
+          float: left;
+          vertical-align: middle;
+          margin-right: 10px; }
+        body.parksforward.responsive2 footer #footer-credits > div .greeninfo-logo {
+          width: 85px;
+          height: 36px;
+          float: left;
+          vertical-align: bottom;
+          margin-right: 10px;
+          margin-top: -7px; }
+        body.parksforward.responsive2 footer #footer-credits > div .hipcamp-logo {
+          width: 83px;
+          height: 27px;
+          float: left;
+          vertical-align: middle; }
+        body.parksforward.responsive2 footer #footer-credits > div.builtby {
+          float: left;
+          display: block;
+          margin-right: 2.35765%;
+          width: 40.29137%; }
+          body.parksforward.responsive2 footer #footer-credits > div.builtby:last-child {
+            margin-right: 0; }
+        body.parksforward.responsive2 footer #footer-credits > div.supportedby {
+          float: left;
+          display: block;
+          margin-right: 2.35765%;
+          width: 57.35098%; }
+          body.parksforward.responsive2 footer #footer-credits > div.supportedby:last-child {
+            margin-right: 0; }
+        @media screen and (max-width: 720px)  {
+          body.parksforward.responsive2 footer #footer-credits > div.builtby, body.parksforward.responsive2 footer #footer-credits > div.supportedby {
+            float: left;
+            display: block;
+            margin-right: 2.35765%;
+            width: 100%; }
+            body.parksforward.responsive2 footer #footer-credits > div.builtby:last-child, body.parksforward.responsive2 footer #footer-credits > div.supportedby:last-child {
+              margin-right: 0; } }
   body.parksforward.responsive2 .content.template-home {
     float: left;
     display: block;
@@ -667,8 +755,4 @@ body.parksforward.responsive2 {
   body.parksforward.responsive2 {
     font-size: 17px; }
     body.parksforward.responsive2 h1 {
-      font-size: 100%; }
-    body.parksforward.responsive2 footer {
-      font-size: 75%;
-      line-height: 75%;
-      padding: 17px; } }
+      font-size: 100%; } }

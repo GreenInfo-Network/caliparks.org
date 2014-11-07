@@ -24,12 +24,25 @@
     {{{body}}}
     <footer>
       <section id="footer-actions">
-        <a href="#top">Top</a>
-        <a href="/wander?from={{id}}">Wander</a>
+        <a class="top-action" href="#top">Top</a>
+        <a class="wander-action" href="/wander?from={{park_id}}">Wander</a>
         {{>uservoice}}
       </section>
+      <!--
       <section id="footer-credits">
+        <div class="builtby">
+          <h2>Built by</h2>
+          <a href="http://stamen.com">
+            <img class="stamen-logo" src="/style/responsive2/stamen-logo.svg" alt="Stamen">
+            <img class="greeninfo-logo" src="/style/responsive2/greeninfo-logo.svg" alt="GreenInfo">
+            <img class="hipcamp-logo" src="/style/responsive2/hipcamp-logo.svg" alt="hipcAmp">
+          </a>
+        </div>
+        <div class="supportedby">
+          <h2>Supported by</h2>
+        </div>
       </section>
+      -->
     </footer>
     <script src="/js/dist/vendor/require.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCN-GnHQiVvap-YQh8QykZTxJTSLsxI2uw"></script>
