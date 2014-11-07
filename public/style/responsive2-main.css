@@ -508,7 +508,8 @@ body.parksforward.responsive2 {
       border-radius: 4px 4px;
       background-position: 5px 5px;
       padding: 10px;
-      line-height: 58px; }
+      line-height: 58px;
+      cursor: pointer; }
       body.parksforward.responsive2 .block-activity-icons li.outdoors {
         background-color: #4BAE4F; }
       body.parksforward.responsive2 .block-activity-icons li.sports {

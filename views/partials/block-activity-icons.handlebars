@@ -1,5 +1,5 @@
 <ul class="block-activity-icons">
 {{#each hipcamp.items}}
-  <li style="background-image:url('/style/activity-{{name}}.svg');" title="{{#__}}This park has {{name}}{{/__}}" class="{{category}}">{{name}}</li>
+  <li style="background-image:url('/style/activity-{{name}}.svg');" title="{{#__}}This park has {{name}}{{/__}}" class="{{category}}" onclick="location.href='/parks/with/{{name}}';">{{name}}</li>
 {{/each}}
 </ul>
