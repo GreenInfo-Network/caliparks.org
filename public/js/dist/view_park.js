@@ -1,7 +1,8 @@
-define([ "require", "exports", "jquery", "block-photo-carousel", "block-instagram-strip", "block-static-park-map" ], function(require) {
-    {
-        var BlockStaticParkMap = require("block-static-park-map"), BlockPhotoCarousel = require("block-photo-carousel"), BlockInstagramStrip = require("block-instagram-strip");
-        new BlockStaticParkMap(".block-static-park-map", viewData, function() {}), new BlockPhotoCarousel(".block-photo-carousel", viewData, function() {}), 
-        new BlockInstagramStrip(".block-instagram-strip", viewData, function() {});
-    }
+define([ "require", "exports", "module", "jquery", "block-photo-carousel", "block-instagram-strip", "block-static-park-map", "facebook-fixer" ], function(require, exports, module, jquery, BlockPhotoCarousel, BlockInstagramStrip, BlockStaticParkMap, FacebookFixer) {
+    var facebookFixer = (new BlockStaticParkMap(".block-static-park-map", viewData, function() {}), 
+    new BlockPhotoCarousel(".block-photo-carousel", viewData, function() {}), new BlockInstagramStrip(".block-instagram-strip", viewData, function() {}), 
+    new FacebookFixer());
+    facebookFixer.on("facebook-frame-change", function(e) {
+        "open" === e.caller.state ? $("body").removeClass("facebook-thing-closed") : $("body").addClass("facebook-thing-closed");
+    });
 });
