@@ -1,6 +1,5 @@
-define([ "require", "exports", "module", "detect-os", "stamen-super-classy", "gmap-custom-tile-layer" ], function(require, exports, module) {
+define([ "require", "exports", "module", "detect-os", "stamen-super-classy", "gmap-custom-tile-layer" ], function(require, exports, module, DetectOs, StamenSuperClassy, GmapCustomTileLayer) {
     "use strict";
-    var StamenSuperClassy = require("stamen-super-classy"), GmapCustomTileLayer = require("gmap-custom-tile-layer"), DetectOs = require("detect-os"), detectOs = new DetectOs();
     module.exports = function(rootSelector, viewOptions, callback) {
         function geoJSONBBoxToGoogleBounds(GeoJSONBBoxPolygon) {
             for (var a, b, point, bounds = new google.maps.LatLngBounds(), ii = 0; ii < GeoJSONBBoxPolygon.coordinates[0].length; ii++) a = GeoJSONBBoxPolygon.coordinates[0][ii][1], 
@@ -15,7 +14,7 @@ define([ "require", "exports", "module", "detect-os", "stamen-super-classy", "gm
             return that.parksLayer = new GmapCustomTileLayer({
                 tilePath: "http://{s}.map.parks.stamen.com/{z}/{x}/{y}.png",
                 size: 256
-            });
+            }), that.parksLayer;
         }
         function initBigMap() {
             that.bigMap = new google.maps.Map(bigMapNode, {

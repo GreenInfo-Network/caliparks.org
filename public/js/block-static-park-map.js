@@ -1,12 +1,13 @@
-define(["require","exports","module","detect-os","stamen-super-classy","gmap-custom-tile-layer"], function(require,exports, module) {
+define(["require","exports","module","detect-os","stamen-super-classy","gmap-custom-tile-layer"], function(
+  require,
+  exports,
+  module,
+  DetectOs,
+  StamenSuperClassy,
+  GmapCustomTileLayer
+) {
 
   'use strict';
-
-  var StamenSuperClassy   = require("stamen-super-classy"),
-      GmapCustomTileLayer = require("gmap-custom-tile-layer"),
-      DetectOs            = require('detect-os');
-
-  var detectOs = new DetectOs();
 
   var state             = {},
       data              = {};
@@ -59,10 +60,12 @@ define(["require","exports","module","detect-os","stamen-super-classy","gmap-cus
     //
 
     function initStamenLayer() {
-      return that.parksLayer = new GmapCustomTileLayer({
+      that.parksLayer = new GmapCustomTileLayer({
         tilePath : 'http://{s}.map.parks.stamen.com/{z}/{x}/{y}.png',
         size     : 256
       });
+
+      return that.parksLayer;
     }
 
     function initBigMap() {
@@ -156,7 +159,7 @@ define(["require","exports","module","detect-os","stamen-super-classy","gmap-cus
       initStamenLayer();
       initBigMap();
       initSmallMap();
-      initActions()
+      initActions();
 
       that.on('ready', function() {
         callback(null, that);

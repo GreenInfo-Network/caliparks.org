@@ -1,5 +1,4 @@
-define([ "require", "exports", "module", "jquery", "content-carousel", "stamen-super-classy", "content-fetcher" ], function(require, exports, module) {
-    var StamenSuperClassy = require("stamen-super-classy"), ContentCarousel = require("content-carousel"), ContentFetcher = require("content-fetcher");
+define([ "require", "exports", "module", "jquery", "content-carousel", "stamen-super-classy", "content-fetcher" ], function(require, exports, module, jquery, ContentCarousel, StamenSuperClassy, ContentFetcher) {
     module.exports = function(rootSelector) {
         function fetchPhotos() {
             contentFetcher.fetch();

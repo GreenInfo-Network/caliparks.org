@@ -1,5 +1,4 @@
-define([ "require", "exports", "module", "handlebars", "jquery", "stamen-super-classy" ], function(require, exports, module, Handlebars) {
-    var StamenSuperClassy = require("stamen-super-classy");
+define([ "require", "exports", "module", "handlebars", "jquery", "stamen-super-classy" ], function(require, exports, module, Handlebars, jquery, StamenSuperClassy) {
     module.exports = function(rootSelector, templatePath, src, responsePath, options) {
         function getDataByStringPath(data, path) {
             for (var pathArray = path.split("."), dataLevel = data, i = 0; pathArray.length > i; i++) dataLevel = dataLevel[pathArray[i]];

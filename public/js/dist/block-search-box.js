@@ -1,6 +1,6 @@
-define([ "require", "exports", "module", "vendor/typeahead", "vendor/bloodhound", "jquery", "stamen-super-classy" ], function(require, exports, module) {
+define([ "require", "exports", "module", "vendor/typeahead", "vendor/bloodhound", "jquery", "stamen-super-classy" ], function(require, exports, module, typeahead, bloodhound, jquery, StamenSuperClassy) {
     "use strict";
-    var rootNode, locateMeNode, that, old, formNode, searchFieldNode, searchParts, StamenSuperClassy = require("stamen-super-classy"), state = {}, data = {}, bloodHoundSources = {};
+    var rootNode, locateMeNode, that, old, formNode, searchFieldNode, searchParts, state = {}, data = {}, bloodHoundSources = {};
     module.exports = function(rootSelector, config, callback) {
         function updateData(key, path, callback) {
             old = data[key], $.getJSON(path, function(json) {

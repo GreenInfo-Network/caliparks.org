@@ -1,6 +1,5 @@
-define([ "require", "exports", "module", "stamen-super-classy" ], function(require, exports, module) {
+define([ "require", "exports", "module", "stamen-super-classy" ], function(require, exports, module, StamenSuperClassy) {
     "use strict";
-    var StamenSuperClassy = require("stamen-super-classy");
     module.exports = function(config) {
         function getTile(coord, zoom, ownerDocument) {
             var div = ownerDocument.createElement("DIV"), baseURL = that.processTemplate(config.tilePath, {

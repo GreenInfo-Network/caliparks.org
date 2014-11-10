@@ -3,11 +3,14 @@
 //
 // Created by Stamen Design in 2014
 //
-define(["require","exports","module","stamen-super-classy"], function(require,exports, module) {
+define(["require","exports","module","stamen-super-classy"], function(
+  require,
+  exports,
+  module,
+  StamenSuperClassy
+) {
 
   'use strict';
-
-  var StamenSuperClassy = require("stamen-super-classy");
 
   var state             = {},
       data              = {};

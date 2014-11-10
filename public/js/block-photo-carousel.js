@@ -1,8 +1,12 @@
-define(["require","exports","module","jquery","content-carousel","stamen-super-classy","content-fetcher"], function(require, exports, module, Handlebars) {
-
- var StamenSuperClassy = require("stamen-super-classy"),
-     ContentCarousel   = require('content-carousel'),
-     ContentFetcher    = require('content-fetcher');
+define(["require","exports","module","jquery","content-carousel","stamen-super-classy","content-fetcher"], function(
+  require,
+  exports,
+  module,
+  jquery,
+  ContentCarousel,
+  StamenSuperClassy,
+  ContentFetcher
+) {
 
  /**
  * UI Block for displaying a photo Carousel

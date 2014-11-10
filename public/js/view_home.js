@@ -1,12 +1,11 @@
-define(["require","exports","block-search-box","jquery"], function(require,exports, module) {
+define(["require","exports", "module", "block-search-box", "jquery"], function(
+  require,
+  exports,
+  module,
+  BlockSearchBox,
+  jquery
+) {
 
-  var BlockSearchBox = require("block-search-box");
-
-
-  var blockSearchBox = new BlockSearchBox('.block-search-box',{}, function(err, blockSearchBox) {
-
-
-
-  });
+  var blockSearchBox = new BlockSearchBox('.block-search-box',{}, function(err, blockSearchBox) {});
 
 });

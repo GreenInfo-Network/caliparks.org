@@ -1,6 +1,11 @@
-define(["require","exports","module","handlebars","jquery","stamen-super-classy"], function(require, exports, module, Handlebars) {
-
- var StamenSuperClassy = require("stamen-super-classy");
+define(["require","exports","module","handlebars","jquery","stamen-super-classy"], function(
+  require,
+  exports,
+  module,
+  Handlebars,
+  jquery,
+  StamenSuperClassy
+) {
 
 /**
 * ContentFetcher module

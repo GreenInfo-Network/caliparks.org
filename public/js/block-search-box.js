@@ -1,8 +1,14 @@
-define(["require","exports","module","vendor/typeahead","vendor/bloodhound","jquery","stamen-super-classy"], function(require,exports, module) {
+define(["require","exports","module","vendor/typeahead","vendor/bloodhound","jquery","stamen-super-classy"], function(
+  require,
+  exports,
+  module,
+  typeahead,
+  bloodhound,
+  jquery,
+  StamenSuperClassy
+) {
 
   'use strict';
-
-  var StamenSuperClassy = require("stamen-super-classy");
 
   var state             = {},
       data              = {},

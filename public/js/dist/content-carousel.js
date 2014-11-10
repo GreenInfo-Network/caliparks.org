@@ -1,6 +1,5 @@
-define([ "require", "exports", "module", "jquery", "stamen-super-classy", "modernizr" ], function(require, exports, module) {
+define([ "require", "exports", "module", "jquery", "stamen-super-classy", "modernizr" ], function(require, exports, module, jquery, StamenSuperClassy) {
     "use strict";
-    var StamenSuperClassy = require("stamen-super-classy");
     module.exports = function(rootSelector, options) {
         var animationInterval, that = this;
         StamenSuperClassy.apply(this, arguments), options = options || {};

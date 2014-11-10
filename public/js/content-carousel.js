@@ -1,11 +1,16 @@
 //
 // Tools for detecting the client OS
 //
-define(["require","exports","module","jquery","stamen-super-classy","modernizr"], function(require,exports,module) {
+define(["require","exports","module","jquery","stamen-super-classy","modernizr"], function(
+  require,
+  exports,
+  module,
+  jquery,
+  StamenSuperClassy,
+  modernizr
+) {
 
   'use strict';
-
-  var StamenSuperClassy = require("stamen-super-classy");
 
   /**
   * Ads carousel behavior to scrolling HTML containers
