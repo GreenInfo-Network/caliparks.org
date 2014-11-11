@@ -7,10 +7,7 @@
 			<p class="site-name">{{#__}}Caliparks{{/__}}</p>
 			<div class="park-details">
 				<p class="agency-name"><a href="#">{{cpadPark.mng_agncy}}</a></p>
-				<h1>{{name}}</h1>
-				{{#if hipcamp}}
-					{{>block-activity-icons}}
-				{{/if}}
+				{{>block-park-name}}
 				<p class="social-breakdown">
 					{{#if twitter}}
 						<span class="total{{twitter.total}}">{{#pluralize}}{{twitter.total}} {{#__}}Tweet{{/__}}|{{#__}}Tweets{{/__}}{{/pluralize}}

@@ -136,6 +136,7 @@ body.parksforward.responsive2 {
   @import "block-instagram-strip";
   @import "block-activity-icons";
   @import "block-static-park-map";
+  @import "block-park-name";
 
   //
   // Common layout sections
@@ -259,11 +260,13 @@ body.parksforward.responsive2 {
   //
   @import "template-home";
   @import "template-park";
+  @import "template-parks";
 
 }
 
 //
 //  Styles for Mobile
+//  TODO: Weave these in to the styles above
 //
 @include media(max-width 720px) {
   body.parksforward.responsive2 {

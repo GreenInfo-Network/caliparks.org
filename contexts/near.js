@@ -2,7 +2,8 @@
 
 var env      = require('require-env'),
     pg       = require('pg'),
-    getPlace = require('../library/get-place.js');
+    getPlace = require('../library/get-place.js'),
+    hipcamp  = require('../lib/hipcamp.js');
 
 module.exports = function(data, callback) {
 
@@ -35,14 +36,24 @@ module.exports = function(data, callback) {
         }
 
         client.query({
-          text   : 'select *, ST_AsGeoJSON(geom) as geometry, ST_AsGeoJSON(ST_Centroid(geom)) as centroid, ST_distance(geom, st_setsrid(st_makepoint($1,$2),4326)) as distance from (select * from cpad_superunits_4326 where ST_DWithin(geom, st_setsrid(st_makepoint($1,$2),4326), .3)'+not+' LIMIT $3) as shortlist order by distance asc;',
+          text   : 'select *, ST_AsGeoJSON(geom) as geometry, ST_AsGeoJSON(ST_Centroid(geom)) as centroid, ST_distance(geom, st_setsrid(st_makepoint($1,$2),4326)) as distance from (select * from cpad_superunits_4326 where ST_DWithin(geom, st_setsrid(st_makepoint($1,$2),4326), .3)'+not+' LIMIT $3) as shortlist INNER JOIN site_hipcamp_activities act ON (act.su_id = shortlist.superunit_id) order by distance asc;',
           values : [place.coordinates[1],place.coordinates[0],limit]
         }, function(err, result) {
           if(err) {
             return callback(err);
           }
 
+          //
+          // Format activity data
+          //
+          result.rows.map(function(row) {
+            row.activity = {};
+            row.activity.items = hipcamp.filterActivityData(row.activities);
+            return row;
+          });
+
           return callback(null, {
+
             parks : result.rows.map(cpadRowFilter),
             title : place.details && place.details.name ? 'near ' + place.details.name : 'nearby'
           });

@@ -523,10 +523,12 @@ body.parksforward.responsive2 {
     body.parksforward.responsive2 .block-activity-icons li {
       display: inline-block;
       list-style-type: none;
-      width: 42px;
-      height: 42px;
+      width: 32px;
+      height: 32px;
+      background-size: 22px 22px;
+      line-height: 1px;
+      font-size: 0px;
       color: transparent;
-      background-size: 32px 32px;
       background-position: center;
       background-repeat: no-repeat;
       background-color: #2099f1;
@@ -534,7 +536,6 @@ body.parksforward.responsive2 {
       border-radius: 4px 4px;
       background-position: 5px 5px;
       padding: 10px;
-      line-height: 58px;
       cursor: pointer; }
       body.parksforward.responsive2 .block-activity-icons li.outdoors {
         background-color: #4BAE4F; }
@@ -546,13 +547,6 @@ body.parksforward.responsive2 {
         background-color: #2095F2; }
       body.parksforward.responsive2 .block-activity-icons li.snow {
         background-color: #00BBD3; }
-      @media screen and (max-width: 720px)  {
-        body.parksforward.responsive2 .block-activity-icons li {
-          width: 35px;
-          height: 35px;
-          background-size: 25px 25px;
-          line-height: 1px;
-          font-size: 0px; } }
   body.parksforward.responsive2 .block-static-park-map {
     position: relative; }
     body.parksforward.responsive2 .block-static-park-map .big-park-map {
@@ -586,6 +580,12 @@ body.parksforward.responsive2 {
       position: absolute;
       top: 10px;
       left: 10px; }
+  body.parksforward.responsive2 .block-park-name .park-name {
+    color: #333;
+    font-family: "jubilat", serif;
+    font-weight: bolder; }
+    body.parksforward.responsive2 .block-park-name .park-name a {
+      color: #333; }
   body.parksforward.responsive2 header {
     float: left;
     display: block;
@@ -718,10 +718,6 @@ body.parksforward.responsive2 {
           content: "";
           display: table;
           clear: both; } }
-    body.parksforward.responsive2 .content.template-park > div h1 {
-      color: #333;
-      font-size: 200%;
-      line-height: 85%; }
     body.parksforward.responsive2 .content.template-park > div section {
       padding: 2.35765%;
       background-color: #cfd8dc;
@@ -742,6 +738,13 @@ body.parksforward.responsive2 {
           color: white;
           font-size: 75%;
           margin-bottom: 0; }
+        body.parksforward.responsive2 .content.template-park > div section#park-info .block-park-name .park-name {
+          font-size: 200%;
+          line-height: 85%; }
+          body.parksforward.responsive2 .content.template-park > div section#park-info .block-park-name .park-name .block-activity-icons li {
+            width: 42px;
+            height: 42px;
+            background-size: 32px 32px; }
         body.parksforward.responsive2 .content.template-park > div section#park-info .park-details {
           padding: 20px; }
           body.parksforward.responsive2 .content.template-park > div section#park-info .park-details .agency-name {
@@ -791,6 +794,15 @@ body.parksforward.responsive2 {
           @media screen and (max-width: 720px)  {
             body.parksforward.responsive2 .content.template-park > div section#search-area .block-search-box {
               width: 90%; } }
+  body.parksforward.responsive2 .content.template-parks .search-results {
+    height: 100%;
+    width: 100%;
+    background-color: #cfd8dc;
+    padding: 20px; }
+    body.parksforward.responsive2 .content.template-parks .search-results .block-park-name {
+      margin-bottom: 20px; }
+      body.parksforward.responsive2 .content.template-parks .search-results .block-park-name a {
+        font-family: "expressway", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; }
 
 @media screen and (max-width: 720px)  {
   body.parksforward.responsive2 {

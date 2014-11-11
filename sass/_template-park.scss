@@ -6,12 +6,6 @@
       @include row(table);
     }
 
-    h1 {
-      color:$color-dark;
-      font-size:200%;
-      line-height: 85%;
-    }
-
     section {
 
       @include pad();
@@ -39,6 +33,19 @@
           color:$light-font-color;
           font-size: 75%;
           margin-bottom:0;
+        }
+
+        .block-park-name .park-name {
+          font-size:200%;
+          line-height: 85%;
+
+          .block-activity-icons {
+            li {
+              width:42px;
+              height:42px;
+              background-size:32px 32px;
+            }
+          }
         }
 
         .park-details {

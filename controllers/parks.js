@@ -6,7 +6,6 @@ module.exports = function(req, res, data, callback) {
 	try {
 		context = require('../contexts/' + data.context + '.js');
 	} catch (err) {
-		console.error('Context could not be loaded:',err);
 		res.status(404);
 		res.render('404', {
 			coverPhoto : {
@@ -22,15 +21,14 @@ module.exports = function(req, res, data, callback) {
 		});
 	}
 
-	var hashtags = require('../public/data/hashtagsBySuId.json'),
-	    pg       = require('pg'),
+	var pg       = require('pg'),
 	    sorts    = {};
 
 	var contextDataDecorated;
 
 	//
 	// Add querystring but don't clobber anything called query from the caller
-	// 
+	//
 	data._query = req.query;
 
 	return context(data, function(err, contextData) {
@@ -47,7 +45,7 @@ module.exports = function(req, res, data, callback) {
 		}
 
 		contextDataDecorated = contextData.parks.map(function(park) {
-			park.hashtag = hashtags[park.superunit_id];
+			park.name = park.unit_name;
 			return park;
 		});
 
@@ -70,15 +68,15 @@ module.exports = function(req, res, data, callback) {
 		} else {
 			contextParts = [contextDataDecorated,[]];
 		}
-		
+
 
 		if (data.context !== 'biggest-to-smallest') {
 			sorts['biggest-to-smallest'] = 'park size';
-		} 
+		}
 
 		if (data.context !== 'most-tweets') {
 			sorts['most-tweets'] = 'most tweets';
-		} 
+		}
 
 		if (data.context !== 'most-photographed') {
 			sorts['most-photographed'] = 'most photographed';

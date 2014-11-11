@@ -12,45 +12,22 @@ if (locationParts[4] === 'near' && !locationParts[5]) {
 }
 </script>
 
-<div class="content-column" id="view-parks">
+<div class="content template-{{view}}">
 
   <div>
-    <h1>{{appTitle}}</h1>
-    <div ><strong>{{#pluralize}}{{total}} {{#__}}park{{/__}}|{{#__}}parks{{/__}}{{/pluralize}}</strong> | {{#__}}Sort by <a href="/parks/{{sorts.one.key}}/">{{sorts.one.value}}</a> or <a href="/parks/{{sorts.two.key}}/">{{sorts.two.value}}{{/__}}</a></div>
+    <h1>Parks with "{{appTitle}}" in the name</h1>
   </div>
 
   <div  id="parks">
-  {{#each parks}}
-      <li><a href="/park/{{superunit_id}}">{{unit_name}}</a> {{score}}</li>
-  {{/each}}
+    <ul class="search-results">
+      {{#each parks}}
+          <li>{{>block-park-name}}</li>
+      {{/each}}
 
-  {{#if empty}}
-    {{#__}}There are no parks to be found here. <a href="/wander">Here is one</a>{{/__}}.
-  {{/if}}
+      {{#if empty}}
+        {{#__}}There are no parks to be found here. <a href="/wander">Here is one</a>{{/__}}.
+      {{/if}}
+    </ul>
   </div>
 
 </div>
-
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-
-    //
-    // Image defer
-    //
-    queue = new STMN.QueuedElementList('#parks', {
-      queue     : {{{parksQueue}}},
-      template  : '<li><a href="/park/{superunit_id}">{unit_name}</a></li>',
-      batchSize : 100
-    });
-
-    var b = document.body;
-
-    document.addEventListener('scroll',function(e) {
-
-      if ((b.scrollHeight-b.scrollTop) < (document.documentElement.clientHeight*2)) {
-        queue.writeNextBatch();
-      }
-    });
-
-  }, false);
-</script>

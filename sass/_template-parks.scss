@@ -1,0 +1,20 @@
+.content.template-parks {
+
+  .search-results {
+
+    height:100%;
+    width:100%;
+    background-color:$color-lighter;
+    padding:$box-padding;
+
+    .block-park-name {
+      margin-bottom:$box-padding;
+
+      a {
+        font-family:$font-family-sans;
+      }
+    }
+
+  }
+
+}

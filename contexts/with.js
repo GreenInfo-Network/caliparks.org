@@ -2,7 +2,8 @@
 
 var env       = require('require-env'),
     pg        = require('pg'),
-    sanitizer = require('sanitizer');
+    sanitizer = require('sanitizer'),
+    hipcamp   = require('../lib/hipcamp.js');
 
 module.exports = function(data, _callback) {
 
@@ -49,6 +50,15 @@ module.exports = function(data, _callback) {
         console.error('error running query', err);
         return callback(err);
       }
+
+      //
+      // Format activity data
+      //
+      result.rows.map(function(row) {
+        row.activity = {};
+        row.activity.items = hipcamp.filterActivityData(row.activities);
+        return row;
+      });
 
       return callback(null, {
         parks : result.rows,

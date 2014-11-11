@@ -4,7 +4,8 @@ var env       = require('require-env'),
     escape    = require('pg-escape'),
     pg        = require('pg'),
     sanitizer = require('sanitizer'),
-    getPlace  = require('../library/get-place.js');
+    getPlace  = require('../library/get-place.js'),
+    hipcamp   = require('../lib/hipcamp.js');
 
 function buildQuery(dbQuery, data, callback) {
   // score = (total tweets + total photos + total checkins + total tips) (* 10 if they have activity data)
@@ -189,10 +190,14 @@ function buildQuery(dbQuery, data, callback) {
     fullQuery = {
       text: escape([
         'SELECT',
+        '  shortlist.superunit_id,',
+        '  shortlist.unit_name as name,',
+        '  act.activities,',
         '  *',
-        '  %s',
+        ' %s',
         'FROM cpad_superunits_4326 shortlist',
-        'WHERE unit_name ILIKE %L',
+        'INNER JOIN site_hipcamp_activities act ON (shortlist.superunit_id = act.su_id)',
+        'WHERE shortlist.unit_name ILIKE %L',
         'ORDER BY %s shortlist.unit_name ASC'
       ].join('\n'), scoreSubQuery, '%' + dbQuery + '%', scoreOrderBy)
     };
@@ -234,6 +239,15 @@ module.exports = function(data, _callback) {
           console.error('error running query', err);
           return callback(err);
         }
+
+        //
+        // Format activity data
+        //
+        result.rows.map(function(row) {
+          row.activity = {};
+          row.activity.items = hipcamp.filterActivityData(row.activities);
+          return row;
+        });
 
         return callback(null, {
           parks : result.rows,

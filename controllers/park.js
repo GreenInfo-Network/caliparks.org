@@ -19,8 +19,7 @@ var formatNumber = function(number) {
   return '1 M +';
 };
 
-var activityCategories = require('../config/activityCategories'),
-    contexts = {},
+var contexts = {},
     cpadModified;
 
 module.exports = function(req, res, options, callback) {
@@ -64,38 +63,6 @@ module.exports = function(req, res, options, callback) {
     //
     if (apiResponse.cpad) {
 
-      if (apiResponse.hipcamp) {
-        var hasHipcamp                 = !!apiResponse.hipcamp,
-            hipcampActivities          = (hasHipcamp) ? apiResponse.hipcamp.activities : null,
-            hipcampActivitiesOrganized = [];
-      }
-
-      if (apiResponse.hipcamp) {
-        //
-        // If the park has hipcamp activities, organize them
-        //
-        if (hasHipcamp) {
-
-          //
-          // Filter out non activities
-          //
-          delete hipcampActivities['cpadparkname'];
-          delete hipcampActivities['hipcampparkname'];
-          delete hipcampActivities['cpadSunma'];
-          delete hipcampActivities['activityCount'];
-          delete hipcampActivities['other'];
-
-          for(var i in hipcampActivities) {
-            if (hipcampActivities.hasOwnProperty(i) && hipcampActivities[i]) {
-              hipcampActivitiesOrganized.push({
-                'name'     : i,
-                'category' : activityCategories[i]
-              });
-            }
-          }
-
-        }
-      }
 
       if (apiResponse.cpad) {
         //
@@ -170,8 +137,8 @@ module.exports = function(req, res, options, callback) {
       // Hipcamp output
       //
       if (apiResponse.hipcamp) {
-        output.hipcamp = {
-          'items' : hipcampActivitiesOrganized
+        output.activity = {
+          'items' : apiResponse.hipcamp.activities
         }
       }
 
