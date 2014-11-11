@@ -47,7 +47,7 @@ module.exports = function(req, res, options, callback) {
 
   if (options.dataFilter) {
     for (var i in dbRequests) {
-      if (dbRequests.hasOwnProperty(i) && i !== options.dataFilter && i !== 'cpad') {
+      if (dbRequests.hasOwnProperty(i) && i !== options.dataFilter && i !== 'cpad' && i !== 'stats') {
         delete dbRequests[i];
       }
     }
