@@ -6,11 +6,18 @@ var async    = require('async'),
 
 var cpad       = require('../lib/cpad'),
     flickr     = require('../lib/flickr'),
-    foursquare = require('../lib/foursquare'),
     hipcamp    = require('../lib/hipcamp'),
     instagram  = require('../lib/instagram'),
     twitter    = require('../lib/twitter'),
     stories    = require('../library/stories.js');
+
+var formatNumber = function(number) {
+  if (number < 1000000) {
+    return numeral(number).format('0,0');
+  }
+
+  return '1 M +';
+};
 
 var activityCategories = require('../config/activityCategories'),
     contexts = {},
@@ -21,8 +28,6 @@ module.exports = function(req, res, options, callback) {
         positions = {};
 
     var template  = 'park',
-        foursquare_checkins = 0,
-        foursquare_tips     = 0,
         title,
         thisOne,
         centroid;
@@ -31,9 +36,9 @@ module.exports = function(req, res, options, callback) {
     cpad       : async.apply(cpad.getPark,                 park_id, options),
     flickr     : async.apply(flickr.getPhotosForPark,      park_id, options),
     instagram  : async.apply(instagram.getPhotosForPark,   park_id, options),
-    foursquare : async.apply(foursquare.getVenuesForPark,  park_id, options),
     twitter    : async.apply(twitter.getTweetsForPark,     park_id, options),
-    hipcamp    : async.apply(hipcamp.getActivitiesForPark, park_id, options)
+    hipcamp    : async.apply(hipcamp.getActivitiesForPark, park_id, options),
+    stats      : async.apply(cpad.getParkStats,            park_id, options)
   };
 
   //
@@ -58,20 +63,6 @@ module.exports = function(req, res, options, callback) {
     // Was a park found? if not, just 404
     //
     if (apiResponse.cpad) {
-
-      //
-      // Get checkins and tips count from Foursquare
-      //
-      if (apiResponse.foursquare) {
-        apiResponse.foursquare.forEach(function(venue) {
-          foursquare_checkins += venue.metadata.stats.checkinsCount;
-          foursquare_tips += venue.metadata.stats.tipCount;
-        });
-
-        var venues_count               = numeral(apiResponse.foursquare.length).format('0,0'),
-            venues_checkins            = numeral(foursquare_checkins).format('0,0'),
-            venues_tips                = numeral(foursquare_tips).format('0,0');
-      }
 
       if (apiResponse.hipcamp) {
         var hasHipcamp                 = !!apiResponse.hipcamp,
@@ -165,24 +156,19 @@ module.exports = function(req, res, options, callback) {
         });
 
         output.instagram = {
-          'total' : apiResponse.instagram.length,
+          'total' : apiResponse.stats.instagram_photo_count,
           'items' : apiResponse.instagram
-        }
+        };
       }
 
       //
       // Foursquare output
       //
-      if (apiResponse.foursquare) {
-        output.foursquare = {
-          'total'           : apiResponse.foursquare.length,
-          'items'           : apiResponse.foursquare,
-          'venues_count'    : apiResponse.foursquare.length < 1000000 ? venues_count : '1 M +',
-          'venues_checkins' : foursquare_checkins < 1000000 ? venues_checkins : '1 M +',
-          'venues_tips'     : foursquare_tips < 1000000 ? venues_tips : '1 M +'
-
-        }
-      }
+      output.foursquare = {
+        'venues_count'    : formatNumber(apiResponse.stats.foursquare_venue_count),
+        'venues_checkins' : formatNumber(apiResponse.stats.swarm_checkin_count),
+        'venues_tips'     : formatNumber(apiResponse.stats.foursquare_tip_count)
+      };
 
       //
       // Hipcamp output
@@ -196,9 +182,7 @@ module.exports = function(req, res, options, callback) {
       //
       // Flickr + Instagram output
       //
-      if (apiResponse.flickr && apiResponse.instagram) {
-        output.total_any_photos = (apiResponse.flickr.length + apiResponse.instagram.length);
-      }
+      output.total_any_photos = formatNumber(apiResponse.stats.flickr_photo_count + apiResponse.stats.instagram_photo_count);
 
       //
       // We always get these unliess the the data is filtered
