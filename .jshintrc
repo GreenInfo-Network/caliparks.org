@@ -1,0 +1,15 @@
+{
+    "node": true,
+    "globalstrict": true,
+    "curly": true,
+    "sub": true,
+    "indent": 2,
+    "newcap": true,
+    "white": false,
+    "undef": true,
+    "unused": "vars",
+    "eqeqeq": true,
+    "freeze": true,
+    "latedef": true,
+    "quotmark": true
+}
