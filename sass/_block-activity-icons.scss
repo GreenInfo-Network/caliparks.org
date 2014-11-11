@@ -3,6 +3,10 @@
   padding:0;
   display:block;
 
+  @include media(max-width 720px) {
+    margin-bottom:$box-padding-half;
+  }
+
   li {
     display:inline-block;
     list-style-type:none;
@@ -41,10 +45,10 @@
     }
 
     @include media(max-width 720px) {
-      width:25px;
-      height:25px;
-      background-size:15px 15px;
-      line-height: 10px;
+      width:35px;
+      height:35px;
+      background-size:25px 25px;
+      line-height: 1px;
       font-size: 0px;
     }
   }

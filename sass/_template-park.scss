@@ -10,7 +10,6 @@
       color:$color-dark;
       font-size:200%;
       line-height: 85%;
-      margin-bottom:25px;
     }
 
     section {
@@ -23,22 +22,29 @@
       &#park-info {
         @include span-columns(7 of 12);
 
+        .block-photo-carousel {
+          height:300px;
+        }
+
+        @include media(max-width 720px) {
+          .block-photo-carousel {
+            height:200px;
+          }
+        }
+
         .site-name {
           display:block;
           background-color:$color-notsodark;
           padding:0 $box-padding;
           color:$light-font-color;
           font-size: 75%;
+          margin-bottom:0;
         }
 
         .park-details {
           padding:$box-padding;
 
           .agency-name {
-          }
-
-          .block-activity-icons {
-            margin-bottom:$box-padding-half;
           }
 
           .social-breakdown {

@@ -399,7 +399,7 @@ body.parksforward.responsive2 {
             right: inherit;
             height: 250px; } }
   body.parksforward.responsive2 .block-photo-carousel {
-    height: 200px;
+    height: 300px;
     position: relative; }
     body.parksforward.responsive2 .block-photo-carousel .slide-container {
       position: absolute;
@@ -517,6 +517,9 @@ body.parksforward.responsive2 {
     margin: 0;
     padding: 0;
     display: block; }
+    @media screen and (max-width: 720px)  {
+      body.parksforward.responsive2 .block-activity-icons {
+        margin-bottom: 10px; } }
     body.parksforward.responsive2 .block-activity-icons li {
       display: inline-block;
       list-style-type: none;
@@ -545,10 +548,10 @@ body.parksforward.responsive2 {
         background-color: #00BBD3; }
       @media screen and (max-width: 720px)  {
         body.parksforward.responsive2 .block-activity-icons li {
-          width: 25px;
-          height: 25px;
-          background-size: 15px 15px;
-          line-height: 10px;
+          width: 35px;
+          height: 35px;
+          background-size: 25px 25px;
+          line-height: 1px;
           font-size: 0px; } }
   body.parksforward.responsive2 .block-static-park-map {
     position: relative; }
@@ -718,8 +721,7 @@ body.parksforward.responsive2 {
     body.parksforward.responsive2 .content.template-park > div h1 {
       color: #333;
       font-size: 200%;
-      line-height: 85%;
-      margin-bottom: 25px; }
+      line-height: 85%; }
     body.parksforward.responsive2 .content.template-park > div section {
       padding: 2.35765%;
       background-color: #cfd8dc;
@@ -728,16 +730,20 @@ body.parksforward.responsive2 {
       body.parksforward.responsive2 .content.template-park > div section#park-info {
         display: table-cell;
         width: 58.33333%; }
+        body.parksforward.responsive2 .content.template-park > div section#park-info .block-photo-carousel {
+          height: 300px; }
+        @media screen and (max-width: 720px)  {
+          body.parksforward.responsive2 .content.template-park > div section#park-info .block-photo-carousel {
+            height: 200px; } }
         body.parksforward.responsive2 .content.template-park > div section#park-info .site-name {
           display: block;
           background-color: #37474f;
           padding: 0 20px;
           color: white;
-          font-size: 75%; }
+          font-size: 75%;
+          margin-bottom: 0; }
         body.parksforward.responsive2 .content.template-park > div section#park-info .park-details {
           padding: 20px; }
-          body.parksforward.responsive2 .content.template-park > div section#park-info .park-details .block-activity-icons {
-            margin-bottom: 10px; }
           body.parksforward.responsive2 .content.template-park > div section#park-info .park-details .social-breakdown {
             font-size: 75%; }
             body.parksforward.responsive2 .content.template-park > div section#park-info .park-details .social-breakdown .total0 {
