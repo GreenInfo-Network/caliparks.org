@@ -122,22 +122,18 @@ module.exports = function(req, res, options, callback) {
       //
       // Flickr output
       //
-      if (apiResponse.flickr) {
-        output.flickr = {
-          'total' : apiResponse.flickr.length,
-          'items' : apiResponse.flickr
-        }
-      }
+      output.flickr = {
+        'total' : apiResponse.stats.flickr_photo_count,
+        'items' : apiResponse.flickr
+      };
 
       //
       // Twitter output
       //
-      if (apiResponse.twitter) {
-        output.twitter = {
-          'total' : apiResponse.twitter.length,
-          'items' : apiResponse.twitter
-        }
-      }
+      output.twitter = {
+        'total' : apiResponse.stats.tweet_count,
+        'items' : apiResponse.twitter
+      };
 
       //
       // Instagram output
