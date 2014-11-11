@@ -35,7 +35,7 @@ pg.connect(env.require("DATABASE_URL"), function(err, client, done) {
       });
     },
     foursquareTips: function(callback) {
-      return query("SELECT su_id AS superunit_id, COALESCE(SUM(tipcount), 0) AS count FROM site_foursquare_venues_activity GROUP BY su_id", function(err, result) {
+      return query("SELECT superunit_id, COALESCE(SUM((metadata -> 'stats' ->> 'tipCount')::integer), 0) AS count FROM foursquare_venues GROUP BY superunit_id", function(err, result) {
         if (err) {
           throw err;
         }
@@ -46,7 +46,7 @@ pg.connect(env.require("DATABASE_URL"), function(err, client, done) {
       });
     },
     foursquareVenues: function(callback) {
-      return query("SELECT su_id AS superunit_id, COUNT(id) AS count FROM site_foursquare_venues_activity GROUP BY su_id", function(err, result) {
+      return query("SELECT superunit_id, COUNT(id) AS count FROM foursquare_venues GROUP BY superunit_id", function(err, result) {
         if (err) {
           throw err;
         }
@@ -57,7 +57,7 @@ pg.connect(env.require("DATABASE_URL"), function(err, client, done) {
       });
     },
     swarmCheckIns: function(callback) {
-      return query("SELECT su_id AS superunit_id, COALESCE(SUM(checkinscount), 0) AS count FROM site_foursquare_venues_activity GROUP BY su_id", function(err, result) {
+      return query("SELECT superunit_id, COALESCE(SUM((metadata -> 'stats' ->> 'checkinsCount')::integer), 0) AS count FROM foursquare_venues GROUP BY superunit_id", function(err, result) {
         if (err) {
           throw err;
         }

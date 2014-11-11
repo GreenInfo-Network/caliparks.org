@@ -64,8 +64,8 @@ module.exports = function(req, res, options, callback) {
       //
       if (apiResponse.foursquare) {
         apiResponse.foursquare.forEach(function(venue) {
-          foursquare_checkins += venue.checkinscount;
-          foursquare_tips += venue.tipcount;
+          foursquare_checkins += venue.metadata.stats.checkinsCount;
+          foursquare_tips += venue.metadata.stats.tipCount;
         });
 
         var venues_count               = numeral(apiResponse.foursquare.length).format('0,0'),

@@ -12,7 +12,6 @@ function buildQuery(dbQuery, data, callback) {
   var fullQuery, activitiesColumnSQLslug, activitiesWhereSQLslug, queryArray;
 
   // TODO site_tweets needs to be updated with new superunit_ids
-  // TODO site_foursquare_venues_activity needs to be updated with new
   // superunit_ids
   var scoreSubQuery = [
     ', (',
