@@ -26,7 +26,7 @@ endef
 
 .PHONY: install
 
-install: db/park_stats
+install: db/cpad_facilities db/park_stats
 
 .PHONY: DATABASE_URL
 
@@ -44,8 +44,27 @@ db: DATABASE_URL
 db/postgis: db
 	$(call create_extension)
 
+.PHONY: db/cpad_facilities
+
+db/cpad_facilities: db/rec_facil_ca
+	$(call create_relation)
+
 .PHONY: db/park_stats
 
 db/park_stats: db/postgis
 	$(call create_relation)
 	node scripts/update_park_stats.js
+
+.PHONY: db/rec_facil_ca
+
+db/rec_facil_ca: db/postgis data/Rec_Facil_send.zip
+	@psql -c "\d $(subst db/,,$@)" > /dev/null 2>&1 || \
+	ogr2ogr --config PG_USE_COPY YES \
+		-t_srs EPSG:3857 \
+		-nlt PROMOTE_TO_MULTI \
+		-nln $(subst db/,,$@) \
+		-lco GEOMETRY_NAME=geom \
+		-lco SRID=3857 \
+		-lco PRECISION=false \
+		-f PGDump /vsistdout/ \
+		/vsizip/$(word 2,$^)/Rec_Facil_send/Rec_Facil_CA.shp | pv | psql -q
