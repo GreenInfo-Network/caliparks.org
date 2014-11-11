@@ -738,12 +738,14 @@ body.parksforward.responsive2 {
         body.parksforward.responsive2 .content.template-park > div section#park-info .site-name {
           display: block;
           background-color: #37474f;
-          padding: 0 20px;
+          padding: 2px 20px;
           color: white;
           font-size: 75%;
           margin-bottom: 0; }
         body.parksforward.responsive2 .content.template-park > div section#park-info .park-details {
           padding: 20px; }
+          body.parksforward.responsive2 .content.template-park > div section#park-info .park-details .agency-name {
+            line-height: 18px; }
           body.parksforward.responsive2 .content.template-park > div section#park-info .park-details .social-breakdown {
             font-size: 75%; }
             body.parksforward.responsive2 .content.template-park > div section#park-info .park-details .social-breakdown .total0 {

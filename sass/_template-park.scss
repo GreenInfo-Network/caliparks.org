@@ -35,7 +35,7 @@
         .site-name {
           display:block;
           background-color:$color-notsodark;
-          padding:0 $box-padding;
+          padding:2px $box-padding;
           color:$light-font-color;
           font-size: 75%;
           margin-bottom:0;
@@ -45,6 +45,7 @@
           padding:$box-padding;
 
           .agency-name {
+            line-height: 18px;
           }
 
           .social-breakdown {
