@@ -53,6 +53,7 @@ module.exports = function(req, res, options, callback) {
   }
 
   return async.parallel(dbRequests, function(err, apiResponse) {
+
     if (err) {
       return callback(err);
     }

@@ -1,17 +1,16 @@
 'use strict';
 
-var env               = require('require-env'),
-    express           = require('express'),
-    exphbs            = require('express-handlebars'),
-    pg                = require('pg'),
-    memwatch          = require('memwatch'),
-    morgan            = require('morgan'),
-    raven             = require('raven'),
-    i18n              = require("i18n");
+var env      = require('require-env'),
+    express  = require('express'),
+    exphbs   = require('express-handlebars'),
+    pg       = require('pg'),
+    memwatch = require('memwatch'),
+    morgan   = require('morgan'),
+    raven    = require('raven'),
+    i18n     = require("i18n"),
+    cpad     = require("./lib/cpad.js");
 
-var FEATURED_PARKS            = require("./public/data/featured_parks.json"),
-    SUPER_UNIT_IDS_BY_HASHTAG = require('./public/data/suIdsByHashtag.json'),
-    ravenClient               = new raven.Client('https://ae78cdedeadb48f383a2372764455d9f:0652e85de44c49f18bf6b1478451b262@app.getsentry.com/28256');
+var ravenClient = new raven.Client('https://ae78cdedeadb48f383a2372764455d9f:0652e85de44c49f18bf6b1478451b262@app.getsentry.com/28256');
 
 var app      = express();
 module.exports = app;
@@ -163,45 +162,6 @@ function go404(req, res, next) {
     });
   }
 
-  var possibleHashtag;
-
-  if (req && req.params[0] && req.params[0].substring(1,6)) {
-    possibleHashtag = [req.params[0].substring(1,6),SUPER_UNIT_IDS_BY_HASHTAG[req.params[0].substring(1,6).toUpperCase()]];
-
-    if (possibleHashtag[1]) {
-      pg.connect(env.require('DATABASE_URL'), function(err, client, done) {
-        if (err) {
-          done();
-          ravenClient.captureError(new Error(err));
-          return next(err);
-        }
-
-        client.query({
-          text : 'select * from cpad_superunits_4326 where superunit_id = $1',
-          values : [possibleHashtag[1]]
-        }, function(err, result) {
-          if (err) {
-            ravenClient.captureError(new Error(err));
-            done();
-            return next(err);
-          }
-
-          go(result.rows.length ? {
-            name : result.rows[0].unit_name,
-            url  : '/#' + possibleHashtag[0].toUpperCase()
-          } : null);
-
-          done();
-        });
-      });
-    } else {
-      go();
-    }
-
-  } else {
-    go();
-  }
-
 }
 
 //
@@ -281,12 +241,16 @@ app.get('/park', function(req,res) {
 
 });
 
-app.get('/wander', function(req,res) {
+app.get('/wander', function(req,res, next) {
+  cpad.getRandomBest(function(err, parkId) {
 
-  var id = FEATURED_PARKS[Math.floor(Math.random() * FEATURED_PARKS.length)].id;
+    if (err) {
+      go404.apply(null,[req, res, next]);
+    } else {
+      res.redirect('/park/' + parkId.superunit_id);
+    }
 
-  res.redirect('/park/' + id);
-
+  });
 });
 
 app.get('/park/:id(\\d+)', function(req,res, next) {
