@@ -53,22 +53,6 @@ module.exports = function(req, res, data, callback) {
 			contextDataDecorated.reverse();
 		}
 
-		var contextParts = [[],[]];
-
-		if(!req.params.format) {
-			contextDataDecorated.forEach(function(park, i) {
-
-				if (i < 40) {
-					contextParts[0].push(park);
-				} else {
-					contextParts[1].push(park);
-				}
-
-			});
-		} else {
-			contextParts = [contextDataDecorated,[]];
-		}
-
 
 		if (data.context !== 'biggest-to-smallest') {
 			sorts['biggest-to-smallest'] = 'park size';
@@ -84,20 +68,9 @@ module.exports = function(req, res, data, callback) {
 
 		return callback(null, {
 			appTitle   : contextData.title,
-		 	parks      : contextParts[0],
-		 	parksQueue : JSON.stringify(contextParts[1]),
+		 	parks      : contextDataDecorated,
 		 	empty      : !(contextDataDecorated.length),
-		 	total      : contextDataDecorated.length,
-		 	sorts      : {
-		 		one : {
-		 			key   : Object.keys(sorts)[0],
-		 			value : sorts[Object.keys(sorts)[0]]
-		 		},
-		 		two : {
-		 			key   : Object.keys(sorts)[1],
-		 			value : sorts[Object.keys(sorts)[1]]
-		 		}
-		 	}
+		 	total      : contextDataDecorated.length
 		});
 
 	});
