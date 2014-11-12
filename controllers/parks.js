@@ -32,6 +32,12 @@ module.exports = function(req, res, data, callback) {
 		};
 	}
 
+	data.options = {
+		startat : (req.query.startat|0) || 0,
+		perpage : (req.query.perpage|0) || 100,
+		not     : req.query.not || null
+	}
+
 	cpad.getParks(data, function(err, parks) {
 
 		if (err) {

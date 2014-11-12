@@ -6,7 +6,6 @@ var async    = require('async'),
 
 var cpad       = require('../lib/cpad'),
     flickr     = require('../lib/flickr'),
-    hipcamp    = require('../lib/hipcamp'),
     instagram  = require('../lib/instagram'),
     twitter    = require('../lib/twitter'),
     stories    = require('../library/stories.js');
@@ -37,7 +36,6 @@ module.exports = function(req, res, options, callback) {
     flickr     : async.apply(flickr.getPhotosForPark,      park_id, options),
     instagram  : async.apply(instagram.getPhotosForPark,   park_id, options),
     twitter    : async.apply(twitter.getTweetsForPark,     park_id, options),
-    hipcamp    : async.apply(hipcamp.getActivitiesForPark, park_id, options),
     stats      : async.apply(cpad.getParkStats,            park_id, options)
   };
 
@@ -137,10 +135,8 @@ module.exports = function(req, res, options, callback) {
       //
       // Hipcamp output
       //
-      if (apiResponse.hipcamp) {
-        output.activity = {
-          'items' : apiResponse.hipcamp.activities
-        }
+      if (apiResponse.cpad.activity) {
+        output.activity = apiResponse.cpad.activity
       }
 
       //
