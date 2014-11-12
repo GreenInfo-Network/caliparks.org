@@ -77,6 +77,42 @@ pg.connect(env.require("DATABASE_URL"), function(err, client, done) {
           query("UPDATE park_stats SET tweet_count = $1 WHERE superunit_id = $2", [row.count, row.superunit_id], done);
         }, callback);
       });
+    },
+    hipcamp: function(callback) {
+      return query([
+        " SELECT",
+        "   superunit_id,",
+        "   COUNT(key) AS count",
+        "   FROM",
+        "     (",
+        "       SELECT",
+        "         su_id AS superunit_id,",
+        "         activities",
+        "       FROM site_hipcamp_activities",
+        "     ) AS hipcamp,",
+        "     json_each(hipcamp.activities)",
+        " WHERE value::text = 'true'",
+        " GROUP BY superunit_id"
+      ].join("\n"), function(err, result) {
+        if (err) {
+          throw err;
+        }
+
+        return async.forEach(result.rows, function(row, done) {
+          query("UPDATE park_stats SET hipcamp_activity_count = $1 WHERE superunit_id = $2", [row.count, row.superunit_id], done);
+        }, callback);
+      });
+    },
+    cpadFacilities: function(callback) {
+      return query("SELECT superunit_id, COUNT(DISTINCT type) AS count FROM cpad_facilities GROUP BY superunit_id", function(err, result) {
+        if (err) {
+          throw err;
+        }
+
+        return async.forEach(result.rows, function(row, done) {
+          query("UPDATE park_stats SET cpad_facility_count = $1 WHERE superunit_id = $2", [row.count, row.superunit_id], done);
+        }, callback);
+      });
     }
   }, function(err) {
     done();

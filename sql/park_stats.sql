@@ -7,6 +7,8 @@ CREATE TABLE park_stats (
   foursquare_venue_count integer NOT NULL DEFAULT 0,
   swarm_checkin_count integer NOT NULL DEFAULT 0,
   tweet_count integer NOT NULL DEFAULT 0,
+  hipcamp_activity_count integer NOT NULL DEFAULT 0,
+  cpad_facility_count integer NOT NULL DEFAULT 0,
   updated_at timestamp with time zone DEFAULT NOW()
 );
 
