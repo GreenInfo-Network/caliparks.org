@@ -5,6 +5,7 @@ var env               = require('require-env'),
     exphbs            = require('express-handlebars'),
     pg                = require('pg'),
     memwatch          = require('memwatch'),
+    morgan            = require('morgan'),
     raven             = require('raven'),
     i18n              = require("i18n");
 
@@ -41,6 +42,10 @@ if (env.contains('NODE_ENV') && env.require('NODE_ENV') !== 'development') {
   });
 } else {
   ravenClient.captureError = function(e){};
+}
+
+if (process.env.NODE_ENV != 'production') {
+  app.use(morgan('dev'));
 }
 
 // you'll need cookies

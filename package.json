@@ -27,12 +27,16 @@
     "google-spreadsheet": "~0.2.6",
     "gps-distance": "0.0.3",
     "gps-util": "0.0.25",
+    "gulp-uglify": "~1.0.1",
     "i18n": "~0.5.0",
+    "jshint-stylish": "~1.0.0",
     "memwatch": "~0.2.2",
     "mocha": "~1.18.2",
+    "morgan": "^1.5.0",
     "numeral": "~1.5.3",
     "pg": "~2.11.0",
     "pg-escape": "0.0.3",
+    "pgexplode": "~1.0.0",
     "progress-bar": "~0.1.1",
     "prompt": "~0.2.12",
     "raven": "~0.7.0",
@@ -41,10 +45,7 @@
     "sanitizer": "~0.1.1",
     "satelize": "~0.1.0",
     "should": "~3.3.1",
-    "supertest": "~0.12.0",
-    "gulp-uglify": "~1.0.1",
-    "jshint-stylish": "~1.0.0",
-    "pgexplode": "~1.0.0"
+    "supertest": "~0.12.0"
   },
   "license": "MIT",
   "engines": {
