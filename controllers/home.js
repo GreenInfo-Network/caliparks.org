@@ -2,7 +2,7 @@
 
 var pg = require('pg');
 
-var stories = require('../library/stories.js');
+var stories = require('../lib/stories.js');
 
 module.exports = function(req, res, data, callback) {
 

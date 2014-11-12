@@ -8,7 +8,7 @@ var cpad       = require('../lib/cpad'),
     flickr     = require('../lib/flickr'),
     instagram  = require('../lib/instagram'),
     twitter    = require('../lib/twitter'),
-    stories    = require('../library/stories.js');
+    stories    = require('../lib/stories.js');
 
 // TODO why is formatting of numbers done here rather than in the view?
 var formatNumber = function(number) {
