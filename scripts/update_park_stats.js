@@ -68,7 +68,7 @@ pg.connect(env.require("DATABASE_URL"), function(err, client, done) {
       });
     },
     tweets: function(callback) {
-      return query("SELECT su_id AS superunit_id, COUNT(id_str) AS count FROM site_tweets GROUP BY su_id", function(err, result) {
+      return query("SELECT superunit_id, COUNT(id_str) AS count FROM twitter_statuses GROUP BY superunit_id", function(err, result) {
         if (err) {
           throw err;
         }

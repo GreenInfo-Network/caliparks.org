@@ -11,6 +11,7 @@ var cpad       = require('../lib/cpad'),
     twitter    = require('../lib/twitter'),
     stories    = require('../library/stories.js');
 
+// TODO why is formatting of numbers done here rather than in the view?
 var formatNumber = function(number) {
   if (number < 1000000) {
     return numeral(number).format('0,0');
@@ -98,7 +99,7 @@ module.exports = function(req, res, options, callback) {
       // Twitter output
       //
       output.twitter = {
-        'total' : apiResponse.stats.tweet_count,
+        'total' : formatNumber(apiResponse.stats.tweet_count),
         'items' : apiResponse.twitter
       };
 
