@@ -1,25 +1,8 @@
 'use strict';
 
-module.exports = function(req, res, data, callback) {
+var cpad  = require('../lib/cpad.js');
 
-	var context;
-	try {
-		context = require('../contexts/' + data.context + '.js');
-	} catch (err) {
-		res.status(404);
-		res.render('404', {
-			coverPhoto : {
-				farm:9,
-				server:8429,
-				photoid:7492144602,
-				secret:'1706ca60db',
-				ownername:'Grand Canyon NPS',
-				owner:'grand_canyon_nps'
-			},
-			appTitle : 'California Open Spaces: #BZZT',
-			suggestion : null
-		});
-	}
+module.exports = function(req, res, data, callback) {
 
 	var pg       = require('pg'),
 	    sorts    = {};
@@ -29,48 +12,35 @@ module.exports = function(req, res, data, callback) {
 	//
 	// Add querystring but don't clobber anything called query from the caller
 	//
-	data._query = req.query;
+	if (data.context === 'with') {
+		data.query = {
+			q    : req.query.q || '',
+			near : req.params.near  || req.query.near || null,
+			with : req.params.query || null
+		};
+	} else if (data.context === 'near') {
+		data.query = {
+			q    : req.query.q || '',
+			near : req.params.query || null,
+			with : req.params.with  || req.query.with || null
+		};
+	} else {
+		data.query = {
+			q    : req.params.query || req.query.q || '',
+			near : req.query.near || null,
+			with : req.query.with || null
+		};
+	}
 
-	return context(data, function(err, contextData) {
+	cpad.getParks(data, function(err, parks) {
 
 		if (err) {
 			return callback(err);
 		}
 
-		//
-		// Decorate the BiggestToSmallestContext
-		//
-		if (!contextData) {
-			return callback();
-		}
-
-		contextDataDecorated = contextData.parks.map(function(park) {
-			park.name = park.unit_name;
-			return park;
-		});
-
-		if (data.reverse) {
-			contextDataDecorated.reverse();
-		}
-
-
-		if (data.context !== 'biggest-to-smallest') {
-			sorts['biggest-to-smallest'] = 'park size';
-		}
-
-		if (data.context !== 'most-tweets') {
-			sorts['most-tweets'] = 'most tweets';
-		}
-
-		if (data.context !== 'most-photographed') {
-			sorts['most-photographed'] = 'most photographed';
-		}
-
 		return callback(null, {
-			appTitle   : contextData.title,
-		 	parks      : contextDataDecorated,
-		 	empty      : !(contextDataDecorated.length),
-		 	total      : contextDataDecorated.length
+			parks      : parks,
+			total      : parks.length
 		});
 
 	});
