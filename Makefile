@@ -26,7 +26,7 @@ endef
 
 .PHONY: install
 
-install: db/cpad_facilities db/park_stats
+install: db/activities db/cpad_facilities db/park_stats
 
 .PHONY: DATABASE_URL
 
@@ -43,6 +43,11 @@ db: DATABASE_URL
 
 db/postgis: db
 	$(call create_extension)
+
+.PHONY: db/activities
+
+db/activities: db/cpad_facilities
+	$(call create_relation)
 
 .PHONY: db/cpad_facilities
 
