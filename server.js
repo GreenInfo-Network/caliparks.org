@@ -65,6 +65,31 @@ app.use(i18n.init);
 //
 // Setup Express
 //
+function constructPaginationArgs(pageData, forward) {
+  var paramsObject = {};
+
+  for (var i in pageData) {
+    if (pageData.hasOwnProperty(i) && pageData[i] && pageData[i].toString().length) {
+      if (['startat','perpage','not'].indexOf(i) > -1) {
+        paramsObject[i] = pageData[i];
+      }
+    }
+  }
+
+  for (var i in pageData.query) {
+    if (pageData.query.hasOwnProperty(i)) {
+      if (['q','near','with'].indexOf(i) > -1 && pageData.query[i] && pageData.query[i].toString().length) {
+        paramsObject[i] = pageData.query[i];
+      }
+    }
+  }
+
+  return paramsObject;
+}
+
+function stringifyPaginationArgs(paramsObject) {
+  return JSON.stringify(paramsObject).replace(/[\{|\}|\"]/g,'').replace(/\:/g,'=').replace(/\,/g,'&');
+}
 app.engine('handlebars', exphbs({
   defaultLayout : 'main',
   helpers       : {
@@ -88,6 +113,22 @@ app.engine('handlebars', exphbs({
         return options.fn(this).split(l[0])[0] + ' ' +  l[0];
       } else {
         return options.fn(this).split(l[0])[0] + ' ' +  l[1];
+      }
+    },
+    "paginationNext" : function(options) {
+      var paginationArgs;
+      if ((options.data.root.total|0) === (options.data.root.perpage|0)) {
+        paginationArgs = constructPaginationArgs(options.data.root);
+        paginationArgs.startat = (paginationArgs.startat||0) + (paginationArgs.perpage || 0);
+        return options.fn(this).replace(/href="#"/,'href="?' + stringifyPaginationArgs(paginationArgs) + '"');
+      }
+    },
+    "paginationLast" : function(options) {
+      var paginationArgs;
+      if ((options.data.root.startat|0) > (options.data.root.perpage|0)) {
+        paginationArgs = constructPaginationArgs(options.data.root);
+        paginationArgs.startat = (paginationArgs.startat||0) - (paginationArgs.perpage || 0);
+        return options.fn(this).replace(/href="#"/,'href="?' + stringifyPaginationArgs(paginationArgs) + '"');
       }
     },
     "__" : function () {

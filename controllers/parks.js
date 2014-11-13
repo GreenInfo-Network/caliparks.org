@@ -24,7 +24,7 @@ module.exports = function(req, res, data, callback) {
 			near : req.params.query || null,
 			with : req.params.with  || req.query.with || null
 		};
-	} else {
+	} else if (req.params.query || req.query.q || req.query.near || req.query.with) {
 		data.query = {
 			q    : req.params.query || req.query.q || '',
 			near : req.query.near || null,
@@ -45,8 +45,11 @@ module.exports = function(req, res, data, callback) {
 		}
 
 		return callback(null, {
-			parks      : parks,
-			total      : parks.length
+			parks   : parks,
+			total   : parks.length,
+			startat : data.options.startat,
+			perpage : data.options.perpage,
+			query   : data.query
 		});
 
 	});

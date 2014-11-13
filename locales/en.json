@@ -97,5 +97,11 @@
 	"This park has Tennis": "This park has Tennis",
 	"This park has Playground": "This park has Playground",
 	"This park has Basketball": "This park has Basketball",
-	"This park has Covered picnic tables": "This park has Covered picnic tables"
+	"This park has Covered picnic tables": "This park has Covered picnic tables",
+	"Next": "Next",
+	"Having trouble finding a park? <a href=\"/wander\">Here's one</a>": "Having trouble finding a park? <a href=\"/wander\">Here's one</a>",
+	"<a href=\"\">Next</a>": "<a href=\"\">Next</a>",
+	"Previous": "Previous",
+	"Go back a bit": "Go back a bit",
+	"Moar Parks!": "Moar Parks!"
 }
