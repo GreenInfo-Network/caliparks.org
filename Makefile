@@ -10,18 +10,55 @@ $(foreach a,$(shell cat .env 2> /dev/null),$(eval $(call EXPAND_EXPORTS,$(a))))
 $(foreach a,$(shell set -a && source .env 2> /dev/null; node_modules/.bin/pgexplode),$(eval $(call EXPAND_EXPORTS,$(a))))
 
 define create_relation
-@psql -c "\d $(subst db/,,$@)" > /dev/null 2>&1 || \
-	psql -1 -f sql/$(subst db/,,$@).sql
+@psql -v ON_ERROR_STOP=1 -qXc "\d $(subst db/,,$@)" > /dev/null 2>&1 || \
+	psql -v ON_ERROR_STOP=1 -qX1f sql/$(subst db/,,$@).sql
 endef
 
 define create_extension
-@psql -c "\dx $(subst db/,,$@)" | grep $(subst db/,,$@) > /dev/null 2>&1 || \
-	psql -c "CREATE EXTENSION $(subst db/,,$@)"
+@psql -v ON_ERROR_STOP=1 -qXc "\dx $(subst db/,,$@)" | grep $(subst db/,,$@) > /dev/null 2>&1 || \
+	psql -v ON_ERROR_STOP=1 -qXc "CREATE EXTENSION $(subst db/,,$@)"
 endef
 
 define create_function
-@psql -c "\df $(subst db/,,$@)" | grep -i $(subst db/,,$@) > /dev/null 2>&1 || \
-	psql -1 -f sql/$(subst db/,,$@).sql
+@psql -v ON_ERROR_STOP=1 -qXc "\df $(subst db/,,$@)" | grep -i $(subst db/,,$@) > /dev/null 2>&1 || \
+	psql -v ON_ERROR_STOP=1 -qX1f sql/$(subst db/,,$@).sql
+endef
+
+define MIGRATION_SQL_WRAPPER
+CREATE FUNCTION migrate(migration_name text)
+RETURNS void
+AS $$$$
+BEGIN
+  PERFORM id FROM migrations WHERE name = migration_name;
+
+  IF NOT FOUND THEN
+	RAISE NOTICE 'Running migration: %', migration_name;
+
+{{content}}
+
+	INSERT INTO migrations (name) VALUES (migration_name);
+  END IF;
+
+  RETURN;
+END
+$$$$ LANGUAGE plpgsql;
+
+SELECT migrate('{{name}}');
+
+DROP FUNCTION migrate(text);
+endef
+
+export MIGRATION_SQL_WRAPPER
+
+define migrate
+	@test -f sql/migrations/$(strip $(1)).sql && \
+		echo "$${MIGRATION_SQL_WRAPPER//\{\{name\}\}/$(strip $(1))}" | \
+		perl -pe "s/\{\{content\}\}/$$(cat sql/migrations/$(strip $(1)).sql)/" | \
+		psql -qX1 > /dev/null
+endef
+
+define run_migrations
+	$(foreach migration,$(shell ls sql/migrations/ | sed 's/\..*//'),$(call migrate,$(migration)))
 endef
 
 .PHONY: DATABASE_URL
@@ -92,8 +129,13 @@ deps/npm:
 	@npm install
 
 data/CPAD_Units_nightly.zip:
-	mkdir $$(dirname $@)
+	mkdir -p $$(dirname $@)
 	curl -sL http://websites.greeninfo.org/common_data/California/Public_Lands/CPAD/dev/CPAD2014a4/CPAD_Units_nightly.zip -o $@
+
+data/cpad_2014b7_superunits_name_manager_access.zip:
+	mkdir -p $$(dirname $@)
+	curl -sLf http://websites.greeninfo.org/common_data/California/Public_Lands/CPAD/dev/CPAD2014b/cpad_2014b7_superunits_name_manager_access.zip -o $@
+
 
 db: DATABASE_URL deps/npm
 	@psql -c "SELECT 1" > /dev/null 2>&1 || \
@@ -104,19 +146,26 @@ db/all: db/cpad_superunits db/flickr db/foursquare db/instagram
 db/postgis: db
 	$(call create_extension)
 
-db/cpad: db data/CPAD_Units_nightly.zip deps/gdal deps/pv deps/npm db/postgis
-	@(set -a && source .env && export $$(pgexplode | xargs) && \
-		psql -c "\d cpad_units" > /dev/null 2>&1 || \
-		ogr2ogr --config PG_USE_COPY YES \
-			-t_srs EPSG:3310 \
-			-nlt PROMOTE_TO_MULTI \
-			-nln cpad_units \
-			-lco GEOMETRY_NAME=geom \
-			-lco SRID=3310 \
-			-f PGDump /vsistdout/ \
-			/vsizip/$(word 2,$^)/CPAD_Units_nightly.shp | pv | psql -q)
+db/cpad: db/cpad_2014b7
+
+db/cpad_2014b7: db/postgis data/cpad_2014b7_superunits_name_manager_access.zip deps/gdal deps/pv deps/npm
+	@psql -c "\d cpad_2014b7" > /dev/null 2>&1 || \
+	ogr2ogr --config PG_USE_COPY YES \
+		-t_srs EPSG:3310 \
+		-nlt PROMOTE_TO_MULTI \
+		-nln cpad_2014b7 \
+		-lco GEOMETRY_NAME=geom \
+		-lco SRID=3310 \
+		-f PGDump /vsistdout/ \
+		/vsizip/$(word 2,$^)/cpad_2014b7_superunits_name_manager_access.shp | pv | psql -q
 
 db/cpad_superunits: db/cpad
+	$(call create_relation)
+
+db/migrate: db/migrations
+	$(call run_migrations)
+
+db/migrations: db
 	$(call create_relation)
 
 db/CDB_RectangleGrid: db
