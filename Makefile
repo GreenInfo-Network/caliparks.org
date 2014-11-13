@@ -51,15 +51,16 @@ endef
 export MIGRATION_SQL_WRAPPER
 
 define migrate
-	@test -f sql/migrations/$(strip $(1)).sql && \
+	test -f sql/migrations/$(strip $(1)).sql && \
 		echo "$${MIGRATION_SQL_WRAPPER//\{\{name\}\}/$(strip $(1))}" | \
 		perl -pe "s/\{\{content\}\}/$$(cat sql/migrations/$(strip $(1)).sql)/" | \
-		psql -qX1 > /dev/null
+		psql -qX1 > /dev/null ;
 endef
 
 define run_migrations
-	$(foreach migration,$(shell ls sql/migrations/ | sed 's/\..*//'),$(call migrate,$(migration)))
+	@$(foreach migration,$(shell ls sql/migrations/ 2> /dev/null | sed 's/\..*//'),$(call migrate,$(migration)))
 endef
+
 
 .PHONY: DATABASE_URL
 
@@ -212,3 +213,9 @@ db/instagram_photos: db
 
 db/instagram_regions: db/cpad_superunits db/GetIntersectingHexagons
 	$(call create_relation)
+
+.PHONY: migration/%
+
+migration/%:
+	@mkdir -p sql/migrations
+	touch sql/migrations/$(shell date +'%Y%m%d%H%M')-$(subst migration/,,$@).sql
