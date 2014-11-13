@@ -16,7 +16,7 @@ module.exports = function(req, res, data, callback) {
 		}
 
 		client.query({
-			text   : 'SELECT * FROM cpad_superunits_4326 where agncy_id = $1 ORDER BY mng_agncy ASC;',
+			text   : 'SELECT manager_id, mng_agncy, unit_name FROM cpad_superunits where manager_id = $1 ORDER BY mng_agncy ASC;',
 			values : [req.params.id]
 		}, function(err, result) {
 			if(err) {

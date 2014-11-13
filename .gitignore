@@ -2,3 +2,4 @@
 node_modules/
 *.env
 .sass-cache/
+data/
