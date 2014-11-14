@@ -1,7 +1,7 @@
 <script>
 var locationParts = location.href.split('/');
 if (locationParts[4] === 'near' && !locationParts[5]) {
-  document.addEventListener('DOMContentLoaded', function() {document.getElementById('view-parks').innerHTML = '<div style="margin-left: 45px;">Finding you...</div>';});
+  document.addEventListener('DOMContentLoaded', function() {document.querySelector('.search-results').innerHTML = '<div style="margin-left: 45px;">Finding you...</div>';});
 
   navigator.geolocation.getCurrentPosition(function(l) {
     location.href='/parks/near/'+l.coords.latitude+','+l.coords.longitude;

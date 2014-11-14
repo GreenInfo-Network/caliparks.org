@@ -38,9 +38,18 @@ module.exports = function(req, res, data, callback) {
 			with : req.params.query || null
 		};
 	} else if (data.context === 'near') {
+
+		//
+		// In this case, return nothing to the template so it
+		// can attempt to geolocate on the client
+		//
+		if (!req.params.query) {
+			callback(null,[]);
+		}
+
 		data.query = {
 			q    : req.query.q || '',
-			near : req.params.query || null,
+			near : req.params.query,
 			with : req.params.with  || req.query.with || null
 		};
 	} else if (data.context === 'story') {
@@ -54,6 +63,12 @@ module.exports = function(req, res, data, callback) {
 			q    : req.params.query || req.query.q || '',
 			near : req.query.near || null,
 			with : req.query.with || null
+		};
+	} else {
+		data.query = {
+			q    : req.params.query || req.query.q || '',
+			near : null,
+			with : null
 		};
 	}
 
