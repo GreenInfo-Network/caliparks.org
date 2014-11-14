@@ -135,7 +135,9 @@ db/migrations: db
 
 db/park_stats: db/postgis
 	$(call create_relation)
-	node scripts/update_park_stats.js
+
+db/update_park_stats: db/park_stats
+	scripts/update-park-stats.js
 
 .PHONY: db/rec_facil_ca
 
