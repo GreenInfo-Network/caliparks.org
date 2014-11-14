@@ -81,18 +81,9 @@ pg.connect(env.require("DATABASE_URL"), function(err, client, done) {
     hipcamp: function(callback) {
       return query([
         " SELECT",
-        "   superunit_id,",
-        "   COUNT(key) AS count",
-        "   FROM",
-        "     (",
-        "       SELECT",
-        "         su_id AS superunit_id,",
-        "         activities",
-        "       FROM site_hipcamp_activities",
-        "     ) AS hipcamp,",
-        "     json_each(hipcamp.activities)",
-        " WHERE value::text = 'true'",
-        " GROUP BY superunit_id"
+        "   su_id AS superunit_id,",
+        "   array_length(activities, 1) AS count",
+        "   FROM site_hipcamp_activities"
       ].join("\n"), function(err, result) {
         if (err) {
           throw err;

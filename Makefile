@@ -66,6 +66,9 @@ endef
 
 install: db/all
 
+sql/site_hipcamp_activities.sql: data/hipcamp.json
+	@scripts/prepare-hipcamp-data.js $< > $@
+
 .PHONY: DATABASE_URL
 
 DATABASE_URL:
@@ -79,7 +82,7 @@ db: DATABASE_URL
 
 .PHONY: db/all
 
-db/all: db/activities db/cpad_facilities db/migrations db/park_stats
+db/all: db/activities db/cpad_facilities db/migrations db/park_stats db/site_hipcamp_activities
 
 .PHONY: db/postgis
 
@@ -88,7 +91,7 @@ db/postgis: db
 
 .PHONY: db/activities
 
-db/activities: db/cpad_facilities
+db/activities: db/cpad_facilities db/site_hipcamp_activities
 	$(call create_relation)
 
 .PHONY: db/cpad
@@ -147,6 +150,11 @@ db/rec_facil_ca: db/postgis data/Rec_Facil_send.zip
 		-lco PRECISION=false \
 		-f PGDump /vsistdout/ \
 		/vsizip/$(word 2,$^)/Rec_Facil_send/Rec_Facil_CA.shp | pv | psql -q
+
+.PHONY: db/site_hipcamp_activities
+
+db/site_hipcamp_activities: db sql/site_hipcamp_activities.sql
+	$(call create_relation)
 
 data/cpad_2014b7_superunits_name_manager_access.zip:
 	@mkdir -p $$(dirname $@)
