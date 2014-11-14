@@ -23,8 +23,6 @@ module.exports = function(req, res, data, callback) {
 					return callback(err);
 				}
 
-				console.log('moo', arguments);
-
 				go(err, parks);
 			});
 		}
@@ -59,12 +57,6 @@ module.exports = function(req, res, data, callback) {
 		};
 	}
 
-	data.options = {
-		startat : (req.query.startat|0) || 0,
-		perpage : (req.query.perpage|0) || 100,
-		not     : req.query.not || null
-	}
-
 	cpad.getParks(data, function(err, parks) {
 
 		go(err, parks);
@@ -74,6 +66,12 @@ module.exports = function(req, res, data, callback) {
 	function go(err, parks) {
 		if (err) {
 			return callback(err);
+		}
+
+		data.options = {
+			startat : (req.query.startat|0) || 0,
+			perpage : (req.query.perpage|0) || 100,
+			not     : req.query.not || null
 		}
 
 		return callback(null, {

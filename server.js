@@ -30,12 +30,16 @@ memwatch.on('leak', function(info) {
 //
 // Set up Sentry logging
 //
-raven.patchGlobal(function() {
-  console.log('Uncaught error. Reporting to Sentry and exiting.');
-  process.exit(1);
-});
 
-app.use(raven.middleware.express());
+if (process.env.SENTRY_DSN) {
+  raven.patchGlobal(function(logged, err) {
+    console.log('Uncaught error. Reporting to Sentry and exiting.');
+    console.error(err.stack);
+    process.exit(1);
+  });
+
+  app.use(raven.middleware.express());
+}
 
 if (process.env.NODE_ENV !== 'production') {
   app.use(morgan('dev'));
