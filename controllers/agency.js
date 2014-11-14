@@ -4,9 +4,6 @@ var env = require('require-env'),
     pg  = require('pg');
 
 module.exports = function(req, res, data, callback) {
-
-	var pg      = require('pg');
-
   var agency_name_parts = null;
 
 	pg.connect(env.require('DATABASE_URL'), function(err, client, done) {
@@ -20,7 +17,7 @@ module.exports = function(req, res, data, callback) {
 			values : [req.params.id]
 		}, function(err, result) {
 			if(err) {
-				return console.error('error running query', err);
+				return callback(err);
 			}
 
 			agency_name_parts = result.rows[0].mng_agncy.split(',');
