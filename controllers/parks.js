@@ -1,13 +1,34 @@
 'use strict';
 
-var cpad  = require('../lib/cpad.js');
+var cpad    = require('../lib/cpad.js'),
+    stories = require('../lib/stories.js');
 
 module.exports = function(req, res, data, callback) {
 
 	var pg       = require('pg'),
 	    sorts    = {};
 
-	var contextDataDecorated;
+	var contextDataDecorated, story;
+
+	//
+	// Is this a story context?
+	//
+	if (data.context === 'story') {
+		story = stories.getBySlug(req.params.query);
+
+		if (story.parks) {
+			return cpad.getParksByIdList(story.parks, function(err, parks) {
+
+				if (err) {
+					return callback(err);
+				}
+
+				console.log('moo', arguments);
+
+				go(err, parks);
+			});
+		}
+	}
 
 	//
 	// Add querystring but don't clobber anything called query from the caller
@@ -23,6 +44,12 @@ module.exports = function(req, res, data, callback) {
 			q    : req.query.q || '',
 			near : req.params.query || null,
 			with : req.params.with  || req.query.with || null
+		};
+	} else if (data.context === 'story') {
+		data.query = {
+			q    : story.q    || '',
+			near : story.near || null,
+			with : story.with || null
 		};
 	} else if (req.params.query || req.query.q || req.query.near || req.query.with) {
 		data.query = {
@@ -40,6 +67,11 @@ module.exports = function(req, res, data, callback) {
 
 	cpad.getParks(data, function(err, parks) {
 
+		go(err, parks);
+
+	});
+
+	function go(err, parks) {
 		if (err) {
 			return callback(err);
 		}
@@ -51,7 +83,6 @@ module.exports = function(req, res, data, callback) {
 			perpage : data.options.perpage,
 			query   : data.query
 		});
-
-	});
+	}
 
 }
