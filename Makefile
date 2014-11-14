@@ -82,7 +82,7 @@ db: DATABASE_URL
 
 .PHONY: db/all
 
-db/all: db/activities db/cpad_facilities db/migrations db/park_stats db/site_hipcamp_activities
+db/all: db/activities db/cpad_entry_points db/migrations db/park_stats
 
 .PHONY: db/postgis
 
@@ -101,15 +101,28 @@ db/cpad: db/cpad_2014b7
 .PHONY: db/cpad_2014b7
 
 db/cpad_2014b7: db/postgis data/cpad_2014b7_superunits_name_manager_access.zip
-	@psql -c "\d cpad_2014b7" > /dev/null 2>&1 || \
+	@psql -c "\d $(subst db/,,$@)" > /dev/null 2>&1 || \
 	ogr2ogr --config PG_USE_COPY YES \
 		-t_srs EPSG:3310 \
 		-nlt PROMOTE_TO_MULTI \
-		-nln cpad_2014b7 \
+		-nln $(subst db/,,$@) \
 		-lco GEOMETRY_NAME=geom \
 		-lco SRID=3310 \
 		-f PGDump /vsistdout/ \
 		/vsizip/$(word 2,$^)/cpad_2014b7_superunits_name_manager_access.shp | pv | psql -q
+
+.PHONY: db/cpad_entry_points
+
+db/cpad_entry_points: db/postgis data/cpad_entry_points.zip
+	@psql -c "\d $(subst db/,,$@)" > /dev/null 2>&1 || \
+	ogr2ogr --config PG_USE_COPY YES \
+		-t_srs EPSG:4326 \
+		-nlt PROMOTE_TO_MULTI \
+		-nln $(subst db/,,$@) \
+		-lco GEOMETRY_NAME=geom \
+		-lco SRID=3310 \
+		-f PGDump /vsistdout/ \
+		/vsizip/$(word 2,$^) | pv | psql -q
 
 .PHONY: db/cpad_facilities
 
@@ -161,6 +174,10 @@ db/site_hipcamp_activities: db sql/site_hipcamp_activities.sql
 data/cpad_2014b7_superunits_name_manager_access.zip:
 	@mkdir -p $$(dirname $@)
 	@curl -sLf http://websites.greeninfo.org/common_data/California/Public_Lands/CPAD/dev/CPAD2014b/cpad_2014b7_superunits_name_manager_access.zip -o $@
+
+data/cpad_entry_points.zip:
+	@mkdir -p $$(dirname $@)
+	@curl -sLf http://websites.greeninfo.org/common_data/California/Public_Lands/CPAD/dev/CPAD2014b/Parks_entry_points_Stamen.zip -o $@
 
 .PHONY: migration/%
 
