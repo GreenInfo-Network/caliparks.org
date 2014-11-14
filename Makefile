@@ -82,7 +82,11 @@ db: DATABASE_URL
 
 .PHONY: db/all
 
-db/all: db/activities db/cpad_entry_points db/migrations db/park_stats
+db/all: db/activities db/cpad_entry_points db/migrations db/park_stats db/indexes
+
+.PHONY: db/indexes
+
+db/indexes: db/cpad_2014b7_suid_nma_idx db/cpad_entry_points_su_id_idx
 
 .PHONY: db/postgis
 
@@ -111,6 +115,11 @@ db/cpad_2014b7: db/postgis data/cpad_2014b7_superunits_name_manager_access.zip
 		-f PGDump /vsistdout/ \
 		/vsizip/$(word 2,$^)/cpad_2014b7_superunits_name_manager_access.shp | pv | psql -q
 
+.PHONY: db/cpad_2014b7_suid_nma_idx
+
+db/cpad_2014b7_suid_nma_idx: db/cpad_2014b7
+	$(call create_relation)
+
 .PHONY: db/cpad_entry_points
 
 db/cpad_entry_points: db/postgis data/cpad_entry_points.zip
@@ -123,6 +132,11 @@ db/cpad_entry_points: db/postgis data/cpad_entry_points.zip
 		-lco SRID=3310 \
 		-f PGDump /vsistdout/ \
 		/vsizip/$(word 2,$^) | pv | psql -q
+
+.PHONY: db/cpad_entry_points_su_id_idx
+
+db/cpad_entry_points_su_id_idx: db/cpad_entry_points
+	$(call create_relation)
 
 .PHONY: db/cpad_facilities
 
