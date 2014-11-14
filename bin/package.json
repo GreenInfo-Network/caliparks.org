@@ -17,10 +17,6 @@
   },
   "homepage": "https://github.com/stamen/parks.stamen.com",
   "dependencies": {
-    "pg": "~3.4.5",
-    "colors": "~0.6.2",
-    "pgexplode": "~1.0.0",
-    "require-env": "0.0.4",
-    "async": "~0.9.0"
+    "colors": "~0.6.2"
   }
 }
