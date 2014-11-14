@@ -19,17 +19,9 @@ var formatNumber = function(number) {
   return '1 M +';
 };
 
-var contexts = {},
-    cpadModified;
-
 module.exports = function(req, res, options, callback) {
     var park_id = req.params.id,
         positions = {};
-
-    var template  = 'park',
-        title,
-        thisOne,
-        centroid;
 
   var dbRequests = {
     cpad       : async.apply(cpad.getPark,                 park_id, options),
@@ -63,13 +55,6 @@ module.exports = function(req, res, options, callback) {
     //
     if (apiResponse.cpad) {
 
-
-      if (apiResponse.cpad) {
-        //
-        // Modify CPAD to work better as an API output
-        //
-        cpadModified = cpad;
-      }
 
       var output = {};
 
