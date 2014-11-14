@@ -275,28 +275,24 @@ app.get('/wander', function(req,res, next) {
 
 app.get('/park/:id(\\d+)', function(req,res, next) {
 
-  if (!Number.isNaN(parseInt(req.params.id))) {
-    require('./controllers/park.js')(req, res, {
-    }, function(err, templateData) {
+  require('./controllers/park.js')(req, res, {
+  }, function(err, templateData) {
 
-      if (err) {
-        ravenClient.captureError(new Error(err));
-        return next(err);
-      }
+    if (err) {
+      ravenClient.captureError(new Error(err));
+      return next(err);
+    }
 
-      if (templateData) {
-        templateData.hasAPI = true;
-        templateData.layout = 'responsive2';
-        templateData.view = 'park';
-        res.render('park', templateData);
-      } else {
-        return next();
-      }
+    if (templateData) {
+      templateData.hasAPI = true;
+      templateData.layout = 'responsive2';
+      templateData.view = 'park';
+      res.render('park', templateData);
+    } else {
+      return next();
+    }
 
-    });
-  } else {
-    return next();
-  }
+  });
 
 });
 
@@ -325,24 +321,20 @@ app.get('/park/:id(\\d+)/:dataFilter:format(\.\\D+$)', function(req,res, next) {
 
 app.get('/park/:id(\\d+):format(\.\\D+$)', function(req,res, next) {
 
-  if (!Number.isNaN(parseInt(req.params.id))) {
-    require('./controllers/park.js')(req, res, {}, function(err, templateData) {
+  require('./controllers/park.js')(req, res, {}, function(err, templateData) {
 
-      if (err) {
-        ravenClient.captureError(new Error(err));
-        return next(err);
-      }
+    if (err) {
+      ravenClient.captureError(new Error(err));
+      return next(err);
+    }
 
-      if (templateData) {
-        dataRouteResponse(res, templateData, req.params.format);
-      } else {
-        return next();
-      }
+    if (templateData) {
+      dataRouteResponse(res, templateData, req.params.format);
+    } else {
+      return next();
+    }
 
-    });
-  } else {
-    return next();
-  }
+  });
 
 });
 
