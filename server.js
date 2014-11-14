@@ -184,23 +184,6 @@ function dataRouteResponse(res, data, format, whitelist) {
   return dataFormatResponders[format] ? dataFormatResponders[format].apply(this, arguments) : dataFormatResponders['*'].apply(this, arguments);
 }
 
-function go404(req, res, next) {
-
-  res.status(404);
-  res.render('404', {
-    coverPhoto : {
-      farm:9,
-      server:8429,
-      photoid:7492144602,
-      secret:'1706ca60db',
-      ownername:'Grand Canyon NPS',
-      owner:'grand_canyon_nps'
-    },
-    appTitle : 'California Open Spaces: #BZZT'
-  });
-
-}
-
 //
 // Setup Routes
 //
@@ -282,7 +265,7 @@ app.get('/wander', function(req,res, next) {
   cpad.getRandomBest(function(err, parkId) {
 
     if (err) {
-      go404.apply(null,[req, res, next]);
+      return next(err);
     } else {
       res.redirect('/park/' + parkId.superunit_id);
     }
@@ -307,12 +290,12 @@ app.get('/park/:id(\\d+)', function(req,res, next) {
         templateData.view = 'park';
         res.render('park', templateData);
       } else {
-        go404.apply(null,[req, res, next]);
+        return next();
       }
 
     });
   } else {
-    go404.apply(null,[req, res, next]);
+    return next();
   }
 
 });
@@ -333,7 +316,7 @@ app.get('/park/:id(\\d+)/:dataFilter:format(\.\\D+$)', function(req,res, next) {
     if (templateData) {
       dataRouteResponse(res, templateData, req.params.format);
     } else {
-      go404.apply(null,[req, res, next]);
+      return next();
     }
 
   });
@@ -353,12 +336,12 @@ app.get('/park/:id(\\d+):format(\.\\D+$)', function(req,res, next) {
       if (templateData) {
         dataRouteResponse(res, templateData, req.params.format);
       } else {
-        go404.apply(null,[req, res, next]);
+        return next();
       }
 
     });
   } else {
-    go404.apply(null,[req, res, next]);
+    return next();
   }
 
 });
@@ -371,7 +354,7 @@ app.get('/parks/', function(req,res, next) {
 
     if (err) {
       ravenClient.captureError(new Error(err));
-      go404.apply(null,[req, res, next]);
+      return next();
     }
 
     templateData.layout = 'responsive2';
@@ -466,7 +449,7 @@ app.get('/parks/:context/:query', function(req,res, next) {
 
       res.render('parks', templateData);
     } else {
-      go404.apply(null,[req, res, next]);
+      return next();
     }
 
   });
@@ -495,7 +478,22 @@ app.get('/agency/:query', function(req,res, next) {
 
 //app.use('/js', express.static(__dirname + '/client/js'));
 
-app.get('*', go404);
+app.use(function(req, res, next) {
+  res.status(404);
+
+  return res.render('404', {
+    coverPhoto : {
+      farm:9,
+      server:8429,
+      photoid:7492144602,
+      secret:'1706ca60db',
+      ownername:'Grand Canyon NPS',
+      owner:'grand_canyon_nps'
+    },
+    appTitle : 'California Open Spaces: #BZZT'
+  });
+});
+
 
 //
 // Go Go Go
