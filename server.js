@@ -10,8 +10,6 @@ var env      = require('require-env'),
     i18n     = require("i18n"),
     cpad     = require("./lib/cpad.js");
 
-var ravenClient = new raven.Client('https://ae78cdedeadb48f383a2372764455d9f:0652e85de44c49f18bf6b1478451b262@app.getsentry.com/28256');
-
 var app      = express();
 module.exports = app;
 
@@ -34,14 +32,12 @@ memwatch.on('leak', function(info) {
 //
 // Set up Sentry logging
 //
-if (env.contains('NODE_ENV') && env.require('NODE_ENV') !== 'development') {
-  ravenClient.patchGlobal(function() {
-    console.log('Uncaught error. Reporting to Sentry and exiting.');
-    process.exit(1);
-  });
-} else {
-  ravenClient.captureError = function(e){};
-}
+raven.patchGlobal(function() {
+  console.log('Uncaught error. Reporting to Sentry and exiting.');
+  process.exit(1);
+});
+
+app.use(raven.middleware.express());
 
 if (process.env.NODE_ENV != 'production') {
   app.use(morgan('dev'));
@@ -197,7 +193,6 @@ app.get('/', function(req, res, next) {
 
   require('./controllers/home.js')(req, res, {}, function(err, templateData) {
     if (err) {
-      ravenClient.captureError(new Error(err));
       return next(err);
     }
 
@@ -236,7 +231,9 @@ app.get('/agencies', function(req,res) {
 
   require('./controllers/agencies.js')(req, res, {}, function(err, templateData) {
 
-    ravenClient.captureError(new Error(err));
+    if (err) {
+      return next(err);
+    }
 
     res.render('agencies', templateData);
 
@@ -247,7 +244,9 @@ app.get('/agency/:id', function(req,res) {
 
   require('./controllers/agency.js')(req, res, {}, function(err, templateData) {
 
-    ravenClient.captureError(new Error(err));
+    if (err) {
+      return next(err);
+    }
 
     res.render('agency', templateData);
 
@@ -279,7 +278,6 @@ app.get('/park/:id(\\d+)', function(req,res, next) {
   }, function(err, templateData) {
 
     if (err) {
-      ravenClient.captureError(new Error(err));
       return next(err);
     }
 
@@ -305,7 +303,6 @@ app.get('/park/:id(\\d+)/:dataFilter:format(\.\\D+$)', function(req,res, next) {
   }, function(err, templateData) {
 
     if (err) {
-      ravenClient.captureError(new Error(err));
       return next(err);
     }
 
@@ -324,7 +321,6 @@ app.get('/park/:id(\\d+):format(\.\\D+$)', function(req,res, next) {
   require('./controllers/park.js')(req, res, {}, function(err, templateData) {
 
     if (err) {
-      ravenClient.captureError(new Error(err));
       return next(err);
     }
 
@@ -345,7 +341,6 @@ app.get('/parks/', function(req,res, next) {
   }, function(err, templateData) {
 
     if (err) {
-      ravenClient.captureError(new Error(err));
       return next();
     }
 
@@ -367,7 +362,6 @@ app.get('/parks/:context/:query:format(\.\\D+$)', function(req,res, next) {
   }, function(err, templateData) {
 
     if (err) {
-      ravenClient.captureError(new Error(err));
       return next(err);
     }
 
@@ -388,7 +382,6 @@ app.get('/parks/:context(\\D+):format(\.\\D+$)', function(req,res, next) {
   }, function(err, templateData) {
 
     if (err) {
-      ravenClient.captureError(new Error(err));
       return next(err);
     }
 
@@ -408,7 +401,6 @@ app.get('/parks/:context', function(req,res, next) {
   }, function(err, templateData) {
 
     if (err || !templateData) {
-      ravenClient.captureError(new Error(err));
       return next(err);
     }
 
@@ -430,7 +422,6 @@ app.get('/parks/:context/:query', function(req,res, next) {
   }, function(err, templateData) {
 
     if (err) {
-      ravenClient.captureError(new Error(err));
       return next(err);
     }
 
@@ -456,7 +447,6 @@ app.get('/agency/:query', function(req,res, next) {
   }, function(err, templateData) {
 
     if (err) {
-      ravenClient.captureError(new Error(err));
       return next(err);
     }
 
