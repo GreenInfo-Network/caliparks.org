@@ -186,22 +186,18 @@ function dataRouteResponse(res, data, format, whitelist) {
 
 function go404(req, res, next) {
 
-  function go(suggestion) {
-
-    res.status(404);
-    res.render('404', {
-      coverPhoto : {
-        farm:9,
-        server:8429,
-        photoid:7492144602,
-        secret:'1706ca60db',
-        ownername:'Grand Canyon NPS',
-        owner:'grand_canyon_nps'
-      },
-      appTitle : 'California Open Spaces: #BZZT',
-      suggestion : suggestion
-    });
-  }
+  res.status(404);
+  res.render('404', {
+    coverPhoto : {
+      farm:9,
+      server:8429,
+      photoid:7492144602,
+      secret:'1706ca60db',
+      ownername:'Grand Canyon NPS',
+      owner:'grand_canyon_nps'
+    },
+    appTitle : 'California Open Spaces: #BZZT'
+  });
 
 }
 
@@ -323,28 +319,24 @@ app.get('/park/:id(\\d+)', function(req,res, next) {
 
 app.get('/park/:id(\\d+)/:dataFilter:format(\.\\D+$)', function(req,res, next) {
 
-  if (!Number.isNaN(parseInt(req.params.id))) {
-    require('./controllers/park.js')(req, res, {
-      "dataFilter" : req.params.dataFilter,
-      "limit"      : req.query.limit,
-      "startat"    : req.query.startat
-    }, function(err, templateData) {
+  require('./controllers/park.js')(req, res, {
+    "dataFilter" : req.params.dataFilter,
+    "limit"      : req.query.limit,
+    "startat"    : req.query.startat
+  }, function(err, templateData) {
 
-      if (err) {
-        ravenClient.captureError(new Error(err));
-        return next(err);
-      }
+    if (err) {
+      ravenClient.captureError(new Error(err));
+      return next(err);
+    }
 
-      if (templateData) {
-        dataRouteResponse(res, templateData, req.params.format);
-      } else {
-        go404.apply(null,[req, res, next]);
-      }
+    if (templateData) {
+      dataRouteResponse(res, templateData, req.params.format);
+    } else {
+      go404.apply(null,[req, res, next]);
+    }
 
-    });
-  } else {
-    go404.apply(null,[req, res, next]);
-  }
+  });
 
 });
 
