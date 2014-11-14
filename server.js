@@ -1,9 +1,7 @@
 'use strict';
 
-var env      = require('require-env'),
-    express  = require('express'),
+var express  = require('express'),
     exphbs   = require('express-handlebars'),
-    pg       = require('pg'),
     memwatch = require('memwatch'),
     morgan   = require('morgan'),
     raven    = require('raven'),
@@ -20,7 +18,7 @@ var languageFriendlyNames = {
     "espanol" : "es",
     "ingles"  : "en",
     "spanish" : "es"
-}
+};
 
 //
 // Handle memory leaks
@@ -39,7 +37,7 @@ raven.patchGlobal(function() {
 
 app.use(raven.middleware.express());
 
-if (process.env.NODE_ENV != 'production') {
+if (process.env.NODE_ENV !== 'production') {
   app.use(morgan('dev'));
 }
 
