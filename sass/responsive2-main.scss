@@ -113,6 +113,11 @@ body.parksforward.responsive2 {
       background-color:$color-active;
       color:$light-font-color;
     }
+
+    &.selected {
+      color:$light-font-color;
+      border:solid 1px $light-font-color;
+    }
   }
 
   .shader {

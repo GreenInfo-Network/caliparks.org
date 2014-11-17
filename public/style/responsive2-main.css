@@ -113,6 +113,9 @@ body.parksforward.responsive2 {
     body.parksforward.responsive2 .action.active {
       background-color: #027abb;
       color: white; }
+    body.parksforward.responsive2 .action.selected {
+      color: white;
+      border: solid 1px white; }
   body.parksforward.responsive2 .shader {
     position: absolute;
     top: 0;

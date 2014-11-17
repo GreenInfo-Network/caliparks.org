@@ -1,7 +1,8 @@
 'use strict';
 
-var cpad    = require('../lib/cpad.js'),
-    stories = require('../lib/stories.js');
+var cpad               = require('../lib/cpad.js'),
+    stories            = require('../lib/stories.js'),
+    activityCategories = require('../config/activityCategories.json');
 
 module.exports = function(req, res, data, callback) {
 
@@ -9,6 +10,30 @@ module.exports = function(req, res, data, callback) {
 	    sorts    = {};
 
 	var contextDataDecorated, story;
+
+  function getActivityFilterState(withString) {
+
+    var filterStates = {},
+        urlStates;
+
+    if (withString && withString.length) {
+
+      urlStates = withString.split(',');
+
+      //
+      // Make a new object with the same keys as the activityCategories object.
+      // and the values will be the status of that filter from the `with` parameter
+      // in the URL
+      //
+      Object.keys(activityCategories).forEach(function(key) {
+        filterStates[key] = (urlStates.indexOf(key) > -1); //Is it in the 'with' URL param
+      });
+
+      return filterStates;
+    } else {
+      return null;
+    }
+  }
 
 	//
 	// Is this a story context?
@@ -90,11 +115,12 @@ module.exports = function(req, res, data, callback) {
 		}
 
 		return callback(null, {
-			parks   : parks,
-			total   : parks.length,
-			startat : data.options.startat,
-			perpage : data.options.perpage,
-			query   : data.query
+			parks          : parks,
+			total          : parks.length,
+			startat        : data.options.startat,
+			perpage        : data.options.perpage,
+			query          : data.query,
+      activityFilter : getActivityFilterState(data.query.with)
 		});
 	}
 
