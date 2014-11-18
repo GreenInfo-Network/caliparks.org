@@ -26,23 +26,23 @@
     cursor:pointer;
 
     &.outdoors {
-      background-color:#4BAE4F;
+      background-color:$activity-category-outdoors;
     }
 
     &.sports {
-      background-color:#FF9F00;
+      background-color:$activity-category-sports;
     }
 
     &.kids {
-      background-color:#9B26AF;
+      background-color:$activity-category-kids;
     }
 
     &.water {
-      background-color:#2095F2;
+      background-color:$activity-category-water;
     }
 
     &.snow {
-      background-color:#00BBD3;
+      background-color:$activity-category-snow;
     }
 
   }

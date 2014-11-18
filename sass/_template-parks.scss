@@ -1,5 +1,66 @@
 .content.template-parks {
 
+  #activity-filter-area {
+    .filter-drawer {
+      li {
+        display:inline-block;
+        width:100px;
+        text-align:center;
+
+        .action {
+          border:solid 0px transparent;
+          display:inline-block;
+          width: 83px;
+          margin:0 auto;
+
+          .activity-icon-container {
+              width:67px;
+              height:67px;
+              margin:0 auto;
+              background-color:$color-lighter;
+              border-radius:$border-radius;
+              padding-top: $box-padding-half;
+              margin-bottom:5px;
+
+              img, svg {
+                width:47px;
+                height:47px;
+              }
+
+          }
+
+          label {
+            overflow:hidden;
+            color:$light-font-color;
+            font-size: 59%;
+          }
+
+          &.selected {
+            .outdoors {
+              background-color:$activity-category-outdoors;
+            }
+
+            .sports {
+              background-color:$activity-category-sports;
+            }
+
+            .kids {
+              background-color:$activity-category-kids;
+            }
+
+            .water {
+              background-color:$activity-category-water;
+            }
+
+            .snow {
+              background-color:$activity-category-snow;
+            }
+          }
+        }
+      }
+    }
+  }
+
   .search-results {
 
     height:100%;

@@ -20,14 +20,19 @@ if (locationParts[4] === 'near' && !locationParts[5]) {
 
   <div  id="parks">
     <div id="activity-filter-area">
-      <div class="activity-filter-handle">
+      <div class="filter-handle">
         <button class="toggle-activities-drawer-action action">Activities<span class="status"></span></button>
         <button class="clear-activities-action action">All</button>
         <button class="close-drawer-action action">Close</button>
       </div>
-      <ul class="activity-filter-drawer" style="color:white;">
-        {{#each activityFilter}}
-        <li><button class="toggle-activity-action action {{#if this}}selected{{/if}}" data-filter="{{@key}}">{{@key}}</button></li>
+      <ul class="filter-drawer" style="color:white;">
+        {{#each activities}}
+        <li>
+          <button class="toggle-activity-action action {{#if filterState}}selected{{/if}}" data-filter="{{@key}}">
+            <div class="activity-icon-container {{category}}"><img src="/style/activity-{{@key}}.svg"></div>
+            <label>{{label}}</label>
+          </button>
+        </li>
         {{/each}}
       </ul>
     </div>

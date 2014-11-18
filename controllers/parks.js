@@ -2,7 +2,7 @@
 
 var cpad               = require('../lib/cpad.js'),
     stories            = require('../lib/stories.js'),
-    activityCategories = require('../config/activityCategories.json');
+    activityCategories = require('../config/activities.json');
 
 module.exports = function(req, res, data, callback) {
 
@@ -13,26 +13,25 @@ module.exports = function(req, res, data, callback) {
 
   function getActivityFilterState(withString) {
 
-    var filterStates = {},
+    var activities = {},
         urlStates;
 
-    if (withString && withString.length) {
+    urlStates = withString ? withString.split(',') : [];
 
-      urlStates = withString.split(',');
+    //
+    // Make a new object with the same keys as the activityCategories object.
+    // and the values will be the status of that filter from the `with` parameter
+    // in the URL
+    //
 
-      //
-      // Make a new object with the same keys as the activityCategories object.
-      // and the values will be the status of that filter from the `with` parameter
-      // in the URL
-      //
-      Object.keys(activityCategories).forEach(function(key) {
-        filterStates[key] = (urlStates.indexOf(key) > -1); //Is it in the 'with' URL param
-      });
+    activities = JSON.parse(JSON.stringify(activityCategories));
+    Object.keys(activities).forEach(function(key) {
+      if (key && activities[key]) {
+        activities[key].filterState = (urlStates.indexOf(key) > -1); //Is it in the 'with' URL param
+      }
+    });
 
-      return filterStates;
-    } else {
-      return null;
-    }
+    return activities;
   }
 
 	//
@@ -120,7 +119,7 @@ module.exports = function(req, res, data, callback) {
 			startat        : data.options.startat,
 			perpage        : data.options.perpage,
 			query          : data.query,
-      activityFilter : getActivityFilterState(data.query.with)
+      activities     : getActivityFilterState(data.query.with)
 		});
 	}
 
