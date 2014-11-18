@@ -1,7 +1,24 @@
 .content.template-parks {
 
   #activity-filter-area {
+
+    &.closed {
+      .filter-drawer {
+        height:0px;
+      }
+
+      .close-drawer-action {
+        display:none;
+      }
+    }
+
     .filter-drawer {
+
+      overflow:hidden;
+      transition:height 2s;
+      -webkit-transition:height 2s;
+      height:400px;
+
       li {
         display:inline-block;
         width:100px;

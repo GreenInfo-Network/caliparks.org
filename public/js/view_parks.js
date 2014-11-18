@@ -14,10 +14,13 @@ define(["require","exports","module","jquery","stamen-super-classy"], function(
 
     StamenSuperClassy.apply(that, arguments);
 
-    var rootNode         = that.utils.get(rootSelector)[0],
-        clearActionNode  = that.utils.get('.clear-activities-action', rootNode)[0],
-        filterDrawerNode = that.utils.get('.filter-drawer', rootNode)[0],
-        searchParams;
+    var rootNode               = that.utils.get(rootSelector)[0],
+        clearActionNode        = that.utils.get('.clear-activities-action', rootNode)[0],
+        filterDrawerNode       = that.utils.get('.filter-drawer', rootNode)[0],
+        toggleDrawerActionNode = that.utils.get('.toggle-activities-drawer-action', rootNode)[0],
+        toggleDrawerStatusNode = that.utils.get('.status', toggleDrawerActionNode)[0],
+        closeDrawerActionNode  = that.utils.get('.close-drawer-action', rootNode)[0],
+        searchParams, withArray;
 
 
     function objectifyUrlSearchParams(locationSearchString) {
@@ -58,9 +61,9 @@ define(["require","exports","module","jquery","stamen-super-classy"], function(
         e.preventDefault();
 
         searchParams = objectifyUrlSearchParams(location.search);
+        withArray  = (searchParams.with ? searchParams.with.split(',') : []);
 
-        var withArray  = (searchParams.with ? searchParams.with.split(',') : []),
-            filter     = e.target.getAttribute('data-filter') || e.target.parentNode.getAttribute('data-filter') || e.target.parentNode.parentNode.getAttribute('data-filter'),
+        var filter     = e.target.getAttribute('data-filter') || e.target.parentNode.getAttribute('data-filter') || e.target.parentNode.parentNode.getAttribute('data-filter'),
             index      = withArray.indexOf(filter);
 
         if (index > -1) { //Meaning that this page already has this filter selected
@@ -72,6 +75,35 @@ define(["require","exports","module","jquery","stamen-super-classy"], function(
         }
 
         updateUrl(searchParams);
+      }, false);
+
+      searchParams = objectifyUrlSearchParams(location.search);
+      withArray    = (searchParams.with ? searchParams.with.split(',') : []);
+
+      toggleDrawerStatusNode.innerHTML = withArray.length;
+
+    }
+
+    function initDrawerToggleAction() {
+
+      toggleDrawerActionNode.addEventListener('click', function(e) {
+
+        e.preventDefault();
+
+        rootNode.classList.toggle('closed')
+
+      }, false);
+
+    }
+
+    function initDrawerCloseAction() {
+
+      closeDrawerActionNode.addEventListener('click', function(e) {
+
+        e.preventDefault();
+
+        rootNode.classList.add('closed')
+
       }, false);
 
     }
@@ -98,6 +130,8 @@ define(["require","exports","module","jquery","stamen-super-classy"], function(
 
     initClearAction();
     initActivityToggleActions();
+    initDrawerToggleAction();
+    initDrawerCloseAction();
 
     return that;
 
