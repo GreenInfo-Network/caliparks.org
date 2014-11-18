@@ -64,7 +64,7 @@ define(["require","exports","module","jquery","stamen-super-classy"], function(
         withArray  = (searchParams.with ? searchParams.with.split(',') : []);
 
         var filter     = e.target.getAttribute('data-filter') || e.target.parentNode.getAttribute('data-filter') || e.target.parentNode.parentNode.getAttribute('data-filter'),
-            index      = withArray.indexOf(filter);
+            index      = withArray.indexOf(encodeURI(filter));
 
         if (index > -1) { //Meaning that this page already has this filter selected
           withArray.splice(index);
@@ -77,10 +77,12 @@ define(["require","exports","module","jquery","stamen-super-classy"], function(
         updateUrl(searchParams);
       }, false);
 
+      //
+      // Put the current number of filters in the status area
+      //
       searchParams = objectifyUrlSearchParams(location.search);
       withArray    = (searchParams.with ? searchParams.with.split(',') : []);
-
-      toggleDrawerStatusNode.innerHTML = withArray.length;
+      toggleDrawerStatusNode.innerHTML = (withArray.length) ? withArray.length : '';
 
     }
 

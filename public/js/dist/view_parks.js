@@ -18,11 +18,11 @@ define([ "require", "exports", "module", "jquery", "stamen-super-classy" ], func
         function initActivityToggleActions() {
             filterDrawerNode.addEventListener("click", function(e) {
                 e.preventDefault(), searchParams = objectifyUrlSearchParams(location.search), withArray = searchParams.with ? searchParams.with.split(",") : [];
-                var filter = e.target.getAttribute("data-filter") || e.target.parentNode.getAttribute("data-filter") || e.target.parentNode.parentNode.getAttribute("data-filter"), index = withArray.indexOf(filter);
+                var filter = e.target.getAttribute("data-filter") || e.target.parentNode.getAttribute("data-filter") || e.target.parentNode.parentNode.getAttribute("data-filter"), index = withArray.indexOf(encodeURI(filter));
                 index > -1 ? (withArray.splice(index), searchParams["with"] = withArray.join(",")) : (withArray.push(filter), 
                 searchParams["with"] = withArray.join(",")), updateUrl(searchParams);
             }, !1), searchParams = objectifyUrlSearchParams(location.search), withArray = searchParams.with ? searchParams.with.split(",") : [], 
-            toggleDrawerStatusNode.innerHTML = withArray.length;
+            toggleDrawerStatusNode.innerHTML = withArray.length ? withArray.length : "";
         }
         function initDrawerToggleAction() {
             toggleDrawerActionNode.addEventListener("click", function(e) {

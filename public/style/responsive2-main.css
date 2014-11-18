@@ -803,8 +803,8 @@ body.parksforward.responsive2 {
     display: none; }
   body.parksforward.responsive2 .content.template-parks #activity-filter-area .filter-drawer {
     overflow: hidden;
-    transition: height 2s;
-    -webkit-transition: height 2s;
+    transition: height 0.5;
+    -webkit-transition: height 0.5s;
     height: 400px; }
     body.parksforward.responsive2 .content.template-parks #activity-filter-area .filter-drawer li {
       display: inline-block;
