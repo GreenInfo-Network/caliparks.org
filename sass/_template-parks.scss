@@ -12,6 +12,11 @@
       }
 
       .toggle-activities-drawer-action {
+
+        &.many {
+          font-weight:bolder;
+        }
+
         i {
           -webkit-transform: rotate(90deg);
           -moz-transform: rotate(90deg);

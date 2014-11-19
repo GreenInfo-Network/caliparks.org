@@ -1,9 +1,10 @@
-define(["require","exports","module","jquery","stamen-super-classy"], function(
+define(["require","exports","module","jquery","stamen-super-classy","block-search-box"], function(
   require,
   exports,
   module,
   jquery,
-  StamenSuperClassy
+  StamenSuperClassy,
+  BlockSearchBox
 ) {
 
   "use strict";
@@ -90,7 +91,7 @@ define(["require","exports","module","jquery","stamen-super-classy"], function(
       //
       searchParams = objectifyUrlSearchParams(location.search);
       withArray    = (searchParams.with ? searchParams.with.split(',') : []);
-      toggleDrawerStatusNode.innerHTML = (withArray.length) ? withArray.length : '';
+      toggleDrawerStatusNode.innerHTML = (withArray.length) ? (' (' + withArray.length + ')') : '';
 
     }
 
@@ -147,6 +148,7 @@ define(["require","exports","module","jquery","stamen-super-classy"], function(
 
   }
 
+  var blockSearchBox       = new BlockSearchBox('.block-search-box',{}, function(err, blockSearchBox) {});
   var activityFilterDrawer = new ActivityFilterDrawer('#activity-filter-area');
 
 });

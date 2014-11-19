@@ -1,4 +1,4 @@
-define([ "require", "exports", "module", "jquery", "stamen-super-classy" ], function(require, exports, module, jquery, StamenSuperClassy) {
+define([ "require", "exports", "module", "jquery", "stamen-super-classy", "block-search-box" ], function(require, exports, module, jquery, StamenSuperClassy, BlockSearchBox) {
     "use strict";
     function ActivityFilterDrawer(rootSelector) {
         function objectifyUrlSearchParams(locationSearchString) {
@@ -22,7 +22,7 @@ define([ "require", "exports", "module", "jquery", "stamen-super-classy" ], func
                 index > -1 ? (withArray.splice(index), searchParams["with"] = withArray.join(",")) : (withArray.push(filter), 
                 searchParams["with"] = withArray.join(",")), updateUrl(searchParams);
             }, !1), searchParams = objectifyUrlSearchParams(location.search), withArray = searchParams.with ? searchParams.with.split(",") : [], 
-            toggleDrawerStatusNode.innerHTML = withArray.length ? withArray.length : "";
+            toggleDrawerStatusNode.innerHTML = withArray.length ? " (" + withArray.length + ")" : "";
         }
         function initDrawerToggleAction() {
             toggleDrawerActionNode.addEventListener("click", function(e) {
@@ -44,5 +44,5 @@ define([ "require", "exports", "module", "jquery", "stamen-super-classy" ], func
         return initClearAction(), initActivityToggleActions(), initDrawerToggleAction(), 
         initDrawerCloseAction(), that;
     }
-    new ActivityFilterDrawer("#activity-filter-area");
+    new BlockSearchBox(".block-search-box", {}, function() {}), new ActivityFilterDrawer("#activity-filter-area");
 });
