@@ -10,12 +10,38 @@
       .close-drawer-action {
         display:none;
       }
+
+      .toggle-activities-drawer-action {
+        i {
+          -webkit-transform: rotate(90deg);
+          -moz-transform: rotate(90deg);
+          -ms-transform: rotate(90deg);
+          -o-transform: rotate(90deg);
+          transform: rotate(90deg);
+          background-size: 19px 14px;
+        }
+      }
+
     }
 
     .filter-handle {
       .action {
         border:none;
         color:white;
+      }
+
+      .toggle-activities-drawer-action {
+        i {
+          background-image: url('/style/responsive2/menuArrow.svg');
+          background-repeat: no-repeat;
+          display:inline-block;
+          width: 16px;
+          height: 16px;
+
+          background-size: 19px 14px;
+          background-position: left;
+          margin-right: $box-padding-half;
+        }
       }
     }
 
