@@ -21,8 +21,8 @@ define([ "require", "exports", "module", "jquery", "stamen-super-classy", "block
                 var filter = e.target.getAttribute("data-filter") || e.target.parentNode.getAttribute("data-filter") || e.target.parentNode.parentNode.getAttribute("data-filter"), index = withArray.indexOf(encodeURI(filter));
                 index > -1 ? (withArray.splice(index), searchParams["with"] = withArray.join(",")) : (withArray.push(filter), 
                 searchParams["with"] = withArray.join(",")), updateUrl(searchParams);
-            }, !1), searchParams = objectifyUrlSearchParams(location.search), withArray = searchParams.with ? searchParams.with.split(",") : [], 
-            toggleDrawerStatusNode.innerHTML = withArray.length ? " (" + withArray.length + ")" : "";
+            }, !1), toggleDrawerStatusNode && (searchParams = objectifyUrlSearchParams(location.search), 
+            withArray = searchParams.with ? searchParams.with.split(",") : [], toggleDrawerStatusNode.innerHTML = withArray.length ? withArray.length : "");
         }
         function initDrawerToggleAction() {
             toggleDrawerActionNode.addEventListener("click", function(e) {

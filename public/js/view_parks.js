@@ -89,9 +89,11 @@ define(["require","exports","module","jquery","stamen-super-classy","block-searc
       //
       // Put the current number of filters in the status area
       //
-      searchParams = objectifyUrlSearchParams(location.search);
-      withArray    = (searchParams.with ? searchParams.with.split(',') : []);
-      toggleDrawerStatusNode.innerHTML = (withArray.length) ? (' (' + withArray.length + ')') : '';
+      if (toggleDrawerStatusNode) {
+        searchParams = objectifyUrlSearchParams(location.search);
+        withArray    = (searchParams.with ? searchParams.with.split(',') : []);
+        toggleDrawerStatusNode.innerHTML = (withArray.length) ? withArray.length : '';
+      }
 
     }
 
