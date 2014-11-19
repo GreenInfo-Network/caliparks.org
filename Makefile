@@ -163,6 +163,12 @@ db/cpad_2014b7: db/postgis data/cpad_2014b7_superunits_name_manager_access.zip d
 db/cpad_superunits: db/cpad
 	$(call create_relation)
 
+db/superunit_changes: db
+	$(call create_relation)
+
+db/renumber_cpad_superunits: db/superunit_changes
+	psql -v ON_ERROR_STOP=1 -qX1f sql/renumber_cpad_superunits.sql
+
 db/migrate: db/migrations
 	$(call run_migrations)
 
