@@ -22,9 +22,9 @@ if (locationParts[4] === 'near' && !locationParts[5]) {
   <div  id="parks">
     <div id="activity-filter-area" class="closed">
       <div class="filter-handle">
-        <button class="toggle-activities-drawer-action action"><i></i>Activities{{#if query.with}} (<span class="status">...</span> of 26){{/if}}</button>
-        {{#if query.with}}<button class="clear-activities-action action">Clear</button>{{/if}}
-        <button class="close-drawer-action action">Close</button>
+        <button class="toggle-activities-drawer-action action"><i></i>{{#__}}Activities{{#if query.with}}{{/__}} (<span class="status">...</span> {{#__}}of{{/__}} 26){{/if}}</button>
+        {{#if query.with}}<button class="clear-activities-action action">{{#__}}Clear{{/__}}</button>{{/if}}
+        <button class="close-drawer-action action">{{#__}}Close{{/__}}</button>
       </div>
       <ul class="filter-drawer" style="color:white;">
         {{#each activities}}

@@ -64,7 +64,7 @@ module.exports = function(req, res, options, callback) {
       if (apiResponse.cpad) {
         output['appTitle']    = 'California Open Spaces > ' + apiResponse.cpad.unit_name;
         output['park_id']     = apiResponse.cpad.superunit_id;
-        output['name']        = apiResponse.cpad.unit_name;
+        output['unit_name']        = apiResponse.cpad.unit_name;
         output['bbox']        = apiResponse.cpad.bbox;
         output['agency_slug'] = apiResponse.cpad.mng_agncy.split(' ').join('+');
         output['centroid']           = apiResponse.cpad.centroid;
