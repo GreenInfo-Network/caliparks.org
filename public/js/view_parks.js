@@ -24,11 +24,16 @@ define(["require","exports","module","jquery","stamen-super-classy"], function(
 
 
     function objectifyUrlSearchParams(locationSearchString) {
-      return JSON.parse(locationSearchString.substring(1)
-        .replace(/^/,'{"')
-        .replace(/$/, '"}')
-        .replace(/&/g,'","')
-        .replace(/=/g,'":"'));
+
+      if (locationSearchString.length) {
+        return JSON.parse(locationSearchString.substring(1)
+          .replace(/^/,'{"')
+          .replace(/$/, '"}')
+          .replace(/&/g,'","')
+          .replace(/=/g,'":"'));
+      } else {
+        return {};
+      }
     }
 
     function stringifyUrlSearchParams(paramsObject) {
@@ -45,14 +50,17 @@ define(["require","exports","module","jquery","stamen-super-classy"], function(
 
     function initClearAction() {
 
-      clearActionNode.addEventListener('click', function(e) {
-        e.preventDefault();
+      if (clearActionNode) {
+        clearActionNode.addEventListener('click', function(e) {
+          e.preventDefault();
 
-        searchParams = objectifyUrlSearchParams(location.search);
-        delete searchParams.with;
+          searchParams = objectifyUrlSearchParams(location.search);
+          delete searchParams.with;
 
-        updateUrl(searchParams);
-      }, false);
+          updateUrl(searchParams);
+        }, false);
+      }
+
     }
 
     function initActivityToggleActions() {

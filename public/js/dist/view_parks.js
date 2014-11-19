@@ -2,7 +2,7 @@ define([ "require", "exports", "module", "jquery", "stamen-super-classy" ], func
     "use strict";
     function ActivityFilterDrawer(rootSelector) {
         function objectifyUrlSearchParams(locationSearchString) {
-            return JSON.parse(locationSearchString.substring(1).replace(/^/, '{"').replace(/$/, '"}').replace(/&/g, '","').replace(/=/g, '":"'));
+            return locationSearchString.length ? JSON.parse(locationSearchString.substring(1).replace(/^/, '{"').replace(/$/, '"}').replace(/&/g, '","').replace(/=/g, '":"')) : {};
         }
         function stringifyUrlSearchParams(paramsObject) {
             var stringOut = "?";
@@ -10,7 +10,7 @@ define([ "require", "exports", "module", "jquery", "stamen-super-classy" ], func
             return stringOut.substring(0, stringOut.length - 1);
         }
         function initClearAction() {
-            clearActionNode.addEventListener("click", function(e) {
+            clearActionNode && clearActionNode.addEventListener("click", function(e) {
                 e.preventDefault(), searchParams = objectifyUrlSearchParams(location.search), delete searchParams.with, 
                 updateUrl(searchParams);
             }, !1);
