@@ -801,6 +801,9 @@ body.parksforward.responsive2 {
     height: 0px; }
   body.parksforward.responsive2 .content.template-parks #activity-filter-area.closed .close-drawer-action {
     display: none; }
+  body.parksforward.responsive2 .content.template-parks #activity-filter-area .filter-handle .action {
+    border: none;
+    color: white; }
   body.parksforward.responsive2 .content.template-parks #activity-filter-area .filter-drawer {
     overflow: hidden;
     transition: height 0.5;
