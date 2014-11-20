@@ -65,7 +65,7 @@ define(["require","exports","module","stamen-super-classy"], function(
     that.getParamState = function getParamState(contextData) {
 
       if (contextData.route === 'parks' & knownContexts.indexOf(contextData.context) > -1) { //If this is a known context, over-ride the appropriate parameter. Contexts win over search params
-        contextData.query[(contextData.context === 'search') ? 'q' : contextData.context] = contextData.param;
+        contextData.query[(contextData.context === 'search') ? 'q' : contextData.context] = (contextData.context === 'search' && !contextData.param) ? contextData.query.q : contextData.param;
       }
 
       return contextData.query;
@@ -99,6 +99,25 @@ define(["require","exports","module","stamen-super-classy"], function(
         }
       }
     };
+
+    that.getParamStateAsSearchString = function getParamStateAsSearchString() {
+      var params = that.getParamStateFromLocationObject(),
+          outString = params.q || '';
+
+      if (params.with) {
+        if (!params.q) {
+          outString += params.with;
+        } else {
+          outString += ' with ' +  params.with;
+        }
+      }
+
+      if (params.near) {
+        outString += ' near ' +  params.near;
+      }
+
+      return outString;
+    }
 
     return that;
 

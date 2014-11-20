@@ -1,6 +1,6 @@
-define([ "require", "exports", "module", "vendor/typeahead", "vendor/bloodhound", "jquery", "stamen-super-classy" ], function(require, exports, module, typeahead, bloodhound, jquery, StamenSuperClassy) {
+define([ "require", "exports", "module", "vendor/typeahead", "vendor/bloodhound", "jquery", "stamen-super-classy", "routes" ], function(require, exports, module, typeahead, bloodhound, jquery, StamenSuperClassy, Routes) {
     "use strict";
-    var rootNode, locateMeNode, that, old, formNode, searchFieldNode, searchParts, state = {}, data = {}, bloodHoundSources = {};
+    var rootNode, locateMeNode, that, old, formNode, searchFieldNode, searchParts, defaultSearchString, state = {}, data = {}, bloodHoundSources = {};
     module.exports = function(rootSelector, config, callback) {
         function updateData(key, path, callback) {
             old = data[key], $.getJSON(path, function(json) {
@@ -75,8 +75,7 @@ define([ "require", "exports", "module", "vendor/typeahead", "vendor/bloodhound"
                 location.href = "/parks/search?with=" + searchParts[0] + "&near=" + searchParts[1]) : searchFieldNode.val().indexOf(" with ") > -1 ? (searchParts = searchFieldNode.val().split(" with "), 
                 location.href = "/parks/search?q=" + searchParts[0] + "&with=" + searchParts[1]) : location.href = "/parks/search?q=" + searchFieldNode.val();
             }), searchFieldNode.bind("keyup", function(e) {
-                13 !== e.keyCode && 13 !== e.which && 39 !== e.keyCode && 39 !== e.which ? (state.searchType = {}, 
-                e.preventDefault()) : (13 === e.keyCode || 13 === e.which) && e.preventDefault();
+                13 !== e.keyCode && 13 !== e.which && 39 !== e.keyCode && 39 !== e.which ? e.preventDefault() : (13 === e.keyCode || 13 === e.which) && e.preventDefault();
             }), searchFieldNode.bind("typeahead:selected", function(e, choice, category) {
                 "places" === category ? state.searchType = {
                     near: choice.value
@@ -88,14 +87,17 @@ define([ "require", "exports", "module", "vendor/typeahead", "vendor/bloodhound"
         function initialize() {
             that.on("ready", function() {
                 callback(null, that);
-            }), initLocateMe(), initForm(), updateData("activities", "/data/uniqueActivities.json", function() {
+            }), defaultSearchString && searchFieldNode.attr("value", defaultSearchString), state.searchType = {}, 
+            initLocateMe(), initForm(), updateData("activities", "/data/uniqueActivities.json", function() {
                 updateData("places", "/data/californiaCities.json", function() {
                     initTypeahead(), that.fire("ready");
                 });
             });
         }
-        return that = this, StamenSuperClassy.apply(this, arguments), rootNode = $(rootSelector), 
-        locateMeNode = rootNode.find(".locate-me"), formNode = rootNode.find("form"), searchFieldNode = rootNode.find("input[type=search]"), 
+        that = this, StamenSuperClassy.apply(this, arguments);
+        var routes = new Routes();
+        return rootNode = $(rootSelector), locateMeNode = rootNode.find(".locate-me"), formNode = rootNode.find("form"), 
+        searchFieldNode = rootNode.find("input[type=search]"), defaultSearchString = routes.getParamStateAsSearchString() || "", 
         initialize(), that;
     };
 });

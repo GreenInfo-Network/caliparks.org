@@ -1,11 +1,12 @@
-define(["require","exports","module","vendor/typeahead","vendor/bloodhound","jquery","stamen-super-classy"], function(
+define(["require","exports","module","vendor/typeahead","vendor/bloodhound","jquery","stamen-super-classy","routes"], function(
   require,
   exports,
   module,
   typeahead,
   bloodhound,
   jquery,
-  StamenSuperClassy
+  StamenSuperClassy,
+  Routes
 ) {
 
   'use strict';
@@ -13,7 +14,7 @@ define(["require","exports","module","vendor/typeahead","vendor/bloodhound","jqu
   var state             = {},
       data              = {},
       bloodHoundSources = {},
-      rootNode, locateMeNode, that, old, formNode, searchFieldNode, searchParts;
+      rootNode, locateMeNode, that, old, formNode, searchFieldNode, searchParts, defaultSearchString;
 
   module.exports=function(rootSelector, config, callback) {
 
@@ -21,10 +22,14 @@ define(["require","exports","module","vendor/typeahead","vendor/bloodhound","jqu
 
     StamenSuperClassy.apply(this, arguments);
 
-    rootNode        = $(rootSelector);
-    locateMeNode    = rootNode.find('.locate-me');
-    formNode        = rootNode.find('form');
-    searchFieldNode = rootNode.find('input[type=search]');
+    var routes = new Routes();
+
+    rootNode            = $(rootSelector);
+    locateMeNode        = rootNode.find('.locate-me');
+    formNode            = rootNode.find('form');
+    searchFieldNode     = rootNode.find('input[type=search]'),
+    defaultSearchString = routes.getParamStateAsSearchString() || '';
+
 
     //
     // Load data for autocomplete and search type detection
@@ -166,7 +171,6 @@ define(["require","exports","module","vendor/typeahead","vendor/bloodhound","jqu
 
       searchFieldNode.bind('keyup', function(e) {
         if (e.keyCode !== 13 && e.which !== 13 && e.keyCode !== 39 && e.which !== 39) { //Enter, Return, and Right arrow
-          state.searchType = {};
           e.preventDefault();
         } else {
           if (e.keyCode === 13 || e.which === 13) {
@@ -199,6 +203,10 @@ define(["require","exports","module","vendor/typeahead","vendor/bloodhound","jqu
       //
       // Initialize thie whole thing
       //
+      if (defaultSearchString) {
+        searchFieldNode.attr('value',defaultSearchString);
+      }
+      state.searchType = {};
       initLocateMe();
       initForm();
       updateData('activities', '/data/uniqueActivities.json', function(r) {
