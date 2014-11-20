@@ -3,15 +3,13 @@
 //
 define(["require","exports","module"], function(require,exports,module) {
 
-  'use strict';
+  "use strict";
 
   module.exports=function() {
 
-    var that = this;
-
     //
     // Determine the mobile operating system.
-    // This function either returns 'iOS', 'Android' or 'unknown'
+    // This function either returns "iOS", "Android" or "unknown"
     //
     // @returns {String}
     //
@@ -21,11 +19,11 @@ define(["require","exports","module"], function(require,exports,module) {
       var userAgent = navigator.userAgent || navigator.vendor || window.opera;
 
       if ( userAgent.match( /iPad/i ) || userAgent.match( /iPhone/i ) || userAgent.match( /iPod/i ) ) {
-        return 'iOS';
+        return "iOS";
       } else if( userAgent.match( /Android/i ) ) {
-        return 'Android';
+        return "Android";
       } else {
-        return 'unknown';
+        return "unknown";
       }
     };
 

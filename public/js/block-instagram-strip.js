@@ -8,6 +8,8 @@ define(["require","exports","module","jquery","content-carousel","stamen-super-c
   ContentFetcher
 ) {
 
+  "use strict";
+
  /**
  * UI Block for displaying a endless scrolling strip of Instagram photos
  * @constructor
@@ -17,8 +19,8 @@ define(["require","exports","module","jquery","content-carousel","stamen-super-c
  module.exports = function BlockInstagramStrip(rootSelector, viewData) {
 
     var that = this,
-        backButtonSelector    = '.carousel-back-button',
-        forwardButtonSelector = '.carousel-forward-button',
+        backButtonSelector    = ".carousel-back-button",
+        forwardButtonSelector = ".carousel-forward-button",
         contentFetcher;
 
     StamenSuperClassy.apply(this, arguments);
@@ -26,7 +28,7 @@ define(["require","exports","module","jquery","content-carousel","stamen-super-c
     var rootNode = that.utils.get(rootSelector)[0],
         backButtonNode     = that.utils.get(backButtonSelector, rootNode)[0],
         forwardButtonNode  = that.utils.get(forwardButtonSelector, rootNode)[0],
-        slideContainerNode = that.utils.get('.slide-container',rootNode)[0];
+        slideContainerNode = that.utils.get(".slide-container",rootNode)[0];
 
     function fetchPhotos() {
       contentFetcher.fetch();
@@ -34,54 +36,54 @@ define(["require","exports","module","jquery","content-carousel","stamen-super-c
 
     function init() {
 
-      var carouselSliderSelector = rootSelector + ' .slide-container';
+      var carouselSliderSelector = rootSelector + " .slide-container";
 
-      that.carouselInstance = new ContentCarousel(rootSelector + ' .slide-container', {
-        slideClass : 'coverphoto',
+      that.carouselInstance = new ContentCarousel(rootSelector + " .slide-container", {
+        slideClass : "coverphoto",
         showLoader: true
       });
 
-      backButtonNode.addEventListener('click', function() {
+      backButtonNode.addEventListener("click", function() {
         that.carouselInstance.goBackward();
       }, false);
 
-      forwardButtonNode.addEventListener('click', function() {
+      forwardButtonNode.addEventListener("click", function() {
         that.carouselInstance.goForward();
       }, false);
 
-      $(carouselSliderSelector).on('scroll',function(e) {
+      $(carouselSliderSelector).on("scroll",function(e) {
         if ((e.target.scrollWidth-e.target.scrollLeft) < e.target.offsetWidth*4) {
           fetchPhotos();
         }
       });
 
-      that.carouselInstance.on('forward', function(e) {
+      that.carouselInstance.on("forward", function(e) {
 
         if (e.caller.target.scrollLeft > (e.caller.target.scrollWidth-(e.caller.target.offsetWidth+e.caller.target.offsetWidth/2))) {
-          rootNode.parentNode.parentNode.classList.add('scrolled-furthest');
+          rootNode.parentNode.parentNode.classList.add("scrolled-furthest");
         } else {
-          rootNode.parentNode.parentNode.classList.remove('scrolled-furthest');
+          rootNode.parentNode.parentNode.classList.remove("scrolled-furthest");
         }
 
         if (e.caller.target.scrollLeft < (e.caller.target.offsetWidth/2)) {
-          rootNode.parentNode.parentNode.classList.add('not-scrolled');
+          rootNode.parentNode.parentNode.classList.add("not-scrolled");
         } else {
-          rootNode.parentNode.parentNode.classList.remove('not-scrolled');
+          rootNode.parentNode.parentNode.classList.remove("not-scrolled");
         }
       });
 
-      that.carouselInstance.on('backward', function(e) {
+      that.carouselInstance.on("backward", function(e) {
 
         if (e.caller.target.scrollLeft > (e.caller.target.scrollWidth-(e.caller.target.offsetWidth+e.caller.target.offsetWidth/2))) {
-          rootNode.parentNode.parentNode.classList.add('scrolled-furthest');
+          rootNode.parentNode.parentNode.classList.add("scrolled-furthest");
         } else {
-          rootNode.parentNode.parentNode.classList.remove('scrolled-furthest');
+          rootNode.parentNode.parentNode.classList.remove("scrolled-furthest");
         }
 
         if (e.caller.target.scrollLeft < (e.caller.target.offsetWidth/2)) {
-          rootNode.parentNode.parentNode.classList.add('not-scrolled');
+          rootNode.parentNode.parentNode.classList.add("not-scrolled");
         } else {
-          rootNode.parentNode.parentNode.classList.remove('not-scrolled');
+          rootNode.parentNode.parentNode.classList.remove("not-scrolled");
         }
       });
 
@@ -91,12 +93,12 @@ define(["require","exports","module","jquery","content-carousel","stamen-super-c
       //
       contentFetcher = new ContentFetcher(
         slideContainerNode,
-        '/js/partials/instagram-photo.handlebars',
-        location.href+'/instagram.json',
-        'response.instagram.items',
+        "/js/partials/instagram-photo.handlebars",
+        location.href+"/instagram.json",
+        "response.instagram.items",
         {
           startat : 20,
-          incrementArg : 'startat',
+          incrementArg : "startat",
           srcArguments : {
             startat : 20,
             limit   : 50

@@ -1,4 +1,5 @@
 define([ "require", "exports", "module", "jquery", "content-carousel", "stamen-super-classy", "content-fetcher" ], function(require, exports, module, jquery, ContentCarousel, StamenSuperClassy, ContentFetcher) {
+    "use strict";
     module.exports = function(rootSelector) {
         function fetchPhotos() {
             contentFetcher.fetch();

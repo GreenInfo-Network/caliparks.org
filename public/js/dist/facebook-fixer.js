@@ -1,4 +1,5 @@
 define([ "require", "exports", "module", "jquery", "stamen-super-classy" ], function(require, exports, module, jquery, StamenSuperClassy) {
+    "use strict";
     return function() {
         var that = this;
         return StamenSuperClassy.apply(that, arguments), require([ "attrchange" ], function() {

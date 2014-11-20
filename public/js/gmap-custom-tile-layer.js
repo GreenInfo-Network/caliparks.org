@@ -12,9 +12,6 @@ define(["require","exports","module","stamen-super-classy"], function(
 
   "use strict";
 
-  var state             = {},
-      data              = {};
-
   module.exports=function(config) {
 
     var that = this;

@@ -1,4 +1,5 @@
 define([ "require", "exports", "module", "handlebars", "jquery", "stamen-super-classy" ], function(require, exports, module, Handlebars, jquery, StamenSuperClassy) {
+    "use strict";
     module.exports = function(rootSelector, templatePath, src, responsePath, options) {
         function getDataByStringPath(data, path) {
             for (var pathArray = path.split("."), dataLevel = data, i = 0; pathArray.length > i; i++) dataLevel = dataLevel[pathArray[i]];
@@ -13,8 +14,7 @@ define([ "require", "exports", "module", "handlebars", "jquery", "stamen-super-c
                 }
             });
         }
-        var templateCache, that = this, stopFetching = !1, activeFetchRequest = !1, args = (options.startat || 0, 
-        "");
+        var templateCache, that = this, stopFetching = !1, activeFetchRequest = !1, args = "";
         return StamenSuperClassy.apply(this, arguments), that.fetch = function() {
             that.fire("begin-fetch"), activeFetchRequest || stopFetching || (activeFetchRequest = !0, 
             options.srcArguments && (args = "?" + JSON.stringify(options.srcArguments).replace(/,/g, "&").replace(/[{|}]/g, "").replace(/[:]/g, "=").replace(/\"/g, "")), 

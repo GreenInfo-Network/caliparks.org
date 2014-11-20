@@ -7,10 +7,7 @@ define(["require","exports","module","detect-os","stamen-super-classy","gmap-cus
   GmapCustomTileLayer
 ) {
 
-  'use strict';
-
-  var state             = {},
-      data              = {};
+  "use strict";
 
   module.exports=function(rootSelector, viewOptions, callback) {
 
@@ -19,8 +16,8 @@ define(["require","exports","module","detect-os","stamen-super-classy","gmap-cus
     StamenSuperClassy.apply(that, arguments);
 
     var rootNode   = that.utils.get(rootSelector)[0],
-        bigMapNode = that.utils.get('.big-park-map',rootNode)[0],
-        smallMapNode = that.utils.get('.small-park-map',rootNode)[0];
+        bigMapNode = that.utils.get(".big-park-map",rootNode)[0],
+        smallMapNode = that.utils.get(".small-park-map",rootNode)[0];
 
     //
     // Converts GeoJSON bounding box to Google Maps bounds
@@ -28,7 +25,6 @@ define(["require","exports","module","detect-os","stamen-super-classy","gmap-cus
     //
     function geoJSONBBoxToGoogleBounds(GeoJSONBBoxPolygon) {
       var bounds = new google.maps.LatLngBounds(),
-          data   = GeoJSONBBoxPolygon,
           a, b, point;
 
       for (var ii = 0; ii < GeoJSONBBoxPolygon.coordinates[0].length; ii++) {
@@ -47,10 +43,10 @@ define(["require","exports","module","detect-os","stamen-super-classy","gmap-cus
     // defaults to web if not sure
     //
     function launchDirections() {
-      if (detectOs.getMobileOperatingSystem() === 'iOS') {
-        location.href='comgooglemaps://?q='+viewOptions.name+'@'+viewOptions.centroid.coordinates[1]+', '+viewOptions.centroid.coordinates[0]+'&zoom=15&views=transit';
+      if (new DetectOs().getMobileOperatingSystem() === "iOS") {
+        location.href="comgooglemaps://?q="+viewOptions.name+"@"+viewOptions.centroid.coordinates[1]+", "+viewOptions.centroid.coordinates[0]+"&zoom=15&views=transit";
       } else {
-        location.href='https://www.google.com/maps/dir//\''+viewOptions.centroid.coordinates[1]+', '+viewOptions.centroid.coordinates[0]+'\'';
+        location.href="https://www.google.com/maps/dir//\""+viewOptions.centroid.coordinates[1]+", "+viewOptions.centroid.coordinates[0]+"\"";
       }
 
     }
@@ -61,7 +57,7 @@ define(["require","exports","module","detect-os","stamen-super-classy","gmap-cus
 
     function initStamenLayer() {
       that.parksLayer = new GmapCustomTileLayer({
-        tilePath : 'http://{s}.map.parks.stamen.com/{z}/{x}/{y}.png',
+        tilePath : "http://{s}.map.parks.stamen.com/{z}/{x}/{y}.png",
         size     : 256
       });
 
@@ -84,12 +80,12 @@ define(["require","exports","module","detect-os","stamen-super-classy","gmap-cus
         },
         draggable           : false,
         mapTypeControlviewOptions : {
-          mapTypeIds : ['parksLayer']
+          mapTypeIds : ["parksLayer"]
         }
       });
 
-      that.bigMap.mapTypes.set('parksLayer', that.parksLayer);
-      that.bigMap.setMapTypeId('parksLayer');
+      that.bigMap.mapTypes.set("parksLayer", that.parksLayer);
+      that.bigMap.setMapTypeId("parksLayer");
       that.bigMap.fitBounds(geoJSONBBoxToGoogleBounds(viewOptions.bbox));
 
       setTimeout(function() {
@@ -115,15 +111,15 @@ define(["require","exports","module","detect-os","stamen-super-classy","gmap-cus
         disableDefaultUI    : true,
         draggable           : false,
         mapTypeControlOptions : {
-          mapTypeIds : ['parksLayer']
+          mapTypeIds : ["parksLayer"]
         }
       });
 
       that.smallMapRect = new google.maps.Rectangle({
-        strokeColor: '#000',
+        strokeColor: "#000",
         strokeOpacity: 0.35,
         strokeWeight: 1,
-        fillColor: '#000',
+        fillColor: "#000",
         fillOpacity: 0.1,
         map: that.smallMap,
         bounds: geoJSONBBoxToGoogleBounds(viewOptions.bbox)
@@ -145,9 +141,9 @@ define(["require","exports","module","detect-os","stamen-super-classy","gmap-cus
     }
 
     function initActions() {
-      var directionsAction = that.utils.get('.directions-action', rootNode)[0];
+      var directionsAction = that.utils.get(".directions-action", rootNode)[0];
 
-      directionsAction.addEventListener('click', function() {
+      directionsAction.addEventListener("click", function() {
         return launchDirections();
       }, false);
     }
@@ -161,7 +157,7 @@ define(["require","exports","module","detect-os","stamen-super-classy","gmap-cus
       initSmallMap();
       initActions();
 
-      that.on('ready', function() {
+      that.on("ready", function() {
         callback(null, that);
       });
     }
@@ -169,7 +165,7 @@ define(["require","exports","module","detect-os","stamen-super-classy","gmap-cus
     //
     // GO GO GO!
     //
-    google.maps.event.addDomListener(window, 'load', function() {
+    google.maps.event.addDomListener(window, "load", function() {
       initialize();
     });
 

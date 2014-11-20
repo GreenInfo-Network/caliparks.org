@@ -7,6 +7,8 @@ define(["require","exports","module","handlebars","jquery","stamen-super-classy"
   StamenSuperClassy
 ) {
 
+  "use strict";
+
 /**
 * ContentFetcher module
 * Fetches content from a json endpoint, grabs a handlebars template, and appends it to a div
@@ -22,14 +24,13 @@ define(["require","exports","module","handlebars","jquery","stamen-super-classy"
     var that               = this,
         stopFetching       = false,
         activeFetchRequest = false,
-        fetchStartat       = options.startat || 0,
-        args               = '',
+        args               = "",
         templateCache;
 
     StamenSuperClassy.apply(this, arguments);
 
     function getDataByStringPath(data, path) {
-      var pathArray = path.split('.'),
+      var pathArray = path.split("."),
           dataLevel = data;
 
       for (var i=0; pathArray.length > i; i++) {
@@ -40,19 +41,19 @@ define(["require","exports","module","handlebars","jquery","stamen-super-classy"
     }
 
     that.fetch = function fetch() {
-      that.fire('begin-fetch');
+      that.fire("begin-fetch");
 
       if (!activeFetchRequest && !stopFetching) {
         activeFetchRequest = true;
 
         if (options.srcArguments) {
-          args = '?'+JSON.stringify(options.srcArguments).replace(/,/g, '&').replace(/[{|}]/g, '').replace(/[:]/g, '=').replace(/\"/g, '');
+          args = "?"+JSON.stringify(options.srcArguments).replace(/,/g, "&").replace(/[{|}]/g, "").replace(/[:]/g, "=").replace(/\"/g, "");
         }
 
         $.getJSON(src+args, function(data) {
           var array = (responsePath.length) ? getDataByStringPath(data, responsePath) : data;
 
-          if (data.status === 'ok' && array.length) {
+          if (data.status === "ok" && array.length) {
 
             if (options.incrementArg) {
               options.srcArguments[options.incrementArg] += array.length;
@@ -66,7 +67,7 @@ define(["require","exports","module","handlebars","jquery","stamen-super-classy"
             stopFetching = true;
           }
 
-          that.fire('finish-fetch');
+          that.fire("finish-fetch");
 
           activeFetchRequest = false;
         });
@@ -93,7 +94,7 @@ define(["require","exports","module","handlebars","jquery","stamen-super-classy"
     // Go Go Go!
     //
     init(function(err, data) {
-      that.fire('ready');
+      that.fire("ready");
 
       if (options.callback) {
         options.callback(null, that);

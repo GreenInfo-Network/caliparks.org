@@ -10,7 +10,7 @@ define(["require","exports","module","jquery","stamen-super-classy","modernizr"]
   modernizr
 ) {
 
-  'use strict';
+  "use strict";
 
   /**
   * Ads carousel behavior to scrolling HTML containers
@@ -34,31 +34,31 @@ define(["require","exports","module","jquery","stamen-super-classy","modernizr"]
     //
     // For this to work, overflow must be set to Auto on the root element
     //
-    rootElement.style.overflow = 'auto';
+    rootElement.style.overflow = "auto";
 
     /* TODO: figure out a new loader
     if (options.showLoader) {
-      rootElement.style.backgroundImage    = 'url(/style/loader.gif)';
-      rootElement.style.backgroundRepeat   = 'no-repeat';
-      rootElement.style.backgroundPosition = 'center';
+      rootElement.style.backgroundImage    = "url(/style/loader.gif)";
+      rootElement.style.backgroundRepeat   = "no-repeat";
+      rootElement.style.backgroundPosition = "center";
     }
     */
 
-    if(STMN && rootElement.parentNode.classList.contains('what-scrollbars') && STMN.OSName === 'Windows') {
+    if(STMN && rootElement.parentNode.classList.contains("what-scrollbars") && STMN.OSName === "Windows") {
       var ws = rootElement.parentNode;
-      ws.style.overflow = 'hidden';
-      rootElement.style.margin = '0 -17px -17px 0';
-      rootElement.style.height = rootElement.offsetHeight + 17 + 'px';
-      rootElement.style.width = rootElement.offsetWidth + 17 + 'px';
+      ws.style.overflow = "hidden";
+      rootElement.style.margin = "0 -17px -17px 0";
+      rootElement.style.height = rootElement.offsetHeight + 17 + "px";
+      rootElement.style.width = rootElement.offsetWidth + 17 + "px";
     }
 
-    if (STMN && STMN.ua.split(' ')[0] === "Firefox") {
-      rootElement.style.overflow = '-moz-scrollbars-none';
+    if (STMN && STMN.ua.split(" ")[0] === "Firefox") {
+      rootElement.style.overflow = "-moz-scrollbars-none";
     }
 
-    optionsInternal.slideClass = options.slideClass || 'carousel-slide';
+    optionsInternal.slideClass = options.slideClass || "carousel-slide";
 
-    coverPhotos = $(rootSelector + ' .' + optionsInternal.slideClass);
+    coverPhotos = $(rootSelector + " ." + optionsInternal.slideClass);
 
     if(!rootSelector || !rootElement) {
       return false;
@@ -72,19 +72,19 @@ define(["require","exports","module","jquery","stamen-super-classy","modernizr"]
       }
 
       var start = rootElement.scrollLeft,
-          last  = 0, pos, next;
+          pos, next;
 
       if (options.snapToSlide) {
-        coverPhotos = $(rootSelector + ' .' + optionsInternal.slideClass);
+        coverPhotos = $(rootSelector + " ." + optionsInternal.slideClass);
         next = Math.round(rootElement.scrollLeft/coverPhotos[0].offsetWidth)+1;
         pos = (coverPhotos[next]) ? coverPhotos[next].offsetLeft : start;
       } else {
         pos = start + rootElement.offsetWidth;
       }
 
-      $(rootElement).animate({'scrollLeft':pos}, null, null, function() {
+      $(rootElement).animate({"scrollLeft":pos}, null, null, function() {
 
-        that.fire('forward', {
+        that.fire("forward", {
           target : rootElement
         });
       });
@@ -99,18 +99,18 @@ define(["require","exports","module","jquery","stamen-super-classy","modernizr"]
       }
 
       var start = rootElement.scrollLeft,
-          last  = 0, pos, next;
+          pos, next;
 
       if (options.snapToSlide) {
-        coverPhotos = $(rootSelector + ' .' + optionsInternal.slideClass);
+        coverPhotos = $(rootSelector + " ." + optionsInternal.slideClass);
         next = Math.round(rootElement.scrollLeft/coverPhotos[0].offsetWidth)-1;
         pos = (coverPhotos[next]) ? coverPhotos[next].offsetLeft : start;
       } else {
         pos = start - rootElement.offsetWidth;
       }
 
-      $(rootElement).animate({'scrollLeft':start - (rootElement.offsetWidth)}, null, null, function() {
-        that.fire('backward', {
+      $(rootElement).animate({"scrollLeft":start - (rootElement.offsetWidth)}, null, null, function() {
+        that.fire("backward", {
           target : rootElement
         });
       });
@@ -120,14 +120,14 @@ define(["require","exports","module","jquery","stamen-super-classy","modernizr"]
     //
     // Add root element class
     //
-    rootElement.classList.add('stmn-carousel-module');
+    rootElement.classList.add("stmn-carousel-module");
 
     //
     // Set scroll style
     //
-    rootElement.style.overflow  = 'hidden';
-    rootElement.style.overflowX = 'scroll';
-    rootElement.style.position  = 'relative';
+    rootElement.style.overflow  = "hidden";
+    rootElement.style.overflowX = "scroll";
+    rootElement.style.position  = "relative";
 
 
     return that;

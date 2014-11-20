@@ -25,7 +25,19 @@ gulp.task('styles', function () {
 gulp.task('lint', function() {
   return gulp.src(paths.js)
     .pipe(jshint({
-      "predef" : ["define", "$", "viewData", "document", "location"]
+      "predef" : [
+        "define",
+        "$",
+        "viewData",
+        "document",
+        "location",
+        "google",
+        "navigator",
+        "window",
+        "STMN",
+        "Bloodhound"
+      ],
+      "expr" : true
     }))
     .pipe(jshint.reporter('jshint-stylish'));
 });
