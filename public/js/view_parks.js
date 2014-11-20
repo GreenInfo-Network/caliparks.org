@@ -1,13 +1,16 @@
-define(["require","exports","module","jquery","stamen-super-classy","block-search-box"], function(
+define(["require","exports","module","jquery","stamen-super-classy","block-search-box","routes"], function(
   require,
   exports,
   module,
   jquery,
   StamenSuperClassy,
-  BlockSearchBox
+  BlockSearchBox,
+  Routes
 ) {
 
   "use strict";
+
+  var routes = new Routes();
 
   function ActivityFilterDrawer(rootSelector) {
 
@@ -24,41 +27,16 @@ define(["require","exports","module","jquery","stamen-super-classy","block-searc
         searchParams, withArray;
 
 
-    function objectifyUrlSearchParams(locationSearchString) {
-
-      if (locationSearchString.length) {
-        return JSON.parse(locationSearchString.substring(1)
-          .replace(/^/,'{"')
-          .replace(/$/, '"}')
-          .replace(/&/g,'","')
-          .replace(/=/g,'":"'));
-      } else {
-        return {};
-      }
-    }
-
-    function stringifyUrlSearchParams(paramsObject) {
-      var stringOut = '?';
-
-      for (var i in paramsObject) {
-        if (paramsObject.hasOwnProperty(i)) {
-          stringOut += (i + '=' + paramsObject[i] + '&');
-        }
-      }
-
-      return stringOut.substring(0, stringOut.length-1);
-    }
-
     function initClearAction() {
 
       if (clearActionNode) {
         clearActionNode.addEventListener('click', function(e) {
           e.preventDefault();
 
-          searchParams = objectifyUrlSearchParams(location.search);
+          searchParams = routes.getParamStateFromLocationObject();
           delete searchParams.with;
 
-          updateUrl(searchParams);
+          routes.updateSearchUrl(searchParams);
         }, false);
       }
 
@@ -69,7 +47,7 @@ define(["require","exports","module","jquery","stamen-super-classy","block-searc
       filterDrawerNode.addEventListener('click', function(e) {
         e.preventDefault();
 
-        searchParams = objectifyUrlSearchParams(location.search);
+        searchParams = routes.getParamStateFromLocationObject();
         withArray  = (searchParams.with ? searchParams.with.split(',') : []);
 
         var filter     = e.target.getAttribute('data-filter') || e.target.parentNode.getAttribute('data-filter') || e.target.parentNode.parentNode.getAttribute('data-filter'),
@@ -83,14 +61,14 @@ define(["require","exports","module","jquery","stamen-super-classy","block-searc
           searchParams['with'] = withArray.join(',');
         }
 
-        updateUrl(searchParams);
+        routes.updateSearchUrl(searchParams);
       }, false);
 
       //
       // Put the current number of filters in the status area
       //
       if (toggleDrawerStatusNode) {
-        searchParams = objectifyUrlSearchParams(location.search);
+        searchParams = routes.getParamStateFromLocationObject();
         withArray    = (searchParams.with ? searchParams.with.split(',') : []);
         toggleDrawerStatusNode.innerHTML = (withArray.length) ? withArray.length : '';
       }
@@ -119,26 +97,6 @@ define(["require","exports","module","jquery","stamen-super-classy","block-searc
 
       }, false);
 
-    }
-
-    function updateUrl(paramObject) {
-
-      //
-      // if search is in the `with` context, it would make the most sense to
-      // redirect them to the plain old search context
-      //
-      // Otherwise just change the with search param
-      //
-      if (!searchParams['with'] && location.href.split('/')[4] === 'with') {
-        location.href = '/parks/search' + (location.hash||'') + stringifyUrlSearchParams(searchParams);
-      } else {
-
-        if (!searchParams['with']) {
-          delete searchParams['with'];
-        }
-
-        location.search = stringifyUrlSearchParams(searchParams);
-      }
     }
 
     initClearAction();
