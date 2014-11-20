@@ -18,12 +18,11 @@
         }
 
         i {
-          -webkit-transform: rotate(90deg);
-          -moz-transform: rotate(90deg);
-          -ms-transform: rotate(90deg);
-          -o-transform: rotate(90deg);
-          transform: rotate(90deg);
-          background-size: 19px 14px;
+          -webkit-transform: rotate(0deg) !important;
+          -moz-transform: rotate(0deg) !important;
+          -ms-transform: rotate(0deg) !important;
+          -o-transform: rotate(0deg) !important;
+          transform: rotate(0deg) !important;
         }
       }
 
@@ -46,6 +45,15 @@
           background-size: 19px 14px;
           background-position: left;
           margin-right: $box-padding-half;
+
+          -webkit-transform: rotate(90deg);
+          -moz-transform: rotate(90deg);
+          -ms-transform: rotate(90deg);
+          -o-transform: rotate(90deg);
+          transform: rotate(90deg);
+          background-size: 19px 14px;
+
+          -webkit-transition:-webkit-transform .10s;
         }
       }
     }
@@ -56,6 +64,8 @@
       transition:height .5;
       -webkit-transition:height .5s;
       height:400px;
+      margin:0 auto;
+      width:95%;
 
       li {
         display:inline-block;
@@ -65,7 +75,6 @@
         .action {
           border:solid 0px transparent;
           display:inline-block;
-          width: 83px;
           margin:0 auto;
 
           .activity-icon-container {
@@ -85,9 +94,8 @@
           }
 
           label {
-            overflow:hidden;
             color:$light-font-color;
-            font-size: 59%;
+            text-align:center;
           }
 
           &.selected {
