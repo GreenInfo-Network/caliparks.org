@@ -37,15 +37,7 @@ $font-family-sans: "expressway", "HelveticaNeue-Light", "Helvetica Neue Light", 
   {
     z-index: 1;
     transform: scale(1.58);
-    -ms-transform: scale(1.58);
-    -webkit-transform: scale(1.58);
-    -o-transform: scale(1.58);
-    -moz-transform: scale(1.58);
     transform-origin: center left;
-    -ms-transform-origin: center left;
-    -webkit-transform-origin: center left;
-    -moz-transform-origin: center left;
-    -webkit-transform-origin: center left;
     iframe {
       margin-top: -2.5px;
       margin-left: -2px;
@@ -54,8 +46,8 @@ $font-family-sans: "expressway", "HelveticaNeue-Light", "Helvetica Neue Light", 
 }
 
 @-webkit-keyframes pulse_animation {
-  0% { -webkit-transform: rotate(0deg);}
-  50% { -webkit-transform: rotate(360deg); }
+  0% { transform: rotate(0deg);}
+  50% { transform: rotate(360deg); }
 }
 
 /*
@@ -66,10 +58,10 @@ body.parksforward.responsive2 {
   @include outer-container;
 
   .pulse {
-  	-webkit-animation-name: 'pulse_animation';
-  	-webkit-animation-duration: 5000ms;
-  	-webkit-animation-iteration-count: infinite;
-  	-webkit-animation-timing-function: ease;
+  	animation-name: 'pulse_animation';
+  	animation-duration: 5000ms;
+  	animation-iteration-count: infinite;
+  	animation-timing-function: ease;
   }
 
   background-color:$color-dark;

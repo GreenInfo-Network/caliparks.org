@@ -11,7 +11,7 @@
     width:100%;
     box-sizing:border-box;
     font-size: 0 ;
-    -webkit-overflow-scrolling: touch !important;
+    overflow-scrolling: touch !important;
 
     > div {
       height:119px;
@@ -62,7 +62,7 @@
     &.carousel-back-button {
       left: $box-padding;
       transform:rotate(180deg);
-      -webkit-transform:rotate(180deg);
+      transform:rotate(180deg);
     }
 
     &.carousel-forward-button {

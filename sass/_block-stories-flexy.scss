@@ -21,7 +21,7 @@
       overflow:hidden;
       margin:0;
       float:left;
-      -webkit-transition:width .2s, height .2s;
+      transition:width .2s, height .2s;
 
       &:first-of-type {
         width:50%;

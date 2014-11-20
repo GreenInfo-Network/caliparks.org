@@ -15,7 +15,7 @@ body.parksforward.responsive {
   @include outer-container;
   background-color: $ui-light;
   font-size: 16px;
-  line-height:20px; 
+  line-height:20px;
   font-family: "HelveticaNeue", "Helvetica Neue", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 
   h1 {
@@ -46,7 +46,7 @@ body.parksforward.responsive {
 
     &[type="search"]::-webkit-search-cancel-button {
       -webkit-appearance: none;
-    
+
       /* Now your own custom styles */
       height: 10px;
       width: 10px;
@@ -61,22 +61,22 @@ body.parksforward.responsive {
     padding:$box-padding;
     position:relative;
 
-    /* IE10 Consumer Preview */ 
+    /* IE10 Consumer Preview */
     background-image: -ms-linear-gradient(top, #72C4B9 0%, rgba(0,0,0,0) 100%);
 
-    /* Mozilla Firefox */ 
+    /* Mozilla Firefox */
     background-image: -moz-linear-gradient(top, #72C4B9 0%, rgba(0,0,0,0) 100%);
 
-    /* Opera */ 
+    /* Opera */
     background-image: -o-linear-gradient(top, #72C4B9 0%, rgba(0,0,0,0) 100%);
 
-    /* Webkit (Safari/Chrome 10) */ 
+    /* Webkit (Safari/Chrome 10) */
     background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #72C4B9), color-stop(1, #FFFFFF));
 
-    /* Webkit (Chrome 11+) */ 
+    /* Webkit (Chrome 11+) */
     background-image: -webkit-linear-gradient(top, #72C4B9 0%, rgba(0,0,0,0) 100%);
 
-    /* W3C Markup, IE10 Release Preview */ 
+    /* W3C Markup, IE10 Release Preview */
     background-image: linear-gradient(to bottom, #72C4B9 0%, rgba(0,0,0,0) 100%);
 
     color:$white;
@@ -116,7 +116,7 @@ body.parksforward.responsive {
     .content-column {
       padding:$box-padding;
 
-      
+
       .map-group {
         @include span-columns(6);
         @include row(table);
@@ -129,10 +129,10 @@ body.parksforward.responsive {
             border-radius:999px;
             background-color:#72C4B9;
           }
-          
+
           &.in {
             @include span-columns(3 of 6);
-            @include pad(); 
+            @include pad();
 
             border-right:solid 3px white;
 
@@ -146,7 +146,7 @@ body.parksforward.responsive {
           &.out {
             @include span-columns(3 of 6);
             @include reset-display;
-            @include pad(); 
+            @include pad();
             .park-map-dot {
               width:15px;
               height:15px;
@@ -213,7 +213,7 @@ body.parksforward.responsive {
           width:20px;
           height:20px;
           fill-color:white;
-        } 
+        }
       }
     }
 

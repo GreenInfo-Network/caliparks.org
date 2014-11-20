@@ -235,14 +235,12 @@ body.openspaces .stmn-carousel-module {
   scrollbar-face-color: blue !important;
   scrollbar-arrow-color: blue !important;
   border-color: blue !important;
-  -webkit-transform: translate3d(0, 0, 0); }
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0); }
 
 body.openspaces .has-coverphoto .coverphoto {
   height: 480px;
   background: no-repeat center center;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
   background-size: cover;
   position: relative;
   width: 1018px; }

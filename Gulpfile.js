@@ -6,7 +6,8 @@ var gulp           = require('gulp'),
     handlebars     = require("gulp-compile-handlebars"),
     jshint         = require('gulp-jshint'),
     uglify         = require('gulp-uglify'),
-    autopolyfiller = require('gulp-autopolyfiller');
+    autopolyfiller = require('gulp-autopolyfiller'),
+    autoprefixer   = require('gulp-autoprefixer');
 
 var paths = {
     scss      : './sass/*.scss',
@@ -18,6 +19,10 @@ gulp.task('styles', function () {
   return gulp.src(paths.scss)
       .pipe(sass({
           includePaths: ['styles'].concat(neat)
+      }))
+      .pipe(autoprefixer({
+        browsers: ['last 2 versions'],
+        cascade: false
       }))
       .pipe(gulp.dest('./public/style'));
 });
