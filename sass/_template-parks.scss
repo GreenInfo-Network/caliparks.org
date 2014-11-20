@@ -1,20 +1,36 @@
 .content.template-parks {
 
-  .search-results {
+  @include span-columns(12 of 12);
+  @include media(min-width 721px) {
+    @include row(table);
+  }
 
-    height:100%;
-    width:100%;
-    background-color:$color-lighter;
-    padding:$box-padding;
+  .tab-pane {
+    &.list-tab-pane {
 
-    .block-park-name {
-      margin-bottom:$box-padding;
+      @include span-columns(6 of 12);
+      @include pad(0);
 
-      a {
-        font-family:$font-family-sans;
+      .search-results {
+
+        height:100%;
+        background-color:$color-lighter;
+        padding:$box-padding;
+
+        .block-park-name {
+          margin-bottom:$box-padding;
+
+          a {
+            font-family:$font-family-sans;
+          }
+        }
+
       }
     }
-
+    &.map-tab-pane {
+      @include span-columns(6 of 12);
+      @include pad(0);
+    }
   }
 
 }

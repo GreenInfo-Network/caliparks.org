@@ -854,15 +854,34 @@ body.parksforward.responsive2 {
           @media screen and (max-width: 720px)  {
             body.parksforward.responsive2 .content.template-park > div section#search-area .block-search-box {
               width: 90%; } }
-  body.parksforward.responsive2 .content.template-parks .search-results {
-    height: 100%;
-    width: 100%;
-    background-color: #cfd8dc;
-    padding: 20px; }
-    body.parksforward.responsive2 .content.template-parks .search-results .block-park-name {
-      margin-bottom: 20px; }
-      body.parksforward.responsive2 .content.template-parks .search-results .block-park-name a {
-        font-family: "expressway", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; }
+  body.parksforward.responsive2 .content.template-parks {
+    display: table-cell;
+    width: 100%; }
+    @media screen and (min-width: 721px)  {
+      body.parksforward.responsive2 .content.template-parks {
+        display: table;
+        width: 100%;
+        table-layout: fixed; }
+        body.parksforward.responsive2 .content.template-parks:after {
+          content: "";
+          display: table;
+          clear: both; } }
+    body.parksforward.responsive2 .content.template-parks .tab-pane.list-tab-pane {
+      display: table-cell;
+      width: 50%;
+      padding: 0; }
+      body.parksforward.responsive2 .content.template-parks .tab-pane.list-tab-pane .search-results {
+        height: 100%;
+        background-color: #cfd8dc;
+        padding: 20px; }
+        body.parksforward.responsive2 .content.template-parks .tab-pane.list-tab-pane .search-results .block-park-name {
+          margin-bottom: 20px; }
+          body.parksforward.responsive2 .content.template-parks .tab-pane.list-tab-pane .search-results .block-park-name a {
+            font-family: "expressway", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; }
+    body.parksforward.responsive2 .content.template-parks .tab-pane.map-tab-pane {
+      display: table-cell;
+      width: 50%;
+      padding: 0; }
 
 @media screen and (max-width: 720px)  {
   body.parksforward.responsive2 {
