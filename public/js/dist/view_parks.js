@@ -32,8 +32,6 @@ define([ "require", "exports", "module", "jquery", "stamen-super-classy", "block
         return initClearAction(), initActivityToggleActions(), initDrawerToggleAction(), 
         initDrawerCloseAction(), that;
     }
-    {
-        var routes = new Routes();
-        new BlockSearchBox(".block-search-box", {}, function() {}), new ActivityFilterDrawer("#activity-filter-area");
-    }
+    var routes = new Routes();
+    new BlockSearchBox(".block-search-box", {}, function() {}), new ActivityFilterDrawer("#activity-filter-area");
 });

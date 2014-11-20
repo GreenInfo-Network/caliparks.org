@@ -6,6 +6,8 @@ define(["require","exports", "module", "block-search-box", "jquery"], function(
   jquery
 ) {
 
-  var blockSearchBox = new BlockSearchBox('.block-search-box',{}, function(err, blockSearchBox) {});
+  "use strict";
+
+  new BlockSearchBox(".block-search-box",{}, function(err, blockSearchBox) {});
 
 });

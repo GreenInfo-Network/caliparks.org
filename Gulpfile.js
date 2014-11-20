@@ -24,7 +24,9 @@ gulp.task('styles', function () {
 
 gulp.task('lint', function() {
   return gulp.src(paths.js)
-    .pipe(jshint())
+    .pipe(jshint({
+      "predef" : ["define", "$", "viewData", "document", "location"]
+    }))
     .pipe(jshint.reporter('jshint-stylish'));
 });
 

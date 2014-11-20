@@ -129,6 +129,9 @@ app.engine('handlebars', exphbs({
         return options.fn(this).replace(/href="#"/,'href="?' + stringifyPaginationArgs(paginationArgs) + '"');
       }
     },
+    "removeSpaces" : function(options) {
+      return options.fn(this).replace(/ /g, '_');
+    },
     "__" : function () {
       return i18n.__.apply(this, [arguments[0].fn(this)]);
     },

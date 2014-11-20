@@ -9,19 +9,21 @@ define(["require","exports","module","jquery","block-photo-carousel","block-inst
   FacebookFixer
 ) {
 
-  var blockStaticParkMap  = new BlockStaticParkMap('.block-static-park-map', viewData, function(err, blockStaticParkMap) {});
-  var blockPhotoCarousel  = new BlockPhotoCarousel('.block-photo-carousel', viewData, function(err, blockPhotoCarousel) {});
-  var blockInstagramStrip = new BlockInstagramStrip('.block-instagram-strip', viewData, function(err, blockInstagramStrip) {});
-  var facebookFixer       = new FacebookFixer();
+  "use strict";
+
+  new BlockStaticParkMap(".block-static-park-map", viewData, function(err, blockStaticParkMap) {});
+  new BlockPhotoCarousel(".block-photo-carousel", viewData, function(err, blockPhotoCarousel) {});
+  new BlockInstagramStrip(".block-instagram-strip", viewData, function(err, blockInstagramStrip) {});
+  var facebookFixer = new FacebookFixer();
 
   //
   // Add a class to the body when the facebook panel is open
   //
-  facebookFixer.on('facebook-frame-change', function(e) {
-    if (e.caller.state === 'open') {
-      $('body').removeClass('facebook-thing-closed');
+  facebookFixer.on("facebook-frame-change", function(e) {
+    if (e.caller.state === "open") {
+      $("body").removeClass("facebook-thing-closed");
     } else {
-      $('body').addClass('facebook-thing-closed');
+      $("body").addClass("facebook-thing-closed");
     }
   });
 

@@ -1,4 +1,5 @@
 define([ "require", "exports", "module" ], function(require, exports, module) {
+    "use strict";
     module.exports = function() {
         var that = this, listeners = {};
         return that.on = function(type) {

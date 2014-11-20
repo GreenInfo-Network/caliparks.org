@@ -1,4 +1,5 @@
 define([ "require", "exports", "module", "stamen-super-classy" ], function(require, exports, module, StamenSuperClassy) {
+    "use strict";
     module.exports = function() {
         function stringifyUrlSearchParams(paramsObject) {
             var stringOut = "?";
@@ -25,7 +26,7 @@ define([ "require", "exports", "module", "stamen-super-classy" ], function(requi
             } else location.search = stringifyUrlSearchParams(searchParams); else location.href = "/parks/search" + (location.hash || "") + stringifyUrlSearchParams(searchParams);
         }, that.getParamStateAsSearchString = function() {
             var params = that.getParamStateFromLocationObject(), outString = params.q || "";
-            return params.with && (outString += params.q ? " with " + params.with : params.with), 
+            return params.with && (outString += !params.q && params.near ? params.with : " with " + params.with), 
             params.near && (outString += " near " + params.near), outString;
         }, that;
     };

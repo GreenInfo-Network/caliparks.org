@@ -1,5 +1,7 @@
 define(["require","exports","module"], function(require, exports, module) {
 
+  "use strict";
+
   module.exports = function StamenBase() {
 
     var that = this;
@@ -52,7 +54,7 @@ define(["require","exports","module"], function(require, exports, module) {
 
       Object.keys(data).forEach(function(key) {
 
-        template = template.split('{' + key + '}').join(data[key]);
+        template = template.split("{" + key + "}").join(data[key]);
 
       });
 
@@ -61,7 +63,7 @@ define(["require","exports","module"], function(require, exports, module) {
     };
 
     //
-    // These are things not meant for the implementer's interface
+    // These are things not meant for the implementer"s interface
     // but useful to the implementer
     //
     that.utils = {
