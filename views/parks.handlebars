@@ -20,35 +20,20 @@ if (locationParts[4] === 'near' && !locationParts[5]) {
   </div>
 
   <div  id="parks">
-    <div id="activity-filter-area" class="closed">
-      <div class="filter-handle">
-        <button class="toggle-activities-drawer-action action"><i></i>{{#__}}Activities{{/__}}{{#if query.with}} (<span class="status">...</span> {{#__}}of{{/__}} 26){{/if}}</button>
-        {{#if query.with}}<button class="clear-activities-action action">{{#__}}Clear{{/__}}</button>{{/if}}
-        <button class="close-drawer-action action">{{#__}}Close{{/__}}</button>
-      </div>
-      <ul class="filter-drawer" style="color:white;">
-        {{#each activities}}
-        <li>
-          <button class="toggle-activity-action action {{#if filterState}}selected{{/if}}" data-filter="{{@key}}">
-            <div class="activity-icon-container {{category}}"><img src="/style/activity-{{#removeSpaces}}{{@key}}{{/removeSpaces}}.svg"></div>
-            <label>{{label}}</label>
-          </button>
-        </li>
-        {{/each}}
-      </ul>
-    </div>
+    {{>block-activity-filter}}
+
     <ul class="search-results">
 
       {{#paginationLast}}<a href="#">{{#__}}Go back a bit{{/__}}</a>{{/paginationLast}}
 
       {{#each parks}}
-          <li>{{>block-park-name}}</li>
+      <li>{{>block-park-name}}</li>
       {{else}}
-        {{#__}}Having trouble finding a park? <a href="/wander">Here's one</a>{{/__}}.
+      {{#__}}Having trouble finding a park? <a href="/wander">Here's one</a>{{/__}}.
       {{/each}}
 
       {{#if total}}
-        {{#paginationNext}}<a href="#">{{#__}}Moar Parks!{{/__}}</a>{{/paginationNext}}
+      {{#paginationNext}}<a href="#">{{#__}}Moar Parks!{{/__}}</a>{{/paginationNext}}
       {{/if}}
     </ul>
   </div>

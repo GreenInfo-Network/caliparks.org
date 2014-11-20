@@ -582,6 +582,70 @@ body.parksforward.responsive2 {
     font-weight: bolder; }
     body.parksforward.responsive2 .block-park-name .park-name a {
       color: #333; }
+  body.parksforward.responsive2 .block-activity-filter.closed .filter-drawer {
+    height: 0px; }
+  body.parksforward.responsive2 .block-activity-filter.closed .close-drawer-action {
+    display: none; }
+  body.parksforward.responsive2 .block-activity-filter.closed .toggle-activities-drawer-action.many {
+    font-weight: bolder; }
+  body.parksforward.responsive2 .block-activity-filter.closed .toggle-activities-drawer-action i {
+    -webkit-transform: rotate(0deg) !important;
+    transform: rotate(0deg) !important; }
+  body.parksforward.responsive2 .block-activity-filter .filter-handle .action {
+    border: none;
+    color: white; }
+  body.parksforward.responsive2 .block-activity-filter .filter-handle .toggle-activities-drawer-action i {
+    background-image: url('/style/responsive2/menuArrow.svg');
+    background-repeat: no-repeat;
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background-size: 19px 14px;
+    background-position: left;
+    margin-right: 10px;
+    -webkit-transform: rotate(90deg);
+    transform: rotate(90deg);
+    background-size: 19px 14px;
+    transition: -webkit-transform 0.1s;
+    transition: transform 0.1s; }
+  body.parksforward.responsive2 .block-activity-filter .filter-drawer {
+    overflow: hidden;
+    transition: height 0.5s;
+    height: 451px;
+    margin: 0 auto;
+    width: 95%; }
+    body.parksforward.responsive2 .block-activity-filter .filter-drawer li {
+      display: inline-block;
+      width: 100px;
+      text-align: center; }
+      body.parksforward.responsive2 .block-activity-filter .filter-drawer li .action {
+        border: solid 0px transparent;
+        display: inline-block;
+        margin: 0 auto; }
+        body.parksforward.responsive2 .block-activity-filter .filter-drawer li .action .activity-icon-container {
+          width: 67px;
+          height: 67px;
+          margin: 0 auto;
+          background-color: #cfd8dc;
+          border-radius: 4px;
+          padding-top: 10px;
+          margin-bottom: 10px; }
+          body.parksforward.responsive2 .block-activity-filter .filter-drawer li .action .activity-icon-container img, body.parksforward.responsive2 .block-activity-filter .filter-drawer li .action .activity-icon-container svg {
+            width: 47px;
+            height: 47px; }
+        body.parksforward.responsive2 .block-activity-filter .filter-drawer li .action label {
+          color: white;
+          text-align: center; }
+        body.parksforward.responsive2 .block-activity-filter .filter-drawer li .action.selected .outdoors {
+          background-color: #4BAE4F; }
+        body.parksforward.responsive2 .block-activity-filter .filter-drawer li .action.selected .sports {
+          background-color: #FF9F00; }
+        body.parksforward.responsive2 .block-activity-filter .filter-drawer li .action.selected .kids {
+          background-color: #9B26AF; }
+        body.parksforward.responsive2 .block-activity-filter .filter-drawer li .action.selected .water {
+          background-color: #2095F2; }
+        body.parksforward.responsive2 .block-activity-filter .filter-drawer li .action.selected .snow {
+          background-color: #00BBD3; }
   body.parksforward.responsive2 header {
     float: left;
     display: block;
@@ -790,70 +854,6 @@ body.parksforward.responsive2 {
           @media screen and (max-width: 720px)  {
             body.parksforward.responsive2 .content.template-park > div section#search-area .block-search-box {
               width: 90%; } }
-  body.parksforward.responsive2 .content.template-parks #activity-filter-area.closed .filter-drawer {
-    height: 0px; }
-  body.parksforward.responsive2 .content.template-parks #activity-filter-area.closed .close-drawer-action {
-    display: none; }
-  body.parksforward.responsive2 .content.template-parks #activity-filter-area.closed .toggle-activities-drawer-action.many {
-    font-weight: bolder; }
-  body.parksforward.responsive2 .content.template-parks #activity-filter-area.closed .toggle-activities-drawer-action i {
-    -webkit-transform: rotate(0deg) !important;
-    transform: rotate(0deg) !important; }
-  body.parksforward.responsive2 .content.template-parks #activity-filter-area .filter-handle .action {
-    border: none;
-    color: white; }
-  body.parksforward.responsive2 .content.template-parks #activity-filter-area .filter-handle .toggle-activities-drawer-action i {
-    background-image: url('/style/responsive2/menuArrow.svg');
-    background-repeat: no-repeat;
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-    background-size: 19px 14px;
-    background-position: left;
-    margin-right: 10px;
-    -webkit-transform: rotate(90deg);
-    transform: rotate(90deg);
-    background-size: 19px 14px;
-    transition: -webkit-transform 0.1s;
-    transition: transform 0.1s; }
-  body.parksforward.responsive2 .content.template-parks #activity-filter-area .filter-drawer {
-    overflow: hidden;
-    transition: height 0.5s;
-    height: 451px;
-    margin: 0 auto;
-    width: 95%; }
-    body.parksforward.responsive2 .content.template-parks #activity-filter-area .filter-drawer li {
-      display: inline-block;
-      width: 100px;
-      text-align: center; }
-      body.parksforward.responsive2 .content.template-parks #activity-filter-area .filter-drawer li .action {
-        border: solid 0px transparent;
-        display: inline-block;
-        margin: 0 auto; }
-        body.parksforward.responsive2 .content.template-parks #activity-filter-area .filter-drawer li .action .activity-icon-container {
-          width: 67px;
-          height: 67px;
-          margin: 0 auto;
-          background-color: #cfd8dc;
-          border-radius: 4px;
-          padding-top: 10px;
-          margin-bottom: 10px; }
-          body.parksforward.responsive2 .content.template-parks #activity-filter-area .filter-drawer li .action .activity-icon-container img, body.parksforward.responsive2 .content.template-parks #activity-filter-area .filter-drawer li .action .activity-icon-container svg {
-            width: 47px;
-            height: 47px; }
-        body.parksforward.responsive2 .content.template-parks #activity-filter-area .filter-drawer li .action label {
-          color: white;
-          text-align: center; }
-        body.parksforward.responsive2 .content.template-parks #activity-filter-area .filter-drawer li .action.selected .outdoors {
-          background-color: #4BAE4F; }
-        body.parksforward.responsive2 .content.template-parks #activity-filter-area .filter-drawer li .action.selected .sports {
-          background-color: #FF9F00; }
-        body.parksforward.responsive2 .content.template-parks #activity-filter-area .filter-drawer li .action.selected .kids {
-          background-color: #9B26AF; }
-        body.parksforward.responsive2 .content.template-parks #activity-filter-area .filter-drawer li .action.selected .water {
-          background-color: #2095F2; }
-        body.parksforward.responsive2 .content.template-parks #activity-filter-area .filter-drawer li .action.selected .snow {
-          background-color: #00BBD3; }
   body.parksforward.responsive2 .content.template-parks .search-results {
     height: 100%;
     width: 100%;

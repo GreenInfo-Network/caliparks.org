@@ -1,3 +1,31 @@
+if (!Array.prototype.filter) {
+// Array.prototype.filter
+Array.prototype.filter = function filter(callback, scope) {
+	for (var array = this, arrayB = [], index = 0, length = array.length, element; index < length; ++index) {
+		element = array[index];
+
+		if (callback.call(scope || window, element, index, array)) {
+			arrayB.push(element);
+		}
+	}
+
+	return arrayB;
+};
+
+}
+if (!Array.prototype.indexOf) {
+// Array.prototype.indexOf
+Array.prototype.indexOf = function indexOf(searchElement) {
+	for (var array = this, index = 0, length = array.length; index < length; ++index) {
+		if (array[index] === searchElement) {
+			return index;
+		}
+	}
+
+	return -1;
+};
+
+}
 if (!Array.prototype.map) {
 // Array.prototype.map
 Array.prototype.map = function map(callback, scope) {
@@ -28,19 +56,6 @@ Function.prototype.bind = function bind(scope) {
 	Constructor.prototype = bound.prototype = callback.prototype;
 
 	return bound;
-};
-
-}
-if (!Array.prototype.indexOf) {
-// Array.prototype.indexOf
-Array.prototype.indexOf = function indexOf(searchElement) {
-	for (var array = this, index = 0, length = array.length; index < length; ++index) {
-		if (array[index] === searchElement) {
-			return index;
-		}
-	}
-
-	return -1;
 };
 
 }
@@ -390,21 +405,6 @@ if (typeof window.JSON === "undefined") {
 		}
 	};
 })();
-
-}
-if (!Array.prototype.filter) {
-// Array.prototype.filter
-Array.prototype.filter = function filter(callback, scope) {
-	for (var array = this, arrayB = [], index = 0, length = array.length, element; index < length; ++index) {
-		element = array[index];
-
-		if (callback.call(scope || window, element, index, array)) {
-			arrayB.push(element);
-		}
-	}
-
-	return arrayB;
-};
 
 }
 if (!Array.prototype.forEach) {
