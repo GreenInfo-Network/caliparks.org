@@ -63,7 +63,7 @@
       overflow:hidden;
       transition:height .5;
       -webkit-transition:height .5s;
-      height:400px;
+      height:451px;
       margin:0 auto;
       width:95%;
 
@@ -84,7 +84,7 @@
               background-color:$color-lighter;
               border-radius:$border-radius;
               padding-top: $box-padding-half;
-              margin-bottom:5px;
+              margin-bottom:$box-padding-half;
 
               img, svg {
                 width:47px;

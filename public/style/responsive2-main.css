@@ -832,7 +832,7 @@ body.parksforward.responsive2 {
     overflow: hidden;
     transition: height 0.5;
     -webkit-transition: height 0.5s;
-    height: 400px;
+    height: 451px;
     margin: 0 auto;
     width: 95%; }
     body.parksforward.responsive2 .content.template-parks #activity-filter-area .filter-drawer li {
@@ -850,7 +850,7 @@ body.parksforward.responsive2 {
           background-color: #cfd8dc;
           border-radius: 4px;
           padding-top: 10px;
-          margin-bottom: 5px; }
+          margin-bottom: 10px; }
           body.parksforward.responsive2 .content.template-parks #activity-filter-area .filter-drawer li .action .activity-icon-container img, body.parksforward.responsive2 .content.template-parks #activity-filter-area .filter-drawer li .action .activity-icon-container svg {
             width: 47px;
             height: 47px; }
