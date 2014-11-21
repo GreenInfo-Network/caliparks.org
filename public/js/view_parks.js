@@ -31,6 +31,8 @@ define(["require","exports","module","jquery","block-activity-filter","block-sea
       resize ();
     });
 
+    resize ();
+
     return that;
   }
 
