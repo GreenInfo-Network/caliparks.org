@@ -71,9 +71,12 @@ define([ "require", "exports", "module", "vendor/typeahead", "vendor/bloodhound"
         }
         function initForm() {
             formNode.bind("submit", function(e) {
-                e.preventDefault(), state.searchType.q || state.searchType.near || state.searchType.with ? location.href = "/parks/search?" + paramaterizeObject(state.searchType) : searchFieldNode.val().indexOf(" near ") > -1 ? (searchParts = searchFieldNode.val().split(" near "), 
-                location.href = "/parks/search?with=" + searchParts[0] + "&near=" + searchParts[1]) : searchFieldNode.val().indexOf(" with ") > -1 ? (searchParts = searchFieldNode.val().split(" with "), 
-                location.href = "/parks/search?q=" + searchParts[0] + "&with=" + searchParts[1]) : location.href = "/parks/search?q=" + searchFieldNode.val();
+                e.preventDefault(), state.searchType.q || state.searchType.near || state.searchType.with ? location.href = "/parks/search?" + paramaterizeObject(state.searchType) : (searchFieldNode.val().length || searchFieldNode.val(searchFieldNode.attr("placeholder")), 
+                searchFieldNode.val().match(/ near /) ? (searchParts = searchFieldNode.val().split(" near "), 
+                location.href = "/parks/search?with=" + searchParts[0] + "&near=" + searchParts[1]) : searchFieldNode.val().match(/^near /) ? (searchParts = searchFieldNode.val().split("near "), 
+                location.href = "/parks/search?with=" + searchParts[0] + "&near=" + searchParts[1]) : searchFieldNode.val().match(/ with /) ? (searchParts = searchFieldNode.val().split(" with "), 
+                location.href = "/parks/search?q=" + searchParts[0] + "&with=" + searchParts[1]) : searchFieldNode.val().match(/^with /) ? (searchParts = searchFieldNode.val().split("with "), 
+                location.href = "/parks/with/" + searchParts[1]) : location.href = "/parks/search?q=" + searchFieldNode.val());
             }), searchFieldNode.bind("keyup", function(e) {
                 13 !== e.keyCode && 13 !== e.which && 39 !== e.keyCode && 39 !== e.which ? e.preventDefault() : (13 === e.keyCode || 13 === e.which) && e.preventDefault();
             }), searchFieldNode.bind("typeahead:selected", function(e, choice, category) {

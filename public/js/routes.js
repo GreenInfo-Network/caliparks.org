@@ -123,7 +123,7 @@ define(["require","exports","module","stamen-super-classy"], function(
         outString += " near " +  params.near;
       }
 
-      return decodeURI(outString).replace(/undefined/,'');
+      return decodeURI(outString).replace(/undefined/,"");
     };
 
     return that;

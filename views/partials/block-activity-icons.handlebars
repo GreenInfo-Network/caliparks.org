@@ -1,5 +1,5 @@
 <ul class="block-activity-icons">
 {{#each activity.items}}
-  <li style="background-image:url('/style/activity-{{#removeSpaces}}{{id}}{{/removeSpaces}}.svg');" title="{{#__}}This park has {{name}}{{/__}}" class="{{category}}" onclick="location.href='/parks/with/{{name}}';">{{name}}</li>
+  <li style="background-image:url('/style/activity-{{#removeSpaces}}{{id}}{{/removeSpaces}}.svg');" title="{{#__}}This park has {{name}}{{/__}}" class="{{category}}" onclick="location.href='/parks/with/{{id}}';">{{name}}</li>
 {{/each}}
 </ul>

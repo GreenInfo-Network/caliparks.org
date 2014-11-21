@@ -156,12 +156,22 @@ define(["require","exports","module","vendor/typeahead","vendor/bloodhound","jqu
         if (state.searchType.q || state.searchType.near || state.searchType.with) {
           location.href="/parks/search?" + paramaterizeObject(state.searchType);
         } else {
-          if (searchFieldNode.val().indexOf(" near ") > -1) {
+          if (!searchFieldNode.val().length) { //Nothing was typed in?
+            searchFieldNode.val(searchFieldNode.attr('placeholder'));
+          }
+
+          if (searchFieldNode.val().match(/ near /)) {
             searchParts = searchFieldNode.val().split(" near ");
             location.href="/parks/search?with=" + searchParts[0] + "&near=" + searchParts[1];
-          } else if (searchFieldNode.val().indexOf(" with ") > -1) {
+          } else if(searchFieldNode.val().match(/^near /)) {
+            searchParts = searchFieldNode.val().split("near ");
+            location.href="/parks/search?with=" + searchParts[0] + "&near=" + searchParts[1];
+          } else if (searchFieldNode.val().match(/ with /)) {
             searchParts = searchFieldNode.val().split(" with ");
             location.href="/parks/search?q=" + searchParts[0] + "&with=" + searchParts[1];
+          } else if (searchFieldNode.val().match(/^with /)) {
+            searchParts = searchFieldNode.val().split("with ");
+            location.href="/parks/with/" + searchParts[1];
           } else {
             location.href="/parks/search?q=" + searchFieldNode.val();
           }
