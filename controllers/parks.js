@@ -16,7 +16,7 @@ module.exports = function(req, res, data, callback) {
     var activities = {},
         urlStates;
 
-    urlStates = withString ? withString.split(',') : [];
+    urlStates = withString ? withString.toLowerCase().split(',') : [];
 
     //
     // Make a new object with the same keys as the activityCategories object.
@@ -27,7 +27,7 @@ module.exports = function(req, res, data, callback) {
     activities = JSON.parse(JSON.stringify(activityCategories));
     Object.keys(activities).forEach(function(key) {
       if (key && activities[key]) {
-        activities[key].filterState = (urlStates.indexOf(key) > -1); //Is it in the 'with' URL param
+        activities[key].filterState = (urlStates.indexOf(key.toLowerCase()) > -1); //Is it in the 'with' URL param
       }
     });
 

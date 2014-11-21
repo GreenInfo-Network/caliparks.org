@@ -69,6 +69,10 @@ define(["require","exports","module","stamen-super-classy"], function(
         contextData.query[(contextData.context === "search") ? "q" : contextData.context] = (contextData.context === "search" && !contextData.param) ? contextData.query.q : contextData.param;
       }
 
+      if (contextData.query.with) {
+        contextData.query.with = contextData.query.with.toLowerCase();
+      }
+
       return contextData.query;
     };
 
@@ -111,13 +115,15 @@ define(["require","exports","module","stamen-super-classy"], function(
         } else {
           outString += " with " +  params.with;
         }
+
+        params.with = params.with.toLowerCase();
       }
 
       if (params.near) {
         outString += " near " +  params.near;
       }
 
-      return outString;
+      return decodeURI(outString).replace(/undefined/,'');
     };
 
     return that;

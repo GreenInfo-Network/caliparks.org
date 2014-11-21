@@ -46,7 +46,7 @@ define(["require","exports","module","stamen-super-classy","routes"], function(
         e.preventDefault();
 
         searchParams = routes.getParamStateFromLocationObject();
-        withArray  = (searchParams.with ? searchParams.with.split(",") : []);
+        withArray  = (searchParams.with ? searchParams.with.split(",").map(function(i){return i.toLowerCase();}) : []);
 
         var filter     = e.target.getAttribute("data-filter") || e.target.parentNode.getAttribute("data-filter") || e.target.parentNode.parentNode.getAttribute("data-filter"),
         index      = withArray.indexOf(encodeURI(filter));

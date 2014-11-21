@@ -10,7 +10,9 @@ define([ "require", "exports", "module", "stamen-super-classy", "routes" ], func
         }
         function initActivityToggleActions() {
             filterDrawerNode.addEventListener("click", function(e) {
-                e.preventDefault(), searchParams = routes.getParamStateFromLocationObject(), withArray = searchParams.with ? searchParams.with.split(",") : [];
+                e.preventDefault(), searchParams = routes.getParamStateFromLocationObject(), withArray = searchParams.with ? searchParams.with.split(",").map(function(i) {
+                    return i.toLowerCase();
+                }) : [];
                 var filter = e.target.getAttribute("data-filter") || e.target.parentNode.getAttribute("data-filter") || e.target.parentNode.parentNode.getAttribute("data-filter"), index = withArray.indexOf(encodeURI(filter));
                 index > -1 ? (withArray.splice(index), searchParams["with"] = withArray.join(",")) : (withArray.push(filter), 
                 searchParams["with"] = withArray.join(",")), routes.updateSearchUrl(searchParams);

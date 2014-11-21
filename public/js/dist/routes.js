@@ -17,6 +17,7 @@ define([ "require", "exports", "module", "stamen-super-classy" ], function(requi
             });
         }, that.getParamState = function(contextData) {
             return "parks" === contextData.route & knownContexts.indexOf(contextData.context) > -1 && (contextData.query["search" === contextData.context ? "q" : contextData.context] = "search" !== contextData.context || contextData.param ? contextData.param : contextData.query.q), 
+            contextData.query.with && (contextData.query.with = contextData.query.with.toLowerCase()), 
             contextData.query;
         }, that.updateSearchUrl = function(searchParams) {
             if (searchParams["with"] || "with" !== location.href.split("/")[4]) if (searchParams["with"] || delete searchParams["with"], 
@@ -26,8 +27,9 @@ define([ "require", "exports", "module", "stamen-super-classy" ], function(requi
             } else location.search = stringifyUrlSearchParams(searchParams); else location.href = "/parks/search" + (location.hash || "") + stringifyUrlSearchParams(searchParams);
         }, that.getParamStateAsSearchString = function() {
             var params = that.getParamStateFromLocationObject(), outString = params.q || "";
-            return params.with && (outString += !params.q && params.near ? params.with : " with " + params.with), 
-            params.near && (outString += " near " + params.near), outString;
+            return params.with && (outString += !params.q && params.near ? params.with : " with " + params.with, 
+            params.with = params.with.toLowerCase()), params.near && (outString += " near " + params.near), 
+            decodeURI(outString).replace(/undefined/, "");
         }, that;
     };
 });
