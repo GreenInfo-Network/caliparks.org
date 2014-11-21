@@ -98,6 +98,8 @@ body.parksforward.responsive2 {
     margin-bottom: 10px; }
   body.parksforward.responsive2 p {
     margin-bottom: 10px; }
+  body.parksforward.responsive2 div {
+    box-sizing: border-box; }
   body.parksforward.responsive2 .action {
     background-color: transparent;
     border-radius: 4px;
@@ -857,23 +859,16 @@ body.parksforward.responsive2 {
   body.parksforward.responsive2 .content.template-parks {
     display: table-cell;
     width: 100%; }
-    @media screen and (min-width: 721px)  {
-      body.parksforward.responsive2 .content.template-parks {
-        display: table;
-        width: 100%;
-        table-layout: fixed; }
-        body.parksforward.responsive2 .content.template-parks:after {
-          content: "";
-          display: table;
-          clear: both; } }
     body.parksforward.responsive2 .content.template-parks .tab-pane.list-tab-pane {
       display: table-cell;
       width: 50%;
       padding: 0; }
       body.parksforward.responsive2 .content.template-parks .tab-pane.list-tab-pane .search-results {
-        height: 100%;
+        overflow: auto;
         background-color: #cfd8dc;
         padding: 20px; }
+        body.parksforward.responsive2 .content.template-parks .tab-pane.list-tab-pane .search-results .block-activity-filter {
+          background-color: #37474f; }
         body.parksforward.responsive2 .content.template-parks .tab-pane.list-tab-pane .search-results .block-park-name {
           margin-bottom: 20px; }
           body.parksforward.responsive2 .content.template-parks .tab-pane.list-tab-pane .search-results .block-park-name a {

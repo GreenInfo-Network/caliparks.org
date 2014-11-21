@@ -96,6 +96,10 @@ body.parksforward.responsive2 {
     margin-bottom:$box-padding-half;
   }
 
+  div {
+    box-sizing:border-box;
+  }
+
   .action {
     background-color:transparent;
     border-radius:$border-radius;

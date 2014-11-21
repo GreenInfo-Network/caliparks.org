@@ -1,11 +1,9 @@
 .content.template-parks {
 
   @include span-columns(12 of 12);
-  @include media(min-width 721px) {
-    @include row(table);
-  }
 
   .tab-pane {
+
     &.list-tab-pane {
 
       @include span-columns(6 of 12);
@@ -13,9 +11,14 @@
 
       .search-results {
 
-        height:100%;
+        .block-activity-filter {
+          background-color:$color-notsodark;
+        }
+
+        overflow:auto;
         background-color:$color-lighter;
         padding:$box-padding;
+
 
         .block-park-name {
           margin-bottom:$box-padding;

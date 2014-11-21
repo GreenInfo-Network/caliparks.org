@@ -351,6 +351,7 @@ app.get('/parks/', function(req,res, next) {
 
     templateData.layout = 'responsive2';
     templateData.view   = 'parks';
+    templateData.tabletViewport = true;
 
     res.render('parks', templateData);
 
@@ -412,6 +413,7 @@ app.get('/parks/:context', function(req,res, next) {
     templateData.hasAPI = true;
     templateData.layout = 'responsive2';
     templateData.view   = 'parks';
+    templateData.tabletViewport = true;
 
     res.render('parks', templateData);
 
@@ -434,6 +436,7 @@ app.get('/parks/:context/:query', function(req,res, next) {
       templateData.hasAPI = true;
       templateData.layout = 'responsive2';
       templateData.view   = 'parks';
+      templateData.tabletViewport = true;
 
       res.render('parks', templateData);
     } else {
@@ -456,6 +459,7 @@ app.get('/agency/:query', function(req,res, next) {
     }
 
     templateData.layout = 'responsive';
+    templateData.tabletViewport = true;
 
     res.render('parks', templateData);
 
