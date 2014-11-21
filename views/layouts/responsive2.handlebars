@@ -49,6 +49,8 @@
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCN-GnHQiVvap-YQh8QykZTxJTSLsxI2uw"></script>
     <script>
 
+      "use strict";
+
       window.STMN = {};
 
       if (navigator.appVersion.indexOf("Win")!=-1) {STMN.OSName="Windows";}
@@ -82,6 +84,38 @@
         },
         waitSeconds : 15
       });
+
+      {{#if tabletViewport}}
+      require( ["jquery"], function() {
+        function TabletViewportManager() {
+          var that = this;
+
+          var bodyNode     = $('body'),
+          headerNode       = bodyNode.find('header'),
+          footerNode       = bodyNode.find('footer'),
+          contentNode      = bodyNode.find('.content'),
+          tabNode          = bodyNode.find('.search-results'),
+          heightOffset;
+
+          function resize () {
+            heightOffset = (headerNode ? (headerNode.height()) : 0) + (footerNode ? footerNode.height()*2 : 0);
+            contentNode.css({"height":(window.innerHeight - heightOffset) + 'px'});
+            tabNode.css({"height":(window.innerHeight - heightOffset) + 'px'});
+          }
+
+          $(window).on('resize orientationChanged', function() {
+            resize();
+          });
+
+          setTimeout(resize, 0);
+
+          return that;
+        }
+
+        var tabletViewportManager = new TabletViewportManager();
+      });
+      {{/if}}
+
       {{#if view}}
       require( ["view_{{view}}"] );
       {{/if}}

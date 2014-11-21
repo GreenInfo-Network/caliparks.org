@@ -1,4 +1,5 @@
 <script>
+"use strict";
 var locationParts = location.href.split('/');
 if (locationParts[4] === 'near' && !locationParts[5]) {
   document.addEventListener('DOMContentLoaded', function() {document.querySelector('.search-results').innerHTML = '<div style="margin-left: 45px;">Finding you...</div>';});
