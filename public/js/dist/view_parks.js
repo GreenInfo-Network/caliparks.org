@@ -9,7 +9,7 @@ define([ "require", "exports", "module", "jquery", "block-activity-filter", "blo
         var bodyNode = that.utils.get("body")[0], headerNode = that.utils.get("header", bodyNode)[0], footerNode = that.utils.get("footer", bodyNode)[0], contentNode = that.utils.get(".content", bodyNode)[0], tabNode = that.utils.get(".search-results", bodyNode)[0], heightOffset = (headerNode ? headerNode.offsetHeight : 0) + (footerNode ? footerNode.offsetHeight : 0);
         return $(window).on("resize orientationChanged", function() {
             resize();
-        }), that;
+        }), resize(), that;
     }
     new BlockSearchBox(".block-search-box", {}, function() {}), new BlockActivityFilter(".block-activity-filter", {}, function() {}), 
     new TabletViewportManager();
