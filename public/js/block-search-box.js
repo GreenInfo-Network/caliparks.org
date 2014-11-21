@@ -119,7 +119,7 @@ define(["require","exports","module","vendor/typeahead","vendor/bloodhound","jqu
       // Construct typeahead on the search field
       //
       return searchFieldNode.typeahead({
-        hint: true,
+        hint: false,
         highlight: true,
         minLength: 1
       },

@@ -100,7 +100,9 @@
           function resize () {
             heightOffset = (headerNode ? (headerNode.height()) : 0) + (footerNode ? footerNode.height()*2 : 0);
             contentNode.css({"height":(window.innerHeight - heightOffset) + 'px'});
-            tabNode.css({"height":(window.innerHeight - heightOffset) + 'px'});
+            if (tabNode) { //TODO: Remove JQUERY requierment to load this faster and be less specific about markup
+              tabNode.css({"height":(window.innerHeight - heightOffset) + 'px'});
+            }
           }
 
           $(window).on('resize orientationChanged', function() {

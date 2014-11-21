@@ -181,7 +181,7 @@ body.parksforward.responsive2 {
         height: 41px;
         font-size: 16px;
         outline: none;
-        padding-left: 20px; }
+        padding-left: 10px; }
         body.parksforward.responsive2 .block-search-box form input[type=search][type="search"]::-webkit-search-decoration, body.parksforward.responsive2 .block-search-box form input[type=search][type="search"]::-webkit-search-results-button, body.parksforward.responsive2 .block-search-box form input[type=search][type="search"]::-webkit-search-results-decoration {
           display: none; }
         body.parksforward.responsive2 .block-search-box form input[type=search][type="search"]::-webkit-search-cancel-button {

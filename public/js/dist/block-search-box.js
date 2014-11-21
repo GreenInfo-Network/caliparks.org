@@ -47,7 +47,7 @@ define([ "require", "exports", "module", "vendor/typeahead", "vendor/bloodhound"
                 })
             }), bloodHoundSources.activities.initialize(), bloodHoundSources.places.initialize(), 
             searchFieldNode.typeahead({
-                hint: !0,
+                hint: !1,
                 highlight: !0,
                 minLength: 1
             }, {
