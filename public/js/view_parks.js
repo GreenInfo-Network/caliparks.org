@@ -10,7 +10,13 @@ define(["require","exports","module","jquery","block-activity-filter","block-sea
 
   "use strict";
 
-  module.exports.blockSearchBox = new Slippymap(".slippymap", {}, function() {
+  function getGeoJSONFromParkList(parks) {
+    return parks;
+  }
+
+  module.exports.blockSearchBox = new Slippymap(".slippymap", {
+    'data' : getGeoJSONFromParkList(viewData.parks)
+  }, function() {
 
   });
 

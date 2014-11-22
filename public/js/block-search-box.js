@@ -162,10 +162,10 @@ define(["require","exports","module","vendor/typeahead","vendor/bloodhound","jqu
 
           if (searchFieldNode.val().match(/ near /)) {
             searchParts = searchFieldNode.val().split(" near ");
-            location.href="/parks/search?with=" + searchParts[0] + "&near=" + searchParts[1];
+            location.href="/parks/search?q=" + searchParts[0] + "&near=" + searchParts[1];
           } else if(searchFieldNode.val().match(/^near /)) {
             searchParts = searchFieldNode.val().split("near ");
-            location.href="/parks/search?with=" + searchParts[0] + "&near=" + searchParts[1];
+            location.href="/parks/search?q=" + searchParts[0] + "&near=" + searchParts[1];
           } else if (searchFieldNode.val().match(/ with /)) {
             searchParts = searchFieldNode.val().split(" with ");
             location.href="/parks/search?q=" + searchParts[0] + "&with=" + searchParts[1];

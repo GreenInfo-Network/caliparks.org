@@ -1,9 +1,10 @@
-define(["require","exports","module","stamen-super-classy","gmap-custom-tile-layer"], function(
+define(["require","exports","module","stamen-super-classy","gmap-custom-tile-layer","gmap-custom-pin-layer"], function(
   require,
   exports,
   module,
   StamenSuperClassy,
-  GmapCustomTileLayer
+  GmapCustomTileLayer,
+  GmapCustomPinLayer
 ) {
 
   "use strict";
@@ -15,6 +16,8 @@ define(["require","exports","module","stamen-super-classy","gmap-custom-tile-lay
     StamenSuperClassy.apply(that, arguments);
 
     var rootNode = that.utils.get(rootSelector)[0];
+
+    console.log(options);
 
     //
     // Converts GeoJSON bounding box to Google Maps bounds
@@ -62,7 +65,6 @@ define(["require","exports","module","stamen-super-classy","gmap-custom-tile-lay
           style: 1,
           position: 4
         },
-        draggable           : false,
         mapTypeControloptions : {
           mapTypeIds : ["parksLayer"]
         }
@@ -73,11 +75,17 @@ define(["require","exports","module","stamen-super-classy","gmap-custom-tile-lay
       //that.bigMap.fitBounds(geoJSONBBoxToGoogleBounds(options.bbox));
 
       setTimeout(function() {
-        var zoom = that.bigMap.getZoom();
-        if (zoom < 16) {
-          that.bigMap.setZoom(zoom+1);
-        }
-      }, 250);
+        var pinLayer = new GmapCustomPinLayer(that.bigMap, {
+              data         :  { "type": "FeatureCollection",
+              "features": [
+              { "type": "Feature",
+              "geometry": {"type": "Point", "coordinates": [102.0, 0.5]},
+              "properties": {"prop0": "value0"}
+            }
+            ]
+          }
+        });
+      }, 1000);
 
       google.maps.event.addDomListener(window, "resize", function() {
        google.maps.event.trigger(that.bigMap.getCenter(), "resize");
@@ -100,9 +108,7 @@ define(["require","exports","module","stamen-super-classy","gmap-custom-tile-lay
     //
     // GO GO GO!
     //
-    google.maps.event.addDomListener(window, "load", function() {
-      initialize();
-    });
+    initialize();
 
     return that;
 

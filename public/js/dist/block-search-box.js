@@ -73,8 +73,8 @@ define([ "require", "exports", "module", "vendor/typeahead", "vendor/bloodhound"
             formNode.bind("submit", function(e) {
                 e.preventDefault(), state.searchType.q || state.searchType.near || state.searchType.with ? location.href = "/parks/search?" + paramaterizeObject(state.searchType) : (searchFieldNode.val().length || searchFieldNode.val(searchFieldNode.attr("placeholder")), 
                 searchFieldNode.val().match(/ near /) ? (searchParts = searchFieldNode.val().split(" near "), 
-                location.href = "/parks/search?with=" + searchParts[0] + "&near=" + searchParts[1]) : searchFieldNode.val().match(/^near /) ? (searchParts = searchFieldNode.val().split("near "), 
-                location.href = "/parks/search?with=" + searchParts[0] + "&near=" + searchParts[1]) : searchFieldNode.val().match(/ with /) ? (searchParts = searchFieldNode.val().split(" with "), 
+                location.href = "/parks/search?q=" + searchParts[0] + "&near=" + searchParts[1]) : searchFieldNode.val().match(/^near /) ? (searchParts = searchFieldNode.val().split("near "), 
+                location.href = "/parks/search?q=" + searchParts[0] + "&near=" + searchParts[1]) : searchFieldNode.val().match(/ with /) ? (searchParts = searchFieldNode.val().split(" with "), 
                 location.href = "/parks/search?q=" + searchParts[0] + "&with=" + searchParts[1]) : searchFieldNode.val().match(/^with /) ? (searchParts = searchFieldNode.val().split("with "), 
                 location.href = "/parks/with/" + searchParts[1]) : location.href = "/parks/search?q=" + searchFieldNode.val());
             }), searchFieldNode.bind("keyup", function(e) {

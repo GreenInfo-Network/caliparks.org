@@ -132,6 +132,9 @@ app.engine('handlebars', exphbs({
     "removeSpaces" : function(options) {
       return options.fn(this).replace(/ /g, '_').toLowerCase();
     },
+    "json" : function(options) {
+      return JSON.stringify(options.fn(this));
+    },
     "__" : function () {
       return i18n.__.apply(this, [arguments[0].fn(this)]);
     },

@@ -1,4 +1,4 @@
-define([ "require", "exports", "module", "stamen-super-classy", "gmap-custom-tile-layer" ], function(require, exports, module, StamenSuperClassy, GmapCustomTileLayer) {
+define([ "require", "exports", "module", "stamen-super-classy", "gmap-custom-tile-layer", "gmap-custom-pin-layer" ], function(require, exports, module, StamenSuperClassy, GmapCustomTileLayer, GmapCustomPinLayer) {
     "use strict";
     module.exports = function(rootSelector, options, callback) {
         function initStamenLayer() {
@@ -20,15 +20,27 @@ define([ "require", "exports", "module", "stamen-super-classy", "gmap-custom-til
                     style: 1,
                     position: 4
                 },
-                draggable: !1,
                 mapTypeControloptions: {
                     mapTypeIds: [ "parksLayer" ]
                 }
             }), that.bigMap.mapTypes.set("parksLayer", that.parksLayer), that.bigMap.setMapTypeId("parksLayer"), 
             setTimeout(function() {
-                var zoom = that.bigMap.getZoom();
-                16 > zoom && that.bigMap.setZoom(zoom + 1);
-            }, 250), google.maps.event.addDomListener(window, "resize", function() {
+                new GmapCustomPinLayer(that.bigMap, {
+                    data: {
+                        type: "FeatureCollection",
+                        features: [ {
+                            type: "Feature",
+                            geometry: {
+                                type: "Point",
+                                coordinates: [ 102, .5 ]
+                            },
+                            properties: {
+                                prop0: "value0"
+                            }
+                        } ]
+                    }
+                });
+            }, 1e3), google.maps.event.addDomListener(window, "resize", function() {
                 google.maps.event.trigger(that.bigMap.getCenter(), "resize"), that.bigMap.setCenter(that.bigMap.getCenter());
             });
         }
@@ -40,8 +52,6 @@ define([ "require", "exports", "module", "stamen-super-classy", "gmap-custom-til
         var that = this;
         StamenSuperClassy.apply(that, arguments);
         var rootNode = that.utils.get(rootSelector)[0];
-        return google.maps.event.addDomListener(window, "load", function() {
-            initialize();
-        }), that;
+        return console.log(options), initialize(), that;
     };
 });
