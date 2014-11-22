@@ -157,7 +157,7 @@ define(["require","exports","module","vendor/typeahead","vendor/bloodhound","jqu
           location.href="/parks/search?" + paramaterizeObject(state.searchType);
         } else {
           if (!searchFieldNode.val().length) { //Nothing was typed in?
-            searchFieldNode.val(searchFieldNode.attr('placeholder'));
+            searchFieldNode.val(searchFieldNode.attr("placeholder"));
           }
 
           if (searchFieldNode.val().match(/ near /)) {

@@ -4,6 +4,8 @@
 
   .tab-pane {
 
+    vertical-align:top;
+
     &.list-tab-pane {
 
       @include span-columns(6 of 12);
