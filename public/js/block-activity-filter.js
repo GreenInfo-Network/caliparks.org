@@ -46,10 +46,10 @@ define(["require","exports","module","stamen-super-classy","routes"], function(
         e.preventDefault();
 
         searchParams = routes.getParamStateFromLocationObject();
-        withArray  = (searchParams.with ? searchParams.with.split(",").map(function(i){return i.toLowerCase();}) : []);
+        withArray  = (searchParams.with ? searchParams.with.toLowerCase().split(",") : []);
 
-        var filter     = e.target.getAttribute("data-filter") || e.target.parentNode.getAttribute("data-filter") || e.target.parentNode.parentNode.getAttribute("data-filter"),
-        index      = withArray.indexOf(encodeURI(filter));
+        var filter = e.target.getAttribute("data-filter") || e.target.parentNode.getAttribute("data-filter") || e.target.parentNode.parentNode.getAttribute("data-filter"),
+            index  = withArray.indexOf(encodeURI(filter).toLowerCase());
 
         if (index > -1) { //Meaning that this page already has this filter selected
           withArray.splice(index);

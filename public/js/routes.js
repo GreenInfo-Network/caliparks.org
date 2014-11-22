@@ -98,9 +98,9 @@ define(["require","exports","module","stamen-super-classy"], function(
           locationArray.length = 5;
 
           delete searchParams["with"];
-          location.href = locationArray.join("/") + "/" + w + stringifyUrlSearchParams(searchParams);
+          location.href = locationArray.join("/") + "/" + w + stringifyUrlSearchParams(searchParams).replace(/undefined/,"");
         } else {
-          location.search = stringifyUrlSearchParams(searchParams);
+          location.search = stringifyUrlSearchParams(searchParams).replace(/undefined/,"");
         }
       }
     };
