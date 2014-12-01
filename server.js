@@ -6,7 +6,8 @@ var express  = require('express'),
     morgan   = require('morgan'),
     raven    = require('raven'),
     i18n     = require("i18n"),
-    cpad     = require("./lib/cpad.js");
+    cpad     = require("./lib/cpad.js"),
+    routes   = require("./lib/routes.js");
 
 var app      = express();
 module.exports = app;
@@ -148,6 +149,26 @@ app.set('view engine', 'handlebars');
 
 //TODO:Make a geojson format https://www.npmjs.org/package/geojson
 dataFormatResponders['.json'] = function dataFormatResponderJSON(res, data, format, whitelist) {
+
+  var dataOut = {};
+
+  if (whitelist) {
+    whitelist.forEach(function(item) {
+      dataOut[item] = data[item];
+    });
+  } else {
+    dataOut = data;
+  }
+
+
+  res.header("Access-Control-Allow-Origin", "*");
+  res.json({
+    status   : 'ok',
+    response : dataOut
+  });
+};
+
+dataFormatResponders['.geojson'] = function dataFormatResponderJSON(res, data, format, whitelist) {
 
   var dataOut = {};
 
