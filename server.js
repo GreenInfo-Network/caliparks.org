@@ -271,7 +271,7 @@ app.get('/park/:id(\\d+)/:dataFilter:format(\.\\D+$)', function(req,res, next) {
     }
 
     if (templateData) {
-      dataRouteResponse(res, templateData, req.params.format);
+      routes.dataRouteResponse(res, templateData, req.params.format);
     } else {
       return next();
     }
@@ -289,7 +289,7 @@ app.get('/park/:id(\\d+):format(\.\\D+$)', function(req,res, next) {
     }
 
     if (templateData) {
-      dataRouteResponse(res, templateData, req.params.format);
+      routes.dataRouteResponse(res, templateData, req.params.format);
     } else {
       return next();
     }
