@@ -55,7 +55,7 @@ define(["require","exports","module","stamen-super-classy","gmap-custom-tile-lay
         mapTypeControl: false,
         streetViewControl: false,
         center: new google.maps.LatLng(37.76,-122.41),
-        zoom                : 15,
+        zoom                : 3,
         scrollwheel         : false,
         disableDefaultUI    : false,
         panControl          : false,
@@ -74,14 +74,7 @@ define(["require","exports","module","stamen-super-classy","gmap-custom-tile-lay
 
       setTimeout(function() {
         var pinLayer = new GmapCustomPinLayer(that.bigMap, {
-              data         :  { "type": "FeatureCollection",
-              "features": [
-              { "type": "Feature",
-              "geometry": {"type": "Point", "coordinates": [102.0, 0.5]},
-              "properties": {"prop0": "value0"}
-            }
-            ]
-          }
+              data : options.data
         });
       }, 1000);
 

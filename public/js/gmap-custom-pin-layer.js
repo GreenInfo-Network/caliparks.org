@@ -16,8 +16,7 @@ define(["require","exports","module","stamen-super-classy"], function(
 
     var self     = this,
     pinCache = {},
-    data     = null,
-    publics;
+    data     = null;
 
     //
     //
@@ -32,10 +31,10 @@ define(["require","exports","module","stamen-super-classy"], function(
       if (
         geojsonData &&
         geojsonData.type === "FeatureCollection" &&
-        typeof geojsonData.features === 'object' &&
+        typeof geojsonData.features === "object" &&
         geojsonData.features.length > 0 &&
-        geojsonData.features[0].type === 'Feature' &&
-        geojsonData.features[0].geometry.type === 'Point'
+        geojsonData.features[0].type === "Feature" &&
+        geojsonData.features[0].geometry.type === "Point"
       ) {
         return true;
       } else {
@@ -44,7 +43,7 @@ define(["require","exports","module","stamen-super-classy"], function(
     }
 
     //
-    // Composites a unique ID for a feature using it's
+    // Composites a unique ID for a feature using it"s
     // type, lat, and long
     //
     function generateIdForGeoJSONFeature(feature) {
@@ -73,7 +72,7 @@ define(["require","exports","module","stamen-super-classy"], function(
 
       data = config.data;
 
-      self.fire('data-updated');
+      self.fire("data-updated");
 
     }
 
@@ -105,7 +104,7 @@ define(["require","exports","module","stamen-super-classy"], function(
 
     function setMarkerListener(type, data) {
       google.maps.event.addListener(data.pin, type, function() {
-        self.fire('marker-' + type, {
+        self.fire("marker-" + type, {
           marker : data
         });
       });
@@ -177,9 +176,9 @@ define(["require","exports","module","stamen-super-classy"], function(
               selected : null
             };
 
-            setMarkerListener('click', pinCache[id]);
-            setMarkerListener('mouseover', pinCache[id]);
-            setMarkerListener('mouseout', pinCache[id]);
+            setMarkerListener("click", pinCache[id]);
+            setMarkerListener("mouseover", pinCache[id]);
+            setMarkerListener("mouseout", pinCache[id]);
 
           }
 
@@ -193,14 +192,14 @@ define(["require","exports","module","stamen-super-classy"], function(
 
           pinCache[feature.id].pin.setIcon({
             size:new google.maps.Size(20,32),
-            url:'http://www.googlemapsmarkers.com/v1/5a948e/'
+            url:"http://www.googlemapsmarkers.com/v1/5a948e/"
           });
 
           pinCache[feature.id].pin.setZIndex(+1);
 
         });
 
-        self.fire('select-markers');
+        self.fire("select-markers");
 
         return true;
       }
@@ -213,14 +212,14 @@ define(["require","exports","module","stamen-super-classy"], function(
 
           pinCache[feature.id].pin.setIcon({
             size:new google.maps.Size(20,32),
-            url:'http://www.googlemapsmarkers.com/v1/0c617f/'
+            url:"http://www.googlemapsmarkers.com/v1/0c617f/"
           });
 
           pinCache[feature.id].pin.setZIndex(-1);
 
         });
 
-        self.fire('clear-marker-selections');
+        self.fire("clear-marker-selections");
 
         return true;
       }
@@ -254,7 +253,7 @@ define(["require","exports","module","stamen-super-classy"], function(
       //
       // Init
       //
-      self.on('data-updated', function() {
+      self.on("data-updated", function() {
         clearMarkers();
         drawMarkers();
       });

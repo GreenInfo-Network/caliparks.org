@@ -12,7 +12,7 @@ define([ "require", "exports", "module", "stamen-super-classy", "gmap-custom-til
                 mapTypeControl: !1,
                 streetViewControl: !1,
                 center: new google.maps.LatLng(37.76, -122.41),
-                zoom: 15,
+                zoom: 3,
                 scrollwheel: !1,
                 disableDefaultUI: !1,
                 panControl: !1,
@@ -26,19 +26,7 @@ define([ "require", "exports", "module", "stamen-super-classy", "gmap-custom-til
             }), that.bigMap.mapTypes.set("parksLayer", that.parksLayer), that.bigMap.setMapTypeId("parksLayer"), 
             setTimeout(function() {
                 new GmapCustomPinLayer(that.bigMap, {
-                    data: {
-                        type: "FeatureCollection",
-                        features: [ {
-                            type: "Feature",
-                            geometry: {
-                                type: "Point",
-                                coordinates: [ 102, .5 ]
-                            },
-                            properties: {
-                                prop0: "value0"
-                            }
-                        } ]
-                    }
+                    data: options.data
                 });
             }, 1e3), google.maps.event.addDomListener(window, "resize", function() {
                 google.maps.event.trigger(that.bigMap.getCenter(), "resize"), that.bigMap.setCenter(that.bigMap.getCenter());
