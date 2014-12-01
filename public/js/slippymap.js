@@ -17,8 +17,6 @@ define(["require","exports","module","stamen-super-classy","gmap-custom-tile-lay
 
     var rootNode = that.utils.get(rootSelector)[0];
 
-    console.log(options);
-
     //
     // Converts GeoJSON bounding box to Google Maps bounds
     // Lifted from http://stackoverflow.com/questions/23488463/zoom-to-markers-using-geojson-googlemaps-api-v3

@@ -52,6 +52,6 @@ define([ "require", "exports", "module", "stamen-super-classy", "gmap-custom-til
         var that = this;
         StamenSuperClassy.apply(that, arguments);
         var rootNode = that.utils.get(rootSelector)[0];
-        return console.log(options), initialize(), that;
+        return initialize(), that;
     };
 });
