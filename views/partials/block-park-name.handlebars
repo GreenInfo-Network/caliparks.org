@@ -1,5 +1,5 @@
 <div class="block-park-name">
-  <div class="park-name"><a href="/park/{{superunit_id}}">{{unit_name}}</a> {{#if distance}}{{#pluralize}}{{distance}} mile|miles{{/pluralize}}{{/if}}</div>
+  <div class="park-name"><a href="/park/{{superunit_id}}">{{unit_name}}</a> <span class="distance">{{#if distance}}{{#pluralize}}{{distance}} mile|miles{{/pluralize}}{{/if}}</span></div>
   {{#if activity}}
     {{>block-activity-icons}}
   {{/if}}

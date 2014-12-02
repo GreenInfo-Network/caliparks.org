@@ -29,34 +29,52 @@
         .site-name {
           display:block;
           background-color:$color-notsodark;
-          padding:2px $box-padding;
-          color:$light-font-color;
-          font-size: 75%;
+          color:$color-california;
           margin-bottom:0;
+          padding: 2px $box-padding;
+          color: white;
+          font-size: 61%;
+
+          a {
+            color:$color-california;
+          }
         }
 
-        .block-park-name .park-name {
-          font-size:200%;
-          line-height: 85%;
+        .block-park-name{
+          margin-bottom:$box-padding-half;
+          .park-name {
+            font-size:200%;
+            line-height: 1em;
+            font-weight:$font-weight-bold;
+            margin-bottom:$box-padding-half;
 
-          .block-activity-icons {
-            li {
-              width:42px;
-              height:42px;
-              background-size:32px 32px;
+            .block-activity-icons {
+              li {
+                width:42px;
+                height:42px;
+                background-size:32px 32px;
+              }
             }
           }
         }
 
         .park-details {
-          padding:$box-padding;
+          padding:$box-padding-half $box-padding;
 
           .agency-name {
-            line-height: 18px;
+            line-height: 1em;
           }
 
           .social-breakdown {
-            font-size: 75%;
+            font-size: 65%;
+            font-weight:$font-weight-bold;
+
+            span {
+              white-space:nowrap;
+              span {
+                font-weight:$font-weight-normal;
+              }
+            }
 
             .total0 {
               display:none;

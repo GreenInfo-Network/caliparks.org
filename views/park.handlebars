@@ -10,23 +10,23 @@
 				{{>block-park-name}}
 				<p class="social-breakdown">
 					{{#if twitter}}
-						<span class="total{{twitter.total}}">{{#pluralize}}{{twitter.total}} {{#__}}Tweet{{/__}}|{{#__}}Tweets{{/__}}{{/pluralize}}
+						<span class="total{{twitter.total}}">{{#pluralize}}{{twitter.total}} <span>{{#__}}Tweet{{/__}}</span>|<span>{{#__}}Tweets{{/__}}</span>{{/pluralize}}
 						&nbsp;&nbsp;</span>
 					{{/if}}
 					{{#if total_any_photos}}
-						<span class="total{{total_any_photos}}">{{#pluralize}}{{total_any_photos}} {{#__}}Photo{{/__}}|{{#__}}Photos{{/__}}{{/pluralize}}
+						<span class="total{{total_any_photos}}">{{#pluralize}}{{total_any_photos}} {{#__}}<span>Photo</span>{{/__}}|{{#__}}<span>Photos</span>{{/__}}{{/pluralize}}
 						&nbsp;&nbsp;</span>
 					{{/if}}
 					{{#if foursquare.venues_count}}
-						<span class="total{{foursquare.venues_count}}">{{#pluralize}}{{foursquare.venues_count}} {{#__}}Venue{{/__}}|{{#__}}Venues{{/__}}{{/pluralize}}
+						<span class="total{{foursquare.venues_count}}">{{#pluralize}}{{foursquare.venues_count}} {{#__}}<span>Venue</span>{{/__}}|{{#__}}<span>Venues</span>{{/__}}{{/pluralize}}
 						&nbsp;&nbsp;</span>
 					{{/if}}
 					{{#if foursquare.venues_checkins}}
-						<span class="total{{foursquare.venues_checkins}}">{{#pluralize}}{{foursquare.venues_checkins}} {{#__}}Check-in{{/__}}|{{#__}}Check-ins{{/__}}{{/pluralize}}
+						<span class="total{{foursquare.venues_checkins}}">{{#pluralize}}{{foursquare.venues_checkins}} {{#__}}<span>Check-in</span>{{/__}}|{{#__}}<span>Check-ins</span>{{/__}}{{/pluralize}}
 						&nbsp;&nbsp;</span>
 					{{/if}}
 					{{#if foursquare.venues_tips}}
-						<span class="total{{foursquare.venues_tips}}">{{#pluralize}}{{foursquare.venues_tips}} {{#__}}Tip{{/__}}|{{#__}}Tips{{/__}}{{/pluralize}}
+						<span class="total{{foursquare.venues_tips}}">{{#pluralize}}{{foursquare.venues_tips}} {{#__}}<span>Tip</span>{{/__}}|{{#__}}<span>Tips</span>{{/__}}{{/pluralize}}
 						&nbsp;&nbsp;</span>
 					{{/if}}
 				</p>

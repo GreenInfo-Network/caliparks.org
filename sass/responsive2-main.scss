@@ -17,6 +17,7 @@ $light-font-color:white;
 $color-dark-transparent:rgba(0, 0, 0, 0.3);
 $color-notasdark-transparent:rgba(27,30,88,.5);
 $color-active:rgb(2, 122, 187);
+$color-california:#cebf41;
 
 $activity-category-outdoors: #4BAE4F;
 $activity-category-sports: #FF9F00;
@@ -27,6 +28,9 @@ $activity-category-snow: #00BBD3;
 $animation-speed: .5s;
 
 $border-radius: 4px;
+
+$font-weight-normal: 300;
+$font-weight-bold: 600;
 
 $font-family-serif: "jubilat", serif;
 $font-family-sans: "expressway", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
@@ -39,7 +43,7 @@ $font-family-sans: "expressway", "HelveticaNeue-Light", "Helvetica Neue Light", 
     transform: scale(1.58);
     transform-origin: center left;
     iframe {
-      margin-top: -2.5px;
+      margin-top: -0.5px;
       margin-left: -2px;
     }
   }
@@ -66,11 +70,11 @@ body.parksforward.responsive2 {
 
   background-color:$color-dark;
   font-size: 22px;
-  line-height: 27px;
+  line-height: 1em;
   color:$color-dark;
   max-width:2048px;
   font-family: $font-family-sans;
-  font-weight: 300;
+  font-weight: $font-weight-normal;
   letter-spacing: .09em;
 
   a {
@@ -80,7 +84,7 @@ body.parksforward.responsive2 {
   h1, h2, h3, h4 {
     font-family: $font-family-serif;
     color:$light-font-color;
-    font-weight: 300;
+    font-weight: $font-weight-bold;
   }
 
   input, button, select {
@@ -157,7 +161,7 @@ body.parksforward.responsive2 {
     @include span-columns(12 of 12);
     background-color:$color-dark-transparent;
     font-size: 60%;
-    line-height: 50%;
+    line-height: 1em;
     color:$light-font-color;
 
     a {
@@ -280,7 +284,6 @@ body.parksforward.responsive2 {
   body.parksforward.responsive2 {
 
     font-size: 17px;
-    line-height: 20px;
 
     h1 {
       font-size:100%;

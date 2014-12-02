@@ -45,7 +45,7 @@ table {
     -webkit-transform-origin: center left;
     transform-origin: center left; }
     .facebook-thing-closed .fb-like iframe {
-      margin-top: -2.5px;
+      margin-top: -0.5px;
       margin-left: -2px; } }
 
 @-webkit-keyframes pulse_animation {
@@ -66,7 +66,7 @@ body.parksforward.responsive2 {
   margin-right: auto;
   background-color: #333;
   font-size: 22px;
-  line-height: 27px;
+  line-height: 1em;
   color: #333;
   max-width: 2048px;
   font-family: "expressway", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
@@ -90,7 +90,7 @@ body.parksforward.responsive2 {
   body.parksforward.responsive2 h1, body.parksforward.responsive2 h2, body.parksforward.responsive2 h3, body.parksforward.responsive2 h4 {
     font-family: "jubilat", serif;
     color: white;
-    font-weight: 300; }
+    font-weight: 600; }
   body.parksforward.responsive2 input, body.parksforward.responsive2 button, body.parksforward.responsive2 select {
     outline: none; }
   body.parksforward.responsive2 h1 {
@@ -317,7 +317,7 @@ body.parksforward.responsive2 {
         background-image: url('responsive2/flickr-logo.svg');
         background-repeat: no-repeat;
         font-size: 50%;
-        line-height: 157%; }
+        line-height: 1em; }
     @media screen and (max-width: 720px)  {
       body.parksforward.responsive2 .block-story .details a.main-link {
         font-size: 100%; }
@@ -528,7 +528,7 @@ body.parksforward.responsive2 {
       width: 32px;
       height: 32px;
       background-size: 22px 22px;
-      line-height: 1px;
+      line-height: 1em;
       font-size: 0px;
       color: transparent;
       background-position: center;
@@ -593,7 +593,7 @@ body.parksforward.responsive2 {
   body.parksforward.responsive2 .block-activity-filter.closed .close-drawer-action {
     display: none; }
   body.parksforward.responsive2 .block-activity-filter.closed .toggle-activities-drawer-action.many {
-    font-weight: bolder; }
+    font-weight: 600; }
   body.parksforward.responsive2 .block-activity-filter.closed .toggle-activities-drawer-action i {
     -webkit-transform: rotate(0deg) !important;
     transform: rotate(0deg) !important; }
@@ -666,7 +666,7 @@ body.parksforward.responsive2 {
     width: 100%;
     background-color: rgba(0, 0, 0, 0.3);
     font-size: 60%;
-    line-height: 50%;
+    line-height: 1em;
     color: white; }
     body.parksforward.responsive2 footer:last-child {
       margin-right: 0; }
@@ -800,23 +800,35 @@ body.parksforward.responsive2 {
         body.parksforward.responsive2 .content.template-park > div section#park-info .site-name {
           display: block;
           background-color: #37474f;
+          color: #cebf41;
+          margin-bottom: 0;
           padding: 2px 20px;
           color: white;
-          font-size: 75%;
-          margin-bottom: 0; }
-        body.parksforward.responsive2 .content.template-park > div section#park-info .block-park-name .park-name {
-          font-size: 200%;
-          line-height: 85%; }
-          body.parksforward.responsive2 .content.template-park > div section#park-info .block-park-name .park-name .block-activity-icons li {
-            width: 42px;
-            height: 42px;
-            background-size: 32px 32px; }
+          font-size: 61%; }
+          body.parksforward.responsive2 .content.template-park > div section#park-info .site-name a {
+            color: #cebf41; }
+        body.parksforward.responsive2 .content.template-park > div section#park-info .block-park-name {
+          margin-bottom: 10px; }
+          body.parksforward.responsive2 .content.template-park > div section#park-info .block-park-name .park-name {
+            font-size: 200%;
+            line-height: 1em;
+            font-weight: 600;
+            margin-bottom: 10px; }
+            body.parksforward.responsive2 .content.template-park > div section#park-info .block-park-name .park-name .block-activity-icons li {
+              width: 42px;
+              height: 42px;
+              background-size: 32px 32px; }
         body.parksforward.responsive2 .content.template-park > div section#park-info .park-details {
-          padding: 20px; }
+          padding: 10px 20px; }
           body.parksforward.responsive2 .content.template-park > div section#park-info .park-details .agency-name {
-            line-height: 18px; }
+            line-height: 1em; }
           body.parksforward.responsive2 .content.template-park > div section#park-info .park-details .social-breakdown {
-            font-size: 75%; }
+            font-size: 65%;
+            font-weight: 600; }
+            body.parksforward.responsive2 .content.template-park > div section#park-info .park-details .social-breakdown span {
+              white-space: nowrap; }
+              body.parksforward.responsive2 .content.template-park > div section#park-info .park-details .social-breakdown span span {
+                font-weight: 300; }
             body.parksforward.responsive2 .content.template-park > div section#park-info .park-details .social-breakdown .total0 {
               display: none; }
         @media screen and (max-width: 720px)  {
@@ -877,8 +889,12 @@ body.parksforward.responsive2 {
             background-color: #37474f; }
           body.parksforward.responsive2 .content.template-parks .tab-pane.list-tab-pane .search-results .block-park-name {
             margin-bottom: 20px; }
+            body.parksforward.responsive2 .content.template-parks .tab-pane.list-tab-pane .search-results .block-park-name .distance {
+              font-family: "expressway", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+              font-weight: 300; }
             body.parksforward.responsive2 .content.template-parks .tab-pane.list-tab-pane .search-results .block-park-name a {
-              font-family: "expressway", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; }
+              font-weight: 600;
+              font-family: "jubilat", serif; }
       body.parksforward.responsive2 .content.template-parks .tab-pane.map-tab-pane {
         display: table-cell;
         width: 50%;
@@ -886,7 +902,6 @@ body.parksforward.responsive2 {
 
 @media screen and (max-width: 720px)  {
   body.parksforward.responsive2 {
-    font-size: 17px;
-    line-height: 20px; }
+    font-size: 17px; }
     body.parksforward.responsive2 h1 {
       font-size: 100%; } }
