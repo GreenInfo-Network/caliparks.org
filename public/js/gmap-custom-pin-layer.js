@@ -70,7 +70,7 @@ define(["require","exports","module","stamen-super-classy"], function(
         return false;
       }
 
-      data = config.data;
+      data = newData || config.data;
 
       self.fire("data-updated");
 
@@ -158,9 +158,8 @@ define(["require","exports","module","stamen-super-classy"], function(
 
       filteredData.features.forEach(function(feature) {
 
-        id = generateIdForGeoJSONFeature(feature);
-
-        feature.id = id;
+        var id = feature.properties.superunit_id,
+            title = feature.properties.unit_name;
 
         if (!pinCache[id]) {
 
@@ -168,9 +167,10 @@ define(["require","exports","module","stamen-super-classy"], function(
             feature : feature,
             pin     : makeMarker(
               new google.maps.LatLng(
-                parseFloat(feature.geometry.coordinates[1]),
-                parseFloat(feature.geometry.coordinates[0])),
-                feature.properties.Type,
+                  parseFloat(feature.geometry.coordinates[1]),
+                  parseFloat(feature.geometry.coordinates[0])
+                ),
+                title,
                 feature
               ),
               selected : null

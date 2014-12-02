@@ -1,4 +1,4 @@
-define(["require","exports","module","jquery","block-activity-filter","block-search-box","slippymap", "stamen-super-classy"], function(
+define(["require","exports","module","jquery","block-activity-filter","block-search-box","slippymap", "stamen-super-classy", "routes"], function(
   require,
   exports,
   module,
@@ -6,25 +6,35 @@ define(["require","exports","module","jquery","block-activity-filter","block-sea
   BlockActivityFilter,
   BlockSearchBox,
   Slippymap,
-  StamenSuperClassy
+  StamenSuperClassy,
+  Routes
 ) {
 
   "use strict";
 
+  var routes      = new Routes(),
+      searchState = routes.getParamStateFromLocationObject();
+
   function View(options) {
 
-    var that = this;
+    var that   = this;
 
     StamenSuperClassy.apply(that, arguments);
 
     function initMap() {
+
+      that.map = new Slippymap(".slippymap", {
+        "data" : {}
+      }, function() {
+        that.fire("map-initialized");
+      });
+
       $.getJSON(options.geojsonURI, function(r) {
 
-        that.map = new Slippymap(".slippymap", {
-          "data" : r.response
-        }, function() {
-          that.fire("map-initialized");
-        });
+        console.log(r.response);
+
+        that.map.updateData(r.response);
+
       });
     }
 
@@ -40,7 +50,7 @@ define(["require","exports","module","jquery","block-activity-filter","block-sea
   }
 
   module.exports = new View({
-    "geojsonURI" : "/parks/search/yosemite.geojson?with=camping"
+    "geojsonURI" : "/parks/search.geojson"+routes.stringifyUrlSearchParams(searchState)
   });
 
 });

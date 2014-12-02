@@ -4,9 +4,6 @@ define([ "require", "exports", "module", "stamen-super-classy" ], function(requi
         function checkGeoJSON(geojsonData) {
             return geojsonData && "FeatureCollection" === geojsonData.type && "object" == typeof geojsonData.features && geojsonData.features.length > 0 && "Feature" === geojsonData.features[0].type && "Point" === geojsonData.features[0].geometry.type ? !0 : !1;
         }
-        function generateIdForGeoJSONFeature(feature) {
-            return feature.properties.Type + parseInt(1e3 * feature.geometry.coordinates[0], 10) + parseInt(100 * feature.geometry.coordinates[1] * 100, 10);
-        }
         function makeMarker(location, title) {
             return new google.maps.Marker({
                 position: location,
@@ -15,7 +12,7 @@ define([ "require", "exports", "module", "stamen-super-classy" ], function(requi
             });
         }
         function updateData(newData) {
-            return checkGeoJSON(newData || config.data) ? (data = config.data, void self.fire("data-updated")) : !1;
+            return checkGeoJSON(newData || config.data) ? (data = newData || config.data, void self.fire("data-updated")) : !1;
         }
         function getData(filters) {
             var dataCopy = JSON.parse(JSON.stringify(data));
@@ -48,12 +45,13 @@ define([ "require", "exports", "module", "stamen-super-classy" ], function(requi
             return filteredData;
         }
         function drawMarkers() {
-            var id, filteredData;
+            var filteredData;
             filteredData = data, config.filter && (filteredData = filterGeoJSON(filteredData, config.filter)), 
             filteredData.features.forEach(function(feature) {
-                id = generateIdForGeoJSONFeature(feature), feature.id = id, pinCache[id] || (pinCache[id] = {
+                var id = feature.properties.superunit_id, title = feature.properties.unit_name;
+                pinCache[id] || (pinCache[id] = {
                     feature: feature,
-                    pin: makeMarker(new google.maps.LatLng(parseFloat(feature.geometry.coordinates[1]), parseFloat(feature.geometry.coordinates[0])), feature.properties.Type, feature),
+                    pin: makeMarker(new google.maps.LatLng(parseFloat(feature.geometry.coordinates[1]), parseFloat(feature.geometry.coordinates[0])), title, feature),
                     selected: null
                 }, setMarkerListener("click", pinCache[id]), setMarkerListener("mouseover", pinCache[id]), 
                 setMarkerListener("mouseout", pinCache[id]));

@@ -1,13 +1,12 @@
 define([ "require", "exports", "module", "stamen-super-classy" ], function(require, exports, module, StamenSuperClassy) {
     "use strict";
     module.exports = function() {
-        function stringifyUrlSearchParams(paramsObject) {
+        var that = this, knownContexts = [ "search", "with", "near" ];
+        return StamenSuperClassy.apply(that, arguments), that.stringifyUrlSearchParams = function(paramsObject) {
             var stringOut = "?";
             for (var i in paramsObject) paramsObject.hasOwnProperty(i) && (stringOut += i + "=" + paramsObject[i] + "&");
             return stringOut.substring(0, stringOut.length - 1);
-        }
-        var that = this, knownContexts = [ "search", "with", "near" ];
-        return StamenSuperClassy.apply(that, arguments), that.getParamStateFromLocationObject = function() {
+        }, that.getParamStateFromLocationObject = function() {
             var urlParts = location.pathname.split("/"), route = urlParts[1], context = urlParts[2], param = urlParts[3], query = location.search.length ? JSON.parse(location.search.substring(1).replace(/^/, '{"').replace(/$/, '"}').replace(/&/g, '","').replace(/=/g, '":"')) : {};
             return that.getParamState({
                 route: route,
@@ -16,7 +15,9 @@ define([ "require", "exports", "module", "stamen-super-classy" ], function(requi
                 query: query
             });
         }, that.getParamState = function(contextData) {
-            return "parks" === contextData.route & knownContexts.indexOf(contextData.context) > -1 && (contextData.query["search" === contextData.context ? "q" : contextData.context] = "search" !== contextData.context || contextData.param ? contextData.param : contextData.query.q), 
+            return contextData = contextData || {
+                route: "search"
+            }, "parks" === contextData.route && knownContexts.indexOf(contextData.context) > -1 && (contextData.query["search" === contextData.context ? "q" : contextData.context] = "search" !== contextData.context || contextData.param ? contextData.param : contextData.query.q), 
             contextData.query.with && (contextData.query.with = contextData.query.with.toLowerCase()), 
             contextData.query;
         }, that.updateSearchUrl = function(searchParams) {

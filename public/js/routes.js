@@ -27,7 +27,7 @@ define(["require","exports","module","stamen-super-classy"], function(
     // by the purpose of the context
     //
 
-    function stringifyUrlSearchParams(paramsObject) {
+    that.stringifyUrlSearchParams = function stringifyUrlSearchParams(paramsObject) {
       var stringOut = "?";
 
       for (var i in paramsObject) {
@@ -65,7 +65,9 @@ define(["require","exports","module","stamen-super-classy"], function(
     //
     that.getParamState = function getParamState(contextData) {
 
-      if (contextData.route === "parks" & knownContexts.indexOf(contextData.context) > -1) { //If this is a known context, over-ride the appropriate parameter. Contexts win over search params
+      contextData = contextData || {route:'search'};
+
+      if (contextData.route === "parks" && knownContexts.indexOf(contextData.context) > -1) { //If this is a known context, over-ride the appropriate parameter. Contexts win over search params
         contextData.query[(contextData.context === "search") ? "q" : contextData.context] = (contextData.context === "search" && !contextData.param) ? contextData.query.q : contextData.param;
       }
 
