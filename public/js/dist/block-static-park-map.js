@@ -1,6 +1,20 @@
 define([ "require", "exports", "module", "detect-os", "stamen-super-classy", "gmap-custom-tile-layer" ], function(require, exports, module, DetectOs, StamenSuperClassy, GmapCustomTileLayer) {
     "use strict";
     module.exports = function(rootSelector, viewOptions, callback) {
+        function getBoundsZoomLevel(bounds, mapDim) {
+            function latRad(lat) {
+                var sin = Math.sin(lat * Math.PI / 180), radX2 = Math.log((1 + sin) / (1 - sin)) / 2;
+                return Math.max(Math.min(radX2, Math.PI), -Math.PI) / 2;
+            }
+            function zoom(mapPx, worldPx, fraction) {
+                return Math.floor(Math.log(mapPx / worldPx / fraction) / Math.LN2);
+            }
+            var WORLD_DIM = {
+                height: 256,
+                width: 256
+            }, ZOOM_MAX = 21, ne = bounds.getNorthEast(), sw = bounds.getSouthWest(), latFraction = (latRad(ne.lat()) - latRad(sw.lat())) / Math.PI, lngDiff = ne.lng() - sw.lng(), lngFraction = (0 > lngDiff ? lngDiff + 360 : lngDiff) / 360, latZoom = zoom(mapDim.offsetHeight, WORLD_DIM.height, latFraction), lngZoom = zoom(mapDim.offsetWidth, WORLD_DIM.width, lngFraction);
+            return Math.min(latZoom, lngZoom, ZOOM_MAX);
+        }
         function geoJSONBBoxToGoogleBounds(GeoJSONBBoxPolygon) {
             for (var a, b, point, bounds = new google.maps.LatLngBounds(), ii = 0; ii < GeoJSONBBoxPolygon.coordinates[0].length; ii++) a = GeoJSONBBoxPolygon.coordinates[0][ii][1], 
             b = GeoJSONBBoxPolygon.coordinates[0][ii][0], point = new google.maps.LatLng(a, b), 
@@ -17,11 +31,12 @@ define([ "require", "exports", "module", "detect-os", "stamen-super-classy", "gm
             }), that.parksLayer;
         }
         function initBigMap() {
-            that.bigMap = new google.maps.Map(bigMapNode, {
+            var bounds = geoJSONBBoxToGoogleBounds(viewOptions.bbox), zoom = getBoundsZoomLevel(bounds, bigMapNode);
+            zoom > 16 && (zoom -= 1), that.bigMap = new google.maps.Map(bigMapNode, {
                 mapTypeControl: !1,
                 streetViewControl: !1,
-                center: new google.maps.LatLng(viewOptions.centroid.coordinates[1], viewOptions.centroid.coordinates[0]),
-                zoom: 15,
+                center: bounds.getCenter(),
+                zoom: zoom,
                 scrollwheel: !1,
                 disableDefaultUI: !1,
                 panControl: !1,
@@ -34,10 +49,7 @@ define([ "require", "exports", "module", "detect-os", "stamen-super-classy", "gm
                     mapTypeIds: [ "parksLayer" ]
                 }
             }), that.bigMap.mapTypes.set("parksLayer", that.parksLayer), that.bigMap.setMapTypeId("parksLayer"), 
-            that.bigMap.fitBounds(geoJSONBBoxToGoogleBounds(viewOptions.bbox)), setTimeout(function() {
-                var zoom = that.bigMap.getZoom();
-                16 > zoom && that.bigMap.setZoom(zoom + 1);
-            }, 250), google.maps.event.addDomListener(window, "resize", function() {
+            google.maps.event.addDomListener(window, "resize", function() {
                 google.maps.event.trigger(that.bigMap.getCenter(), "resize"), that.bigMap.setCenter(that.bigMap.getCenter());
             });
         }
