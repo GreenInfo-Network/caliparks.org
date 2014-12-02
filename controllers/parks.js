@@ -65,7 +65,7 @@ module.exports = function(req, res, data, callback) {
     // can attempt to geolocate on the client
     //
     if (!req.params.query) {
-      callback(null,[]);
+      return callback(null,[]);
     }
 
     data.query = {
