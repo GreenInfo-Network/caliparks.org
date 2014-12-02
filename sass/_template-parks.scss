@@ -8,7 +8,7 @@
 
     &.list-tab-pane {
 
-      @include span-columns(6 of 12);
+      @include span-columns(4 of 12);
       @include pad(0);
 
       .search-results {
@@ -19,27 +19,33 @@
 
         overflow:auto;
         background-color:$color-lighter;
-        padding:$box-padding;
 
 
         .block-park-name {
-          margin-bottom:$box-padding;
+          color:$color-notsodark;
+
+          border:inset 1px #bdc8ce;
+          border-width:0 0 1px 0;
+
+          padding:$box-padding-half $box-padding;
 
           .distance {
             font-family:$font-family-sans;
             font-weight:$font-weight-normal;
+            color:$color-notsodark;
           }
 
           a {
             font-weight:$font-weight-bold;
             font-family:$font-family-serif;
+            color:$color-notsodark;
           }
         }
 
       }
     }
     &.map-tab-pane {
-      @include span-columns(6 of 12);
+      @include span-columns(8 of 12);
       @include pad(0);
     }
   }
