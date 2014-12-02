@@ -14,14 +14,24 @@ define(["require","exports","module","stamen-super-classy"], function(
 
   module.exports=function(config) {
 
-    var that = this;
+    var that       = this,
+        subdomains = ["a","b","c","d"];
 
     StamenSuperClassy.apply(that, arguments);
+
+    //
+    // Chooses a subdomain based off of x/y coords
+    // Lifted from https://github.com/Leaflet/Leaflet
+    //
+    function getSubdomain (tilePoint) {
+      var index = Math.abs(tilePoint.x + tilePoint.y) % subdomains.length;
+      return subdomains[index];
+    }
 
     function getTile(coord, zoom, ownerDocument) {
         var div = ownerDocument.createElement("DIV");
         var baseURL = that.processTemplate(config.tilePath, {
-          s : "a",
+          s : getSubdomain(coord),
           z : zoom,
           x : coord.x,
           y : coord.y
