@@ -6,10 +6,7 @@ var cpad               = require('../lib/cpad.js'),
 
 module.exports = function(req, res, data, callback) {
 
-  var pg       = require('pg'),
-      sorts    = {};
-
-  var contextDataDecorated, story;
+  var story;
 
   function getActivityFilterState(withString) {
 
@@ -111,7 +108,7 @@ module.exports = function(req, res, data, callback) {
       startat : (req.query.startat|0) || 0,
       perpage : (req.query.perpage|0) || 100,
       not     : req.query.not || null
-    }
+    };
 
     return callback(null, {
       parks          : parks,
@@ -123,4 +120,4 @@ module.exports = function(req, res, data, callback) {
     });
   }
 
-}
+};
