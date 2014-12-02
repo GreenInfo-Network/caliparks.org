@@ -68,6 +68,11 @@
     width:100%;
     height:100%;
     padding:0 140px 0 0;
+
+    @include media(max-width 720px) {
+      padding:0 110px 0 0;
+    }
+
     input[type=search] {
       width: 100% !important;
       border: solid 0px transparent;
@@ -76,7 +81,12 @@
       height: 41px;
       font-size: 16px;
       outline: none;
-      padding-left:$box-padding-half;
+      background-color:$color-light-transparent;
+
+      @include media(max-width 720px) {
+        padding:0;
+        padding-left:$box-padding-half;
+      }
 
       &[type="search"]::-webkit-search-decoration,
       &[type="search"]::-webkit-search-results-button,
@@ -115,13 +125,17 @@
     }
     .search-actions {
       height: 41px;
-      background-color:$light-font-color;
+      background-color:$color-light-transparent;
       overflow:hidden;
       width:140px;
       position:absolute;
       bottom:0;
       right:0;
       border-radius: 0px $border-radius $border-radius 0px;
+
+      @include media(max-width 720px) {
+        width: 110px;
+      }
 
       button {
         background-color:transparent;

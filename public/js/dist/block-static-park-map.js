@@ -38,7 +38,7 @@ define([ "require", "exports", "module", "detect-os", "stamen-super-classy", "gm
                 center: bounds.getCenter(),
                 zoom: zoom,
                 scrollwheel: !1,
-                disableDefaultUI: !1,
+                disableDefaultUI: !0,
                 panControl: !1,
                 zoomControlOptions: {
                     style: 1,

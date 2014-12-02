@@ -173,6 +173,9 @@ body.parksforward.responsive2 {
       width: 100%;
       height: 100%;
       padding: 0 140px 0 0; }
+      @media screen and (max-width: 720px)  {
+        body.parksforward.responsive2 .block-search-box form {
+          padding: 0 110px 0 0; } }
       body.parksforward.responsive2 .block-search-box form input[type=search] {
         width: 100% !important;
         border: solid 0px transparent;
@@ -181,7 +184,11 @@ body.parksforward.responsive2 {
         height: 41px;
         font-size: 16px;
         outline: none;
-        padding-left: 10px; }
+        background-color: rgba(255, 255, 255, 0.9); }
+        @media screen and (max-width: 720px)  {
+          body.parksforward.responsive2 .block-search-box form input[type=search] {
+            padding: 0;
+            padding-left: 10px; } }
         body.parksforward.responsive2 .block-search-box form input[type=search][type="search"]::-webkit-search-decoration, body.parksforward.responsive2 .block-search-box form input[type=search][type="search"]::-webkit-search-results-button, body.parksforward.responsive2 .block-search-box form input[type=search][type="search"]::-webkit-search-results-decoration {
           display: none; }
         body.parksforward.responsive2 .block-search-box form input[type=search][type="search"]::-webkit-search-cancel-button {
@@ -206,13 +213,16 @@ body.parksforward.responsive2 {
           font-weight: 300; }
       body.parksforward.responsive2 .block-search-box form .search-actions {
         height: 41px;
-        background-color: white;
+        background-color: rgba(255, 255, 255, 0.9);
         overflow: hidden;
         width: 140px;
         position: absolute;
         bottom: 0;
         right: 0;
         border-radius: 0px 4px 4px 0px; }
+        @media screen and (max-width: 720px)  {
+          body.parksforward.responsive2 .block-search-box form .search-actions {
+            width: 110px; } }
         body.parksforward.responsive2 .block-search-box form .search-actions button {
           background-color: transparent;
           border: solid 0px transparent;
@@ -306,7 +316,7 @@ body.parksforward.responsive2 {
         font-family: "jubilat", serif;
         font-weight: 300; }
       body.parksforward.responsive2 .block-story .details a.attribution-link {
-        padding: 3px 0 3px 46px;
+        padding: 6px 0 3px 46px;
         background-position: 10px center;
         display: inline-block;
         height: 23px;

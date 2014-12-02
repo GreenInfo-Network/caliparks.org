@@ -110,7 +110,7 @@ define(["require","exports","module","detect-os","stamen-super-classy","gmap-cus
         center: bounds.getCenter(),
         zoom                : zoom,
         scrollwheel         : false,
-        disableDefaultUI    : false,
+        disableDefaultUI    : true,
         panControl          : false,
         zoomControlOptions: {
           style: 1,
