@@ -92,21 +92,25 @@
 
       &::-webkit-input-placeholder {
          font-family:$font-family-sans;
+         font-weight:300;
       }
 
       &:-moz-placeholder { /* Firefox 18- */
          font-family:$font-family-sans;
          padding-left:$box-padding-half;
+         font-weight:300;
       }
 
       &::-moz-placeholder {  /* Firefox 19+ */
          font-family:$font-family-sans;
          padding-left:$box-padding-half;
+         font-weight:300;
       }
 
       &:-ms-input-placeholder {
          font-family:$font-family-sans;
          padding-left:$box-padding-half;
+         font-weight:300;
       }
     }
     .search-actions {

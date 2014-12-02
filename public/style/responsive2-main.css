@@ -90,7 +90,7 @@ body.parksforward.responsive2 {
   body.parksforward.responsive2 h1, body.parksforward.responsive2 h2, body.parksforward.responsive2 h3, body.parksforward.responsive2 h4 {
     font-family: "jubilat", serif;
     color: white;
-    font-weight: 600; }
+    font-weight: 300; }
   body.parksforward.responsive2 input, body.parksforward.responsive2 button, body.parksforward.responsive2 select {
     outline: none; }
   body.parksforward.responsive2 h1 {
@@ -188,18 +188,22 @@ body.parksforward.responsive2 {
           -webkit-appearance: none;
           display: none; }
         body.parksforward.responsive2 .block-search-box form input[type=search]::-webkit-input-placeholder {
-          font-family: "expressway", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; }
+          font-family: "expressway", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+          font-weight: 300; }
         body.parksforward.responsive2 .block-search-box form input[type=search]:-moz-placeholder {
           /* Firefox 18- */
           font-family: "expressway", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-          padding-left: 10px; }
+          padding-left: 10px;
+          font-weight: 300; }
         body.parksforward.responsive2 .block-search-box form input[type=search]::-moz-placeholder {
           /* Firefox 19+ */
           font-family: "expressway", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-          padding-left: 10px; }
+          padding-left: 10px;
+          font-weight: 300; }
         body.parksforward.responsive2 .block-search-box form input[type=search]:-ms-input-placeholder {
           font-family: "expressway", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-          padding-left: 10px; }
+          padding-left: 10px;
+          font-weight: 300; }
       body.parksforward.responsive2 .block-search-box form .search-actions {
         height: 41px;
         background-color: white;
@@ -300,7 +304,7 @@ body.parksforward.responsive2 {
         padding: 5px 10px;
         font-size: 130%;
         font-family: "jubilat", serif;
-        font-weight: 600; }
+        font-weight: 300; }
       body.parksforward.responsive2 .block-story .details a.attribution-link {
         padding: 3px 0 3px 46px;
         background-position: 10px center;
