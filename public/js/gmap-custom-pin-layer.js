@@ -43,14 +43,6 @@ define(["require","exports","module","stamen-super-classy"], function(
     }
 
     //
-    // Composites a unique ID for a feature using it"s
-    // type, lat, and long
-    //
-    function generateIdForGeoJSONFeature(feature) {
-      return feature.properties.Type+parseInt(feature.geometry.coordinates[0]*1000, 10)+parseInt(feature.geometry.coordinates[1]*100*100, 10);
-    }
-
-    //
     // Makes a google marker and adds it to the map.
     //
     function makeMarker(location, title, data) {
@@ -66,13 +58,18 @@ define(["require","exports","module","stamen-super-classy"], function(
     //
     function updateData(newData) {
 
+      var old = data;
+
       if (!checkGeoJSON(newData || config.data)) {
         return false;
       }
 
       data = newData || config.data;
 
-      self.fire("data-updated");
+      self.fire("data-updated", {
+        newData : data,
+        oldData : old
+      });
 
     }
 
@@ -146,7 +143,7 @@ define(["require","exports","module","stamen-super-classy"], function(
     //
     function drawMarkers() {
 
-      var id, filteredData;
+      var filteredData;
 
       filteredData = data;
 

@@ -37,7 +37,7 @@ define(["require","exports","module","stamen-super-classy"], function(
       }
 
       return stringOut.substring(0, stringOut.length-1);
-    }
+    };
 
     that.getParamStateFromLocationObject = function getParamStateFromLocationObject() {
 
@@ -65,7 +65,7 @@ define(["require","exports","module","stamen-super-classy"], function(
     //
     that.getParamState = function getParamState(contextData) {
 
-      contextData = contextData || {route:'search'};
+      contextData = contextData || {"route":"search"};
 
       if (contextData.route === "parks" && knownContexts.indexOf(contextData.context) > -1) { //If this is a known context, over-ride the appropriate parameter. Contexts win over search params
         contextData.query[(contextData.context === "search") ? "q" : contextData.context] = (contextData.context === "search" && !contextData.param) ? contextData.query.q : contextData.param;
@@ -87,7 +87,7 @@ define(["require","exports","module","stamen-super-classy"], function(
       // Otherwise just change the with search param
       //
       if (!searchParams["with"] && location.href.split("/")[4] === "with") {
-        location.href = "/parks/search" + (location.hash||"") + stringifyUrlSearchParams(searchParams);
+        location.href = "/parks/search" + (location.hash||"") + that.stringifyUrlSearchParams(searchParams);
       } else {
         if (!searchParams["with"]) {
           delete searchParams["with"];
@@ -100,9 +100,9 @@ define(["require","exports","module","stamen-super-classy"], function(
           locationArray.length = 5;
 
           delete searchParams["with"];
-          location.href = locationArray.join("/") + "/" + w + stringifyUrlSearchParams(searchParams).replace(/undefined/,"");
+          location.href = locationArray.join("/") + "/" + w + that.stringifyUrlSearchParams(searchParams).replace(/undefined/,"");
         } else {
-          location.search = stringifyUrlSearchParams(searchParams).replace(/undefined/,"");
+          location.search = that.stringifyUrlSearchParams(searchParams).replace(/undefined/,"");
         }
       }
     };

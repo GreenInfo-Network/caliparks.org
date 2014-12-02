@@ -1,6 +1,12 @@
 define([ "require", "exports", "module", "stamen-super-classy", "gmap-custom-tile-layer", "gmap-custom-pin-layer" ], function(require, exports, module, StamenSuperClassy, GmapCustomTileLayer, GmapCustomPinLayer) {
     "use strict";
     module.exports = function(rootSelector, options, callback) {
+        function geoJSONBBoxToGoogleBounds(GeoJSONBBoxPolygon) {
+            var bounds = new google.maps.LatLngBounds();
+            return bounds.extend(new google.maps.LatLng(GeoJSONBBoxPolygon[1], GeoJSONBBoxPolygon[0])), 
+            bounds.extend(new google.maps.LatLng(GeoJSONBBoxPolygon[3], GeoJSONBBoxPolygon[2])), 
+            bounds;
+        }
         function initStamenLayer() {
             return that.parksLayer = new GmapCustomTileLayer({
                 tilePath: "http://{s}.map.parks.stamen.com/{z}/{x}/{y}.png",
@@ -23,11 +29,13 @@ define([ "require", "exports", "module", "stamen-super-classy", "gmap-custom-til
                 mapTypeControloptions: {
                     mapTypeIds: [ "parksLayer" ]
                 }
-            });
+            }), that.bigMap.mapTypes.set("parksLayer", that.parksLayer), that.bigMap.setMapTypeId("parksLayer");
             var pinLayer = new GmapCustomPinLayer(that.bigMap, {
                 data: options.data
             });
-            that.updateData = pinLayer.updateData, google.maps.event.addDomListener(window, "resize", function() {
+            pinLayer.on("data-updated", function(newData) {
+                newData.caller.newData && that.bigMap.fitBounds(geoJSONBBoxToGoogleBounds(newData.caller.newData.bbox));
+            }), that.updateData = pinLayer.updateData, google.maps.event.addDomListener(window, "resize", function() {
                 google.maps.event.trigger(that.bigMap.getCenter(), "resize"), that.bigMap.setCenter(that.bigMap.getCenter());
             });
         }

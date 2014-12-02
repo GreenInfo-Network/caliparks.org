@@ -12,7 +12,11 @@ define([ "require", "exports", "module", "stamen-super-classy" ], function(requi
             });
         }
         function updateData(newData) {
-            return checkGeoJSON(newData || config.data) ? (data = newData || config.data, void self.fire("data-updated")) : !1;
+            var old = data;
+            return checkGeoJSON(newData || config.data) ? (data = newData || config.data, void self.fire("data-updated", {
+                newData: data,
+                oldData: old
+            })) : !1;
         }
         function getData(filters) {
             var dataCopy = JSON.parse(JSON.stringify(data));

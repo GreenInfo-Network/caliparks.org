@@ -22,16 +22,10 @@ define(["require","exports","module","stamen-super-classy","gmap-custom-tile-lay
     // Lifted from http://stackoverflow.com/questions/23488463/zoom-to-markers-using-geojson-googlemaps-api-v3
     //
     function geoJSONBBoxToGoogleBounds(GeoJSONBBoxPolygon) {
-      var bounds = new google.maps.LatLngBounds(),
-          a, b, point;
+      var bounds = new google.maps.LatLngBounds();
 
-      for (var ii = 0; ii < GeoJSONBBoxPolygon.coordinates[0].length; ii++) {
-        a = GeoJSONBBoxPolygon.coordinates[0][ii][1];
-        b = GeoJSONBBoxPolygon.coordinates[0][ii][0];
-
-        point = new google.maps.LatLng(a, b);
-        bounds.extend(point);
-      }
+      bounds.extend(new google.maps.LatLng(GeoJSONBBoxPolygon[1], GeoJSONBBoxPolygon[0]));
+      bounds.extend(new google.maps.LatLng(GeoJSONBBoxPolygon[3], GeoJSONBBoxPolygon[2]));
 
       return bounds;
     }
@@ -68,12 +62,17 @@ define(["require","exports","module","stamen-super-classy","gmap-custom-tile-lay
         }
       });
 
-      //that.bigMap.mapTypes.set("parksLayer", that.parksLayer);
-      //that.bigMap.setMapTypeId("parksLayer");
-      //that.bigMap.fitBounds(geoJSONBBoxToGoogleBounds(options.bbox));
+      that.bigMap.mapTypes.set("parksLayer", that.parksLayer);
+      that.bigMap.setMapTypeId("parksLayer");
 
       var pinLayer = new GmapCustomPinLayer(that.bigMap, {
         data : options.data
+      });
+
+      pinLayer.on("data-updated", function(newData) {
+        if (newData.caller.newData) {
+          that.bigMap.fitBounds(geoJSONBBoxToGoogleBounds(newData.caller.newData.bbox));
+        }
       });
 
       that.updateData = pinLayer.updateData;

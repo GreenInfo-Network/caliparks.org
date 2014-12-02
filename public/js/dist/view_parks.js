@@ -7,7 +7,7 @@ define([ "require", "exports", "module", "jquery", "block-activity-filter", "blo
             }, function() {
                 that.fire("map-initialized");
             }), $.getJSON(options.geojsonURI, function(r) {
-                console.log(r.response), that.map.updateData(r.response);
+                that.map.updateData(r.response);
             });
         }
         function init() {

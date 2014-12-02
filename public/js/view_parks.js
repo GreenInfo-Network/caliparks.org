@@ -31,8 +31,6 @@ define(["require","exports","module","jquery","block-activity-filter","block-sea
 
       $.getJSON(options.geojsonURI, function(r) {
 
-        console.log(r.response);
-
         that.map.updateData(r.response);
 
       });
