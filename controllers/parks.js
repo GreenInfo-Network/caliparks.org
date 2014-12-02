@@ -56,7 +56,8 @@ module.exports = function(req, res, data, callback) {
     data.query = {
       q    : req.query.q || '',
       near : req.params.near  || req.query.near || null,
-      with : req.params.query || null
+      with : req.params.query || null,
+      bbox : req.query.bbox
     };
   } else if (data.context === 'near') {
 
@@ -71,25 +72,29 @@ module.exports = function(req, res, data, callback) {
     data.query = {
       q    : req.query.q || '',
       near : req.params.query,
-      with : req.params.with  || req.query.with || null
+      with : req.params.with  || req.query.with || null,
+      bbox : req.query.bbox
     };
   } else if (data.context === 'story') {
     data.query = {
       q    : story.q    || '',
       near : story.near || null,
-      with : story.with || null
+      with : story.with || null,
+      bbox : req.query.bbox
     };
   } else if (req.params.query || req.query.q || req.query.near || req.query.with) {
     data.query = {
       q    : req.params.query || req.query.q || '',
       near : req.query.near || null,
-      with : req.query.with || null
+      with : req.query.with || null,
+      bbox : req.query.bbox
     };
   } else {
     data.query = {
       q    : req.params.query || req.query.q || '',
       near : null,
-      with : null
+      with : null,
+      bbox : req.query.bbox
     };
   }
 
