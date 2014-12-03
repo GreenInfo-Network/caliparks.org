@@ -27,8 +27,7 @@ define(["require","exports","module","vendor/typeahead","vendor/bloodhound","jqu
     rootNode            = $(rootSelector);
     locateMeNode        = rootNode.find(".locate-me");
     formNode            = rootNode.find("form");
-    searchFieldNode     = rootNode.find("input[type=search]"),
-    defaultSearchString = (routes.getParamStateAsSearchString() || "");
+    searchFieldNode     = rootNode.find("input[type=search]");
 
 
     //
@@ -157,24 +156,11 @@ define(["require","exports","module","vendor/typeahead","vendor/bloodhound","jqu
           location.href="/parks/search?" + paramaterizeObject(state.searchType);
         } else {
           if (!searchFieldNode.val().length) { //Nothing was typed in?
-            searchFieldNode.val(searchFieldNode.attr("placeholder"));
+            searchFieldNode.val('San Francisco');
           }
 
-          if (searchFieldNode.val().match(/ near /)) {
-            searchParts = searchFieldNode.val().split(" near ");
-            location.href="/parks/search?q=" + searchParts[0] + "&near=" + searchParts[1];
-          } else if(searchFieldNode.val().match(/^near /)) {
-            searchParts = searchFieldNode.val().split("near ");
-            location.href="/parks/search?q=" + searchParts[0] + "&near=" + searchParts[1];
-          } else if (searchFieldNode.val().match(/ with /)) {
-            searchParts = searchFieldNode.val().split(" with ");
-            location.href="/parks/search?q=" + searchParts[0] + "&with=" + searchParts[1];
-          } else if (searchFieldNode.val().match(/^with /)) {
-            searchParts = searchFieldNode.val().split("with ");
-            location.href="/parks/with/" + searchParts[1];
-          } else {
-            location.href="/parks/search?q=" + searchFieldNode.val();
-          }
+          location.href="/parks/near/" + searchFieldNode.val().replace(/\s/g,'+');
+
         }
 
       });
@@ -213,15 +199,13 @@ define(["require","exports","module","vendor/typeahead","vendor/bloodhound","jqu
       //
       // Initialize thie whole thing
       //
-      if (defaultSearchString) {
-        searchFieldNode.attr("value",defaultSearchString);
-      }
+      searchFieldNode.attr("value",decodeURI(location.href.split('/near/')[1]||'').replace(/\+/g,' '));
       state.searchType = {};
       initLocateMe();
       initForm();
       updateData("activities", "/data/uniqueActivities.json", function(r) {
         updateData("places", "/data/californiaCities.json", function(r) {
-          initTypeahead();
+          //initTypeahead();
           that.fire("ready");
         });
       });
