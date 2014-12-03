@@ -7,14 +7,17 @@ define([ "require", "exports", "module", "stamen-super-classy", "gmap-custom-til
             bounds.extend(new google.maps.LatLng(GeoJSONBBoxPolygon[3], GeoJSONBBoxPolygon[2])), 
             bounds;
         }
+        function resize() {
+            google.maps.event.trigger(that.map, "resize"), that.map.fitBounds(geoJSONBBoxToGoogleBounds(that.pinLayer.getData().bbox));
+        }
         function initStamenLayer() {
             return that.parksLayer = new GmapCustomTileLayer({
                 tilePath: "http://{s}.map.parks.stamen.com/{z}/{x}/{y}.png",
                 size: 256
             }), that.parksLayer;
         }
-        function initBigMap() {
-            that.bigMap = new google.maps.Map(rootNode, {
+        function initmap() {
+            that.map = new google.maps.Map(rootNode, {
                 mapTypeControl: !1,
                 streetViewControl: !1,
                 center: new google.maps.LatLng(37.76, -122.41),
@@ -29,24 +32,24 @@ define([ "require", "exports", "module", "stamen-super-classy", "gmap-custom-til
                 mapTypeControloptions: {
                     mapTypeIds: [ "parksLayer" ]
                 }
-            }), that.bigMap.mapTypes.set("parksLayer", that.parksLayer), that.bigMap.setMapTypeId("parksLayer");
-            var pinLayer = new GmapCustomPinLayer(that.bigMap, {
+            }), that.map.mapTypes.set("parksLayer", that.parksLayer), that.map.setMapTypeId("parksLayer");
+            var pinLayer = new GmapCustomPinLayer(that.map, {
                 data: options.data
             });
-            pinLayer.on("data-updated", function(newData) {
-                newData.caller.newData && that.bigMap.fitBounds(geoJSONBBoxToGoogleBounds(newData.caller.newData.bbox));
+            that.pinLayer = pinLayer, pinLayer.on("data-updated", function(newData) {
+                newData.caller.newData && that.map.fitBounds(geoJSONBBoxToGoogleBounds(newData.caller.newData.bbox));
             }), that.updateData = pinLayer.updateData, google.maps.event.addDomListener(window, "resize", function() {
-                google.maps.event.trigger(that.bigMap.getCenter(), "resize"), that.bigMap.setCenter(that.bigMap.getCenter());
+                google.maps.event.trigger(that.map.getCenter(), "resize"), that.map.setCenter(that.map.getCenter());
             });
         }
         function initialize() {
-            initStamenLayer(), initBigMap(), that.on("ready", function() {
+            initStamenLayer(), initmap(), that.on("ready", function() {
                 callback(null, that);
             });
         }
         var that = this;
         StamenSuperClassy.apply(that, arguments);
         var rootNode = that.utils.get(rootSelector)[0];
-        return initialize(), that;
+        return that.resize = resize, initialize(), that;
     };
 });

@@ -30,6 +30,11 @@ define(["require","exports","module","stamen-super-classy","gmap-custom-tile-lay
       return bounds;
     }
 
+    function resize() {
+      google.maps.event.trigger(that.map, "resize");
+      that.map.fitBounds(geoJSONBBoxToGoogleBounds(that.pinLayer.getData().bbox));
+    }
+
     //
     // Initialization methods
     //
@@ -43,9 +48,9 @@ define(["require","exports","module","stamen-super-classy","gmap-custom-tile-lay
       return that.parksLayer;
     }
 
-    function initBigMap() {
+    function initmap() {
 
-      that.bigMap = new google.maps.Map(rootNode,{
+      that.map = new google.maps.Map(rootNode,{
         mapTypeControl: false,
         streetViewControl: false,
         center: new google.maps.LatLng(37.76,-122.41),
@@ -62,24 +67,25 @@ define(["require","exports","module","stamen-super-classy","gmap-custom-tile-lay
         }
       });
 
-      that.bigMap.mapTypes.set("parksLayer", that.parksLayer);
-      that.bigMap.setMapTypeId("parksLayer");
+      that.map.mapTypes.set("parksLayer", that.parksLayer);
+      that.map.setMapTypeId("parksLayer");
 
-      var pinLayer = new GmapCustomPinLayer(that.bigMap, {
+      var pinLayer = new GmapCustomPinLayer(that.map, {
         data : options.data
       });
+      that.pinLayer = pinLayer;
 
       pinLayer.on("data-updated", function(newData) {
         if (newData.caller.newData) {
-          that.bigMap.fitBounds(geoJSONBBoxToGoogleBounds(newData.caller.newData.bbox));
+          that.map.fitBounds(geoJSONBBoxToGoogleBounds(newData.caller.newData.bbox));
         }
       });
 
       that.updateData = pinLayer.updateData;
 
       google.maps.event.addDomListener(window, "resize", function() {
-       google.maps.event.trigger(that.bigMap.getCenter(), "resize");
-       that.bigMap.setCenter(that.bigMap.getCenter());
+       google.maps.event.trigger(that.map.getCenter(), "resize");
+       that.map.setCenter(that.map.getCenter());
       });
     }
 
@@ -88,12 +94,17 @@ define(["require","exports","module","stamen-super-classy","gmap-custom-tile-lay
     //
     function initialize() {
       initStamenLayer();
-      initBigMap();
+      initmap();
 
       that.on("ready", function() {
         callback(null, that);
       });
     }
+
+    //
+    // Public interface
+    //
+    that.resize = resize;
 
     //
     // GO GO GO!

@@ -1,5 +1,7 @@
 .block-activity-filter {
 
+  background-color:$color-notsodark;
+
   &.closed {
     .filter-drawer {
       height:0px;
@@ -23,9 +25,18 @@
   }
 
   .filter-handle {
+
+    padding:7px 0;
+
     .action {
+
+      i {
+        float: left;
+      }
+
       border:none;
       color:white;
+      margin-top: 5px;
     }
 
     .toggle-activities-drawer-action {

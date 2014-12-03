@@ -1,8 +1,21 @@
-.content.template-parks {
-
+.action-bar {
+  position:relative;
+  border:solid 1px transparent;
+  overflow:auto;
   .block-activity-filter {
     background-color:$color-notsodark;
   }
+  .tab-actions {
+    position:absolute;
+    right: 20px;
+    top: 15px;
+    @include media(min-width 721px) {
+      display:none;
+    }
+  }
+}
+
+.content.template-parks {
 
   .tab-pane {
 
@@ -14,11 +27,9 @@
 
     &.list-tab-pane {
 
-      /*
       @include media(max-width 720px) {
         width:100%;
       }
-      */
 
       width:30%;
 
@@ -62,13 +73,39 @@
     &.map-tab-pane {
       width:70%;
 
-      /*
       @include media(max-width 720px) {
         width:100%;
-        display:none;
       }
-      */
     }
   }
 
+}
+
+@include media(max-width 720px) {
+  &.tab-list {
+    .content.template-parks {
+      .tab-pane {
+
+        &.list-tab-pane {
+          display:block;
+        }
+        &.map-tab-pane {
+          display:none;
+        }
+      }
+    }
+  }
+
+  .content.template-parks {
+    .tab-pane {
+
+      &.list-tab-pane {
+        display:none;
+      }
+      &.map-tab-pane {
+        height:100vh;
+        display:block;
+      }
+    }
+  }
 }

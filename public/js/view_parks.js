@@ -13,7 +13,8 @@ define(["require","exports","module","jquery","block-activity-filter","block-sea
   "use strict";
 
   var routes      = new Routes(),
-      searchState = routes.getParamStateFromLocationObject();
+      searchState = routes.getParamStateFromLocationObject(),
+      blocks      = {};
 
   function View(options) {
 
@@ -23,7 +24,7 @@ define(["require","exports","module","jquery","block-activity-filter","block-sea
 
     function initMap() {
 
-      that.map = new Slippymap(".slippymap", {
+      that.slippyMap = new Slippymap(".slippymap", {
         "data" : {}
       }, function() {
         that.fire("map-initialized");
@@ -31,21 +32,34 @@ define(["require","exports","module","jquery","block-activity-filter","block-sea
 
       $.getJSON(options.geojsonURI, function(r) {
 
-        that.map.updateData(r.response);
+        that.slippyMap.updateData(r.response);
 
       });
+    }
+
+    function initTabControl() {
+      var rootNode = that.utils.get('.tab-actions')[0],
+          bodyNode = that.utils.get('body')[0];
+
+      bodyNode.classList.add('tab-list');
+
+      rootNode.addEventListener('click', function() {
+        bodyNode.classList.toggle('tab-list');
+        that.slippyMap.resize();
+      }, false);
     }
 
     function init() {
 
       initMap();
-
-      that.blockSearchBox      = new BlockSearchBox(".block-search-box",{}, function(err, blockSearchBox) {});
-      that.blockActivityFilter = new BlockActivityFilter(".block-activity-filter",{}, function(err, blockActivityFilter) {});
+      initTabControl();
     }
 
     init();
   }
+
+  blocks.blockSearchBox      = new BlockSearchBox(".block-search-box",{}, function(err, blockSearchBox) {});
+  blocks.blockActivityFilter = new BlockActivityFilter(".block-activity-filter",{}, function(err, blockActivityFilter) {});
 
   module.exports = new View({
     "geojsonURI" : "/parks/search.geojson"+routes.stringifyUrlSearchParams(searchState)
