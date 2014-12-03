@@ -14,15 +14,11 @@ if (locationParts[4] === 'near' && !locationParts[5]) {
 </script>
 
 {{>header-search}}
+{{>block-activity-filter}}
 <div class="content template-{{view}}">
-
 
   <div class="tab-pane list-tab-pane">
     <ul class="search-results">
-
-      <li>
-        {{>block-activity-filter}}
-      </li>
 
       {{#paginationLast}}<a href="#">{{#__}}Go back a bit{{/__}}</a>{{/paginationLast}}
 

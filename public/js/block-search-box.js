@@ -1,9 +1,7 @@
-define(["require","exports","module","vendor/typeahead","vendor/bloodhound","jquery","stamen-super-classy","routes"], function(
+define(["require","exports","module","jquery","stamen-super-classy","routes"], function(
   require,
   exports,
   module,
-  typeahead,
-  bloodhound,
   jquery,
   StamenSuperClassy,
   Routes

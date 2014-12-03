@@ -1,4 +1,4 @@
-define([ "require", "exports", "module", "vendor/typeahead", "vendor/bloodhound", "jquery", "stamen-super-classy", "routes" ], function(require, exports, module, typeahead, bloodhound, jquery, StamenSuperClassy, Routes) {
+define([ "require", "exports", "module", "jquery", "stamen-super-classy", "routes" ], function(require, exports, module, jquery, StamenSuperClassy, Routes) {
     "use strict";
     var rootNode, locateMeNode, that, old, formNode, searchFieldNode, state = {}, data = {};
     module.exports = function(rootSelector, config, callback) {

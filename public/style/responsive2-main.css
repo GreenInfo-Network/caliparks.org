@@ -882,42 +882,47 @@ body.parksforward.responsive2 {
           @media screen and (max-width: 720px)  {
             body.parksforward.responsive2 .content.template-park > div section#search-area .block-search-box {
               width: 90%; } }
-  body.parksforward.responsive2 .content.template-parks {
-    display: table-cell;
-    width: 100%; }
-    body.parksforward.responsive2 .content.template-parks .tab-pane {
-      vertical-align: top; }
-      body.parksforward.responsive2 .content.template-parks .tab-pane.list-tab-pane {
-        display: table-cell;
-        width: 33.33333%;
-        padding: 0; }
-        body.parksforward.responsive2 .content.template-parks .tab-pane.list-tab-pane .search-results {
-          overflow: auto;
-          background-color: #cfd8dc; }
-          body.parksforward.responsive2 .content.template-parks .tab-pane.list-tab-pane .search-results .block-activity-filter {
-            background-color: #37474f; }
-          body.parksforward.responsive2 .content.template-parks .tab-pane.list-tab-pane .search-results .no-results {
-            margin: 20px; }
-            body.parksforward.responsive2 .content.template-parks .tab-pane.list-tab-pane .search-results .no-results a {
-              color: blue;
-              white-space: nowrap; }
-          body.parksforward.responsive2 .content.template-parks .tab-pane.list-tab-pane .search-results .block-park-name {
-            color: #37474f;
-            border: inset 1px #bdc8ce;
-            border-width: 0 0 1px 0;
-            padding: 10px 20px; }
-            body.parksforward.responsive2 .content.template-parks .tab-pane.list-tab-pane .search-results .block-park-name .distance {
-              font-family: "expressway", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-              font-weight: 300;
-              color: #37474f; }
-            body.parksforward.responsive2 .content.template-parks .tab-pane.list-tab-pane .search-results .block-park-name a {
-              font-weight: 600;
-              font-family: "jubilat", serif;
-              color: #37474f; }
-      body.parksforward.responsive2 .content.template-parks .tab-pane.map-tab-pane {
-        display: table-cell;
-        width: 66.66667%;
-        padding: 0; }
+  body.parksforward.responsive2 .content.template-parks .block-activity-filter {
+    background-color: #37474f; }
+  body.parksforward.responsive2 .content.template-parks .tab-pane {
+    vertical-align: top;
+    margin: 0;
+    display: inline-block;
+    box-sizing: border-box;
+    float: left; }
+    body.parksforward.responsive2 .content.template-parks .tab-pane.list-tab-pane {
+      width: 30%; }
+      @media screen and (max-width: 720px)  {
+        body.parksforward.responsive2 .content.template-parks .tab-pane.list-tab-pane {
+          width: 100%; } }
+      body.parksforward.responsive2 .content.template-parks .tab-pane.list-tab-pane .search-results {
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
+        background-color: #cfd8dc; }
+        body.parksforward.responsive2 .content.template-parks .tab-pane.list-tab-pane .search-results .no-results {
+          margin: 20px; }
+          body.parksforward.responsive2 .content.template-parks .tab-pane.list-tab-pane .search-results .no-results a {
+            color: blue;
+            white-space: nowrap; }
+        body.parksforward.responsive2 .content.template-parks .tab-pane.list-tab-pane .search-results .block-park-name {
+          color: #37474f;
+          border: inset 1px #bdc8ce;
+          border-width: 0 0 1px 0;
+          padding: 10px 20px; }
+          body.parksforward.responsive2 .content.template-parks .tab-pane.list-tab-pane .search-results .block-park-name .distance {
+            font-family: "expressway", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+            font-weight: 300;
+            color: #37474f; }
+          body.parksforward.responsive2 .content.template-parks .tab-pane.list-tab-pane .search-results .block-park-name a {
+            font-weight: 600;
+            font-family: "jubilat", serif;
+            color: #37474f; }
+    body.parksforward.responsive2 .content.template-parks .tab-pane.map-tab-pane {
+      width: 70%; }
+      @media screen and (max-width: 720px)  {
+        body.parksforward.responsive2 .content.template-parks .tab-pane.map-tab-pane {
+          width: 100%;
+          display: none; } }
 
 @media screen and (max-width: 720px)  {
   body.parksforward.responsive2 {

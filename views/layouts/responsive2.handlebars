@@ -96,14 +96,17 @@
           contentNode      = bodyNode.find('.content'),
           tabNode          = bodyNode.find('.search-results'),
           mapNode          = bodyNode.find('.slippymap'),
-          heightOffset;
+          heightOffset, nudge;
 
           function resize () {
-            heightOffset = (headerNode ? (headerNode.height()) : 0) + (footerNode ? footerNode.height()*2 : 0);
-            contentNode.css({"height":(window.innerHeight - heightOffset) + 'px'});
-            if (tabNode) { //TODO: Remove JQUERY requierment to load this faster and be less specific about markup
-              tabNode.css({"height":(window.innerHeight - heightOffset) + 'px'});
-              mapNode.css({"height":(window.innerHeight - heightOffset) + 'px'});
+            if (window.innerHeight > 720) {
+              nudge = 50;
+              heightOffset = (headerNode ? (headerNode.height()) : 0) + (footerNode ? footerNode.height() : 0) + nudge;
+              contentNode.css({"height":(window.innerHeight - heightOffset) + 'px'});
+              if (tabNode) { //TODO: Remove JQUERY requierment to load this faster and be less specific about markup
+                tabNode.css({"height":(window.innerHeight - heightOffset) + 'px'});
+                mapNode.css({"height":(window.innerHeight - heightOffset) + 'px'});
+              }
             }
           }
 

@@ -1,23 +1,29 @@
 .content.template-parks {
 
-  @include span-columns(12 of 12);
+  .block-activity-filter {
+    background-color:$color-notsodark;
+  }
 
   .tab-pane {
 
     vertical-align:top;
+    margin:0;
+    display:inline-block;
+    box-sizing:border-box;
+    float:left;
 
     &.list-tab-pane {
 
-      @include span-columns(4 of 12);
-      @include pad(0);
+      @include media(max-width 720px) {
+        width:100%;
+      }
+
+      width:30%;
 
       .search-results {
 
-        .block-activity-filter {
-          background-color:$color-notsodark;
-        }
-
         overflow:auto;
+        -webkit-overflow-scrolling: touch;
         background-color:$color-lighter;
 
         .no-results {
@@ -52,8 +58,12 @@
       }
     }
     &.map-tab-pane {
-      @include span-columns(8 of 12);
-      @include pad(0);
+      width:70%;
+
+      @include media(max-width 720px) {
+        width:100%;
+        display:none;
+      }
     }
   }
 
