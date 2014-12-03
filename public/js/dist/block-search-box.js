@@ -35,20 +35,12 @@ define([ "require", "exports", "module", "vendor/typeahead", "vendor/bloodhound"
             formNode.bind("submit", function(e) {
                 e.preventDefault(), state.searchType.q || state.searchType.near || state.searchType.with ? location.href = "/parks/search?" + paramaterizeObject(state.searchType) : (searchFieldNode.val().length || searchFieldNode.val("San Francisco"), 
                 location.href = "/parks/near/" + searchFieldNode.val().replace(/\s/g, "+"));
-            }), searchFieldNode.bind("keyup", function(e) {
-                13 !== e.keyCode && 13 !== e.which && 39 !== e.keyCode && 39 !== e.which ? e.preventDefault() : (13 === e.keyCode || 13 === e.which) && e.preventDefault();
-            }), searchFieldNode.bind("typeahead:selected", function(e, choice, category) {
-                "places" === category ? state.searchType = {
-                    near: choice.value
-                } : "activities" === category && (state.searchType = {
-                    "with": choice.value
-                });
             });
         }
         function initialize() {
             that.on("ready", function() {
                 callback(null, that);
-            }), searchFieldNode.attr("value", decodeURI(location.href.split("/near/")[1] || "").replace(/\+/g, " ")), 
+            }), searchFieldNode.attr("value", decodeURI(routes.getParamStateFromLocationObject().near || "").replace(/\+/g, " ")), 
             state.searchType = {}, initLocateMe(), initForm(), updateData("activities", "/data/uniqueActivities.json", function() {
                 updateData("places", "/data/californiaCities.json", function() {
                     that.fire("ready");
@@ -56,7 +48,7 @@ define([ "require", "exports", "module", "vendor/typeahead", "vendor/bloodhound"
             });
         }
         that = this, StamenSuperClassy.apply(this, arguments);
-        new Routes();
+        var routes = new Routes();
         return rootNode = $(rootSelector), locateMeNode = rootNode.find(".locate-me"), formNode = rootNode.find("form"), 
         searchFieldNode = rootNode.find("input[type=search]"), initialize(), that;
     };

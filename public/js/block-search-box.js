@@ -165,27 +165,6 @@ define(["require","exports","module","vendor/typeahead","vendor/bloodhound","jqu
 
       });
 
-      searchFieldNode.bind("keyup", function(e) {
-        if (e.keyCode !== 13 && e.which !== 13 && e.keyCode !== 39 && e.which !== 39) { //Enter, Return, and Right arrow
-          e.preventDefault();
-        } else {
-          if (e.keyCode === 13 || e.which === 13) {
-            e.preventDefault();
-          }
-        }
-      });
-
-      searchFieldNode.bind("typeahead:selected", function(e,choice,category) {
-        if (category === "places") {
-          state.searchType = {
-            near:choice.value
-          };
-        } else if (category === "activities") {
-          state.searchType = {
-            with:choice.value
-          };
-        }
-      });
     }
 
     //
@@ -199,7 +178,7 @@ define(["require","exports","module","vendor/typeahead","vendor/bloodhound","jqu
       //
       // Initialize thie whole thing
       //
-      searchFieldNode.attr("value",decodeURI(location.href.split('/near/')[1]||'').replace(/\+/g,' '));
+      searchFieldNode.attr("value",decodeURI(routes.getParamStateFromLocationObject().near||'').replace(/\+/g,' '));
       state.searchType = {};
       initLocateMe();
       initForm();
