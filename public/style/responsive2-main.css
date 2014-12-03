@@ -950,7 +950,6 @@ body.parksforward.responsive2 {
     body.parksforward.responsive2 .content.template-parks .tab-pane.list-tab-pane {
       display: none; }
     body.parksforward.responsive2 .content.template-parks .tab-pane.map-tab-pane {
-      height: 100vh;
       display: block; } }
 
 @media screen and (max-width: 720px)  {

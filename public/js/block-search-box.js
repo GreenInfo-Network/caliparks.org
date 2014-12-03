@@ -11,8 +11,7 @@ define(["require","exports","module","jquery","stamen-super-classy","routes"], f
 
   var state             = {},
       data              = {},
-      bloodHoundSources = {},
-      rootNode, locateMeNode, that, old, formNode, searchFieldNode, searchParts, defaultSearchString;
+      rootNode, locateMeNode, that, old, formNode, searchFieldNode;
 
   module.exports=function(rootSelector, config, callback) {
 
@@ -85,60 +84,6 @@ define(["require","exports","module","jquery","stamen-super-classy","routes"], f
     }
 
     //
-    // Methods for working with the Typeahead module
-    //
-    function initTypeahead() {
-
-      //
-      // Construct Bloodhound instances for data types
-      //
-      // Blood hound searches an array of data for the search string
-      //
-      bloodHoundSources.activities = new Bloodhound({
-        datumTokenizer: Bloodhound.tokenizers.obj.whitespace("value"),
-        queryTokenizer: Bloodhound.tokenizers.whitespace,
-        local: $.map(data.activities, function(activity) { return { value: activity }; })
-      });
-
-      bloodHoundSources.places = new Bloodhound({
-        datumTokenizer: Bloodhound.tokenizers.obj.whitespace("value"),
-        queryTokenizer: Bloodhound.tokenizers.whitespace,
-        local: $.map(data.places, function(city) { return { value: city }; })
-      });
-
-      //
-      // Initialize Bloodhound instances
-      //
-      bloodHoundSources.activities.initialize();
-      bloodHoundSources.places.initialize();
-
-      //
-      // Construct typeahead on the search field
-      //
-      return searchFieldNode.typeahead({
-        hint: false,
-        highlight: true,
-        minLength: 1
-      },
-      {
-        name: "places",
-        displayKey: "value",
-        source: bloodHoundSources.places.ttAdapter(),
-        templates: {
-          header : "<h3>Places</h3>"
-        }
-      },
-      {
-        name: "activities",
-        displayKey: "value",
-        source: bloodHoundSources.activities.ttAdapter(),
-        templates: {
-          header : "<h3>Activities</h3>"
-        }
-      });
-    }
-
-    //
     // Methods for managing the form element
     //
 
@@ -154,10 +99,10 @@ define(["require","exports","module","jquery","stamen-super-classy","routes"], f
           location.href="/parks/search?" + paramaterizeObject(state.searchType);
         } else {
           if (!searchFieldNode.val().length) { //Nothing was typed in?
-            searchFieldNode.val('San Francisco');
+            searchFieldNode.val("San Francisco");
           }
 
-          location.href="/parks/near/" + searchFieldNode.val().replace(/\s/g,'+');
+          location.href="/parks/near/" + searchFieldNode.val().replace(/\s/g,"+");
 
         }
 
@@ -176,13 +121,12 @@ define(["require","exports","module","jquery","stamen-super-classy","routes"], f
       //
       // Initialize thie whole thing
       //
-      searchFieldNode.attr("value",decodeURI(routes.getParamStateFromLocationObject().near||'').replace(/\+/g,' '));
+      searchFieldNode.attr("value",decodeURI(routes.getParamStateFromLocationObject().near||"").replace(/\+/g," "));
       state.searchType = {};
       initLocateMe();
       initForm();
       updateData("activities", "/data/uniqueActivities.json", function(r) {
         updateData("places", "/data/californiaCities.json", function(r) {
-          //initTypeahead();
           that.fire("ready");
         });
       });

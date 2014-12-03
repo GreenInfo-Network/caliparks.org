@@ -26,19 +26,6 @@ Array.prototype.indexOf = function indexOf(searchElement) {
 };
 
 }
-if (!Array.prototype.map) {
-// Array.prototype.map
-Array.prototype.map = function map(callback, scope) {
-	for (var array = this, arrayB = [], index = 0, length = array.length, element; index < length; ++index) {
-		element = array[index];
-
-		arrayB.push(callback.call(scope || window, array[index], index, array));
-	}
-
-	return arrayB;
-};
-
-}
 if (!Function.prototype.bind) {
 // Function.prototype.bind
 Function.prototype.bind = function bind(scope) {
@@ -405,6 +392,19 @@ if (typeof window.JSON === "undefined") {
 		}
 	};
 })();
+
+}
+if (!Array.prototype.map) {
+// Array.prototype.map
+Array.prototype.map = function map(callback, scope) {
+	for (var array = this, arrayB = [], index = 0, length = array.length, element; index < length; ++index) {
+		element = array[index];
+
+		arrayB.push(callback.call(scope || window, array[index], index, array));
+	}
+
+	return arrayB;
+};
 
 }
 if (!Array.prototype.forEach) {

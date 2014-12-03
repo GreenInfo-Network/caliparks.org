@@ -33,18 +33,19 @@ define(["require","exports","module","jquery","block-activity-filter","block-sea
       $.getJSON(options.geojsonURI, function(r) {
 
         that.slippyMap.updateData(r.response);
+        that.slippyMap.resize();
 
       });
     }
 
     function initTabControl() {
-      var rootNode = that.utils.get('.tab-actions')[0],
-          bodyNode = that.utils.get('body')[0];
+      var rootNode = that.utils.get(".tab-actions")[0],
+          bodyNode = that.utils.get("body")[0];
 
-      bodyNode.classList.add('tab-list');
+      bodyNode.classList.add("tab-list");
 
-      rootNode.addEventListener('click', function() {
-        bodyNode.classList.toggle('tab-list');
+      rootNode.addEventListener("click", function() {
+        bodyNode.classList.toggle("tab-list");
         that.slippyMap.resize();
       }, false);
     }

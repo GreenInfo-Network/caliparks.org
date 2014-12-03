@@ -7,7 +7,7 @@ define([ "require", "exports", "module", "jquery", "block-activity-filter", "blo
             }, function() {
                 that.fire("map-initialized");
             }), $.getJSON(options.geojsonURI, function(r) {
-                that.slippyMap.updateData(r.response);
+                that.slippyMap.updateData(r.response), that.slippyMap.resize();
             });
         }
         function initTabControl() {
