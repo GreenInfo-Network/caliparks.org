@@ -27,13 +27,13 @@ if (locationParts[4] === 'near' && !locationParts[5]) {
       {{#paginationLast}}<a href="#">{{#__}}Go back a bit{{/__}}</a>{{/paginationLast}}
 
       {{#each parks}}
-      <li>{{>block-park-name}}</li>
+        <li>{{>block-park-name}}</li>
       {{else}}
-      {{#__}}Having trouble finding a park? <a href="/wander">Here's one</a>{{/__}}.
+        <p class="no-results">{{#__}}Having trouble finding a park? <a href="/wander">Here's one</a>{{/__}}.</p>
       {{/each}}
 
       {{#if total}}
-      {{#paginationNext}}<a href="#">{{#__}}Moar Parks!{{/__}}</a>{{/paginationNext}}
+      {{#paginationNext}}<a href="#">{{#__}}More Parks!{{/__}}</a>{{/paginationNext}}
       {{/if}}
     </ul>
   </div>

@@ -20,6 +20,13 @@
         overflow:auto;
         background-color:$color-lighter;
 
+        .no-results {
+          margin:$box-padding;
+          a {
+            color:blue;
+            white-space:nowrap;
+          }
+        }
 
         .block-park-name {
           color:$color-notsodark;
