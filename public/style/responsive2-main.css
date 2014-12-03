@@ -891,10 +891,12 @@ body.parksforward.responsive2 {
     box-sizing: border-box;
     float: left; }
     body.parksforward.responsive2 .content.template-parks .tab-pane.list-tab-pane {
+      /*
+      @include media(max-width 720px) {
+        width:100%;
+      }
+      */
       width: 30%; }
-      @media screen and (max-width: 720px)  {
-        body.parksforward.responsive2 .content.template-parks .tab-pane.list-tab-pane {
-          width: 100%; } }
       body.parksforward.responsive2 .content.template-parks .tab-pane.list-tab-pane .search-results {
         overflow: auto;
         -webkit-overflow-scrolling: touch;
@@ -918,11 +920,13 @@ body.parksforward.responsive2 {
             font-family: "jubilat", serif;
             color: #37474f; }
     body.parksforward.responsive2 .content.template-parks .tab-pane.map-tab-pane {
-      width: 70%; }
-      @media screen and (max-width: 720px)  {
-        body.parksforward.responsive2 .content.template-parks .tab-pane.map-tab-pane {
-          width: 100%;
-          display: none; } }
+      width: 70%
+      /*
+      @include media(max-width 720px) {
+        width:100%;
+        display:none;
+      }
+      */ }
 
 @media screen and (max-width: 720px)  {
   body.parksforward.responsive2 {

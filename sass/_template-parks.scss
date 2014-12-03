@@ -14,9 +14,11 @@
 
     &.list-tab-pane {
 
+      /*
       @include media(max-width 720px) {
         width:100%;
       }
+      */
 
       width:30%;
 
@@ -60,10 +62,12 @@
     &.map-tab-pane {
       width:70%;
 
+      /*
       @include media(max-width 720px) {
         width:100%;
         display:none;
       }
+      */
     }
   }
 

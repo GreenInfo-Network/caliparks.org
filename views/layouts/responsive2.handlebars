@@ -99,13 +99,16 @@
           heightOffset, nudge;
 
           function resize () {
-            if (window.innerHeight > 720) {
+            var newWidth;
+            console.log('resize?', window.innerWidth > 720);
+            if (window.innerWidth > 720) {
               nudge = 50;
               heightOffset = (headerNode ? (headerNode.height()) : 0) + (footerNode ? footerNode.height() : 0) + nudge;
               contentNode.css({"height":(window.innerHeight - heightOffset) + 'px'});
               if (tabNode) { //TODO: Remove JQUERY requierment to load this faster and be less specific about markup
-                tabNode.css({"height":(window.innerHeight - heightOffset) + 'px'});
-                mapNode.css({"height":(window.innerHeight - heightOffset) + 'px'});
+                newWidth = Math.max(window.innerHeight - heightOffset, 430);
+                tabNode.css({"height":newWidth + 'px'});
+                mapNode.css({"height":newWidth + 'px'});
               }
             }
           }
