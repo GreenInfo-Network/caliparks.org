@@ -1483,7 +1483,7 @@ a.tweet-box-button {
     font-size: 12px;
 }
 
-.standalone-tweet.media-forward .content {
+.standalone-tweet.media-forward #content {
     padding: 0 10px 3px 10px;
 }
 

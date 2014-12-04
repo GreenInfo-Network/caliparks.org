@@ -105,7 +105,7 @@ body.parksforward.responsive {
       right: 15px; }
     body.parksforward.responsive header.has-coverphoto {
       background-color: rgba(0, 0, 0, 0); }
-  body.parksforward.responsive div.content {
+  body.parksforward.responsive div#content {
     float: left;
     display: block;
     margin-right: 4.82916%;
@@ -113,13 +113,13 @@ body.parksforward.responsive {
     position: relative;
     background-color: white
     /* Flickr cover photo module */ }
-    body.parksforward.responsive div.content:last-child {
+    body.parksforward.responsive div#content:last-child {
       margin-right: 0; }
-    body.parksforward.responsive div.content .explore-parks-near {
+    body.parksforward.responsive div#content .explore-parks-near {
       background-color: #A4D0C4; }
-    body.parksforward.responsive div.content .content-column {
+    body.parksforward.responsive div#content #content-column {
       padding: 15px; }
-      body.parksforward.responsive div.content .content-column .map-group {
+      body.parksforward.responsive div#content #content-column .map-group {
         float: left;
         display: block;
         margin-right: 2.35765%;
@@ -127,47 +127,47 @@ body.parksforward.responsive {
         display: table;
         width: 100%;
         table-layout: fixed; }
-        body.parksforward.responsive div.content .content-column .map-group:last-child {
+        body.parksforward.responsive div#content #content-column .map-group:last-child {
           margin-right: 0; }
-        body.parksforward.responsive div.content .content-column .map-group:after {
+        body.parksforward.responsive div#content #content-column .map-group:after {
           content: "";
           display: table;
           clear: both; }
-        body.parksforward.responsive div.content .content-column .map-group .map {
+        body.parksforward.responsive div#content #content-column .map-group .map {
           height: 300px;
           margin-bottom: 15px; }
-          body.parksforward.responsive div.content .content-column .map-group .map .park-map-dot {
+          body.parksforward.responsive div#content #content-column .map-group .map .park-map-dot {
             border-radius: 999px;
             background-color: #72C4B9; }
-          body.parksforward.responsive div.content .content-column .map-group .map.in {
+          body.parksforward.responsive div#content #content-column .map-group .map.in {
             display: table-cell;
             width: 50%;
             padding: 2.35765%;
             border-right: solid 3px white; }
-            body.parksforward.responsive div.content .content-column .map-group .map.in .park-map-dot {
+            body.parksforward.responsive div#content #content-column .map-group .map.in .park-map-dot {
               width: 25px;
               height: 25px;
               border: solid 4px white; }
-          body.parksforward.responsive div.content .content-column .map-group .map.out {
+          body.parksforward.responsive div#content #content-column .map-group .map.out {
             display: table-cell;
             width: 50%;
             padding: 2.35765%; }
-            body.parksforward.responsive div.content .content-column .map-group .map.out .park-map-dot {
+            body.parksforward.responsive div#content #content-column .map-group .map.out .park-map-dot {
               width: 15px;
               height: 15px;
               border: solid 2px white; }
-    body.parksforward.responsive div.content section#search-box {
+    body.parksforward.responsive div#content section#search-box {
       background-color: #A4D0C4; }
-      body.parksforward.responsive div.content section#search-box input {
+      body.parksforward.responsive div#content section#search-box input {
         background-color: transparent;
         border: none;
         padding: 15px 70px 15px 15px; }
-      body.parksforward.responsive div.content section#search-box div.search-actions {
+      body.parksforward.responsive div#content section#search-box div.search-actions {
         position: absolute;
         top: 6px;
         right: 0;
         padding: 3px 15px; }
-        body.parksforward.responsive div.content section#search-box div.search-actions button {
+        body.parksforward.responsive div#content section#search-box div.search-actions button {
           padding: 0;
           margin: 0;
           height: 2em;
@@ -178,16 +178,16 @@ body.parksforward.responsive {
           border: none;
           color: transparent;
           cursor: pointer; }
-          body.parksforward.responsive div.content section#search-box div.search-actions button img {
+          body.parksforward.responsive div#content section#search-box div.search-actions button img {
             width: 2em;
             height: 2em;
             fill: blue; }
-    body.parksforward.responsive div.content ul.activity-icons {
+    body.parksforward.responsive div#content ul.activity-icons {
       display: inline-block;
       margin-bottom: 15px;
       vertical-align: top;
       white-space: nowrap; }
-      body.parksforward.responsive div.content ul.activity-icons li {
+      body.parksforward.responsive div#content ul.activity-icons li {
         display: inline-block;
         margin-right: 10px;
         border: solid transparent 1px;
@@ -196,11 +196,11 @@ body.parksforward.responsive {
         background-color: #A4D0C4;
         width: 30px;
         height: 30px; }
-        body.parksforward.responsive div.content ul.activity-icons li img {
+        body.parksforward.responsive div#content ul.activity-icons li img {
           width: 20px;
           height: 20px;
           fill-color: white; }
-    body.parksforward.responsive div.content ul.social-badges {
+    body.parksforward.responsive div#content ul.social-badges {
       font-size: 60%;
       font-weight: bolder;
       display: inline-block;
@@ -208,7 +208,7 @@ body.parksforward.responsive {
       vertical-align: top;
       white-space: nowrap;
       overflow: hidden; }
-      body.parksforward.responsive div.content ul.social-badges li {
+      body.parksforward.responsive div#content ul.social-badges li {
         display: inline-block;
         margin-right: 10px;
         border: solid transparent 1px;
@@ -230,41 +230,41 @@ body.parksforward.responsive {
           background-color:rgb(252, 69, 117);
         }
         */ }
-    body.parksforward.responsive div.content .stmn-carousel-module ::-webkit-scrollbar {
+    body.parksforward.responsive div#content .stmn-carousel-module ::-webkit-scrollbar {
       width: 20px; }
-    body.parksforward.responsive div.content .stmn-carousel-module ::-webkit-scrollbar-thumb {
+    body.parksforward.responsive div#content .stmn-carousel-module ::-webkit-scrollbar-thumb {
       background-color: black; }
-    body.parksforward.responsive div.content .stmn-carousel-module {
+    body.parksforward.responsive div#content .stmn-carousel-module {
       margin-top: -59px;
       scrollbar-highlight-color: aqua !important;
       scrollbar-face-color: blue !important;
       scrollbar-arrow-color: blue !important;
       border-color: blue !important;
       -webkit-transform: translate3d(0, 0, 0); }
-    body.parksforward.responsive div.content .has-coverphoto .coverphoto {
+    body.parksforward.responsive div#content .has-coverphoto .coverphoto {
       height: 480px;
       background: no-repeat center center;
       background-size: cover;
       position: relative;
       width: 100%; }
-    body.parksforward.responsive div.content #coverphoto-carousel .flickr-title {
+    body.parksforward.responsive div#content #coverphoto-carousel .flickr-title {
       display: inline-block;
       max-width: 248px;
       overflow: hidden;
       text-overflow: ellipsis;
       margin-bottom: -2px; }
-    body.parksforward.responsive div.content #people-from {
+    body.parksforward.responsive div#content #people-from {
       right: 15px;
       color: white; }
-      body.parksforward.responsive div.content #people-from a {
+      body.parksforward.responsive div#content #people-from a {
         color: white; }
-      body.parksforward.responsive div.content #people-from span {
+      body.parksforward.responsive div#content #people-from span {
         background-color: #72C4B9; }
-    body.parksforward.responsive div.content #coverphoto-carousel {
+    body.parksforward.responsive div#content #coverphoto-carousel {
       transition: height 0.5s;
       width: 100%;
       height: 480px; }
-    body.parksforward.responsive div.content .has-coverphoto .coverphoto span.attribution {
+    body.parksforward.responsive div#content .has-coverphoto .coverphoto span.attribution {
       position: absolute;
       right: 15px;
       bottom: 15px;
@@ -273,15 +273,15 @@ body.parksforward.responsive {
       line-height: 10px;
       font-size: 60%;
       color: white; }
-      body.parksforward.responsive div.content .has-coverphoto .coverphoto span.attribution a {
+      body.parksforward.responsive div#content .has-coverphoto .coverphoto span.attribution a {
         text-decoration: none;
         color: white; }
-    body.parksforward.responsive div.content .carousel-container {
+    body.parksforward.responsive div#content .carousel-container {
       position: relative;
       margin-bottom: 25px; }
-    body.parksforward.responsive div.content .carousel-container h2 {
+    body.parksforward.responsive div#content .carousel-container h2 {
       margin-bottom: 25px; }
-    body.parksforward.responsive div.content .carousel-forward-button, body.parksforward.responsive div.content .carousel-back-button {
+    body.parksforward.responsive div#content .carousel-forward-button, body.parksforward.responsive div#content .carousel-back-button {
       background-color: transparent;
       width: 52px;
       height: 52px;
@@ -289,24 +289,24 @@ body.parksforward.responsive {
       border: none;
       position: absolute;
       cursor: pointer; }
-    body.parksforward.responsive div.content .carousel-forward-button {
+    body.parksforward.responsive div#content .carousel-forward-button {
       background-image: url('/style/forward-arrow-normal.png'); }
-    body.parksforward.responsive div.content .carousel-forward-button:hover {
+    body.parksforward.responsive div#content .carousel-forward-button:hover {
       background-image: url('/style/forward-arrow-hover.png'); }
-    body.parksforward.responsive div.content .carousel-back-button {
+    body.parksforward.responsive div#content .carousel-back-button {
       background-image: url('/style/back-arrow-normal.png'); }
-    body.parksforward.responsive div.content .carousel-back-button:hover {
+    body.parksforward.responsive div#content .carousel-back-button:hover {
       background-image: url('/style/back-arrow-hover.png'); }
-    body.parksforward.responsive div.content .carousel-forward-button, body.parksforward.responsive div.content body.openspaces .carousel-back-button:focus {
+    body.parksforward.responsive div#content .carousel-forward-button, body.parksforward.responsive div#content body.openspaces .carousel-back-button:focus {
       outline-width: 0; }
-    body.parksforward.responsive div.content .carousel-forward-button {
+    body.parksforward.responsive div#content .carousel-forward-button {
       transition: opacity 0.5s;
       opacity: 1;
       right: 10px; }
-    body.parksforward.responsive div.content .carousel-back-button {
+    body.parksforward.responsive div#content .carousel-back-button {
       transition: opacity 0.5s;
       left: 10px; }
-    body.parksforward.responsive div.content .not-scrolled .carousel-back-button {
+    body.parksforward.responsive div#content .not-scrolled .carousel-back-button {
       opacity: 0;
       transition: opacity 0.5s; }
   body.parksforward.responsive footer {
@@ -330,13 +330,13 @@ body.parksforward.responsive {
 *  Styles for Mobile
 */
 @media (max-width: 720px) {
-  body.parksforward.responsive div.content .has-coverphoto .coverphoto {
+  body.parksforward.responsive div#content .has-coverphoto .coverphoto {
     height: 200px; }
-  body.parksforward.responsive div.content #coverphoto-carousel {
+  body.parksforward.responsive div#content #coverphoto-carousel {
     height: 200px; }
-  body.parksforward.responsive div.content .carousel-forward-button {
+  body.parksforward.responsive div#content .carousel-forward-button {
     display: none; }
-  body.parksforward.responsive div.content .carousel-back-button {
+  body.parksforward.responsive div#content .carousel-back-button {
     display: none; }
-  body.parksforward.responsive div.content #people-from {
+  body.parksforward.responsive div#content #people-from {
     display: none; } }

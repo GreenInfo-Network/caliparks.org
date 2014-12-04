@@ -86,44 +86,49 @@
       });
 
       {{#if tabletViewport}}
-      require( ["jquery"], function() {
         function TabletViewportManager() {
-          var that = this;
 
-          var bodyNode     = $('body'),
-          headerNode       = bodyNode.find('header'),
-          footerNode       = bodyNode.find('footer'),
-          contentNode      = bodyNode.find('.content'),
-          tabNode          = bodyNode.find('.search-results'),
-          mapNode          = bodyNode.find('.slippymap'),
-          heightOffset, nudge;
+          var that         = this,
+              headerNode   = document.getElementsByTagName('header')[0],
+              footerNode   = document.getElementsByTagName('footer')[0],
+              windowHeight = window.innerHeight,
+              windowWidth = window.innerWidth,
+              contentNode  = document.getElementById("content");
 
           function resize () {
-            var newWidth;
+            var newWidth, headerHeight, footerHeight;
 
-            //if (window.innerWidth > 720) {
-              nudge = 50;
+            headerHeight = headerNode.offsetHeight;
+            footerHeight = footerNode.offsetHeight;
+            contentNode.style.overflow = 'auto';
+            contentNode.style.width    = windowWidth + 'px';
+            contentNode.style.height   = ((windowHeight - footerHeight)-219) + 'px';
+
+            console.log((windowHeight - (headerHeight+footerHeight)), contentNode);
+
+              /*
+              nudge = 0;
               heightOffset = ((headerNode ? (headerNode.height()) : 0) + (footerNode ? footerNode.height() : 0)) + nudge;
               contentNode.css({"height":(window.innerHeight - heightOffset) + 'px'});
               if (tabNode) { //TODO: Remove JQUERY requierment to load this faster and be less specific about markup
-                newWidth = Math.max(window.innerHeight - heightOffset, 430);
-                tabNode.css({"height":newWidth + 'px'});
-                mapNode.css({"height":newWidth + 'px'});
-              }
-            //}
+              newWidth = Math.max(window.innerHeight - heightOffset, 430);
+              tabNode.css({"height":newWidth + 'px'});
+              mapNode.css({"height":newWidth + 'px'});
+              */
           }
 
+          /*
           $(window).on('resize orientationChanged', function() {
             resize();
           });
+          */
 
-          setTimeout(resize, 0);
+          //setTimeout(resize, 0);
 
           return that;
         }
 
         var tabletViewportManager = new TabletViewportManager();
-      });
       {{/if}}
 
       {{#if view}}

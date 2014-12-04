@@ -103,7 +103,7 @@ body.parksforward.responsive {
     }
   }
 
-  div.content {
+  div#content {
     @include span-columns(6 of 6);
     position:relative;
 
@@ -113,7 +113,7 @@ body.parksforward.responsive {
       background-color: $ui-accent;
     }
 
-    .content-column {
+    #content-column {
       padding:$box-padding;
 
 
@@ -399,7 +399,7 @@ body.parksforward.responsive {
 */
 @media (max-width : 720px) {
   body.parksforward.responsive {
-    div.content {
+    div#content {
       .has-coverphoto .coverphoto {
         height:200px;
       }

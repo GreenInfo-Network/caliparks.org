@@ -1,6 +1,31 @@
+&.tablet-viewport {
+  position:fixed !important;
+  position:absolute;
+  top:0;
+  right:0;
+  bottom:0;
+  left:0;
+
+  footer {
+    position:fixed !important;
+    position:absolute;
+
+    right:0;
+    bottom:0;
+    left:0;
+
+    @include media(max-width 720px) {
+      bottom: -102px;
+
+      .top-action {
+        display:none;
+      }
+    }
+  }
+}
+
 .action-bar {
   position:relative;
-  border:solid 1px transparent;
   overflow:auto;
   .block-activity-filter {
     background-color:$color-notsodark;
@@ -13,9 +38,22 @@
       display:none;
     }
   }
+  z-index:3;
 }
 
-.content.template-parks {
+#content.template-parks {
+
+  position: fixed !important;
+  position: absolute;
+  top: 217px;
+  right: 0;
+  bottom: 104px;
+  left: 0;
+
+  @include media(max-width 720px) {
+    top: 110px;
+    bottom: 98px;
+  }
 
   .tab-pane {
 
@@ -24,11 +62,20 @@
     display:inline-block;
     box-sizing:border-box;
     float:left;
+    padding-bottom: 0em;
+    margin-bottom: -0em;
 
     &.list-tab-pane {
 
+      max-width: 30%;
+      position: absolute;
+      bottom: -50px;
+      top: 47px;
+      z-index:2;
+
       @include media(max-width 720px) {
         width:100%;
+        max-width: 100%;
       }
 
       width:30%;
@@ -38,6 +85,9 @@
         overflow:auto;
         -webkit-overflow-scrolling: touch;
         background-color:$color-lighter;
+        position: absolute;
+        top: 0px;
+        bottom: 0px;
 
         .no-results {
           margin:$box-padding;
@@ -72,9 +122,12 @@
     }
     &.map-tab-pane {
       width:70%;
+      margin-left:30%;
+      z-index:1;
 
       @include media(max-width 720px) {
         width:100%;
+        margin-left:0;
       }
     }
   }
@@ -83,7 +136,7 @@
 
 @include media(max-width 720px) {
   &.tab-list {
-    .content.template-parks {
+    #content.template-parks {
       .tab-pane {
 
         &.list-tab-pane {
@@ -96,7 +149,7 @@
     }
   }
 
-  .content.template-parks {
+  #content.template-parks {
     .tab-pane {
 
       &.list-tab-pane {

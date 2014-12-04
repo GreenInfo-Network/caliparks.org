@@ -14,14 +14,14 @@ if (locationParts[4] === 'near' && !locationParts[5]) {
 </script>
 
 {{>header-search}}
-<div class="action-bar">
-  {{>block-activity-filter}}
-  <div class="tab-actions">
-    <button data-action="list">List</button>
-    <button data-action="map">Map</button>
+<div id="content" class="template-{{view}}">
+  <div class="action-bar">
+    {{>block-activity-filter}}
+    <div class="tab-actions">
+      <button data-action="list">List</button>
+      <button data-action="map">Map</button>
+    </div>
   </div>
-</div>
-<div class="content template-{{view}}">
 
   <div class="tab-pane list-tab-pane">
     <ul class="search-results">
@@ -39,8 +39,8 @@ if (locationParts[4] === 'near' && !locationParts[5]) {
       {{/if}}
     </ul>
   </div>
-  <div class="tab-pane map-tab-pane">
-    <div class="slippymap" style="width:100%;height:100%;"></div>
+  <div class="tab-pane map-tab-pane" style="height:100%;">
+    <div class="slippymap" style="width: 100%; height: 100%;"></div>
   </div>
 </div>
 <script>
