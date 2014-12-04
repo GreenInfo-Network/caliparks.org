@@ -202,8 +202,18 @@ app.get('/svg/:name-:color.svg', function(req,res) {
   var color = req.params.color;
 
   fs.readFile('./public/style/' + req.params.name + '.svg', {"encoding":"utf8"}, function(err, image) {
-    res.contentType('image/svg+xml');
-    res.send(image.replace(/\{color\}/g, color));
+
+    if (err) {
+      console.error(err);
+    }
+
+    if (image) {
+      res.contentType('image/svg+xml');
+      res.send(image.replace(/\{color\}/g, color));
+    } else {
+      res.status(404);
+      res.send('Sorry, but I have no idea what you are talking about.');
+    }
   });
 
 });

@@ -944,12 +944,11 @@ body.parksforward.responsive2 {
       padding-bottom: 0em;
       margin-bottom: -0em; }
       body.parksforward.responsive2 #content.template-parks .tab-pane.list-tab-pane {
-        width: 30%;
+        width: 33.33%;
         position: absolute;
         bottom: -50px;
         top: 47px;
-        z-index: 2;
-        width: 30%; }
+        z-index: 2; }
         @media screen and (max-width: 720px)  {
           body.parksforward.responsive2 #content.template-parks .tab-pane.list-tab-pane {
             width: 100%; }
@@ -983,8 +982,8 @@ body.parksforward.responsive2 {
           body.parksforward.responsive2 #content.template-parks .tab-pane.list-tab-pane .search-results li:last-of-type .block-park-name {
             border: none; }
       body.parksforward.responsive2 #content.template-parks .tab-pane.map-tab-pane {
-        width: 70%;
-        margin-left: 30%;
+        width: 66.67%;
+        margin-left: 33.33%;
         z-index: 1; }
         @media screen and (max-width: 720px)  {
           body.parksforward.responsive2 #content.template-parks .tab-pane.map-tab-pane {

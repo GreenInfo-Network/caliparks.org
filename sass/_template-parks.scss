@@ -73,7 +73,7 @@
 
     &.list-tab-pane {
 
-      width: 30%;
+      width: 33.33%;
       position: absolute;
       bottom: -50px;
       top: 47px;
@@ -86,8 +86,6 @@
           width:100%;
         }
       }
-
-      width:30%;
 
       .search-results {
 
@@ -137,8 +135,8 @@
       }
     }
     &.map-tab-pane {
-      width:70%;
-      margin-left:30%;
+      width:66.67%;
+      margin-left:33.33%;
       z-index:1;
 
       @include media(max-width 720px) {

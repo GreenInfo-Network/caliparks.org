@@ -65,7 +65,7 @@ define([ "require", "exports", "module", "stamen-super-classy" ], function(requi
             return (markersArray || data.features).forEach(function(feature) {
                 pinCache[feature.id].selected = !1, pinCache[feature.id].pin.setIcon({
                     size: new google.maps.Size(20, 32),
-                    url: "http://www.googlemapsmarkers.com/v1/5a948e/"
+                    url: "/svg/map-pin-607d8b.svg"
                 }), pinCache[feature.id].pin.setZIndex(1);
             }), self.fire("select-markers"), !0;
         }
@@ -73,7 +73,7 @@ define([ "require", "exports", "module", "stamen-super-classy" ], function(requi
             return (markersArray || data.features).forEach(function(feature) {
                 pinCache[feature.id].selected = !1, pinCache[feature.id].pin.setIcon({
                     size: new google.maps.Size(20, 32),
-                    url: "http://www.googlemapsmarkers.com/v1/0c617f/"
+                    url: "/svg/map-pin-607d8b.svg"
                 }), pinCache[feature.id].pin.setZIndex(-1);
             }), self.fire("clear-marker-selections"), !0;
         }

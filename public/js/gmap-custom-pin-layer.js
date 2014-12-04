@@ -189,7 +189,7 @@ define(["require","exports","module","stamen-super-classy"], function(
 
           pinCache[feature.id].pin.setIcon({
             size:new google.maps.Size(20,32),
-            url:"http://www.googlemapsmarkers.com/v1/5a948e/"
+            url:"/svg/map-pin-607d8b.svg"
           });
 
           pinCache[feature.id].pin.setZIndex(+1);
@@ -209,7 +209,7 @@ define(["require","exports","module","stamen-super-classy"], function(
 
           pinCache[feature.id].pin.setIcon({
             size:new google.maps.Size(20,32),
-            url:"http://www.googlemapsmarkers.com/v1/0c617f/"
+            url:"/svg/map-pin-607d8b.svg"
           });
 
           pinCache[feature.id].pin.setZIndex(-1);

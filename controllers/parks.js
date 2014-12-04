@@ -92,9 +92,9 @@ module.exports = function(req, res, data, callback) {
   }
 
   data.options = {
-    startat : (req.query.startat|0) || 0,
-    perpage : (req.query.perpage|0) || 100,
-    not     : req.query.not || null
+    startat : (req.query && req.query.startat) ? (req.query.startat) : 0,
+    perpage : (req.query && req.query.perpage) ? (req.query.perpage|0) : 100,
+    not     : (req.query && req.query.not) ? req.query.not : null
   };
 
   return cpad.getParks(data, go);
@@ -107,8 +107,8 @@ module.exports = function(req, res, data, callback) {
     return callback(null, {
       parks          : parks,
       total          : parks.length,
-      startat        : data.options.startat,
-      perpage        : data.options.perpage,
+      startat        : (data.options) ? data.options.startat : 0,
+      perpage        : (data.options) ? data.options.perpage : 100,
       query          : data.query,
       activities     : getActivityFilterState(data.query.with),
       bounds         : bounds
