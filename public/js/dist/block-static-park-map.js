@@ -65,7 +65,8 @@ define([ "require", "exports", "module", "detect-os", "stamen-super-classy", "gm
                 mapTypeControlOptions: {
                     mapTypeIds: [ "parksLayer" ]
                 }
-            }), that.smallMapRect = new google.maps.Rectangle({
+            }), that.smallMap.mapTypes.set("parksLayer", that.parksLayer), that.smallMap.setMapTypeId("parksLayer"), 
+            that.smallMapRect = new google.maps.Rectangle({
                 strokeColor: "#000",
                 strokeOpacity: .35,
                 strokeWeight: 1,

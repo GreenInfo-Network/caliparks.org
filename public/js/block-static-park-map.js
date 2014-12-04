@@ -146,6 +146,9 @@ define(["require","exports","module","detect-os","stamen-super-classy","gmap-cus
         }
       });
 
+      that.smallMap.mapTypes.set("parksLayer", that.parksLayer);
+      that.smallMap.setMapTypeId("parksLayer");
+
       that.smallMapRect = new google.maps.Rectangle({
         strokeColor: "#000",
         strokeOpacity: 0.35,
