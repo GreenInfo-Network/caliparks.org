@@ -17,10 +17,11 @@ if (locationParts[4] === 'near' && !locationParts[5]) {
 <div id="content" class="template-{{view}}">
   <div class="action-bar">
     {{>block-activity-filter}}
-    <div class="tab-actions">
-      <button data-action="list">List</button>
-      <button data-action="map">Map</button>
-    </div>
+  </div>
+
+  <div class="tab-actions">
+    <button class="list" data-action="list">List</button>
+    <button class="map" data-action="map">Map</button>
   </div>
 
   <div class="tab-pane list-tab-pane">

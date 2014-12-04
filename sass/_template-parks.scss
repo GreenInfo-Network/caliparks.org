@@ -1,10 +1,4 @@
 &.tablet-viewport {
-  position:fixed !important;
-  position:absolute;
-  top:0;
-  right:0;
-  bottom:0;
-  left:0;
 
   footer {
     position:fixed !important;
@@ -26,18 +20,31 @@
 .action-bar {
   position:relative;
   overflow:auto;
+  border-top:solid 1px rgba(255,255,255,.5);
   .block-activity-filter {
     background-color:$color-notsodark;
   }
-  .tab-actions {
-    position:absolute;
-    right: 20px;
-    top: 15px;
-    @include media(min-width 721px) {
-      display:none;
-    }
-  }
+
   z-index:3;
+}
+
+.tab-actions {
+  position:absolute;
+  right: 20px;
+  top: 0px;
+  height:100%;
+  height: 47px;
+  z-index: 4;
+
+  button {
+    height: 100%;
+    background-color:transparent;
+    border:none;
+  }
+
+  @include media(min-width 721px) {
+    display:none;
+  }
 }
 
 #content.template-parks {
@@ -66,7 +73,7 @@
 
     &.list-tab-pane {
 
-      max-width: 30%;
+      width: 30%;
       position: absolute;
       bottom: -50px;
       top: 47px;
@@ -74,7 +81,10 @@
 
       @include media(max-width 720px) {
         width:100%;
-        max-width: 100%;
+
+        ul {
+          width:100%;
+        }
       }
 
       width:30%;
@@ -136,6 +146,18 @@
 @include media(max-width 720px) {
   &.tab-list {
     #content.template-parks {
+
+      .tab-actions {
+        .list {
+          border-top:solid 1px white;
+          background-image:url('responsive2/listicle.svg');
+        }
+        .map {
+          border-top:solid 1px transparent;
+          background-image:url('responsive2/foldedmap.svg');
+        }
+      }
+
       .tab-pane {
 
         &.list-tab-pane {
@@ -149,6 +171,27 @@
   }
 
   #content.template-parks {
+
+    .tab-actions {
+
+      button {
+        color:transparent;
+        background-repeat:no-repeat;
+        background-position: 10px;
+        background-size: 20px;
+        width:40px;
+      }
+
+      .list {
+        border-top:solid 1px transparent;
+        background-image:url('responsive2/listicle.svg');
+      }
+      .map {
+        border-top:solid 1px white;
+        background-image:url('responsive2/foldedmap.svg');
+      }
+    }
+
     .tab-pane {
 
       &.list-tab-pane {
