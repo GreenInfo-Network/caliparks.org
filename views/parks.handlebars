@@ -27,7 +27,8 @@ if (locationParts[4] === 'near' && !locationParts[5]) {
   <div class="tab-pane list-tab-pane">
     <ul class="search-results">
 
-      {{#paginationLast}}<a href="#">{{#__}}Go back a bit{{/__}}</a>{{/paginationLast}}
+
+      {{#paginationLast}}<div class="pagination-container"><a href="#" class="action">{{#__}}Go back a bit{{/__}}</a></div>{{/paginationLast}}
 
       {{#each parks}}
         <li>{{>block-park-name}}</li>
@@ -36,7 +37,7 @@ if (locationParts[4] === 'near' && !locationParts[5]) {
       {{/each}}
 
       {{#if total}}
-      {{#paginationNext}}<a href="#">{{#__}}More Parks!{{/__}}</a>{{/paginationNext}}
+        {{#paginationNext}}<div class="pagination-container"><a href="#" class="action">{{#__}}More Parks!{{/__}}</a></div>{{/paginationNext}}
       {{/if}}
     </ul>
   </div>

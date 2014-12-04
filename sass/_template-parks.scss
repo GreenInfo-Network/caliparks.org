@@ -112,6 +112,7 @@
           border:inset 1px #bdc8ce;
           border-width:0 0 1px 0;
 
+
           padding:$box-padding-half $box-padding;
 
           .distance {
@@ -124,6 +125,12 @@
             font-weight:$font-weight-bold;
             font-family:$font-family-serif;
             color:$color-notsodark;
+          }
+        }
+
+        li:last-of-type {
+          .block-park-name {
+            border:none;
           }
         }
 

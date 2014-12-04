@@ -86,8 +86,13 @@ function constructPaginationArgs(pageData, forward) {
 }
 
 function stringifyPaginationArgs(paramsObject) {
-  return JSON.stringify(paramsObject).replace(/[\{|\}|\"]/g,'').replace(/\:/g,'=').replace(/\,/g,'&');
+
+  return Object.keys(paramsObject).map(function(key) {
+    return key + '=' + encodeURI(paramsObject[key]);
+  }).join('&');
+
 }
+
 app.engine('handlebars', exphbs({
   defaultLayout : 'main',
   helpers       : {
@@ -123,7 +128,7 @@ app.engine('handlebars', exphbs({
     },
     "paginationLast" : function(options) {
       var paginationArgs;
-      if ((options.data.root.startat|0) > (options.data.root.perpage|0)) {
+      if ((options.data.root.startat|0) >= (options.data.root.perpage|0)) {
         paginationArgs = constructPaginationArgs(options.data.root);
         paginationArgs.startat = (paginationArgs.startat||0) - (paginationArgs.perpage || 0);
         return options.fn(this).replace(/href="#"/,'href="?' + stringifyPaginationArgs(paginationArgs) + '"');

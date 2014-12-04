@@ -126,6 +126,9 @@ body.parksforward.responsive2 {
     left: 0;
     z-index: 1;
     background-color: rgba(0, 0, 0, 0.3); }
+  body.parksforward.responsive2 .pagination-container {
+    text-align: center;
+    margin: 20px; }
   body.parksforward.responsive2 .block-search-box {
     padding: 0; }
     body.parksforward.responsive2 .block-search-box .twitter-typeahead {
@@ -977,6 +980,8 @@ body.parksforward.responsive2 {
               font-weight: 600;
               font-family: "jubilat", serif;
               color: #37474f; }
+          body.parksforward.responsive2 #content.template-parks .tab-pane.list-tab-pane .search-results li:last-of-type .block-park-name {
+            border: none; }
       body.parksforward.responsive2 #content.template-parks .tab-pane.map-tab-pane {
         width: 70%;
         margin-left: 30%;
