@@ -38,14 +38,7 @@ module.exports = function(req, res, data, callback) {
     story = stories.getBySlug(req.params.query);
 
     if (story.parks) {
-      return cpad.getParksByIdList(story.parks, function(err, parks) {
-
-        if (err) {
-          return callback(err);
-        }
-
-        go(err, parks);
-      });
+      return cpad.getParksByIdList(story.parks, go);
     }
   }
 
@@ -104,13 +97,9 @@ module.exports = function(req, res, data, callback) {
     not     : req.query.not || null
   };
 
-  cpad.getParks(data, function(err, parks) {
+  return cpad.getParks(data, go);
 
-    go(err, parks);
-
-  });
-
-  function go(err, parks) {
+  function go(err, parks, bounds) {
     if (err) {
       return callback(err);
     }
@@ -121,7 +110,8 @@ module.exports = function(req, res, data, callback) {
       startat        : data.options.startat,
       perpage        : data.options.perpage,
       query          : data.query,
-      activities     : getActivityFilterState(data.query.with)
+      activities     : getActivityFilterState(data.query.with),
+      bounds         : bounds
     });
   }
 
