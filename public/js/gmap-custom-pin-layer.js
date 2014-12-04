@@ -49,7 +49,11 @@ define(["require","exports","module","stamen-super-classy"], function(
       return new google.maps.Marker({
         position: location,
         map: map,
-        title: title
+        title: title,
+        icon: {
+          url : "/svg/mappin-607d8b.svg",
+          scaledSize : new google.maps.Size(50, 26)
+        }
       });
     }
 
@@ -163,15 +167,15 @@ define(["require","exports","module","stamen-super-classy"], function(
           pinCache[id] = {
             feature : feature,
             pin     : makeMarker(
-              new google.maps.LatLng(
-                  parseFloat(feature.geometry.coordinates[1]),
-                  parseFloat(feature.geometry.coordinates[0])
-                ),
-                title,
-                feature
-              ),
-              selected : null
-            };
+                      new google.maps.LatLng(
+                        parseFloat(feature.geometry.coordinates[1]),
+                        parseFloat(feature.geometry.coordinates[0])
+                      ),
+                      title,
+                      feature
+            ),
+            selected : null
+        };
 
             setMarkerListener("click", pinCache[id]);
             setMarkerListener("mouseover", pinCache[id]);
@@ -187,10 +191,12 @@ define(["require","exports","module","stamen-super-classy"], function(
 
           pinCache[feature.id].selected = false;
 
+          /*
           pinCache[feature.id].pin.setIcon({
             size:new google.maps.Size(20,32),
-            url:"/svg/map-pin-607d8b.svg"
+            url:"/svg/mappin-607d8b.svg"
           });
+          */
 
           pinCache[feature.id].pin.setZIndex(+1);
 
@@ -207,10 +213,12 @@ define(["require","exports","module","stamen-super-classy"], function(
 
           pinCache[feature.id].selected = false;
 
+          /*
           pinCache[feature.id].pin.setIcon({
             size:new google.maps.Size(20,32),
-            url:"/svg/map-pin-607d8b.svg"
+            url:"/svg/mappin-607d8b.svg"
           });
+          */
 
           pinCache[feature.id].pin.setZIndex(-1);
 

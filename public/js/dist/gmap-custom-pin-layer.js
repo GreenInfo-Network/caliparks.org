@@ -8,7 +8,11 @@ define([ "require", "exports", "module", "stamen-super-classy" ], function(requi
             return new google.maps.Marker({
                 position: location,
                 map: map,
-                title: title
+                title: title,
+                icon: {
+                    url: "/svg/mappin-607d8b.svg",
+                    scaledSize: new google.maps.Size(50, 26)
+                }
             });
         }
         function updateData(newData) {
@@ -63,18 +67,12 @@ define([ "require", "exports", "module", "stamen-super-classy" ], function(requi
         }
         function setMarkersAsSelected(markersArray) {
             return (markersArray || data.features).forEach(function(feature) {
-                pinCache[feature.id].selected = !1, pinCache[feature.id].pin.setIcon({
-                    size: new google.maps.Size(20, 32),
-                    url: "/svg/map-pin-607d8b.svg"
-                }), pinCache[feature.id].pin.setZIndex(1);
+                pinCache[feature.id].selected = !1, pinCache[feature.id].pin.setZIndex(1);
             }), self.fire("select-markers"), !0;
         }
         function clearMarkerSelections(markersArray) {
             return (markersArray || data.features).forEach(function(feature) {
-                pinCache[feature.id].selected = !1, pinCache[feature.id].pin.setIcon({
-                    size: new google.maps.Size(20, 32),
-                    url: "/svg/map-pin-607d8b.svg"
-                }), pinCache[feature.id].pin.setZIndex(-1);
+                pinCache[feature.id].selected = !1, pinCache[feature.id].pin.setZIndex(-1);
             }), self.fire("clear-marker-selections"), !0;
         }
         function clearMarkers() {
