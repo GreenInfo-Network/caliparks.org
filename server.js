@@ -7,7 +7,8 @@ var express  = require('express'),
     raven    = require('raven'),
     i18n     = require("i18n"),
     cpad     = require("./lib/cpad.js"),
-    routes   = require("./lib/routes.js");
+    routes   = require("./lib/routes.js"),
+    fs       = require("fs");
 
 var app      = express();
 module.exports = app;
@@ -187,6 +188,16 @@ app.get('/about', function(req,res) {
   res.render('about', {
     appTitle : 'California Open Spaces: About',
     layout   : 'photo-back'
+  });
+
+});
+
+app.get('/svg/:name-:color.svg', function(req,res) {
+
+  var color = req.params.color;
+
+  fs.readFile('./public/style/' + req.params.name + '.svg', {"encoding":"utf8"}, function(err, image) {
+    res.send(image.replace(/\{color\}/g, color));
   });
 
 });

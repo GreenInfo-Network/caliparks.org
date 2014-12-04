@@ -988,10 +988,10 @@ body.parksforward.responsive2 {
   @media screen and (max-width: 720px)  {
     body.parksforward.responsive2.tab-list #content.template-parks .tab-actions .list {
       border-top: solid 1px white;
-      background-image: url('responsive2/listicle.svg'); }
+      background-image: url('/svg/listicle-cfd8dc.svg'); }
     body.parksforward.responsive2.tab-list #content.template-parks .tab-actions .map {
       border-top: solid 1px transparent;
-      background-image: url('responsive2/foldedmap.svg'); }
+      background-image: url('/svg/foldedmap-1885c7.svg'); }
     body.parksforward.responsive2.tab-list #content.template-parks .tab-pane.list-tab-pane {
       display: block; }
     body.parksforward.responsive2.tab-list #content.template-parks .tab-pane.map-tab-pane {
