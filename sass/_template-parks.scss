@@ -15,10 +15,9 @@
     left:0;
 
     @include media(max-width 720px) {
-      bottom: -102px;
 
-      .top-action {
-        display:none;
+      #footer-actions a.top-action, #footer-actions a.wander-action {
+        display:none !important;
       }
     }
   }

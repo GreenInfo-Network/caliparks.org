@@ -905,10 +905,8 @@ body.parksforward.responsive2 {
       bottom: 0;
       left: 0; }
       @media screen and (max-width: 720px)  {
-        body.parksforward.responsive2.tablet-viewport footer {
-          bottom: -102px; }
-          body.parksforward.responsive2.tablet-viewport footer .top-action {
-            display: none; } }
+        body.parksforward.responsive2.tablet-viewport footer #footer-actions a.top-action, body.parksforward.responsive2.tablet-viewport footer #footer-actions a.wander-action {
+          display: none !important; } }
   body.parksforward.responsive2 .action-bar {
     position: relative;
     overflow: auto;
