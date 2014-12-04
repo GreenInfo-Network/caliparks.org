@@ -12,8 +12,8 @@ define([ "require", "exports", "module", "jquery", "block-activity-filter", "blo
         }
         function initTabControl() {
             var rootNode = that.utils.get(".tab-actions")[0], bodyNode = that.utils.get("body")[0];
-            bodyNode.classList.add("tab-list"), rootNode.addEventListener("click", function() {
-                bodyNode.classList.toggle("tab-list"), that.slippyMap.resize();
+            rootNode.addEventListener("click", function() {
+                bodyNode.classList.toggle("tab-map"), bodyNode.classList.contains("tab-map") && that.slippyMap.resize();
             }, !1);
         }
         function init() {

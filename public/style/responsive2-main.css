@@ -986,16 +986,16 @@ body.parksforward.responsive2 {
             width: 100%;
             margin-left: 0; } }
   @media screen and (max-width: 720px)  {
-    body.parksforward.responsive2.tab-list #content.template-parks .tab-actions .list {
-      border-top: solid 1px white;
-      background-image: url('/svg/listicle-cfd8dc.svg'); }
-    body.parksforward.responsive2.tab-list #content.template-parks .tab-actions .map {
+    body.parksforward.responsive2.tab-map #content.template-parks .tab-actions .list {
       border-top: solid 1px transparent;
-      background-image: url('/svg/foldedmap-1885c7.svg'); }
-    body.parksforward.responsive2.tab-list #content.template-parks .tab-pane.list-tab-pane {
-      display: block; }
-    body.parksforward.responsive2.tab-list #content.template-parks .tab-pane.map-tab-pane {
+      background-image: url('/svg/listicle-1885c7.svg'); }
+    body.parksforward.responsive2.tab-map #content.template-parks .tab-actions .map {
+      border-top: solid 1px white;
+      background-image: url('/svg/foldedmap-cfd8dc.svg'); }
+    body.parksforward.responsive2.tab-map #content.template-parks .tab-pane.list-tab-pane {
       display: none; }
+    body.parksforward.responsive2.tab-map #content.template-parks .tab-pane.map-tab-pane {
+      display: block; }
     body.parksforward.responsive2 #content.template-parks .tab-actions button {
       color: transparent;
       background-repeat: no-repeat;
@@ -1003,15 +1003,15 @@ body.parksforward.responsive2 {
       background-size: 20px;
       width: 40px; }
     body.parksforward.responsive2 #content.template-parks .tab-actions .list {
-      border-top: solid 1px transparent;
-      background-image: url('responsive2/listicle.svg'); }
-    body.parksforward.responsive2 #content.template-parks .tab-actions .map {
       border-top: solid 1px white;
-      background-image: url('responsive2/foldedmap.svg'); }
+      background-image: url('/svg/listicle-cfd8dc.svg'); }
+    body.parksforward.responsive2 #content.template-parks .tab-actions .map {
+      border-top: solid 1px transparent;
+      background-image: url('/svg/foldedmap-1885c7.svg'); }
     body.parksforward.responsive2 #content.template-parks .tab-pane.list-tab-pane {
-      display: none; }
+      display: block; }
     body.parksforward.responsive2 #content.template-parks .tab-pane.map-tab-pane {
-      display: block; } }
+      display: none; } }
 
 @media screen and (max-width: 720px)  {
   body.parksforward.responsive2 {

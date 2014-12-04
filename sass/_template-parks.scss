@@ -144,27 +144,28 @@
 }
 
 @include media(max-width 720px) {
-  &.tab-list {
+  &.tab-map {
     #content.template-parks {
 
       .tab-actions {
+
         .list {
-          border-top:solid 1px white;
-          background-image:url('/svg/listicle-cfd8dc.svg');
+          border-top:solid 1px transparent;
+          background-image:url('/svg/listicle-1885c7.svg');
         }
         .map {
-          border-top:solid 1px transparent;
-          background-image:url('/svg/foldedmap-1885c7.svg');
+          border-top:solid 1px white;
+          background-image:url('/svg/foldedmap-cfd8dc.svg');
         }
       }
 
       .tab-pane {
 
         &.list-tab-pane {
-          display:block;
+          display:none;
         }
         &.map-tab-pane {
-          display:none;
+          display:block;
         }
       }
     }
@@ -183,23 +184,25 @@
       }
 
       .list {
-        border-top:solid 1px transparent;
-        background-image:url('responsive2/listicle.svg');
+        border-top:solid 1px white;
+        background-image:url('/svg/listicle-cfd8dc.svg');
       }
       .map {
-        border-top:solid 1px white;
-        background-image:url('responsive2/foldedmap.svg');
+        border-top:solid 1px transparent;
+        background-image:url('/svg/foldedmap-1885c7.svg');
       }
     }
 
     .tab-pane {
 
       &.list-tab-pane {
-        display:none;
+        display:block;
       }
       &.map-tab-pane {
-        display:block;
+        display:none;
       }
     }
   }
+
+
 }

@@ -197,6 +197,7 @@ app.get('/svg/:name-:color.svg', function(req,res) {
   var color = req.params.color;
 
   fs.readFile('./public/style/' + req.params.name + '.svg', {"encoding":"utf8"}, function(err, image) {
+    res.contentType('image/svg+xml');
     res.send(image.replace(/\{color\}/g, color));
   });
 
