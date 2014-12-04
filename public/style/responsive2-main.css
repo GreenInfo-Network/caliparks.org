@@ -68,6 +68,7 @@ body.parksforward.responsive2 {
   font-size: 22px;
   line-height: 1em;
   color: #333;
+  max-width: 2048px;
   font-family: "expressway", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   font-weight: 300;
   letter-spacing: 0.09em; }
@@ -674,13 +675,9 @@ body.parksforward.responsive2 {
     float: left;
     display: block;
     margin-right: 2.35765%;
-    width: 100%;
-    max-width: 2048px; }
+    width: 100%; }
     body.parksforward.responsive2 header:last-child {
       margin-right: 0; }
-  body.parksforward.responsive2 #content {
-    max-width: 2048px;
-    min-height: 600px; }
   body.parksforward.responsive2 footer {
     float: left;
     display: block;
@@ -689,8 +686,7 @@ body.parksforward.responsive2 {
     background-color: rgba(0, 0, 0, 0.3);
     font-size: 60%;
     line-height: 1em;
-    color: white;
-    max-width: 2048px; }
+    color: white; }
     body.parksforward.responsive2 footer:last-child {
       margin-right: 0; }
     body.parksforward.responsive2 footer a {

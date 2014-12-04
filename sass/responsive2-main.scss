@@ -77,6 +77,7 @@ body.parksforward.responsive2 {
   font-size: 22px;
   line-height: 1em;
   color:$color-dark;
+  max-width:2048px;
   font-family: $font-family-sans;
   font-weight: $font-weight-normal;
   letter-spacing: .09em;
@@ -159,12 +160,6 @@ body.parksforward.responsive2 {
   //
   header {
     @include span-columns(12 of 12);
-    max-width:2048px;
-  }
-
-  #content {
-    max-width:2048px;
-    min-height:600px;
   }
 
   footer {
@@ -173,7 +168,6 @@ body.parksforward.responsive2 {
     font-size: 60%;
     line-height: 1em;
     color:$light-font-color;
-    max-width:2048px;
 
     a {
       color:$light-font-color;
