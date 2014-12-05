@@ -52,7 +52,8 @@ define(["require","exports","module","stamen-super-classy"], function(
         title: title,
         icon: {
           url : "/svg/mappin-607d8b.svg",
-          scaledSize : new google.maps.Size(50, 26)
+          scaledSize : new google.maps.Size(46, 26),
+          size : new google.maps.Size(46, 26)
         }
       });
     }

@@ -42,11 +42,20 @@ define(["require","exports","module","jquery","block-activity-filter","block-sea
       var rootNode = that.utils.get(".tab-actions")[0],
           bodyNode = that.utils.get("body")[0];
 
+      if (location.hash === '#tab-map') {
+        bodyNode.classList.toggle("tab-map");
+      }
+
       rootNode.addEventListener("click", function() {
         bodyNode.classList.toggle("tab-map");
 
         if (bodyNode.classList.contains("tab-map")) {
           that.slippyMap.resize();
+          location.hash = "#tab-map";
+        } else {
+          if (location.hash === "#tab-map") {
+            location.hash = "";
+          }
         }
       }, false);
     }

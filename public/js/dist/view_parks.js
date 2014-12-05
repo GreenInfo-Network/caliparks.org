@@ -12,8 +12,9 @@ define([ "require", "exports", "module", "jquery", "block-activity-filter", "blo
         }
         function initTabControl() {
             var rootNode = that.utils.get(".tab-actions")[0], bodyNode = that.utils.get("body")[0];
-            rootNode.addEventListener("click", function() {
-                bodyNode.classList.toggle("tab-map"), bodyNode.classList.contains("tab-map") && that.slippyMap.resize();
+            "#tab-map" === location.hash && bodyNode.classList.toggle("tab-map"), rootNode.addEventListener("click", function() {
+                bodyNode.classList.toggle("tab-map"), bodyNode.classList.contains("tab-map") ? (that.slippyMap.resize(), 
+                location.hash = "#tab-map") : "#tab-map" === location.hash && (location.hash = "");
             }, !1);
         }
         function init() {
