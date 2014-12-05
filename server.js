@@ -82,6 +82,13 @@ function constructPaginationArgs(pageData, forward) {
     }
   }
 
+  //
+  // Make sure special search routes are not duplicated in search params
+  //
+  if (pageData.context && paramsObject[pageData.context]) {
+    delete paramsObject[pageData.context];
+  }
+
   return paramsObject;
 }
 
@@ -403,6 +410,7 @@ app.get('/parks/:context', function(req,res, next) {
     templateData.layout = 'responsive2';
     templateData.view   = 'parks';
     templateData.tabletViewport = true;
+    templateData.context = req.params.context;
 
     res.render('parks', templateData);
 
@@ -426,6 +434,7 @@ app.get('/parks/:context/:query', function(req,res, next) {
       templateData.layout = 'responsive2';
       templateData.view   = 'parks';
       templateData.tabletViewport = true;
+      templateData.context = req.params.context;
 
       res.render('parks', templateData);
     } else {
