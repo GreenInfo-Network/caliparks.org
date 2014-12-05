@@ -141,7 +141,7 @@ body.parksforward.responsive2 {
         display: block;
         width: 100%;
         padding: 8px 12px;
-        font-size: 14px;
+        font-size: 100%;
         line-height: 1.42857;
         color: #333;
         vertical-align: middle;
@@ -187,7 +187,7 @@ body.parksforward.responsive2 {
         -webkit-appearance: none;
         border-radius: 4px 0px 0px 4px;
         height: 41px;
-        font-size: 16px;
+        font-size: 100%;
         outline: none;
         background-color: rgba(255, 255, 255, 0.9); }
         @media screen and (max-width: 720px)  {
@@ -239,7 +239,7 @@ body.parksforward.responsive2 {
             position: absolute;
             right: 0px;
             background-color: #027abb;
-            font-size: 65%;
+            font-size: 75%;
             color: white;
             font-family: "expressway", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
             text-transform: uppercase;
@@ -317,7 +317,7 @@ body.parksforward.responsive2 {
         display: block;
         width: 100%;
         padding: 5px 10px;
-        font-size: 130%;
+        font-size: 150%;
         font-family: "jubilat", serif;
         font-weight: 300; }
       body.parksforward.responsive2 .block-story .details a.attribution-link {
@@ -331,7 +331,7 @@ body.parksforward.responsive2 {
         background-color: rgba(0, 0, 0, 0.3);
         background-image: url('responsive2/flickr-logo.svg');
         background-repeat: no-repeat;
-        font-size: 50%;
+        font-size: 75%;
         line-height: 1em; }
     @media screen and (max-width: 720px)  {
       body.parksforward.responsive2 .block-story .details a.main-link {
@@ -379,7 +379,7 @@ body.parksforward.responsive2 {
             width: auto; }
             body.parksforward.responsive2 .block-stories-flexy ul li:nth-of-type(2) .details a.main-link, body.parksforward.responsive2 .block-stories-flexy ul li:nth-of-type(3) .details a.main-link, body.parksforward.responsive2 .block-stories-flexy ul li:nth-of-type(6) .details a.main-link, body.parksforward.responsive2 .block-stories-flexy ul li:nth-of-type(7) .details a.main-link {
               width: auto;
-              font-size: 93%;
+              font-size: 100%;
               margin-right: 51px; }
             body.parksforward.responsive2 .block-stories-flexy ul li:nth-of-type(2) .details a.attribution-link, body.parksforward.responsive2 .block-stories-flexy ul li:nth-of-type(3) .details a.attribution-link, body.parksforward.responsive2 .block-stories-flexy ul li:nth-of-type(6) .details a.attribution-link, body.parksforward.responsive2 .block-stories-flexy ul li:nth-of-type(7) .details a.attribution-link {
               position: absolute;
@@ -687,7 +687,7 @@ body.parksforward.responsive2 {
     margin-right: 2.35765%;
     width: 100%;
     background-color: rgba(0, 0, 0, 0.3);
-    font-size: 60%;
+    font-size: 75%;
     line-height: 1em;
     color: white; }
     body.parksforward.responsive2 footer:last-child {
@@ -826,13 +826,13 @@ body.parksforward.responsive2 {
           margin-bottom: 0;
           padding: 2px 20px;
           color: white;
-          font-size: 61%; }
+          font-size: 75%; }
           body.parksforward.responsive2 #content.template-park > div section#park-info .site-name a {
             color: #cebf41; }
         body.parksforward.responsive2 #content.template-park > div section#park-info .block-park-name {
           margin-bottom: 10px; }
           body.parksforward.responsive2 #content.template-park > div section#park-info .block-park-name .park-name {
-            font-size: 200%;
+            font-size: 150%;
             line-height: 1em;
             font-weight: 600;
             margin-bottom: 10px; }
@@ -845,7 +845,7 @@ body.parksforward.responsive2 {
           body.parksforward.responsive2 #content.template-park > div section#park-info .park-details .agency-name {
             line-height: 1em; }
           body.parksforward.responsive2 #content.template-park > div section#park-info .park-details .social-breakdown {
-            font-size: 65%;
+            font-size: 75%;
             font-weight: 600; }
             body.parksforward.responsive2 #content.template-park > div section#park-info .park-details .social-breakdown span {
               white-space: nowrap; }
@@ -873,7 +873,7 @@ body.parksforward.responsive2 {
         width: 100%; }
         body.parksforward.responsive2 #content.template-park > div section#get-out h2 {
           text-align: center;
-          font-size: 120%;
+          font-size: 150%;
           color: #333;
           padding: 30px; }
       body.parksforward.responsive2 #content.template-park > div section#search-area {
@@ -886,7 +886,7 @@ body.parksforward.responsive2 {
         body.parksforward.responsive2 #content.template-park > div section#search-area > label {
           margin-right: 0.4em;
           vertical-align: middle;
-          font-size: 110%;
+          font-size: 150%;
           color: white; }
         body.parksforward.responsive2 #content.template-park > div section#search-area .block-search-box {
           width: 425px;

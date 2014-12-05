@@ -33,6 +33,10 @@ $border-radius: 4px;
 $font-weight-normal: 300;
 $font-weight-bold: 600;
 
+$font-size-small: 75%;
+$font-size-medium: 100%;
+$font-size-large: 150%;
+
 $font-family-serif: "jubilat", serif;
 $font-family-sans: "expressway", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 
@@ -97,7 +101,7 @@ body.parksforward.responsive2 {
   }
 
   h1 {
-    font-size:150%;
+    font-size:$font-size-large;
     margin-bottom:$box-padding-half;
   }
 
@@ -114,7 +118,7 @@ body.parksforward.responsive2 {
     border-radius:$border-radius;
     color:white;
     border:solid 1px $color-active;
-    font-size: 75%;
+    font-size: $font-size-small;
     padding: 5px;
     color:$color-active;
     cursor:pointer;
@@ -170,7 +174,7 @@ body.parksforward.responsive2 {
   footer {
     @include span-columns(12 of 12);
     background-color:$color-dark-transparent;
-    font-size: 60%;
+    font-size: $font-size-small;
     line-height: 1em;
     color:$light-font-color;
 
@@ -296,7 +300,7 @@ body.parksforward.responsive2 {
     font-size: 17px;
 
     h1 {
-      font-size:100%;
+      font-size:$font-size-medium;
     }
 
   }

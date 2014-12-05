@@ -33,7 +33,7 @@
           margin-bottom:0;
           padding: 2px $box-padding;
           color: white;
-          font-size: 61%;
+          font-size: $font-size-small;
 
           a {
             color:$color-california;
@@ -43,7 +43,7 @@
         .block-park-name{
           margin-bottom:$box-padding-half;
           .park-name {
-            font-size:200%;
+            font-size:$font-size-large;
             line-height: 1em;
             font-weight:$font-weight-bold;
             margin-bottom:$box-padding-half;
@@ -66,7 +66,7 @@
           }
 
           .social-breakdown {
-            font-size: 65%;
+            font-size: $font-size-small;
             font-weight:$font-weight-bold;
 
             span {
@@ -102,7 +102,7 @@
 
         h2 {
           text-align:center;
-          font-size:120%;
+          font-size:$font-size-large;
           color:$color-dark;
           padding:30px;
         }
@@ -117,7 +117,7 @@
         >label {
           margin-right:0.4em;
           vertical-align: middle;
-          font-size: 110%;
+          font-size: $font-size-large;
           color:$light-font-color;
         }
 

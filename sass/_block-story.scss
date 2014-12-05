@@ -30,7 +30,7 @@
       display: block;
       width: 100%;
       padding: 5px 10px;
-      font-size: 130%;
+      font-size: $font-size-large;
       font-family:$font-family-serif;
       font-weight:$font-weight-normal;
     }
@@ -46,7 +46,7 @@
       background-color: $color-dark-transparent;
       background-image: url('responsive2/flickr-logo.svg');
       background-repeat: no-repeat;
-      font-size: 50%;
+      font-size: $font-size-small;
       line-height: 1em;
     }
   }
@@ -55,7 +55,7 @@
     .details {
       a {
         &.main-link {
-          font-size:100%;
+          font-size:$font-size-medium;
         }
         &.attribution-link {
           position:absolute;

@@ -17,7 +17,7 @@
       display: block;
       width: 100%;
       padding: 8px 12px;
-      font-size: 14px;
+      font-size: $font-size-medium;
       line-height: 1.428571429;
       color: $color-dark;
       vertical-align: middle;
@@ -79,7 +79,7 @@
       -webkit-appearance: none;
       border-radius: $border-radius 0px 0px $border-radius;
       height: 41px;
-      font-size: 16px;
+      font-size: $font-size-medium;
       outline: none;
       background-color:$color-light-transparent;
 
@@ -149,7 +149,7 @@
           position: absolute;
           right: 0px;
           background-color: $color-active;
-          font-size: 65%;
+          font-size: $font-size-small;
           color:$light-font-color;
           font-family:$font-family-sans;
           text-transform: uppercase;
