@@ -77,7 +77,7 @@ define(["require","exports","module","detect-os","stamen-super-classy","gmap-cus
       if (new DetectOs().getMobileOperatingSystem() === "iOS") {
         location.href="comgooglemaps://?q="+viewOptions.name+"@"+viewOptions.centroid.coordinates[1]+", "+viewOptions.centroid.coordinates[0]+"&zoom=15&views=transit";
       } else {
-        location.href="https://www.google.com/maps/dir//\""+viewOptions.centroid.coordinates[1]+", "+viewOptions.centroid.coordinates[0]+"\"";
+        location.href="https://www.google.com/maps/dir//"+viewOptions.centroid.coordinates[1]+", "+viewOptions.centroid.coordinates[0];
       }
 
     }

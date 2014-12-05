@@ -7,10 +7,7 @@ define([ "require", "exports", "module", "jquery", "block-activity-filter", "blo
                 contextBounds: options.bounds
             }, function() {
                 that.fire("map-initialized");
-            }), setTimeout(function() {
-                var gbounds = that.slippyMap.getBounds();
-                console.log(gbounds);
-            }, 1e3);
+            });
         }
         function initTabControl() {
             var rootNode = that.utils.get(".tab-actions")[0], bodyNode = that.utils.get("body")[0];
