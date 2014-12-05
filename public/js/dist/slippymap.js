@@ -25,7 +25,7 @@ define([ "require", "exports", "module", "stamen-super-classy", "gmap-custom-til
                 mapTypeControl: !1,
                 streetViewControl: !1,
                 center: new google.maps.LatLng(37.76, -122.41),
-                zoom: 8,
+                zoom: 11,
                 scrollwheel: !1,
                 disableDefaultUI: !1,
                 panControl: !1,
