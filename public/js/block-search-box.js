@@ -70,11 +70,7 @@ define(["require","exports","module","jquery","stamen-super-classy","routes"], f
           navigator.geolocation.getCurrentPosition(function(r) {
             if (r.coords) {
               setLocateMeLoadingState(false);
-              if (searchFieldNode.val().length) {
-                location.href = "/parks/search/?q" + searchFieldNode.val() + "&near=" + parseFloat(r.coords.latitude).toFixed(4) + "," + parseFloat(r.coords.longitude).toFixed(4);
-              } else {
-                location.href = "/parks/near/" + parseFloat(r.coords.latitude).toFixed(4) + "," + parseFloat(r.coords.longitude).toFixed(4);
-              }
+              location.href = "/parks/near/" + parseFloat(r.coords.latitude).toFixed(4) + "," + parseFloat(r.coords.longitude).toFixed(4);
             }
           }, function() {setLocateMeLoadingState(false);});
         } else {

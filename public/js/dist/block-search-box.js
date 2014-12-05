@@ -22,7 +22,7 @@ define([ "require", "exports", "module", "jquery", "stamen-super-classy", "route
         function initLocateMe() {
             locateMeNode.get()[0].addEventListener("click", function() {
                 navigator.geolocation ? (setLocateMeLoadingState(!0), navigator.geolocation.getCurrentPosition(function(r) {
-                    r.coords && (setLocateMeLoadingState(!1), location.href = searchFieldNode.val().length ? "/parks/search/?q" + searchFieldNode.val() + "&near=" + parseFloat(r.coords.latitude).toFixed(4) + "," + parseFloat(r.coords.longitude).toFixed(4) : "/parks/near/" + parseFloat(r.coords.latitude).toFixed(4) + "," + parseFloat(r.coords.longitude).toFixed(4));
+                    r.coords && (setLocateMeLoadingState(!1), location.href = "/parks/near/" + parseFloat(r.coords.latitude).toFixed(4) + "," + parseFloat(r.coords.longitude).toFixed(4));
                 }, function() {
                     setLocateMeLoadingState(!1);
                 })) : location.href = "/parks/near";
