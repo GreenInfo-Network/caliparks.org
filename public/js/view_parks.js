@@ -30,22 +30,13 @@ define(["require","exports","module","jquery","block-activity-filter","block-sea
       }, function() {
         that.fire("map-initialized");
       });
-
-      /*
-      $.getJSON(options.geojsonURI, function(r) {
-
-        that.slippyMap.updateData(r.response);
-        that.slippyMap.resize();
-
-      });
-      */
     }
 
     function initTabControl() {
       var rootNode = that.utils.get(".tab-actions")[0],
           bodyNode = that.utils.get("body")[0];
 
-      if (location.hash === '#tab-map') {
+      if (location.hash === "#tab-map") {
         bodyNode.classList.toggle("tab-map");
       }
 

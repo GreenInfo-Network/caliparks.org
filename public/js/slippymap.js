@@ -35,6 +35,16 @@ define(["require","exports","module","stamen-super-classy","gmap-custom-tile-lay
       that.map.fitBounds(geoJSONBBoxToGoogleBounds(that.pinLayer.getData().bbox));
     }
 
+    function getBounds() {
+      var gbounds = that.map.getBounds().toUrlValue().split(",").map(parseFloat);
+      return [ //formatting to match http://geojson.org/geojson-spec.html#bounding-boxes
+        gbounds[1],
+        gbounds[0],
+        gbounds[3],
+        gbounds[2]
+      ];
+    }
+
     //
     // Initialization methods
     //
@@ -104,7 +114,8 @@ define(["require","exports","module","stamen-super-classy","gmap-custom-tile-lay
     //
     // Public interface
     //
-    that.resize = resize;
+    that.resize    = resize;
+    that.getBounds = getBounds;
 
     //
     // GO GO GO!

@@ -14,7 +14,7 @@ define(["require","exports","module","stamen-super-classy"], function(
 
   module.exports=function(map, config) {
 
-    var self     = this,
+    var self = this,
     pinCache = {},
     data     = null;
 

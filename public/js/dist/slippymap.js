@@ -10,6 +10,10 @@ define([ "require", "exports", "module", "stamen-super-classy", "gmap-custom-til
         function resize() {
             google.maps.event.trigger(that.map, "resize"), that.map.fitBounds(geoJSONBBoxToGoogleBounds(that.pinLayer.getData().bbox));
         }
+        function getBounds() {
+            var gbounds = that.map.getBounds().toUrlValue().split(",").map(parseFloat);
+            return [ gbounds[1], gbounds[0], gbounds[3], gbounds[2] ];
+        }
         function initStamenLayer() {
             return that.parksLayer = new GmapCustomTileLayer({
                 tilePath: "http://{s}.map.parks.stamen.com/{z}/{x}/{y}.png",
@@ -50,6 +54,6 @@ define([ "require", "exports", "module", "stamen-super-classy", "gmap-custom-til
         var that = this;
         StamenSuperClassy.apply(that, arguments);
         var rootNode = that.utils.get(rootSelector)[0];
-        return that.resize = resize, initialize(), that;
+        return that.resize = resize, that.getBounds = getBounds, initialize(), that;
     };
 });
