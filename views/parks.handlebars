@@ -47,9 +47,10 @@ if (locationParts[4] === 'near' && !locationParts[5]) {
 </div>
 <script>
 var viewData = {
-  "parks"       : {{#json}}{{{parks}}}{{/json}},
+  "parks"       : {{#json}}{{{parksGeoJSON}}}{{/json}},
   "total"       : {{total}},
   "startat"     : {{startat}},
-  "perpage"     : {{perpage}}
+  "perpage"     : {{perpage}},
+  "bounds"      : [{{bounds}}]
 }
 </script>

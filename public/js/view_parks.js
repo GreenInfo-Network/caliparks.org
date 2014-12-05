@@ -25,17 +25,20 @@ define(["require","exports","module","jquery","block-activity-filter","block-sea
     function initMap() {
 
       that.slippyMap = new Slippymap(".slippymap", {
-        "data" : {}
+        "data" : viewData.parks,
+        "contextBounds" : options.bounds
       }, function() {
         that.fire("map-initialized");
       });
 
+      /*
       $.getJSON(options.geojsonURI, function(r) {
 
         that.slippyMap.updateData(r.response);
         that.slippyMap.resize();
 
       });
+      */
     }
 
     function initTabControl() {
@@ -73,7 +76,8 @@ define(["require","exports","module","jquery","block-activity-filter","block-sea
   blocks.blockActivityFilter = new BlockActivityFilter(".block-activity-filter",{}, function(err, blockActivityFilter) {});
 
   module.exports = new View({
-    "geojsonURI" : "/parks/search.geojson"+routes.stringifyUrlSearchParams(searchState)
+    "geojsonURI" : "/parks/search.geojson"+routes.stringifyUrlSearchParams(searchState),
+    "bounds"     : viewData.bounds
   });
 
 });

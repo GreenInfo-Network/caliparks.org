@@ -2,7 +2,8 @@
 
 var cpad               = require('../lib/cpad.js'),
     stories            = require('../lib/stories.js'),
-    activityCategories = require('../config/activities.json');
+    activityCategories = require('../config/activities.json'),
+    pgToGeoJSON        = require('../lib/pg-to-geojson.js');
 
 module.exports = function(req, res, data, callback) {
 
@@ -104,6 +105,8 @@ module.exports = function(req, res, data, callback) {
       return callback(err);
     }
 
+    console.log(bounds);
+
     return callback(null, {
       parks          : parks,
       total          : parks.length,
@@ -111,7 +114,8 @@ module.exports = function(req, res, data, callback) {
       perpage        : (data.options) ? data.options.perpage : 100,
       query          : data.query,
       activities     : getActivityFilterState(data.query.with),
-      bounds         : bounds
+      bounds         : bounds,
+      parksGeoJSON   : new pgToGeoJSON.GeoFeatureCollection(parks)
     });
   }
 

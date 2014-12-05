@@ -122,7 +122,7 @@ app.engine('handlebars', exphbs({
       var paginationArgs;
       if ((options.data.root.total|0) === (options.data.root.perpage|0)) {
         paginationArgs = constructPaginationArgs(options.data.root);
-        paginationArgs.startat = (paginationArgs.startat||0) + (paginationArgs.perpage || 0);
+        paginationArgs.startat = parseInt((paginationArgs.startat||0), 10) + parseInt((paginationArgs.perpage||0), 10);
         return options.fn(this).replace(/href="#"/,'href="?' + stringifyPaginationArgs(paginationArgs) + '"');
       }
     },
@@ -130,7 +130,7 @@ app.engine('handlebars', exphbs({
       var paginationArgs;
       if ((options.data.root.startat|0) >= (options.data.root.perpage|0)) {
         paginationArgs = constructPaginationArgs(options.data.root);
-        paginationArgs.startat = (paginationArgs.startat||0) - (paginationArgs.perpage || 0);
+        paginationArgs.startat = parseInt((paginationArgs.startat||0),10) - parseInt((paginationArgs.perpage||0), 10);
         return options.fn(this).replace(/href="#"/,'href="?' + stringifyPaginationArgs(paginationArgs) + '"');
       }
     },

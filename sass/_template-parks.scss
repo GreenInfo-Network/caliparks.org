@@ -8,9 +8,17 @@
     bottom:0;
     left:0;
 
+    #footer-actions a{
+      width:50%;
+      text-align:center;
+      &.top-action {
+        display:none !important;
+      }
+    }
+
     @include media(max-width 720px) {
 
-      #footer-actions a.top-action, #footer-actions a.wander-action {
+      #footer-actions a.wander-action {
         display:none !important;
       }
     }
@@ -109,6 +117,7 @@
 
           border:inset 1px #bdc8ce;
           border-width:0 0 1px 0;
+          position:relative;
 
 
           padding:$box-padding-half $box-padding;
@@ -117,12 +126,22 @@
             font-family:$font-family-sans;
             font-weight:$font-weight-normal;
             color:$color-notsodark;
+            font-size:75%;
+            position:absolute;
+            right:$box-padding-half;
+            top:$box-padding-half;
           }
 
           a {
             font-weight:$font-weight-bold;
             font-family:$font-family-serif;
             color:$color-notsodark;
+            margin-right: 100px;
+            display: block;
+
+            @include media(max-width 720px) {
+              margin-right: 59px;
+            }
           }
         }
 

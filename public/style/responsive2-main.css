@@ -900,8 +900,13 @@ body.parksforward.responsive2 {
     right: 0;
     bottom: 0;
     left: 0; }
+    body.parksforward.responsive2.tablet-viewport footer #footer-actions a {
+      width: 50%;
+      text-align: center; }
+      body.parksforward.responsive2.tablet-viewport footer #footer-actions a.top-action {
+        display: none !important; }
     @media screen and (max-width: 720px)  {
-      body.parksforward.responsive2.tablet-viewport footer #footer-actions a.top-action, body.parksforward.responsive2.tablet-viewport footer #footer-actions a.wander-action {
+      body.parksforward.responsive2.tablet-viewport footer #footer-actions a.wander-action {
         display: none !important; } }
   body.parksforward.responsive2 .action-bar {
     position: relative;
@@ -970,15 +975,25 @@ body.parksforward.responsive2 {
             color: #37474f;
             border: inset 1px #bdc8ce;
             border-width: 0 0 1px 0;
+            position: relative;
             padding: 10px 20px; }
             body.parksforward.responsive2 #content.template-parks .tab-pane.list-tab-pane .search-results .block-park-name .distance {
               font-family: "expressway", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
               font-weight: 300;
-              color: #37474f; }
+              color: #37474f;
+              font-size: 75%;
+              position: absolute;
+              right: 10px;
+              top: 10px; }
             body.parksforward.responsive2 #content.template-parks .tab-pane.list-tab-pane .search-results .block-park-name a {
               font-weight: 600;
               font-family: "jubilat", serif;
-              color: #37474f; }
+              color: #37474f;
+              margin-right: 100px;
+              display: block; }
+              @media screen and (max-width: 720px)  {
+                body.parksforward.responsive2 #content.template-parks .tab-pane.list-tab-pane .search-results .block-park-name a {
+                  margin-right: 59px; } }
           body.parksforward.responsive2 #content.template-parks .tab-pane.list-tab-pane .search-results li:last-of-type .block-park-name {
             border: none; }
       body.parksforward.responsive2 #content.template-parks .tab-pane.map-tab-pane {

@@ -77,7 +77,7 @@ define(["require","exports","module","stamen-super-classy","gmap-custom-tile-lay
 
       pinLayer.on("data-updated", function(newData) {
         if (newData.caller.newData) {
-          that.map.fitBounds(geoJSONBBoxToGoogleBounds(newData.caller.newData.bbox));
+          that.map.fitBounds(geoJSONBBoxToGoogleBounds(options.contextBounds));
         }
       });
 
