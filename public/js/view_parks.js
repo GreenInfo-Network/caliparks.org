@@ -26,7 +26,7 @@ define(["require","exports","module","jquery","block-activity-filter","block-sea
 
       that.slippyMap = new Slippymap(".slippymap", {
         "data" : viewData.parks,
-        "contextBounds" : options.bounds
+        "contextBounds" : (options.bounds.length) ? options.bounds : viewData.parks.bbox
       }, function() {
         that.fire("map-initialized");
       });

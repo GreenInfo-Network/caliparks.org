@@ -40,9 +40,8 @@ define([ "require", "exports", "module", "stamen-super-classy", "gmap-custom-til
             var pinLayer = new GmapCustomPinLayer(that.map, {
                 data: options.data
             });
-            that.pinLayer = pinLayer, pinLayer.on("data-updated", function(newData) {
-                newData.caller.newData && that.map.fitBounds(geoJSONBBoxToGoogleBounds(options.contextBounds));
-            }), that.updateData = pinLayer.updateData, google.maps.event.addDomListener(window, "resize", function() {
+            that.pinLayer = pinLayer, that.map.fitBounds(geoJSONBBoxToGoogleBounds(options.contextBounds)), 
+            that.updateData = pinLayer.updateData, google.maps.event.addDomListener(window, "resize", function() {
                 google.maps.event.trigger(that.map.getCenter(), "resize"), that.map.setCenter(that.map.getCenter());
             });
         }
