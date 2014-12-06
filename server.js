@@ -76,7 +76,7 @@ function constructPaginationArgs(pageData, forward) {
 
   for (var i in pageData.query) {
     if (pageData.query.hasOwnProperty(i)) {
-      if (['q','near','with'].indexOf(i) > -1 && pageData.query[i] && pageData.query[i].toString().length) {
+      if (['q','near','with','bbox'].indexOf(i) > -1 && pageData.query[i] && pageData.query[i].toString().length) {
         paramsObject[i] = pageData.query[i];
       }
     }

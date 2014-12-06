@@ -52,8 +52,13 @@ define(["require","exports","module","jquery","block-activity-filter","block-sea
 
       });
 
-      that.utils.get('.search-this-area-action',mapTabNode)[0].addEventListener('click', function() {
-        location.href='/parks/search?bbox=' + that.slippyMap.getBounds().join(',');
+      that.utils.get(".search-this-area-action",mapTabNode)[0].addEventListener("click", function() {
+        var newSearchState = JSON.parse(JSON.stringify(searchState));
+        if (newSearchState["near"]) {
+          delete newSearchState["near"];
+        }
+        newSearchState["bbox"] = that.slippyMap.getBounds().join(",");
+        location.href="/parks/search" + routes.stringifyUrlSearchParams(newSearchState);
       }, that);
     }
 
