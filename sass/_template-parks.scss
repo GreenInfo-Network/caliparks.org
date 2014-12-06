@@ -177,6 +177,11 @@
       @include media(max-width 720px) {
         width:100%;
         margin-left:0;
+
+        &.slippy-map-bounds-dirty .search-this-area-action {
+          left:38%;
+          right:38%;
+        }
       }
     }
   }

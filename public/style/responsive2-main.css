@@ -1015,7 +1015,10 @@ body.parksforward.responsive2 {
         @media screen and (max-width: 720px)  {
           body.parksforward.responsive2 #content.template-parks .tab-pane.map-tab-pane {
             width: 100%;
-            margin-left: 0; } }
+            margin-left: 0; }
+            body.parksforward.responsive2 #content.template-parks .tab-pane.map-tab-pane.slippy-map-bounds-dirty .search-this-area-action {
+              left: 38%;
+              right: 38%; } }
   @media screen and (max-width: 720px)  {
     body.parksforward.responsive2.tab-map #content.template-parks .tab-actions .list {
       border-top: solid 1px transparent;
