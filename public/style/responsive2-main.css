@@ -999,7 +999,19 @@ body.parksforward.responsive2 {
       body.parksforward.responsive2 #content.template-parks .tab-pane.map-tab-pane {
         width: 66.67%;
         margin-left: 33.33%;
-        z-index: 1; }
+        z-index: 1;
+        position: relative; }
+        body.parksforward.responsive2 #content.template-parks .tab-pane.map-tab-pane .search-this-area-action {
+          position: absolute;
+          left: 10px;
+          bottom: 10px;
+          opacity: 0;
+          transition: 0.5s opacity; }
+        body.parksforward.responsive2 #content.template-parks .tab-pane.map-tab-pane.slippy-map-bounds-dirty .search-this-area-action {
+          position: absolute;
+          left: 10px;
+          bottom: 10px;
+          opacity: 1; }
         @media screen and (max-width: 720px)  {
           body.parksforward.responsive2 #content.template-parks .tab-pane.map-tab-pane {
             width: 100%;

@@ -20,8 +20,8 @@ if (locationParts[4] === 'near' && !locationParts[5]) {
   </div>
 
   <div class="tab-actions">
-    <button class="list" data-action="list">List</button>
-    <button class="map" data-action="map">Map</button>
+    <button class="list" data-action="list">{{#__}}List{{/__}}</button>
+    <button class="map" data-action="map">{{#__}}Map{{/__}}</button>
   </div>
 
   <div class="tab-pane list-tab-pane">
@@ -43,6 +43,7 @@ if (locationParts[4] === 'near' && !locationParts[5]) {
   </div>
   <div class="tab-pane map-tab-pane" style="height:100%;">
     <div class="slippymap" style="width: 100%; height: 101%;"></div>
+    <button class="action active search-this-area-action">{{#__}}Search this area{{/__}}</button>
   </div>
 </div>
 <script>

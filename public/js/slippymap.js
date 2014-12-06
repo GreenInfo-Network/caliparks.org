@@ -89,6 +89,16 @@ define(["require","exports","module","stamen-super-classy","gmap-custom-tile-lay
 
       that.updateData = pinLayer.updateData;
 
+      google.maps.event.addListener(that.map, "bounds_changed", function() {
+        that.fire("bounds-changed", {
+          googleBounds:that.map.getBounds()
+        });
+      });
+
+      google.maps.event.addListener(that.map, "idle", function() {
+        that.fire("idle");
+      });
+
       google.maps.event.addDomListener(window, "resize", function() {
        google.maps.event.trigger(that.map.getCenter(), "resize");
        that.map.setCenter(that.map.getCenter());
@@ -118,6 +128,9 @@ define(["require","exports","module","stamen-super-classy","gmap-custom-tile-lay
     //
     initialize();
 
+    if (callback) {
+      callback(null, that);
+    }
 
     return that;
 

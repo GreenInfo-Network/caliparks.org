@@ -2,15 +2,21 @@ define([ "require", "exports", "module", "jquery", "block-activity-filter", "blo
     "use strict";
     function View(options) {
         function initMap() {
-            that.slippyMap = new Slippymap(".slippymap", {
+            mapTabNode = that.utils.get(".map-tab-pane")[0], that.slippyMap = new Slippymap(".slippymap", {
                 data: viewData.parks,
                 contextBounds: options.bounds.length ? options.bounds : viewData.parks.bbox
-            }, function() {
-                that.fire("map-initialized");
-            });
+            }, function(err, slippyMap) {
+                that.slippyMap = slippyMap, that.fire("map-initialized");
+            }), that.slippyMap.once("idle", function() {
+                cleanBounds = that.slippyMap.map.getBounds(), mapTabNode.classList.remove("slippy-map-bounds-dirty");
+            }), that.slippyMap.on("bounds-changed", function() {
+                cleanBounds && !cleanBounds.equals(that.slippyMap.map.getBounds()) && mapTabNode.classList.add("slippy-map-bounds-dirty");
+            }), that.utils.get(".search-this-area-action", mapTabNode)[0].addEventListener("click", function() {
+                location.href = "/parks/search?bbox=" + that.slippyMap.getBounds().join(",");
+            }, that);
         }
         function initTabControl() {
-            var rootNode = that.utils.get(".tab-actions")[0], bodyNode = that.utils.get("body")[0];
+            var rootNode = that.utils.get(".tab-actions")[0];
             "#tab-map" === location.hash && bodyNode.classList.toggle("tab-map"), rootNode.addEventListener("click", function() {
                 bodyNode.classList.toggle("tab-map"), bodyNode.classList.contains("tab-map") ? (that.slippyMap.resize(), 
                 location.hash = "#tab-map") : "#tab-map" === location.hash && (location.hash = "");
@@ -19,8 +25,9 @@ define([ "require", "exports", "module", "jquery", "block-activity-filter", "blo
         function init() {
             initMap(), initTabControl();
         }
-        var that = this;
-        StamenSuperClassy.apply(that, arguments), init();
+        var bodyNode, cleanBounds, mapTabNode, that = this;
+        StamenSuperClassy.apply(that, arguments), bodyNode = that.utils.get("body")[0], 
+        init();
     }
     var routes = new Routes(), searchState = routes.getParamStateFromLocationObject(), blocks = {};
     blocks.blockSearchBox = new BlockSearchBox(".block-search-box", {}, function() {}), 

@@ -18,23 +18,47 @@ define(["require","exports","module","jquery","block-activity-filter","block-sea
 
   function View(options) {
 
-    var that   = this;
+    var that = this,
+        bodyNode, cleanBounds, mapTabNode;
 
     StamenSuperClassy.apply(that, arguments);
 
+    bodyNode = that.utils.get("body")[0];
+
     function initMap() {
+
+      mapTabNode = that.utils.get(".map-tab-pane")[0];
 
       that.slippyMap = new Slippymap(".slippymap", {
         "data" : viewData.parks,
         "contextBounds" : (options.bounds.length) ? options.bounds : viewData.parks.bbox
-      }, function() {
+      }, function(err, slippyMap) {
+        that.slippyMap = slippyMap;
         that.fire("map-initialized");
       });
+
+      that.slippyMap.once("idle",function(e) {
+
+        cleanBounds = that.slippyMap.map.getBounds(); //Saving the current bounds as clean to be used to check against other bounds for state changes
+        mapTabNode.classList.remove("slippy-map-bounds-dirty");
+
+      });
+
+      that.slippyMap.on("bounds-changed",function(e) {
+
+        if (cleanBounds && !cleanBounds.equals(that.slippyMap.map.getBounds())) {
+          mapTabNode.classList.add("slippy-map-bounds-dirty");
+        }
+
+      });
+
+      that.utils.get('.search-this-area-action',mapTabNode)[0].addEventListener('click', function() {
+        location.href='/parks/search?bbox=' + that.slippyMap.getBounds().join(',');
+      }, that);
     }
 
     function initTabControl() {
-      var rootNode = that.utils.get(".tab-actions")[0],
-          bodyNode = that.utils.get("body")[0];
+      var rootNode = that.utils.get(".tab-actions")[0];
 
       if (location.hash === "#tab-map") {
         bodyNode.classList.toggle("tab-map");

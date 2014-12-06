@@ -157,6 +157,22 @@
       width:66.67%;
       margin-left:33.33%;
       z-index:1;
+      position:relative;
+
+      .search-this-area-action {
+        position:absolute;
+        left:$box-padding-half;
+        bottom:$box-padding-half;
+        opacity:0;
+        transition:$animation-speed opacity;
+      }
+
+      &.slippy-map-bounds-dirty .search-this-area-action {
+        position:absolute;
+        left:$box-padding-half;
+        bottom:$box-padding-half;
+        opacity:1;
+      }
 
       @include media(max-width 720px) {
         width:100%;
