@@ -55,7 +55,7 @@ define(["require","exports","module","handlebars","jquery","stamen-super-classy"
 
         if (fetchedData.length) {
           fetchedData.forEach(function(item) {
-            $(rootSelector).append(that.compileTemplate(templateCache)(item));
+            $(rootSelector).append(that.compileTemplate(item));
           });
         } else {
           $(rootSelector).html(that.compileTemplate(fetchedData));
