@@ -1104,7 +1104,7 @@ body.parksforward.responsive2 {
           padding: 10px; }
         body.parksforward.responsive2 #content.template-embed .fiddly-bits form button {
           display: block; }
-  body.parksforward.responsive2 .site-name {
+  body.parksforward.responsive2 .site-name-embed {
     display: block;
     background-color: #37474f;
     color: #cebf41;
@@ -1121,7 +1121,7 @@ body.parksforward.responsive2 {
     color: #cebf41;
     font-weight: 600;
     font-family: "jubilat", serif; }
-    body.parksforward.responsive2 .site-name a {
+    body.parksforward.responsive2 .site-name-embed a {
       color: #cebf41; }
   body.parksforward.responsive2 #content.template-embed-park {
     overflow: auto;
