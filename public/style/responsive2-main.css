@@ -1057,13 +1057,20 @@ body.parksforward.responsive2 {
     color: #333; }
     body.parksforward.responsive2 #content.template-embed h1 {
       margin-bottom: 20px;
-      color: #333; }
+      color: #333;
+      max-width: 1000px;
+      line-height: 1em; }
+      body.parksforward.responsive2 #content.template-embed h1 a {
+        color: #37474f; }
     body.parksforward.responsive2 #content.template-embed .fiddly-bits {
       box-sizing: border-box;
       width: 100%;
       height: 50vh;
       min-height: 400px;
       color: #333; }
+      @media screen and (max-width: 720px)  {
+        body.parksforward.responsive2 #content.template-embed .fiddly-bits {
+          height: auto; } }
       body.parksforward.responsive2 #content.template-embed .fiddly-bits .sides {
         box-sizing: border-box;
         width: 49%;
@@ -1071,6 +1078,14 @@ body.parksforward.responsive2 {
         display: inline-block;
         color: white;
         vertical-align: top; }
+        @media screen and (max-width: 720px)  {
+          body.parksforward.responsive2 #content.template-embed .fiddly-bits .sides {
+            float: auto;
+            width: 100%;
+            height: 300px;
+            clear: both;
+            overflow: auto;
+            margin-bottom: 20px; } }
       body.parksforward.responsive2 #content.template-embed .fiddly-bits form {
         display: block;
         margin-bottom: 20px;

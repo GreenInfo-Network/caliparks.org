@@ -9,6 +9,12 @@
   h1 {
     margin-bottom:$box-padding;
     color:$color-dark;
+    max-width:1000px;
+    line-height:1em;
+
+    a {
+      color:$color-notsodark;
+    }
   }
 
   .fiddly-bits {
@@ -18,6 +24,10 @@
     min-height:400px;
     color:$color-dark;
 
+    @include media(max-width 720px) {
+      height:auto;
+    }
+
 
     .sides {
       box-sizing:border-box;
@@ -26,6 +36,15 @@
       display:inline-block;
       color:white;
       vertical-align:top;
+
+      @include media(max-width 720px) {
+        float:auto;
+        width:100%;
+        height:300px;
+        clear:both;
+        overflow:auto;
+        margin-bottom:$box-padding;
+      }
     }
 
     form {

@@ -156,5 +156,10 @@
 	"Locator map": "Locator map",
 	"Copy the code below and paste it in your website": "Copy the code below and paste it in your website",
 	"Embed in your webpage": "Embed in your webpage",
-	"Embed": "Embed"
+	"Embed": "Embed",
+	"Want a beautiful park map for Mission Dolores Park on your website? Use ours:": "Want a beautiful park map for Mission Dolores Park on your website? Use ours:",
+	"Want a beautiful park map for <div style=\"white-space:nowrap;\">Mission Dolores Park</div> on your website? Use ours:": "Want a beautiful park map for <div style=\"white-space:nowrap;\">Mission Dolores Park</div> on your website? Use ours:",
+	"Want a beautiful park map of <div style=\"white-space:nowrap;\">Mission Dolores Park</div> on your website? Use ours:": "Want a beautiful park map of <div style=\"white-space:nowrap;\">Mission Dolores Park</div> on your website? Use ours:",
+	"Want a beautiful park map of <a href=\"/park/22296\" style=\"white-space:nowrap;\">Mission Dolores Park</a> on your website? Use ours:": "Want a beautiful park map of <a href=\"/park/22296\" style=\"white-space:nowrap;\">Mission Dolores Park</a> on your website? Use ours:",
+	"Want a beautiful map of <a href=\"/park/22296\" style=\"white-space:nowrap;\">Mission Dolores Park</a> on your website? Use ours:": "Want a beautiful map of <a href=\"/park/22296\" style=\"white-space:nowrap;\">Mission Dolores Park</a> on your website? Use ours:"
 }
