@@ -157,7 +157,8 @@
       width:66.67%;
       margin-left:33.33%;
       z-index:1;
-      position:relative;
+      position:absolute;
+      display:block;
 
       .search-this-area-action {
         position:absolute;

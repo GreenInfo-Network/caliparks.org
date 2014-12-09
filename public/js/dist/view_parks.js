@@ -18,6 +18,7 @@ define([ "require", "exports", "module", "jquery", "block-activity-filter", "blo
             }, that);
         }
         function targetIsSearchResult(eventResponse) {
+            console.log(eventResponse);
             for (var i = 0; eventResponse.path.length > i; i++) if (eventResponse.path[i] && eventResponse.path[i].classList && eventResponse.path[i].classList.contains("search-result")) return eventResponse.path[i];
             return !1;
         }
@@ -26,7 +27,7 @@ define([ "require", "exports", "module", "jquery", "block-activity-filter", "blo
             return !1;
         }
         function selectPark(id) {
-            if (!selectedPark || (0 | selectedPark.superunit_id) !== (0 | id)) {
+            if (!selectedPark || (0 | selectedPark.properties.superunit_id) !== (0 | id)) {
                 var park = getParkById(id), listItemNode = that.utils.get(".search-results .result-" + id)[0], isInBounds = that.slippyMap.map.getBounds().contains(new google.maps.LatLng(parseFloat(park.geometry.coordinates[1]), parseFloat(park.geometry.coordinates[0])));
                 selectedPark = park, listItemNode.classList.add("selected"), that.slippyMap.pinLayer.setMarkersAsSelected([ id ]), 
                 isInBounds || that.slippyMap.setCenter(park.geometry), that.fire("park-selected", {
@@ -47,8 +48,7 @@ define([ "require", "exports", "module", "jquery", "block-activity-filter", "blo
                 });
             }), that.slippyMap.on("select-markers", function(e) {
                 document.getElementById("gmap-info-window");
-                infowindow.open(that.slippyMap.map, e.caller.selectedMarkers[0].pin), console.log(e.caller.selectedMarkers[0].feature.properties), 
-                infowindow.setContent(infoWindowData.compileTemplate(e.caller.selectedMarkers[0].feature.properties));
+                infowindow.open(that.slippyMap.map, e.caller.selectedMarkers[0].pin), infowindow.setContent(infoWindowData.compileTemplate(e.caller.selectedMarkers[0].feature.properties));
             }), resultsNode.addEventListener("mouseover", that.utils.debounce(function(e) {
                 var resultNode = targetIsSearchResult(e);
                 resultNode && (that.slippyMap.pinLayer.clearMarkerSelections(), selectPark(resultNode.getAttribute("data-id")));

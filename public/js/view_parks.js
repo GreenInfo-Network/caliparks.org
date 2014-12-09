@@ -66,6 +66,8 @@ define(["require","exports","module","jquery","block-activity-filter","block-sea
     function targetIsSearchResult(eventResponse) {
       var found = false;
 
+      console.log(eventResponse);
+
       for (var i=0; eventResponse.path.length > i; i++) {
         if (eventResponse.path[i] && eventResponse.path[i].classList && eventResponse.path[i].classList.contains('search-result')) {
           return eventResponse.path[i];
@@ -88,7 +90,7 @@ define(["require","exports","module","jquery","block-activity-filter","block-sea
 
     function selectPark(id, options) {
 
-      if (!selectedPark || ((selectedPark.superunit_id|0) !== (id|0))) {
+      if (!selectedPark || ((selectedPark.properties.superunit_id|0) !== (id|0))) {
         var park         = getParkById(id),
             listItemNode = that.utils.get('.search-results .result-'+id)[0],
             isInBounds   = that.slippyMap.map.getBounds().contains(new google.maps.LatLng(parseFloat(park.geometry.coordinates[1]), parseFloat(park.geometry.coordinates[0])));
@@ -140,7 +142,6 @@ define(["require","exports","module","jquery","block-activity-filter","block-sea
         var infoWindow = document.getElementById('gmap-info-window');
 
         infowindow.open(that.slippyMap.map,e.caller.selectedMarkers[0].pin);
-        console.log(e.caller.selectedMarkers[0].feature.properties);
         infowindow.setContent(
           infoWindowData.compileTemplate(e.caller.selectedMarkers[0].feature.properties)
         );

@@ -1004,7 +1004,8 @@ body.parksforward.responsive2 {
         width: 66.67%;
         margin-left: 33.33%;
         z-index: 1;
-        position: relative; }
+        position: absolute;
+        display: block; }
         body.parksforward.responsive2 #content.template-parks .tab-pane.map-tab-pane .search-this-area-action {
           position: absolute;
           left: 10px;
