@@ -48,7 +48,7 @@ define([ "require", "exports", "module", "detect-os", "stamen-super-classy", "gm
                 mapTypeControlviewOptions: {
                     mapTypeIds: [ "parksLayer" ]
                 }
-            }), bigMapNode.style.height = "100%", that.bigMapIcon = new google.maps.Marker({
+            }), bigMapNode.offsetHeight || (bigMapNode.style.height = "100%"), that.bigMapIcon = new google.maps.Marker({
                 position: bounds.getCenter(),
                 map: that.bigMap,
                 icon: {

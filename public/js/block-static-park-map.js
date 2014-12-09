@@ -122,7 +122,9 @@ define(["require","exports","module","detect-os","stamen-super-classy","gmap-cus
         }
       });
 
-      bigMapNode.style.height = "100%";
+      if (!bigMapNode.offsetHeight) {
+        bigMapNode.style.height = "100%";
+      }
 
       that.bigMapIcon = new google.maps.Marker({
         position: bounds.getCenter(),
@@ -139,6 +141,7 @@ define(["require","exports","module","detect-os","stamen-super-classy","gmap-cus
 
       that.bigMap.mapTypes.set("parksLayer", that.parksLayer);
       that.bigMap.setMapTypeId("parksLayer");
+
 
       google.maps.event.addDomListener(window, "resize", function() {
        google.maps.event.trigger(that.bigMap.getCenter(), "resize");

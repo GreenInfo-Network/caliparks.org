@@ -111,7 +111,7 @@ body.parksforward.responsive {
     margin-right: 4.82916%;
     width: 100%;
     position: relative;
-    background-color: white
+    background-color: white;
     /* Flickr cover photo module */ }
     body.parksforward.responsive div#content:last-child {
       margin-right: 0; }
@@ -215,7 +215,7 @@ body.parksforward.responsive {
         padding: 3px;
         border-radius: 4px;
         background-color: #A4D0C4;
-        height: 30px
+        height: 30px;
         /*
         &.social-badge-tweets {
           background-color:#00b6f1;
