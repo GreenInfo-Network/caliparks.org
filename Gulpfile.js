@@ -6,7 +6,7 @@ var gulp           = require('gulp'),
     handlebars     = require("gulp-compile-handlebars"),
     jshint         = require('gulp-jshint'),
     uglify         = require('gulp-uglify'),
-    autopolyfiller = require('gulp-autopolyfiller'),
+    //autopolyfiller = require('gulp-autopolyfiller'),
     autoprefixer   = require('gulp-autoprefixer');
 
 var paths = {
@@ -66,14 +66,14 @@ gulp.task('polyfill', function() {
 
 gulp.task('default',function(){
   gulp.start('lint');
-  gulp.start('polyfill');
+  //gulp.start('polyfill');
   gulp.start('uglify');
   gulp.start('styles');
 });
 
 // Watch Files For Changes
 gulp.task('watch', function() {
-    gulp.watch(paths.js, ['lint','uglify', 'polyfill']);
+    gulp.watch(paths.js, ['lint','uglify'/*, 'polyfill'*/]);
     console.log('watching directory:' + paths.js);
 
     gulp.watch(paths.scss, ['styles']);

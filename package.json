@@ -53,7 +53,8 @@
     "sanitizer": "~0.1.1",
     "satelize": "~0.1.0",
     "should": "~3.3.2",
-    "supertest": "~0.12.1"
+    "supertest": "~0.12.1",
+    "gulp-autopolyfiller": "~1.1.0"
   },
   "license": "MIT",
   "engines": {
