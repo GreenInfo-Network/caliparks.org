@@ -48,13 +48,24 @@ define([ "require", "exports", "module", "detect-os", "stamen-super-classy", "gm
                 mapTypeControlviewOptions: {
                     mapTypeIds: [ "parksLayer" ]
                 }
+            }), that.bigMapIcon = new google.maps.Marker({
+                position: bounds.getCenter(),
+                map: that.bigMap,
+                icon: {
+                    path: "M0,5a5,5 0 1,0 10,0a5,5 0 1,0 -10,0",
+                    scale: 1,
+                    fillOpacity: 1,
+                    fillColor: "#607d8b",
+                    strokeColor: "white",
+                    strokeWeight: 2
+                }
             }), that.bigMap.mapTypes.set("parksLayer", that.parksLayer), that.bigMap.setMapTypeId("parksLayer"), 
             google.maps.event.addDomListener(window, "resize", function() {
                 google.maps.event.trigger(that.bigMap.getCenter(), "resize"), that.bigMap.setCenter(that.bigMap.getCenter());
             });
         }
         function initSmallMap() {
-            that.smallMap = new google.maps.Map(smallMapNode, {
+            smallMapNode && (that.smallMap = new google.maps.Map(smallMapNode, {
                 mapTypeControl: !1,
                 streetViewControl: !1,
                 center: new google.maps.LatLng(viewOptions.centroid.coordinates[1], viewOptions.centroid.coordinates[0]),
@@ -76,20 +87,19 @@ define([ "require", "exports", "module", "detect-os", "stamen-super-classy", "gm
                 bounds: geoJSONBBoxToGoogleBounds(viewOptions.bbox)
             }), that.smallMapCircle = new google.maps.Marker({
                 icon: {
-                    path: google.maps.SymbolPath.CIRCLE,
+                    path: "M0,5a5,5 0 1,0 10,0a5,5 0 1,0 -10,0",
+                    scale: 1,
                     fillOpacity: 1,
-                    fillColor: "black",
-                    strokeOpacity: 1,
+                    fillColor: "#607d8b",
                     strokeColor: "white",
-                    strokeWeight: 2,
-                    scale: 4
+                    strokeWeight: 2
                 },
                 position: new google.maps.LatLng(viewOptions.centroid.coordinates[1], viewOptions.centroid.coordinates[0])
-            }), that.smallMapCircle.setMap(that.smallMap);
+            }), that.smallMapCircle.setMap(that.smallMap));
         }
         function initActions() {
             var directionsAction = that.utils.get(".directions-action", rootNode)[0];
-            directionsAction.addEventListener("click", function() {
+            directionsAction && directionsAction.addEventListener("click", function() {
                 return launchDirections();
             }, !1);
         }

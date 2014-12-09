@@ -18,7 +18,6 @@ define([ "require", "exports", "module", "jquery", "block-activity-filter", "blo
             }, that);
         }
         function targetIsSearchResult(eventResponse) {
-            console.log(eventResponse);
             for (var i = 0; eventResponse.path.length > i; i++) if (eventResponse.path[i] && eventResponse.path[i].classList && eventResponse.path[i].classList.contains("search-result")) return eventResponse.path[i];
             return !1;
         }

@@ -20,7 +20,7 @@ var formatNumber = function(number) {
 };
 
 module.exports = function(req, res, options, callback) {
-    var park_id = req.params.id,
+    var park_id = req.params.id || req.query.id,
         positions = {};
 
   var dbRequests = {

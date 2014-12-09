@@ -1,0 +1,10 @@
+<div id="content" class="template-{{view}}">
+	{{>block-static-park-map}}
+</div>
+<script>
+var viewData = {
+	"centroid"  : {{{centroid}}},
+	"bbox"      : {{{bbox}}},
+	"unit_name" : "{{unit_name}}"
+}
+</script>

@@ -71,7 +71,7 @@ define(["require","exports","module"], function(require, exports, module) {
       // Gets an element by selector. Uses JQuery if available.
       //
       get : function get(selector, root) {
-        if ($) {
+        if (window.$) {
           return ((root) ? $(root).find(selector) : $(selector)).get();
         } else {
           return ((root) ? root : document).querySelectorAll(selector);

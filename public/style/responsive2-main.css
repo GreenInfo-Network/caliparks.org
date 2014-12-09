@@ -1051,6 +1051,24 @@ body.parksforward.responsive2 {
       display: block; }
     body.parksforward.responsive2 #content.template-parks .tab-pane.map-tab-pane {
       display: none; } }
+  body.parksforward.responsive2 #content.template-embed {
+    clear: both;
+    margin-top: 20px;
+    padding: 20px; }
+  body.parksforward.responsive2 #content.template-embed-park {
+    overflow: auto;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0; }
+    body.parksforward.responsive2 #content.template-embed-park .big-park-map {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      height: 100vh; }
 
 @media screen and (max-width: 720px)  {
   body.parksforward.responsive2 {

@@ -1,7 +1,9 @@
 <div class="block-static-park-map">
   <div class="big-park-map">
   </div>
+  {{#unless hideLocatorMap}}
   <div class="small-park-map">
   </div>
-  <button class="action directions-action active">{{#__}}Directions{{/__}}</button>
+  {{/unless}}
+  {{#unless hideDirections}}<button class="action directions-action active">{{#__}}Directions{{/__}}</button>{{/unless}}
 </div>

@@ -1,0 +1,21 @@
+#content.template-embed {
+
+  clear:both;
+  margin-top:$box-padding;
+  padding:$box-padding;
+
+}
+
+#content.template-embed-park {
+
+  overflow:auto;
+  position:absolute;
+  top:0;right:0;bottom:0;left:0;
+
+  .big-park-map {
+    position:absolute;
+    top:0;right:0;bottom:0;left:0;
+    height:100vh;
+  }
+
+}

@@ -122,6 +122,19 @@ define(["require","exports","module","detect-os","stamen-super-classy","gmap-cus
         }
       });
 
+      that.bigMapIcon = new google.maps.Marker({
+        position: bounds.getCenter(),
+        map: that.bigMap,
+        icon: {
+          path: "M0,5a5,5 0 1,0 10,0a5,5 0 1,0 -10,0",
+          scale: 1,
+          fillOpacity:1,
+          fillColor:'#607d8b',
+          strokeColor:'white',
+          strokeWeight:2
+        }
+      });
+
       that.bigMap.mapTypes.set("parksLayer", that.parksLayer);
       that.bigMap.setMapTypeId("parksLayer");
 
@@ -133,53 +146,57 @@ define(["require","exports","module","detect-os","stamen-super-classy","gmap-cus
 
     function initSmallMap() {
 
-      that.smallMap = new google.maps.Map(smallMapNode,{
-        mapTypeControl: false,
-        streetViewControl: false,
-        center: new google.maps.LatLng(viewOptions.centroid.coordinates[1], viewOptions.centroid.coordinates[0]),
-        zoom                : 6,
-        scrollwheel         : false,
-        disableDefaultUI    : true,
-        draggable           : false,
-        mapTypeControlOptions : {
-          mapTypeIds : ["parksLayer"]
-        }
-      });
+      if (smallMapNode) {
+        that.smallMap = new google.maps.Map(smallMapNode,{
+          mapTypeControl: false,
+          streetViewControl: false,
+          center: new google.maps.LatLng(viewOptions.centroid.coordinates[1], viewOptions.centroid.coordinates[0]),
+          zoom                : 6,
+          scrollwheel         : false,
+          disableDefaultUI    : true,
+          draggable           : false,
+          mapTypeControlOptions : {
+            mapTypeIds : ["parksLayer"]
+          }
+        });
 
-      that.smallMap.mapTypes.set("parksLayer", that.parksLayer);
-      that.smallMap.setMapTypeId("parksLayer");
+        that.smallMap.mapTypes.set("parksLayer", that.parksLayer);
+        that.smallMap.setMapTypeId("parksLayer");
 
-      that.smallMapRect = new google.maps.Rectangle({
-        strokeColor: "#000",
-        strokeOpacity: 0.35,
-        strokeWeight: 1,
-        fillColor: "#000",
-        fillOpacity: 0.1,
-        map: that.smallMap,
-        bounds: geoJSONBBoxToGoogleBounds(viewOptions.bbox)
-      });
+        that.smallMapRect = new google.maps.Rectangle({
+          strokeColor: "#000",
+          strokeOpacity: 0.35,
+          strokeWeight: 1,
+          fillColor: "#000",
+          fillOpacity: 0.1,
+          map: that.smallMap,
+          bounds: geoJSONBBoxToGoogleBounds(viewOptions.bbox)
+        });
 
-      that.smallMapCircle = new google.maps.Marker({
-        icon: {
-            path: google.maps.SymbolPath.CIRCLE,
-            fillOpacity: 1.0,
-            fillColor: "black",
-            strokeOpacity: 1.0,
-            strokeColor: "white",
-            strokeWeight: 2.0,
-            scale: 4.0
-        },
-        position: new google.maps.LatLng(viewOptions.centroid.coordinates[1], viewOptions.centroid.coordinates[0])
-      });
-      that.smallMapCircle.setMap(that.smallMap);
+        that.smallMapCircle = new google.maps.Marker({
+          icon: {
+            path: "M0,5a5,5 0 1,0 10,0a5,5 0 1,0 -10,0",
+            scale: 1,
+            fillOpacity:1,
+            fillColor:'#607d8b',
+            strokeColor:'white',
+            strokeWeight:2
+          },
+          position: new google.maps.LatLng(viewOptions.centroid.coordinates[1], viewOptions.centroid.coordinates[0])
+        });
+        that.smallMapCircle.setMap(that.smallMap);
+      }
+
     }
 
     function initActions() {
       var directionsAction = that.utils.get(".directions-action", rootNode)[0];
 
-      directionsAction.addEventListener("click", function() {
-        return launchDirections();
-      }, false);
+      if (directionsAction) {
+        directionsAction.addEventListener("click", function() {
+          return launchDirections();
+        }, false);
+      }
     }
 
     //

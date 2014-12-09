@@ -228,6 +228,45 @@ app.get('/svg/:name-:color.svg', function(req,res) {
 
 });
 
+app.get('/embed', function(req,res) {
+
+  res.render("embed", {
+    "layout" : "responsive2",
+    "view"   : "embed"
+  });
+});
+
+app.get('/embed/park', function(req,res) {
+
+  require('./controllers/park.js')(req, res, {
+  }, function(err, templateData) {
+
+    if (err) {
+      return next(err);
+    }
+
+    if (templateData) {
+
+      if (req.query.directions && req.query.directions==='false') {
+        templateData.hideDirections = true;
+      }
+
+      if (req.query.locatorMap && req.query.locatorMap==='false') {
+        templateData.hideLocatorMap = true;
+      }
+
+      templateData.layout = 'embed-viewport';
+      templateData.view   = 'embed-park';
+
+      res.render("embed-park", templateData);
+    } else {
+      return next();
+    }
+
+  });
+
+});
+
 app.get('/agencies', function(req,res) {
 
   require('./controllers/agencies.js')(req, res, {}, function(err, templateData) {

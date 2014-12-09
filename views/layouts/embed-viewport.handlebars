@@ -19,32 +19,10 @@
     {{>tracking}}
   </head>
 
-  <body class="parksforward responsive2{{#if tabletViewport}} tablet-viewport{{/if}}" ontouchstart="" id="top">
-    {{>socialism}}
+  <body class="parksforward responsive2 embed-viewport" ontouchstart="" id="top">
 
     {{{body}}}
-    <footer>
-      <section id="footer-actions">
-        <a class="top-action" href="#top">Top</a>
-        <a class="wander-action" href="/wander?from={{park_id}}">Wander</a>
-        {{>uservoice}}
-      </section>
-      <!--
-      <section id="footer-credits">
-        <div class="builtby">
-          <h2>Built by</h2>
-          <a href="http://stamen.com">
-            <img class="stamen-logo" src="/style/responsive2/stamen-logo.svg" alt="Stamen">
-            <img class="greeninfo-logo" src="/style/responsive2/greeninfo-logo.svg" alt="GreenInfo">
-            <img class="hipcamp-logo" src="/style/responsive2/hipcamp-logo.svg" alt="hipcAmp">
-          </a>
-        </div>
-        <div class="supportedby">
-          <h2>Supported by</h2>
-        </div>
-      </section>
-      -->
-    </footer>
+
     <script src="/js/dist/vendor/require.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCN-GnHQiVvap-YQh8QykZTxJTSLsxI2uw"></script>
     <script>
@@ -86,7 +64,7 @@
       });
 
       {{#if view}}
-      require( ["view_{{view}}"] );
+      require( ["embed-viewport"] );
       {{/if}}
     </script>
 

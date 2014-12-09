@@ -21,7 +21,7 @@ define([ "require", "exports", "module" ], function(require, exports, module) {
             }), template;
         }, that.utils = {
             get: function(selector, root) {
-                return $ ? (root ? $(root).find(selector) : $(selector)).get() : (root ? root : document).querySelectorAll(selector);
+                return window.$ ? (root ? $(root).find(selector) : $(selector)).get() : (root ? root : document).querySelectorAll(selector);
             },
             debounce: function(func, wait, immediate) {
                 var timeout;
