@@ -17,8 +17,7 @@ define(["require","exports","module","stamen-super-classy"], function(
     var self     = this,
         pinCache = {},
         data     = null,
-        idKey    = config.featureIdProperty || "id",
-        defaultIcon;
+        idKey    = config.featureIdProperty || "id";
 
 
     //
@@ -32,8 +31,8 @@ define(["require","exports","module","stamen-super-classy"], function(
         path: "M0,5a5,5 0 1,0 10,0a5,5 0 1,0 -10,0",
         scale: 1,
         fillOpacity:1,
-        fillColor:color || '#607d8b',
-        strokeColor:'white',
+        fillColor:color || "#607d8b",
+        strokeColor:"white",
         strokeWeight:2
       };
     }
@@ -206,7 +205,7 @@ define(["require","exports","module","stamen-super-classy"], function(
 
           pinCache[feature].selected = false;
 
-          pinCache[feature].pin.setIcon(getIcon('red'));
+          pinCache[feature].pin.setIcon(getIcon("red"));
 
           pinCache[feature].pin.setZIndex(+1);
 

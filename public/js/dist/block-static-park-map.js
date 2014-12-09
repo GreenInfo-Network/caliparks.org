@@ -22,7 +22,7 @@ define([ "require", "exports", "module", "detect-os", "stamen-super-classy", "gm
             return bounds;
         }
         function launchDirections() {
-            location.href = "iOS" === new DetectOs().getMobileOperatingSystem() ? "comgooglemaps://?q=" + viewOptions.name + "@" + viewOptions.centroid.coordinates[1] + ", " + viewOptions.centroid.coordinates[0] + "&zoom=15&views=transit" : "https://www.google.com/maps/dir//" + viewOptions.centroid.coordinates[1] + ", " + viewOptions.centroid.coordinates[0];
+            "iOS" === new DetectOs().getMobileOperatingSystem() ? location.href = "comgooglemaps://?q=" + viewOptions.name + "@" + viewOptions.centroid.coordinates[1] + ", " + viewOptions.centroid.coordinates[0] + "&zoom=15&views=transit" : window.open("https://www.google.com/maps/dir//" + viewOptions.centroid.coordinates[1] + ", " + viewOptions.centroid.coordinates[0]);
         }
         function initStamenLayer() {
             return that.parksLayer = new GmapCustomTileLayer({
@@ -48,7 +48,7 @@ define([ "require", "exports", "module", "detect-os", "stamen-super-classy", "gm
                 mapTypeControlviewOptions: {
                     mapTypeIds: [ "parksLayer" ]
                 }
-            }), that.bigMapIcon = new google.maps.Marker({
+            }), bigMapNode.style.height = "100%", that.bigMapIcon = new google.maps.Marker({
                 position: bounds.getCenter(),
                 map: that.bigMap,
                 icon: {

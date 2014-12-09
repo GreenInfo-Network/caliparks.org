@@ -46,7 +46,6 @@ define([ "require", "exports", "module", "jquery", "block-activity-filter", "blo
                     center: !1
                 });
             }), that.slippyMap.on("select-markers", function(e) {
-                document.getElementById("gmap-info-window");
                 infowindow.open(that.slippyMap.map, e.caller.selectedMarkers[0].pin), infowindow.setContent(infoWindowData.compileTemplate(e.caller.selectedMarkers[0].feature.properties));
             }), resultsNode.addEventListener("mouseover", that.utils.debounce(function(e) {
                 var resultNode = targetIsSearchResult(e);
@@ -63,7 +62,7 @@ define([ "require", "exports", "module", "jquery", "block-activity-filter", "blo
         function init() {
             initMap(), initTabControl(), initPark(), initInfoWindow();
         }
-        var bodyNode, cleanBounds, mapTabNode, selectedPark, resultsNode, selectedPark, infowindow, infoWindowData, that = this;
+        var bodyNode, cleanBounds, mapTabNode, resultsNode, selectedPark, infowindow, infoWindowData, that = this;
         StamenSuperClassy.apply(that, arguments), bodyNode = that.utils.get("body")[0], 
         init();
     }

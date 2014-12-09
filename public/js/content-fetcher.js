@@ -42,12 +42,12 @@ define(["require","exports","module","handlebars","jquery","stamen-super-classy"
 
     that.compileTemplate = function compileTemplate(data) {
       return Handlebars.compile(templateCache)(data);
-    }
+    };
 
     function _fetch(data) {
       var fetchedData = (responsePath && responsePath.length) ? getDataByStringPath(data, responsePath) : data;
 
-      if ((data.status && data.status === "ok") || typeof fetchedData === 'object') {
+      if ((data.status && data.status === "ok") || typeof fetchedData === "object") {
 
         if (options && options.incrementArg) {
           options.srcArguments[options.incrementArg] += fetchedData.length;
@@ -73,8 +73,8 @@ define(["require","exports","module","handlebars","jquery","stamen-super-classy"
     that.fetch = function fetch(data) {
       that.fire("begin-fetch");
 
-      if (data && typeof data === 'object') {
-        _fetch(data)
+      if (data && typeof data === "object") {
+        _fetch(data);
       } else {
         if (!activeFetchRequest && !stopFetching) {
           activeFetchRequest = true;
@@ -93,8 +93,8 @@ define(["require","exports","module","handlebars","jquery","stamen-super-classy"
       //
       // Fetch a handlebars template for Flickr photos
       //
-      Handlebars.registerHelper('removeSpaces', function(options) {
-        return options.fn(this).replace(/ /g, '_').toLowerCase();
+      Handlebars.registerHelper("removeSpaces", function(options) {
+        return options.fn(this).replace(/ /g, "_").toLowerCase();
       });
       return $.ajax(templatePath, {
         success : function(template) {

@@ -228,15 +228,29 @@ app.get('/svg/:name-:color.svg', function(req,res) {
 
 });
 
-app.get('/embed', function(req,res) {
+app.get('/embed/:id(\\d+)', function(req,res, next) {
 
-  res.render("embed", {
-    "layout" : "responsive2",
-    "view"   : "embed"
+  require('./controllers/park.js')(req, res, {
+  }, function(err, templateData) {
+
+    if (err) {
+      return next(err);
+    }
+
+    if (templateData) {
+
+      templateData.layout = 'responsive2';
+      templateData.view   = 'embed';
+
+      res.render("embed", templateData);
+    } else {
+      return next();
+    }
+
   });
 });
 
-app.get('/embed/park', function(req,res) {
+app.get('/embed/park', function(req,res, next) {
 
   require('./controllers/park.js')(req, res, {
   }, function(err, templateData) {

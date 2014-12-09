@@ -1,6 +1,42 @@
 {{>header-search}}
 <div id="content" class="template-{{view}}">
-  <h1>Want a beutiful park map on your site? Use ours:</h1>
+  <h1>{{#__}}Want a beautiful park map on your website? Use ours:{{/__}}</h1>
 
-  
+  <div class="fiddly-bits">
+    <div class="sides show"></iframe></div>
+    <div class="sides change">
+      <form class="form-horizontal">
+        <fieldset>
+
+          <!-- Form Name -->
+          <legend>{{#__}}Customize your embed{{/__}}</legend>
+
+          <!-- Multiple Checkboxes -->
+          <div class="control-group">
+            <label class="control-label" for="features">{{#__}}Features{{/__}}</label>
+            <div class="controls">
+              <label class="checkbox" for="features-directions">
+                <input type="checkbox" name="features" data-feature="directions" id="features-directions" checked=checked value="Directions button">
+                {{#__}}Directions button{{/__}}
+              </label>
+              <label class="checkbox" for="features-locatormap">
+                <input type="checkbox" name="features" data-feature="locatormap" id="features-locatormap" checked=checked value="Locator map">
+                {{#__}}Locator map{{/__}}
+              </label>
+            </div>
+          </div>
+
+          <legend>{{#__}}Copy the code below and paste it in your website{{/__}}</legend>
+          <textarea></textarea>
+
+        </fieldset>
+      </form>
+    </div>
+  </div>
 </div>
+<script>
+{{name}}
+var viewData = {
+  "park_id" : "{{park_id}}"
+}
+</script>

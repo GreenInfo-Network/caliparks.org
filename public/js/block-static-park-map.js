@@ -77,7 +77,7 @@ define(["require","exports","module","detect-os","stamen-super-classy","gmap-cus
       if (new DetectOs().getMobileOperatingSystem() === "iOS") {
         location.href="comgooglemaps://?q="+viewOptions.name+"@"+viewOptions.centroid.coordinates[1]+", "+viewOptions.centroid.coordinates[0]+"&zoom=15&views=transit";
       } else {
-        location.href="https://www.google.com/maps/dir//"+viewOptions.centroid.coordinates[1]+", "+viewOptions.centroid.coordinates[0];
+        window.open("https://www.google.com/maps/dir//"+viewOptions.centroid.coordinates[1]+", "+viewOptions.centroid.coordinates[0]);
       }
 
     }
@@ -122,6 +122,8 @@ define(["require","exports","module","detect-os","stamen-super-classy","gmap-cus
         }
       });
 
+      bigMapNode.style.height = "100%";
+
       that.bigMapIcon = new google.maps.Marker({
         position: bounds.getCenter(),
         map: that.bigMap,
@@ -129,8 +131,8 @@ define(["require","exports","module","detect-os","stamen-super-classy","gmap-cus
           path: "M0,5a5,5 0 1,0 10,0a5,5 0 1,0 -10,0",
           scale: 1,
           fillOpacity:1,
-          fillColor:'#607d8b',
-          strokeColor:'white',
+          fillColor:"#607d8b",
+          strokeColor:"white",
           strokeWeight:2
         }
       });
@@ -178,8 +180,8 @@ define(["require","exports","module","detect-os","stamen-super-classy","gmap-cus
             path: "M0,5a5,5 0 1,0 10,0a5,5 0 1,0 -10,0",
             scale: 1,
             fillOpacity:1,
-            fillColor:'#607d8b',
-            strokeColor:'white',
+            fillColor:"#607d8b",
+            strokeColor:"white",
             strokeWeight:2
           },
           position: new google.maps.LatLng(viewOptions.centroid.coordinates[1], viewOptions.centroid.coordinates[0])

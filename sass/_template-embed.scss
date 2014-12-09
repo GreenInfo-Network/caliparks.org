@@ -3,19 +3,98 @@
   clear:both;
   margin-top:$box-padding;
   padding:$box-padding;
+  background-color:$color-lighter;
+  color:$color-dark;
 
+  h1 {
+    margin-bottom:$box-padding;
+    color:$color-dark;
+  }
+
+  .fiddly-bits {
+    box-sizing:border-box;
+    width:100%;
+    height:50vh;
+    min-height:400px;
+    color:$color-dark;
+
+
+    .sides {
+      box-sizing:border-box;
+      width:49%;
+      height:100%;
+      display:inline-block;
+      color:white;
+      vertical-align:top;
+    }
+
+    form {
+
+      display:block;
+      margin-bottom:$box-padding;
+      color:$color-dark;
+
+      legend {
+        margin-bottom:$box-padding;
+      }
+
+      .control-group {
+        margin-left:$box-padding;
+
+        label {
+          display:block;
+          margin-bottom:$box-padding-half;
+        }
+      }
+
+      textarea {
+        width:500px;
+        height:100px;
+        margin-bottom:$box-padding-half;
+        padding:$box-padding-half;
+      }
+
+      button {
+        display:block;
+      }
+    }
+  }
+
+}
+
+.site-name {
+  display:block;
+  background-color:$color-notsodark;
+  color:$color-california;
+  margin-bottom:0;
+  padding: 7px $box-padding-half;
+  color: white;
+  font-size: $font-size-small;
+  position:absolute;
+  right:0;bottom:0;left:0;
+  height:30px;
+  text-align:right;
+  color:$color-california;
+  font-weight:$font-weight-bold;
+  font-family:$font-family-serif;
+
+  a {
+    color:$color-california;
+  }
 }
 
 #content.template-embed-park {
 
   overflow:auto;
   position:absolute;
-  top:0;right:0;bottom:0;left:0;
+  top:0;right:0;bottom: 30px;left:0;
 
-  .big-park-map {
-    position:absolute;
-    top:0;right:0;bottom:0;left:0;
-    height:100vh;
+  .block-static-park-map {
+    height:100%;
+    .big-park-map {
+      position:absolute;
+      top:0;right:0;bottom:100px;left:0;
+    }
   }
 
 }

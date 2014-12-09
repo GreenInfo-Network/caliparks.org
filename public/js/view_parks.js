@@ -20,7 +20,7 @@ define(["require","exports","module","jquery","block-activity-filter","block-sea
   function View(options) {
 
     var that = this,
-        bodyNode, cleanBounds, mapTabNode, selectedPark, resultsNode, selectedPark, infowindow, infoWindowData;
+        bodyNode, cleanBounds, mapTabNode, resultsNode, selectedPark, infowindow, infoWindowData;
 
     StamenSuperClassy.apply(that, arguments);
 
@@ -64,10 +64,9 @@ define(["require","exports","module","jquery","block-activity-filter","block-sea
     }
 
     function targetIsSearchResult(eventResponse) {
-      var found = false;
 
       for (var i=0; eventResponse.path.length > i; i++) {
-        if (eventResponse.path[i] && eventResponse.path[i].classList && eventResponse.path[i].classList.contains('search-result')) {
+        if (eventResponse.path[i] && eventResponse.path[i].classList && eventResponse.path[i].classList.contains("search-result")) {
           return eventResponse.path[i];
         }
       }
@@ -90,7 +89,7 @@ define(["require","exports","module","jquery","block-activity-filter","block-sea
 
       if (!selectedPark || ((selectedPark.properties.superunit_id|0) !== (id|0))) {
         var park         = getParkById(id),
-            listItemNode = that.utils.get('.search-results .result-'+id)[0],
+            listItemNode = that.utils.get(".search-results .result-"+id)[0],
             isInBounds   = that.slippyMap.map.getBounds().contains(new google.maps.LatLng(parseFloat(park.geometry.coordinates[1]), parseFloat(park.geometry.coordinates[0])));
 
         selectedPark = park;
@@ -110,10 +109,6 @@ define(["require","exports","module","jquery","block-activity-filter","block-sea
         });
       }
 
-    }
-
-    function blurPark() {
-      selectedPark = null;
     }
 
     function initInfoWindow() {
@@ -137,7 +132,6 @@ define(["require","exports","module","jquery","block-activity-filter","block-sea
       });
 
       that.slippyMap.on("select-markers", function(e) {
-        var infoWindow = document.getElementById('gmap-info-window');
 
         infowindow.open(that.slippyMap.map,e.caller.selectedMarkers[0].pin);
         infowindow.setContent(
