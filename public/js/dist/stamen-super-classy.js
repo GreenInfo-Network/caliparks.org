@@ -22,6 +22,15 @@ define([ "require", "exports", "module" ], function(require, exports, module) {
         }, that.utils = {
             get: function(selector, root) {
                 return $ ? (root ? $(root).find(selector) : $(selector)).get() : (root ? root : document).querySelectorAll(selector);
+            },
+            debounce: function(func, wait, immediate) {
+                var timeout;
+                return function() {
+                    var context = this, args = arguments, later = function() {
+                        timeout = null, immediate || func.apply(context, args);
+                    }, callNow = immediate && !timeout;
+                    clearTimeout(timeout), timeout = setTimeout(later, wait), callNow && func.apply(context, args);
+                };
             }
         }, this;
     };

@@ -5,8 +5,18 @@ define([ "require", "exports", "module", "handlebars", "jquery", "stamen-super-c
             for (var pathArray = path.split("."), dataLevel = data, i = 0; pathArray.length > i; i++) dataLevel = dataLevel[pathArray[i]];
             return dataLevel;
         }
+        function _fetch(data) {
+            var fetchedData = responsePath && responsePath.length ? getDataByStringPath(data, responsePath) : data;
+            data.status && "ok" === data.status || "object" == typeof fetchedData ? (options && options.incrementArg && (options.srcArguments[options.incrementArg] += fetchedData.length), 
+            fetchedData.length ? fetchedData.forEach(function(item) {
+                $(rootSelector).append(that.compileTemplate(templateCache)(item));
+            }) : $(rootSelector).html(that.compileTemplate(fetchedData))) : stopFetching = !0, 
+            that.fire("finish-fetch"), activeFetchRequest = !1;
+        }
         function init(callback) {
-            return $.ajax(templatePath, {
+            return Handlebars.registerHelper("removeSpaces", function(options) {
+                return options.fn(this).replace(/ /g, "_").toLowerCase();
+            }), $.ajax(templatePath, {
                 success: function(template) {
                     templateCache = template, callback(null, {
                         template: templateCache
@@ -15,18 +25,14 @@ define([ "require", "exports", "module", "handlebars", "jquery", "stamen-super-c
             });
         }
         var templateCache, that = this, stopFetching = !1, activeFetchRequest = !1, args = "";
-        return StamenSuperClassy.apply(this, arguments), that.fetch = function() {
-            that.fire("begin-fetch"), activeFetchRequest || stopFetching || (activeFetchRequest = !0, 
+        return StamenSuperClassy.apply(this, arguments), that.compileTemplate = function(data) {
+            return Handlebars.compile(templateCache)(data);
+        }, that.fetch = function(data) {
+            that.fire("begin-fetch"), data && "object" == typeof data ? _fetch(data) : activeFetchRequest || stopFetching || (activeFetchRequest = !0, 
             options.srcArguments && (args = "?" + JSON.stringify(options.srcArguments).replace(/,/g, "&").replace(/[{|}]/g, "").replace(/[:]/g, "=").replace(/\"/g, "")), 
-            $.getJSON(src + args, function(data) {
-                var array = responsePath.length ? getDataByStringPath(data, responsePath) : data;
-                "ok" === data.status && array.length ? (options.incrementArg && (options.srcArguments[options.incrementArg] += array.length), 
-                array.forEach(function(item) {
-                    $(rootSelector).append(Handlebars.compile(templateCache)(item));
-                })) : stopFetching = !0, that.fire("finish-fetch"), activeFetchRequest = !1;
-            }));
+            $.getJSON(src + args, _fetch));
         }, init(function() {
-            that.fire("ready"), options.callback && options.callback(null, that);
+            that.fire("ready"), options && options.callback && options.callback(null, that);
         }), that;
     };
 });

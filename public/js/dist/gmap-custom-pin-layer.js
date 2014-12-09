@@ -1,6 +1,16 @@
 define([ "require", "exports", "module", "stamen-super-classy" ], function(require, exports, module, StamenSuperClassy) {
     "use strict";
     module.exports = function(map, config) {
+        function getIcon(color) {
+            return {
+                path: "M0,5a5,5 0 1,0 10,0a5,5 0 1,0 -10,0",
+                scale: 1,
+                fillOpacity: 1,
+                fillColor: color || "#607d8b",
+                strokeColor: "white",
+                strokeWeight: 2
+            };
+        }
         function checkGeoJSON(geojsonData) {
             return geojsonData && "FeatureCollection" === geojsonData.type && "object" == typeof geojsonData.features && geojsonData.features.length > 0 && "Feature" === geojsonData.features[0].type && "Point" === geojsonData.features[0].geometry.type ? !0 : !1;
         }
@@ -9,11 +19,7 @@ define([ "require", "exports", "module", "stamen-super-classy" ], function(requi
                 position: location,
                 map: map,
                 title: title,
-                icon: {
-                    url: "/svg/mappin-607d8b.svg",
-                    scaledSize: new google.maps.Size(46, 26),
-                    size: new google.maps.Size(46, 26)
-                }
+                icon: getIcon()
             });
         }
         function updateData(newData) {
@@ -57,7 +63,7 @@ define([ "require", "exports", "module", "stamen-super-classy" ], function(requi
             var filteredData;
             filteredData = data, config.filter && (filteredData = filterGeoJSON(filteredData, config.filter)), 
             filteredData.features.forEach(function(feature) {
-                var id = feature.properties.superunit_id, title = feature.properties.unit_name;
+                var id = feature.properties[idKey], title = feature.properties.unit_name;
                 pinCache[id] || (pinCache[id] = {
                     feature: feature,
                     pin: makeMarker(new google.maps.LatLng(parseFloat(feature.geometry.coordinates[1]), parseFloat(feature.geometry.coordinates[0])), title, feature),
@@ -67,20 +73,25 @@ define([ "require", "exports", "module", "stamen-super-classy" ], function(requi
             });
         }
         function setMarkersAsSelected(markersArray) {
+            var markers = [];
             return (markersArray || data.features).forEach(function(feature) {
-                pinCache[feature.id].selected = !1, pinCache[feature.id].pin.setZIndex(1);
-            }), self.fire("select-markers"), !0;
+                pinCache[feature].selected = !1, pinCache[feature].pin.setIcon(getIcon("red")), 
+                pinCache[feature].pin.setZIndex(1), markers.push(pinCache[feature]);
+            }), self.fire("select-markers", {
+                selectedMarkers: markers
+            }), !0;
         }
         function clearMarkerSelections(markersArray) {
             return (markersArray || data.features).forEach(function(feature) {
-                pinCache[feature.id].selected = !1, pinCache[feature.id].pin.setZIndex(-1);
+                pinCache[feature.properties[idKey]].selected = !1, pinCache[feature.properties[idKey]].pin.setIcon(getIcon()), 
+                pinCache[feature.properties[idKey]].pin.setZIndex(-1);
             }), self.fire("clear-marker-selections"), !0;
         }
         function clearMarkers() {
             for (var i in pinCache) pinCache.hasOwnProperty(i) && (pinCache[i].pin.setMap(null), 
             delete pinCache[i]);
         }
-        var self = this, pinCache = {}, data = null;
+        var self = this, pinCache = {}, data = null, idKey = config.featureIdProperty || "id";
         return StamenSuperClassy.apply(self, arguments), self.getData = getData, self.updateData = updateData, 
         self.drawMarkers = drawMarkers, self.clearMarkers = clearMarkers, self.setMarkersAsSelected = setMarkersAsSelected, 
         self.clearMarkerSelections = clearMarkerSelections, self.on("data-updated", function() {

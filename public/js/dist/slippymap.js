@@ -14,6 +14,12 @@ define([ "require", "exports", "module", "stamen-super-classy", "gmap-custom-til
             var gbounds = that.map.getBounds().toUrlValue().split(",").map(parseFloat);
             return [ gbounds[1], gbounds[0], gbounds[3], gbounds[2] ];
         }
+        function setCenter(point) {
+            that.map.setCenter({
+                lat: point.coordinates[1],
+                lng: point.coordinates[0]
+            });
+        }
         function initStamenLayer() {
             return that.parksLayer = new GmapCustomTileLayer({
                 tilePath: "http://{s}.map.parks.stamen.com/{z}/{x}/{y}.png",
@@ -38,7 +44,8 @@ define([ "require", "exports", "module", "stamen-super-classy", "gmap-custom-til
                 }
             }), that.map.mapTypes.set("parksLayer", that.parksLayer), that.map.setMapTypeId("parksLayer");
             var pinLayer = new GmapCustomPinLayer(that.map, {
-                data: options.data
+                data: options.data,
+                featureIdProperty: "superunit_id"
             });
             that.pinLayer = pinLayer, that.map.fitBounds(geoJSONBBoxToGoogleBounds(options.contextBounds)), 
             that.updateData = pinLayer.updateData, google.maps.event.addListener(that.map, "bounds_changed", function() {
@@ -49,6 +56,14 @@ define([ "require", "exports", "module", "stamen-super-classy", "gmap-custom-til
                 that.fire("idle");
             }), google.maps.event.addDomListener(window, "resize", function() {
                 google.maps.event.trigger(that.map.getCenter(), "resize"), that.map.setCenter(that.map.getCenter());
+            }), pinLayer.on("marker-click", function(e) {
+                that.fire("marker-click", e.caller);
+            }), pinLayer.on("marker-mouseover", function(e) {
+                that.fire("marker-mouseover", e.caller);
+            }), pinLayer.on("marker-mouseout", function(e) {
+                that.fire("marker-mouseout", e.caller);
+            }), pinLayer.on("select-markers", function(e) {
+                that.fire("select-markers", e.caller);
             });
         }
         function initialize() {
@@ -59,7 +74,7 @@ define([ "require", "exports", "module", "stamen-super-classy", "gmap-custom-til
         var that = this;
         StamenSuperClassy.apply(that, arguments);
         var rootNode = that.utils.get(rootSelector)[0];
-        return that.resize = resize, that.getBounds = getBounds, initialize(), callback && callback(null, that), 
-        that;
+        return that.resize = resize, that.getBounds = getBounds, that.setCenter = setCenter, 
+        initialize(), callback && callback(null, that), that;
     };
 });

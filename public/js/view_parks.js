@@ -1,4 +1,4 @@
-define(["require","exports","module","jquery","block-activity-filter","block-search-box","slippymap", "stamen-super-classy", "routes"], function(
+define(["require","exports","module","jquery","block-activity-filter","block-search-box","slippymap", "stamen-super-classy", "routes", "content-fetcher"], function(
   require,
   exports,
   module,
@@ -7,7 +7,8 @@ define(["require","exports","module","jquery","block-activity-filter","block-sea
   BlockSearchBox,
   Slippymap,
   StamenSuperClassy,
-  Routes
+  Routes,
+  ContentFetcher
 ) {
 
   "use strict";
@@ -19,7 +20,7 @@ define(["require","exports","module","jquery","block-activity-filter","block-sea
   function View(options) {
 
     var that = this,
-        bodyNode, cleanBounds, mapTabNode;
+        bodyNode, cleanBounds, mapTabNode, selectedPark, resultsNode, selectedPark, infowindow, infoWindowData;
 
     StamenSuperClassy.apply(that, arguments);
 
@@ -30,7 +31,7 @@ define(["require","exports","module","jquery","block-activity-filter","block-sea
       mapTabNode = that.utils.get(".map-tab-pane")[0];
 
       that.slippyMap = new Slippymap(".slippymap", {
-        "data" : viewData.parks,
+        "data" : options.parks,
         "contextBounds" : (options.bounds.length) ? options.bounds : viewData.parks.bbox
       }, function(err, slippyMap) {
         that.slippyMap = slippyMap;
@@ -62,6 +63,99 @@ define(["require","exports","module","jquery","block-activity-filter","block-sea
       }, that);
     }
 
+    function targetIsSearchResult(eventResponse) {
+      var found = false;
+
+      for (var i=0; eventResponse.path.length > i; i++) {
+        if (eventResponse.path[i] && eventResponse.path[i].classList && eventResponse.path[i].classList.contains('search-result')) {
+          return eventResponse.path[i];
+        }
+      }
+
+      return false;
+    }
+
+    function getParkById(id) {
+
+      for (var i=0; options.parks.features.length > i; i++) {
+        if ((options.parks.features[i].properties.superunit_id|0) === (id|0)) {
+          return options.parks.features[i];
+        }
+      }
+
+      return false;
+    }
+
+    function selectPark(id, options) {
+
+      if (!selectedPark || ((selectedPark.superunit_id|0) !== (id|0))) {
+        var park         = getParkById(id),
+            listItemNode = that.utils.get('.search-results .result-'+id)[0],
+            isInBounds   = that.slippyMap.map.getBounds().contains(new google.maps.LatLng(parseFloat(park.geometry.coordinates[1]), parseFloat(park.geometry.coordinates[0])));
+
+        selectedPark = park;
+
+        // Add selected class to list item dom element
+        listItemNode.classList.add("selected");
+
+        // Set pin on map as selected
+        that.slippyMap.pinLayer.setMarkersAsSelected([id]);
+
+        if (!isInBounds) {
+          that.slippyMap.setCenter(park.geometry);
+        }
+
+        that.fire("park-selected", {
+          newPark : park
+        });
+      }
+
+    }
+
+    function blurPark() {
+      selectedPark = null;
+    }
+
+    function initInfoWindow() {
+      infowindow = new google.maps.InfoWindow({
+        "maxWidth" : 400,
+        "minHeight": 400
+      });
+
+      infoWindowData = new ContentFetcher("#gmap-info-window","/js/partials/block-park-name.handlebars",null);
+    }
+
+    function initPark() {
+
+      resultsNode = that.utils.get("#content .search-results")[0];
+
+      that.slippyMap.on("marker-click", function(e) {
+        that.slippyMap.pinLayer.clearMarkerSelections();
+        selectPark(e.caller.marker.feature.properties.superunit_id, {
+          "center" : false
+        });
+      });
+
+      that.slippyMap.on("select-markers", function(e) {
+        var infoWindow = document.getElementById('gmap-info-window');
+
+        infowindow.open(that.slippyMap.map,e.caller.selectedMarkers[0].pin);
+        console.log(e.caller.selectedMarkers[0].feature.properties);
+        infowindow.setContent(
+          infoWindowData.compileTemplate(e.caller.selectedMarkers[0].feature.properties)
+        );
+      });
+
+      resultsNode.addEventListener("mouseover", that.utils.debounce(function(e) {
+        var resultNode = targetIsSearchResult(e);
+        if (resultNode) {
+          that.slippyMap.pinLayer.clearMarkerSelections();
+          selectPark(resultNode.getAttribute("data-id"));
+        }
+      }, 200), true);
+
+    }
+
     function initTabControl() {
       var rootNode = that.utils.get(".tab-actions")[0];
 
@@ -87,6 +181,9 @@ define(["require","exports","module","jquery","block-activity-filter","block-sea
 
       initMap();
       initTabControl();
+      initPark();
+      initInfoWindow();
+
     }
 
     init();
@@ -97,7 +194,8 @@ define(["require","exports","module","jquery","block-activity-filter","block-sea
 
   module.exports = new View({
     "geojsonURI" : "/parks/search.geojson"+routes.stringifyUrlSearchParams(searchState),
-    "bounds"     : viewData.bounds
+    "bounds"     : viewData.bounds,
+    "parks"      : viewData.parks
   });
 
 });

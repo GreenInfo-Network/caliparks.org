@@ -14,14 +14,29 @@ define(["require","exports","module","stamen-super-classy"], function(
 
   module.exports=function(map, config) {
 
-    var self = this,
-    pinCache = {},
-    data     = null;
+    var self     = this,
+        pinCache = {},
+        data     = null,
+        idKey    = config.featureIdProperty || "id",
+        defaultIcon;
+
 
     //
     //
     //
     StamenSuperClassy.apply(self, arguments);
+
+
+    function getIcon(color) {
+      return {
+        path: "M0,5a5,5 0 1,0 10,0a5,5 0 1,0 -10,0",
+        scale: 1,
+        fillOpacity:1,
+        fillColor:color || '#607d8b',
+        strokeColor:'white',
+        strokeWeight:2
+      };
+    }
 
     //
     // Check to make sure GeoJSON has the bits we expect
@@ -50,11 +65,7 @@ define(["require","exports","module","stamen-super-classy"], function(
         position: location,
         map: map,
         title: title,
-        icon: {
-          url : "/svg/mappin-607d8b.svg",
-          scaledSize : new google.maps.Size(46, 26),
-          size : new google.maps.Size(46, 26)
-        }
+        icon: getIcon()
       });
     }
 
@@ -160,7 +171,7 @@ define(["require","exports","module","stamen-super-classy"], function(
 
       filteredData.features.forEach(function(feature) {
 
-        var id = feature.properties.superunit_id,
+        var id = feature.properties[idKey],
             title = feature.properties.unit_name;
 
         if (!pinCache[id]) {
@@ -176,7 +187,7 @@ define(["require","exports","module","stamen-super-classy"], function(
                       feature
             ),
             selected : null
-        };
+          };
 
             setMarkerListener("click", pinCache[id]);
             setMarkerListener("mouseover", pinCache[id]);
@@ -188,22 +199,24 @@ define(["require","exports","module","stamen-super-classy"], function(
       }
 
       function setMarkersAsSelected(markersArray) {
+
+        var markers = [];
+
         (markersArray || data.features).forEach(function(feature) {
 
-          pinCache[feature.id].selected = false;
+          pinCache[feature].selected = false;
 
-          /*
-          pinCache[feature.id].pin.setIcon({
-            size:new google.maps.Size(20,32),
-            url:"/svg/mappin-607d8b.svg"
-          });
-          */
+          pinCache[feature].pin.setIcon(getIcon('red'));
 
-          pinCache[feature.id].pin.setZIndex(+1);
+          pinCache[feature].pin.setZIndex(+1);
+
+          markers.push(pinCache[feature]);
 
         });
 
-        self.fire("select-markers");
+        self.fire("select-markers", {
+          "selectedMarkers" : markers
+        });
 
         return true;
       }
@@ -212,16 +225,11 @@ define(["require","exports","module","stamen-super-classy"], function(
 
         (markersArray || data.features).forEach(function(feature) {
 
-          pinCache[feature.id].selected = false;
+          pinCache[feature.properties[idKey]].selected = false;
 
-          /*
-          pinCache[feature.id].pin.setIcon({
-            size:new google.maps.Size(20,32),
-            url:"/svg/mappin-607d8b.svg"
-          });
-          */
+          pinCache[feature.properties[idKey]].pin.setIcon(getIcon());
 
-          pinCache[feature.id].pin.setZIndex(-1);
+          pinCache[feature.properties[idKey]].pin.setZIndex(-1);
 
         });
 

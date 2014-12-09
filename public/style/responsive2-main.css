@@ -87,6 +87,8 @@ body.parksforward.responsive2 {
     animation-timing-function: ease; }
   body.parksforward.responsive2 .clearfix {
     overflow: auto; }
+  body.parksforward.responsive2 .gm-style-iw {
+    height: 100px; }
   body.parksforward.responsive2 a {
     text-decoration: none; }
   body.parksforward.responsive2 h1, body.parksforward.responsive2 h2, body.parksforward.responsive2 h3, body.parksforward.responsive2 h4 {

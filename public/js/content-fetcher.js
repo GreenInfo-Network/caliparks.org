@@ -40,37 +40,51 @@ define(["require","exports","module","handlebars","jquery","stamen-super-classy"
       return dataLevel;
     }
 
-    that.fetch = function fetch() {
-      that.fire("begin-fetch");
+    that.compileTemplate = function compileTemplate(data) {
+      return Handlebars.compile(templateCache)(data);
+    }
 
-      if (!activeFetchRequest && !stopFetching) {
-        activeFetchRequest = true;
+    function _fetch(data) {
+      var fetchedData = (responsePath && responsePath.length) ? getDataByStringPath(data, responsePath) : data;
 
-        if (options.srcArguments) {
-          args = "?"+JSON.stringify(options.srcArguments).replace(/,/g, "&").replace(/[{|}]/g, "").replace(/[:]/g, "=").replace(/\"/g, "");
+      if ((data.status && data.status === "ok") || typeof fetchedData === 'object') {
+
+        if (options && options.incrementArg) {
+          options.srcArguments[options.incrementArg] += fetchedData.length;
         }
 
-        $.getJSON(src+args, function(data) {
-          var array = (responsePath.length) ? getDataByStringPath(data, responsePath) : data;
+        if (fetchedData.length) {
+          fetchedData.forEach(function(item) {
+            $(rootSelector).append(that.compileTemplate(templateCache)(item));
+          });
+        } else {
+          $(rootSelector).html(that.compileTemplate(fetchedData));
+        }
 
-          if (data.status === "ok" && array.length) {
+      } else {
+        stopFetching = true;
+      }
 
-            if (options.incrementArg) {
-              options.srcArguments[options.incrementArg] += array.length;
-            }
+      that.fire("finish-fetch");
 
-            array.forEach(function(item) {
-              $(rootSelector).append(Handlebars.compile(templateCache)(item));
-            });
+      activeFetchRequest = false;
+    }
 
-          } else {
-            stopFetching = true;
+    that.fetch = function fetch(data) {
+      that.fire("begin-fetch");
+
+      if (data && typeof data === 'object') {
+        _fetch(data)
+      } else {
+        if (!activeFetchRequest && !stopFetching) {
+          activeFetchRequest = true;
+
+          if (options.srcArguments) {
+            args = "?"+JSON.stringify(options.srcArguments).replace(/,/g, "&").replace(/[{|}]/g, "").replace(/[:]/g, "=").replace(/\"/g, "");
           }
 
-          that.fire("finish-fetch");
-
-          activeFetchRequest = false;
-        });
+          $.getJSON(src+args, _fetch);
+        }
       }
 
     };
@@ -79,6 +93,9 @@ define(["require","exports","module","handlebars","jquery","stamen-super-classy"
       //
       // Fetch a handlebars template for Flickr photos
       //
+      Handlebars.registerHelper('removeSpaces', function(options) {
+        return options.fn(this).replace(/ /g, '_').toLowerCase();
+      });
       return $.ajax(templatePath, {
         success : function(template) {
           templateCache = template;
@@ -96,7 +113,7 @@ define(["require","exports","module","handlebars","jquery","stamen-super-classy"
     init(function(err, data) {
       that.fire("ready");
 
-      if (options.callback) {
+      if (options && options.callback) {
         options.callback(null, that);
       }
     });

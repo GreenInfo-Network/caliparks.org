@@ -45,6 +45,10 @@ define(["require","exports","module","stamen-super-classy","gmap-custom-tile-lay
       ];
     }
 
+    function setCenter(point) {
+      that.map.setCenter({lat: point.coordinates[1], lng: point.coordinates[0]});
+    }
+
     //
     // Initialization methods
     //
@@ -81,7 +85,8 @@ define(["require","exports","module","stamen-super-classy","gmap-custom-tile-lay
       that.map.setMapTypeId("parksLayer");
 
       var pinLayer = new GmapCustomPinLayer(that.map, {
-        data : options.data
+        "data"              : options.data,
+        "featureIdProperty" : "superunit_id"
       });
       that.pinLayer = pinLayer;
 
@@ -103,6 +108,22 @@ define(["require","exports","module","stamen-super-classy","gmap-custom-tile-lay
        google.maps.event.trigger(that.map.getCenter(), "resize");
        that.map.setCenter(that.map.getCenter());
       });
+
+      pinLayer.on("marker-click", function(e) {
+        that.fire("marker-click", e.caller);
+      });
+
+      pinLayer.on("marker-mouseover", function(e) {
+        that.fire("marker-mouseover", e.caller);
+      });
+
+      pinLayer.on("marker-mouseout", function(e) {
+        that.fire("marker-mouseout", e.caller);
+      });
+
+      pinLayer.on("select-markers", function(e) {
+        that.fire("select-markers", e.caller);
+      });
     }
 
     //
@@ -122,6 +143,7 @@ define(["require","exports","module","stamen-super-classy","gmap-custom-tile-lay
     //
     that.resize    = resize;
     that.getBounds = getBounds;
+    that.setCenter = setCenter;
 
     //
     // GO GO GO!
