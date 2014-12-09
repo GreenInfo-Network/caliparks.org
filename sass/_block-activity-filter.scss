@@ -5,6 +5,7 @@
   &.closed {
     .filter-drawer {
       height:0px;
+      padding-bottom:0;
     }
 
     .close-drawer-action {
@@ -62,10 +63,11 @@
   .filter-drawer {
 
     overflow:auto;
-    transition:height .5s;
-    height:451px;
+    transition:.5s height;
+    max-height:95vh;
     margin:0 auto;
     width:95%;
+    padding-bottom:$box-padding;
 
     li {
       display:inline-block;

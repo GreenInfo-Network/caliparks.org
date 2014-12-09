@@ -608,7 +608,8 @@ body.parksforward.responsive2 {
   body.parksforward.responsive2 .block-activity-filter {
     background-color: #37474f; }
     body.parksforward.responsive2 .block-activity-filter.closed .filter-drawer {
-      height: 0px; }
+      height: 0px;
+      padding-bottom: 0; }
     body.parksforward.responsive2 .block-activity-filter.closed .close-drawer-action {
       display: none; }
     body.parksforward.responsive2 .block-activity-filter.closed .toggle-activities-drawer-action.many {
@@ -640,10 +641,11 @@ body.parksforward.responsive2 {
         transition: transform 0.1s; }
     body.parksforward.responsive2 .block-activity-filter .filter-drawer {
       overflow: auto;
-      transition: height 0.5s;
-      height: 451px;
+      transition: 0.5s height;
+      max-height: 95vh;
       margin: 0 auto;
-      width: 95%; }
+      width: 95%;
+      padding-bottom: 20px; }
       body.parksforward.responsive2 .block-activity-filter .filter-drawer li {
         display: inline-block;
         width: 100px;
