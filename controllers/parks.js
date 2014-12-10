@@ -105,8 +105,6 @@ module.exports = function(req, res, data, callback) {
       return callback(err);
     }
 
-    console.log('>',data.query);
-
     return callback(null, {
       parks          : parks,
       total          : parks.length,
