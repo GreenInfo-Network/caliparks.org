@@ -62,6 +62,8 @@ define(["require","exports","module","stamen-super-classy","routes"], function(
         routes.updateSearchUrl(searchParams);
       }, false);
 
+      console.log(rootNode,toggleDrawerActionNode, toggleDrawerStatusNode);
+
       //
       // Put the current number of filters in the status area
       //

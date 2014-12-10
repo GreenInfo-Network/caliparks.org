@@ -39,7 +39,14 @@ module.exports = function(req, res, data, callback) {
     story = stories.getBySlug(req.params.query);
 
     if (story.parks) {
-      return cpad.getParksByIdList(story.parks, req.query.with, go);
+      return cpad.getParksByIdList(story.parks, req.query.with, function() {
+
+        data.query = {
+          with : req.query.with
+        }
+
+        go.apply(this, arguments);
+      });
     }
   }
 
@@ -67,13 +74,6 @@ module.exports = function(req, res, data, callback) {
       q    : req.query.q || '',
       near : req.params.query,
       with : req.params.with  || req.query.with || null,
-      bbox : req.query.bbox
-    };
-  } else if (data.context === 'story') {
-    data.query = {
-      q    : story.q    || '',
-      near : story.near || null,
-      with : story.with || null,
       bbox : req.query.bbox
     };
   } else if (req.params.query || req.query.q || req.query.near || req.query.with) {
@@ -104,6 +104,8 @@ module.exports = function(req, res, data, callback) {
     if (err) {
       return callback(err);
     }
+
+    console.log('>',data.query);
 
     return callback(null, {
       parks          : parks,

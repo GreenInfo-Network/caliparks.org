@@ -14,7 +14,7 @@ define([ "require", "exports", "module", "stamen-super-classy", "routes" ], func
                 var filter = e.target.getAttribute("data-filter") || e.target.parentNode.getAttribute("data-filter") || e.target.parentNode.parentNode.getAttribute("data-filter"), index = withArray.indexOf(encodeURI(filter).toLowerCase());
                 index > -1 ? (withArray.splice(index), searchParams["with"] = withArray.join(",")) : (withArray.push(filter), 
                 searchParams["with"] = withArray.join(",")), routes.updateSearchUrl(searchParams);
-            }, !1), toggleDrawerStatusNode && (searchParams = routes.getParamStateFromLocationObject(), 
+            }, !1), console.log(rootNode, toggleDrawerActionNode, toggleDrawerStatusNode), toggleDrawerStatusNode && (searchParams = routes.getParamStateFromLocationObject(), 
             withArray = searchParams.with ? searchParams.with.split(",") : [], toggleDrawerStatusNode.innerHTML = withArray.length ? withArray.length : "");
         }
         function initDrawerToggleAction() {
