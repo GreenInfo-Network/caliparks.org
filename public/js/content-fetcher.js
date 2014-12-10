@@ -53,7 +53,7 @@ define(["require","exports","module","handlebars","jquery","stamen-super-classy"
           options.srcArguments[options.incrementArg] += fetchedData.length;
         }
 
-        if (fetchedData.length) {
+        if (fetchedData.length >= 0) {
           fetchedData.forEach(function(item) {
             $(rootSelector).append(that.compileTemplate(item));
           });

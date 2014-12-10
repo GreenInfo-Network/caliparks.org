@@ -8,7 +8,7 @@ define([ "require", "exports", "module", "handlebars", "jquery", "stamen-super-c
         function _fetch(data) {
             var fetchedData = responsePath && responsePath.length ? getDataByStringPath(data, responsePath) : data;
             data.status && "ok" === data.status || "object" == typeof fetchedData ? (options && options.incrementArg && (options.srcArguments[options.incrementArg] += fetchedData.length), 
-            fetchedData.length ? fetchedData.forEach(function(item) {
+            fetchedData.length >= 0 ? fetchedData.forEach(function(item) {
                 $(rootSelector).append(that.compileTemplate(item));
             }) : $(rootSelector).html(that.compileTemplate(fetchedData))) : stopFetching = !0, 
             that.fire("finish-fetch"), activeFetchRequest = !1;
