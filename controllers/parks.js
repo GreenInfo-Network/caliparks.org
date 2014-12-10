@@ -39,7 +39,7 @@ module.exports = function(req, res, data, callback) {
     story = stories.getBySlug(req.params.query);
 
     if (story.parks) {
-      return cpad.getParksByIdList(story.parks, go);
+      return cpad.getParksByIdList(story.parks, req.query.with, go);
     }
   }
 
