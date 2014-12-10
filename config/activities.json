@@ -20,5 +20,7 @@
   "swimming":{"category":"water","label":"Swimming"},
   "Tennis":{"category":"sports","label":"Tennis"},
   "whitewaterRaftingKayaking":{"category":"water","label":"Whitewater rafting & kayaking"},
-  "wildlifeWatching":{"category":"outdoors","label":"Wildlife watching"}
+  "wildlifeWatching":{"category":"outdoors","label":"Wildlife watching"},
+  "rusticCabins":{"category":"outdoors","label":"Rustic cabins"},
+  "historicalSite":{"category":"historic","label":"Museums"}
 }
