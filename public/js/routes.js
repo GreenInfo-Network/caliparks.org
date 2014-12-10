@@ -102,6 +102,11 @@ define(["require","exports","module","stamen-super-classy"], function(
           delete searchParams["with"];
           location.href = locationArray.join("/") + "/" + w + that.stringifyUrlSearchParams(searchParams).replace(/undefined/,"");
         } else {
+
+          if (location.href.split("/")[4] === "near") {
+            delete searchParams["near"];
+          }
+
           location.search = that.stringifyUrlSearchParams(searchParams).replace(/undefined/,"");
         }
       }

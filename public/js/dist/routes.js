@@ -25,7 +25,7 @@ define([ "require", "exports", "module", "stamen-super-classy" ], function(requi
             searchParams["with"] && "with" === location.href.split("/")[4]) {
                 var w = searchParams["with"], locationArray = location.href.split("/");
                 locationArray.length = 5, delete searchParams["with"], location.href = locationArray.join("/") + "/" + w + that.stringifyUrlSearchParams(searchParams).replace(/undefined/, "");
-            } else location.search = that.stringifyUrlSearchParams(searchParams).replace(/undefined/, ""); else location.href = "/parks/search" + (location.hash || "") + that.stringifyUrlSearchParams(searchParams);
+            } else "near" === location.href.split("/")[4] && delete searchParams.near, location.search = that.stringifyUrlSearchParams(searchParams).replace(/undefined/, ""); else location.href = "/parks/search" + (location.hash || "") + that.stringifyUrlSearchParams(searchParams);
         }, that.getParamStateAsSearchString = function() {
             var params = that.getParamStateFromLocationObject(), outString = params.q || "";
             return params.with && (outString += !params.q && params.near ? params.with : " with " + params.with, 
