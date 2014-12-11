@@ -60,6 +60,10 @@ define(["require","exports","module","block-activity-filter","block-search-box",
         newSearchState["bbox"] = that.slippyMap.getBounds().join(",");
         location.href="/parks/search" + routes.stringifyUrlSearchParams(newSearchState);
       }, that);
+
+      that.on("paginate", function(e) {
+        that.slippyMap.pinLayer.updateData(e.caller.response);
+      });
     }
 
     function targetIsSearchResult(eventResponse) {
@@ -109,9 +113,14 @@ define(["require","exports","module","block-activity-filter","block-search-box",
         "minHeight": 400
       });
 
-      infoWindowData = new ContentFetcher("#gmap-info-window","block-park-name",null);
+      infoWindowData = new ContentFetcher("#gmap-info-window","block-park-name",null, null, {
+        dependantTemplates : ["block-activity-icons"]
+      });
     }
 
+    //
+    // Anything having to do with interacting with a park
+    //
     function initPark() {
 
       resultsNode = that.utils.get("#content .search-results")[0];
@@ -141,6 +150,73 @@ define(["require","exports","module","block-activity-filter","block-search-box",
 
     }
 
+    //
+    // Anything having to do with interacting with a group of parks
+    //
+    function initParks() {
+      var direction, perpage, startat, href, parksData;
+
+      resultsNode.addEventListener("click", function(e) {
+        if (e.target && e.target.getAttribute("data-pagination")) {
+          e.preventDefault();
+
+          direction = e.target.getAttribute("data-pagination");
+          href      = e.target.getAttribute("href");
+          perpage   = (href.match(/perpage=(\d+[0-10000])/)||[])[1]|0;
+          startat   = (href.match(/startat=(\d+[0-10000])/)||[])[1]|0;
+
+          loadParks({
+            "perpage" : perpage,
+            "startat" : startat
+          });
+
+        }
+      }, false);
+
+      parksData = new ContentFetcher("#content .search-results","parks-results",null, null, {
+        dependantTemplates : ["block-park-name","block-activity-icons"]
+      });
+
+      that.on("paginate", function(e) {
+        resultsNode.innerHTML = parksData.compileTemplate({
+          "parks":e.caller.response.features.map(function(feature) {
+            return feature.properties;
+          })
+        });
+      });
+    }
+
+    function loadParks(stateChanges) {
+
+      var urlState = routes.getParamStateFromLocationObject(),
+          keys     = Object.keys(stateChanges);
+
+      for(var i=0; keys.length > i; i++) {
+        urlState[keys[i]] = stateChanges[keys[i]];
+      }
+
+      that.utils.request("/parks/search.geojson" + routes.stringifyUrlSearchParams(urlState), function(err, r) {
+        var responseObject;
+
+        if (err) {
+          return that.fire("error",err);
+        }
+
+        try {
+          responseObject = JSON.parse(r.responseText);
+        } catch (err) {
+          return that.fire("error",err);
+        }
+
+        if (responseObject.status === "ok") {
+          return that.fire("paginate", responseObject);
+        } else {
+          return that.fire("error",{"message":"Response body not okay", "response" : responseObject});
+        }
+      });
+
+    }
+
     function initTabControl() {
       var rootNode = that.utils.get(".tab-actions")[0];
 
@@ -167,7 +243,12 @@ define(["require","exports","module","block-activity-filter","block-search-box",
       initMap();
       initTabControl();
       initPark();
+      initParks();
       initInfoWindow();
+
+      that.on("error", function(e) {
+        console.log('error',e);
+      });
 
     }
 
