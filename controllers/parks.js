@@ -113,7 +113,9 @@ module.exports = function(req, res, data, callback) {
       query          : data.query,
       activities     : getActivityFilterState(data.query.with),
       bounds         : bounds,
-      parksGeoJSON   : new pgToGeoJSON.GeoFeatureCollection(parks)
+      parksGeoJSON   : new pgToGeoJSON.GeoFeatureCollection(parks,{
+        "excludeProperties" : ["geometry"]
+      })
     });
   }
 
