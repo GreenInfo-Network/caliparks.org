@@ -42,6 +42,11 @@ define(["require","exports","module","jquery","block-photo-carousel","block-inst
       });
     });
 
+    module.exports.mapOverlay.on("show", function() {
+      google.maps.event.trigger(module.exports.slippyMap.map.getCenter(), "resize");
+      that.bigMap.setCenter(module.exports.slippyMap.map.getCenter());
+    });
+
     document.querySelector('#content .fullscreen-action').addEventListener("click",function(e) {
       module.exports.mapOverlay.show();
     }, false);

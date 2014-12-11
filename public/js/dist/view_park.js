@@ -13,6 +13,8 @@ define([ "require", "exports", "module", "jquery", "block-photo-carousel", "bloc
                     module.exports.mapOverlay.hide();
                 }, !1);
             });
+        }), module.exports.mapOverlay.on("show", function() {
+            google.maps.event.trigger(module.exports.slippyMap.map.getCenter(), "resize"), that.bigMap.setCenter(module.exports.slippyMap.map.getCenter());
         }), document.querySelector("#content .fullscreen-action").addEventListener("click", function() {
             module.exports.mapOverlay.show();
         }, !1);
