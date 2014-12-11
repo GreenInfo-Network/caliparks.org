@@ -213,9 +213,7 @@ define(["require","exports","module","detect-os","stamen-super-classy","gmap-cus
       initSmallMap();
       initActions();
 
-      that.on("ready", function() {
-        callback(null, that);
-      });
+      callback(null, that);
     }
 
     //

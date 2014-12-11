@@ -11,7 +11,8 @@ define(["require","exports","module","stamen-super-classy","gmap-custom-tile-lay
 
   module.exports=function(rootSelector, options, callback) {
 
-    var that = this;
+    var that          = this,
+        defaultCenter = [37.76,-122.41];
 
     StamenSuperClassy.apply(that, arguments);
 
@@ -64,10 +65,19 @@ define(["require","exports","module","stamen-super-classy","gmap-custom-tile-lay
 
     function initmap() {
 
+      var center = defaultCenter;
+
+      if (options.centroid) {
+        center = [
+          options.centroid.coordinates[1],
+          options.centroid.coordinates[0]
+        ];
+      }
+
       that.map = new google.maps.Map(rootNode,{
         mapTypeControl: false,
         streetViewControl: false,
-        center: new google.maps.LatLng(37.76,-122.41),
+        center: new google.maps.LatLng(center[0], center[1]),
         zoom                : 11,
         scrollwheel         : false,
         disableDefaultUI    : false,
@@ -90,7 +100,9 @@ define(["require","exports","module","stamen-super-classy","gmap-custom-tile-lay
       });
       that.pinLayer = pinLayer;
 
-      that.map.fitBounds(geoJSONBBoxToGoogleBounds(options.contextBounds));
+      if (options.contextBounds) {
+        that.map.fitBounds(geoJSONBBoxToGoogleBounds(options.contextBounds));
+      }
 
       that.updateData = pinLayer.updateData;
 

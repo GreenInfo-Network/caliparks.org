@@ -104,9 +104,7 @@ define([ "require", "exports", "module", "detect-os", "stamen-super-classy", "gm
             }, !1);
         }
         function initialize() {
-            initStamenLayer(), initBigMap(), initSmallMap(), initActions(), that.on("ready", function() {
-                callback(null, that);
-            });
+            initStamenLayer(), initBigMap(), initSmallMap(), initActions(), callback(null, that);
         }
         var that = this;
         StamenSuperClassy.apply(that, arguments);

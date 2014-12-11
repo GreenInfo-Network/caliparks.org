@@ -25,7 +25,7 @@ $activity-category-sports: #FF9F00;
 $activity-category-kids: #9B26AF;
 $activity-category-water: #2095F2;
 $activity-category-snow: #00BBD3;
-$activity-category-historic: #8C6D62; 
+$activity-category-historic: #8C6D62;
 
 $animation-speed: .5s;
 
@@ -153,6 +153,10 @@ body.parksforward.responsive2 {
   .pagination-container {
     text-align: center;
     margin: 20px;
+  }
+
+  .map-overlay {
+    background-color:$light-font-color;
   }
 
   //

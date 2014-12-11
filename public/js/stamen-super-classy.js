@@ -92,6 +92,30 @@ define(["require","exports","module"], function(require, exports, module) {
           timeout = setTimeout(later, wait);
           if (callNow) {func.apply(context, args);}
         };
+      },
+
+      request : function(uri, callback) {
+        if (window && window.XMLHttpRequest) {
+          var xmlHttp = null;
+
+          xmlHttp = new window.XMLHttpRequest();
+
+          xmlHttp.onreadystatechange = function() {
+            if ((xmlHttp.readyState|0) === 4) {
+              if ((xmlHttp.status|0) === 200 ) {
+
+                callback(null, xmlHttp);
+              } else {
+                callback(xmlHttp);
+              }
+            }
+          };
+
+          xmlHttp.open( "GET", uri, false );
+          return xmlHttp.send( null );
+        } else {
+          return false;
+        }
       }
     };
 

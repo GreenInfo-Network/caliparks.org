@@ -14,25 +14,25 @@
 						&nbsp;&nbsp;</span>
 					{{/if}}
 					{{#if total_any_photos}}
-						<span class="total{{total_any_photos}}">{{#pluralize}}{{total_any_photos}} {{#__}}<span>Photo</span>{{/__}}|{{#__}}<span>Photos</span>{{/__}}{{/pluralize}}
+						<span class="total{{total_any_photos}}">{{#pluralize}}{{total_any_photos}} <span>{{#__}}Photo{{/__}}</span>|<span>{{#__}}Photos{{/__}}</span>{{/pluralize}}
 						&nbsp;&nbsp;</span>
 					{{/if}}
 					{{#if foursquare.venues_count}}
-						<span class="total{{foursquare.venues_count}}">{{#pluralize}}{{foursquare.venues_count}} {{#__}}<span>Venue</span>{{/__}}|{{#__}}<span>Venues</span>{{/__}}{{/pluralize}}
+						<span class="total{{foursquare.venues_count}}">{{#pluralize}}{{foursquare.venues_count}} <span>{{#__}}Venue{{/__}}</span>|<span>{{#__}}Venues{{/__}}</span>{{/pluralize}}
 						&nbsp;&nbsp;</span>
 					{{/if}}
 					{{#if foursquare.venues_checkins}}
-						<span class="total{{foursquare.venues_checkins}}">{{#pluralize}}{{foursquare.venues_checkins}} {{#__}}<span>Check-in</span>{{/__}}|{{#__}}<span>Check-ins</span>{{/__}}{{/pluralize}}
+						<span class="total{{foursquare.venues_checkins}}">{{#pluralize}}{{foursquare.venues_checkins}} <span>{{#__}}Check-in{{/__}}</span>|<span>{{#__}}Check-ins{{/__}}</span>{{/pluralize}}
 						&nbsp;&nbsp;</span>
 					{{/if}}
 					{{#if foursquare.venues_tips}}
-						<span class="total{{foursquare.venues_tips}}">{{#pluralize}}{{foursquare.venues_tips}} {{#__}}<span>Tip</span>{{/__}}|{{#__}}<span>Tips</span>{{/__}}{{/pluralize}}
+						<span class="total{{foursquare.venues_tips}}">{{#pluralize}}{{foursquare.venues_tips}} <span>{{#__}}Tip{{/__}}</span>|{{#__}}Tips{{/__}}</span>{{/pluralize}}
 						&nbsp;&nbsp;</span>
 					{{/if}}
 				</p>
 				<div>
-					<button class="action" onclick="(function(){console.log(viewData);location.href='{{cpadPark.park_url}}';}());">Park Info</button>
-					{{#if hasCamping}}<button class="action" onclick="(function(){alert('The camp here feature is not yet available.');}());">Camp Here</button>{{/if}}
+					<button class="action" onclick="(function(){console.log(viewData);location.href='{{cpadPark.park_url}}';}());">{{#__}}Park Info{{/__}}</button>
+					{{#if hasCamping}}<button class="action" onclick="(function(){alert('The camp here feature is not yet available.');}());">{{#__}}Camp Here{{/__}}</button>{{/if}}
 					<button class="action" onclick="(function(){console.log(viewData);location.href='/embed/{{park_id}}';}());">{{#__}}Embed{{/__}}</button>
 					<div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button" data-action="like" data-show-faces="false" data-share="false" data-href="http://preview.parks.stamen.com/park/{{park_id}}"></div>
 				</div>
@@ -40,6 +40,7 @@
 		</section>
 		<section id="maps">
 			{{> block-static-park-map}}
+			<button class="fullscreen-action">Fullscreen</button>
 		</section>
 	</div>
 	{{#if instagram.total}}

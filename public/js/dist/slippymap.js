@@ -27,10 +27,12 @@ define([ "require", "exports", "module", "stamen-super-classy", "gmap-custom-til
             }), that.parksLayer;
         }
         function initmap() {
+            var center = defaultCenter;
+            options.centroid && (center = [ options.centroid.coordinates[1], options.centroid.coordinates[0] ]), 
             that.map = new google.maps.Map(rootNode, {
                 mapTypeControl: !1,
                 streetViewControl: !1,
-                center: new google.maps.LatLng(37.76, -122.41),
+                center: new google.maps.LatLng(center[0], center[1]),
                 zoom: 11,
                 scrollwheel: !1,
                 disableDefaultUI: !1,
@@ -47,7 +49,7 @@ define([ "require", "exports", "module", "stamen-super-classy", "gmap-custom-til
                 data: options.data,
                 featureIdProperty: "superunit_id"
             });
-            that.pinLayer = pinLayer, that.map.fitBounds(geoJSONBBoxToGoogleBounds(options.contextBounds)), 
+            that.pinLayer = pinLayer, options.contextBounds && that.map.fitBounds(geoJSONBBoxToGoogleBounds(options.contextBounds)), 
             that.updateData = pinLayer.updateData, google.maps.event.addListener(that.map, "bounds_changed", function() {
                 that.fire("bounds-changed", {
                     googleBounds: that.map.getBounds()
@@ -71,7 +73,7 @@ define([ "require", "exports", "module", "stamen-super-classy", "gmap-custom-til
                 callback(null, that);
             });
         }
-        var that = this;
+        var that = this, defaultCenter = [ 37.76, -122.41 ];
         StamenSuperClassy.apply(that, arguments);
         var rootNode = that.utils.get(rootSelector)[0];
         return that.resize = resize, that.getBounds = getBounds, that.setCenter = setCenter, 

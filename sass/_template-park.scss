@@ -87,6 +87,7 @@
         }
       }
       &#maps {
+        position:relative;
         @include span-columns(5 of 12);
         @include media(max-width 720px) {
           @include span-columns(12 of 12);
@@ -96,6 +97,16 @@
         }
 
         background-color:$color-lighter;
+
+        .fullscreen-action {
+          display:none;
+          @media (max-width: 720px) {
+            display:block;
+            position:absolute;
+            bottom: 34px;
+            left: 5px;
+          }
+        }
       }
       &#get-out {
         @include span-columns(12 of 12);

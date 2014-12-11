@@ -31,6 +31,15 @@ define([ "require", "exports", "module" ], function(require, exports, module) {
                     }, callNow = immediate && !timeout;
                     clearTimeout(timeout), timeout = setTimeout(later, wait), callNow && func.apply(context, args);
                 };
+            },
+            request: function(uri, callback) {
+                if (window && window.XMLHttpRequest) {
+                    var xmlHttp = null;
+                    return xmlHttp = new window.XMLHttpRequest(), xmlHttp.onreadystatechange = function() {
+                        4 === (0 | xmlHttp.readyState) && (200 === (0 | xmlHttp.status) ? callback(null, xmlHttp) : callback(xmlHttp));
+                    }, xmlHttp.open("GET", uri, !1), xmlHttp.send(null);
+                }
+                return !1;
             }
         }, this;
     };
