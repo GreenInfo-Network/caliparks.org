@@ -94,7 +94,7 @@ define(["require","exports","module","jquery","content-carousel","stamen-super-c
       //
       contentFetcher = new ContentFetcher(
         slideContainerNode,
-        "/js/partials/flickr_coverphoto.handlebars",
+        "flickr_coverphoto",
         location.href+"/flickr.json",
         "response.flickr.items",
         {

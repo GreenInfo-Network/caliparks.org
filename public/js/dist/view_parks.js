@@ -38,7 +38,7 @@ define([ "require", "exports", "module", "jquery", "block-activity-filter", "blo
             infowindow = new google.maps.InfoWindow({
                 maxWidth: 400,
                 minHeight: 400
-            }), infoWindowData = new ContentFetcher("#gmap-info-window", "/js/partials/block-park-name.handlebars", null);
+            }), infoWindowData = new ContentFetcher("#gmap-info-window", "block-park-name", null);
         }
         function initPark() {
             resultsNode = that.utils.get("#content .search-results")[0], that.slippyMap.on("marker-click", function(e) {

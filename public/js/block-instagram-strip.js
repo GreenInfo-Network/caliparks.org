@@ -93,7 +93,7 @@ define(["require","exports","module","jquery","content-carousel","stamen-super-c
       //
       contentFetcher = new ContentFetcher(
         slideContainerNode,
-        "/js/partials/instagram-photo.handlebars",
+        "instagram-photo",
         location.href+"/instagram.json",
         "response.instagram.items",
         {

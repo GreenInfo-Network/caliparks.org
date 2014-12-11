@@ -14,18 +14,20 @@ define(["require","exports","module","handlebars","jquery","stamen-super-classy"
 * Fetches content from a json endpoint, grabs a handlebars template, and appends it to a div
 * @constructor
 * @param {string} rootSelector - The CSS selector leading to the outermost container
-* @param {string} templatePath - A URI pointing to a handlebars template
+* @param {string} templates    - The name of a template without the .handlebars or an array of the same
 * @param {string} src          - A URI pointing to a JSON endpoint
 * @param {string} responsePath - A dot separated path in the data response to an array which the module can use
 * @param {object} options      - Optional parameters (srcArguments (things appended to the src request), incrementArg (the src parameter to increment after every request))
 */
- module.exports = function ContentFetcher(rootSelector, templatePath, src, responsePath, options) {
+ module.exports = function ContentFetcher(rootSelector, template, src, responsePath, options) {
 
     var that               = this,
         stopFetching       = false,
         activeFetchRequest = false,
         args               = "",
-        templateCache;
+        templateRoot       = "/js/partials/",
+        templateExtension  = ".handlebars",
+        templateQueue;
 
     StamenSuperClassy.apply(this, arguments);
 
@@ -41,7 +43,8 @@ define(["require","exports","module","handlebars","jquery","stamen-super-classy"
     }
 
     that.compileTemplate = function compileTemplate(data) {
-      return Handlebars.compile(templateCache)(data);
+
+      return Handlebars.compile(Handlebars.templates[template])(data);
     };
 
     function _fetch(data) {
@@ -89,22 +92,69 @@ define(["require","exports","module","handlebars","jquery","stamen-super-classy"
 
     };
 
+    function fetchTemplate(key, path, callback) {
+
+      if (!Handlebars.templates) {
+        Handlebars.templates = {};
+      }
+
+      if (!Handlebars.templates[key]) {
+        return that.utils.request(path, function(err, r) {
+          if (err) {
+            return callback(err);
+          }
+
+          Handlebars.templates[key] = r.responseText;
+
+          if (templateQueue[key]) {
+            delete templateQueue[key];
+          }
+
+          callback(null, r.responseText);
+        });
+      } else {
+        if (templateQueue[key]) {
+          delete templateQueue[key];
+        }
+
+        callback(null, Handlebars.templates[key]);
+      }
+
+    }
+
     function init(callback) {
+
+      var queueKeys;
+
       //
       // Fetch a handlebars template for Flickr photos
       //
       Handlebars.registerHelper("removeSpaces", function(options) {
         return options.fn(this).replace(/ /g, "_").toLowerCase();
       });
-      return $.ajax(templatePath, {
-        success : function(template) {
-          templateCache = template;
 
-          callback(null, {
-            template : templateCache
-          });
+      templateQueue = {};
+
+      if (!options || !options.dependantTemplates) {
+        templateQueue[template] = templateRoot + template + templateExtension;
+      } else {
+        options.dependantTemplates.push(template);
+        options.dependantTemplates.forEach(function(t) {
+          templateQueue[t] = templateRoot + t + templateExtension;
+        });
+      }
+
+      queueKeys = Object.keys(templateQueue);
+
+      function doneFetchingTemplate(err, template) {
+        if (Object.keys(templateQueue).length) {
+          callback(null);
         }
-      });
+      }
+
+      for (var i=0; queueKeys.length > i; i++) {
+        fetchTemplate(queueKeys[i], templateQueue[queueKeys[i]], doneFetchingTemplate);
+      }
     }
 
     //

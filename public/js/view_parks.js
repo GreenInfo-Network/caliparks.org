@@ -117,7 +117,7 @@ define(["require","exports","module","jquery","block-activity-filter","block-sea
         "minHeight": 400
       });
 
-      infoWindowData = new ContentFetcher("#gmap-info-window","/js/partials/block-park-name.handlebars",null);
+      infoWindowData = new ContentFetcher("#gmap-info-window","block-park-name",null);
     }
 
     function initPark() {

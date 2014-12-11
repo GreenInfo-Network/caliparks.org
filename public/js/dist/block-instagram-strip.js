@@ -21,7 +21,7 @@ define([ "require", "exports", "module", "jquery", "content-carousel", "stamen-s
             }), that.carouselInstance.on("backward", function(e) {
                 e.caller.target.scrollLeft > e.caller.target.scrollWidth - (e.caller.target.offsetWidth + e.caller.target.offsetWidth / 2) ? rootNode.parentNode.parentNode.classList.add("scrolled-furthest") : rootNode.parentNode.parentNode.classList.remove("scrolled-furthest"), 
                 e.caller.target.scrollLeft < e.caller.target.offsetWidth / 2 ? rootNode.parentNode.parentNode.classList.add("not-scrolled") : rootNode.parentNode.parentNode.classList.remove("not-scrolled");
-            }), contentFetcher = new ContentFetcher(slideContainerNode, "/js/partials/instagram-photo.handlebars", location.href + "/instagram.json", "response.instagram.items", {
+            }), contentFetcher = new ContentFetcher(slideContainerNode, "instagram-photo", location.href + "/instagram.json", "response.instagram.items", {
                 startat: 20,
                 incrementArg: "startat",
                 srcArguments: {
