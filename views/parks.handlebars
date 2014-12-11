@@ -26,20 +26,9 @@ if (locationParts[4] === 'near' && !locationParts[5]) {
 
   <div class="tab-pane list-tab-pane">
     <ul class="search-results">
-
-
-      {{#paginationLast}}<div class="pagination-container"><a href="#" class="action">{{#__}}Go back a bit{{/__}}</a></div>{{/paginationLast}}
-
-      {{#each parks}}
-        <li data-id="{{superunit_id}}" class="search-result result-{{superunit_id}}">{{>block-park-name}}</li>
-      {{else}}
-        <p class="no-results">{{#__}}Having trouble finding a park? <a href="/wander">Here's one</a>{{/__}}.</p>
-      {{/each}}
-
-      {{#if total}}
-        {{#paginationNext}}<div class="pagination-container"><a href="#" class="action">{{#__}}More Parks!{{/__}}</a></div>{{/paginationNext}}
-      {{/if}}
+      {{>parks-results}}
     </ul>
+
   </div>
   <div class="tab-pane map-tab-pane" style="height:100%;">
     <div class="slippymap" style="width: 100%; height: 100.1%;"></div>

@@ -15,7 +15,9 @@ define([ "require", "exports", "module", "jquery", "block-activity-filter", "blo
                 var newSearchState = JSON.parse(JSON.stringify(searchState));
                 newSearchState.near && delete newSearchState.near, newSearchState.bbox = that.slippyMap.getBounds().join(","), 
                 location.href = "/parks/search" + routes.stringifyUrlSearchParams(newSearchState);
-            }, that);
+            }, that), that.on("paginate", function(e) {
+                that.slippyMap.pinLayer.updateData(e.caller.response);
+            });
         }
         function targetIsSearchResult(eventResponse) {
             for (var i = 0; eventResponse.path.length > i; i++) if (eventResponse.path[i] && eventResponse.path[i].classList && eventResponse.path[i].classList.contains("search-result")) return eventResponse.path[i];
@@ -38,7 +40,9 @@ define([ "require", "exports", "module", "jquery", "block-activity-filter", "blo
             infowindow = new google.maps.InfoWindow({
                 maxWidth: 400,
                 minHeight: 400
-            }), infoWindowData = new ContentFetcher("#gmap-info-window", "block-park-name", null);
+            }), infoWindowData = new ContentFetcher("#gmap-info-window", "block-park-name", null, null, {
+                dependantTemplates: [ "block-activity-icons" ]
+            });
         }
         function initPark() {
             resultsNode = that.utils.get("#content .search-results")[0], that.slippyMap.on("marker-click", function(e) {
@@ -52,6 +56,41 @@ define([ "require", "exports", "module", "jquery", "block-activity-filter", "blo
                 resultNode && (that.slippyMap.pinLayer.clearMarkerSelections(), selectPark(resultNode.getAttribute("data-id")));
             }, 200), !0);
         }
+        function initParks() {
+            var direction, perpage, startat, href, parksData;
+            resultsNode.addEventListener("click", function(e) {
+                e.target && e.target.getAttribute("data-pagination") && (e.preventDefault(), direction = e.target.getAttribute("data-pagination"), 
+                href = e.target.getAttribute("href"), perpage = 0 | (href.match(/perpage=(\d+[0-10000])/) || [])[1], 
+                startat = 0 | (href.match(/startat=(\d+[0-10000])/) || [])[1], loadParks({
+                    perpage: perpage,
+                    startat: startat
+                }));
+            }, !1), parksData = new ContentFetcher("#content .search-results", "parks-results", null, null, {
+                dependantTemplates: [ "block-park-name", "block-activity-icons" ]
+            }), that.on("paginate", function(e) {
+                resultsNode.innerHTML = parksData.compileTemplate({
+                    parks: e.caller.response.features.map(function(feature) {
+                        return feature.properties;
+                    })
+                });
+            });
+        }
+        function loadParks(stateChanges) {
+            for (var urlState = routes.getParamStateFromLocationObject(), keys = Object.keys(stateChanges), i = 0; keys.length > i; i++) urlState[keys[i]] = stateChanges[keys[i]];
+            that.utils.request("/parks/search.geojson" + routes.stringifyUrlSearchParams(urlState), function(err, r) {
+                var responseObject;
+                if (err) return that.fire("error", err);
+                try {
+                    responseObject = JSON.parse(r.responseText);
+                } catch (err) {
+                    return that.fire("error", err);
+                }
+                return "ok" === responseObject.status ? that.fire("paginate", responseObject) : that.fire("error", {
+                    message: "Response body not okay",
+                    response: responseObject
+                });
+            });
+        }
         function initTabControl() {
             var rootNode = that.utils.get(".tab-actions")[0];
             "#tab-map" === location.hash && bodyNode.classList.toggle("tab-map"), rootNode.addEventListener("click", function() {
@@ -60,7 +99,9 @@ define([ "require", "exports", "module", "jquery", "block-activity-filter", "blo
             }, !1);
         }
         function init() {
-            initMap(), initTabControl(), initPark(), initInfoWindow();
+            initMap(), initTabControl(), initPark(), initParks(), initInfoWindow(), that.on("error", function(e) {
+                console.log("error", e);
+            });
         }
         var bodyNode, cleanBounds, mapTabNode, resultsNode, selectedPark, infowindow, infoWindowData, that = this;
         StamenSuperClassy.apply(that, arguments), bodyNode = that.utils.get("body")[0], 
