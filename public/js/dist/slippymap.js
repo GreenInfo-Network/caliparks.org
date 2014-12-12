@@ -31,12 +31,12 @@ define([ "require", "exports", "module", "stamen-super-classy", "gmap-custom-til
             options.centroid && (center = [ options.centroid.coordinates[1], options.centroid.coordinates[0] ]), 
             that.map = new google.maps.Map(rootNode, {
                 mapTypeControl: !1,
-                streetViewControl: !1,
                 center: new google.maps.LatLng(center[0], center[1]),
                 zoom: 11,
                 scrollwheel: !1,
                 disableDefaultUI: !1,
                 panControl: !1,
+                streetViewControl: !0,
                 zoomControlOptions: {
                     style: 1,
                     position: 4
