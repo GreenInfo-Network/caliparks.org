@@ -47,6 +47,11 @@ define([ "require", "exports", "module" ], function(require, exports, module) {
                     last = last.parentNode;
                 }
                 return null;
+            },
+            append: function(rootNode, html) {
+                var div = document.createElement("div");
+                for (div.innerHTML = html; div.children.length > 0; ) rootNode.appendChild(div.children[0]);
+                return rootNode;
             }
         }, this;
     };

@@ -1,8 +1,7 @@
-define(["require","exports","module","jquery","content-carousel","stamen-super-classy","content-fetcher"], function(
+define(["require","exports","module","content-carousel","stamen-super-classy","content-fetcher"], function(
   require,
   exports,
   module,
-  jquery,
   ContentCarousel,
   StamenSuperClassy,
   ContentFetcher
@@ -52,11 +51,11 @@ define(["require","exports","module","jquery","content-carousel","stamen-super-c
         that.carouselInstance.goForward();
       }, false);
 
-      $(carouselSliderSelector).on("scroll",function(e) {
+      that.utils.get(carouselSliderSelector)[0].addEventListener("scroll",function(e) {
         if ((e.target.scrollWidth-e.target.scrollLeft) < e.target.offsetWidth*4) {
           fetchPhotos();
         }
-      });
+      }, false);
 
       that.carouselInstance.on("forward", function(e) {
 

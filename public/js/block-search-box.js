@@ -1,10 +1,8 @@
-define(["require","exports","module","jquery","stamen-super-classy","routes"], function(
+define(["require","exports","module","stamen-super-classy"], function(
   require,
   exports,
   module,
-  jquery,
-  StamenSuperClassy,
-  Routes
+  StamenSuperClassy
 ) {
 
   "use strict";
@@ -19,32 +17,10 @@ define(["require","exports","module","jquery","stamen-super-classy","routes"], f
 
     StamenSuperClassy.apply(this, arguments);
 
-    var routes = new Routes();
-
-    rootNode            = $(rootSelector);
-    locateMeNode        = rootNode.find(".locate-me");
-    formNode            = rootNode.find("form");
-    searchFieldNode     = rootNode.find("input[type=search]");
-
-
-    //
-    // Load data for autocomplete and search type detection
-    //
-    function updateData(key, path, callback) {
-      old = data[key];
-      $.getJSON(path, function(json) {
-        data[key] = json;
-
-        that.fire("dataUpdated", {
-          old : old,
-          new : data[key]
-        });
-
-        if (callback) {
-          callback(null, json);
-        }
-      });
-    }
+    rootNode            = that.utils.get(rootSelector)[0];
+    locateMeNode        = that.utils.get(".locate-me", rootNode)[0];
+    formNode            = that.utils.get("form", rootNode)[0];
+    searchFieldNode     = that.utils.get("input[type=search]", rootNode)[0];
 
     //
     // Methods for the locate me button. This will use the browsers
@@ -52,19 +28,20 @@ define(["require","exports","module","jquery","stamen-super-classy","routes"], f
     //
 
     function setLocateMeLoadingState(show) {
+      var pathNode = that.utils.get("path", locateMeNode)[0];
       if (show) {
-        locateMeNode.addClass("pulse");
-        locateMeNode.find("path").css({"fill":"blue"});
+        locateMeNode.classList.add("pulse");
+        pathNode.style.fill="blue";
       } else {
-        locateMeNode.removeClass("pulse");
-        locateMeNode.find("path").css({"fill":"inherit"});
+        locateMeNode.classList.remove("pulse");
+        pathNode.style.fill="inherit";
       }
       that.fire("loading", {show:show});
     }
 
     function initLocateMe() {
 
-      locateMeNode.get()[0].addEventListener("click", function() {
+      locateMeNode.addEventListener("click", function() {
         if (navigator.geolocation) {
           setLocateMeLoadingState(true);
           navigator.geolocation.getCurrentPosition(function(r) {
@@ -88,17 +65,17 @@ define(["require","exports","module","jquery","stamen-super-classy","routes"], f
     }
 
     function initForm() {
-      formNode.bind("submit", function(e) {
+      formNode.addEventListener("submit", function(e) {
         e.preventDefault();
 
         if (state.searchType.q || state.searchType.near || state.searchType.with) {
           location.href="/parks/search?" + paramaterizeObject(state.searchType);
         } else {
-          if (!searchFieldNode.val().length) { //Nothing was typed in?
+          if (!searchFieldNode.value.length) { //Nothing was typed in?
             searchFieldNode.val("San Francisco");
           }
 
-          location.href="/parks/near/" + searchFieldNode.val().replace(/\s/g,"+");
+          location.href="/parks/near/" + searchFieldNode.value.replace(/\s/g,"+");
 
         }
 
@@ -117,15 +94,8 @@ define(["require","exports","module","jquery","stamen-super-classy","routes"], f
       //
       // Initialize thie whole thing
       //
-      searchFieldNode.attr("value",decodeURI(routes.getParamStateFromLocationObject().near||"").replace(/\+/g," "));
-      state.searchType = {};
       initLocateMe();
       initForm();
-      updateData("activities", "/data/uniqueActivities.json", function(r) {
-        updateData("places", "/data/californiaCities.json", function(r) {
-          that.fire("ready");
-        });
-      });
     }
 
     //

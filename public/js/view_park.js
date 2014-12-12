@@ -17,7 +17,7 @@ define(["require","exports","module","jquery","block-photo-carousel","block-inst
   module.exports.map = new BlockStaticParkMap(".block-static-park-map",
     viewData,
   function(err, blockStaticParkMap) {
-    module.exports.mapOverlay = new FullscreenOverlay("#content", '/js/partials/fullscreen-map.handlebars', {
+    module.exports.mapOverlay = new FullscreenOverlay("#content", "/js/partials/fullscreen-map.handlebars", {
       "className" : "map-overlay"
     });
 
@@ -35,19 +35,21 @@ define(["require","exports","module","jquery","block-photo-carousel","block-inst
           module.exports.slippyMap.fire("map-initialized");
         });
 
-        document.querySelector('#content .map-overlay .close-button').addEventListener("click",function(e) {
+        document.querySelector("#content .map-overlay .close-button").addEventListener("click",function(e) {
           module.exports.mapOverlay.hide();
         }, false);
 
       });
     });
 
+    /*
     module.exports.mapOverlay.on("show", function() {
       google.maps.event.trigger(module.exports.slippyMap.map.getCenter(), "resize");
-      that.bigMap.setCenter(module.exports.slippyMap.map.getCenter());
+      //module.exports.slippyMap.map.setCenter(module.exports.slippyMap.map.getCenter());
     });
+    */
 
-    document.querySelector('#content .fullscreen-action').addEventListener("click",function(e) {
+    document.querySelector("#content .fullscreen-action").addEventListener("click",function(e) {
       module.exports.mapOverlay.show();
     }, false);
   });

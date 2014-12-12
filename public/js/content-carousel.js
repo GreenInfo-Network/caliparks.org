@@ -1,13 +1,12 @@
 //
 // Tools for detecting the client OS
 //
-define(["require","exports","module","jquery","stamen-super-classy","modernizr"], function(
+define(["require","exports","module","jquery","stamen-super-classy"], function(
   require,
   exports,
   module,
   jquery,
-  StamenSuperClassy,
-  modernizr
+  StamenSuperClassy
 ) {
 
   "use strict";
@@ -58,7 +57,7 @@ define(["require","exports","module","jquery","stamen-super-classy","modernizr"]
 
     optionsInternal.slideClass = options.slideClass || "carousel-slide";
 
-    coverPhotos = $(rootSelector + " ." + optionsInternal.slideClass);
+    coverPhotos = that.utils.get(rootSelector + " ." + optionsInternal.slideClass)[0];
 
     if(!rootSelector || !rootElement) {
       return false;
@@ -75,7 +74,7 @@ define(["require","exports","module","jquery","stamen-super-classy","modernizr"]
           pos, next;
 
       if (options.snapToSlide) {
-        coverPhotos = $(rootSelector + " ." + optionsInternal.slideClass);
+        coverPhotos = that.utils.get(rootSelector + " ." + optionsInternal.slideClass);
         next = Math.round(rootElement.scrollLeft/coverPhotos[0].offsetWidth)+1;
         pos = (coverPhotos[next]) ? coverPhotos[next].offsetLeft : start;
       } else {
@@ -102,7 +101,7 @@ define(["require","exports","module","jquery","stamen-super-classy","modernizr"]
           pos, next;
 
       if (options.snapToSlide) {
-        coverPhotos = $(rootSelector + " ." + optionsInternal.slideClass);
+        coverPhotos = that.utils.get(rootSelector + " ." + optionsInternal.slideClass);
         next = Math.round(rootElement.scrollLeft/coverPhotos[0].offsetWidth)-1;
         pos = (coverPhotos[next]) ? coverPhotos[next].offsetLeft : start;
       } else {

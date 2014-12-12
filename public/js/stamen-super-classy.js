@@ -133,6 +133,16 @@ define(["require","exports","module"], function(require, exports, module) {
         }
 
         return null;
+      },
+
+      append : function(rootNode, html) {
+        var div = document.createElement('div');
+        div.innerHTML = html;
+        while (div.children.length > 0) {
+          rootNode.appendChild(div.children[0]);
+        }
+
+        return rootNode;
       }
     };
 

@@ -1,9 +1,8 @@
-define(["require","exports","module","handlebars","jquery","stamen-super-classy"], function(
+define(["require","exports","module","handlebars","stamen-super-classy"], function(
   require,
   exports,
   module,
   Handlebars,
-  jquery,
   StamenSuperClassy
 ) {
 
@@ -58,10 +57,10 @@ define(["require","exports","module","handlebars","jquery","stamen-super-classy"
 
         if (fetchedData.length >= 0) {
           fetchedData.forEach(function(item) {
-            $(rootSelector).append(that.compileTemplate(item));
+            that.utils.append(that.utils.get(rootSelector)[0], that.compileTemplate(item));
           });
         } else {
-          $(rootSelector).html(that.compileTemplate(fetchedData));
+          that.utils.get(rootSelector)[0].innerHTML = that.compileTemplate(fetchedData);
         }
 
       } else {
@@ -86,7 +85,20 @@ define(["require","exports","module","handlebars","jquery","stamen-super-classy"
             args = "?"+JSON.stringify(options.srcArguments).replace(/,/g, "&").replace(/[{|}]/g, "").replace(/[:]/g, "=").replace(/\"/g, "");
           }
 
-          $.getJSON(src+args, _fetch);
+          that.utils.request(src+args, function(err, r) {
+
+            if (err) {
+              return false;
+            }
+
+            try {
+              data = JSON.parse(r.responseText);
+            } catch (err) {
+              return false;
+            }
+
+            _fetch(data);
+          });
         }
       }
 

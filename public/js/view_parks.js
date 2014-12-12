@@ -1,8 +1,7 @@
-define(["require","exports","module","jquery","block-activity-filter","block-search-box","slippymap", "stamen-super-classy", "routes", "content-fetcher"], function(
+define(["require","exports","module","block-activity-filter","block-search-box","slippymap", "stamen-super-classy", "routes", "content-fetcher"], function(
   require,
   exports,
   module,
-  jquery,
   BlockActivityFilter,
   BlockSearchBox,
   Slippymap,

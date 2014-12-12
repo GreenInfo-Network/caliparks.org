@@ -1,4 +1,4 @@
-define([ "require", "exports", "module", "handlebars", "jquery", "stamen-super-classy" ], function(require, exports, module, Handlebars, jquery, StamenSuperClassy) {
+define([ "require", "exports", "module", "handlebars", "stamen-super-classy" ], function(require, exports, module, Handlebars, StamenSuperClassy) {
     "use strict";
     module.exports = function(rootSelector, template, src, responsePath, options) {
         function getDataByStringPath(data, path) {
@@ -9,8 +9,8 @@ define([ "require", "exports", "module", "handlebars", "jquery", "stamen-super-c
             var fetchedData = responsePath && responsePath.length ? getDataByStringPath(data, responsePath) : data;
             data.status && "ok" === data.status || "object" == typeof fetchedData ? (options && options.incrementArg && (options.srcArguments[options.incrementArg] += fetchedData.length), 
             fetchedData.length >= 0 ? fetchedData.forEach(function(item) {
-                $(rootSelector).append(that.compileTemplate(item));
-            }) : $(rootSelector).html(that.compileTemplate(fetchedData))) : stopFetching = !0, 
+                that.utils.append(that.utils.get(rootSelector)[0], that.compileTemplate(item));
+            }) : that.utils.get(rootSelector)[0].innerHTML = that.compileTemplate(fetchedData)) : stopFetching = !0, 
             that.fire("finish-fetch"), activeFetchRequest = !1;
         }
         function fetchTemplate(key, path, callback) {
@@ -39,7 +39,15 @@ define([ "require", "exports", "module", "handlebars", "jquery", "stamen-super-c
         }, that.fetch = function(data) {
             that.fire("begin-fetch"), data && "object" == typeof data ? _fetch(data) : activeFetchRequest || stopFetching || (activeFetchRequest = !0, 
             options.srcArguments && (args = "?" + JSON.stringify(options.srcArguments).replace(/,/g, "&").replace(/[{|}]/g, "").replace(/[:]/g, "=").replace(/\"/g, "")), 
-            $.getJSON(src + args, _fetch));
+            that.utils.request(src + args, function(err, r) {
+                if (err) return !1;
+                try {
+                    data = JSON.parse(r.responseText);
+                } catch (err) {
+                    return !1;
+                }
+                _fetch(data);
+            }));
         }, init(function() {
             that.fire("ready"), options && options.callback && options.callback(null, that);
         }), that;

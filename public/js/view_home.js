@@ -1,9 +1,8 @@
-define(["require","exports", "module", "block-search-box", "jquery"], function(
+define(["require","exports", "module", "block-search-box"], function(
   require,
   exports,
   module,
-  BlockSearchBox,
-  jquery
+  BlockSearchBox
 ) {
 
   "use strict";

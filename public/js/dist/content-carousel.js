@@ -1,4 +1,4 @@
-define([ "require", "exports", "module", "jquery", "stamen-super-classy", "modernizr" ], function(require, exports, module, jquery, StamenSuperClassy) {
+define([ "require", "exports", "module", "jquery", "stamen-super-classy" ], function(require, exports, module, jquery, StamenSuperClassy) {
     "use strict";
     module.exports = function(rootSelector, options) {
         var animationInterval, that = this;
@@ -10,11 +10,11 @@ define([ "require", "exports", "module", "jquery", "stamen-super-classy", "moder
             rootElement.style.width = rootElement.offsetWidth + 17 + "px";
         }
         return STMN && "Firefox" === STMN.ua.split(" ")[0] && (rootElement.style.overflow = "-moz-scrollbars-none"), 
-        optionsInternal.slideClass = options.slideClass || "carousel-slide", coverPhotos = $(rootSelector + " ." + optionsInternal.slideClass), 
+        optionsInternal.slideClass = options.slideClass || "carousel-slide", coverPhotos = that.utils.get(rootSelector + " ." + optionsInternal.slideClass)[0], 
         rootSelector && rootElement ? (that.goForward = function() {
             animationInterval && (clearInterval(animationInterval), animationInterval = null);
             var pos, next, start = rootElement.scrollLeft;
-            options.snapToSlide ? (coverPhotos = $(rootSelector + " ." + optionsInternal.slideClass), 
+            options.snapToSlide ? (coverPhotos = that.utils.get(rootSelector + " ." + optionsInternal.slideClass), 
             next = Math.round(rootElement.scrollLeft / coverPhotos[0].offsetWidth) + 1, pos = coverPhotos[next] ? coverPhotos[next].offsetLeft : start) : pos = start + rootElement.offsetWidth, 
             $(rootElement).animate({
                 scrollLeft: pos
@@ -26,7 +26,7 @@ define([ "require", "exports", "module", "jquery", "stamen-super-classy", "moder
         }, that.goBackward = function() {
             animationInterval && (clearInterval(animationInterval), animationInterval = null);
             var pos, next, start = rootElement.scrollLeft;
-            options.snapToSlide ? (coverPhotos = $(rootSelector + " ." + optionsInternal.slideClass), 
+            options.snapToSlide ? (coverPhotos = that.utils.get(rootSelector + " ." + optionsInternal.slideClass), 
             next = Math.round(rootElement.scrollLeft / coverPhotos[0].offsetWidth) - 1, pos = coverPhotos[next] ? coverPhotos[next].offsetLeft : start) : pos = start - rootElement.offsetWidth, 
             $(rootElement).animate({
                 scrollLeft: start - rootElement.offsetWidth

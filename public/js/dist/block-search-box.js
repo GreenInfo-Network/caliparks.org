@@ -1,26 +1,16 @@
-define([ "require", "exports", "module", "jquery", "stamen-super-classy", "routes" ], function(require, exports, module, jquery, StamenSuperClassy, Routes) {
+define([ "require", "exports", "module", "stamen-super-classy" ], function(require, exports, module, StamenSuperClassy) {
     "use strict";
-    var rootNode, locateMeNode, that, old, formNode, searchFieldNode, state = {}, data = {};
+    var rootNode, locateMeNode, that, formNode, searchFieldNode, state = {};
     module.exports = function(rootSelector, config, callback) {
-        function updateData(key, path, callback) {
-            old = data[key], $.getJSON(path, function(json) {
-                data[key] = json, that.fire("dataUpdated", {
-                    old: old,
-                    "new": data[key]
-                }), callback && callback(null, json);
-            });
-        }
         function setLocateMeLoadingState(show) {
-            show ? (locateMeNode.addClass("pulse"), locateMeNode.find("path").css({
-                fill: "blue"
-            })) : (locateMeNode.removeClass("pulse"), locateMeNode.find("path").css({
-                fill: "inherit"
-            })), that.fire("loading", {
+            var pathNode = that.utils.get("path", locateMeNode)[0];
+            show ? (locateMeNode.classList.add("pulse"), pathNode.style.fill = "blue") : (locateMeNode.classList.remove("pulse"), 
+            pathNode.style.fill = "inherit"), that.fire("loading", {
                 show: show
             });
         }
         function initLocateMe() {
-            locateMeNode.get()[0].addEventListener("click", function() {
+            locateMeNode.addEventListener("click", function() {
                 navigator.geolocation ? (setLocateMeLoadingState(!0), navigator.geolocation.getCurrentPosition(function(r) {
                     r.coords && (setLocateMeLoadingState(!1), location.href = "/parks/near/" + parseFloat(r.coords.latitude).toFixed(4) + "," + parseFloat(r.coords.longitude).toFixed(4));
                 }, function() {
@@ -32,24 +22,19 @@ define([ "require", "exports", "module", "jquery", "stamen-super-classy", "route
             return JSON.stringify(obj).split("{").join("").split("}").join("").split(":").join("=").split(",").join("&").split('"').join("").split(" ").join("+");
         }
         function initForm() {
-            formNode.bind("submit", function(e) {
-                e.preventDefault(), state.searchType.q || state.searchType.near || state.searchType.with ? location.href = "/parks/search?" + paramaterizeObject(state.searchType) : (searchFieldNode.val().length || searchFieldNode.val("San Francisco"), 
-                location.href = "/parks/near/" + searchFieldNode.val().replace(/\s/g, "+"));
+            formNode.addEventListener("submit", function(e) {
+                e.preventDefault(), state.searchType.q || state.searchType.near || state.searchType.with ? location.href = "/parks/search?" + paramaterizeObject(state.searchType) : (searchFieldNode.value.length || searchFieldNode.val("San Francisco"), 
+                location.href = "/parks/near/" + searchFieldNode.value.replace(/\s/g, "+"));
             });
         }
         function initialize() {
             that.on("ready", function() {
                 callback(null, that);
-            }), searchFieldNode.attr("value", decodeURI(routes.getParamStateFromLocationObject().near || "").replace(/\+/g, " ")), 
-            state.searchType = {}, initLocateMe(), initForm(), updateData("activities", "/data/uniqueActivities.json", function() {
-                updateData("places", "/data/californiaCities.json", function() {
-                    that.fire("ready");
-                });
-            });
+            }), initLocateMe(), initForm();
         }
-        that = this, StamenSuperClassy.apply(this, arguments);
-        var routes = new Routes();
-        return rootNode = $(rootSelector), locateMeNode = rootNode.find(".locate-me"), formNode = rootNode.find("form"), 
-        searchFieldNode = rootNode.find("input[type=search]"), initialize(), that;
+        return that = this, StamenSuperClassy.apply(this, arguments), rootNode = that.utils.get(rootSelector)[0], 
+        locateMeNode = that.utils.get(".locate-me", rootNode)[0], formNode = that.utils.get("form", rootNode)[0], 
+        searchFieldNode = that.utils.get("input[type=search]", rootNode)[0], initialize(), 
+        that;
     };
 });
