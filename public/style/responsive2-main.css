@@ -608,7 +608,8 @@ body.parksforward.responsive2 {
     body.parksforward.responsive2 .block-park-name .park-name a {
       color: #333; }
   body.parksforward.responsive2 .block-activity-filter {
-    background-color: #37474f; }
+    background-color: #37474f;
+    border-bottom: inset 2px #333; }
     body.parksforward.responsive2 .block-activity-filter.closed .filter-drawer {
       height: 0px;
       padding-bottom: 0; }
@@ -644,10 +645,11 @@ body.parksforward.responsive2 {
     body.parksforward.responsive2 .block-activity-filter .filter-drawer {
       overflow: auto;
       transition: 0.5s height;
-      max-height: 95vh;
+      max-height: 46vh;
       margin: 0 auto;
       width: 95%;
-      padding-bottom: 20px; }
+      padding-bottom: 20px;
+      text-align: center; }
       body.parksforward.responsive2 .block-activity-filter .filter-drawer li {
         display: inline-block;
         width: 100px;

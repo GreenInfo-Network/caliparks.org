@@ -1,6 +1,7 @@
 .block-activity-filter {
 
   background-color:$color-notsodark;
+  border-bottom:inset 2px $color-dark;
 
   &.closed {
     .filter-drawer {
@@ -64,10 +65,11 @@
 
     overflow:auto;
     transition:.5s height;
-    max-height:95vh;
+    max-height: 46vh;
     margin:0 auto;
     width:95%;
     padding-bottom:$box-padding;
+    text-align: center;
 
     li {
       display:inline-block;
