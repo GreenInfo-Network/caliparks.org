@@ -151,10 +151,10 @@ app.engine('handlebars', exphbs({
       return JSON.stringify(options.fn(this));
     },
     "__" : function () {
-      return i18n.__.apply(this, [arguments[0].fn(this)]);
+      return i18n.__.apply(arguments[0].data.root, [arguments[0].fn(this)]);
     },
     "__n" : function () {
-      return i18n.__n.apply(this, [arguments[0].fn(this)]);
+      return i18n.__n.apply(arguments[0].data.root, [arguments[0].fn(this)]);
     }
   }
 }));
