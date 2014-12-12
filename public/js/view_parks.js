@@ -64,14 +64,7 @@ define(["require","exports","module","jquery","block-activity-filter","block-sea
     }
 
     function targetIsSearchResult(eventResponse) {
-
-      for (var i=0; eventResponse.path.length > i; i++) {
-        if (eventResponse.path[i] && eventResponse.path[i].classList && eventResponse.path[i].classList.contains("search-result")) {
-          return eventResponse.path[i];
-        }
-      }
-
-      return false;
+      return that.utils.parentHasClass(eventResponse.target, "search-result");
     }
 
     function getParkById(id) {

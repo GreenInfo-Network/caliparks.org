@@ -99,6 +99,7 @@ body.parksforward.responsive2 {
     font-family: $font-family-serif;
     color:$light-font-color;
     font-weight: $font-weight-bold;
+    line-height: 1em;
   }
 
   input, button, select {
@@ -297,6 +298,7 @@ body.parksforward.responsive2 {
   @import "template-park";
   @import "template-parks";
   @import "template-embed";
+  @import "template-404";
 
 }
 

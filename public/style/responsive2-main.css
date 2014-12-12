@@ -94,7 +94,8 @@ body.parksforward.responsive2 {
   body.parksforward.responsive2 h1, body.parksforward.responsive2 h2, body.parksforward.responsive2 h3, body.parksforward.responsive2 h4 {
     font-family: "jubilat", serif;
     color: white;
-    font-weight: 600; }
+    font-weight: 600;
+    line-height: 1em; }
   body.parksforward.responsive2 input, body.parksforward.responsive2 button, body.parksforward.responsive2 select {
     outline: none; }
   body.parksforward.responsive2 h1 {
@@ -1152,6 +1153,42 @@ body.parksforward.responsive2 {
         right: 0;
         bottom: 100px;
         left: 0; }
+  body.parksforward.responsive2 #content.template-404 {
+    position: relative; }
+    body.parksforward.responsive2 #content.template-404 .coverphoto {
+      width: 100%;
+      height: 81vh;
+      background-size: cover;
+      position: relative;
+      background-position: center; }
+      body.parksforward.responsive2 #content.template-404 .coverphoto .attribution {
+        position: absolute;
+        right: 20px;
+        bottom: 20px;
+        font-size: 75%;
+        color: white; }
+        body.parksforward.responsive2 #content.template-404 .coverphoto .attribution div {
+          display: inline; }
+        body.parksforward.responsive2 #content.template-404 .coverphoto .attribution a {
+          color: white; }
+    body.parksforward.responsive2 #content.template-404 h1 {
+      line-height: 1.2em;
+      color: #333; }
+    body.parksforward.responsive2 #content.template-404 section {
+      position: absolute;
+      top: 331px;
+      left: 8%;
+      right: 8%;
+      width: 80%;
+      margin: 0 auto;
+      line-height: 1.2em;
+      padding: 20px;
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 4px; }
+    @media screen and (max-width: 720px)  {
+      body.parksforward.responsive2 #content.template-404 section {
+        top: 138px;
+        margin: 20px; } }
 
 @media screen and (max-width: 720px)  {
   body.parksforward.responsive2 {

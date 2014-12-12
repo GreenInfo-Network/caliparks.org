@@ -1,0 +1,55 @@
+#content.template-404 {
+
+  position:relative;
+
+  .coverphoto {
+    width: 100%;
+    height: 81vh;
+    background-size: cover;
+    position:relative;
+    background-position: center;
+
+    .attribution {
+      position:absolute;
+      right:$box-padding;
+      bottom:$box-padding;
+      font-size:$font-size-small;
+
+      color:$light-font-color;
+
+      div {
+        display:inline;
+      }
+
+      a {
+        color:$light-font-color;
+      }
+    }
+  }
+
+  h1 {
+    line-height:1.2em;
+    color:$color-dark;
+  }
+
+  section {
+    position: absolute;
+    top: 331px;
+    left:8%;
+    right:8%;
+    width: 80%;
+    margin:0 auto;
+    line-height:1.2em;
+    padding: 20px;
+    background-color:$color-light-transparent;
+    border-radius:$border-radius;
+  }
+
+  @include media(max-width 720px) {
+    section {
+      top: 138px;
+      margin:$box-padding;
+    }
+  }
+
+}

@@ -1,17 +1,15 @@
-<div id="park-template-wrapper" class="{{# if coverPhoto}}has-coverphoto {{/if}}">
+{{>header-search}}
+<div id="content"  class="template-404">
 
 	<div class="coverphoto" style="background-image: url('http://farm{{coverPhoto.farm}}.staticflickr.com/{{coverPhoto.server}}/{{coverPhoto.photoid}}_{{coverPhoto.secret}}_b.jpg'); filter: progid:DXImageTransform.Microsoft.AlphaImageLoader( src='http://farm{{farm}}.staticflickr.com/{{coverPhoto.server}}/{{coverPhoto.photoid}}_{{coverPhoto.secret}}_b.jpg', sizingMethod='scale'); -ms-filter: progid:DXImageTransform.Microsoft.AlphaImageLoader( src='http://farm{{coverPhoto.farm}}.staticflickr.com/{{coverPhoto.server}}/{{coverPhoto.photoid}}_{{coverPhoto.secret}}_b.jpg', sizingMethod='scale'); display:inline-block;">
   <span class="attribution">
-    <div style="display:inline-block;max-width:248px;overflow:hidden;text-overflow:ellipsis;margin-bottom: -2px;"><a href="http://flickr.com/{{coverPhoto.owner}}/{{coverPhoto.photoid}}" style="line-height:10px;">{{#if coverPhoto.coverPhoto.title}}{{coverPhoto.title}}{{else}}Untitled{{/if}}</a></div> by <a href="http://flickr.com/{{coverPhoto.owner}}">{{coverPhoto.ownername}}</a> on <a href="http://flickr.com">Flickr</a>
+    <div><a href="http://flickr.com/{{coverPhoto.owner}}/{{coverPhoto.photoid}}">{{#if coverPhoto.coverPhoto.title}}{{coverPhoto.title}}{{else}}Untitled{{/if}}</a></div> by <a href="http://flickr.com/{{coverPhoto.owner}}">{{coverPhoto.ownername}}</a> on <a href="http://flickr.com">Flickr</a>
   </span>
 </div>
-	<div id="park-hash-tag">#BZZT</div>
-	<div id="california_shape"></div>
-	<section style="margin-top:-7px;">
+	<section>
     {{#if suggestion}}<p>Hi! Were you looking for <a href="{{suggestion.url}}">{{suggestion.name}}</a>?</p>{{/if}}
 		<h1>There's nothing to see at this location. We're just working with California parks at the moment.</h1>
 		<p>If you'd like to see more parks across the United States in the system, or if you're a mega-rich-benevolent-dot-com-boomer-approaching-tax-time, or if you work at the National Park Service or another government Parks-related agency somewhere else in the world, do please get in touch! We will take your money, Ahem.</p>
 	</section>
 
 </div>
-

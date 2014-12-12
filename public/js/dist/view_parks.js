@@ -18,8 +18,7 @@ define([ "require", "exports", "module", "jquery", "block-activity-filter", "blo
             }, that);
         }
         function targetIsSearchResult(eventResponse) {
-            for (var i = 0; eventResponse.path.length > i; i++) if (eventResponse.path[i] && eventResponse.path[i].classList && eventResponse.path[i].classList.contains("search-result")) return eventResponse.path[i];
-            return !1;
+            return that.utils.parentHasClass(eventResponse.target, "search-result");
         }
         function getParkById(id) {
             for (var i = 0; options.parks.features.length > i; i++) if ((0 | options.parks.features[i].properties.superunit_id) === (0 | id)) return options.parks.features[i];

@@ -40,6 +40,13 @@ define([ "require", "exports", "module" ], function(require, exports, module) {
                     }, xmlHttp.open("GET", uri, !1), xmlHttp.send(null);
                 }
                 return !1;
+            },
+            parentHasClass: function(startingElement, className, depth) {
+                for (var last = startingElement, i = 0; (depth || 10) > i && last; i++) {
+                    if (last && last.className.indexOf(className) > -1) return last;
+                    last = last.parentNode;
+                }
+                return null;
             }
         }, this;
     };

@@ -228,7 +228,7 @@ app.get('/svg/:name-:color.svg', function(req,res) {
 
 });
 
-app.get('/embed/:id(\\d+)', function(req,res, next) {
+app.get('/embed/:id(\\d{3,6})', function(req,res, next) {
 
   require('./controllers/park.js')(req, res, {
   }, function(err, templateData) {
@@ -326,7 +326,7 @@ app.get('/wander', function(req,res, next) {
   });
 });
 
-app.get('/park/:id(\\d+)', function(req,res, next) {
+app.get('/park/:id(\\d{3,6})', function(req,res, next) {
 
   require('./controllers/park.js')(req, res, {
   }, function(err, templateData) {
@@ -388,27 +388,13 @@ app.get('/park/:id(\\d+):format(\.\\D+$)', function(req,res, next) {
 
 });
 
-app.get('/parks/', function(req,res, next) {
+app.get('/parks', function(req,res, next) {
 
-  require('./controllers/parks.js')(req, res, {
-    context : 'biggest-to-smallest'
-  }, function(err, templateData) {
-
-    if (err) {
-      return next();
-    }
-
-    templateData.layout = 'responsive2';
-    templateData.view   = 'parks';
-    templateData.tabletViewport = true;
-
-    res.render('parks', templateData);
-
-  });
+  res.redirect("/parks/search");
 
 });
 
-app.get('/parks/:context/:query:format(\.\\D+$)', function(req,res, next) {
+app.get('/parks/:context(search|with|near)/:query:format(\.\\D+$)', function(req,res, next) {
 
   require('./controllers/parks.js')(req, res, {
     context : req.params.context,
@@ -429,7 +415,7 @@ app.get('/parks/:context/:query:format(\.\\D+$)', function(req,res, next) {
 
 });
 
-app.get('/parks/:context(\\D+):format(\.\\D+$)', function(req,res, next) {
+app.get('/parks/:context(search|with|near):format(\.\\D+$)', function(req,res, next) {
 
   require('./controllers/parks.js')(req, res, {
     context : req.params.context,
@@ -449,7 +435,7 @@ app.get('/parks/:context(\\D+):format(\.\\D+$)', function(req,res, next) {
 
 });
 
-app.get('/parks/:context', function(req,res, next) {
+app.get('/parks/:context(search|with|near)', function(req,res, next) {
 
   require('./controllers/parks.js')(req, res, {
     context : req.params.context
@@ -471,7 +457,7 @@ app.get('/parks/:context', function(req,res, next) {
 
 });
 
-app.get('/parks/:context/:query', function(req,res, next) {
+app.get('/parks/:context(search|with|near)/:query', function(req,res, next) {
 
   require('./controllers/parks.js')(req, res, {
     context : req.params.context,
@@ -524,6 +510,7 @@ app.use(function(req, res, next) {
   res.status(404);
 
   return res.render('404', {
+    layout : "responsive2",
     coverPhoto : {
       farm:9,
       server:8429,
