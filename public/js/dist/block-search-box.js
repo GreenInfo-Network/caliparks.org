@@ -1,6 +1,6 @@
 define([ "require", "exports", "module", "stamen-super-classy" ], function(require, exports, module, StamenSuperClassy) {
     "use strict";
-    var rootNode, locateMeNode, that, formNode, searchFieldNode, state = {};
+    var rootNode, locateMeNode, that, formNode, searchFieldNode;
     module.exports = function(rootSelector, config, callback) {
         function setLocateMeLoadingState(show) {
             var pathNode = that.utils.get("path", locateMeNode)[0];
@@ -18,13 +18,10 @@ define([ "require", "exports", "module", "stamen-super-classy" ], function(requi
                 })) : location.href = "/parks/near";
             });
         }
-        function paramaterizeObject(obj) {
-            return JSON.stringify(obj).split("{").join("").split("}").join("").split(":").join("=").split(",").join("&").split('"').join("").split(" ").join("+");
-        }
         function initForm() {
             formNode.addEventListener("submit", function(e) {
-                e.preventDefault(), state.searchType.q || state.searchType.near || state.searchType.with ? location.href = "/parks/search?" + paramaterizeObject(state.searchType) : (searchFieldNode.value.length || searchFieldNode.val("San Francisco"), 
-                location.href = "/parks/near/" + searchFieldNode.value.replace(/\s/g, "+"));
+                e.preventDefault(), searchFieldNode.value.length || searchFieldNode.val("San Francisco"), 
+                location.href = "/parks/near/" + searchFieldNode.value.replace(/\s/g, "+");
             });
         }
         function initialize() {

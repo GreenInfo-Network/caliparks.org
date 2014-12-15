@@ -68,16 +68,11 @@ define(["require","exports","module","stamen-super-classy"], function(
       formNode.addEventListener("submit", function(e) {
         e.preventDefault();
 
-        if (state.searchType.q || state.searchType.near || state.searchType.with) {
-          location.href="/parks/search?" + paramaterizeObject(state.searchType);
-        } else {
-          if (!searchFieldNode.value.length) { //Nothing was typed in?
-            searchFieldNode.val("San Francisco");
-          }
-
-          location.href="/parks/near/" + searchFieldNode.value.replace(/\s/g,"+");
-
+        if (!searchFieldNode.value.length) { //Nothing was typed in?
+          searchFieldNode.val("San Francisco");
         }
+
+        location.href="/parks/near/" + searchFieldNode.value.replace(/\s/g,"+");
 
       });
 
