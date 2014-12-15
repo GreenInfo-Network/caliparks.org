@@ -47,11 +47,11 @@ define(["require","exports","module","stamen-super-classy"], function(
           navigator.geolocation.getCurrentPosition(function(r) {
             if (r.coords) {
               setLocateMeLoadingState(false);
-              location.href = "/parks/near/" + parseFloat(r.coords.latitude).toFixed(4) + "," + parseFloat(r.coords.longitude).toFixed(4);
+              location.href = "/parks/near/" + parseFloat(r.coords.latitude).toFixed(4) + "," + parseFloat(r.coords.longitude).toFixed(4) + "&geocoded=true";
             }
           }, function() {setLocateMeLoadingState(false);});
         } else {
-          location.href = "/parks/near";
+          location.href = "/parks/near?geocoded=true";
         }
       });
     }

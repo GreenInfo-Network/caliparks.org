@@ -15,6 +15,15 @@ if (locationParts[4] === 'near' && !locationParts[5]) {
 
 {{>header-search}}
 <div id="content" class="template-{{view}}">
+  <div class="search-state">
+    {{#if query.with}}
+      {{total}} parks with {{#formatActivityList}}{{query.with}}{{/formatActivityList}}
+    {{else}}
+      {{#if query.near}}
+        {{#__}}The {{total}} parks nearest to {{/__}}{{#replace item="+" with=" "}}{{query.near}}{{/replace}}
+      {{/if}}
+    {{/if}}
+  </div>
   <div class="action-bar">
     {{>block-activity-filter}}
   </div>

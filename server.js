@@ -1,14 +1,15 @@
 'use strict';
 
-var express  = require('express'),
-    exphbs   = require('express-handlebars'),
-    memwatch = require('memwatch'),
-    morgan   = require('morgan'),
-    raven    = require('raven'),
-    i18n     = require("i18n"),
-    cpad     = require("./lib/cpad.js"),
-    routes   = require("./lib/routes.js"),
-    fs       = require("fs");
+var express    = require('express'),
+    exphbs     = require('express-handlebars'),
+    memwatch   = require('memwatch'),
+    morgan     = require('morgan'),
+    raven      = require('raven'),
+    i18n       = require("i18n"),
+    cpad       = require("./lib/cpad.js"),
+    routes     = require("./lib/routes.js"),
+    activities = require("./config/activities.json"),
+    fs         = require("fs");
 
 var app      = express();
 module.exports = app;
@@ -142,13 +143,32 @@ app.engine('handlebars', exphbs({
       }
     },
     "removeSpaces" : function(options) {
-      return options.fn(this).replace(/ /g, '_').toLowerCase();
+      return options.fn(this).replace(/ /g, "_").toLowerCase();
     },
     "replace" : function(options) {
       return options.fn(this).split(options.hash.item).join(options.hash.with);
     },
     "json" : function(options) {
       return JSON.stringify(options.fn(this));
+    },
+    "formatActivityList" : function(options) {
+      var list = options.fn(this).split(",");
+
+      function findActivityKey(activity) {
+        var keys = Object.keys(activities);
+
+        return keys[keys.map(function(key) {return key.toLowerCase();}).indexOf(activity.toLowerCase())];
+      }
+
+      if (!list.length || list.length < 2) {
+        return options.fn(this);
+      } else {
+        return list.map(function(activity, i, a) {
+          var activityObject = activities[findActivityKey(activity)];
+          return (i===a.length-1 ? i18n.__("and") + " " : " ") + (activityObject ? activityObject.label : i18n.__("Unofficial activity"));
+        }).join(list.length > 2 ? ", " : " ");
+      }
+
     },
     "__" : function () {
       return i18n.__.apply(arguments[0].data.root, [arguments[0].fn(this)]);
@@ -394,7 +414,7 @@ app.get('/parks', function(req,res, next) {
 
 });
 
-app.get('/parks/:context(search|with|near)/:query:format(\.\\D+$)', function(req,res, next) {
+app.get('/parks/:context(search|with|near|story)/:query:format(\.\\D+$)', function(req,res, next) {
 
   require('./controllers/parks.js')(req, res, {
     context : req.params.context,
@@ -415,7 +435,7 @@ app.get('/parks/:context(search|with|near)/:query:format(\.\\D+$)', function(req
 
 });
 
-app.get('/parks/:context(search|with|near):format(\.\\D+$)', function(req,res, next) {
+app.get('/parks/:context(search|with|near|story):format(\.\\D+$)', function(req,res, next) {
 
   require('./controllers/parks.js')(req, res, {
     context : req.params.context,
@@ -435,7 +455,7 @@ app.get('/parks/:context(search|with|near):format(\.\\D+$)', function(req,res, n
 
 });
 
-app.get('/parks/:context(search|with|near)', function(req,res, next) {
+app.get('/parks/:context(search|with|near|story)', function(req,res, next) {
 
   require('./controllers/parks.js')(req, res, {
     context : req.params.context
@@ -457,7 +477,7 @@ app.get('/parks/:context(search|with|near)', function(req,res, next) {
 
 });
 
-app.get('/parks/:context(search|with|near)/:query', function(req,res, next) {
+app.get('/parks/:context(search|with|near|story)/:query', function(req,res, next) {
 
   require('./controllers/parks.js')(req, res, {
     context : req.params.context,

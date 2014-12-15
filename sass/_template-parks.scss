@@ -25,10 +25,24 @@
   }
 }
 
+.search-state {
+  background-color:$color-notsodark;
+  padding:$box-padding;
+  display:block;
+  z-index:3;
+  height:50px;
+  position:relative;
+  height: 61px;
+  text-align:center;
+  color:$color-california;
+  font-weight:$font-weight-bold;
+}
+
 .action-bar {
   position:relative;
   overflow:auto;
-  border-top:solid 1px rgba(255,255,255,.5);
+  border-top:solid 1px #ccc;
+
   .block-activity-filter {
     background-color:$color-notsodark;
   }
@@ -84,7 +98,7 @@
       width: 33.33%;
       position: absolute;
       bottom: -50px;
-      top: 47px;
+      top: 112px;
       z-index:2;
 
       @include media(max-width 720px) {
