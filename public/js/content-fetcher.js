@@ -41,7 +41,11 @@ define(["require","exports","module","views","stamen-super-classy"], function(
 
     that.compileTemplate = function compileTemplate(data) {
 
-      return views.Handlebars.compile(views.Handlebars.partials[template])(data);
+      if (typeof views.Handlebars.partials[template] === "function") {
+        return views.Handlebars.partials[template](data);
+      } else {
+        return views.Handlebars.compile(views.Handlebars.partials[template])(data);
+      }
     };
 
     function _fetch(data) {

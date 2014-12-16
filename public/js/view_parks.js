@@ -83,20 +83,22 @@ define(["require","exports","module","block-activity-filter","block-search-box",
 
     function selectPark(id, options) {
 
-      if (!selectedPark || ((selectedPark.properties.superunit_id|0) !== (id|0))) {
+      if ((!selectedPark || ((selectedPark.properties.superunit_id|0) !== (id|0))) && id) {
         var park         = getParkById(id),
             listItemNode = that.utils.get(".search-results .result-"+id)[0],
-            isInBounds   = that.slippyMap.map.getBounds().contains(new google.maps.LatLng(parseFloat(park.geometry.coordinates[1]), parseFloat(park.geometry.coordinates[0])));
+            isInBounds   = (park.geometry) ? that.slippyMap.map.getBounds().contains(new google.maps.LatLng(parseFloat(park.geometry.coordinates[1]), parseFloat(park.geometry.coordinates[0]))) : null;
 
         selectedPark = park;
 
         // Add selected class to list item dom element
-        listItemNode.classList.add("selected");
+        if (listItemNode) {
+          listItemNode.classList.add("selected");
+        }
 
         // Set pin on map as selected
         that.slippyMap.pinLayer.setMarkersAsSelected([id]);
 
-        if (!isInBounds) {
+        if (!isInBounds && park.geometry) {
           that.slippyMap.setCenter(park.geometry);
         }
 
@@ -181,8 +183,10 @@ define(["require","exports","module","block-activity-filter","block-search-box",
         resultsNode.innerHTML = parksData.compileTemplate({
           "parks":e.caller.response.features.map(function(feature) {
             return feature.properties;
-          })
+          }),
+          "total":e.caller.response.features.length
         });
+        resultsNode.scrollTop = 0;
       });
     }
 

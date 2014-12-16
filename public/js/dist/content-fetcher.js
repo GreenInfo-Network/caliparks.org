@@ -20,7 +20,7 @@ define([ "require", "exports", "module", "views", "stamen-super-classy" ], funct
         }
         var Handlebars, views, that = this, stopFetching = !1, activeFetchRequest = !1, args = "";
         return StamenSuperClassy.apply(this, arguments), that.compileTemplate = function(data) {
-            return views.Handlebars.compile(views.Handlebars.partials[template])(data);
+            return "function" == typeof views.Handlebars.partials[template] ? views.Handlebars.partials[template](data) : views.Handlebars.compile(views.Handlebars.partials[template])(data);
         }, that.fetch = function(data) {
             that.fire("begin-fetch"), data && "object" == typeof data ? _fetch(data) : activeFetchRequest || stopFetching || (activeFetchRequest = !0, 
             options.srcArguments && (args = "?" + JSON.stringify(options.srcArguments).replace(/,/g, "&").replace(/[{|}]/g, "").replace(/[:]/g, "=").replace(/\"/g, "")), 

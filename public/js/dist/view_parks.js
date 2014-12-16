@@ -27,10 +27,10 @@ define([ "require", "exports", "module", "block-activity-filter", "block-search-
             return !1;
         }
         function selectPark(id) {
-            if (!selectedPark || (0 | selectedPark.properties.superunit_id) !== (0 | id)) {
-                var park = getParkById(id), listItemNode = that.utils.get(".search-results .result-" + id)[0], isInBounds = that.slippyMap.map.getBounds().contains(new google.maps.LatLng(parseFloat(park.geometry.coordinates[1]), parseFloat(park.geometry.coordinates[0])));
-                selectedPark = park, listItemNode.classList.add("selected"), that.slippyMap.pinLayer.setMarkersAsSelected([ id ]), 
-                isInBounds || that.slippyMap.setCenter(park.geometry), that.fire("park-selected", {
+            if ((!selectedPark || (0 | selectedPark.properties.superunit_id) !== (0 | id)) && id) {
+                var park = getParkById(id), listItemNode = that.utils.get(".search-results .result-" + id)[0], isInBounds = park.geometry ? that.slippyMap.map.getBounds().contains(new google.maps.LatLng(parseFloat(park.geometry.coordinates[1]), parseFloat(park.geometry.coordinates[0]))) : null;
+                selectedPark = park, listItemNode && listItemNode.classList.add("selected"), that.slippyMap.pinLayer.setMarkersAsSelected([ id ]), 
+                !isInBounds && park.geometry && that.slippyMap.setCenter(park.geometry), that.fire("park-selected", {
                     newPark: park
                 });
             }
@@ -68,8 +68,9 @@ define([ "require", "exports", "module", "block-activity-filter", "block-search-
                 resultsNode.innerHTML = parksData.compileTemplate({
                     parks: e.caller.response.features.map(function(feature) {
                         return feature.properties;
-                    })
-                });
+                    }),
+                    total: e.caller.response.features.length
+                }), resultsNode.scrollTop = 0;
             });
         }
         function loadParks(stateChanges) {

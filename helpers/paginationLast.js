@@ -51,8 +51,6 @@ module.exports = function paginationLast(options) {
     });
   }
 
-  console.log(options.data.root);
-
   var paginationArgs;
   if ((options.data.root.startat|0) >= (options.data.root.perpage|0)) {
     paginationArgs = constructPaginationArgs(options.data.root);

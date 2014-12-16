@@ -37,8 +37,6 @@ function stringifyPaginationArgs(paramsObject) {
 
 module.exports = function paginationNext(options) {
 
-  console.log("paginationNext");
-
   var paramArray;
 
   if (typeof window === "object") {
