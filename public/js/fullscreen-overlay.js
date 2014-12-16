@@ -1,8 +1,8 @@
-define(["require","exports","module","handlebars","stamen-super-classy"], function(
+define(["require","exports","module","views","stamen-super-classy"], function(
   require,
   exports,
   module,
-  Handlebars,
+  Views,
   StamenSuperClassy
 ) {
 
@@ -10,7 +10,8 @@ define(["require","exports","module","handlebars","stamen-super-classy"], functi
 
  module.exports = function FullscreenOverlay(rootSelector, templatePath, options) {
 
-    var that = this,
+    var that       = this,
+        Handlebars = new Views().Handlebars,
         templateCache,
         rootElement, containerElement, drawn;
 
@@ -113,6 +114,7 @@ define(["require","exports","module","handlebars","stamen-super-classy"], functi
     // Go Go Go!
     //
     init(function(err, data) {
+
       that.fire("ready");
     });
 

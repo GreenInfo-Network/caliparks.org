@@ -7,9 +7,7 @@ define(["require","exports","module","stamen-super-classy"], function(
 
   "use strict";
 
-  var state = {},
-      data  = {},
-      rootNode, locateMeNode, that, old, formNode, searchFieldNode;
+  var rootNode, locateMeNode, that, formNode, searchFieldNode;
 
   module.exports=function(rootSelector, config, callback) {
 
@@ -60,9 +58,11 @@ define(["require","exports","module","stamen-super-classy"], function(
     // Methods for managing the form element
     //
 
+    /*
     function paramaterizeObject(obj) {
       return JSON.stringify(obj).split("{").join("").split("}").join("").split(":").join("=").split(",").join("&").split("\"").join("").split(" ").join("+");
     }
+    */
 
     function initForm() {
       formNode.addEventListener("submit", function(e) {

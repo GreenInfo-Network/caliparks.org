@@ -1,4 +1,4 @@
-define([ "require", "exports", "module", "handlebars", "stamen-super-classy" ], function(require, exports, module, Handlebars, StamenSuperClassy) {
+define([ "require", "exports", "module", "views", "stamen-super-classy" ], function(require, exports, module, Views, StamenSuperClassy) {
     "use strict";
     module.exports = function(rootSelector, templatePath, options) {
         function draw(data) {
@@ -32,7 +32,7 @@ define([ "require", "exports", "module", "handlebars", "stamen-super-classy" ], 
                 callback();
             });
         }
-        var templateCache, rootElement, containerElement, drawn, that = this;
+        var templateCache, rootElement, containerElement, drawn, that = this, Handlebars = new Views().Handlebars;
         return options = options || {}, StamenSuperClassy.apply(this, arguments), that.draw = draw, 
         that.show = show, that.hide = hide, that.container = containerElement, init(function() {
             that.fire("ready");

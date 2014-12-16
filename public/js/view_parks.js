@@ -1,4 +1,4 @@
-define(["require","exports","module","block-activity-filter","block-search-box","slippymap", "stamen-super-classy", "routes", "content-fetcher"], function(
+define(["require","exports","module","block-activity-filter","block-search-box","slippymap", "stamen-super-classy", "routes", "content-fetcher","../../js/helpers/paginationLast.js","../../js/helpers/paginationNext.js"], function(
   require,
   exports,
   module,
@@ -113,9 +113,7 @@ define(["require","exports","module","block-activity-filter","block-search-box",
         "minHeight": 400
       });
 
-      infoWindowData = new ContentFetcher("#gmap-info-window","block-park-name",null, null, {
-        dependantTemplates : ["block-activity-icons"]
-      });
+      infoWindowData = new ContentFetcher("#gmap-info-window","block-park-name");
     }
 
     //
@@ -165,6 +163,10 @@ define(["require","exports","module","block-activity-filter","block-search-box",
           perpage   = (href.match(/perpage=(\d+[0-10000])/)||[])[1]|0;
           startat   = (href.match(/startat=(\d+[0-10000])/)||[])[1]|0;
 
+          if (history && history.pushState) {
+            history.pushState({},null,href);
+          }
+
           loadParks({
             "perpage" : perpage,
             "startat" : startat
@@ -173,9 +175,7 @@ define(["require","exports","module","block-activity-filter","block-search-box",
         }
       }, false);
 
-      parksData = new ContentFetcher("#content .search-results","parks-results",null, null, {
-        dependantTemplates : ["block-park-name","block-activity-icons"]
-      });
+      parksData = new ContentFetcher("#content .search-results","parks-results");
 
       that.on("paginate", function(e) {
         resultsNode.innerHTML = parksData.compileTemplate({
@@ -247,7 +247,7 @@ define(["require","exports","module","block-activity-filter","block-search-box",
       initInfoWindow();
 
       that.on("error", function(e) {
-        console.log('error',e);
+        console.log("error",e);
       });
 
     }

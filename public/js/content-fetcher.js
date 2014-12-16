@@ -1,8 +1,8 @@
-define(["require","exports","module","handlebars","stamen-super-classy"], function(
+define(["require","exports","module","views","stamen-super-classy"], function(
   require,
   exports,
   module,
-  Handlebars,
+  Views,
   StamenSuperClassy
 ) {
 
@@ -24,9 +24,7 @@ define(["require","exports","module","handlebars","stamen-super-classy"], functi
         stopFetching       = false,
         activeFetchRequest = false,
         args               = "",
-        templateRoot       = "/js/partials/",
-        templateExtension  = ".handlebars",
-        templateQueue;
+        Handlebars, views;
 
     StamenSuperClassy.apply(this, arguments);
 
@@ -43,7 +41,7 @@ define(["require","exports","module","handlebars","stamen-super-classy"], functi
 
     that.compileTemplate = function compileTemplate(data) {
 
-      return Handlebars.compile(Handlebars.templates[template])(data);
+      return views.Handlebars.compile(views.Handlebars.partials[template])(data);
     };
 
     function _fetch(data) {
@@ -104,125 +102,13 @@ define(["require","exports","module","handlebars","stamen-super-classy"], functi
 
     };
 
-    function fetchTemplate(key, path, callback) {
-
-      if (!Handlebars.templates) {
-        Handlebars.templates = {};
-      }
-
-      if (!Handlebars.templates[key]) {
-        return that.utils.request(path, function(err, r) {
-          if (err) {
-            return callback(err);
-          }
-
-          Handlebars.templates[key] = r.responseText;
-          Handlebars.registerPartial(key, Handlebars.templates[key]);
-
-          if (templateQueue[key]) {
-            delete templateQueue[key];
-          }
-
-          callback(null, r.responseText);
-        });
-      } else {
-        if (templateQueue[key]) {
-          delete templateQueue[key];
-        }
-
-        callback(null, Handlebars.templates[key]);
-      }
-
-    }
-
-    function constructPaginationArgs(pageData, forward) {
-      var paramsObject = {};
-
-      for (var i in pageData) {
-        if (pageData.hasOwnProperty(i) && pageData[i] && pageData[i].toString().length) {
-          if (['startat','perpage','not'].indexOf(i) > -1) {
-            paramsObject[i] = pageData[i];
-          }
-        }
-      }
-
-      for (var i in pageData.query) {
-        if (pageData.query.hasOwnProperty(i)) {
-          if (['q','near','with','bbox'].indexOf(i) > -1 && pageData.query[i] && pageData.query[i].toString().length) {
-            paramsObject[i] = pageData.query[i];
-          }
-        }
-      }
-
-      //
-      // Make sure special search routes are not duplicated in search params
-      //
-      if (pageData.context && paramsObject[pageData.context]) {
-        delete paramsObject[pageData.context];
-      }
-
-      return paramsObject;
-    }
-
-    function stringifyPaginationArgs(paramsObject) {
-
-      return Object.keys(paramsObject).map(function(key) {
-        return key + '=' + encodeURI(paramsObject[key]);
-      }).join('&');
-
-    }
-
     function init(callback) {
 
-      var queueKeys;
+      views = new Views({},function(err, views) {
+        Handlebars = views.Handlebars;
 
-      //
-      // Fetch a handlebars template for Flickr photos
-      //
-      Handlebars.registerHelper("removeSpaces", function(options) {
-        return options.fn(this).replace(/ /g, "_").toLowerCase();
+        callback();
       });
-
-      Handlebars.registerHelper("paginationNext" , function(options) {
-        var paginationArgs;
-        if ((options.data.root.total|0) === (options.data.root.perpage|0)) {
-          paginationArgs = constructPaginationArgs(options.data.root);
-          paginationArgs.startat = parseInt((paginationArgs.startat||0), 10) + parseInt((paginationArgs.perpage||0), 10);
-          return options.fn(this).replace(/href="#"/,'href="?' + stringifyPaginationArgs(paginationArgs) + '"');
-        }
-      });
-
-      Handlebars.registerHelper("paginationLast", function(options) {
-        var paginationArgs;
-        if ((options.data.root.startat|0) >= (options.data.root.perpage|0)) {
-          paginationArgs = constructPaginationArgs(options.data.root);
-          paginationArgs.startat = parseInt((paginationArgs.startat||0),10) - parseInt((paginationArgs.perpage||0), 10);
-          return options.fn(this).replace(/href="#"/,'href="?' + stringifyPaginationArgs(paginationArgs) + '"');
-        }
-      });
-
-      templateQueue = {};
-
-      if (!options || !options.dependantTemplates) {
-        templateQueue[template] = templateRoot + template + templateExtension;
-      } else {
-        options.dependantTemplates.push(template);
-        options.dependantTemplates.forEach(function(t) {
-          templateQueue[t] = templateRoot + t + templateExtension;
-        });
-      }
-
-      queueKeys = Object.keys(templateQueue);
-
-      function doneFetchingTemplate(err, template) {
-        if (Object.keys(templateQueue).length) {
-          callback(null);
-        }
-      }
-
-      for (var i=0; queueKeys.length > i; i++) {
-        fetchTemplate(queueKeys[i], templateQueue[queueKeys[i]], doneFetchingTemplate);
-      }
     }
 
     //

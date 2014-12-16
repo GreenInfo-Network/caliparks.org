@@ -40,7 +40,7 @@ gulp.task('lint', function() {
         "navigator",
         "window",
         "STMN",
-        "Bloodhound"
+        "history"
       ],
       "expr" : true
     }))

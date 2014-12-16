@@ -136,7 +136,7 @@ define(["require","exports","module"], function(require, exports, module) {
       },
 
       append : function(rootNode, html) {
-        var div = document.createElement('div');
+        var div = document.createElement("div");
         div.innerHTML = html;
         while (div.children.length > 0) {
           rootNode.appendChild(div.children[0]);

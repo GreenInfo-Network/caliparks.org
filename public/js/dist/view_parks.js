@@ -1,4 +1,4 @@
-define([ "require", "exports", "module", "block-activity-filter", "block-search-box", "slippymap", "stamen-super-classy", "routes", "content-fetcher" ], function(require, exports, module, BlockActivityFilter, BlockSearchBox, Slippymap, StamenSuperClassy, Routes, ContentFetcher) {
+define([ "require", "exports", "module", "block-activity-filter", "block-search-box", "slippymap", "stamen-super-classy", "routes", "content-fetcher", "../../js/helpers/paginationLast.js", "../../js/helpers/paginationNext.js" ], function(require, exports, module, BlockActivityFilter, BlockSearchBox, Slippymap, StamenSuperClassy, Routes, ContentFetcher) {
     "use strict";
     function View(options) {
         function initMap() {
@@ -39,9 +39,7 @@ define([ "require", "exports", "module", "block-activity-filter", "block-search-
             infowindow = new google.maps.InfoWindow({
                 maxWidth: 400,
                 minHeight: 400
-            }), infoWindowData = new ContentFetcher("#gmap-info-window", "block-park-name", null, null, {
-                dependantTemplates: [ "block-activity-icons" ]
-            });
+            }), infoWindowData = new ContentFetcher("#gmap-info-window", "block-park-name");
         }
         function initPark() {
             resultsNode = that.utils.get("#content .search-results")[0], that.slippyMap.on("marker-click", function(e) {
@@ -60,13 +58,13 @@ define([ "require", "exports", "module", "block-activity-filter", "block-search-
             resultsNode.addEventListener("click", function(e) {
                 e.target && e.target.getAttribute("data-pagination") && (e.preventDefault(), direction = e.target.getAttribute("data-pagination"), 
                 href = e.target.getAttribute("href"), perpage = 0 | (href.match(/perpage=(\d+[0-10000])/) || [])[1], 
-                startat = 0 | (href.match(/startat=(\d+[0-10000])/) || [])[1], loadParks({
+                startat = 0 | (href.match(/startat=(\d+[0-10000])/) || [])[1], history && history.pushState && history.pushState({}, null, href), 
+                loadParks({
                     perpage: perpage,
                     startat: startat
                 }));
-            }, !1), parksData = new ContentFetcher("#content .search-results", "parks-results", null, null, {
-                dependantTemplates: [ "block-park-name", "block-activity-icons" ]
-            }), that.on("paginate", function(e) {
+            }, !1), parksData = new ContentFetcher("#content .search-results", "parks-results"), 
+            that.on("paginate", function(e) {
                 resultsNode.innerHTML = parksData.compileTemplate({
                     parks: e.caller.response.features.map(function(feature) {
                         return feature.properties;

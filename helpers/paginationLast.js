@@ -36,6 +36,23 @@ function stringifyPaginationArgs(paramsObject) {
 }
 
 module.exports = function paginationLast(options) {
+  var paramArray;
+
+  if (typeof window === "object") {
+    location.search.substring(1).split("&").forEach(function(param) {
+      paramArray = param.split("=");
+      if (paramArray[0] === "startat") {
+        options.data.root.startat = paramArray[1];
+      }
+
+      if (paramArray[0] === "perpage") {
+        options.data.root.perpage = paramArray[1];
+      }
+    });
+  }
+
+  console.log(options.data.root);
+
   var paginationArgs;
   if ((options.data.root.startat|0) >= (options.data.root.perpage|0)) {
     paginationArgs = constructPaginationArgs(options.data.root);

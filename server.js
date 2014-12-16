@@ -11,7 +11,7 @@ var express    = require('express'),
     activities = require("./config/activities.json"),
     fs         = require("fs");
 
-var app      = express();
+var app = express();
 module.exports = app;
 
 var languageFriendlyNames = {
@@ -142,6 +142,43 @@ app.get('/svg/:name-:color.svg', function(req,res) {
   });
 
 });
+
+app.get('/js/partials.json', function(req,res) {
+
+  var out = {};
+
+  fs.readdirSync("./views/partials").forEach(function(partialName) {
+    out[partialName.split(".")[0]] = fs.readFileSync("./views/partials/" + partialName, {"encoding":"utf8"});
+  });
+
+  res.json(out);
+
+});
+
+app.get('/js/helpers/:name.js', function(req,res) {
+
+  res.contentType('text/javascript');
+  //AMD-ify helpers
+  res.send([
+    "define([\"require\",\"exports\",\"module\",\"handlebars\"], function(require,exports,module,Handlebars) {\"use strict\";",
+    fs.readFileSync("./helpers/" + req.params.name + ".js", {"encoding":"utf8"}),
+    "Handlebars.registerHelper(\""+req.params.name+"\",module.exports)",
+    "});"
+  ].join(""));
+
+});
+
+app.get('/js/lib/:name.js', function(req,res) {
+
+  res.contentType('text/javascript');
+  //AMD-ify helpers
+  res.send([
+    "define([\"require\",\"exports\",\"module\"], function(require,exports,module,Handlebars) {\"use strict\";",
+    fs.readFileSync("./lib/" + req.params.name + ".js", {"encoding":"utf8"}),
+    "});"
+    ].join(""));
+
+  });
 
 app.get('/embed/:id(\\d{3,6})', function(req,res, next) {
 
