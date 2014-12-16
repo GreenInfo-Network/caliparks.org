@@ -151,6 +151,9 @@ app.engine('handlebars', exphbs({
     "json" : function(options) {
       return JSON.stringify(options.fn(this));
     },
+    "lowercase" : function(options) {
+      return options.fn(this).toLowerCase();
+    },
     "formatActivityList" : function(options) {
       var list = options.fn(this).split(",");
 

@@ -7,7 +7,7 @@ var cpad               = require('../lib/cpad.js'),
 
 module.exports = function(req, res, data, callback) {
 
-  var story;
+  var story, templateData;
 
   function getActivityFilterState(withString) {
 
@@ -105,7 +105,7 @@ module.exports = function(req, res, data, callback) {
       return callback(err);
     }
 
-    return callback(null, {
+    templateData = {
       parks          : parks,
       total          : parks.length,
       startat        : (data.options) ? data.options.startat : 0,
@@ -115,9 +115,18 @@ module.exports = function(req, res, data, callback) {
       bounds         : bounds,
       parksGeoJSON   : new pgToGeoJSON.GeoFeatureCollection(parks,{
         "excludeProperties" : ["geometry"]
-      }),
-      homeLocation   : (req.query.home === "true")
-    });
+      })
+    };
+
+    if (req.query.home) {
+      templateData['homeLocation'] = (req.query.home === "true")
+    }
+
+    if (data.context === "story") {
+      templateData['story'] = stories.getBySlug(req.params.query).copy
+    }
+
+    return callback(null, templateData);
   }
 
 };
