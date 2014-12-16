@@ -64,122 +64,14 @@ app.use(i18n.init);
 //
 // Setup Express
 //
-function constructPaginationArgs(pageData, forward) {
-  var paramsObject = {};
-
-  for (var i in pageData) {
-    if (pageData.hasOwnProperty(i) && pageData[i] && pageData[i].toString().length) {
-      if (['startat','perpage','not'].indexOf(i) > -1) {
-        paramsObject[i] = pageData[i];
-      }
-    }
-  }
-
-  for (var i in pageData.query) {
-    if (pageData.query.hasOwnProperty(i)) {
-      if (['q','near','with','bbox'].indexOf(i) > -1 && pageData.query[i] && pageData.query[i].toString().length) {
-        paramsObject[i] = pageData.query[i];
-      }
-    }
-  }
-
-  //
-  // Make sure special search routes are not duplicated in search params
-  //
-  if (pageData.context && paramsObject[pageData.context]) {
-    delete paramsObject[pageData.context];
-  }
-
-  return paramsObject;
-}
-
-function stringifyPaginationArgs(paramsObject) {
-
-  return Object.keys(paramsObject).map(function(key) {
-    return key + '=' + encodeURI(paramsObject[key]);
-  }).join('&');
-
-}
+var helpers = {};
+fs.readdirSync("./helpers").forEach(function(fileName) {
+  helpers[fileName.split(".")[0]] = require("./helpers/" + fileName);
+});
 
 app.engine('handlebars', exphbs({
   defaultLayout : 'main',
-  helpers       : {
-    "agencyNameDisplay" : function(options) {
-
-      var name_parts = options.fn(this).split(',');
-
-      return (name_parts.length > 1) ? name_parts[1] + ' ' + name_parts[0] : name_parts[0];
-    },
-    "pluralize" : function() {
-
-      var options, number;
-
-      options = (typeof arguments[0] !== 'object') ? arguments[1] : arguments[0];
-      number  = (typeof arguments[0] !== 'object') ? arguments[0] : null; //If not, the number is already in the string
-
-      var o = (number) ? [number,options.fn(this)] : options.fn(this).split(' '),
-          l = o[o.length-1].split('|');
-
-      if ((o[0] | 0) === 1 && o.length === 2) {
-        return options.fn(this).split(l[0])[0] + ' ' +  l[0];
-      } else {
-        return options.fn(this).split(l[0])[0] + ' ' +  l[1];
-      }
-    },
-    "paginationNext" : function(options) {
-      var paginationArgs;
-      if ((options.data.root.total|0) === (options.data.root.perpage|0)) {
-        paginationArgs = constructPaginationArgs(options.data.root);
-        paginationArgs.startat = parseInt((paginationArgs.startat||0), 10) + parseInt((paginationArgs.perpage||0), 10);
-        return options.fn(this).replace(/href="#"/,'href="?' + stringifyPaginationArgs(paginationArgs) + '"');
-      }
-    },
-    "paginationLast" : function(options) {
-      var paginationArgs;
-      if ((options.data.root.startat|0) >= (options.data.root.perpage|0)) {
-        paginationArgs = constructPaginationArgs(options.data.root);
-        paginationArgs.startat = parseInt((paginationArgs.startat||0),10) - parseInt((paginationArgs.perpage||0), 10);
-        return options.fn(this).replace(/href="#"/,'href="?' + stringifyPaginationArgs(paginationArgs) + '"');
-      }
-    },
-    "removeSpaces" : function(options) {
-      return options.fn(this).replace(/ /g, "_").toLowerCase();
-    },
-    "replace" : function(options) {
-      return options.fn(this).split(options.hash.item).join(options.hash.with);
-    },
-    "json" : function(options) {
-      return JSON.stringify(options.fn(this));
-    },
-    "lowercase" : function(options) {
-      return options.fn(this).toLowerCase();
-    },
-    "formatActivityList" : function(options) {
-      var list = options.fn(this).split(",");
-
-      function findActivityKey(activity) {
-        var keys = Object.keys(activities);
-
-        return keys[keys.map(function(key) {return key.toLowerCase();}).indexOf(activity.toLowerCase())];
-      }
-
-      if (!list.length || list.length < 2) {
-        return options.fn(this);
-      } else {
-        return list.map(function(activity, i, a) {
-          var activityObject = activities[findActivityKey(activity)];
-          return (i===a.length-1 ? i18n.__("and") + " " : " ") + (activityObject ? activityObject.label : i18n.__("Unofficial activity"));
-        }).join(list.length > 2 ? ", " : " ");
-      }
-
-    },
-    "__" : function () {
-      return i18n.__.apply(arguments[0].data.root, [arguments[0].fn(this)]);
-    },
-    "__n" : function () {
-      return i18n.__n.apply(arguments[0].data.root, [arguments[0].fn(this)]);
-    }
-  }
+  helpers       : helpers
 }));
 app.set('view engine', 'handlebars');
 
