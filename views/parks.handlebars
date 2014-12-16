@@ -17,7 +17,7 @@ if (locationParts[4] === 'near' && !locationParts[5]) {
   {{>block-search-box}}
   <div class="search-state">
     {{#if story}}
-      {{#__}}Parks where you can{{/__}} {{#lowercase}}{{story}}{{/lowercase}}
+    {{story}}
     {{else}}
     {{#if query.with}}
     {{total}} parks with {{#formatActivityList}}{{query.with}}{{/formatActivityList}}
