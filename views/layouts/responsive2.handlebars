@@ -22,8 +22,10 @@
   <body class="parksforward responsive2{{#if tabletViewport}} tablet-viewport{{/if}}" ontouchstart="" id="top">
     {{>socialism}}
 
-    <header><p class="site-name"><a href="/">{{#__}}Caliparks{{/__}}</a></p></header>
-    {{{body}}}
+    <div class="viewport-container{{#if view}}{{view}}{{/if}}" style="position:relative;height:100vh;">
+      <header><p class="site-name"><a href="/">{{#__}}Caliparks{{/__}}</a></p></header>
+      {{{body}}}
+    </div>
     <footer>
       <section id="footer-actions">
         <a class="top-action" href="#top">{{#__}}Top{{/__}}</a>

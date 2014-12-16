@@ -1,12 +1,6 @@
 &.tablet-viewport {
 
   footer {
-    position:fixed !important;
-    position:absolute;
-
-    right:0;
-    bottom:0;
-    left:0;
 
     #footer-actions a{
       width:50%;
@@ -18,8 +12,10 @@
 
     @include media(max-width 720px) {
 
-      #footer-actions a.wander-action {
-        display:none !important;
+      #footer-actions {
+        a {
+          width:100%;
+        }
       }
     }
   }
@@ -71,11 +67,10 @@
 
 #content.template-parks {
 
-  position: fixed !important;
   position: absolute;
   top: 25px;
   right: 0;
-  bottom: 104px;
+  bottom: 0px;
   left: 0;
 
   .block-search-box {
@@ -87,10 +82,6 @@
       max-width:1000px;
       margin:0 auto;
     }
-  }
-
-  @include media(max-width 720px) {
-    bottom: 98px;
   }
 
   .tab-pane {
@@ -107,12 +98,13 @@
 
       width: 33.33%;
       position: absolute;
-      bottom: -50px;
+      bottom: 0px;
       top: 112px;
       z-index:2;
 
       @include media(max-width 720px) {
         width:100%;
+        top: 109px;
 
         ul {
           width:100%;
@@ -183,6 +175,8 @@
       z-index:1;
       position:absolute;
       display:block;
+      top:193px;
+      bottom:0;
 
       .search-this-area-action {
         position:absolute;
