@@ -179,6 +179,19 @@ body.parksforward.responsive2 {
   //
   header {
     @include span-columns(12 of 12);
+    background-color:$color-dark;
+    padding: 5px 10px;
+
+    color:$color-california;
+    font-size:$font-size-small;
+
+    a {
+      color:$color-california;
+    }
+
+    p {
+      margin:0;
+    }
   }
 
   footer {

@@ -7,8 +7,8 @@ define(["require","exports","module","stamen-super-classy"], function(
 
   "use strict";
 
-  var state             = {},
-      data              = {},
+  var state = {},
+      data  = {},
       rootNode, locateMeNode, that, old, formNode, searchFieldNode;
 
   module.exports=function(rootSelector, config, callback) {
@@ -47,11 +47,11 @@ define(["require","exports","module","stamen-super-classy"], function(
           navigator.geolocation.getCurrentPosition(function(r) {
             if (r.coords) {
               setLocateMeLoadingState(false);
-              location.href = "/parks/near/" + parseFloat(r.coords.latitude).toFixed(4) + "," + parseFloat(r.coords.longitude).toFixed(4) + "&geocoded=true";
+              location.href = "/parks/near/" + parseFloat(r.coords.latitude).toFixed(4) + "," + parseFloat(r.coords.longitude).toFixed(4) + "?home=true";
             }
           }, function() {setLocateMeLoadingState(false);});
         } else {
-          location.href = "/parks/near?geocoded=true";
+          location.href = "/parks/near?home=true";
         }
       });
     }

@@ -26,20 +26,6 @@
           }
         }
 
-        .site-name {
-          display:block;
-          background-color:$color-notsodark;
-          color:$color-california;
-          margin-bottom:0;
-          padding: 2px $box-padding;
-          color: white;
-          font-size: $font-size-small;
-
-          a {
-            color:$color-california;
-          }
-        }
-
         .block-park-name{
           margin-bottom:$box-padding-half;
           .park-name {

@@ -12,10 +12,10 @@ define([ "require", "exports", "module", "stamen-super-classy" ], function(requi
         function initLocateMe() {
             locateMeNode.addEventListener("click", function() {
                 navigator.geolocation ? (setLocateMeLoadingState(!0), navigator.geolocation.getCurrentPosition(function(r) {
-                    r.coords && (setLocateMeLoadingState(!1), location.href = "/parks/near/" + parseFloat(r.coords.latitude).toFixed(4) + "," + parseFloat(r.coords.longitude).toFixed(4) + "&geocoded=true");
+                    r.coords && (setLocateMeLoadingState(!1), location.href = "/parks/near/" + parseFloat(r.coords.latitude).toFixed(4) + "," + parseFloat(r.coords.longitude).toFixed(4) + "?home=true");
                 }, function() {
                     setLocateMeLoadingState(!1);
-                })) : location.href = "/parks/near?geocoded=true";
+                })) : location.href = "/parks/near?home=true";
             });
         }
         function initForm() {

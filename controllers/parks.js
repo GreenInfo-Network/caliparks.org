@@ -115,7 +115,8 @@ module.exports = function(req, res, data, callback) {
       bounds         : bounds,
       parksGeoJSON   : new pgToGeoJSON.GeoFeatureCollection(parks,{
         "excludeProperties" : ["geometry"]
-      })
+      }),
+      homeLocation   : (req.query.home === "true")
     });
   }
 

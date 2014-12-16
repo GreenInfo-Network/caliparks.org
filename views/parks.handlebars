@@ -5,7 +5,7 @@ if (locationParts[4] === 'near' && !locationParts[5]) {
   document.addEventListener('DOMContentLoaded', function() {document.querySelector('.search-results').innerHTML = '<div style="margin-left: 45px;">Finding you...</div>';});
 
   navigator.geolocation.getCurrentPosition(function(l) {
-    location.href='/parks/near/'+l.coords.latitude+','+l.coords.longitude;
+    location.href='/parks/near/'+l.coords.latitude+','+l.coords.longitude + "?home=true";
   },
   function() {
     location.href='/parks/near/37.7484,-122.4156';
@@ -13,14 +13,19 @@ if (locationParts[4] === 'near' && !locationParts[5]) {
 }
 </script>
 
-{{>header-search}}
 <div id="content" class="template-{{view}}">
+  {{>block-search-box}}
   <div class="search-state">
     {{#if query.with}}
       {{total}} parks with {{#formatActivityList}}{{query.with}}{{/formatActivityList}}
     {{else}}
       {{#if query.near}}
-        {{#__}}The {{total}} parks nearest to {{/__}}{{#replace item="+" with=" "}}{{query.near}}{{/replace}}
+        {{#__}}The {{total}} parks nearest to {{/__}}
+        {{#if homeLocation}}
+          {{#__}}you{{/__}}
+        {{else}}
+          {{#replace item="+" with=" "}}{{query.near}}{{/replace}}
+        {{/if}}
       {{/if}}
     {{/if}}
   </div>
@@ -57,10 +62,10 @@ if (locationParts[4] === 'near' && !locationParts[5]) {
 </div>
 <script>
 var viewData = {
-  "parks"       : {{#json}}{{{parksGeoJSON}}}{{/json}},
-  "total"       : {{total}},
-  "startat"     : {{startat}},
-  "perpage"     : {{perpage}},
-  "bounds"      : [{{bounds}}]
+  "parks"        : {{#json}}{{{parksGeoJSON}}}{{/json}},
+  "total"        : {{total}},
+  "startat"      : {{startat}},
+  "perpage"      : {{perpage}},
+  "bounds"       : [{{bounds}}]
 }
 </script>

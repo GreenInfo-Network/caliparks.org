@@ -82,6 +82,7 @@
       font-size: $font-size-medium;
       outline: none;
       background-color:$color-light-transparent;
+      padding-left:$box-padding-half;
 
       @include media(max-width 720px) {
         padding:0;
