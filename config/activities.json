@@ -13,14 +13,14 @@
   "horsebackRiding":{"category":"outdoors","label":"Horseback Riding"},
   "kayakingCanoeing":{"category":"water","label":"Kayaking & canoeing"},
   "kiteboardingWindsurfing":{"category":"water","label":"Kiteboarding & windsurfing"},
+  "historicalSite":{"category":"historic","label":"Museums"},
   "ohv":{"category":"outdoors","label":"OHV"},
   "Playground":{"category":"kids","label":"Playground"},
+  "rusticCabins":{"category":"outdoors","label":"Rustic cabins"},
   "snowSports":{"category":"snow","label":"Snow sports"},
   "surfing":{"category":"water","label":"Surfing"},
   "swimming":{"category":"water","label":"Swimming"},
   "Tennis":{"category":"sports","label":"Tennis"},
   "whitewaterRaftingKayaking":{"category":"water","label":"Whitewater rafting & kayaking"},
-  "wildlifeWatching":{"category":"outdoors","label":"Wildlife watching"},
-  "rusticCabins":{"category":"outdoors","label":"Rustic cabins"},
-  "historicalSite":{"category":"historic","label":"Museums"}
+  "wildlifeWatching":{"category":"outdoors","label":"Wildlife watching"}
 }
