@@ -34,42 +34,52 @@ define(["require","exports","module","stamen-super-classy","routes"], function(
           searchParams = routes.getParamStateFromLocationObject();
           delete searchParams.with;
 
-          routes.updateSearchUrl(searchParams);
+          updateStatusNode([]);
+          that.fire("filter-select", searchParams);
         }, false);
       }
 
     }
 
+    function updateStatusNode(withArray) {
+      toggleDrawerStatusNode.innerHTML = (withArray.length) ? withArray.length : 0;
+    }
+
     function initActivityToggleActions() {
 
       filterDrawerNode.addEventListener("click", function(e) {
-        e.preventDefault();
 
         searchParams = routes.getParamStateFromLocationObject();
         withArray  = (searchParams.with ? searchParams.with.toLowerCase().split(",") : []);
 
-        var filter = e.target.getAttribute("data-filter") || e.target.parentNode.getAttribute("data-filter") || e.target.parentNode.parentNode.getAttribute("data-filter"),
-            index  = withArray.indexOf(encodeURI(filter).toLowerCase());
+        var toggleAction = that.utils.parentHasClass(e.target,"toggle-activity-action"),
+            filter       = toggleAction.getAttribute("data-filter"),
+            index        = withArray.indexOf(encodeURI(filter).toLowerCase());
 
         if (index > -1) { //Meaning that this page already has this filter selected
-          withArray.splice(index);
+          if (index === 0) {
+            withArray = [withArray[1]];
+          } else {
+            withArray.splice(index);
+          }
           searchParams["with"] = withArray.join(",");
+          toggleAction.classList.remove("selected");
         } else {
           withArray.push(filter);
           searchParams["with"] = withArray.join(",");
+          toggleAction.classList.add("selected");
         }
 
-        routes.updateSearchUrl(searchParams);
-      }, false);
+        updateStatusNode(withArray);
+        that.fire("filter-select", searchParams);
+      });
 
       //
       // Put the current number of filters in the status area
       //
-      if (toggleDrawerStatusNode) {
-        searchParams = routes.getParamStateFromLocationObject();
-        withArray    = (searchParams.with ? searchParams.with.split(",") : []);
-        toggleDrawerStatusNode.innerHTML = (withArray.length) ? withArray.length : "";
-      }
+      searchParams = routes.getParamStateFromLocationObject();
+      withArray    = (searchParams.with ? searchParams.with.split(",") : []);
+      updateStatusNode(withArray);
 
     }
 

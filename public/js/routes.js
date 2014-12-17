@@ -31,7 +31,7 @@ define(["require","exports","module","stamen-super-classy"], function(
       var stringOut = "?";
 
       for (var i in paramsObject) {
-        if (paramsObject.hasOwnProperty(i)) {
+        if (paramsObject.hasOwnProperty(i) && paramsObject[i] !== undefined) {
           stringOut += (i + "=" + paramsObject[i] + "&");
         }
       }

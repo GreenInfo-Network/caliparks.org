@@ -5,17 +5,22 @@ define([ "require", "exports", "module", "stamen-super-classy", "routes" ], func
         function initClearAction() {
             clearActionNode && clearActionNode.addEventListener("click", function(e) {
                 e.preventDefault(), searchParams = routes.getParamStateFromLocationObject(), delete searchParams.with, 
-                routes.updateSearchUrl(searchParams);
+                updateStatusNode([]), that.fire("filter-select", searchParams);
             }, !1);
+        }
+        function updateStatusNode(withArray) {
+            toggleDrawerStatusNode.innerHTML = withArray.length ? withArray.length : 0;
         }
         function initActivityToggleActions() {
             filterDrawerNode.addEventListener("click", function(e) {
-                e.preventDefault(), searchParams = routes.getParamStateFromLocationObject(), withArray = searchParams.with ? searchParams.with.toLowerCase().split(",") : [];
-                var filter = e.target.getAttribute("data-filter") || e.target.parentNode.getAttribute("data-filter") || e.target.parentNode.parentNode.getAttribute("data-filter"), index = withArray.indexOf(encodeURI(filter).toLowerCase());
-                index > -1 ? (withArray.splice(index), searchParams["with"] = withArray.join(",")) : (withArray.push(filter), 
-                searchParams["with"] = withArray.join(",")), routes.updateSearchUrl(searchParams);
-            }, !1), toggleDrawerStatusNode && (searchParams = routes.getParamStateFromLocationObject(), 
-            withArray = searchParams.with ? searchParams.with.split(",") : [], toggleDrawerStatusNode.innerHTML = withArray.length ? withArray.length : "");
+                searchParams = routes.getParamStateFromLocationObject(), withArray = searchParams.with ? searchParams.with.toLowerCase().split(",") : [];
+                var toggleAction = that.utils.parentHasClass(e.target, "toggle-activity-action"), filter = toggleAction.getAttribute("data-filter"), index = withArray.indexOf(encodeURI(filter).toLowerCase());
+                index > -1 ? (0 === index ? withArray = [ withArray[1] ] : withArray.splice(index), 
+                searchParams["with"] = withArray.join(","), toggleAction.classList.remove("selected")) : (withArray.push(filter), 
+                searchParams["with"] = withArray.join(","), toggleAction.classList.add("selected")), 
+                updateStatusNode(withArray), that.fire("filter-select", searchParams);
+            }), searchParams = routes.getParamStateFromLocationObject(), withArray = searchParams.with ? searchParams.with.split(",") : [], 
+            updateStatusNode(withArray);
         }
         function initDrawerToggleAction() {
             toggleDrawerActionNode.addEventListener("click", function(e) {

@@ -48,7 +48,7 @@ table {
       margin-top: -0.5px;
       margin-left: -2px; } }
 
-@-webkit-keyframes pulse_animation {
+@-webkit-keyframes spin {
   0% {
     -webkit-transform: rotate(0deg);
     transform: rotate(0deg); }
@@ -56,6 +56,40 @@ table {
   50% {
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg); } }
+
+@-webkit-keyframes pulsate {
+  0% {
+    opacity: 0.3; }
+
+  10% {
+    opacity: 0.3; }
+
+  20% {
+    opacity: 0.4; }
+
+  30% {
+    opacity: 0.6; }
+
+  40% {
+    opacity: 0.8; }
+
+  50% {
+    opacity: 1; }
+
+  60% {
+    opacity: 0.8; }
+
+  70% {
+    opacity: 0.6; }
+
+  80% {
+    opacity: 0.4; }
+
+  90% {
+    opacity: 0.3; }
+
+  100% {
+    opacity: 0.3; } }
 
 /*
 *  Styles for everything
@@ -77,14 +111,19 @@ body.parksforward.responsive2 {
     display: table;
     clear: both; }
   body.parksforward.responsive2 .pulse {
-    -webkit-animation-name: 'pulse_animation';
-    animation-name: 'pulse_animation';
+    -webkit-animation-name: 'spin';
+    animation-name: 'spin';
     -webkit-animation-duration: 5000ms;
     animation-duration: 5000ms;
     -webkit-animation-iteration-count: infinite;
     animation-iteration-count: infinite;
     -webkit-animation-timing-function: ease;
     animation-timing-function: ease; }
+  body.parksforward.responsive2 .wait {
+    -webkit-animation-name: pulsate;
+    -webkit-animation-duration: 2s;
+    -webkit-animation-timing-function: ease-in-out;
+    -webkit-animation-iteration-count: infinite; }
   body.parksforward.responsive2 .clearfix {
     overflow: auto; }
   body.parksforward.responsive2 .gm-style-iw {

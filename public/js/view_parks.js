@@ -1,4 +1,4 @@
-define(["require","exports","module","block-activity-filter","block-search-box","slippymap", "stamen-super-classy", "routes", "content-fetcher","../../js/helpers/paginationLast.js","../../js/helpers/paginationNext.js"], function(
+define(["require","exports","module","block-activity-filter","block-search-box","slippymap", "stamen-super-classy", "routes", "content-fetcher","../../js/helpers/paginationLast.js","../../js/helpers/paginationNext.js","../../js/helpers/formatActivityList.js"], function(
   require,
   exports,
   module,
@@ -19,7 +19,7 @@ define(["require","exports","module","block-activity-filter","block-search-box",
   function View(options) {
 
     var that = this,
-        bodyNode, cleanBounds, mapTabNode, resultsNode, selectedPark, infowindow, infoWindowData;
+        bodyNode, cleanBounds, mapTabNode, resultsNode, selectedPark, infowindow, infoWindowData, searchStateView;
 
     StamenSuperClassy.apply(that, arguments);
 
@@ -61,8 +61,8 @@ define(["require","exports","module","block-activity-filter","block-search-box",
         location.href="/parks/search" + routes.stringifyUrlSearchParams(newSearchState);
       }, that);
 
-      that.on("paginate", function(e) {
-        that.slippyMap.pinLayer.updateData(e.caller.response);
+      that.on("route", function(e) {
+        that.slippyMap.pinLayer.updateData(e.caller.parksGeoJSON);
       });
     }
 
@@ -146,7 +146,7 @@ define(["require","exports","module","block-activity-filter","block-search-box",
           that.slippyMap.pinLayer.clearMarkerSelections();
           selectPark(resultNode.getAttribute("data-id"));
         }
-      }, 200), true);
+      }, 400), true);
 
     }
 
@@ -156,37 +156,63 @@ define(["require","exports","module","block-activity-filter","block-search-box",
     function initParks() {
       var direction, perpage, startat, href, parksData;
 
-      resultsNode.addEventListener("click", function(e) {
-        if (e.target && e.target.getAttribute("data-pagination")) {
-          e.preventDefault();
+      if (history && history.pushState) { //Only if the browser supports pushstate
+        resultsNode.addEventListener("click", function(e) {
+          if (e.target && e.target.getAttribute("data-pagination")) {
+            e.preventDefault();
 
-          direction = e.target.getAttribute("data-pagination");
-          href      = e.target.getAttribute("href");
-          perpage   = (href.match(/perpage=(\d+[0-10000])/)||[])[1]|0;
-          startat   = (href.match(/startat=(\d+[0-10000])/)||[])[1]|0;
+            direction = e.target.getAttribute("data-pagination");
+            href      = e.target.getAttribute("href");
+            perpage   = (href.match(/perpage=(\d+[0-10000])/)||[])[1]|0;
+            startat   = (href.match(/startat=(\d+[0-10000])/)||[])[1]|0;
 
-          if (history && history.pushState) {
-            history.pushState({},null,href);
+            loadParks({
+              "perpage" : perpage,
+              "startat" : startat
+            });
+
           }
-
-          loadParks({
-            "perpage" : perpage,
-            "startat" : startat
-          });
-
-        }
-      }, false);
+        }, false);
+      }
 
       parksData = new ContentFetcher("#content .search-results","parks-results");
 
-      that.on("paginate", function(e) {
-        resultsNode.innerHTML = parksData.compileTemplate({
-          "parks":e.caller.response.features.map(function(feature) {
-            return feature.properties;
-          }),
-          "total":e.caller.response.features.length
-        });
+      that.on("route", function(e) {
+        resultsNode.innerHTML = parksData.compileTemplate(e.caller);
         resultsNode.scrollTop = 0;
+      });
+    }
+
+    function initRoutes() {
+      that.on("route", function(e) {
+        if (history && history.pushState) {
+          history.pushState({},null,"/parks/search" + routes.stringifyUrlSearchParams(e.caller.query));
+        }
+      });
+    }
+
+    function initSinlepageFiltering() {
+
+      blocks.blockActivityFilter.on("filter-select",function(e) {
+
+        if (history && history.pushState) { //Only if the browser supports pushstate
+          loadParks({
+            "with" : e.caller.with
+          });
+        } else {
+          history.pushState({},null,"/parks/search" + routes.stringifyUrlSearchParams(e.caller));
+        }
+
+      });
+    }
+
+    function initSearchStatus() {
+      searchStateView = new ContentFetcher("#content .search-state","search-state");
+
+      that.on("route", function(e) {
+        if (history && history.pushState) {
+          that.utils.get("#content .search-state")[0].innerHTML = searchStateView.compileTemplate(e.caller);
+        }
       });
     }
 
@@ -213,7 +239,15 @@ define(["require","exports","module","block-activity-filter","block-search-box",
         }
 
         if (responseObject.status === "ok") {
-          return that.fire("paginate", responseObject);
+
+          return that.fire("route", {
+            "parks":responseObject.response.features.map(function(feature) {
+              return feature.properties;
+            }),
+            "query":urlState,
+            "total":responseObject.response.features.length,
+            "parksGeoJSON":responseObject.response
+          });
         } else {
           return that.fire("error",{"message":"Response body not okay", "response" : responseObject});
         }
@@ -249,6 +283,9 @@ define(["require","exports","module","block-activity-filter","block-search-box",
       initPark();
       initParks();
       initInfoWindow();
+      initSinlepageFiltering();
+      initRoutes();
+      initSearchStatus();
 
       that.on("error", function(e) {
         console.log("error",e);

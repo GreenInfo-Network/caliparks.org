@@ -4,7 +4,7 @@ define([ "require", "exports", "module", "stamen-super-classy" ], function(requi
         var that = this, knownContexts = [ "search", "with", "near" ];
         return StamenSuperClassy.apply(that, arguments), that.stringifyUrlSearchParams = function(paramsObject) {
             var stringOut = "?";
-            for (var i in paramsObject) paramsObject.hasOwnProperty(i) && (stringOut += i + "=" + paramsObject[i] + "&");
+            for (var i in paramsObject) paramsObject.hasOwnProperty(i) && void 0 !== paramsObject[i] && (stringOut += i + "=" + paramsObject[i] + "&");
             return stringOut.substring(0, stringOut.length - 1);
         }, that.getParamStateFromLocationObject = function() {
             var urlParts = location.pathname.split("/"), route = urlParts[1], context = urlParts[2], param = urlParts[3], query = location.search.length ? JSON.parse(location.search.substring(1).replace(/^/, '{"').replace(/$/, '"}').replace(/&/g, '","').replace(/=/g, '":"')) : {};

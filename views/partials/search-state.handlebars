@@ -1,0 +1,16 @@
+{{#if story}}
+{{story}}
+{{else}}
+{{#if query.with}}
+{{total}} parks with {{#formatActivityList}}{{query.with}}{{/formatActivityList}}
+{{else}}
+{{#if query.near}}
+{{#__}}The {{total}} parks nearest to {{/__}}
+{{#if homeLocation}}
+{{#__}}you{{/__}}
+{{else}}
+{{#replace item="+" with=" "}}{{query.near}}{{/replace}}
+{{/if}}
+{{/if}}
+{{/if}}
+{{/if}}

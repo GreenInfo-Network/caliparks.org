@@ -55,9 +55,23 @@ $font-family-sans: "expressway", "HelveticaNeue-Light", "Helvetica Neue Light", 
   }
 }
 
-@-webkit-keyframes pulse_animation {
+@-webkit-keyframes spin {
   0% { transform: rotate(0deg);}
   50% { transform: rotate(360deg); }
+}
+
+@-webkit-keyframes pulsate {
+  0% { opacity: .30}
+  10% { opacity: .30}
+  20% { opacity: .40 }
+  30% { opacity: .60 }
+  40% { opacity: .80 }
+  50% { opacity: 1.0}
+  60% { opacity: .80}
+  70% { opacity: .60}
+  80% { opacity: .40}
+  90% { opacity: .30}
+  100% { opacity: .30}
 }
 
 /*
@@ -68,10 +82,17 @@ body.parksforward.responsive2 {
   @include outer-container;
 
   .pulse {
-  	animation-name: 'pulse_animation';
+  	animation-name: 'spin';
   	animation-duration: 5000ms;
   	animation-iteration-count: infinite;
   	animation-timing-function: ease;
+  }
+
+  .wait {
+    -webkit-animation-name: pulsate;
+    -webkit-animation-duration: 2s;
+    -webkit-animation-timing-function: ease-in-out;
+    -webkit-animation-iteration-count: infinite
   }
 
   .clearfix {

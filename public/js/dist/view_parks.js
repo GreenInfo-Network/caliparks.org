@@ -1,4 +1,4 @@
-define([ "require", "exports", "module", "block-activity-filter", "block-search-box", "slippymap", "stamen-super-classy", "routes", "content-fetcher", "../../js/helpers/paginationLast.js", "../../js/helpers/paginationNext.js" ], function(require, exports, module, BlockActivityFilter, BlockSearchBox, Slippymap, StamenSuperClassy, Routes, ContentFetcher) {
+define([ "require", "exports", "module", "block-activity-filter", "block-search-box", "slippymap", "stamen-super-classy", "routes", "content-fetcher", "../../js/helpers/paginationLast.js", "../../js/helpers/paginationNext.js", "../../js/helpers/formatActivityList.js" ], function(require, exports, module, BlockActivityFilter, BlockSearchBox, Slippymap, StamenSuperClassy, Routes, ContentFetcher) {
     "use strict";
     function View(options) {
         function initMap() {
@@ -15,8 +15,8 @@ define([ "require", "exports", "module", "block-activity-filter", "block-search-
                 var newSearchState = JSON.parse(JSON.stringify(searchState));
                 newSearchState.near && delete newSearchState.near, newSearchState.bbox = that.slippyMap.getBounds().join(","), 
                 location.href = "/parks/search" + routes.stringifyUrlSearchParams(newSearchState);
-            }, that), that.on("paginate", function(e) {
-                that.slippyMap.pinLayer.updateData(e.caller.response);
+            }, that), that.on("route", function(e) {
+                that.slippyMap.pinLayer.updateData(e.caller.parksGeoJSON);
             });
         }
         function targetIsSearchResult(eventResponse) {
@@ -51,26 +51,38 @@ define([ "require", "exports", "module", "block-activity-filter", "block-search-
             }), resultsNode.addEventListener("mouseover", that.utils.debounce(function(e) {
                 var resultNode = targetIsSearchResult(e);
                 resultNode && (that.slippyMap.pinLayer.clearMarkerSelections(), selectPark(resultNode.getAttribute("data-id")));
-            }, 200), !0);
+            }, 400), !0);
         }
         function initParks() {
             var direction, perpage, startat, href, parksData;
-            resultsNode.addEventListener("click", function(e) {
+            history && history.pushState && resultsNode.addEventListener("click", function(e) {
                 e.target && e.target.getAttribute("data-pagination") && (e.preventDefault(), direction = e.target.getAttribute("data-pagination"), 
                 href = e.target.getAttribute("href"), perpage = 0 | (href.match(/perpage=(\d+[0-10000])/) || [])[1], 
-                startat = 0 | (href.match(/startat=(\d+[0-10000])/) || [])[1], history && history.pushState && history.pushState({}, null, href), 
-                loadParks({
+                startat = 0 | (href.match(/startat=(\d+[0-10000])/) || [])[1], loadParks({
                     perpage: perpage,
                     startat: startat
                 }));
             }, !1), parksData = new ContentFetcher("#content .search-results", "parks-results"), 
-            that.on("paginate", function(e) {
-                resultsNode.innerHTML = parksData.compileTemplate({
-                    parks: e.caller.response.features.map(function(feature) {
-                        return feature.properties;
-                    }),
-                    total: e.caller.response.features.length
-                }), resultsNode.scrollTop = 0;
+            that.on("route", function(e) {
+                resultsNode.innerHTML = parksData.compileTemplate(e.caller), resultsNode.scrollTop = 0;
+            });
+        }
+        function initRoutes() {
+            that.on("route", function(e) {
+                history && history.pushState && history.pushState({}, null, "/parks/search" + routes.stringifyUrlSearchParams(e.caller.query));
+            });
+        }
+        function initSinlepageFiltering() {
+            blocks.blockActivityFilter.on("filter-select", function(e) {
+                history && history.pushState ? loadParks({
+                    "with": e.caller.with
+                }) : history.pushState({}, null, "/parks/search" + routes.stringifyUrlSearchParams(e.caller));
+            });
+        }
+        function initSearchStatus() {
+            searchStateView = new ContentFetcher("#content .search-state", "search-state"), 
+            that.on("route", function(e) {
+                history && history.pushState && (that.utils.get("#content .search-state")[0].innerHTML = searchStateView.compileTemplate(e.caller));
             });
         }
         function loadParks(stateChanges) {
@@ -83,7 +95,14 @@ define([ "require", "exports", "module", "block-activity-filter", "block-search-
                 } catch (err) {
                     return that.fire("error", err);
                 }
-                return "ok" === responseObject.status ? that.fire("paginate", responseObject) : that.fire("error", {
+                return "ok" === responseObject.status ? that.fire("route", {
+                    parks: responseObject.response.features.map(function(feature) {
+                        return feature.properties;
+                    }),
+                    query: urlState,
+                    total: responseObject.response.features.length,
+                    parksGeoJSON: responseObject.response
+                }) : that.fire("error", {
                     message: "Response body not okay",
                     response: responseObject
                 });
@@ -97,11 +116,12 @@ define([ "require", "exports", "module", "block-activity-filter", "block-search-
             }, !1);
         }
         function init() {
-            initMap(), initTabControl(), initPark(), initParks(), initInfoWindow(), that.on("error", function(e) {
+            initMap(), initTabControl(), initPark(), initParks(), initInfoWindow(), initSinlepageFiltering(), 
+            initRoutes(), initSearchStatus(), that.on("error", function(e) {
                 console.log("error", e);
             });
         }
-        var bodyNode, cleanBounds, mapTabNode, resultsNode, selectedPark, infowindow, infoWindowData, that = this;
+        var bodyNode, cleanBounds, mapTabNode, resultsNode, selectedPark, infowindow, infoWindowData, searchStateView, that = this;
         StamenSuperClassy.apply(that, arguments), bodyNode = that.utils.get("body")[0], 
         init();
     }

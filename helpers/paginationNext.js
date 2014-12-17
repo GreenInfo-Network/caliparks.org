@@ -39,17 +39,12 @@ module.exports = function paginationNext(options) {
 
   var paramArray;
 
-  if (typeof window === "object") {
-    location.search.substring(1).split("&").forEach(function(param) {
-      paramArray = param.split("=");
-      if (paramArray[0] === "startat") {
-        options.data.root.startat = paramArray[1];
-      }
+  if (!options.data.root.perpage) {
+    options.data.root.perpage = options.data.root.query.perpage;
+  }
 
-      if (paramArray[0] === "perpage") {
-        options.data.root.perpage = paramArray[1];
-      }
-    });
+  if (!options.data.root.startat) {
+    options.data.root.perpage = options.data.root.query.startat;
   }
 
   var paginationArgs;
