@@ -8,9 +8,8 @@
 
   .details {
 
-    padding-top: 2px;
     display:inline-block;
-    max-width:100%;
+    width:100%;
     overflow:hidden;
     box-sizing: border-box;
 
@@ -19,24 +18,23 @@
       display: block;
       background-color: $color-notasdark-transparent;
       padding: 0px 12px;
-      margin: $box-padding-half $box-padding-half 0 $box-padding-half;
       overflow:hidden;
       box-sizing: border-box;
       float:left;
-      max-width:95%;
+      width:100%;
     }
 
     a.main-link {
       display: block;
       width: 100%;
-      padding: 12px 10px;
+      padding: 12px 52px 12px 10px;
       font-size: $font-size-large;
       font-family:$font-family-serif;
+      letter-spacing: .09em;
       font-weight:$font-weight-normal;
     }
 
     a.attribution-link {
-      padding: 3px 0 3px 46px;
       background-position: 10px center;
       display: inline-block;
       height: 23px;
@@ -48,6 +46,7 @@
       background-repeat: no-repeat;
       font-size: $font-size-small;
       line-height: 1em;
+      padding:3px 0 0 47px;
     }
   }
 

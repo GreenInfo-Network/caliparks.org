@@ -2,33 +2,23 @@
   @include span-columns(12 of 12);
 
   .site-description {
-    background-color:$color-dark;
     text-align:center;
-    background-image:url('/style/responsive2/blocks/header-search/bg-l.png');
-    background-size:cover;
-    background-position: center -339px;
     position:relative;
     display:block;
-    padding:50px $box-padding;
+    padding:$box-padding-half $box-padding-half 0 $box-padding-half;
     font-size:$font-size-large;
     line-height:1em;
     margin-bottom:0;
 
     color:$light-font-color;
     font-family:$font-family-serif;
+    letter-spacing: .09em;
 
-    text-shadow:1px 1px 3px $color-dark;
-
-    @include media(max-width 720px) {
-      background-image:url('/style/responsive2/blocks/header-search/bg-m.jpg');
-      background-position: center center;
-      padding:$box-padding;
-    }
+    font-weight:$font-weight-bold;
   }
 
   .block-search-box {
     padding:$box-padding;
-    background-color:$color-dark;
 
     form {
       display:block;
@@ -40,9 +30,11 @@
   .story-header {
     color:$light-font-color;
     font-family:$font-family-serif;
-    padding:$box-padding-half $box-padding;
-    font-size:$font-size-large;
+    letter-spacing: .09em;
+    padding: $box-padding-half $box-padding 1px $box-padding;
+    font-size:$font-size-small;
+    font-weight:$font-weight-bold;
     text-align:center;
-    border-top:inset 1px rgba(0,0,0,.2);
+    border-top:$border-style;
   }
 }

@@ -34,17 +34,17 @@
       &:nth-of-type(2), &:nth-of-type(3), &:nth-of-type(6), &:nth-of-type(7) {
         width:50%;
         .details {
-          width:auto;
+          width: 100%;
           a {
             &.main-link {
-              width:auto;
+              width: 100%;
               font-size: $font-size-medium;
               margin-right: 51px;
             }
             &.attribution-link {
               position:absolute;
-              top: 5px;
-              right:0;
+              top: 10px;
+              right:5px;
               color:transparent;
               background-color:transparent;
               width:40px;
