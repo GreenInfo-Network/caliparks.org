@@ -122,8 +122,7 @@ module.exports = function(req, res, options, callback) {
       // Hipcamp output
       //
       if (apiResponse.cpad.activity) {
-        output.activity = apiResponse.cpad.activity,
-        output.hasCamping = apiResponse.cpad.activities.indexOf('camping') > -1;
+        output.activity = apiResponse.cpad.activity;
       }
 
       //
