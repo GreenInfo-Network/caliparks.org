@@ -149,13 +149,24 @@ define(["require","exports","module","block-activity-filter","block-search-box",
         );
       });
 
-      resultsNode.addEventListener("mouseover", that.utils.debounce(function(e) {
-        var resultNode = targetIsSearchResult(e);
-        if (resultNode) {
-          that.slippyMap.pinLayer.clearMarkerSelections();
-          selectPark(resultNode.getAttribute("data-id"));
-        }
-      }, 400), true);
+      resultsNode.addEventListener("mouseover", function(e) {
+        state.hoverActionPause = setTimeout(that.utils.debounce(function() {
+          if (state.hoverActionPause) {
+            var resultNode = targetIsSearchResult(e);
+            if (resultNode) {
+              that.slippyMap.pinLayer.clearMarkerSelections();
+              selectPark(resultNode.getAttribute("data-id"));
+            }
+
+            state.hoverActionPause = null;
+          }
+        }, 400), 400);
+      }, true);
+
+      resultsNode.addEventListener("mouseout", function() {
+        clearTimeout(state.hoverActionPause);
+        state.hoverActionPause = null;
+      }, true);
 
     }
 
@@ -217,7 +228,7 @@ define(["require","exports","module","block-activity-filter","block-search-box",
           that.once("route", function() {
             e.caller.element.classList.remove("wait");
             blocks.blockActivityFilter.unLock();
-          })
+          });
           setTimeout(function() {
             loadParks({
               "with" : e.caller.params.with

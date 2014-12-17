@@ -54,10 +54,17 @@ define([ "require", "exports", "module", "block-activity-filter", "block-search-
                 });
             }), that.slippyMap.on("select-markers", function(e) {
                 infowindow.open(that.slippyMap.map, e.caller.selectedMarkers[0].pin), infowindow.setContent(infoWindowData.compileTemplate(e.caller.selectedMarkers[0].feature.properties));
-            }), resultsNode.addEventListener("mouseover", that.utils.debounce(function(e) {
-                var resultNode = targetIsSearchResult(e);
-                resultNode && (that.slippyMap.pinLayer.clearMarkerSelections(), selectPark(resultNode.getAttribute("data-id")));
-            }, 400), !0);
+            }), resultsNode.addEventListener("mouseover", function(e) {
+                state.hoverActionPause = setTimeout(that.utils.debounce(function() {
+                    if (state.hoverActionPause) {
+                        var resultNode = targetIsSearchResult(e);
+                        resultNode && (that.slippyMap.pinLayer.clearMarkerSelections(), selectPark(resultNode.getAttribute("data-id"))), 
+                        state.hoverActionPause = null;
+                    }
+                }, 400), 400);
+            }, !0), resultsNode.addEventListener("mouseout", function() {
+                clearTimeout(state.hoverActionPause), state.hoverActionPause = null;
+            }, !0);
         }
         function initParks() {
             var direction, perpage, startat, href, parksData;
