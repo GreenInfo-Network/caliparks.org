@@ -11,8 +11,8 @@ var express    = require('express'),
     activities = require("./config/activities.json"),
     fs         = require("fs");
 
-var app = express();
-module.exports = app;
+var app            = express();
+    module.exports = app;
 
 var languageFriendlyNames = {
     "english" : "en",
@@ -58,6 +58,18 @@ i18n.configure({
     cookie: 'localeparks'
 });
 
+app.use(function (req, res, next) {
+
+  if (!(req.cookies.localeparks && req.cookies.localeparks.length === 2)) {
+    app.set("showLangBanner",true);
+    res.cookie('localeparks', 'en' || req.params.language, { maxAge: (10 * 365 * 24 * 60 * 60), httpOnly: true });
+  } else {
+    app.set("showLangBanner",false);
+  }
+
+  next();
+});
+
 // init i18n module for this loop
 app.use(i18n.init);
 
@@ -101,14 +113,14 @@ app.get('/', function(req, res, next) {
 
 app.get('/speak/:language', function(req, res, next) {
 
-  res.cookie('localeparks', languageFriendlyNames[req.params.language] || req.params.language, { maxAge: 900000, httpOnly: true });
+  res.cookie('localeparks', languageFriendlyNames[req.params.language] || req.params.language, { maxAge: (10 * 365 * 24 * 60 * 60), httpOnly: true });
 
   res.redirect('/');
 });
 
 app.get('/hablas/:language', function(req, res, next) {
 
-  res.cookie('localeparks', languageFriendlyNames[req.params.language] || req.params.language, { maxAge: 900000, httpOnly: true });
+  res.cookie('localeparks', languageFriendlyNames[req.params.language] || req.params.language, { maxAge: (10 * 365 * 24 * 60 * 60), httpOnly: true });
 
   res.redirect('/');
 });

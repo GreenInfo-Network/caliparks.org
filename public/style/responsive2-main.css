@@ -175,6 +175,25 @@ body.parksforward.responsive2 {
     margin: 20px; }
   body.parksforward.responsive2 .map-overlay {
     background-color: white; }
+  body.parksforward.responsive2 .language-banner {
+    font-size: 75%;
+    color: white;
+    text-align: center;
+    padding: 5px 10px;
+    position: relative; }
+    body.parksforward.responsive2 .language-banner a {
+      color: white; }
+    body.parksforward.responsive2 .language-banner .action-close {
+      position: absolute;
+      top: 5px;
+      right: 10px;
+      overflow: hidden;
+      color: transparent;
+      background-image: url('dismiss.svg');
+      background-repeat: no-repeat;
+      border: none;
+      height: 15px;
+      width: 15px; }
   body.parksforward.responsive2 .block-search-box {
     padding: 0; }
     body.parksforward.responsive2 .block-search-box .twitter-typeahead {

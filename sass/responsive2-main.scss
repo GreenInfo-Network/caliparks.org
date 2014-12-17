@@ -205,6 +205,30 @@ body.parksforward.responsive2 {
     background-color:$light-font-color;
   }
 
+  .language-banner {
+    font-size: $font-size-small;
+    color:$light-font-color;
+    text-align: center;
+    padding: 5px 10px;
+    position:relative;
+
+    a {
+      color:$light-font-color;
+    }
+
+    .action-close {
+      position:absolute;
+      top:5px;right:10px;
+      overflow:hidden;
+      color:transparent;
+      background-image:url('dismiss.svg');
+      background-repeat:no-repeat;
+      border: none;
+      height: 15px;
+      width: 15px;
+    }
+  }
+
   //
   // Blocks
   //
