@@ -45,7 +45,10 @@ define([ "require", "exports", "module", "block-activity-filter", "block-search-
             infowindow = new google.maps.InfoWindow({
                 maxWidth: 400,
                 minHeight: 400
-            }), infoWindowData = new ContentFetcher("#gmap-info-window", "block-park-name");
+            }), infoWindowData = new ContentFetcher("#gmap-info-window", "block-park-name"), 
+            that.on("tab-toggle", function() {
+                infowindow.close();
+            });
         }
         function initPark() {
             resultsNode = that.utils.get("#content .search-results")[0], that.slippyMap.on("marker-click", function(e) {
@@ -135,7 +138,11 @@ define([ "require", "exports", "module", "block-activity-filter", "block-search-
             var rootNode = that.utils.get(".tab-actions")[0];
             "#tab-map" === location.hash && bodyNode.classList.toggle("tab-map"), rootNode.addEventListener("click", function() {
                 bodyNode.classList.toggle("tab-map"), bodyNode.classList.contains("tab-map") ? (that.slippyMap.resize(), 
-                location.hash = "#tab-map") : "#tab-map" === location.hash && (location.hash = "");
+                location.hash = "#tab-map", that.fire("tab-toggle", {
+                    view: "map"
+                })) : ("#tab-map" === location.hash && (location.hash = ""), that.fire("tab-toggle", {
+                    view: "list"
+                }));
             }, !1);
         }
         function init() {

@@ -125,6 +125,10 @@ define(["require","exports","module","block-activity-filter","block-search-box",
       });
 
       infoWindowData = new ContentFetcher("#gmap-info-window","block-park-name");
+
+      that.on("tab-toggle", function() {
+        infowindow.close();
+      });
     }
 
     //
@@ -310,11 +314,14 @@ define(["require","exports","module","block-activity-filter","block-search-box",
         if (bodyNode.classList.contains("tab-map")) {
           that.slippyMap.resize();
           location.hash = "#tab-map";
+          that.fire("tab-toggle", {"view":"map"});
         } else {
           if (location.hash === "#tab-map") {
             location.hash = "";
           }
+          that.fire("tab-toggle", {"view":"list"});
         }
+
       }, false);
     }
 
