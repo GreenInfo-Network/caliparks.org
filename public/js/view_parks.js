@@ -231,7 +231,8 @@ define(["require","exports","module","block-activity-filter","block-search-box",
           });
           setTimeout(function() {
             loadParks({
-              "with" : e.caller.params.with
+              "with" : e.caller.params.with,
+              "startat" : 0
             });
           },50);
         } else {

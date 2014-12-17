@@ -95,7 +95,8 @@ define([ "require", "exports", "module", "block-activity-filter", "block-search-
                     e.caller.element.classList.remove("wait"), blocks.blockActivityFilter.unLock();
                 }), setTimeout(function() {
                     loadParks({
-                        "with": e.caller.params.with
+                        "with": e.caller.params.with,
+                        startat: 0
                     });
                 }, 50)) : location.href = "/parks/search" + routes.stringifyUrlSearchParams(e.caller.params);
             });
