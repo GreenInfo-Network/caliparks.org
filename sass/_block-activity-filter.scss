@@ -30,6 +30,16 @@
 
     padding:7px 0;
 
+    .clear-activities-action, .status-wrapper {
+      display:none;
+    }
+
+    &.has {
+      .clear-activities-action, .status-wrapper {
+        display:inline;
+      }
+    }
+
     .action {
 
       i {
@@ -75,6 +85,7 @@
       display:inline-block;
       width:100px;
       text-align:center;
+      vertical-align:top;
 
       .action {
         border:solid 0px transparent;

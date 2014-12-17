@@ -662,6 +662,10 @@ body.parksforward.responsive2 {
       transform: rotate(0deg) !important; }
     body.parksforward.responsive2 .block-activity-filter .filter-handle {
       padding: 7px 0; }
+      body.parksforward.responsive2 .block-activity-filter .filter-handle .clear-activities-action, body.parksforward.responsive2 .block-activity-filter .filter-handle .status-wrapper {
+        display: none; }
+      body.parksforward.responsive2 .block-activity-filter .filter-handle.has .clear-activities-action, body.parksforward.responsive2 .block-activity-filter .filter-handle.has .status-wrapper {
+        display: inline; }
       body.parksforward.responsive2 .block-activity-filter .filter-handle .action {
         border: none;
         color: white;
@@ -693,7 +697,8 @@ body.parksforward.responsive2 {
       body.parksforward.responsive2 .block-activity-filter .filter-drawer li {
         display: inline-block;
         width: 100px;
-        text-align: center; }
+        text-align: center;
+        vertical-align: top; }
         body.parksforward.responsive2 .block-activity-filter .filter-drawer li .action {
           border: solid 0px transparent;
           display: inline-block;

@@ -17,12 +17,14 @@ define(["require","exports","module","stamen-super-classy","routes"], function(
     StamenSuperClassy.apply(that, arguments);
 
     var rootNode           = that.utils.get(rootSelector)[0],
-    clearActionNode        = that.utils.get(".clear-activities-action", rootNode)[0],
-    filterDrawerNode       = that.utils.get(".filter-drawer", rootNode)[0],
-    toggleDrawerActionNode = that.utils.get(".toggle-activities-drawer-action", rootNode)[0],
-    toggleDrawerStatusNode = that.utils.get(".status", toggleDrawerActionNode)[0],
-    closeDrawerActionNode  = that.utils.get(".close-drawer-action", rootNode)[0],
-    searchParams, withArray;
+        handleNode             = that.utils.get(".filter-handle", rootNode)[0],
+        clearActionNode        = that.utils.get(".clear-activities-action", rootNode)[0],
+        filterDrawerNode       = that.utils.get(".filter-drawer", rootNode)[0],
+        toggleDrawerActionNode = that.utils.get(".toggle-activities-drawer-action", rootNode)[0],
+        toggleDrawerStatusNode = that.utils.get(".status", toggleDrawerActionNode)[0],
+        closeDrawerActionNode  = that.utils.get(".close-drawer-action", rootNode)[0],
+        state = {},
+        searchParams, withArray;
 
 
     function initClearAction() {
@@ -31,48 +33,85 @@ define(["require","exports","module","stamen-super-classy","routes"], function(
         clearActionNode.addEventListener("click", function(e) {
           e.preventDefault();
 
+          var selected = that.utils.get(".selected",filterDrawerNode);
+
           searchParams = routes.getParamStateFromLocationObject();
           delete searchParams.with;
 
+          for (var i=0; selected.length > i; i++) {
+            selected[i].classList.remove("selected");
+          }
+
           updateStatusNode([]);
-          that.fire("filter-select", searchParams);
+          that.fire("filter-select", {
+            "params"  : searchParams,
+            "element" : e.target
+          });
         }, false);
       }
 
     }
 
     function updateStatusNode(withArray) {
-      toggleDrawerStatusNode.innerHTML = (withArray.length) ? withArray.length : 0;
+
+      if (withArray.length) {
+        handleNode.classList.add("has");
+        toggleDrawerStatusNode.innerHTML = withArray.length;
+      } else {
+        handleNode.classList.remove("has");
+      }
+
+    }
+
+    function lock() {
+      state.locked = true;
+    }
+
+    function unLock() {
+      state.locked = false;
     }
 
     function initActivityToggleActions() {
 
       filterDrawerNode.addEventListener("click", function(e) {
 
-        searchParams = routes.getParamStateFromLocationObject();
-        withArray  = (searchParams.with ? searchParams.with.toLowerCase().split(",") : []);
+        if (!state.locked) {
+          searchParams = routes.getParamStateFromLocationObject();
+          withArray  = (searchParams.with ? searchParams.with.toLowerCase().split(",") : []);
 
-        var toggleAction = that.utils.parentHasClass(e.target,"toggle-activity-action"),
-            filter       = toggleAction.getAttribute("data-filter"),
-            index        = withArray.indexOf(encodeURI(filter).toLowerCase());
+          var toggleAction = that.utils.parentHasClass(e.target,"toggle-activity-action"),
+          filter, index;
 
-        if (index > -1) { //Meaning that this page already has this filter selected
-          if (index === 0) {
-            withArray = [withArray[1]];
-          } else {
-            withArray.splice(index);
+          if (toggleAction) {
+            filter = toggleAction.getAttribute("data-filter");
+            index  = withArray.indexOf(encodeURI(filter).toLowerCase());
+
+
+            if (index > -1) { //Meaning that this page already has this filter selected
+              if (index === 0) {
+                withArray = [withArray[1]];
+              } else {
+                withArray.splice(index);
+              }
+              searchParams["with"] = withArray.join(",");
+              toggleAction.classList.remove("selected");
+            } else {
+              withArray.push(filter);
+              searchParams["with"] = withArray.join(",");
+              toggleAction.classList.add("selected");
+            }
+
+            updateStatusNode(withArray);
+            setTimeout(function() {
+              that.fire("filter-select", {
+                "params"  : searchParams,
+                "element" : toggleAction
+              });
+            },0);
           }
-          searchParams["with"] = withArray.join(",");
-          toggleAction.classList.remove("selected");
-        } else {
-          withArray.push(filter);
-          searchParams["with"] = withArray.join(",");
-          toggleAction.classList.add("selected");
         }
 
-        updateStatusNode(withArray);
-        that.fire("filter-select", searchParams);
-      });
+      }, false);
 
       //
       // Put the current number of filters in the status area
@@ -112,6 +151,15 @@ define(["require","exports","module","stamen-super-classy","routes"], function(
     initDrawerToggleAction();
     initDrawerCloseAction();
 
+    //
+    // Interface
+    //
+    that.lock   = lock;
+    that.unLock = unLock;
+
+    //
+    // Go go go!
+    //
     callback(null, that);
 
     return that;

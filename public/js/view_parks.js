@@ -19,11 +19,20 @@ define(["require","exports","module","block-activity-filter","block-search-box",
   function View(options) {
 
     var that = this,
-        bodyNode, cleanBounds, mapTabNode, resultsNode, selectedPark, infowindow, infoWindowData, searchStateView;
+        bodyNode, cleanBounds, mapTabNode, resultsNode, selectedPark, infowindow, infoWindowData, searchStateView,
+        state = {};
 
     StamenSuperClassy.apply(that, arguments);
 
     bodyNode = that.utils.get("body")[0];
+
+    function lock() {
+      state.locked = true;
+    }
+
+    function unLock() {
+      state.locked = false;
+    }
 
     function initMap() {
 
@@ -159,17 +168,24 @@ define(["require","exports","module","block-activity-filter","block-search-box",
       if (history && history.pushState) { //Only if the browser supports pushstate
         resultsNode.addEventListener("click", function(e) {
           if (e.target && e.target.getAttribute("data-pagination")) {
+
             e.preventDefault();
 
-            direction = e.target.getAttribute("data-pagination");
-            href      = e.target.getAttribute("href");
-            perpage   = (href.match(/perpage=(\d+[0-10000])/)||[])[1]|0;
-            startat   = (href.match(/startat=(\d+[0-10000])/)||[])[1]|0;
+            if (!state.locked) {
+              e.target.classList.add("wait");
 
-            loadParks({
-              "perpage" : perpage,
-              "startat" : startat
-            });
+              direction = e.target.getAttribute("data-pagination");
+              href      = e.target.getAttribute("href");
+              perpage   = (href.match(/perpage=(\d+[0-10000])/)||[])[1]|0;
+              startat   = (href.match(/startat=(\d+[0-10000])/)||[])[1]|0;
+
+              setTimeout(function() {
+                loadParks({
+                  "perpage" : perpage,
+                  "startat" : startat
+                });
+              }, 50);
+            }
 
           }
         }, false);
@@ -196,11 +212,19 @@ define(["require","exports","module","block-activity-filter","block-search-box",
       blocks.blockActivityFilter.on("filter-select",function(e) {
 
         if (history && history.pushState) { //Only if the browser supports pushstate
-          loadParks({
-            "with" : e.caller.with
-          });
+          e.caller.element.classList.add("wait");
+          blocks.blockActivityFilter.lock();
+          that.once("route", function() {
+            e.caller.element.classList.remove("wait");
+            blocks.blockActivityFilter.unLock();
+          })
+          setTimeout(function() {
+            loadParks({
+              "with" : e.caller.params.with
+            });
+          },50);
         } else {
-          history.pushState({},null,"/parks/search" + routes.stringifyUrlSearchParams(e.caller));
+          location.href = "/parks/search" + routes.stringifyUrlSearchParams(e.caller.params);
         }
 
       });
@@ -225,7 +249,12 @@ define(["require","exports","module","block-activity-filter","block-search-box",
         urlState[keys[i]] = stateChanges[keys[i]];
       }
 
+      lock();
+
       that.utils.request("/parks/search.geojson" + routes.stringifyUrlSearchParams(urlState), function(err, r) {
+
+        unLock();
+
         var responseObject;
 
         if (err) {
@@ -251,6 +280,7 @@ define(["require","exports","module","block-activity-filter","block-search-box",
         } else {
           return that.fire("error",{"message":"Response body not okay", "response" : responseObject});
         }
+
       });
 
     }

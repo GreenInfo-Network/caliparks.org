@@ -222,19 +222,21 @@ define(["require","exports","module","stamen-super-classy"], function(
 
       function clearMarkerSelections(markersArray) {
 
-        (markersArray || data.features).forEach(function(feature) {
+        if (markersArray || (data && data.features)) {
+          (markersArray || data.features).forEach(function(feature) {
 
-          pinCache[feature.properties[idKey]].selected = false;
+            pinCache[feature.properties[idKey]].selected = false;
 
-          pinCache[feature.properties[idKey]].pin.setIcon(getIcon());
+            pinCache[feature.properties[idKey]].pin.setIcon(getIcon());
 
-          pinCache[feature.properties[idKey]].pin.setZIndex(-1);
+            pinCache[feature.properties[idKey]].pin.setZIndex(-1);
 
-        });
+          });
 
-        self.fire("clear-marker-selections");
+          self.fire("clear-marker-selections");
 
-        return true;
+          return true;
+        }
       }
 
       //

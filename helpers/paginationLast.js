@@ -39,11 +39,11 @@ module.exports = function paginationLast(options) {
   var paramArray;
 
   if (!options.data.root.perpage) {
-    options.data.root.perpage = options.data.root.query.perpage;
+    options.data.root.perpage = (options.data.root.query.perpage||30);
   }
 
   if (!options.data.root.startat) {
-    options.data.root.startat = options.data.root.query.startat;
+    options.data.root.startat = (options.data.root.query.startat||0);
   }
 
   var paginationArgs;

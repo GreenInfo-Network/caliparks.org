@@ -426,7 +426,6 @@ app.get('/parks/:context(search|with|near|story)/:query', function(req,res, next
       templateData.view   = 'parks';
       templateData.tabletViewport = true;
       templateData.context = req.params.context;
-
       res.render('parks', templateData);
     } else {
       return next();

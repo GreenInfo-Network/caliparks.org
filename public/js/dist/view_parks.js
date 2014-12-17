@@ -1,6 +1,12 @@
 define([ "require", "exports", "module", "block-activity-filter", "block-search-box", "slippymap", "stamen-super-classy", "routes", "content-fetcher", "../../js/helpers/paginationLast.js", "../../js/helpers/paginationNext.js", "../../js/helpers/formatActivityList.js" ], function(require, exports, module, BlockActivityFilter, BlockSearchBox, Slippymap, StamenSuperClassy, Routes, ContentFetcher) {
     "use strict";
     function View(options) {
+        function lock() {
+            state.locked = !0;
+        }
+        function unLock() {
+            state.locked = !1;
+        }
         function initMap() {
             mapTabNode = that.utils.get(".map-tab-pane")[0], that.slippyMap = new Slippymap(".slippymap", {
                 data: options.parks,
@@ -56,12 +62,15 @@ define([ "require", "exports", "module", "block-activity-filter", "block-search-
         function initParks() {
             var direction, perpage, startat, href, parksData;
             history && history.pushState && resultsNode.addEventListener("click", function(e) {
-                e.target && e.target.getAttribute("data-pagination") && (e.preventDefault(), direction = e.target.getAttribute("data-pagination"), 
-                href = e.target.getAttribute("href"), perpage = 0 | (href.match(/perpage=(\d+[0-10000])/) || [])[1], 
-                startat = 0 | (href.match(/startat=(\d+[0-10000])/) || [])[1], loadParks({
-                    perpage: perpage,
-                    startat: startat
-                }));
+                e.target && e.target.getAttribute("data-pagination") && (e.preventDefault(), state.locked || (e.target.classList.add("wait"), 
+                direction = e.target.getAttribute("data-pagination"), href = e.target.getAttribute("href"), 
+                perpage = 0 | (href.match(/perpage=(\d+[0-10000])/) || [])[1], startat = 0 | (href.match(/startat=(\d+[0-10000])/) || [])[1], 
+                setTimeout(function() {
+                    loadParks({
+                        perpage: perpage,
+                        startat: startat
+                    });
+                }, 50)));
             }, !1), parksData = new ContentFetcher("#content .search-results", "parks-results"), 
             that.on("route", function(e) {
                 resultsNode.innerHTML = parksData.compileTemplate(e.caller), resultsNode.scrollTop = 0;
@@ -74,9 +83,14 @@ define([ "require", "exports", "module", "block-activity-filter", "block-search-
         }
         function initSinlepageFiltering() {
             blocks.blockActivityFilter.on("filter-select", function(e) {
-                history && history.pushState ? loadParks({
-                    "with": e.caller.with
-                }) : history.pushState({}, null, "/parks/search" + routes.stringifyUrlSearchParams(e.caller));
+                history && history.pushState ? (e.caller.element.classList.add("wait"), blocks.blockActivityFilter.lock(), 
+                that.once("route", function() {
+                    e.caller.element.classList.remove("wait"), blocks.blockActivityFilter.unLock();
+                }), setTimeout(function() {
+                    loadParks({
+                        "with": e.caller.params.with
+                    });
+                }, 50)) : location.href = "/parks/search" + routes.stringifyUrlSearchParams(e.caller.params);
             });
         }
         function initSearchStatus() {
@@ -87,7 +101,8 @@ define([ "require", "exports", "module", "block-activity-filter", "block-search-
         }
         function loadParks(stateChanges) {
             for (var urlState = routes.getParamStateFromLocationObject(), keys = Object.keys(stateChanges), i = 0; keys.length > i; i++) urlState[keys[i]] = stateChanges[keys[i]];
-            that.utils.request("/parks/search.geojson" + routes.stringifyUrlSearchParams(urlState), function(err, r) {
+            lock(), that.utils.request("/parks/search.geojson" + routes.stringifyUrlSearchParams(urlState), function(err, r) {
+                unLock();
                 var responseObject;
                 if (err) return that.fire("error", err);
                 try {
@@ -121,7 +136,7 @@ define([ "require", "exports", "module", "block-activity-filter", "block-search-
                 console.log("error", e);
             });
         }
-        var bodyNode, cleanBounds, mapTabNode, resultsNode, selectedPark, infowindow, infoWindowData, searchStateView, that = this;
+        var bodyNode, cleanBounds, mapTabNode, resultsNode, selectedPark, infowindow, infoWindowData, searchStateView, that = this, state = {};
         StamenSuperClassy.apply(that, arguments), bodyNode = that.utils.get("body")[0], 
         init();
     }

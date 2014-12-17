@@ -42,8 +42,8 @@ if (locationParts[4] === 'near' && !locationParts[5]) {
 var viewData = {
   "parks"        : {{#json}}{{{parksGeoJSON}}}{{/json}},
   "total"        : {{total}},
-  "startat"      : {{startat}},
-  "perpage"      : {{perpage}},
+  "startat"      : "{{startat}}",
+  "perpage"      : "{{perpage}}",
   "bounds"       : [{{bounds}}]
 }
 </script>

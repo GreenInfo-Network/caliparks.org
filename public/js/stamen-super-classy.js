@@ -124,7 +124,7 @@ define(["require","exports","module"], function(require, exports, module) {
 
         for (var i=0; (depth||10) > i && last; i++) {
 
-          if (last && last.className.indexOf(className) > -1) {
+          if (last && last.className && last.className.indexOf(className) > -1) {
             return last;
           }
 

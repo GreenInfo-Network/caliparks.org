@@ -82,10 +82,10 @@ define([ "require", "exports", "module", "stamen-super-classy" ], function(requi
             }), !0;
         }
         function clearMarkerSelections(markersArray) {
-            return (markersArray || data.features).forEach(function(feature) {
+            return markersArray || data && data.features ? ((markersArray || data.features).forEach(function(feature) {
                 pinCache[feature.properties[idKey]].selected = !1, pinCache[feature.properties[idKey]].pin.setIcon(getIcon()), 
                 pinCache[feature.properties[idKey]].pin.setZIndex(-1);
-            }), self.fire("clear-marker-selections"), !0;
+            }), self.fire("clear-marker-selections"), !0) : void 0;
         }
         function clearMarkers() {
             for (var i in pinCache) pinCache.hasOwnProperty(i) && (pinCache[i].pin.setMap(null), 

@@ -239,8 +239,7 @@ body.parksforward.responsive {
       scrollbar-highlight-color: aqua !important;
       scrollbar-face-color: blue !important;
       scrollbar-arrow-color: blue !important;
-      border-color: blue !important;
-      -webkit-transform: translate3d(0, 0, 0); }
+      border-color: blue !important; }
     body.parksforward.responsive div#content .has-coverphoto .coverphoto {
       height: 480px;
       background: no-repeat center center;

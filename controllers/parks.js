@@ -93,8 +93,8 @@ module.exports = function(req, res, data, callback) {
   }
 
   data.options = {
-    startat : (req.query && req.query.startat) ? (req.query.startat) : 0,
-    perpage : (req.query && req.query.perpage) ? (req.query.perpage|0) : 100,
+    startat : (req.query && req.query.startat) ? (req.query.startat) : "0",
+    perpage : (req.query && req.query.perpage) ? (req.query.perpage|0) : "30",
     not     : (req.query && req.query.not) ? req.query.not : null
   };
 
@@ -108,8 +108,8 @@ module.exports = function(req, res, data, callback) {
     templateData = {
       parks          : parks,
       total          : parks.length,
-      startat        : (data.options) ? data.options.startat : 0,
-      perpage        : (data.options) ? data.options.perpage : 100,
+      startat        : (data.options) ? data.options.startat : "0",
+      perpage        : (data.options) ? data.options.perpage : "30",
       query          : data.query,
       activities     : getActivityFilterState(data.query.with),
       bounds         : bounds,
