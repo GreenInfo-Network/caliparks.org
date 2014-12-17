@@ -40,11 +40,11 @@ module.exports = function paginationNext(options) {
   var paramArray;
 
   if (!options.data.root.perpage) {
-    options.data.root.perpage = (options.data.root.query.perpage||30);
+    options.data.root.perpage = (options.data.root.query ? options.data.root.query.perpage : 30);
   }
 
   if (!options.data.root.startat) {
-    options.data.root.perpage = (options.data.root.query.startat||0);
+    options.data.root.startat = (options.data.root.query ? options.data.root.query.startat : 0);
   }
 
   var paginationArgs;

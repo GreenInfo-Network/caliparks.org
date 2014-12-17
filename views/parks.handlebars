@@ -2,7 +2,7 @@
 "use strict";
 var locationParts = location.href.split('/');
 if (locationParts[4] === 'near' && !locationParts[5]) {
-  document.addEventListener('DOMContentLoaded', function() {document.querySelector('.search-results').innerHTML = '<div style="margin-left: 45px;">Finding you...</div>';});
+  document.addEventListener('DOMContentLoaded', function() {document.querySelector('#content .search-state').innerHTML = '<div style="margin-left: 45px;" class="wait">Finding you...</div>';document.querySelector('#content .search-results').innerHTML = "";});
 
   navigator.geolocation.getCurrentPosition(function(l) {
     location.href='/parks/near/'+l.coords.latitude+','+l.coords.longitude + "?home=true";

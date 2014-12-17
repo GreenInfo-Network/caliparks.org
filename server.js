@@ -355,7 +355,7 @@ app.get('/parks/:context(search|with|near|story)/:query:format(\.\\D+$)', functi
   }, function(err, templateData) {
 
     if (err) {
-      return next(err);
+      return next();
     }
 
     routes.dataRouteResponse(res, templateData, req.params.format, [
@@ -375,7 +375,7 @@ app.get('/parks/:context(search|with|near|story):format(\.\\D+$)', function(req,
   }, function(err, templateData) {
 
     if (err) {
-      return next(err);
+      return next();
     }
 
     routes.dataRouteResponse(res, templateData, req.params.format, [
@@ -394,7 +394,7 @@ app.get('/parks/:context(search|with|near|story)', function(req,res, next) {
   }, function(err, templateData) {
 
     if (err || !templateData) {
-      return next(err);
+      return next();
     }
 
     templateData.hasAPI = true;
@@ -417,7 +417,7 @@ app.get('/parks/:context(search|with|near|story)/:query', function(req,res, next
   }, function(err, templateData) {
 
     if (err) {
-      return next(err);
+      return next();
     }
 
     if (templateData) {
