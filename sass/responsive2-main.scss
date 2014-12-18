@@ -327,13 +327,12 @@ body.parksforward.responsive2 {
       display:inline-block;
 
       > div {
-        height:138px;
         padding:$box-padding;
 
         h2 {
           font-family: $font-family-sans;
           color:$color-dark;
-          margin-bottom: 12%;
+          margin-bottom: $box-padding;
         }
 
         .stamen-logo {
@@ -354,19 +353,30 @@ body.parksforward.responsive2 {
         }
 
         .hipcamp-logo {
-          width:83px;
           height: 27px;
           float:left;
           vertical-align:middle;
+        }
 
+        .parks-forward-logo {
+          width: 108px;
+          margin-left: -19px;
+        }
+
+        .rlf-logo {
+          width: 285px;
         }
 
         &.builtby {
-          @include span-columns(5 of 12);
+          @include span-columns(4 of 12);
+
+          h2 {
+            margin-bottom: 47px;
+          }
         }
 
         &.supportedby {
-          @include span-columns(7 of 12);
+          @include span-columns(8 of 12);
         }
 
         @include media(max-width 720px) {

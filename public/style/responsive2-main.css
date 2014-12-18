@@ -823,12 +823,11 @@ body.parksforward.responsive2 {
       body.parksforward.responsive2 footer #footer-credits:last-child {
         margin-right: 0; }
       body.parksforward.responsive2 footer #footer-credits > div {
-        height: 138px;
         padding: 20px; }
         body.parksforward.responsive2 footer #footer-credits > div h2 {
           font-family: "expressway", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
           color: #333;
-          margin-bottom: 12%; }
+          margin-bottom: 20px; }
         body.parksforward.responsive2 footer #footer-credits > div .stamen-logo {
           width: 83px;
           height: 22px;
@@ -843,22 +842,28 @@ body.parksforward.responsive2 {
           margin-right: 10px;
           margin-top: -7px; }
         body.parksforward.responsive2 footer #footer-credits > div .hipcamp-logo {
-          width: 83px;
           height: 27px;
           float: left;
           vertical-align: middle; }
+        body.parksforward.responsive2 footer #footer-credits > div .parks-forward-logo {
+          width: 108px;
+          margin-left: -19px; }
+        body.parksforward.responsive2 footer #footer-credits > div .rlf-logo {
+          width: 285px; }
         body.parksforward.responsive2 footer #footer-credits > div.builtby {
           float: left;
           display: block;
           margin-right: 2.35765%;
-          width: 40.29137%; }
+          width: 31.76157%; }
           body.parksforward.responsive2 footer #footer-credits > div.builtby:last-child {
             margin-right: 0; }
+          body.parksforward.responsive2 footer #footer-credits > div.builtby h2 {
+            margin-bottom: 47px; }
         body.parksforward.responsive2 footer #footer-credits > div.supportedby {
           float: left;
           display: block;
           margin-right: 2.35765%;
-          width: 57.35098%; }
+          width: 65.88078%; }
           body.parksforward.responsive2 footer #footer-credits > div.supportedby:last-child {
             margin-right: 0; }
         @media screen and (max-width: 720px)  {
@@ -1086,7 +1091,7 @@ body.parksforward.responsive2 {
         width: 33.33%;
         position: absolute;
         bottom: 0px;
-        top: 82px;
+        top: 90px;
         z-index: 2; }
         @media screen and (max-width: 720px)  {
           body.parksforward.responsive2 #content.template-parks .tab-pane.list-tab-pane {
