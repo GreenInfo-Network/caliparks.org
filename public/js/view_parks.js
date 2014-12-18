@@ -213,7 +213,7 @@ define(["require","exports","module","block-activity-filter","block-search-box",
           //
           var searchResult = that.utils.parentHasClass(e.target,"search-result"),
               link;
-          if (searchResult) {
+          if (!e.target.classList.contains("action") && searchResult) {
             e.preventDefault();
 
             link = that.utils.get(".park-name a",searchResult)[0];
@@ -232,6 +232,37 @@ define(["require","exports","module","block-activity-filter","block-search-box",
       that.on("route", function(e) {
         resultsNode.innerHTML = parksData.compileTemplate(e.caller);
         resultsNode.scrollTop = 0;
+
+        var container     = document.getElementById("content"),
+            tabs          = document.getElementById("tab-container"),
+            filterDrawer  = that.utils.get("ul.filter-drawer", container)[0],
+            filterHandle  = that.utils.get(".filter-handle", container)[0],
+            filterButtons = that.utils.get("li button",filterDrawer),
+            nots          = "";
+
+        if (e.caller.query) {
+          if (!e.caller.query.with.length) {
+            container.classList.remove("filtered");
+            filterDrawer.classList.add("has");
+            filterHandle.classList.remove("has");
+          } else {
+            container.classList.add("filtered");
+            filterDrawer.classList.remove("has");
+            filterHandle.classList.add("has");
+            for (var i=0; filterButtons.length > i; i++) {
+              if (!filterButtons[i].classList.contains("selected")) {
+                nots += " not-" + filterButtons[i].getAttribute("data-filter").split(" ").join("_");
+              }
+            }
+
+            tabs.className = "";
+            if (!nots.length) {
+              container.classList.remove("filtered");
+            } else {
+              tabs.className = nots;
+            }
+          }
+        }
       });
     }
 

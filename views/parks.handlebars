@@ -13,7 +13,7 @@ if (locationParts[4] === 'near' && !locationParts[5]) {
 }
 </script>
 
-<div id="content" class="template-{{view}}">
+<div id="content" class="template-{{view}}{{#if query.with}} filtered{{/if}}">
   {{>block-search-box}}
   <div class="search-state">
     {{>search-state}}
@@ -22,20 +22,22 @@ if (locationParts[4] === 'near' && !locationParts[5]) {
     {{>block-activity-filter}}
   </div>
 
-  <div class="tab-actions">
-    <button class="list" data-action="list">{{#__}}List{{/__}}</button>
-    <button class="map" data-action="map">{{#__}}Map{{/__}}</button>
-  </div>
+  <div id="tab-container" class="{{#each activities}}{{#unless filterState}} not-{{#removeSpaces}}{{@key}}{{/removeSpaces}}{{/unless}}{{/each}}">
+    <div class="tab-actions">
+      <button class="list" data-action="list">{{#__}}List{{/__}}</button>
+      <button class="map" data-action="map">{{#__}}Map{{/__}}</button>
+    </div>
 
-  <div class="tab-pane list-tab-pane">
-    <ul class="search-results">
-      {{>parks-results}}
-    </ul>
+    <div class="tab-pane list-tab-pane">
+      <ul class="search-results">
+        {{>parks-results}}
+      </ul>
 
-  </div>
-  <div class="tab-pane map-tab-pane">
-    <div class="slippymap" style="width: 100%; height: 100.1%;"></div>
-    <button class="action active search-this-area-action">{{#__}}Search this area{{/__}}</button>
+    </div>
+    <div class="tab-pane map-tab-pane">
+      <div class="slippymap" style="width: 100%; height: 100.1%;"></div>
+      <button class="action active search-this-area-action">{{#__}}Search this area{{/__}}</button>
+    </div>
   </div>
 </div>
 <script>

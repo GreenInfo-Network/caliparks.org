@@ -82,11 +82,18 @@ define([ "require", "exports", "module", "block-activity-filter", "block-search-
                     });
                 }, 50)));
                 var link, searchResult = that.utils.parentHasClass(e.target, "search-result");
-                searchResult && (e.preventDefault(), link = that.utils.get(".park-name a", searchResult)[0], 
+                !e.target.classList.contains("action") && searchResult && (e.preventDefault(), link = that.utils.get(".park-name a", searchResult)[0], 
                 link && (location.href = link.href));
             }, !1), parksData = new ContentFetcher("#content .search-results", "parks-results"), 
             that.on("route", function(e) {
                 resultsNode.innerHTML = parksData.compileTemplate(e.caller), resultsNode.scrollTop = 0;
+                var container = document.getElementById("content"), tabs = document.getElementById("tab-container"), filterDrawer = that.utils.get("ul.filter-drawer", container)[0], filterHandle = that.utils.get(".filter-handle", container)[0], filterButtons = that.utils.get("li button", filterDrawer), nots = "";
+                if (e.caller.query) if (e.caller.query.with.length) {
+                    container.classList.add("filtered"), filterDrawer.classList.remove("has"), filterHandle.classList.add("has");
+                    for (var i = 0; filterButtons.length > i; i++) filterButtons[i].classList.contains("selected") || (nots += " not-" + filterButtons[i].getAttribute("data-filter").split(" ").join("_"));
+                    tabs.className = "", nots.length ? tabs.className = nots : container.classList.remove("filtered");
+                } else container.classList.remove("filtered"), filterDrawer.classList.add("has"), 
+                filterHandle.classList.remove("has");
             });
         }
         function initRoutes() {

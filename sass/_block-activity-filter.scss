@@ -6,6 +6,7 @@
     .filter-drawer {
       height:0px;
       padding-bottom:0;
+      -webkit-transition: width 1s;
     }
 
     .close-drawer-action {
@@ -71,7 +72,6 @@
   }
 
   .filter-drawer {
-
     overflow:auto;
     transition:.5s height;
     max-height: 46vh;
@@ -79,12 +79,18 @@
     width:95%;
     padding-bottom:$box-padding;
     text-align: center;
+    height:100%;
 
     li {
-      display:inline-block;
-      width:100px;
-      text-align:center;
-      vertical-align:top;
+      display: inline-block;
+      width: 76px;
+      text-align: center;
+      vertical-align: top;
+      float: left;
+      font-size: 75%;
+      height: 106px;
+      overflow: hidden;
+      padding: 0;
 
       .action {
         border:solid 0px transparent;
@@ -92,8 +98,8 @@
         margin:0 auto;
 
         .activity-icon-container {
-          width:67px;
-          height:67px;
+          width:45px;
+          height:45px;
           margin:0 auto;
           background-color:$color-lighter;
           border-radius:$border-radius;
@@ -101,38 +107,46 @@
           margin-bottom:$box-padding-half;
 
           img, svg {
-            width:47px;
-            height:47px;
+            width:25px;
+            height:25px;
           }
 
         }
 
         label {
           color:$light-font-color;
-          text-align:center;
+          text-align: center;
+          overflow: hidden;
+          width: 67px;
+          display: inline-block;
+          line-height: 1.3em;
         }
+      }
+    }
 
-        &.selected {
-          .outdoors {
-            background-color:$activity-category-outdoors;
-          }
+    &.has li .action, li .action.selected {
+      .outdoors {
+        background-color:$activity-category-outdoors;
+      }
 
-          .sports {
-            background-color:$activity-category-sports;
-          }
+      .sports {
+        background-color:$activity-category-sports;
+      }
 
-          .kids {
-            background-color:$activity-category-kids;
-          }
+      .kids {
+        background-color:$activity-category-kids;
+      }
 
-          .water {
-            background-color:$activity-category-water;
-          }
+      .water {
+        background-color:$activity-category-water;
+      }
 
-          .snow {
-            background-color:$activity-category-snow;
-          }
-        }
+      .snow {
+        background-color:$activity-category-snow;
+      }
+
+      .historic {
+        background-color:$activity-category-historic;
       }
     }
   }

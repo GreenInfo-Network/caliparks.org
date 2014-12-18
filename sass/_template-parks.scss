@@ -28,7 +28,6 @@
 .search-state {
   background-color:$color-notsodark;
   padding:0 $box-padding 0 $box-padding;
-  display:block;
   z-index:3;
   height:50px;
   position:relative;
@@ -36,6 +35,9 @@
   text-align:center;
   color:$color-california;
   font-weight:$font-weight-bold;
+  display:table-cell;
+  vertical-align: middle;
+  width:100vw;
 
   @include media(max-width 720px) {
     padding:0 $box-padding-half $box-padding-half $box-padding-half;
@@ -81,6 +83,129 @@
   right: 0;
   bottom: 0px;
   left: 0;
+
+  &.filtered {
+    .not-backpacking {
+      li.activity-backpacking {
+        background-color:$gray;
+      }
+    }
+    .not-ball_fields {
+      li.activity-ball_fields {
+        background-color:$gray;
+      }
+    }
+    .not-basketball {
+      li.activity-basketball {
+        background-color:$gray;
+      }
+    }
+    .not-biking {
+      li.activity-biking {
+        background-color:$gray;
+      }
+    }
+    .not-boating {
+      li.activity-boating {
+        background-color:$gray;
+      }
+    }
+    .not-camping {
+      li.activity-camping {
+        background-color:$gray;
+      }
+    }
+    .not-caving {
+      li.activity-caving {
+        background-color:$gray;
+      }
+    }
+    .not-climbing {
+      li.activity-climbing {
+        background-color:$gray;
+      }
+    }
+    .not-covered_picnic_tables {
+      li.activity-covered_picnic_tables {
+        background-color:$gray;
+      }
+    }
+    .not-fishing {
+      li.activity-fishing {
+        background-color:$gray;
+      }
+    }
+    .not-hiking {
+      li.activity-hiking {
+        background-color:$gray;
+      }
+    }
+    .not-horsebackriding {
+      li.activity-horsebackriding {
+        background-color:$gray;
+      }
+    }
+    .not-kayakingcanoeing {
+      li.activity-kayakingcanoeing {
+        background-color:$gray;
+      }
+    }
+    .not-kiteboardingwindsurfing {
+      li.activity-kiteboardingwindsurfing {
+        background-color:$gray;
+      }
+    }
+    .not-historicalsite {
+      li.activity-historicalsite {
+        background-color:$gray;
+      }
+    }
+    .not-ohv {
+      li.activity-ohv {
+        background-color:$gray;
+      }
+    }
+    .not-playground {
+      li.activity-playground {
+        background-color:$gray;
+      }
+    }
+    .not-rusticcabins {
+      li.activity-rusticcabins {
+        background-color:$gray;
+      }
+    }
+    .not-snowsports {
+      li.activity-snowsports {
+        background-color:$gray;
+      }
+    }
+    .not-surfing {
+      li.activity-surfing {
+        background-color:$gray;
+      }
+    }
+    .not-swimming {
+      li.activity-swimming {
+        background-color:$gray;
+      }
+    }
+    .not-tennis {
+      li.activity-tennis {
+        background-color:$gray;
+      }
+    }
+    .not-whitewaterraftingkayaking {
+      li.activity-whitewaterraftingkayaking {
+        background-color:$gray;
+      }
+    }
+    .not-wildlifewatching {
+      li.activity-wildlifewatching {
+        background-color:$gray;
+      }
+    }
+  }
 
   .block-search-box {
     padding:$box-padding;
@@ -142,6 +267,8 @@
 
         .search-result {
           cursor:pointer;
+
+
         }
 
         .block-park-name {

@@ -59,7 +59,7 @@ table {
 
 @-webkit-keyframes pulsate {
   0% {
-    opacity: 0.3; }
+    opacity: 0.2; }
 
   10% {
     opacity: 0.3; }
@@ -89,7 +89,7 @@ table {
     opacity: 0.3; }
 
   100% {
-    opacity: 0.3; } }
+    opacity: 0.2; } }
 
 /*
 *  Styles for everything
@@ -672,7 +672,8 @@ body.parksforward.responsive2 {
     background-color: #37474f; }
     body.parksforward.responsive2 .block-activity-filter.closed .filter-drawer {
       height: 0px;
-      padding-bottom: 0; }
+      padding-bottom: 0;
+      -webkit-transition: width 1s; }
     body.parksforward.responsive2 .block-activity-filter.closed .close-drawer-action {
       display: none; }
     body.parksforward.responsive2 .block-activity-filter.closed .toggle-activities-drawer-action.many {
@@ -713,40 +714,52 @@ body.parksforward.responsive2 {
       margin: 0 auto;
       width: 95%;
       padding-bottom: 20px;
-      text-align: center; }
+      text-align: center;
+      height: 100%; }
       body.parksforward.responsive2 .block-activity-filter .filter-drawer li {
         display: inline-block;
-        width: 100px;
+        width: 76px;
         text-align: center;
-        vertical-align: top; }
+        vertical-align: top;
+        float: left;
+        font-size: 75%;
+        height: 106px;
+        overflow: hidden;
+        padding: 0; }
         body.parksforward.responsive2 .block-activity-filter .filter-drawer li .action {
           border: solid 0px transparent;
           display: inline-block;
           margin: 0 auto; }
           body.parksforward.responsive2 .block-activity-filter .filter-drawer li .action .activity-icon-container {
-            width: 67px;
-            height: 67px;
+            width: 45px;
+            height: 45px;
             margin: 0 auto;
             background-color: #cfd8dc;
             border-radius: 4px;
             padding-top: 10px;
             margin-bottom: 10px; }
             body.parksforward.responsive2 .block-activity-filter .filter-drawer li .action .activity-icon-container img, body.parksforward.responsive2 .block-activity-filter .filter-drawer li .action .activity-icon-container svg {
-              width: 47px;
-              height: 47px; }
+              width: 25px;
+              height: 25px; }
           body.parksforward.responsive2 .block-activity-filter .filter-drawer li .action label {
             color: white;
-            text-align: center; }
-          body.parksforward.responsive2 .block-activity-filter .filter-drawer li .action.selected .outdoors {
-            background-color: #4BAE4F; }
-          body.parksforward.responsive2 .block-activity-filter .filter-drawer li .action.selected .sports {
-            background-color: #FF9F00; }
-          body.parksforward.responsive2 .block-activity-filter .filter-drawer li .action.selected .kids {
-            background-color: #9B26AF; }
-          body.parksforward.responsive2 .block-activity-filter .filter-drawer li .action.selected .water {
-            background-color: #2095F2; }
-          body.parksforward.responsive2 .block-activity-filter .filter-drawer li .action.selected .snow {
-            background-color: #00BBD3; }
+            text-align: center;
+            overflow: hidden;
+            width: 67px;
+            display: inline-block;
+            line-height: 1.3em; }
+      body.parksforward.responsive2 .block-activity-filter .filter-drawer.has li .action .outdoors, body.parksforward.responsive2 .block-activity-filter .filter-drawer li .action.selected .outdoors {
+        background-color: #4BAE4F; }
+      body.parksforward.responsive2 .block-activity-filter .filter-drawer.has li .action .sports, body.parksforward.responsive2 .block-activity-filter .filter-drawer li .action.selected .sports {
+        background-color: #FF9F00; }
+      body.parksforward.responsive2 .block-activity-filter .filter-drawer.has li .action .kids, body.parksforward.responsive2 .block-activity-filter .filter-drawer li .action.selected .kids {
+        background-color: #9B26AF; }
+      body.parksforward.responsive2 .block-activity-filter .filter-drawer.has li .action .water, body.parksforward.responsive2 .block-activity-filter .filter-drawer li .action.selected .water {
+        background-color: #2095F2; }
+      body.parksforward.responsive2 .block-activity-filter .filter-drawer.has li .action .snow, body.parksforward.responsive2 .block-activity-filter .filter-drawer li .action.selected .snow {
+        background-color: #00BBD3; }
+      body.parksforward.responsive2 .block-activity-filter .filter-drawer.has li .action .historic, body.parksforward.responsive2 .block-activity-filter .filter-drawer li .action.selected .historic {
+        background-color: #8C6D62; }
   body.parksforward.responsive2 header {
     float: left;
     display: block;
@@ -792,7 +805,7 @@ body.parksforward.responsive2 {
         display: inline-block;
         box-sizing: border-box;
         width: 33.33%;
-        border: solid 1px rgba(255, 255, 255, 0.3);
+        border: solid 1px rgba(0, 0, 0, 0.2);
         border-width: 1px 1px 0 0;
         padding: 20px 45px;
         background-color: #37474f;
@@ -854,7 +867,7 @@ body.parksforward.responsive2 {
           float: left;
           display: block;
           margin-right: 2.35765%;
-          width: 31.76157%; }
+          width: 40.29137%; }
           body.parksforward.responsive2 footer #footer-credits > div.builtby:last-child {
             margin-right: 0; }
           body.parksforward.responsive2 footer #footer-credits > div.builtby h2 {
@@ -863,7 +876,7 @@ body.parksforward.responsive2 {
           float: left;
           display: block;
           margin-right: 2.35765%;
-          width: 65.88078%; }
+          width: 57.35098%; }
           body.parksforward.responsive2 footer #footer-credits > div.supportedby:last-child {
             margin-right: 0; }
         @media screen and (max-width: 720px)  {
@@ -1031,14 +1044,16 @@ body.parksforward.responsive2 {
   body.parksforward.responsive2 .search-state {
     background-color: #37474f;
     padding: 0 20px 0 20px;
-    display: block;
     z-index: 3;
     height: 50px;
     position: relative;
     height: 44px;
     text-align: center;
     color: #cebf41;
-    font-weight: 600; }
+    font-weight: 600;
+    display: table-cell;
+    vertical-align: middle;
+    width: 100vw; }
     @media screen and (max-width: 720px)  {
       body.parksforward.responsive2 .search-state {
         padding: 0 10px 10px 10px;
@@ -1070,6 +1085,54 @@ body.parksforward.responsive2 {
     right: 0;
     bottom: 0px;
     left: 0; }
+    body.parksforward.responsive2 #content.template-parks.filtered .not-backpacking li.activity-backpacking {
+      background-color: #ccc; }
+    body.parksforward.responsive2 #content.template-parks.filtered .not-ball_fields li.activity-ball_fields {
+      background-color: #ccc; }
+    body.parksforward.responsive2 #content.template-parks.filtered .not-basketball li.activity-basketball {
+      background-color: #ccc; }
+    body.parksforward.responsive2 #content.template-parks.filtered .not-biking li.activity-biking {
+      background-color: #ccc; }
+    body.parksforward.responsive2 #content.template-parks.filtered .not-boating li.activity-boating {
+      background-color: #ccc; }
+    body.parksforward.responsive2 #content.template-parks.filtered .not-camping li.activity-camping {
+      background-color: #ccc; }
+    body.parksforward.responsive2 #content.template-parks.filtered .not-caving li.activity-caving {
+      background-color: #ccc; }
+    body.parksforward.responsive2 #content.template-parks.filtered .not-climbing li.activity-climbing {
+      background-color: #ccc; }
+    body.parksforward.responsive2 #content.template-parks.filtered .not-covered_picnic_tables li.activity-covered_picnic_tables {
+      background-color: #ccc; }
+    body.parksforward.responsive2 #content.template-parks.filtered .not-fishing li.activity-fishing {
+      background-color: #ccc; }
+    body.parksforward.responsive2 #content.template-parks.filtered .not-hiking li.activity-hiking {
+      background-color: #ccc; }
+    body.parksforward.responsive2 #content.template-parks.filtered .not-horsebackriding li.activity-horsebackriding {
+      background-color: #ccc; }
+    body.parksforward.responsive2 #content.template-parks.filtered .not-kayakingcanoeing li.activity-kayakingcanoeing {
+      background-color: #ccc; }
+    body.parksforward.responsive2 #content.template-parks.filtered .not-kiteboardingwindsurfing li.activity-kiteboardingwindsurfing {
+      background-color: #ccc; }
+    body.parksforward.responsive2 #content.template-parks.filtered .not-historicalsite li.activity-historicalsite {
+      background-color: #ccc; }
+    body.parksforward.responsive2 #content.template-parks.filtered .not-ohv li.activity-ohv {
+      background-color: #ccc; }
+    body.parksforward.responsive2 #content.template-parks.filtered .not-playground li.activity-playground {
+      background-color: #ccc; }
+    body.parksforward.responsive2 #content.template-parks.filtered .not-rusticcabins li.activity-rusticcabins {
+      background-color: #ccc; }
+    body.parksforward.responsive2 #content.template-parks.filtered .not-snowsports li.activity-snowsports {
+      background-color: #ccc; }
+    body.parksforward.responsive2 #content.template-parks.filtered .not-surfing li.activity-surfing {
+      background-color: #ccc; }
+    body.parksforward.responsive2 #content.template-parks.filtered .not-swimming li.activity-swimming {
+      background-color: #ccc; }
+    body.parksforward.responsive2 #content.template-parks.filtered .not-tennis li.activity-tennis {
+      background-color: #ccc; }
+    body.parksforward.responsive2 #content.template-parks.filtered .not-whitewaterraftingkayaking li.activity-whitewaterraftingkayaking {
+      background-color: #ccc; }
+    body.parksforward.responsive2 #content.template-parks.filtered .not-wildlifewatching li.activity-wildlifewatching {
+      background-color: #ccc; }
     body.parksforward.responsive2 #content.template-parks .block-search-box {
       padding: 20px; }
       @media screen and (max-width: 720px)  {
