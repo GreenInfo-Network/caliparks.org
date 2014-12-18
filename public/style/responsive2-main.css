@@ -40,8 +40,8 @@ table {
 @media screen and (min-width: 721px)  {
   .facebook-thing-closed .fb-like {
     z-index: 1;
-    -webkit-transform: scale(1.58);
-    transform: scale(1.58);
+    -webkit-transform: scale(1.38);
+    transform: scale(1.38);
     -webkit-transform-origin: center left;
     transform-origin: center left; }
     .facebook-thing-closed .fb-like iframe {
@@ -130,7 +130,8 @@ body.parksforward.responsive2 {
   body.parksforward.responsive2 * {
     line-height: 1em; }
   body.parksforward.responsive2 a {
-    text-decoration: none; }
+    text-decoration: none;
+    color: #027abb; }
   body.parksforward.responsive2 h1, body.parksforward.responsive2 h2, body.parksforward.responsive2 h3, body.parksforward.responsive2 h4 {
     font-family: "jubilat", serif;
     letter-spacing: 0.09em;
@@ -146,6 +147,8 @@ body.parksforward.responsive2 {
     margin-bottom: 10px; }
   body.parksforward.responsive2 div {
     box-sizing: border-box; }
+  body.parksforward.responsive2 button, body.parksforward.responsive2 a {
+    font-family: "expressway", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; }
   body.parksforward.responsive2 .action {
     background-color: transparent;
     border-radius: 4px;
@@ -155,13 +158,42 @@ body.parksforward.responsive2 {
     padding: 5px;
     color: #027abb;
     cursor: pointer;
-    display: inline-block; }
+    display: inline-block;
+    font-family: "expressway", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; }
     body.parksforward.responsive2 .action.active {
       background-color: #027abb;
       color: white; }
     body.parksforward.responsive2 .action.selected {
       color: white;
       border: solid 1px white; }
+    body.parksforward.responsive2 .action.close {
+      position: absolute;
+      top: 5px;
+      right: 10px;
+      overflow: hidden;
+      color: transparent;
+      background-image: url('dismiss.svg');
+      background-repeat: no-repeat;
+      border: none;
+      height: 15px;
+      width: 15px; }
+    body.parksforward.responsive2 .action.fullscreen {
+      position: absolute;
+      overflow: hidden;
+      color: transparent;
+      background-image: url('fullscreen.svg');
+      background-repeat: no-repeat;
+      border: none;
+      height: 24px;
+      width: 28px;
+      background-size: cover; }
+  body.parksforward.responsive2 .modal-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 37px;
+    background-color: rgba(0, 0, 0, 0.3); }
   body.parksforward.responsive2 .shader {
     position: absolute;
     top: 0;
@@ -183,60 +215,8 @@ body.parksforward.responsive2 {
     position: relative; }
     body.parksforward.responsive2 .language-banner a {
       color: white; }
-    body.parksforward.responsive2 .language-banner .action-close {
-      position: absolute;
-      top: 5px;
-      right: 10px;
-      overflow: hidden;
-      color: transparent;
-      background-image: url('dismiss.svg');
-      background-repeat: no-repeat;
-      border: none;
-      height: 15px;
-      width: 15px; }
   body.parksforward.responsive2 .block-search-box {
     padding: 0; }
-    body.parksforward.responsive2 .block-search-box .twitter-typeahead {
-      width: 100%; }
-      body.parksforward.responsive2 .block-search-box .twitter-typeahead h3 {
-        color: #333; }
-      body.parksforward.responsive2 .block-search-box .twitter-typeahead .tt-query, body.parksforward.responsive2 .block-search-box .twitter-typeahead .tt-hint {
-        margin-bottom: 0; }
-      body.parksforward.responsive2 .block-search-box .twitter-typeahead .tt-hint {
-        display: block;
-        width: 100%;
-        padding: 8px 12px;
-        font-size: 100%;
-        line-height: 1.42857;
-        color: #333;
-        vertical-align: middle;
-        background-color: white;
-        border: 1px solid #333;
-        border-radius: 4px 0 0 4px;
-        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.3);
-        transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s; }
-      body.parksforward.responsive2 .block-search-box .twitter-typeahead .tt-dropdown-menu {
-        min-width: 160px;
-        margin-top: 2px;
-        padding: 20px;
-        background-color: white;
-        border: 1px solid #333;
-        border-radius: 0 0 4px 4px;
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-        background-clip: padding-box;
-        text-align: left; }
-      body.parksforward.responsive2 .block-search-box .twitter-typeahead .tt-suggestion {
-        display: block;
-        padding: 3px 20px;
-        text-transform: capitalize;
-        cursor: pointer; }
-        body.parksforward.responsive2 .block-search-box .twitter-typeahead .tt-suggestion.tt-cursor {
-          color: white;
-          background-color: #333; }
-          body.parksforward.responsive2 .block-search-box .twitter-typeahead .tt-suggestion.tt-cursor a {
-            color: white; }
-        body.parksforward.responsive2 .block-search-box .twitter-typeahead .tt-suggestion p {
-          margin: 0; }
     body.parksforward.responsive2 .block-search-box form {
       display: block;
       position: relative;
@@ -267,7 +247,8 @@ body.parksforward.responsive2 {
           display: none; }
         body.parksforward.responsive2 .block-search-box form input[type=search]::-webkit-input-placeholder {
           font-family: "expressway", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-          font-weight: 300; }
+          font-weight: 300;
+          letter-spacing: 0.02em; }
         body.parksforward.responsive2 .block-search-box form input[type=search]:-moz-placeholder {
           /* Firefox 18- */
           font-family: "expressway", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
@@ -724,7 +705,6 @@ body.parksforward.responsive2 {
         float: left;
         font-size: 75%;
         height: 106px;
-        overflow: hidden;
         padding: 0; }
         body.parksforward.responsive2 .block-activity-filter .filter-drawer li .action {
           border: solid 0px transparent;
@@ -744,7 +724,6 @@ body.parksforward.responsive2 {
           body.parksforward.responsive2 .block-activity-filter .filter-drawer li .action label {
             color: white;
             text-align: center;
-            overflow: hidden;
             width: 67px;
             display: inline-block;
             line-height: 1.3em; }
@@ -807,7 +786,7 @@ body.parksforward.responsive2 {
         width: 33.33%;
         border: solid 1px rgba(0, 0, 0, 0.2);
         border-width: 1px 1px 0 0;
-        padding: 20px 45px;
+        padding: 20px 52px;
         background-color: #333;
         background-repeat: no-repeat;
         background-size: auto 50%;
@@ -923,6 +902,8 @@ body.parksforward.responsive2 {
       font-weight: 600;
       text-align: center;
       border-top: solid 1px rgba(0, 0, 0, 0.2); }
+  body.parksforward.responsive2 #content.template-park .has-streetview .modal-header {
+    display: none; }
   body.parksforward.responsive2 #content.template-park > div {
     float: left;
     display: block;
@@ -969,7 +950,11 @@ body.parksforward.responsive2 {
             line-height: 1em; }
           body.parksforward.responsive2 #content.template-park > div section#park-info .park-details .social-breakdown {
             font-size: 75%;
-            font-weight: 600; }
+            font-weight: 400;
+            line-height: 1.2em; }
+            @media screen and (max-width: 720px)  {
+              body.parksforward.responsive2 #content.template-park > div section#park-info .park-details .social-breakdown {
+                font-size: 50%; } }
             body.parksforward.responsive2 #content.template-park > div section#park-info .park-details .social-breakdown span {
               white-space: nowrap; }
               body.parksforward.responsive2 #content.template-park > div section#park-info .park-details .social-breakdown span span {
@@ -994,10 +979,10 @@ body.parksforward.responsive2 {
             height: 300px; }
             body.parksforward.responsive2 #content.template-park > div section#maps .big-park-map {
               height: 300px; } }
-        body.parksforward.responsive2 #content.template-park > div section#maps .fullscreen-action {
+        body.parksforward.responsive2 #content.template-park > div section#maps .action.fullscreen {
           display: none; }
           @media (max-width: 720px) {
-            body.parksforward.responsive2 #content.template-park > div section#maps .fullscreen-action {
+            body.parksforward.responsive2 #content.template-park > div section#maps .action.fullscreen {
               display: block;
               position: absolute;
               bottom: 34px;
@@ -1053,7 +1038,8 @@ body.parksforward.responsive2 {
     font-weight: 600;
     display: table-cell;
     vertical-align: middle;
-    width: 100vw; }
+    width: 100vw;
+    font-size: 125%; }
     @media screen and (max-width: 720px)  {
       body.parksforward.responsive2 .search-state {
         padding: 0 10px 10px 10px;

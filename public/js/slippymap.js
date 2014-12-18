@@ -106,19 +106,25 @@ define(["require","exports","module","stamen-super-classy","gmap-custom-tile-lay
 
       that.updateData = pinLayer.updateData;
 
-      google.maps.event.addListener(that.map, "bounds_changed", function() {
+      google.maps.event.addListener(that.map, "bounds_changed", function(e) {
         that.fire("bounds-changed", {
           googleBounds:that.map.getBounds()
         });
       });
 
-      google.maps.event.addListener(that.map, "idle", function() {
+      google.maps.event.addListener(that.map, "idle", function(e) {
         that.fire("idle");
       });
 
-      google.maps.event.addDomListener(window, "resize", function() {
+      google.maps.event.addDomListener(window, "resize", function(e) {
        google.maps.event.trigger(that.map.getCenter(), "resize");
        that.map.setCenter(that.map.getCenter());
+      });
+
+      google.maps.event.addDomListener(that.map.getStreetView(), "visible_changed", function(e) {
+        that.fire("street-view-toggle", {
+          "visible" : that.map.getStreetView().getVisible()
+        });
       });
 
       pinLayer.on("marker-click", function(e) {

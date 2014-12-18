@@ -1,67 +1,6 @@
 .block-search-box {
   padding:0;
 
-  .twitter-typeahead {
-    width:100%;
-
-    h3 {
-      color:$color-dark;
-    }
-
-    .tt-query,
-    .tt-hint {
-      margin-bottom: 0;
-    }
-
-    .tt-hint {
-      display: block;
-      width: 100%;
-      padding: 8px 12px;
-      font-size: $font-size-medium;
-      line-height: 1.428571429;
-      color: $color-dark;
-      vertical-align: middle;
-      background-color: $light-font-color;
-      border: 1px solid $color-dark;
-      border-radius: $border-radius 0 0 $border-radius;
-      box-shadow: inset 0 1px 1px $color-dark-transparent;
-      transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
-    }
-
-    .tt-dropdown-menu {
-      min-width: 160px;
-      margin-top: 2px;
-      padding: $box-padding;
-      background-color: $light-font-color;
-      border: 1px solid $color-dark;
-      border-radius: 0 0 $border-radius $border-radius;
-      box-shadow: 0 6px 12px $color-dark-transparent;
-      background-clip: padding-box;
-      text-align:left;
-    }
-
-    .tt-suggestion {
-        display: block;
-        padding: 3px 20px;
-        text-transform: capitalize;
-        cursor:pointer;
-
-      &.tt-cursor {
-        color:$light-font-color;
-        background-color:$color-dark;
-
-        a {
-            color: $light-font-color;
-        }
-      }
-
-      p {
-          margin: 0;
-      }
-    }
-
-  }
-
   form {
     display:block;
     position:relative;
@@ -104,6 +43,7 @@
       &::-webkit-input-placeholder {
          font-family:$font-family-sans;
          font-weight:$font-weight-normal;
+         letter-spacing:.02em;
       }
 
       &:-moz-placeholder { /* Firefox 18- */

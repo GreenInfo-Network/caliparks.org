@@ -36,9 +36,21 @@ define(["require","exports","module","jquery","block-photo-carousel","block-inst
         }, function(err, slippyMap) {
           module.exports.slippyMap = slippyMap;
           module.exports.slippyMap.fire("map-initialized");
+
+          module.exports.slippyMap.on("street-view-toggle", function(e) {
+
+            var overlayNode = module.exports.slippyMap.utils.get("#content .map-overlay")[0];
+
+            if (e.caller.visible) {
+              overlayNode.classList.add("has-streetview");
+            } else {
+              overlayNode.classList.remove("has-streetview");
+            }
+
+          });
         });
 
-        document.querySelector("#content .map-overlay .close-button").addEventListener("click",function(e) {
+        document.querySelector("#content .map-overlay .action.close").addEventListener("click",function(e) {
           module.exports.mapOverlay.hide();
         }, false);
 
@@ -52,7 +64,7 @@ define(["require","exports","module","jquery","block-photo-carousel","block-inst
     });
     */
 
-    document.querySelector("#content .fullscreen-action").addEventListener("click",function(e) {
+    document.querySelector("#content .action.fullscreen").addEventListener("click",function(e) {
       module.exports.mapOverlay.show();
     }, false);
   });

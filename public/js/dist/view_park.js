@@ -9,12 +9,16 @@ define([ "require", "exports", "module", "jquery", "block-photo-carousel", "bloc
                 module.exports.slippyMap = new Slippymap("#content .map-overlay .slippy-map", {
                     contextBounds: [ viewData.bbox.coordinates[0][0][0], viewData.bbox.coordinates[0][0][1], viewData.bbox.coordinates[0][2][0], viewData.bbox.coordinates[0][2][1] ]
                 }, function(err, slippyMap) {
-                    module.exports.slippyMap = slippyMap, module.exports.slippyMap.fire("map-initialized");
-                }), document.querySelector("#content .map-overlay .close-button").addEventListener("click", function() {
+                    module.exports.slippyMap = slippyMap, module.exports.slippyMap.fire("map-initialized"), 
+                    module.exports.slippyMap.on("street-view-toggle", function(e) {
+                        var overlayNode = module.exports.slippyMap.utils.get("#content .map-overlay")[0];
+                        e.caller.visible ? overlayNode.classList.add("has-streetview") : overlayNode.classList.remove("has-streetview");
+                    });
+                }), document.querySelector("#content .map-overlay .action.close").addEventListener("click", function() {
                     module.exports.mapOverlay.hide();
                 }, !1);
             });
-        }), document.querySelector("#content .fullscreen-action").addEventListener("click", function() {
+        }), document.querySelector("#content .action.fullscreen").addEventListener("click", function() {
             module.exports.mapOverlay.show();
         }, !1);
     }), module.exports.headerPhotos = new BlockPhotoCarousel(".block-photo-carousel", viewData, function() {}), 

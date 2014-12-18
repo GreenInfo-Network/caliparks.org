@@ -58,6 +58,10 @@ define([ "require", "exports", "module", "stamen-super-classy", "gmap-custom-til
                 that.fire("idle");
             }), google.maps.event.addDomListener(window, "resize", function() {
                 google.maps.event.trigger(that.map.getCenter(), "resize"), that.map.setCenter(that.map.getCenter());
+            }), google.maps.event.addDomListener(that.map.getStreetView(), "visible_changed", function() {
+                that.fire("street-view-toggle", {
+                    visible: that.map.getStreetView().getVisible()
+                });
             }), pinLayer.on("marker-click", function(e) {
                 that.fire("marker-click", e.caller);
             }), pinLayer.on("marker-mouseover", function(e) {

@@ -38,6 +38,7 @@
   display:table-cell;
   vertical-align: middle;
   width:100vw;
+  font-size:$font-size-large;
 
   @include media(max-width 720px) {
     padding:0 $box-padding-half $box-padding-half $box-padding-half;

@@ -48,7 +48,7 @@ $font-family-sans: "expressway", "HelveticaNeue-Light", "Helvetica Neue Light", 
   &.facebook-thing-closed .fb-like
   {
     z-index: 1;
-    transform: scale(1.58);
+    transform: scale(1.38);
     transform-origin: center left;
     iframe {
       margin-top: -0.5px;
@@ -138,6 +138,7 @@ body.parksforward.responsive2 {
 
   a {
     text-decoration:none;
+    color:$color-active;
   }
 
   h1, h2, h3, h4 {
@@ -165,6 +166,10 @@ body.parksforward.responsive2 {
     box-sizing:border-box;
   }
 
+  button, a {
+    font-family: $font-family-sans;
+  }
+
   .action {
     background-color:transparent;
     border-radius:$border-radius;
@@ -175,6 +180,7 @@ body.parksforward.responsive2 {
     color:$color-active;
     cursor:pointer;
     display:inline-block;
+    font-family: $font-family-sans;
 
     &.active {
       background-color:$color-active;
@@ -185,6 +191,39 @@ body.parksforward.responsive2 {
       color:$light-font-color;
       border:solid 1px $light-font-color;
     }
+
+    &.close {
+      position:absolute;
+      top:5px;right:10px;
+      overflow:hidden;
+      color:transparent;
+      background-image:url('dismiss.svg');
+      background-repeat:no-repeat;
+      border: none;
+      height: 15px;
+      width: 15px;
+    }
+
+    &.fullscreen {
+      position:absolute;
+      overflow:hidden;
+      color:transparent;
+      background-image:url('fullscreen.svg');
+      background-repeat:no-repeat;
+      border: none;
+      height: 24px;
+      width: 28px;
+      background-size: cover;
+    }
+  }
+
+  .modal-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 37px;
+    background-color: $color-dark-transparent;
   }
 
   .shader {
@@ -215,18 +254,6 @@ body.parksforward.responsive2 {
 
     a {
       color:$light-font-color;
-    }
-
-    .action-close {
-      position:absolute;
-      top:5px;right:10px;
-      overflow:hidden;
-      color:transparent;
-      background-image:url('dismiss.svg');
-      background-repeat:no-repeat;
-      border: none;
-      height: 15px;
-      width: 15px;
     }
   }
 
@@ -289,7 +316,7 @@ body.parksforward.responsive2 {
         width:33.33%;
         border:$border-style;
         border-width:1px 1px 0 0;
-        padding:$box-padding 45px;
+        padding:$box-padding 52px;
 
         background-color:$color-notsodark;
         background-repeat: no-repeat;

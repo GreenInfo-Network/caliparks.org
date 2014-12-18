@@ -89,7 +89,6 @@
       float: left;
       font-size: 75%;
       height: 106px;
-      overflow: hidden;
       padding: 0;
 
       .action {
@@ -116,7 +115,6 @@
         label {
           color:$light-font-color;
           text-align: center;
-          overflow: hidden;
           width: 67px;
           display: inline-block;
           line-height: 1.3em;

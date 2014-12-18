@@ -1,5 +1,9 @@
 #content.template-park {
 
+  .has-streetview .modal-header {
+    display:none;
+  }
+
   > div {
     @include span-columns(12 of 12);
     @include media(min-width 721px) {
@@ -53,7 +57,12 @@
 
           .social-breakdown {
             font-size: $font-size-small;
-            font-weight:$font-weight-bold;
+            font-weight:400;
+            line-height: 1.2em;
+
+            @include media(max-width 720px) {
+              font-size: 50%;
+            }
 
             span {
               white-space:nowrap;
@@ -88,7 +97,7 @@
 
         background-color:$color-lighter;
 
-        .fullscreen-action {
+        .action.fullscreen {
           display:none;
           @media (max-width: 720px) {
             display:block;
