@@ -15,5 +15,5 @@ data.forEach(function(x) {
     return x[k] === true;
   });
 
-  console.log("INSERT INTO site_hipcamp_activities (su_id, url, activities) VALUES (%d, '%s', ARRAY['%s']);", x.sunmaAkaParkId, escape(x.campingUrl || ""), activities.map(escape).join("', '"));
+  console.log("INSERT INTO site_hipcamp_activities (su_id, url, activities) VALUES (%d, '%s', ARRAY['%s']);", x.sunmaAkaParkId, escape(x.campingUrl || ""), activities.map(function(x) { return x.toLowerCase(); }).map(escape).join("', '"));
 });
