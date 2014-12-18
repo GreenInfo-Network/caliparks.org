@@ -256,6 +256,7 @@
         position: absolute;
         top: 81px;
         bottom: 0px;
+        width: 100%;
 
         .no-results {
           margin:$box-padding;
@@ -320,10 +321,11 @@
       position:absolute;
       display:block;
       top: 171px;
-      bottom:0;
+      bottom: 1px;
 
       @include media(max-width 720px) {
         top: 165px;
+        bottom: 0px;
       }
 
       .search-this-area-action {

@@ -75,8 +75,8 @@ define([ "require", "exports", "module", "stamen-super-classy" ], function(requi
         function setMarkersAsSelected(markersArray) {
             var markers = [];
             return (markersArray || data.features).forEach(function(feature) {
-                pinCache[feature].selected = !1, pinCache[feature].pin.setIcon(getIcon("red")), 
-                pinCache[feature].pin.setZIndex(1), markers.push(pinCache[feature]);
+                pinCache[feature] && (pinCache[feature].selected = !1, pinCache[feature].pin.setIcon(getIcon("red")), 
+                pinCache[feature].pin.setZIndex(1), markers.push(pinCache[feature]));
             }), self.fire("select-markers", {
                 selectedMarkers: markers
             }), !0;

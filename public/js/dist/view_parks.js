@@ -2,7 +2,7 @@ define([ "require", "exports", "module", "block-activity-filter", "block-search-
     "use strict";
     function View(options) {
         function lock() {
-            state.locked = !0;
+            state.locked = !0, that.utils.get("#content .search-state").innerHTML = "Finding parks...";
         }
         function unLock() {
             state.locked = !1;
@@ -56,7 +56,8 @@ define([ "require", "exports", "module", "block-activity-filter", "block-search-
                     center: !1
                 });
             }), that.slippyMap.on("select-markers", function(e) {
-                infowindow.open(that.slippyMap.map, e.caller.selectedMarkers[0].pin), infowindow.setContent(infoWindowData.compileTemplate(e.caller.selectedMarkers[0].feature.properties));
+                e.caller && e.caller.selectedMarkers[0] && (infowindow.open(that.slippyMap.map, e.caller.selectedMarkers[0].pin), 
+                infowindow.setContent(infoWindowData.compileTemplate(e.caller.selectedMarkers[0].feature.properties)));
             }), resultsNode.addEventListener("mouseover", function(e) {
                 state.hoverActionPause = setTimeout(that.utils.debounce(function() {
                     if (state.hoverActionPause) {
@@ -88,7 +89,7 @@ define([ "require", "exports", "module", "block-activity-filter", "block-search-
             that.on("route", function(e) {
                 resultsNode.innerHTML = parksData.compileTemplate(e.caller), resultsNode.scrollTop = 0;
                 var container = document.getElementById("content"), tabs = document.getElementById("tab-container"), filterDrawer = that.utils.get("ul.filter-drawer", container)[0], filterHandle = that.utils.get(".filter-handle", container)[0], filterButtons = that.utils.get("li button", filterDrawer), nots = "";
-                if (e.caller.query) if (e.caller.query.with.length) {
+                if (e.caller.query) if (e.caller.query.with && e.caller.query.with.length) {
                     container.classList.add("filtered"), filterDrawer.classList.remove("has"), filterHandle.classList.add("has");
                     for (var i = 0; filterButtons.length > i; i++) filterButtons[i].classList.contains("selected") || (nots += " not-" + filterButtons[i].getAttribute("data-filter").split(" ").join("_"));
                     tabs.className = "", nots.length ? tabs.className = nots : container.classList.remove("filtered");

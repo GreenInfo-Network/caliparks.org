@@ -77,7 +77,7 @@ define(["require","exports","module","stamen-super-classy","gmap-custom-tile-lay
       that.map = new google.maps.Map(rootNode,{
         mapTypeControl: false,
         center: new google.maps.LatLng(center[0], center[1]),
-        zoom                : 11,
+        zoom                : 7,
         scrollwheel         : false,
         disableDefaultUI    : false,
         panControl          : false,

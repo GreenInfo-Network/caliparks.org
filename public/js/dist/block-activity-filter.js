@@ -15,7 +15,7 @@ define([ "require", "exports", "module", "stamen-super-classy", "routes" ], func
             }, !1);
         }
         function updateStatusNode(withArray) {
-            withArray.length ? (handleNode.classList.add("has"), toggleDrawerStatusNode.innerHTML = withArray.length) : handleNode.classList.remove("has");
+            withArray.length && (handleNode.classList.add("has"), toggleDrawerStatusNode.innerHTML = withArray.length);
         }
         function lock() {
             state.locked = !0;

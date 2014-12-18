@@ -1,16 +1,29 @@
-{{#if story}}
-{{story}}
+{{#unless parks}}
+
+  {{#__}}The location{{/__}}: “{{#replace item="+" with=" "}}{{query.near}}{{/replace}}” {{#__}}could not be found.{{/__}}
+
 {{else}}
-{{#if query.with}}
-{{total}} parks with {{#formatActivityList}}{{query.with}}{{/formatActivityList}}
-{{else}}
-{{#if query.near}}
-{{#__}}The {{total}} parks nearest to {{/__}}
-{{#if homeLocation}}
-{{#__}}you{{/__}}
-{{else}}
-{{#replace item="+" with=" "}}{{query.near}}{{/replace}}
-{{/if}}
-{{/if}}
-{{/if}}
-{{/if}}
+
+  {{#if story}}
+    {{story}}
+  {{else}}
+    {{#if query.with}}
+      {{total}} parks with {{#formatActivityList}}{{query.with}}{{/formatActivityList}}
+    {{else}}
+      {{#if query.near}}
+        {{#if startat}}
+          {{#__}}{{total}} more parks near {{/__}}
+        {{else}}
+          {{#__}}The {{total}} parks nearest to {{/__}}
+        {{/if}}
+
+        {{#if homeLocation}}
+          {{#__}}you{{/__}}
+        {{else}}
+          {{#replace item="+" with=" "}}{{query.near}}{{/replace}}
+        {{/if}}
+      {{/if}}
+    {{/if}}
+  {{/if}}
+
+{{/unless}}

@@ -101,22 +101,32 @@ module.exports = function(req, res, data, callback) {
   return cpad.getParks(data, go);
 
   function go(err, parks, bounds) {
-    if (err) {
+
+    if (err && err.Error && err.Error.substring(0,17) !== "Failed to geocode") {
       return callback(err);
     }
 
     templateData = {
       parks          : parks,
-      total          : parks.length,
+      total          : parks ? parks.length : 0,
       startat        : (data.options) ? data.options.startat : "0",
       perpage        : (data.options) ? data.options.perpage : "30",
       query          : data.query,
       activities     : getActivityFilterState(data.query.with),
-      bounds         : bounds,
-      parksGeoJSON   : new pgToGeoJSON.GeoFeatureCollection(parks,{
-        "excludeProperties" : ["geometry"]
-      })
+      bounds         : bounds
     };
+
+    if (parks) {
+      templateData["parksGeoJSON"] = new pgToGeoJSON.GeoFeatureCollection(parks,{
+        "excludeProperties" : ["geometry"]
+      });
+    }
+
+    if (parks) {
+      templateData["parksGeoJSON"] = new pgToGeoJSON.GeoFeatureCollection(parks,{
+        "excludeProperties" : ["geometry"]
+      });
+    }
 
     if (req.query.home) {
       templateData['homeLocation'] = (req.query.home === "true")

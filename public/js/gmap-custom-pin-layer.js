@@ -203,13 +203,15 @@ define(["require","exports","module","stamen-super-classy"], function(
 
         (markersArray || data.features).forEach(function(feature) {
 
-          pinCache[feature].selected = false;
+          if (pinCache[feature]) {
+            pinCache[feature].selected = false;
 
-          pinCache[feature].pin.setIcon(getIcon("red"));
+            pinCache[feature].pin.setIcon(getIcon("red"));
 
-          pinCache[feature].pin.setZIndex(+1);
+            pinCache[feature].pin.setZIndex(+1);
 
-          markers.push(pinCache[feature]);
+            markers.push(pinCache[feature]);
+          }
 
         });
 

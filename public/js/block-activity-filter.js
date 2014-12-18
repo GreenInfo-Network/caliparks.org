@@ -58,7 +58,7 @@ define(["require","exports","module","stamen-super-classy","routes"], function(
         handleNode.classList.add("has");
         toggleDrawerStatusNode.innerHTML = withArray.length;
       } else {
-        handleNode.classList.remove("has");
+        //handleNode.classList.remove("has");
       }
 
     }

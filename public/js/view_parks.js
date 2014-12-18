@@ -28,6 +28,7 @@ define(["require","exports","module","block-activity-filter","block-search-box",
 
     function lock() {
       state.locked = true;
+      that.utils.get("#content .search-state").innerHTML = "Finding parks...";
     }
 
     function unLock() {
@@ -147,10 +148,13 @@ define(["require","exports","module","block-activity-filter","block-search-box",
 
       that.slippyMap.on("select-markers", function(e) {
 
-        infowindow.open(that.slippyMap.map,e.caller.selectedMarkers[0].pin);
-        infowindow.setContent(
-          infoWindowData.compileTemplate(e.caller.selectedMarkers[0].feature.properties)
-        );
+        if (e.caller && e.caller.selectedMarkers[0]) {
+          infowindow.open(that.slippyMap.map,e.caller.selectedMarkers[0].pin);
+          infowindow.setContent(
+            infoWindowData.compileTemplate(e.caller.selectedMarkers[0].feature.properties)
+          );
+        }
+
       });
 
       resultsNode.addEventListener("mouseover", function(e) {
@@ -241,7 +245,7 @@ define(["require","exports","module","block-activity-filter","block-search-box",
             nots          = "";
 
         if (e.caller.query) {
-          if (!e.caller.query.with.length) {
+          if (!e.caller.query.with || !e.caller.query.with.length) {
             container.classList.remove("filtered");
             filterDrawer.classList.add("has");
             filterHandle.classList.remove("has");

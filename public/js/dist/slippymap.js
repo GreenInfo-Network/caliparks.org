@@ -32,7 +32,7 @@ define([ "require", "exports", "module", "stamen-super-classy", "gmap-custom-til
             that.map = new google.maps.Map(rootNode, {
                 mapTypeControl: !1,
                 center: new google.maps.LatLng(center[0], center[1]),
-                zoom: 11,
+                zoom: 7,
                 scrollwheel: !1,
                 disableDefaultUI: !1,
                 panControl: !1,
