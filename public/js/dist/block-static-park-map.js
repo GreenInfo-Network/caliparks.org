@@ -48,19 +48,18 @@ define([ "require", "exports", "module", "detect-os", "stamen-super-classy", "gm
                 mapTypeControlviewOptions: {
                     mapTypeIds: [ "parksLayer" ]
                 }
-            }), bigMapNode.offsetHeight || (bigMapNode.style.height = "100%"), that.bigMapIcon = new google.maps.Marker({
-                position: bounds.getCenter(),
-                map: that.bigMap,
-                icon: {
-                    path: "M0,5a5,5 0 1,0 10,0a5,5 0 1,0 -10,0",
-                    scale: 1,
-                    fillOpacity: 1,
-                    fillColor: "#607d8b",
-                    strokeColor: "white",
-                    strokeWeight: 2
+            }), bigMapNode.offsetHeight || (bigMapNode.style.height = "100%"), that.bigMap.mapTypes.set("parksLayer", that.parksLayer), 
+            that.bigMap.setMapTypeId("parksLayer"), that.bigMap.data.setStyle({
+                fillColor: "rgba(2, 122, 187,.2)",
+                strokeColor: "rgba(2, 122, 187,.7)",
+                strokeWeight: 1
+            }), that.bigMap.data.addGeoJson({
+                type: "Feature",
+                geometry: viewOptions.geometry,
+                properties: {
+                    name: viewOptions.unit_name
                 }
-            }), that.bigMap.mapTypes.set("parksLayer", that.parksLayer), that.bigMap.setMapTypeId("parksLayer"), 
-            google.maps.event.addDomListener(window, "resize", function() {
+            }), google.maps.event.addDomListener(window, "resize", function() {
                 google.maps.event.trigger(that.bigMap.getCenter(), "resize"), that.bigMap.setCenter(that.bigMap.getCenter());
             });
         }
@@ -77,15 +76,7 @@ define([ "require", "exports", "module", "detect-os", "stamen-super-classy", "gm
                     mapTypeIds: [ "parksLayer" ]
                 }
             }), that.smallMap.mapTypes.set("parksLayer", that.parksLayer), that.smallMap.setMapTypeId("parksLayer"), 
-            that.smallMapRect = new google.maps.Rectangle({
-                strokeColor: "#000",
-                strokeOpacity: .35,
-                strokeWeight: 1,
-                fillColor: "#000",
-                fillOpacity: .1,
-                map: that.smallMap,
-                bounds: geoJSONBBoxToGoogleBounds(viewOptions.bbox)
-            }), that.smallMapCircle = new google.maps.Marker({
+            that.smallMapCircle = new google.maps.Marker({
                 icon: {
                     path: "M0,5a5,5 0 1,0 10,0a5,5 0 1,0 -10,0",
                     scale: 1,
