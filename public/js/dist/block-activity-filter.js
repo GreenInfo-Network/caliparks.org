@@ -8,14 +8,11 @@ define([ "require", "exports", "module", "stamen-super-classy", "routes" ], func
                 var selected = that.utils.get(".selected", filterDrawerNode);
                 searchParams = routes.getParamStateFromLocationObject(), delete searchParams.with;
                 for (var i = 0; selected.length > i; i++) selected[i].classList.remove("selected");
-                updateStatusNode([]), that.fire("filter-select", {
+                that.fire("filter-select", {
                     params: searchParams,
                     element: e.target
                 });
             }, !1);
-        }
-        function updateStatusNode(withArray) {
-            withArray.length && (handleNode.classList.add("has"), toggleDrawerStatusNode.innerHTML = withArray.length);
         }
         function lock() {
             state.locked = !0;
@@ -32,15 +29,14 @@ define([ "require", "exports", "module", "stamen-super-classy", "routes" ], func
                     index > -1 ? (0 === index ? withArray = [ withArray[1] ] : withArray.splice(index), 
                     searchParams["with"] = withArray.join(","), toggleAction.classList.remove("selected")) : (withArray.push(filter), 
                     searchParams["with"] = withArray.join(","), toggleAction.classList.add("selected")), 
-                    updateStatusNode(withArray), setTimeout(function() {
+                    setTimeout(function() {
                         that.fire("filter-select", {
                             params: searchParams,
                             element: toggleAction
                         });
                     }, 0));
                 }
-            }, !1), searchParams = routes.getParamStateFromLocationObject(), withArray = searchParams.with ? searchParams.with.split(",") : [], 
-            updateStatusNode(withArray);
+            }, !1), searchParams = routes.getParamStateFromLocationObject(), withArray = searchParams.with ? searchParams.with.split(",") : [];
         }
         function initDrawerToggleAction() {
             toggleDrawerActionNode.addEventListener("click", function(e) {
@@ -54,7 +50,9 @@ define([ "require", "exports", "module", "stamen-super-classy", "routes" ], func
         }
         var that = this;
         StamenSuperClassy.apply(that, arguments);
-        var searchParams, withArray, rootNode = that.utils.get(rootSelector)[0], handleNode = that.utils.get(".filter-handle", rootNode)[0], clearActionNode = that.utils.get(".clear-activities-action", rootNode)[0], filterDrawerNode = that.utils.get(".filter-drawer", rootNode)[0], toggleDrawerActionNode = that.utils.get(".toggle-activities-drawer-action", rootNode)[0], toggleDrawerStatusNode = that.utils.get(".status", toggleDrawerActionNode)[0], closeDrawerActionNode = that.utils.get(".close-drawer-action", rootNode)[0], state = {};
+        var searchParams, withArray, rootNode = that.utils.get(rootSelector)[0], clearActionNode = (that.utils.get(".filter-handle", rootNode)[0], 
+        that.utils.get(".clear-activities-action", rootNode)[0]), filterDrawerNode = that.utils.get(".filter-drawer", rootNode)[0], toggleDrawerActionNode = that.utils.get(".toggle-activities-drawer-action", rootNode)[0], closeDrawerActionNode = (that.utils.get(".status", toggleDrawerActionNode)[0], 
+        that.utils.get(".close-drawer-action", rootNode)[0]), state = {};
         return initClearAction(), initActivityToggleActions(), initDrawerToggleAction(), 
         initDrawerCloseAction(), that.lock = lock, that.unLock = unLock, callback(null, that), 
         that;

@@ -5,8 +5,8 @@
 				{{>block-photo-carousel}}
 			{{/if}}
 			<div class="park-details">
-				<p class="agency-name"><a href="#">{{cpadPark.mng_agncy}}</a></p>
-				{{>block-park-name}}
+				<p class="agency-name">{{cpadPark.mng_agncy}}</p>
+				{{>block-park-name link=false}}
 				<p class="social-breakdown">
 					{{#if twitter}}
 						<span class="total{{twitter.total}}">{{#pluralize}}{{twitter.total}} <span>{{#__}}Tweet{{/__}}</span>|<span>{{#__}}Tweets{{/__}}</span>{{/pluralize}}

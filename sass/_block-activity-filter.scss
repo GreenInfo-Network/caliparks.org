@@ -13,6 +13,10 @@
       display:none;
     }
 
+    .clear-activities-action {
+      display:none;
+    }
+
     .toggle-activities-drawer-action {
 
       &.many {
@@ -30,16 +34,6 @@
 
     padding:7px 0;
 
-    .clear-activities-action, .status-wrapper {
-      display:none;
-    }
-
-    &.has {
-      .clear-activities-action, .status-wrapper {
-        display:inline;
-      }
-    }
-
     .action {
 
       i {
@@ -49,6 +43,10 @@
       border:none;
       color:white;
       margin-top: 5px;
+    }
+
+    &.has .clear-activities-action {
+      display:none;
     }
 
     .toggle-activities-drawer-action {

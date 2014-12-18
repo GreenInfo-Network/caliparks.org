@@ -45,7 +45,8 @@ module.exports = function formatActivityList(options) {
     })
     .map(function(x) {
       return x.label;
-    });
+    }),
+    count;
 
   // no commas
   if (activityNames.length === 2) {
@@ -55,6 +56,14 @@ module.exports = function formatActivityList(options) {
   // tack on "and" to the last item
   if (activityNames.length > 1) {
     activityNames[activityNames.length - 1] = options.__("and") + " " + activityNames[activityNames.length - 1];
+  }
+
+  // deal with a really long list
+  count = activityNames.length;
+  if (count > 3) {
+    activityNames.length = 3;
+
+    activityNames
   }
 
   // Oxford commas

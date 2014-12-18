@@ -42,7 +42,7 @@ define(["require","exports","module","stamen-super-classy","routes"], function(
             selected[i].classList.remove("selected");
           }
 
-          updateStatusNode([]);
+          //updateStatusNode([]);
           that.fire("filter-select", {
             "params"  : searchParams,
             "element" : e.target
@@ -53,13 +53,14 @@ define(["require","exports","module","stamen-super-classy","routes"], function(
     }
 
     function updateStatusNode(withArray) {
-
+      /*
       if (withArray.length) {
         handleNode.classList.add("has");
         toggleDrawerStatusNode.innerHTML = withArray.length;
       } else {
         //handleNode.classList.remove("has");
       }
+      */
 
     }
 
@@ -101,7 +102,7 @@ define(["require","exports","module","stamen-super-classy","routes"], function(
               toggleAction.classList.add("selected");
             }
 
-            updateStatusNode(withArray);
+            //updateStatusNode(withArray);
             setTimeout(function() {
               that.fire("filter-select", {
                 "params"  : searchParams,
@@ -118,7 +119,7 @@ define(["require","exports","module","stamen-super-classy","routes"], function(
       //
       searchParams = routes.getParamStateFromLocationObject();
       withArray    = (searchParams.with ? searchParams.with.split(",") : []);
-      updateStatusNode(withArray);
+      //updateStatusNode(withArray);
 
     }
 
