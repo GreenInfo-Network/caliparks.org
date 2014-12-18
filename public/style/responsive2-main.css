@@ -753,8 +753,8 @@ body.parksforward.responsive2 {
     margin-right: 2.35765%;
     width: 100%;
     background-color: #37474f;
-    padding: 5px 10px;
-    border-bottom: solid 1px rgba(0, 0, 0, 0.7);
+    padding: 6px 10px;
+    border-bottom: solid 1px rgba(0, 0, 0, 0.2);
     color: white;
     font-size: 75%;
     font-weight: 600;
@@ -909,7 +909,7 @@ body.parksforward.responsive2 {
       font-size: 75%;
       font-weight: 600;
       text-align: center;
-      border-top: solid 1px rgba(0, 0, 0, 0.7); }
+      border-top: solid 1px rgba(0, 0, 0, 0.2); }
   body.parksforward.responsive2 #content.template-park > div {
     float: left;
     display: block;
@@ -1046,7 +1046,7 @@ body.parksforward.responsive2 {
   body.parksforward.responsive2 .action-bar {
     position: relative;
     overflow: auto;
-    border-top: solid 1px rgba(0, 0, 0, 0.7);
+    border-top: solid 1px rgba(0, 0, 0, 0.2);
     z-index: 3; }
     body.parksforward.responsive2 .action-bar .block-activity-filter {
       background-color: #37474f; }
