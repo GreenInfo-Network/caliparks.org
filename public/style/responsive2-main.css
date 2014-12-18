@@ -1192,6 +1192,24 @@ body.parksforward.responsive2 {
     padding: 20px;
     background-color: #cfd8dc;
     color: #333; }
+    body.parksforward.responsive2 #content.template-embed .site-description {
+      text-align: center;
+      position: relative;
+      display: block;
+      padding: 10px 10px 0 10px;
+      font-size: 125%;
+      line-height: 1em;
+      margin-bottom: 0;
+      color: white;
+      font-family: "jubilat", serif;
+      letter-spacing: 0.09em;
+      font-weight: 600; }
+    body.parksforward.responsive2 #content.template-embed .block-search-box {
+      padding: 20px; }
+      body.parksforward.responsive2 #content.template-embed .block-search-box form {
+        display: block;
+        max-width: 1000px;
+        margin: 0 auto; }
     body.parksforward.responsive2 #content.template-embed h1 {
       margin-bottom: 20px;
       color: #333;
