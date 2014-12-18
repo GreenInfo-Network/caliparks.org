@@ -109,7 +109,8 @@ define([ "require", "exports", "module", "block-activity-filter", "block-search-
                 }), setTimeout(function() {
                     loadParks({
                         "with": e.caller.params.with,
-                        startat: 0
+                        startat: 0,
+                        perpage: 30
                     });
                 }, 50)) : location.href = "/parks/search" + routes.stringifyUrlSearchParams(e.caller.params);
             });

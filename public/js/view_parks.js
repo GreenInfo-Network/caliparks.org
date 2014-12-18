@@ -288,7 +288,8 @@ define(["require","exports","module","block-activity-filter","block-search-box",
           setTimeout(function() {
             loadParks({
               "with" : e.caller.params.with,
-              "startat" : 0
+              "startat" : 0,
+              "perpage" : 30
             });
           },50);
         } else {
