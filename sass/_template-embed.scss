@@ -84,7 +84,7 @@
 .site-name-embed {
   display:block;
   background-color:$color-notsodark;
-  color:$color-california;
+  color:$light-font-color;
   margin-bottom:0;
   padding: 7px $box-padding-half;
   color: white;
@@ -93,13 +93,13 @@
   right:0;bottom:0;left:0;
   height:30px;
   text-align:right;
-  color:$color-california;
+  color:$light-font-color;
   font-weight:$font-weight-bold;
   font-family:$font-family-serif;
   letter-spacing: .09em;
 
   a {
-    color:$color-california;
+    color:$light-font-color;
   }
 }
 
