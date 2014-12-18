@@ -123,11 +123,16 @@
         }
 
         .block-search-box {
-          width: 425px;
-          display:inline-block;
+
+          display:block;
+
+          padding:5px 20vw;
+          margin:0;
+
+          width:100vw;
 
           @include media(max-width 720px) {
-            width:90%;
+            margin:$box-padding-half;
           }
         }
       }

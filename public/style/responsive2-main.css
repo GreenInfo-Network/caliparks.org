@@ -1005,11 +1005,13 @@ body.parksforward.responsive2 {
           font-size: 125%;
           color: white; }
         body.parksforward.responsive2 #content.template-park > div section#search-area .block-search-box {
-          width: 425px;
-          display: inline-block; }
+          display: block;
+          padding: 5px 20vw;
+          margin: 0;
+          width: 100vw; }
           @media screen and (max-width: 720px)  {
             body.parksforward.responsive2 #content.template-park > div section#search-area .block-search-box {
-              width: 90%; } }
+              margin: 10px; } }
   body.parksforward.responsive2.tablet-viewport .viewport-containerparks {
     position: relative;
     height: 100vh; }
