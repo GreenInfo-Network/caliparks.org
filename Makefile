@@ -82,7 +82,7 @@ db: DATABASE_URL
 
 .PHONY: db/all
 
-db/all: db/activities db/cpad_entry_points db/migrations db/park_stats db/indexes
+db/all: db/activities db/cpad_entry_points db/featured_parks db/migrations db/park_stats db/indexes
 
 .PHONY: db/indexes
 
@@ -147,6 +147,12 @@ db/cpad_facilities: db/rec_facil_ca db/cpad_superunits
 
 db/cpad_superunits: db/cpad_2014b7
 	$(call create_relation)
+
+.PHONY: db/featured_parks
+
+db/featured_parks: db data/featured_parks.csv
+	$(call create_relation) && \
+	psql  -c "\copy featured_parks (superunit_id) from 'data/featured_parks.csv' with csv header"
 
 .PHONY: db/migrate
 
