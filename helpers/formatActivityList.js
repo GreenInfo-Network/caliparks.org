@@ -14,25 +14,20 @@ var activities = {
   "covered picnic tables":{"category":"outdoors","label":"covered picnic tables"},
   "fishing":{"category":"water","label":"fishing"},
   "hiking":{"category":"outdoors","label":"hiking"},
-  "horsebackRiding":{"category":"outdoors","label":"horseback riding"},
-  "kayakingCanoeing":{"category":"water","label":"kayaking & canoeing"},
-  "kiteboardingWindsurfing":{"category":"water","label":"kiteboarding & windsurfing"},
-  "historicalSite":{"category":"historic","label":"museums"},
+  "horsebackriding":{"category":"outdoors","label":"horseback riding"},
+  "kayakingcanoeing":{"category":"water","label":"kayaking & canoeing"},
+  "kiteboardingwindsurfing":{"category":"water","label":"kiteboarding & windsurfing"},
+  "historicalsite":{"category":"historic","label":"museums"},
   "ohv":{"category":"outdoors","label":"OHV"},
-  "Playground":{"category":"kids","label":"playgrounds"},
-  "rusticCabins":{"category":"outdoors","label":"rustic cabins"},
-  "snowSports":{"category":"snow","label":"snow sports"},
+  "playground":{"category":"kids","label":"playgrounds"},
+  "rusticcabins":{"category":"outdoors","label":"rustic cabins"},
+  "snowsports":{"category":"snow","label":"snow sports"},
   "surfing":{"category":"water","label":"surfing"},
   "swimming":{"category":"water","label":"swimming"},
-  "Tennis":{"category":"sports","label":"tennis"},
-  "whitewaterRaftingKayaking":{"category":"water","label":"whitewater rafting & kayaking"},
-  "wildlifeWatching":{"category":"outdoors","label":"wildlife watching"}
+  "tennis":{"category":"sports","label":"tennis"},
+  "whitewaterraftingkayaking":{"category":"water","label":"whitewater rafting & kayaking"},
+  "wildlifewatching":{"category":"outdoors","label":"wildlife watching"}
 };
-
-// to handle mixed casing
-Object.keys(activities).forEach(function(x) {
-  activities[x.toLowerCase()] = activities[x];
-});
 
 module.exports = function formatActivityList(options) {
   // i18n support
@@ -43,7 +38,7 @@ module.exports = function formatActivityList(options) {
 
   var activityNames = list
     .map(function(x) {
-      return activities[x];
+      return activities[x.toLowerCase()];
     })
     .filter(function(x) {
       return !!x;
