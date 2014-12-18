@@ -1,4 +1,4 @@
-define(["require","exports","module","jquery","block-photo-carousel","block-instagram-strip","block-static-park-map","facebook-fixer","fullscreen-overlay"], function(
+define(["require","exports","module","jquery","block-photo-carousel","block-instagram-strip","block-static-park-map","facebook-fixer","fullscreen-overlay","block-search-box"], function(
   require,
   exports,
   module,
@@ -7,10 +7,13 @@ define(["require","exports","module","jquery","block-photo-carousel","block-inst
   BlockInstagramStrip,
   BlockStaticParkMap,
   FacebookFixer,
-  FullscreenOverlay
+  FullscreenOverlay,
+  BlockSearchBox
 ) {
 
   "use strict";
+
+  var blocks = {};
 
   module.exports = {};
 
@@ -70,5 +73,7 @@ define(["require","exports","module","jquery","block-photo-carousel","block-inst
       $("body").addClass("facebook-thing-closed");
     }
   });
+
+  blocks.blockSearchBox = new BlockSearchBox(".block-search-box",{}, function(err, blockSearchBox) {});
 
 });

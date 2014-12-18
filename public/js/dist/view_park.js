@@ -1,5 +1,6 @@
-define([ "require", "exports", "module", "jquery", "block-photo-carousel", "block-instagram-strip", "block-static-park-map", "facebook-fixer", "fullscreen-overlay" ], function(require, exports, module, jquery, BlockPhotoCarousel, BlockInstagramStrip, BlockStaticParkMap, FacebookFixer, FullscreenOverlay) {
+define([ "require", "exports", "module", "jquery", "block-photo-carousel", "block-instagram-strip", "block-static-park-map", "facebook-fixer", "fullscreen-overlay", "block-search-box" ], function(require, exports, module, jquery, BlockPhotoCarousel, BlockInstagramStrip, BlockStaticParkMap, FacebookFixer, FullscreenOverlay, BlockSearchBox) {
     "use strict";
+    var blocks = {};
     module.exports = {}, module.exports.map = new BlockStaticParkMap(".block-static-park-map", viewData, function() {
         module.exports.mapOverlay = new FullscreenOverlay("#content", "/js/partials/fullscreen-map.handlebars", {
             className: "map-overlay"
@@ -21,5 +22,5 @@ define([ "require", "exports", "module", "jquery", "block-photo-carousel", "bloc
     var facebookFixer = new FacebookFixer();
     facebookFixer.on("facebook-frame-change", function(e) {
         "open" === e.caller.state ? $("body").removeClass("facebook-thing-closed") : $("body").addClass("facebook-thing-closed");
-    });
+    }), blocks.blockSearchBox = new BlockSearchBox(".block-search-box", {}, function() {});
 });
