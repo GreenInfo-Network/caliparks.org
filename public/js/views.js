@@ -32,7 +32,7 @@ define(["require","exports","module","handlebars","stamen-super-classy","../../j
 
     function init () {
 
-      if (!Object.keys(Handlebars._stamenPartials||{}).length) {
+      if (!Object.keys(Handlebars.partials||{}).length) {
         initPartials(function() {
 
           if (callback) {

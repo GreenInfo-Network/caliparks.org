@@ -12,7 +12,7 @@ define([ "require", "exports", "module", "handlebars", "stamen-super-classy", ".
             });
         }
         function init() {
-            Object.keys(Handlebars._stamenPartials || {}).length ? callback && callback(null, that) : initPartials(function() {
+            Object.keys(Handlebars.partials || {}).length ? callback && callback(null, that) : initPartials(function() {
                 callback && callback(null, that);
             }), that.Handlebars = Handlebars;
         }
