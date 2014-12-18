@@ -1,3 +1,6 @@
+-- matching on integers is way better than integer <-> numeric
+ALTER TABLE cpad_2014b7 ALTER COLUMN suid_nma TYPE integer;
+
 DROP VIEW IF EXISTS cpad_superunits;
 CREATE VIEW cpad_superunits AS
   SELECT
