@@ -1,47 +1,67 @@
+"use strict";
+
+// TODO Use the one from config (requiring it doesn't work, as this is used
+// in both server and client contexts
+var activities = {
+  "backpacking":{"category":"outdoors","label":"backpacking"},
+  "ball fields":{"category":"sports","label":"ball fields"},
+  "basketball":{"category":"sports","label":"basketball"},
+  "biking":{"category":"outdoors","label":"biking"},
+  "boating":{"category":"water","label":"boating"},
+  "camping":{"category":"outdoors","label":"camping"},
+  "caving":{"category":"outdoors","label":"caving"},
+  "climbing":{"category":"outdoors","label":"rock climbing"},
+  "covered picnic tables":{"category":"outdoors","label":"covered picnic tables"},
+  "fishing":{"category":"water","label":"fishing"},
+  "hiking":{"category":"outdoors","label":"hiking"},
+  "horsebackRiding":{"category":"outdoors","label":"horseback riding"},
+  "kayakingCanoeing":{"category":"water","label":"kayaking & canoeing"},
+  "kiteboardingWindsurfing":{"category":"water","label":"kiteboarding & windsurfing"},
+  "historicalSite":{"category":"historic","label":"museums"},
+  "ohv":{"category":"outdoors","label":"OHV"},
+  "Playground":{"category":"kids","label":"playgrounds"},
+  "rusticCabins":{"category":"outdoors","label":"rustic cabins"},
+  "snowSports":{"category":"snow","label":"snow sports"},
+  "surfing":{"category":"water","label":"surfing"},
+  "swimming":{"category":"water","label":"swimming"},
+  "Tennis":{"category":"sports","label":"tennis"},
+  "whitewaterRaftingKayaking":{"category":"water","label":"whitewater rafting & kayaking"},
+  "wildlifeWatching":{"category":"outdoors","label":"wildlife watching"}
+};
+
+// to handle mixed casing
+Object.keys(activities).forEach(function(x) {
+  activities[x.toLowerCase()] = activities[x];
+});
+
 module.exports = function formatActivityList(options) {
+  // i18n support
+  options.__ = options.__ || function(x) {
+    return x;
+  };
   var list = options.fn(this).split(",");
 
-  //TODO: Use the one from config
-  var activities = {
-    "backpacking":{"category":"outdoors","label":"Backpacking"},
-    "ball fields":{"category":"sports","label":"Ball fields"},
-    "basketball":{"category":"sports","label":"Basketball"},
-    "biking":{"category":"outdoors","label":"Biking"},
-    "boating":{"category":"water","label":"Boating"},
-    "camping":{"category":"outdoors","label":"Camping"},
-    "caving":{"category":"outdoors","label":"Caving"},
-    "climbing":{"category":"outdoors","label":"Rock climbing"},
-    "covered picnic tables":{"category":"outdoors","label":"Covered picnic tables"},
-    "fishing":{"category":"water","label":"Fishing"},
-    "hiking":{"category":"outdoors","label":"Hiking"},
-    "horsebackRiding":{"category":"outdoors","label":"Horseback Riding"},
-    "kayakingCanoeing":{"category":"water","label":"Kayaking & canoeing"},
-    "kiteboardingWindsurfing":{"category":"water","label":"Kiteboarding & windsurfing"},
-    "ohv":{"category":"outdoors","label":"OHV"},
-    "playground":{"category":"kids","label":"Playground"},
-    "snowSports":{"category":"snow","label":"Snow sports"},
-    "surfing":{"category":"water","label":"Surfing"},
-    "swimming":{"category":"water","label":"Swimming"},
-    "tennis":{"category":"sports","label":"Tennis"},
-    "whitewaterRaftingKayaking":{"category":"water","label":"Whitewater rafting & kayaking"},
-    "wildlifeWatching":{"category":"outdoors","label":"Wildlife watching"},
-    "rusticCabins":{"category":"outdoors","label":"Rustic cabins"},
-    "historicalSite":{"category":"historic","label":"Museums"}
-  };
+  var activityNames = list
+    .map(function(x) {
+      return activities[x];
+    })
+    .filter(function(x) {
+      return !!x;
+    })
+    .map(function(x) {
+      return x.label;
+    });
 
-  function findActivityKey(activity) {
-    var keys = Object.keys(activities);
-
-    return keys[keys.map(function(key) {return key.toLowerCase();}).indexOf(activity.toLowerCase())];
+  // no commas
+  if (activityNames.length === 2) {
+    return activityNames.join(" " + options.__("and") + " ");
   }
 
-  if (!list.length || list.length < 2) {
-    return options.fn(this);
-  } else {
-    return list.map(function(activity, i, a) {
-      var activityObject = activities[findActivityKey(activity)];
-      return (i===a.length-1 ? (options.__||function(s){return s;})("and") + " " : " ") + (activityObject ? activityObject.label : (options.__||function(s){return s;})("Unofficial activity"));
-    }).join(list.length > 2 ? ", " : " ");
+  // tack on "and" to the last item
+  if (activityNames.length > 1) {
+    activityNames[activityNames.length - 1] = options.__("and") + " " + activityNames[activityNames.length - 1];
   }
 
+  // Oxford commas
+  return activityNames.join(", ");
 };
