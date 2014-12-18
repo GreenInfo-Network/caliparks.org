@@ -1,5 +1,5 @@
 <div class="block-park-name">
-  <div class="park-name">{{#if link}}<a href="/park/{{#if superunit_id}}{{superunit_id}}{{else}}{{cpadPark.superunit_id}}{{/if}}">{{/if}}{{unit_name}}{{#if link}}</a>{{/if}}</span></div>
+  <div class="park-name">{{#unless nolink}}<a href="/park/{{#if superunit_id}}{{superunit_id}}{{else}}{{cpadPark.superunit_id}}{{/if}}">{{/unless}}{{unit_name}}{{#unless nolink}}</a>{{/unless}}</span></div>
   {{#if activity}}
   {{>block-activity-icons}}
   {{/if}}
