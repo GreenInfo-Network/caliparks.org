@@ -182,6 +182,10 @@ define(["require","exports","module","block-activity-filter","block-search-box",
 
       if (history && history.pushState) { //Only if the browser supports pushstate
         resultsNode.addEventListener("click", function(e) {
+
+          //
+          // Pagination Button behavior
+          //
           if (e.target && e.target.getAttribute("data-pagination")) {
 
             e.preventDefault();
@@ -203,6 +207,23 @@ define(["require","exports","module","block-activity-filter","block-search-box",
             }
 
           }
+
+          //
+          // Search result behavior
+          //
+          var searchResult = that.utils.parentHasClass(e.target,"search-result"),
+              link;
+          if (searchResult) {
+            e.preventDefault();
+
+            link = that.utils.get(".park-name a",searchResult)[0];
+
+            if (link) {
+              location.href = link.href;
+            }
+
+          }
+
         }, false);
       }
 

@@ -81,6 +81,9 @@ define([ "require", "exports", "module", "block-activity-filter", "block-search-
                         startat: startat
                     });
                 }, 50)));
+                var link, searchResult = that.utils.parentHasClass(e.target, "search-result");
+                searchResult && (e.preventDefault(), link = that.utils.get(".park-name a", searchResult)[0], 
+                link && (location.href = link.href));
             }, !1), parksData = new ContentFetcher("#content .search-results", "parks-results"), 
             that.on("route", function(e) {
                 resultsNode.innerHTML = parksData.compileTemplate(e.caller), resultsNode.scrollTop = 0;
