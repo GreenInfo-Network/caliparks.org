@@ -100,7 +100,7 @@ module.exports = function(req, res, data, callback) {
 
   return cpad.getParks(data, go);
 
-  function go(err, parks, bounds) {
+  function go(err, parks, place) {
 
     if (err && err.Error && err.Error.substring(0,17) !== "Failed to geocode") {
       return callback(err);
@@ -113,7 +113,7 @@ module.exports = function(req, res, data, callback) {
       perpage        : (data.options) ? data.options.perpage : "30",
       query          : data.query,
       activities     : getActivityFilterState(data.query.with),
-      bounds         : bounds
+      place          : place
     };
 
     if (parks) {
