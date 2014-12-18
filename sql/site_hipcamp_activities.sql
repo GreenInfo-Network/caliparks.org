@@ -128,8 +128,6 @@ INSERT INTO site_hipcamp_activities (su_id, url, activities) VALUES (4515, 'http
 INSERT INTO site_hipcamp_activities (su_id, url, activities) VALUES (12213, '', ARRAY['biking', 'hiking', 'horsebackriding', 'wildlifewatching']);
 INSERT INTO site_hipcamp_activities (su_id, url, activities) VALUES (2583, '', ARRAY['biking', 'hiking', 'horsebackriding', 'wildlifewatching']);
 INSERT INTO site_hipcamp_activities (su_id, url, activities) VALUES (2586, '', ARRAY['biking', 'hiking', 'horsebackriding', 'wildlifewatching']);
-INSERT INTO site_hipcamp_activities (su_id, url, activities) VALUES (2583, '', ARRAY['']);
-INSERT INTO site_hipcamp_activities (su_id, url, activities) VALUES (2586, '', ARRAY['']);
 INSERT INTO site_hipcamp_activities (su_id, url, activities) VALUES (12811, 'http://www.stancounty.com/ER/PARKS/pdf/reservoirs-brochure-wr.pdf', ARRAY['boating', 'fishing', 'hiking', 'horsebackriding', 'kayakingcanoeing', 'swimming', 'wildlifewatching', 'camping']);
 INSERT INTO site_hipcamp_activities (su_id, url, activities) VALUES (399, '', ARRAY['biking', 'hiking', 'horsebackriding', 'wildlifewatching']);
 INSERT INTO site_hipcamp_activities (su_id, url, activities) VALUES (11495, '', ARRAY['fishing', 'hiking', 'horsebackriding', 'wildlifewatching']);
@@ -818,4 +816,3 @@ INSERT INTO site_hipcamp_activities (su_id, url, activities) VALUES (1791, '', A
 INSERT INTO site_hipcamp_activities (su_id, url, activities) VALUES (1792, 'http://www.hipcamp.com/ca/shasta-cascade/woodson-bridge', ARRAY['boating', 'fishing', 'hiking', 'kayakingcanoeing', 'swimming', 'whitewaterraftingkayaking', 'wildlifewatching', 'camping']);
 INSERT INTO site_hipcamp_activities (su_id, url, activities) VALUES (14310, 'http://www.hipcamp.com/ca/high-sierra/yosemite', ARRAY['backpacking', 'biking', 'fishing', 'hiking', 'horsebackriding', 'kayakingcanoeing', 'climbing', 'snowsports', 'swimming', 'whitewaterraftingkayaking', 'wildlifewatching', 'camping']);
 INSERT INTO site_hipcamp_activities (su_id, url, activities) VALUES (1793, '', ARRAY['boating', 'fishing', 'horsebackriding', 'swimming', 'wildlifewatching']);
-INSERT INTO site_hipcamp_activities (su_id, url, activities) VALUES (1613, 'http://www.reserveamerica.com/camping/malakoff-diggins-shp/r/campgroundDetails.do?contractCode=CA&parkId=120050', ARRAY['biking', 'fishing', 'hiking', 'horsebackriding', 'swimming', 'wildlifewatching', 'camping', 'rusticcabins', 'historicalsite']);
