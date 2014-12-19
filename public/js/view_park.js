@@ -32,7 +32,14 @@ define(["require","exports","module","jquery","block-photo-carousel","block-inst
             viewData.bbox.coordinates[0][0][1],
             viewData.bbox.coordinates[0][2][0],
             viewData.bbox.coordinates[0][2][1]
-          ]
+          ],
+          polygon : {
+            "type": "Feature",
+            "geometry": viewData.geometry,
+            "properties": {
+              "name": viewData.unit_name
+            }
+          }
         }, function(err, slippyMap) {
           module.exports.slippyMap = slippyMap;
           module.exports.slippyMap.fire("map-initialized");

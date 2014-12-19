@@ -7,7 +7,14 @@ define([ "require", "exports", "module", "jquery", "block-photo-carousel", "bloc
         }), module.exports.mapOverlay.once("show", function() {
             require([ "slippymap" ], function(Slippymap) {
                 module.exports.slippyMap = new Slippymap("#content .map-overlay .slippy-map", {
-                    contextBounds: [ viewData.bbox.coordinates[0][0][0], viewData.bbox.coordinates[0][0][1], viewData.bbox.coordinates[0][2][0], viewData.bbox.coordinates[0][2][1] ]
+                    contextBounds: [ viewData.bbox.coordinates[0][0][0], viewData.bbox.coordinates[0][0][1], viewData.bbox.coordinates[0][2][0], viewData.bbox.coordinates[0][2][1] ],
+                    polygon: {
+                        type: "Feature",
+                        geometry: viewData.geometry,
+                        properties: {
+                            name: viewData.unit_name
+                        }
+                    }
                 }, function(err, slippyMap) {
                     module.exports.slippyMap = slippyMap, module.exports.slippyMap.fire("map-initialized"), 
                     module.exports.slippyMap.on("street-view-toggle", function(e) {

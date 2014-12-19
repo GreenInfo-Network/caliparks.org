@@ -44,7 +44,12 @@ define([ "require", "exports", "module", "stamen-super-classy", "gmap-custom-til
                 mapTypeControloptions: {
                     mapTypeIds: [ "parksLayer" ]
                 }
-            }), that.map.mapTypes.set("parksLayer", that.parksLayer), that.map.setMapTypeId("parksLayer");
+            }), options.polygon && (that.map.data.setStyle(options.polygonOptions || {
+                fillColor: "rgba(2, 122, 187,.2)",
+                strokeColor: "rgba(2, 122, 187,.7)",
+                strokeWeight: 1
+            }), that.map.data.addGeoJson(options.polygon)), that.map.mapTypes.set("parksLayer", that.parksLayer), 
+            that.map.setMapTypeId("parksLayer");
             var pinLayer = new GmapCustomPinLayer(that.map, {
                 data: options.data,
                 featureIdProperty: "superunit_id"

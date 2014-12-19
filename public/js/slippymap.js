@@ -91,6 +91,16 @@ define(["require","exports","module","stamen-super-classy","gmap-custom-tile-lay
         }
       });
 
+      if (options.polygon) {
+        that.map.data.setStyle(options.polygonOptions || {
+          fillColor:'rgba(2, 122, 187,.2)',
+          strokeColor:'rgba(2, 122, 187,.7)',
+          strokeWeight:1
+        });
+
+        that.map.data.addGeoJson(options.polygon);
+      }
+
       that.map.mapTypes.set("parksLayer", that.parksLayer);
       that.map.setMapTypeId("parksLayer");
 
