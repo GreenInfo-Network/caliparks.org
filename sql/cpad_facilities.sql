@@ -5,11 +5,11 @@ CREATE MATERIALIZED VIEW cpad_facilities AS
     fac_id,
     cpad.superunit_id,
     rec.geom,
-    CASE rec.fac_type WHEN 'Playground' THEN 'Playground'
-                  WHEN 'Tennis/racquet court' THEN 'Tennis'
-                  WHEN 'Ball field (soccer, baseball, football)' THEN 'Ball fields'
-                  WHEN 'Basketball court' THEN 'Basketball'
-                  WHEN 'Covered picnic area' THEN 'Covered picnic tables'
+    CASE rec.fac_type WHEN 'Playground' THEN 'playground'
+                  WHEN 'Tennis/racquet court' THEN 'tennis'
+                  WHEN 'Ball field (soccer, baseball, football)' THEN 'ball fields'
+                  WHEN 'Basketball court' THEN 'basketball'
+                  WHEN 'Covered picnic area' THEN 'covered picnic tables'
     END as type,
     park_name AS name,
     quantity,
