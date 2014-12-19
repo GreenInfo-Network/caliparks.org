@@ -45,8 +45,12 @@
       margin-top: 5px;
     }
 
-    &.has .clear-activities-action {
+    .clear-activities-action {
       display:none;
+    }
+
+    &.has .clear-activities-action {
+      display:inline;
     }
 
     .toggle-activities-drawer-action {

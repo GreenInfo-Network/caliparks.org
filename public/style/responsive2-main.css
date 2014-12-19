@@ -672,8 +672,10 @@ body.parksforward.responsive2 {
         margin-top: 5px; }
         body.parksforward.responsive2 .block-activity-filter .filter-handle .action i {
           float: left; }
-      body.parksforward.responsive2 .block-activity-filter .filter-handle.has .clear-activities-action {
+      body.parksforward.responsive2 .block-activity-filter .filter-handle .clear-activities-action {
         display: none; }
+      body.parksforward.responsive2 .block-activity-filter .filter-handle.has .clear-activities-action {
+        display: inline; }
       body.parksforward.responsive2 .block-activity-filter .filter-handle .toggle-activities-drawer-action i {
         background-image: url('/style/responsive2/menuArrow.svg');
         background-repeat: no-repeat;
