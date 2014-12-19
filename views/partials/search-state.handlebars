@@ -1,29 +1,34 @@
-{{#unless parks}}
 
-  “{{query.near}}” {{#__}}could not be found.{{/__}}
-
-{{else}}
-
-  {{#if story}}
-    {{story}}
-  {{else}}
-    {{#if query.with}}
-      {{total}} parks with {{#formatActivityList}}{{query.with}}{{/formatActivityList}}
+{{#if place}}
+  {{#if parks}}
+    {{#if story}}
+      {{story}}
     {{else}}
-      {{#if query.near}}
-        {{#if startat}}
-          {{total}} {{#__}}more parks near {{/__}}
-        {{else}}
-          {{#__}}The {{total}} parks nearest to {{/__}}
-        {{/if}}
+      {{#if query.with}}
+        {{total}} parks with {{#formatActivityList}}{{query.with}}{{/formatActivityList}}
+      {{else}}
+        {{#if query.near}}
+          {{#if startat}}
+            {{total}} {{#__}}more parks near {{/__}}
+          {{else}}
+            {{#__}}The {{total}} parks nearest to {{/__}}
+          {{/if}}
 
-        {{#if homeLocation}}
-          {{#__}}you{{/__}}
-        {{else}}
-          {{place.name}}
+          {{#if homeLocation}}
+            {{#__}}you{{/__}}
+          {{else}}
+            {{place.name}}
+          {{/if}}
         {{/if}}
       {{/if}}
     {{/if}}
-  {{/if}}
+  {{else}}
 
-{{/unless}}
+    {{#__}}No parks found near{{/__}} “{{place.name}}”{{#__}}; try expanding your filter.{{/__}}
+
+  {{/if}}
+{{else}}
+
+  “{{query.near}}” {{#__}}could not be found.{{/__}}
+
+{{/if}}
