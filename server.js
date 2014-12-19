@@ -1,6 +1,7 @@
 'use strict';
 
-var express    = require('express'),
+var cors       = require('cors'),
+    express    = require('express'),
     exphbs     = require('express-handlebars'),
     memwatch   = require('memwatch'),
     morgan     = require('morgan'),
@@ -48,6 +49,8 @@ if (process.env.NODE_ENV !== 'production') {
 
 // you'll need cookies
 app.use(express.cookieParser());
+
+app.use(cors());
 
 //
 // Internationalization time (i18n)
