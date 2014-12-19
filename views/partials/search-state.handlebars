@@ -1,6 +1,6 @@
 {{#unless parks}}
 
-  {{#__}}The location{{/__}}: “{{#replace item="+" with=" "}}{{query.near}}{{/replace}}” {{#__}}could not be found.{{/__}}
+  “{{query.near}}” {{#__}}could not be found.{{/__}}
 
 {{else}}
 
@@ -20,7 +20,7 @@
         {{#if homeLocation}}
           {{#__}}you{{/__}}
         {{else}}
-          {{#replace item="+" with=" "}}{{place.name}}{{/replace}}
+          {{place.name}}
         {{/if}}
       {{/if}}
     {{/if}}

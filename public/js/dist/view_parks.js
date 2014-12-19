@@ -122,6 +122,11 @@ define([ "require", "exports", "module", "block-activity-filter", "block-search-
                 history && history.pushState && (that.utils.get("#content .search-state")[0].innerHTML = searchStateView.compileTemplate(e.caller));
             });
         }
+        function decode(obj) {
+            return "object" == typeof obj ? Object.keys(obj).reduce(function(prev, curr) {
+                return prev[curr] = decode(obj[curr]), prev;
+            }, {}) : "string" == typeof obj ? decodeURIComponent(obj.replace(/\+/, "%20")) : obj;
+        }
         function loadParks(stateChanges) {
             for (var urlState = routes.getParamStateFromLocationObject(), keys = Object.keys(stateChanges), i = 0; keys.length > i; i++) urlState[keys[i]] = stateChanges[keys[i]];
             lock(), that.utils.request("/parks/search.geojson" + routes.stringifyUrlSearchParams(urlState), function(err, r) {
@@ -133,14 +138,15 @@ define([ "require", "exports", "module", "block-activity-filter", "block-search-
                 } catch (err) {
                     return that.fire("error", err);
                 }
-                return "ok" === responseObject.status ? that.fire("route", {
-                    parks: responseObject.response.features.map(function(feature) {
+                if ("ok" === responseObject.status) {
+                    var values = responseObject.response.properties || {};
+                    return values.parks = responseObject.response.features.map(function(feature) {
                         return feature.properties;
-                    }),
-                    query: urlState,
-                    total: responseObject.response.features.length,
-                    parksGeoJSON: responseObject.response
-                }) : that.fire("error", {
+                    }), values.place = responseObject.response.properties.place, values.total = responseObject.response.features.length, 
+                    values.parksGeoJSON = responseObject.response, values.query = decode(urlState), 
+                    that.fire("route", values);
+                }
+                return that.fire("error", {
                     message: "Response body not okay",
                     response: responseObject
                 });

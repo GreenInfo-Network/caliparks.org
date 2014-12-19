@@ -313,6 +313,23 @@ define(["require","exports","module","block-activity-filter","block-search-box",
       });
     }
 
+    // recursively decode URI components
+    function decode(obj) {
+      if (typeof obj === "object") {
+        return Object.keys(obj).reduce(function(prev, curr) {
+          prev[curr] = decode(obj[curr]);
+
+          return prev;
+        }, {});
+      }
+
+      if (typeof obj === "string") {
+        return decodeURIComponent(obj.replace(/\+/, "%20"));
+      }
+
+      return obj;
+    }
+
     function loadParks(stateChanges) {
 
       var urlState = routes.getParamStateFromLocationObject(),
@@ -342,14 +359,21 @@ define(["require","exports","module","block-activity-filter","block-search-box",
 
         if (responseObject.status === "ok") {
 
-          return that.fire("route", {
-            "parks":responseObject.response.features.map(function(feature) {
-              return feature.properties;
-            }),
-            "query":urlState,
-            "total":responseObject.response.features.length,
-            "parksGeoJSON":responseObject.response
+          var values = responseObject.response.properties || {};
+
+          values.parks = responseObject.response.features.map(function(feature) {
+            return feature.properties;
           });
+
+          values.place = responseObject.response.properties.place;
+          values.total = responseObject.response.features.length;
+          values.parksGeoJSON = responseObject.response;
+
+          // prevent templates from having to decode URI components (which will
+          // have already been decoded when running on the server)
+          values.query = decode(urlState);
+
+          return that.fire("route", values);
         } else {
           return that.fire("error",{"message":"Response body not okay", "response" : responseObject});
         }
