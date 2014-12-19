@@ -50,9 +50,7 @@ define([ "require", "exports", "module", "stamen-super-classy", "routes" ], func
         }
         var that = this;
         StamenSuperClassy.apply(that, arguments);
-        var searchParams, withArray, rootNode = that.utils.get(rootSelector)[0], clearActionNode = (that.utils.get(".filter-handle", rootNode)[0], 
-        that.utils.get(".clear-activities-action", rootNode)[0]), filterDrawerNode = that.utils.get(".filter-drawer", rootNode)[0], toggleDrawerActionNode = that.utils.get(".toggle-activities-drawer-action", rootNode)[0], closeDrawerActionNode = (that.utils.get(".status", toggleDrawerActionNode)[0], 
-        that.utils.get(".close-drawer-action", rootNode)[0]), state = {};
+        var searchParams, withArray, rootNode = that.utils.get(rootSelector)[0], clearActionNode = that.utils.get(".clear-activities-action", rootNode)[0], filterDrawerNode = that.utils.get(".filter-drawer", rootNode)[0], toggleDrawerActionNode = that.utils.get(".toggle-activities-drawer-action", rootNode)[0], closeDrawerActionNode = that.utils.get(".close-drawer-action", rootNode)[0], state = {};
         return initClearAction(), initActivityToggleActions(), initDrawerToggleAction(), 
         initDrawerCloseAction(), that.lock = lock, that.unLock = unLock, callback(null, that), 
         that;

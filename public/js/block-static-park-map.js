@@ -130,8 +130,8 @@ define(["require","exports","module","detect-os","stamen-super-classy","gmap-cus
       that.bigMap.setMapTypeId("parksLayer");
 
       that.bigMap.data.setStyle({
-        fillColor:'rgba(2, 122, 187,.2)',
-        strokeColor:'rgba(2, 122, 187,.7)',
+        fillColor:"rgba(2, 122, 187,.2)",
+        strokeColor:"rgba(2, 122, 187,.7)",
         strokeWeight:1
       });
 

@@ -1073,6 +1073,10 @@ body.parksforward.responsive2 {
     right: 0;
     bottom: 0px;
     left: 0; }
+    body.parksforward.responsive2 #content.template-parks .story-extra {
+      text-align: center;
+      color: white;
+      padding: 10px; }
     body.parksforward.responsive2 #content.template-parks.filtered .not-backpacking li.activity-backpacking {
       background-color: #ccc; }
     body.parksforward.responsive2 #content.template-parks.filtered .not-ball_fields li.activity-ball_fields {

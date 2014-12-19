@@ -103,7 +103,7 @@ define([ "require", "exports", "module", "block-activity-filter", "block-search-
             });
         }
         function initSinlepageFiltering() {
-            blocks.blockActivityFilter.on("filter-select", function(e) {
+            blocks.blockActivityFilter && blocks.blockActivityFilter.on("filter-select", function(e) {
                 history && history.pushState ? (e.caller.element.classList.add("wait"), blocks.blockActivityFilter.lock(), 
                 that.once("route", function() {
                     e.caller.element.classList.remove("wait"), blocks.blockActivityFilter.unLock();
@@ -175,7 +175,7 @@ define([ "require", "exports", "module", "block-activity-filter", "block-search-
     }
     var routes = new Routes(), searchState = routes.getParamStateFromLocationObject(), blocks = {};
     blocks.blockSearchBox = new BlockSearchBox(".block-search-box", {}, function() {}), 
-    blocks.blockActivityFilter = new BlockActivityFilter(".block-activity-filter", {}, function() {}), 
+    blocks.blockSearchBox.utils.get(".block-activity-filter")[0] && (blocks.blockActivityFilter = new BlockActivityFilter(".block-activity-filter", {}, function() {})), 
     module.exports = new View({
         geojsonURI: "/parks/search.geojson" + routes.stringifyUrlSearchParams(searchState),
         bounds: viewData.bounds,

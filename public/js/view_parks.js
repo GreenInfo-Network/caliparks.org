@@ -280,27 +280,29 @@ define(["require","exports","module","block-activity-filter","block-search-box",
 
     function initSinlepageFiltering() {
 
-      blocks.blockActivityFilter.on("filter-select",function(e) {
+      if (blocks.blockActivityFilter) {
+        blocks.blockActivityFilter.on("filter-select",function(e) {
 
-        if (history && history.pushState) { //Only if the browser supports pushstate
-          e.caller.element.classList.add("wait");
-          blocks.blockActivityFilter.lock();
-          that.once("route", function() {
-            e.caller.element.classList.remove("wait");
-            blocks.blockActivityFilter.unLock();
-          });
-          setTimeout(function() {
-            loadParks({
-              "with" : e.caller.params.with,
-              "startat" : 0,
-              "perpage" : 30
+          if (history && history.pushState) { //Only if the browser supports pushstate
+            e.caller.element.classList.add("wait");
+            blocks.blockActivityFilter.lock();
+            that.once("route", function() {
+              e.caller.element.classList.remove("wait");
+              blocks.blockActivityFilter.unLock();
             });
-          },50);
-        } else {
-          location.href = "/parks/search" + routes.stringifyUrlSearchParams(e.caller.params);
-        }
+            setTimeout(function() {
+              loadParks({
+                "with" : e.caller.params.with,
+                "startat" : 0,
+                "perpage" : 30
+              });
+            },50);
+          } else {
+            location.href = "/parks/search" + routes.stringifyUrlSearchParams(e.caller.params);
+          }
 
-      });
+        });
+      }
     }
 
     function initSearchStatus() {
@@ -427,7 +429,10 @@ define(["require","exports","module","block-activity-filter","block-search-box",
   }
 
   blocks.blockSearchBox      = new BlockSearchBox(".block-search-box",{}, function(err, blockSearchBox) {});
-  blocks.blockActivityFilter = new BlockActivityFilter(".block-activity-filter",{}, function(err, blockActivityFilter) {});
+
+  if (blocks.blockSearchBox.utils.get(".block-activity-filter")[0]) {
+    blocks.blockActivityFilter = new BlockActivityFilter(".block-activity-filter",{}, function(err, blockActivityFilter) {});
+  }
 
   module.exports = new View({
     "geojsonURI" : "/parks/search.geojson"+routes.stringifyUrlSearchParams(searchState),

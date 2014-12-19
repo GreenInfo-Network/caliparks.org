@@ -85,6 +85,12 @@
   bottom: 0px;
   left: 0;
 
+  .story-extra {
+    text-align: center;
+    color: white;
+    padding: 10px;
+  }
+
   &.filtered {
     .not-backpacking {
       li.activity-backpacking {

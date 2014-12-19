@@ -17,11 +17,9 @@ define(["require","exports","module","stamen-super-classy","routes"], function(
     StamenSuperClassy.apply(that, arguments);
 
     var rootNode           = that.utils.get(rootSelector)[0],
-        handleNode             = that.utils.get(".filter-handle", rootNode)[0],
         clearActionNode        = that.utils.get(".clear-activities-action", rootNode)[0],
         filterDrawerNode       = that.utils.get(".filter-drawer", rootNode)[0],
         toggleDrawerActionNode = that.utils.get(".toggle-activities-drawer-action", rootNode)[0],
-        toggleDrawerStatusNode = that.utils.get(".status", toggleDrawerActionNode)[0],
         closeDrawerActionNode  = that.utils.get(".close-drawer-action", rootNode)[0],
         state = {},
         searchParams, withArray;
@@ -42,25 +40,12 @@ define(["require","exports","module","stamen-super-classy","routes"], function(
             selected[i].classList.remove("selected");
           }
 
-          //updateStatusNode([]);
           that.fire("filter-select", {
             "params"  : searchParams,
             "element" : e.target
           });
         }, false);
       }
-
-    }
-
-    function updateStatusNode(withArray) {
-      /*
-      if (withArray.length) {
-        handleNode.classList.add("has");
-        toggleDrawerStatusNode.innerHTML = withArray.length;
-      } else {
-        //handleNode.classList.remove("has");
-      }
-      */
 
     }
 
@@ -102,7 +87,6 @@ define(["require","exports","module","stamen-super-classy","routes"], function(
               toggleAction.classList.add("selected");
             }
 
-            //updateStatusNode(withArray);
             setTimeout(function() {
               that.fire("filter-select", {
                 "params"  : searchParams,
@@ -119,7 +103,6 @@ define(["require","exports","module","stamen-super-classy","routes"], function(
       //
       searchParams = routes.getParamStateFromLocationObject();
       withArray    = (searchParams.with ? searchParams.with.split(",") : []);
-      //updateStatusNode(withArray);
 
     }
 

@@ -19,7 +19,13 @@ if (locationParts[4] === 'near' && !locationParts[5]) {
     {{>search-state}}
   </div>
   <div class="action-bar">
-    {{>block-activity-filter}}
+    {{#unless story}}
+      {{>block-activity-filter}}
+    {{else}}
+      <div class="story-extra">
+        {{#__}}Check out some of our favorites:{{/__}}
+      </div>
+    {{/unless}}
   </div>
 
   <div id="tab-container" class="{{#each activities}}{{#unless filterState}} not-{{#removeSpaces}}{{@key}}{{/removeSpaces}}{{/unless}}{{/each}}">
