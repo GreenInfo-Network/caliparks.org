@@ -88,6 +88,21 @@ module.exports = function(req, res, options, callback) {
       };
 
       //
+      // Query state
+      //
+      // string booleans render Handlebars if statements useless!
+      //
+      output.query = req.query;
+
+      for (var i in output.query) {
+        if (output.query.hasOwnProperty(i)) {
+          if (output.query[i] === 'false' || output.query[i] === 'true') {
+            output.query[i] = (output.query[i] === 'true') ? true : false;
+          }
+        }
+      }
+
+      //
       // Instagram output
       //
 

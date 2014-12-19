@@ -107,40 +107,190 @@
 
 }
 
-.site-name-embed {
-  display:block;
+#content.template-embed-park {
   background-color:$color-notsodark;
   color:$light-font-color;
-  margin-bottom:0;
-  padding: 7px $box-padding-half;
-  color: white;
   font-size: $font-size-small;
-  position:absolute;
-  right:0;bottom:0;left:0;
-  height:30px;
-  text-align:right;
-  color:$light-font-color;
-  font-weight:$font-weight-bold;
-  font-family:$font-family-serif;
-  letter-spacing: .09em;
 
   a {
     color:$light-font-color;
   }
-}
 
-#content.template-embed-park {
+  .site-name-embed {
+    display:block;
+    margin-bottom:0;
+    padding: 7px $box-padding-half;
+    position:absolute;
+    bottom:0;
+    height:35px;
+    text-align:right;
+    font-weight:$font-weight-bold;
+    font-family:$font-family-serif;
+    letter-spacing: .09em;
+    width:100%;
 
-  overflow:auto;
-  position:absolute;
-  top:0;right:0;bottom: 30px;left:0;
+    a {
+      color:$light-font-color;
+      font-family:$font-family-serif;
+    }
+  }
 
   .block-static-park-map {
-    height:100%;
+    position:absolute;
+    top:0;right:0;bottom:30px;left:0;
     .big-park-map {
       position:absolute;
-      top:0;right:0;bottom:100px;left:0;
+      top:0;right:0;bottom:0;left:0;
+      height:100%;
+
     }
+  }
+
+  .block-park-name {
+    display:none;
+    color:#333;
+
+    a {
+      color:#333;
+    }
+  }
+
+  .social-breakdown {
+    display:none;
+  }
+
+  &.parkinfo {
+
+    .block-static-park-map {
+      bottom: 104px;
+    }
+
+    .block-park-name {
+      display: block;
+      position: absolute;
+      bottom: 30px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      background-color: #cfd8dc;
+      padding: 10px;
+      width: 100%;
+      height: 74px;
+    }
+
+    .park-name {
+      display:none;
+    }
+
+    .block-activity-icons {
+      display:none;
+    }
+
+    &.name {
+      .park-name {
+        display:block;
+        font-size:$font-size-large;
+      }
+    }
+
+    &.activities {
+      .block-activity-icons {
+        display:block;
+
+        li {
+          width: 37px;
+          height: 37px;
+          background-size: 27px 27px;
+        }
+      }
+    }
+
+    &.name.activities {
+      .park-name {
+        display:block;
+        font-size:$font-size-medium;
+      }
+      .block-activity-icons {
+        display:block;
+
+        li {
+          width: 32px;
+          height: 32px;
+          background-size: 22px 22px;
+        }
+      }
+    }
+  }
+
+  &.social {
+
+    .block-static-park-map {
+      bottom: 76px;
+    }
+
+    .social-breakdown {
+      display:block;
+      position: absolute;
+      bottom: 30px;
+      padding: 10px;
+      background-color: #cfd8dc;
+      width: 100%;
+      color: #333;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      > span {
+        font-weight:400;
+
+        span {
+          font-weight:$font-weight-normal;
+        }
+      }
+    }
+
+  }
+
+  &.social.parkinfo {
+
+    .block-static-park-map {
+      bottom: 139px;
+    }
+
+    .block-park-name {
+      display: block;
+      position: absolute;
+      bottom: 65px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      background-color: #cfd8dc;
+      padding: 10px 10px 0 10px;
+      width: 100%;
+      height: 74px;
+    }
+
+    .social-breakdown {
+      display:block;
+      position: absolute;
+      bottom: 30px;
+      padding: 10px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      background-color: #cfd8dc;
+      width: 100%;
+      color: #333;
+
+      > span {
+        font-weight:400;
+
+        span {
+          font-weight:$font-weight-normal;
+        }
+      }
+    }
+
   }
 
 }

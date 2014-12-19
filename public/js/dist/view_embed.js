@@ -12,7 +12,7 @@ define([ "require", "exports", "module", "stamen-super-classy" ], function(requi
             return status;
         }
         function generateIframeCode(status) {
-            return that.processTemplate('<iframe width="100%" height="100%" src="//{href}/embed/park?id={id}&directions={directions}&locatorMap={locatormap}"></iframe>', status);
+            return that.processTemplate('<iframe width="100%" height="100%" src="//{href}/embed/park?id={id}&directions={directions}&locatorMap={locatormap}&name={name}&activities={activities}&social={social}"></iframe>', status);
         }
         function update() {
             var iframeCode = generateIframeCode(getStatus());
@@ -22,14 +22,14 @@ define([ "require", "exports", "module", "stamen-super-classy" ], function(requi
             textareaNode = that.utils.get("#content .change textarea")[0], updateTextarea();
         }
         function initCheckboxes() {
-            controlsNode = that.utils.get("#content .controls")[0], checkboxNodes = that.utils.get("input", controlsNode), 
+            controlsNode = that.utils.get("#content .controls")[0], checkboxNodes = that.utils.get("input", controlsNode),
             controlsNode.addEventListener("click", update, !1);
         }
         function init() {
             initTextarea(), initCheckboxes(), update();
         }
         var iframeNode, textareaNode, showNode, controlsNode, checkboxNodes, that = this;
-        stamenSuperClassy.apply(that, arguments), showNode = that.utils.get("#content .show")[0], 
+        stamenSuperClassy.apply(that, arguments), showNode = that.utils.get("#content .show")[0],
         iframeNode = that.utils.get("iframe", showNode)[0], init();
     }
     module.exports.view = new View();

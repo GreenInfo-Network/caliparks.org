@@ -228,11 +228,11 @@ app.get('/embed/park', function(req,res, next) {
 
     if (templateData) {
 
-      if (req.query.directions && req.query.directions==='false') {
+      if (!req.query.directions) {
         templateData.hideDirections = true;
       }
 
-      if (req.query.locatorMap && req.query.locatorMap==='false') {
+      if (!req.query.locatorMap) {
         templateData.hideLocatorMap = true;
       }
 
