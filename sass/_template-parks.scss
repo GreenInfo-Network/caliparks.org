@@ -2,6 +2,8 @@
 
   .viewport-containerparks {
     position:relative;height:100vh;
+
+    height: 91vh;
   }
 
   footer {
@@ -329,6 +331,15 @@
       display:block;
       top: 171px;
       bottom: 1px;
+
+      .gm-style-iw {
+        margin-top:10px;
+        width:200px;
+
+        .park-name {
+          padding-bottom:10px;
+        }
+      }
 
       @include media(max-width 720px) {
         top: 165px;

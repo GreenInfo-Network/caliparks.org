@@ -57,7 +57,8 @@ define([ "require", "exports", "module", "block-activity-filter", "block-search-
                 });
             }), that.slippyMap.on("select-markers", function(e) {
                 e.caller && e.caller.selectedMarkers[0] && (infowindow.open(that.slippyMap.map, e.caller.selectedMarkers[0].pin), 
-                infowindow.setContent(infoWindowData.compileTemplate(e.caller.selectedMarkers[0].feature.properties)));
+                infowindow.setContent(infoWindowData.compileTemplate(e.caller.selectedMarkers[0].feature.properties)), 
+                that.utils.get(".gm-style-iw")[0].parentNode.classList.add("park-info-window"));
             }), resultsNode.addEventListener("mouseover", function(e) {
                 state.hoverActionPause = setTimeout(that.utils.debounce(function() {
                     if (state.hoverActionPause) {

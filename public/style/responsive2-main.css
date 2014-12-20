@@ -1019,7 +1019,8 @@ body.parksforward.responsive2 {
               margin: 10px; } }
   body.parksforward.responsive2.tablet-viewport .viewport-containerparks {
     position: relative;
-    height: 100vh; }
+    height: 100vh;
+    height: 91vh; }
   body.parksforward.responsive2.tablet-viewport footer #footer-actions a {
     width: 50%;
     text-align: center; }
@@ -1203,6 +1204,11 @@ body.parksforward.responsive2 {
         display: block;
         top: 171px;
         bottom: 1px; }
+        body.parksforward.responsive2 #content.template-parks .tab-pane.map-tab-pane .gm-style-iw {
+          margin-top: 10px;
+          width: 200px; }
+          body.parksforward.responsive2 #content.template-parks .tab-pane.map-tab-pane .gm-style-iw .park-name {
+            padding-bottom: 10px; }
         @media screen and (max-width: 720px)  {
           body.parksforward.responsive2 #content.template-parks .tab-pane.map-tab-pane {
             top: 165px;

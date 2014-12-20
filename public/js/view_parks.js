@@ -153,6 +153,7 @@ define(["require","exports","module","block-activity-filter","block-search-box",
           infowindow.setContent(
             infoWindowData.compileTemplate(e.caller.selectedMarkers[0].feature.properties)
           );
+          that.utils.get(".gm-style-iw")[0].parentNode.classList.add("park-info-window");
         }
 
       });
