@@ -1,9 +1,8 @@
-
-{{#if place}}
-  {{#if parks}}
-    {{#if story}}
-      {{story}}
-    {{else}}
+{{#if story}}
+  {{story}}
+{{else}}
+  {{#if place}}
+    {{#if parks}}
       {{#if query.with}}
         {{total}} parks with {{#formatActivityList}}{{query.with}}{{/formatActivityList}}
       {{else}}
@@ -21,14 +20,14 @@
           {{/if}}
         {{/if}}
       {{/if}}
+    {{else}}
+
+      {{#__}}No parks found near{{/__}} “{{place.name}}”{{#__}}; try expanding your filter.{{/__}}
+
     {{/if}}
   {{else}}
 
-    {{#__}}No parks found near{{/__}} “{{place.name}}”{{#__}}; try expanding your filter.{{/__}}
+    “{{query.near}}” {{#__}}could not be found.{{/__}}
 
   {{/if}}
-{{else}}
-
-  “{{query.near}}” {{#__}}could not be found.{{/__}}
-
 {{/if}}
