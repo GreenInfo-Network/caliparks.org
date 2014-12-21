@@ -8156,7 +8156,7 @@
         "biking": false,
         "boating": false,
         "caving": false,
-        "fishing": true,
+        "fishing": false,
         "hiking": true,
         "horsebackRiding": false,
         "kayakingCanoeing": false,
