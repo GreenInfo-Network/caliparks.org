@@ -341,11 +341,6 @@ body.parksforward.responsive2 {
           border-right-width:0;
         }
 
-        @include media(max-width 720px) {
-          float:auto;
-          width:100%;
-          border-right-width:0;
-        }
       }
     }
 
@@ -410,7 +405,14 @@ body.parksforward.responsive2 {
         @include media(max-width 720px) {
           &.builtby, &.supportedby {
             @include span-columns(12 of 12);
+
+            img {
+              display:block;
+              float:none;
+              margin-bottom:$box-padding;
+            }
           }
+
         }
       }
     }

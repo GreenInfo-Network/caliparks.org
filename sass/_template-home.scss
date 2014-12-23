@@ -15,6 +15,10 @@
     letter-spacing: .09em;
 
     font-weight:$font-weight-bold;
+
+    @include media(max-width 720px) {
+      font-size:$font-size-medium;
+    }
   }
 
   .block-search-box {

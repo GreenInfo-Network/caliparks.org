@@ -51,9 +51,9 @@
 .action-bar {
   position:relative;
   overflow:auto;
-  border-top:$border-style;
 
   .block-activity-filter {
+    border-top: $border-style;
     background-color:$color-notsodark;
   }
 
@@ -63,7 +63,7 @@
 .tab-actions {
   position:absolute;
   right: 20px;
-  top: 115px;
+  top: 0;
   height:100%;
   height: 47px;
   z-index: 4;
@@ -91,6 +91,13 @@
     text-align: center;
     color: white;
     padding: 10px;
+    height: 50px;
+
+    @include media(max-width 720px) {
+      p {
+        display:none;
+      }
+    }
   }
 
   &.filtered {
@@ -349,26 +356,19 @@
       .search-this-area-action {
         position:absolute;
         left:$box-padding-half;
-        bottom:$box-padding-half;
+        bottom:35px;
         opacity:0;
         transition:$animation-speed opacity;
       }
 
       &.slippy-map-bounds-dirty .search-this-area-action {
         position:absolute;
-        left:$box-padding-half;
-        bottom:$box-padding-half;
         opacity:1;
       }
 
       @include media(max-width 720px) {
         width:100%;
         margin-left:0;
-
-        &.slippy-map-bounds-dirty .search-this-area-action {
-          left:38%;
-          right:38%;
-        }
       }
     }
   }

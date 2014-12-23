@@ -23,17 +23,17 @@ if (locationParts[4] === 'near' && !locationParts[5]) {
       {{>block-activity-filter}}
     {{else}}
       <div class="story-extra">
-        {{#__}}Check out some of our favorites:{{/__}}
+        <p>{{#__}}Check out some of our favorites:{{/__}}</p>
       </div>
     {{/unless}}
-  </div>
 
-  <div id="tab-container" class="{{#each activities}}{{#unless filterState}} not-{{#removeSpaces}}{{@key}}{{/removeSpaces}}{{/unless}}{{/each}}">
     <div class="tab-actions">
       <button class="list" data-action="list">{{#__}}List{{/__}}</button>
       <button class="map" data-action="map">{{#__}}Map{{/__}}</button>
     </div>
+  </div>
 
+  <div id="tab-container" class="{{#each activities}}{{#unless filterState}} not-{{#removeSpaces}}{{@key}}{{/removeSpaces}}{{/unless}}{{/each}}">
     <div class="tab-pane list-tab-pane">
       <ul class="search-results">
         {{>parks-results}}
