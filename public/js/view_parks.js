@@ -62,13 +62,28 @@ define(["require","exports","module","block-activity-filter","block-search-box",
 
       });
 
-      that.utils.get(".search-this-area-action",mapTabNode)[0].addEventListener("click", function() {
-        var newSearchState = JSON.parse(JSON.stringify(searchState));
-        if (newSearchState["near"]) {
-          delete newSearchState["near"];
-        }
-        newSearchState["bbox"] = that.slippyMap.getBounds().join(",");
-        location.href="/parks/search" + routes.stringifyUrlSearchParams(newSearchState);
+      that.utils.get(".search-this-area-action",mapTabNode)[0].addEventListener("click", function(e) {
+
+        e.target.classList.add("wait");
+
+        setTimeout(function() {
+          lock();
+
+          var newSearchState = JSON.parse(JSON.stringify(searchState));
+          if (newSearchState["near"]) {
+            delete newSearchState["near"];
+          }
+          newSearchState["bbox"] = that.slippyMap.getBounds().join(",");
+          newSearchState["startat"] = 0;
+          newSearchState["perpage"] = 30;
+
+          that.once("route", function() {
+            e.target.classList.remove("wait");
+          });
+
+          loadParks(newSearchState);
+        }, 500);
+
       }, that);
 
       that.on("route", function(e) {
@@ -333,7 +348,7 @@ define(["require","exports","module","block-activity-filter","block-search-box",
       return obj;
     }
 
-    function loadParks(stateChanges) {
+    function loadParks(stateChanges, callback) {
 
       var urlState = routes.getParamStateFromLocationObject(),
           keys     = Object.keys(stateChanges);
@@ -376,6 +391,9 @@ define(["require","exports","module","block-activity-filter","block-search-box",
           // have already been decoded when running on the server)
           values.query = decode(urlState);
 
+          if (callback) {
+            callback();
+          }
           return that.fire("route", values);
         } else {
           return that.fire("error",{"message":"Response body not okay", "response" : responseObject});

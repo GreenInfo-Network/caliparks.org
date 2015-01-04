@@ -17,10 +17,15 @@ define([ "require", "exports", "module", "block-activity-filter", "block-search-
                 cleanBounds = that.slippyMap.map.getBounds(), mapTabNode.classList.remove("slippy-map-bounds-dirty");
             }), that.slippyMap.on("bounds-changed", function() {
                 cleanBounds && !cleanBounds.equals(that.slippyMap.map.getBounds()) && mapTabNode.classList.add("slippy-map-bounds-dirty");
-            }), that.utils.get(".search-this-area-action", mapTabNode)[0].addEventListener("click", function() {
-                var newSearchState = JSON.parse(JSON.stringify(searchState));
-                newSearchState.near && delete newSearchState.near, newSearchState.bbox = that.slippyMap.getBounds().join(","), 
-                location.href = "/parks/search" + routes.stringifyUrlSearchParams(newSearchState);
+            }), that.utils.get(".search-this-area-action", mapTabNode)[0].addEventListener("click", function(e) {
+                e.target.classList.add("wait"), setTimeout(function() {
+                    lock();
+                    var newSearchState = JSON.parse(JSON.stringify(searchState));
+                    newSearchState.near && delete newSearchState.near, newSearchState.bbox = that.slippyMap.getBounds().join(","), 
+                    newSearchState.startat = 0, newSearchState.perpage = 30, that.once("route", function() {
+                        e.target.classList.remove("wait");
+                    }), loadParks(newSearchState);
+                }, 500);
             }, that), that.on("route", function(e) {
                 that.slippyMap.pinLayer.updateData(e.caller.parksGeoJSON);
             });
@@ -128,7 +133,7 @@ define([ "require", "exports", "module", "block-activity-filter", "block-search-
                 return prev[curr] = decode(obj[curr]), prev;
             }, {}) : "string" == typeof obj ? decodeURIComponent(obj.replace(/\+/, "%20")) : obj;
         }
-        function loadParks(stateChanges) {
+        function loadParks(stateChanges, callback) {
             for (var urlState = routes.getParamStateFromLocationObject(), keys = Object.keys(stateChanges), i = 0; keys.length > i; i++) urlState[keys[i]] = stateChanges[keys[i]];
             lock(), that.utils.request("/parks/search.geojson" + routes.stringifyUrlSearchParams(urlState), function(err, r) {
                 unLock();
@@ -145,7 +150,7 @@ define([ "require", "exports", "module", "block-activity-filter", "block-search-
                         return feature.properties;
                     }), values.place = responseObject.response.properties.place, values.total = responseObject.response.features.length, 
                     values.parksGeoJSON = responseObject.response, values.query = decode(urlState), 
-                    that.fire("route", values);
+                    callback && callback(), that.fire("route", values);
                 }
                 return that.fire("error", {
                     message: "Response body not okay",
