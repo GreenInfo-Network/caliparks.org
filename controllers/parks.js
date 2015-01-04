@@ -109,7 +109,7 @@ module.exports = function(req, res, data, callback) {
     templateData = {
       parks          : parks,
       total          : parks ? parks.length : 0,
-      startat        : (data.options) ? data.options.startat : "0",
+      startat        : (data.options) ? data.options.startat|0 : 0,
       perpage        : (data.options) ? data.options.perpage : "30",
       query          : data.query,
       activities     : getActivityFilterState(data.query.with),
