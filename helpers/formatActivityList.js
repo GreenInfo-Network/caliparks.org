@@ -63,7 +63,7 @@ module.exports = function formatActivityList(options) {
   if (count > 3) {
     activityNames.length = 3;
 
-    activityNames
+    activityNames.push(options.__("and") + " " + ((count|0)-3) + " " + options.__("more")); 
   }
 
   // Oxford commas
