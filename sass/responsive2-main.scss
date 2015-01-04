@@ -45,7 +45,7 @@ $font-family-sans: "expressway", "HelveticaNeue-Light", "Helvetica Neue Light", 
 
 
 @include media(min-width 721px) {
-  &.facebook-thing-closed .fb-like
+  .facebook-thing-closed .fb-like
   {
     z-index: 1;
     transform: scale(1.38);

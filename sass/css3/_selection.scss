@@ -1,0 +1,10 @@
+@mixin selection {
+  $before-colons: "";
+
+  #{$before-colons}::selection {
+    @content;
+  }
+  #{$before-colons}::-moz-selection {
+    @content;
+  }
+}

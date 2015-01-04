@@ -2,7 +2,19 @@
    v2.0 | 20110126
    License: none (public domain)
 */
-html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
   margin: 0;
   padding: 0;
   border: 0;
@@ -11,7 +23,8 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
   vertical-align: baseline; }
 
 /* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
   display: block; }
 
 body {
@@ -23,7 +36,8 @@ ol, ul {
 blockquote, q {
   quotes: none; }
 
-blockquote:before, blockquote:after, q:before, q:after {
+blockquote:before, blockquote:after,
+q:before, q:after {
   content: '';
   content: none; }
 
@@ -31,8 +45,11 @@ table {
   border-collapse: collapse;
   border-spacing: 0; }
 
-* {
+html {
   box-sizing: border-box; }
+
+*, *::after, *::before {
+  box-sizing: inherit; }
 
 /*
 *  Variables for everything
@@ -44,22 +61,22 @@ body.parksforward.responsive {
   max-width: 68em;
   margin-left: auto;
   margin-right: auto;
-  background-color: #9A9C9F;
+  background-color: #9a9c9f;
   font-size: 16px;
   line-height: 20px;
   font-family: "HelveticaNeue", "Helvetica Neue", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; }
-  body.parksforward.responsive:after {
+  body.parksforward.responsive::after {
+    clear: both;
     content: "";
-    display: table;
-    clear: both; }
+    display: table; }
   body.parksforward.responsive h1 {
     font-size: 200%;
     line-height: 100%;
     margin-bottom: 15px;
     clear: both;
-    font-family: "cooper-black-std", sans-serif; }
+    font-family: "cooper-black-std",sans-serif; }
   body.parksforward.responsive a {
-    color: #72C4B9;
+    color: #72c4b9;
     text-decoration: none; }
   body.parksforward.responsive input {
     outline: none;
@@ -83,12 +100,17 @@ body.parksforward.responsive {
     padding: 15px;
     position: relative;
     /* IE10 Consumer Preview */
+    background-image: -ms-linear-gradient(top, #72c4b9 0%, transparent 100%);
     /* Mozilla Firefox */
+    background-image: -moz-linear-gradient(top, #72c4b9 0%, transparent 100%);
     /* Opera */
+    background-image: -o-linear-gradient(top, #72c4b9 0%, transparent 100%);
     /* Webkit (Safari/Chrome 10) */
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #72c4b9), color-stop(1, white));
     /* Webkit (Chrome 11+) */
+    background-image: -webkit-linear-gradient(top, #72c4b9 0%, transparent 100%);
     /* W3C Markup, IE10 Release Preview */
-    background-image: linear, to bottom, #72C4B9 0%, rgba(0, 0, 0, 0) 100%;
+    background-image: linear-gradient(to bottom, #72c4b9 0%, transparent 100%);
     color: white; }
     body.parksforward.responsive header:last-child {
       margin-right: 0; }
@@ -96,7 +118,7 @@ body.parksforward.responsive {
       color: white; }
     body.parksforward.responsive header .logo {
       font-size: 200%;
-      font-family: "cooper-black-std", sans-serif; }
+      font-family: "cooper-black-std",sans-serif; }
       body.parksforward.responsive header .logo a {
         color: white; }
     body.parksforward.responsive header nav {
@@ -104,7 +126,7 @@ body.parksforward.responsive {
       bottom: 15px;
       right: 15px; }
     body.parksforward.responsive header.has-coverphoto {
-      background-color: rgba(0, 0, 0, 0); }
+      background-color: transparent; }
   body.parksforward.responsive div#content {
     float: left;
     display: block;
@@ -116,7 +138,7 @@ body.parksforward.responsive {
     body.parksforward.responsive div#content:last-child {
       margin-right: 0; }
     body.parksforward.responsive div#content .explore-parks-near {
-      background-color: #A4D0C4; }
+      background-color: #a4d0c4; }
     body.parksforward.responsive div#content #content-column {
       padding: 15px; }
       body.parksforward.responsive div#content #content-column .map-group {
@@ -129,10 +151,6 @@ body.parksforward.responsive {
         table-layout: fixed; }
         body.parksforward.responsive div#content #content-column .map-group:last-child {
           margin-right: 0; }
-        body.parksforward.responsive div#content #content-column .map-group:after {
-          content: "";
-          display: table;
-          clear: both; }
         body.parksforward.responsive div#content #content-column .map-group .map {
           height: 300px;
           margin-bottom: 15px; }
@@ -157,7 +175,7 @@ body.parksforward.responsive {
               height: 15px;
               border: solid 2px white; }
     body.parksforward.responsive div#content section#search-box {
-      background-color: #A4D0C4; }
+      background-color: #a4d0c4; }
       body.parksforward.responsive div#content section#search-box input {
         background-color: transparent;
         border: none;
@@ -193,7 +211,7 @@ body.parksforward.responsive {
         border: solid transparent 1px;
         padding: 3px;
         border-radius: 4px;
-        background-color: #A4D0C4;
+        background-color: #a4d0c4;
         width: 30px;
         height: 30px; }
         body.parksforward.responsive div#content ul.activity-icons li img {
@@ -214,7 +232,7 @@ body.parksforward.responsive {
         border: solid transparent 1px;
         padding: 3px;
         border-radius: 4px;
-        background-color: #A4D0C4;
+        background-color: #a4d0c4;
         height: 30px;
         /*
         &.social-badge-tweets {
@@ -243,6 +261,9 @@ body.parksforward.responsive {
     body.parksforward.responsive div#content .has-coverphoto .coverphoto {
       height: 480px;
       background: no-repeat center center;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
       background-size: cover;
       position: relative;
       width: 100%; }
@@ -258,16 +279,16 @@ body.parksforward.responsive {
       body.parksforward.responsive div#content #people-from a {
         color: white; }
       body.parksforward.responsive div#content #people-from span {
-        background-color: #72C4B9; }
+        background-color: #72c4b9; }
     body.parksforward.responsive div#content #coverphoto-carousel {
-      transition: height 0.5s;
+      transition: height .5s;
       width: 100%;
       height: 480px; }
     body.parksforward.responsive div#content .has-coverphoto .coverphoto span.attribution {
       position: absolute;
       right: 15px;
       bottom: 15px;
-      background-color: #9A9C9F;
+      background-color: #9a9c9f;
       padding: 10px;
       line-height: 10px;
       font-size: 60%;
@@ -289,25 +310,25 @@ body.parksforward.responsive {
       position: absolute;
       cursor: pointer; }
     body.parksforward.responsive div#content .carousel-forward-button {
-      background-image: url('/style/forward-arrow-normal.png'); }
+      background-image: url("/style/forward-arrow-normal.png"); }
     body.parksforward.responsive div#content .carousel-forward-button:hover {
-      background-image: url('/style/forward-arrow-hover.png'); }
+      background-image: url("/style/forward-arrow-hover.png"); }
     body.parksforward.responsive div#content .carousel-back-button {
-      background-image: url('/style/back-arrow-normal.png'); }
+      background-image: url("/style/back-arrow-normal.png"); }
     body.parksforward.responsive div#content .carousel-back-button:hover {
-      background-image: url('/style/back-arrow-hover.png'); }
+      background-image: url("/style/back-arrow-hover.png"); }
     body.parksforward.responsive div#content .carousel-forward-button, body.parksforward.responsive div#content body.openspaces .carousel-back-button:focus {
       outline-width: 0; }
     body.parksforward.responsive div#content .carousel-forward-button {
-      transition: opacity 0.5s;
+      transition: opacity .5s;
       opacity: 1;
       right: 10px; }
     body.parksforward.responsive div#content .carousel-back-button {
-      transition: opacity 0.5s;
+      transition: opacity .5s;
       left: 10px; }
     body.parksforward.responsive div#content .not-scrolled .carousel-back-button {
       opacity: 0;
-      transition: opacity 0.5s; }
+      transition: opacity .5s; }
   body.parksforward.responsive footer {
     float: left;
     display: block;
@@ -315,7 +336,7 @@ body.parksforward.responsive {
     width: 100%;
     padding: 15px;
     position: relative;
-    background-color: #72C4B9;
+    background-color: #72c4b9;
     color: white; }
     body.parksforward.responsive footer:last-child {
       margin-right: 0; }
