@@ -1,98 +1,1525 @@
-/*
-Syntax error: Invalid CSS after "    eot": expected ")", was ":   $font-url +..."
-        on line 22 of sass/helpers/_font-source-declaration.scss
-        from line 13 of sass/_bourbon.scss
-        from line 2 of ./sass/responsive2-main.scss
-
-17:   $font-url) {
-18: 
-19:   $src: null;
-20: 
-21:   $formats-map: (
-22:     eot:   $font-url + "(\"#{$file-path}.eot?#iefix\")" format("embedded-opentype"),
-23:     woff2: $font-url + "(\"#{$file-path}.woff2\")" format("woff2"),
-24:     woff:  $font-url + "(\"#{$file-path}.woff\")" format("woff"),
-25:     ttf:   $font-url + "(\"#{$file-path}.ttf\")" format("truetype"),
-26:     svg:   $font-url + "(\"#{$file-path}.svg##{$font-family}\")" format("svg")
-27:   );
-
-Backtrace:
-sass/helpers/_font-source-declaration.scss:22
-sass/_bourbon.scss:13
-./sass/responsive2-main.scss:2
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/scss/parser.rb:1147:in `expected'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/script/lexer.rb:196:in `expected!'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/script/parser.rb:483:in `assert_tok'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/script/parser.rb:433:in `paren'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/script/parser.rb:418:in `special_fun'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/script/parser.rb:413:in `raw'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/script/parser.rb:337:in `funcall'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/script/parser.rb:319:in `ident'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/script/parser.rb:228:in `unary_not'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/script/parser.rb:228:in `unary_div'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/script/parser.rb:228:in `unary_minus'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/script/parser.rb:228:in `unary_plus'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/script/parser.rb:209:in `times_div_or_mod'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/script/parser.rb:209:in `plus_or_minus'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/script/parser.rb:209:in `relational'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/script/parser.rb:209:in `eq_or_neq'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/script/parser.rb:209:in `and_expr'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/script/parser.rb:209:in `or_expr'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/script/parser.rb:298:in `space'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/script/parser.rb:283:in `interpolation'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/script/parser.rb:246:in `expr'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/script/parser.rb:477:in `assert_expr'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/script/parser.rb:49:in `parse'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/scss/parser.rb:1022:in `sass_script'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/scss/parser.rb:514:in `variable'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/scss/parser.rb:552:in `block_child'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/scss/parser.rb:546:in `block_contents'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/scss/parser.rb:535:in `block'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/scss/parser.rb:211:in `function_directive'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/scss/parser.rb:174:in `special_directive'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/scss/parser.rb:146:in `directive'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/scss/parser.rb:553:in `block_child'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/scss/parser.rb:546:in `block_contents'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/scss/parser.rb:82:in `stylesheet'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/scss/parser.rb:27:in `parse'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/engine.rb:342:in `_to_tree'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/engine.rb:274:in `to_tree'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/tree/visitors/perform.rb:225:in `visit_import'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/tree/visitors/base.rb:37:in `visit'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/tree/visitors/perform.rb:100:in `visit'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/tree/visitors/perform.rb:227:in `block in visit_import'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/tree/visitors/perform.rb:227:in `map'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/tree/visitors/perform.rb:227:in `visit_import'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/tree/visitors/base.rb:37:in `visit'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/tree/visitors/perform.rb:100:in `visit'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/tree/visitors/base.rb:53:in `block in visit_children'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/tree/visitors/base.rb:53:in `map'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/tree/visitors/base.rb:53:in `visit_children'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/tree/visitors/perform.rb:109:in `block in visit_children'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/tree/visitors/perform.rb:121:in `with_environment'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/tree/visitors/perform.rb:108:in `visit_children'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/tree/visitors/base.rb:37:in `block in visit'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/tree/visitors/perform.rb:128:in `visit_root'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/tree/visitors/base.rb:37:in `visit'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/tree/visitors/perform.rb:100:in `visit'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/tree/visitors/perform.rb:7:in `visit'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/tree/root_node.rb:20:in `render'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/engine.rb:315:in `_render'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/engine.rb:262:in `render'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/plugin/compiler.rb:362:in `update_stylesheet'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/plugin/compiler.rb:203:in `block in update_stylesheets'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/plugin/compiler.rb:201:in `each'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/plugin/compiler.rb:201:in `update_stylesheets'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/plugin/compiler.rb:283:in `block in watch'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/vendor/listen/lib/listen/multi_listener.rb:108:in `call'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/vendor/listen/lib/listen/multi_listener.rb:108:in `on_change'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/vendor/listen/lib/listen/multi_listener.rb:117:in `block in initialize_adapter'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/vendor/listen/lib/listen/adapter.rb:198:in `call'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/vendor/listen/lib/listen/adapter.rb:198:in `report_changes'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/vendor/listen/lib/listen/adapter.rb:210:in `poll_changed_dirs'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/vendor/listen/lib/listen/adapters/darwin.rb:38:in `block in start'
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
 */
-body:before {
-  white-space: pre;
-  font-family: monospace;
-  content: "Syntax error: Invalid CSS after \"    eot\": expected \")\", was \":   $font-url +...\"\A         on line 22 of sass/helpers/_font-source-declaration.scss\A         from line 13 of sass/_bourbon.scss\A         from line 2 of ./sass/responsive2-main.scss\A \A 17:   $font-url) {\A 18: \A 19:   $src: null;\A 20: \A 21:   $formats-map: (\A 22:     eot:   $font-url + \"(\\"#{$file-path}.eot?#iefix\\")\" format(\"embedded-opentype\"),\A 23:     woff2: $font-url + \"(\\"#{$file-path}.woff2\\")\" format(\"woff2\"),\A 24:     woff:  $font-url + \"(\\"#{$file-path}.woff\\")\" format(\"woff\"),\A 25:     ttf:   $font-url + \"(\\"#{$file-path}.ttf\\")\" format(\"truetype\"),\A 26:     svg:   $font-url + \"(\\"#{$file-path}.svg##{$font-family}\\")\" format(\"svg\")\A 27:   );"; }
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline; }
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block; }
+
+body {
+  line-height: 1.5em; }
+
+ol, ul {
+  list-style: none; }
+
+blockquote, q {
+  quotes: none; }
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none; }
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0; }
+
+html {
+  box-sizing: border-box; }
+
+*, *::after, *::before {
+  box-sizing: inherit; }
+
+/*
+*  Variables for everything
+*/
+@media screen and (min-width: 721px) {
+  .facebook-thing-closed .fb-like {
+    z-index: 1;
+    transform: scale(1.38);
+    transform-origin: center left; }
+    .facebook-thing-closed .fb-like iframe {
+      margin-top: -0.5px;
+      margin-left: -2px; } }
+@-webkit-keyframes spin {
+  0% {
+    transform: rotate(0deg); }
+  50% {
+    transform: rotate(360deg); } }
+@-moz-keyframes spin {
+  0% {
+    transform: rotate(0deg); }
+  50% {
+    transform: rotate(360deg); } }
+@-webkit-keyframes pulsate {
+  0% {
+    opacity: .20; }
+  10% {
+    opacity: .30; }
+  20% {
+    opacity: 0.4; }
+  30% {
+    opacity: 0.6; }
+  40% {
+    opacity: 0.8; }
+  50% {
+    opacity: 1.0; }
+  60% {
+    opacity: .80; }
+  70% {
+    opacity: .60; }
+  80% {
+    opacity: .40; }
+  90% {
+    opacity: .30; }
+  100% {
+    opacity: .20; } }
+@-moz-keyframes pulsate {
+  0% {
+    opacity: .20; }
+  10% {
+    opacity: .30; }
+  20% {
+    opacity: 0.4; }
+  30% {
+    opacity: 0.6; }
+  40% {
+    opacity: 0.8; }
+  50% {
+    opacity: 1.0; }
+  60% {
+    opacity: .80; }
+  70% {
+    opacity: .60; }
+  80% {
+    opacity: .40; }
+  90% {
+    opacity: .30; }
+  100% {
+    opacity: .20; } }
+/*
+*  Styles for everything
+*/
+body.parksforward.responsive2 {
+  max-width: 68em;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #333;
+  font-size: 22px;
+  line-height: 1em;
+  color: #333;
+  max-width: 2048px;
+  font-family: "expressway", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-weight: 300; }
+  body.parksforward.responsive2::after {
+    clear: both;
+    content: "";
+    display: table; }
+  body.parksforward.responsive2 .pulse {
+    animation-name: 'spin';
+    animation-duration: 5000ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease; }
+  body.parksforward.responsive2 .wait {
+    -webkit-animation-name: pulsate;
+    -webkit-animation-duration: 2s;
+    -webkit-animation-timing-function: ease-in-out;
+    -webkit-animation-iteration-count: infinite; }
+  body.parksforward.responsive2 .clearfix {
+    overflow: auto; }
+  body.parksforward.responsive2 .gm-style-iw {
+    height: 100px; }
+  body.parksforward.responsive2 * {
+    line-height: 1em; }
+  body.parksforward.responsive2 a {
+    text-decoration: none;
+    color: #027abb; }
+  body.parksforward.responsive2 h1, body.parksforward.responsive2 h2, body.parksforward.responsive2 h3, body.parksforward.responsive2 h4 {
+    font-family: "jubilat", serif;
+    letter-spacing: .09em;
+    color: white;
+    font-weight: 600;
+    line-height: 1em; }
+  body.parksforward.responsive2 input, body.parksforward.responsive2 button, body.parksforward.responsive2 select {
+    outline: none; }
+  body.parksforward.responsive2 h1 {
+    font-size: 125%;
+    margin-bottom: 10px; }
+  body.parksforward.responsive2 p {
+    margin-bottom: 10px; }
+  body.parksforward.responsive2 div {
+    box-sizing: border-box; }
+  body.parksforward.responsive2 button, body.parksforward.responsive2 a {
+    font-family: "expressway", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; }
+  body.parksforward.responsive2 .action {
+    background-color: transparent;
+    border-radius: 4px;
+    color: white;
+    border: solid 1px #027abb;
+    font-size: 75%;
+    padding: 5px;
+    color: #027abb;
+    cursor: pointer;
+    display: inline-block;
+    font-family: "expressway", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; }
+    body.parksforward.responsive2 .action.active {
+      background-color: #027abb;
+      color: white; }
+    body.parksforward.responsive2 .action.selected {
+      color: white;
+      border: solid 1px white; }
+    body.parksforward.responsive2 .action.close {
+      position: absolute;
+      top: 5px;
+      right: 10px;
+      overflow: hidden;
+      color: transparent;
+      background-image: url("dismiss.svg");
+      background-repeat: no-repeat;
+      border: none;
+      height: 15px;
+      width: 15px; }
+    body.parksforward.responsive2 .action.fullscreen {
+      position: absolute;
+      overflow: hidden;
+      color: transparent;
+      background-image: url("fullscreen.svg");
+      background-repeat: no-repeat;
+      border: none;
+      height: 24px;
+      width: 28px;
+      background-size: cover; }
+  body.parksforward.responsive2 .modal-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 37px;
+    background-color: rgba(0, 0, 0, 0.3); }
+  body.parksforward.responsive2 .shader {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    background-color: rgba(0, 0, 0, 0.3); }
+  body.parksforward.responsive2 .pagination-container {
+    text-align: center;
+    margin: 20px; }
+  body.parksforward.responsive2 .map-overlay {
+    background-color: white; }
+  body.parksforward.responsive2 .language-banner {
+    font-size: 75%;
+    color: white;
+    text-align: center;
+    padding: 5px 10px;
+    position: relative; }
+    body.parksforward.responsive2 .language-banner a {
+      color: white; }
+  body.parksforward.responsive2 .block-search-box {
+    padding: 0; }
+    body.parksforward.responsive2 .block-search-box form {
+      display: block;
+      position: relative;
+      width: 100%;
+      height: 100%;
+      padding: 0 140px 0 0; }
+      @media screen and (max-width: 720px) {
+        body.parksforward.responsive2 .block-search-box form {
+          padding: 0 110px 0 0; } }
+      body.parksforward.responsive2 .block-search-box form input[type=search] {
+        width: 100% !important;
+        border: solid 0px transparent;
+        -webkit-appearance: none;
+        border-radius: 4px 0px 0px 4px;
+        height: 41px;
+        font-size: 100%;
+        outline: none;
+        background-color: rgba(255, 255, 255, 0.9);
+        padding-left: 10px; }
+        @media screen and (max-width: 720px) {
+          body.parksforward.responsive2 .block-search-box form input[type=search] {
+            padding: 0;
+            padding-left: 10px; } }
+        body.parksforward.responsive2 .block-search-box form input[type=search][type="search"]::-webkit-search-decoration, body.parksforward.responsive2 .block-search-box form input[type=search][type="search"]::-webkit-search-results-button, body.parksforward.responsive2 .block-search-box form input[type=search][type="search"]::-webkit-search-results-decoration {
+          display: none; }
+        body.parksforward.responsive2 .block-search-box form input[type=search][type="search"]::-webkit-search-cancel-button {
+          -webkit-appearance: none;
+          display: none; }
+        body.parksforward.responsive2 .block-search-box form input[type=search]::-webkit-input-placeholder {
+          font-family: "expressway", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+          font-weight: 300;
+          letter-spacing: .02em; }
+        body.parksforward.responsive2 .block-search-box form input[type=search]:-moz-placeholder {
+          /* Firefox 18- */
+          font-family: "expressway", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+          padding-left: 10px;
+          font-weight: 300; }
+        body.parksforward.responsive2 .block-search-box form input[type=search]::-moz-placeholder {
+          /* Firefox 19+ */
+          font-family: "expressway", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+          padding-left: 10px;
+          font-weight: 300; }
+        body.parksforward.responsive2 .block-search-box form input[type=search]:-ms-input-placeholder {
+          font-family: "expressway", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+          padding-left: 10px;
+          font-weight: 300; }
+      body.parksforward.responsive2 .block-search-box form .search-actions {
+        height: 41px;
+        background-color: rgba(255, 255, 255, 0.9);
+        overflow: hidden;
+        width: 140px;
+        position: absolute;
+        top: 0;
+        right: 0;
+        border-radius: 0px 4px 4px 0px; }
+        @media screen and (max-width: 720px) {
+          body.parksforward.responsive2 .block-search-box form .search-actions {
+            width: 110px; } }
+        body.parksforward.responsive2 .block-search-box form .search-actions button {
+          background-color: transparent;
+          border: solid 0px transparent;
+          overflow: hidden;
+          outline: none; }
+          body.parksforward.responsive2 .block-search-box form .search-actions button.go {
+            height: 100%;
+            width: 54px;
+            position: absolute;
+            right: 0px;
+            background-color: #027abb;
+            font-size: 75%;
+            color: white;
+            font-family: "expressway", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-radius: 0 4px 4px 0; }
+        body.parksforward.responsive2 .block-search-box form .search-actions span.locate-me {
+          width: 22.5px;
+          padding: 0;
+          height: 22.5px;
+          position: absolute;
+          right: 79px;
+          top: 8px;
+          color: transparent;
+          cursor: pointer; }
+          body.parksforward.responsive2 .block-search-box form .search-actions span.locate-me svg {
+            width: 22px;
+            height: 23px;
+            outline: false; }
+            body.parksforward.responsive2 .block-search-box form .search-actions span.locate-me svg path {
+              transition: fill .5s;
+              fill: #333;
+              outline: false; }
+  body.parksforward.responsive2 .block-header-search {
+    height: 217px;
+    padding: 40px 20px 10px 20px;
+    transition: height 0.5s;
+    background-color: #333;
+    text-align: center;
+    background-image: url("/style/responsive2/blocks/header-search/bg-l.png");
+    background-size: cover;
+    background-position: center;
+    position: relative; }
+    body.parksforward.responsive2 .block-header-search h1 {
+      margin-bottom: 40px;
+      z-index: 10;
+      position: relative; }
+    body.parksforward.responsive2 .block-header-search .block-search-box {
+      max-width: 550px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 10; }
+      body.parksforward.responsive2 .block-header-search .block-search-box input {
+        padding: 0 20px; }
+    @media screen and (max-width: 720px) {
+      body.parksforward.responsive2 .block-header-search {
+        height: 110px;
+        padding-top: 20px;
+        background-image: url("/style/responsive2/blocks/header-search/bg-m.jpg"); }
+        body.parksforward.responsive2 .block-header-search h1 {
+          margin-bottom: 20px; } }
+  body.parksforward.responsive2 .block-story {
+    height: 100%;
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    cursor: pointer; }
+    body.parksforward.responsive2 .block-story .details {
+      display: inline-block;
+      width: 100%;
+      overflow: hidden;
+      box-sizing: border-box; }
+      body.parksforward.responsive2 .block-story .details a {
+        color: white;
+        display: block;
+        background-color: rgba(27, 30, 88, 0.5);
+        padding: 0px 12px;
+        overflow: hidden;
+        box-sizing: border-box;
+        float: left;
+        width: 100%; }
+      body.parksforward.responsive2 .block-story .details a.main-link {
+        display: block;
+        width: 100%;
+        padding: 12px 52px 12px 10px;
+        font-size: 125%;
+        font-family: "jubilat", serif;
+        letter-spacing: .09em;
+        font-weight: 300; }
+      body.parksforward.responsive2 .block-story .details a.attribution-link {
+        background-position: 10px center;
+        display: inline-block;
+        height: 23px;
+        background-size: auto 12px;
+        width: 100%;
+        margin-top: 0;
+        background-color: rgba(0, 0, 0, 0.3);
+        background-image: url("responsive2/flickr-logo.svg");
+        background-repeat: no-repeat;
+        font-size: 75%;
+        line-height: 1em;
+        padding: 3px 0 0 47px; }
+    @media screen and (max-width: 720px) {
+      body.parksforward.responsive2 .block-story .details a.main-link {
+        font-size: 100%; }
+      body.parksforward.responsive2 .block-story .details a.attribution-link {
+        position: absolute;
+        top: 10px;
+        right: 0;
+        width: 50px;
+        overflow: hidden;
+        color: transparent;
+        background-color: transparent;
+        padding: 0;
+        margin: 0; } }
+  body.parksforward.responsive2 .block-stories-flexy {
+    width: 100%;
+    box-sizing: border-box; }
+    body.parksforward.responsive2 .block-stories-flexy ul {
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      list-style-type: none;
+      display: block;
+      box-sizing: border-box;
+      position: relative;
+      padding-right: 50%; }
+      body.parksforward.responsive2 .block-stories-flexy ul li {
+        width: 100%;
+        height: 250px;
+        display: inline-block;
+        box-sizing: border-box;
+        overflow: hidden;
+        margin: 0;
+        float: left;
+        transition: width .2s, height .2s; }
+        body.parksforward.responsive2 .block-stories-flexy ul li:first-of-type {
+          width: 50%;
+          position: absolute;
+          top: 0;
+          right: 0;
+          height: 500px; }
+        body.parksforward.responsive2 .block-stories-flexy ul li:nth-of-type(2), body.parksforward.responsive2 .block-stories-flexy ul li:nth-of-type(3), body.parksforward.responsive2 .block-stories-flexy ul li:nth-of-type(6), body.parksforward.responsive2 .block-stories-flexy ul li:nth-of-type(7) {
+          width: 50%; }
+          body.parksforward.responsive2 .block-stories-flexy ul li:nth-of-type(2) .details, body.parksforward.responsive2 .block-stories-flexy ul li:nth-of-type(3) .details, body.parksforward.responsive2 .block-stories-flexy ul li:nth-of-type(6) .details, body.parksforward.responsive2 .block-stories-flexy ul li:nth-of-type(7) .details {
+            width: 100%; }
+            body.parksforward.responsive2 .block-stories-flexy ul li:nth-of-type(2) .details a.main-link, body.parksforward.responsive2 .block-stories-flexy ul li:nth-of-type(3) .details a.main-link, body.parksforward.responsive2 .block-stories-flexy ul li:nth-of-type(6) .details a.main-link, body.parksforward.responsive2 .block-stories-flexy ul li:nth-of-type(7) .details a.main-link {
+              width: 100%;
+              font-size: 100%;
+              margin-right: 51px; }
+            body.parksforward.responsive2 .block-stories-flexy ul li:nth-of-type(2) .details a.attribution-link, body.parksforward.responsive2 .block-stories-flexy ul li:nth-of-type(3) .details a.attribution-link, body.parksforward.responsive2 .block-stories-flexy ul li:nth-of-type(6) .details a.attribution-link, body.parksforward.responsive2 .block-stories-flexy ul li:nth-of-type(7) .details a.attribution-link {
+              position: absolute;
+              top: 10px;
+              right: 5px;
+              color: transparent;
+              background-color: transparent;
+              width: 40px; }
+        body.parksforward.responsive2 .block-stories-flexy ul li:nth-of-type(5) {
+          width: 50%;
+          position: absolute;
+          top: 500px;
+          right: 0;
+          height: 500px; }
+    @media screen and (max-width: 720px) {
+      body.parksforward.responsive2 .block-stories-flexy ul {
+        padding-right: 0; }
+        body.parksforward.responsive2 .block-stories-flexy ul li {
+          height: 250px; }
+          body.parksforward.responsive2 .block-stories-flexy ul li:first-of-type {
+            width: inherit;
+            position: inherit;
+            top: inherit;
+            right: inherit;
+            height: 250px; }
+          body.parksforward.responsive2 .block-stories-flexy ul li:nth-of-type(2), body.parksforward.responsive2 .block-stories-flexy ul li:nth-of-type(3), body.parksforward.responsive2 .block-stories-flexy ul li:nth-of-type(6), body.parksforward.responsive2 .block-stories-flexy ul li:nth-of-type(7) {
+            width: inherit; }
+          body.parksforward.responsive2 .block-stories-flexy ul li:nth-of-type(5) {
+            width: inherit;
+            position: inherit;
+            top: inherit;
+            right: inherit;
+            height: 250px; } }
+  body.parksforward.responsive2 .block-photo-carousel {
+    height: 300px;
+    position: relative; }
+    body.parksforward.responsive2 .block-photo-carousel .slide-container {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      height: 100%;
+      overflow: hidden;
+      overflow-x: auto;
+      white-space: nowrap;
+      width: 100%;
+      box-sizing: border-box;
+      font-size: 0;
+      overflow-scrolling: touch; }
+      body.parksforward.responsive2 .block-photo-carousel .slide-container > div {
+        height: 100%;
+        width: 100%;
+        box-sizing: border-box;
+        display: inline-block;
+        background-size: cover;
+        display: block;
+        background-position: center center; }
+        body.parksforward.responsive2 .block-photo-carousel .slide-container > div .attribution {
+          display: block;
+          position: absolute;
+          top: 20px;
+          right: 20px;
+          cursor: pointer;
+          color: transparent;
+          height: 12px;
+          width: 27px;
+          background-image: url("responsive2/flickr-logo.svg");
+          background-repeat: no-repeat; }
+          body.parksforward.responsive2 .block-photo-carousel .slide-container > div .attribution > div, body.parksforward.responsive2 .block-photo-carousel .slide-container > div .attribution > a {
+            display: none; }
+        body.parksforward.responsive2 .block-photo-carousel .slide-container > div:first-of-type {
+          margin-left: 0px; }
+    body.parksforward.responsive2 .block-photo-carousel button {
+      z-index: 10;
+      position: absolute;
+      border: none;
+      background-color: transparent;
+      height: 25px;
+      width: 25px;
+      background-repeat: no-repeat;
+      background-size: cover;
+      outline: none;
+      top: 44%;
+      background-image: url("responsive2/blocks/photo-carousel/forward.svg");
+      cursor: pointer; }
+      body.parksforward.responsive2 .block-photo-carousel button.carousel-back-button {
+        left: 20px;
+        transform: rotate(180deg); }
+      body.parksforward.responsive2 .block-photo-carousel button.carousel-forward-button {
+        right: 20px; }
+  body.parksforward.responsive2 .block-instagram-strip {
+    height: 119px;
+    position: relative; }
+    body.parksforward.responsive2 .block-instagram-strip .slide-container {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      height: 100%;
+      overflow: hidden;
+      overflow-x: auto;
+      white-space: nowrap;
+      width: 100%;
+      box-sizing: border-box;
+      font-size: 0;
+      overflow-scrolling: touch !important; }
+      body.parksforward.responsive2 .block-instagram-strip .slide-container > div {
+        height: 119px;
+        width: 119px;
+        box-sizing: border-box;
+        display: inline-block;
+        position: relative;
+        background-size: cover;
+        display: block;
+        background-position: center center; }
+        body.parksforward.responsive2 .block-instagram-strip .slide-container > div .attribution {
+          display: block;
+          position: absolute;
+          bottom: 5px;
+          left: 5px;
+          cursor: pointer;
+          color: transparent;
+          height: 13px;
+          width: 13px;
+          background-image: url("responsive2/instagram-logo.svg");
+          background-repeat: no-repeat; }
+          body.parksforward.responsive2 .block-instagram-strip .slide-container > div .attribution > div, body.parksforward.responsive2 .block-instagram-strip .slide-container > div .attribution > a {
+            display: none; }
+        body.parksforward.responsive2 .block-instagram-strip .slide-container > div:first-of-type {
+          margin-left: 0px; }
+    body.parksforward.responsive2 .block-instagram-strip button {
+      z-index: 10;
+      position: absolute;
+      border: none;
+      background-color: transparent;
+      height: 25px;
+      width: 25px;
+      background-repeat: no-repeat;
+      background-size: cover;
+      outline: none;
+      top: 44%;
+      background-image: url("responsive2/blocks/photo-carousel/forward.svg");
+      cursor: pointer; }
+      body.parksforward.responsive2 .block-instagram-strip button.carousel-back-button {
+        left: 20px;
+        transform: rotate(180deg);
+        transform: rotate(180deg); }
+      body.parksforward.responsive2 .block-instagram-strip button.carousel-forward-button {
+        right: 20px; }
+  body.parksforward.responsive2 .block-activity-icons {
+    margin: 0;
+    padding: 0;
+    display: block; }
+    @media screen and (max-width: 720px) {
+      body.parksforward.responsive2 .block-activity-icons {
+        margin-bottom: 10px; } }
+    body.parksforward.responsive2 .block-activity-icons li {
+      display: inline-block;
+      list-style-type: none;
+      width: 32px;
+      height: 32px;
+      background-size: 22px 22px;
+      line-height: 1em;
+      font-size: 0px;
+      color: transparent;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-color: #2099f1;
+      border: none;
+      border-radius: 4px 4px;
+      background-position: 5px 5px;
+      padding: 10px;
+      cursor: pointer; }
+      body.parksforward.responsive2 .block-activity-icons li.outdoors {
+        background-color: #4BAE4F; }
+      body.parksforward.responsive2 .block-activity-icons li.sports {
+        background-color: #FF9F00; }
+      body.parksforward.responsive2 .block-activity-icons li.kids {
+        background-color: #9B26AF; }
+      body.parksforward.responsive2 .block-activity-icons li.water {
+        background-color: #2095F2; }
+      body.parksforward.responsive2 .block-activity-icons li.snow {
+        background-color: #00BBD3; }
+      body.parksforward.responsive2 .block-activity-icons li.historic {
+        background-color: #8C6D62; }
+  body.parksforward.responsive2 .block-static-park-map {
+    position: relative; }
+    body.parksforward.responsive2 .block-static-park-map .big-park-map {
+      width: 100%;
+      height: 625px; }
+      body.parksforward.responsive2 .block-static-park-map .big-park-map .gmnoprint:last-of-type {
+        top: 0;
+        right: 0;
+        bottom: auto;
+        left: auto; }
+        body.parksforward.responsive2 .block-static-park-map .big-park-map .gmnoprint:last-of-type .gmnoprint {
+          border-color: #333; }
+    body.parksforward.responsive2 .block-static-park-map .small-park-map {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      top: 10px;
+      right: 10px;
+      border: solid 1px black;
+      border-radius: 5px; }
+      body.parksforward.responsive2 .block-static-park-map .small-park-map .gmnoprint a, body.parksforward.responsive2 .block-static-park-map .small-park-map .gmnoprint span {
+        display: none; }
+      body.parksforward.responsive2 .block-static-park-map .small-park-map .gmnoprint div {
+        background: none !important; }
+      body.parksforward.responsive2 .block-static-park-map .small-park-map img[src="http://maps.gstatic.com/mapfiles/api-3/images/google_white2.png"], body.parksforward.responsive2 .block-static-park-map .small-park-map a[href^="http://maps.google.com/maps"] {
+        display: none !important; }
+    body.parksforward.responsive2 .block-static-park-map .directions-action {
+      position: absolute;
+      top: 10px;
+      left: 5px; }
+  body.parksforward.responsive2 .block-park-name .park-name {
+    color: #333;
+    font-family: "jubilat", serif;
+    letter-spacing: .09em;
+    font-weight: bolder; }
+    body.parksforward.responsive2 .block-park-name .park-name a {
+      color: #333; }
+  body.parksforward.responsive2 .block-activity-filter {
+    background-color: #333; }
+    body.parksforward.responsive2 .block-activity-filter.closed .filter-drawer {
+      height: 0px;
+      padding-bottom: 0;
+      -webkit-transition: width 1s; }
+    body.parksforward.responsive2 .block-activity-filter.closed .close-drawer-action {
+      display: none; }
+    body.parksforward.responsive2 .block-activity-filter.closed .clear-activities-action {
+      display: none; }
+    body.parksforward.responsive2 .block-activity-filter.closed .toggle-activities-drawer-action.many {
+      font-weight: 600; }
+    body.parksforward.responsive2 .block-activity-filter.closed .toggle-activities-drawer-action i {
+      transform: rotate(0deg) !important; }
+    body.parksforward.responsive2 .block-activity-filter .filter-handle {
+      padding: 7px 0; }
+      body.parksforward.responsive2 .block-activity-filter .filter-handle .action {
+        border: none;
+        color: white;
+        margin-top: 5px; }
+        body.parksforward.responsive2 .block-activity-filter .filter-handle .action i {
+          float: left; }
+      body.parksforward.responsive2 .block-activity-filter .filter-handle .clear-activities-action {
+        display: none; }
+      body.parksforward.responsive2 .block-activity-filter .filter-handle.has .clear-activities-action {
+        display: inline; }
+      body.parksforward.responsive2 .block-activity-filter .filter-handle .toggle-activities-drawer-action i {
+        background-image: url("/style/responsive2/menuArrow.svg");
+        background-repeat: no-repeat;
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        background-size: 19px 14px;
+        background-position: left;
+        margin-right: 10px;
+        transform: rotate(90deg);
+        background-size: 19px 14px;
+        transition: transform .10s; }
+    body.parksforward.responsive2 .block-activity-filter .filter-drawer {
+      overflow: auto;
+      transition: .5s height;
+      max-height: 46vh;
+      margin: 0 auto;
+      width: 95%;
+      padding-bottom: 20px;
+      text-align: center;
+      height: 100%; }
+      body.parksforward.responsive2 .block-activity-filter .filter-drawer li {
+        display: inline-block;
+        width: 76px;
+        text-align: center;
+        vertical-align: top;
+        float: left;
+        font-size: 75%;
+        height: 106px;
+        padding: 0; }
+        body.parksforward.responsive2 .block-activity-filter .filter-drawer li .action {
+          border: solid 0px transparent;
+          display: inline-block;
+          margin: 0 auto; }
+          body.parksforward.responsive2 .block-activity-filter .filter-drawer li .action .activity-icon-container {
+            width: 45px;
+            height: 45px;
+            margin: 0 auto;
+            background-color: #cfd8dc;
+            border-radius: 4px;
+            padding-top: 10px;
+            margin-bottom: 10px; }
+            body.parksforward.responsive2 .block-activity-filter .filter-drawer li .action .activity-icon-container img, body.parksforward.responsive2 .block-activity-filter .filter-drawer li .action .activity-icon-container svg {
+              width: 25px;
+              height: 25px; }
+          body.parksforward.responsive2 .block-activity-filter .filter-drawer li .action label {
+            color: white;
+            text-align: center;
+            width: 67px;
+            display: inline-block;
+            line-height: 1.3em; }
+      body.parksforward.responsive2 .block-activity-filter .filter-drawer.has li .action .outdoors, body.parksforward.responsive2 .block-activity-filter .filter-drawer li .action.selected .outdoors {
+        background-color: #4BAE4F; }
+      body.parksforward.responsive2 .block-activity-filter .filter-drawer.has li .action .sports, body.parksforward.responsive2 .block-activity-filter .filter-drawer li .action.selected .sports {
+        background-color: #FF9F00; }
+      body.parksforward.responsive2 .block-activity-filter .filter-drawer.has li .action .kids, body.parksforward.responsive2 .block-activity-filter .filter-drawer li .action.selected .kids {
+        background-color: #9B26AF; }
+      body.parksforward.responsive2 .block-activity-filter .filter-drawer.has li .action .water, body.parksforward.responsive2 .block-activity-filter .filter-drawer li .action.selected .water {
+        background-color: #2095F2; }
+      body.parksforward.responsive2 .block-activity-filter .filter-drawer.has li .action .snow, body.parksforward.responsive2 .block-activity-filter .filter-drawer li .action.selected .snow {
+        background-color: #00BBD3; }
+      body.parksforward.responsive2 .block-activity-filter .filter-drawer.has li .action .historic, body.parksforward.responsive2 .block-activity-filter .filter-drawer li .action.selected .historic {
+        background-color: #8C6D62; }
+  body.parksforward.responsive2 header {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 100%;
+    background-color: #333;
+    padding: 6px 10px;
+    border-bottom: solid 1px rgba(0, 0, 0, 0.2);
+    color: white;
+    font-size: 75%;
+    font-weight: 600;
+    font-family: "jubilat", serif;
+    letter-spacing: .09em; }
+    body.parksforward.responsive2 header:last-child {
+      margin-right: 0; }
+    body.parksforward.responsive2 header a {
+      color: white; }
+    body.parksforward.responsive2 header p {
+      margin: 0; }
+  body.parksforward.responsive2 footer {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    font-size: 75%;
+    line-height: 1em;
+    color: white;
+    z-index: 1; }
+    body.parksforward.responsive2 footer:last-child {
+      margin-right: 0; }
+    body.parksforward.responsive2 footer a {
+      color: white; }
+    body.parksforward.responsive2 footer #footer-actions {
+      float: left;
+      display: block;
+      margin-right: 2.35765%;
+      width: 100%;
+      background-color: #333; }
+      body.parksforward.responsive2 footer #footer-actions:last-child {
+        margin-right: 0; }
+      body.parksforward.responsive2 footer #footer-actions a {
+        display: inline-block;
+        box-sizing: border-box;
+        width: 33.33%;
+        border: solid 1px rgba(0, 0, 0, 0.2);
+        border-width: 1px 1px 0 0;
+        padding: 20px 52px;
+        background-color: #333;
+        background-repeat: no-repeat;
+        background-size: auto 50%;
+        background-position: 10px;
+        float: left; }
+        body.parksforward.responsive2 footer #footer-actions a.top-action {
+          background-image: url("/style/responsive2/footer/circle-arrow.svg"); }
+        body.parksforward.responsive2 footer #footer-actions a.wander-action {
+          background-image: url("/style/responsive2/footer/circle-walking.svg"); }
+        body.parksforward.responsive2 footer #footer-actions a.contact-action {
+          background-image: url("/style/responsive2/footer/speech-bubble.svg"); }
+        body.parksforward.responsive2 footer #footer-actions a:last-of-type {
+          border-right-width: 0; }
+    body.parksforward.responsive2 footer #footer-credits {
+      float: left;
+      display: block;
+      margin-right: 2.35765%;
+      width: 100%;
+      background-color: #cfd8dc;
+      display: inline-block; }
+      body.parksforward.responsive2 footer #footer-credits:last-child {
+        margin-right: 0; }
+      body.parksforward.responsive2 footer #footer-credits > div {
+        padding: 20px; }
+        body.parksforward.responsive2 footer #footer-credits > div h2 {
+          font-family: "expressway", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+          color: #333;
+          margin-bottom: 20px; }
+        body.parksforward.responsive2 footer #footer-credits > div .stamen-logo {
+          width: 83px;
+          height: 22px;
+          float: left;
+          vertical-align: middle;
+          margin-right: 10px; }
+        body.parksforward.responsive2 footer #footer-credits > div .greeninfo-logo {
+          width: 85px;
+          height: 36px;
+          float: left;
+          vertical-align: bottom;
+          margin-right: 10px;
+          margin-top: -7px; }
+        body.parksforward.responsive2 footer #footer-credits > div .hipcamp-logo {
+          height: 27px;
+          float: left;
+          vertical-align: middle; }
+        body.parksforward.responsive2 footer #footer-credits > div .parks-forward-logo {
+          width: 108px;
+          margin-left: -19px; }
+        body.parksforward.responsive2 footer #footer-credits > div .rlf-logo {
+          width: 285px; }
+        body.parksforward.responsive2 footer #footer-credits > div.builtby {
+          float: left;
+          display: block;
+          margin-right: 2.35765%;
+          width: 40.29137%; }
+          body.parksforward.responsive2 footer #footer-credits > div.builtby:last-child {
+            margin-right: 0; }
+          body.parksforward.responsive2 footer #footer-credits > div.builtby h2 {
+            margin-bottom: 47px; }
+        body.parksforward.responsive2 footer #footer-credits > div.supportedby {
+          float: left;
+          display: block;
+          margin-right: 2.35765%;
+          width: 57.35098%; }
+          body.parksforward.responsive2 footer #footer-credits > div.supportedby:last-child {
+            margin-right: 0; }
+        @media screen and (max-width: 720px) {
+          body.parksforward.responsive2 footer #footer-credits > div.builtby, body.parksforward.responsive2 footer #footer-credits > div.supportedby {
+            float: left;
+            display: block;
+            margin-right: 2.35765%;
+            width: 100%; }
+            body.parksforward.responsive2 footer #footer-credits > div.builtby:last-child, body.parksforward.responsive2 footer #footer-credits > div.supportedby:last-child {
+              margin-right: 0; }
+            body.parksforward.responsive2 footer #footer-credits > div.builtby img, body.parksforward.responsive2 footer #footer-credits > div.supportedby img {
+              display: block;
+              float: none;
+              margin-bottom: 20px; } }
+  body.parksforward.responsive2 #content {
+    background-color: #333; }
+  body.parksforward.responsive2 #content.template-home {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 100%; }
+    body.parksforward.responsive2 #content.template-home:last-child {
+      margin-right: 0; }
+    body.parksforward.responsive2 #content.template-home .site-description {
+      text-align: center;
+      position: relative;
+      display: block;
+      padding: 10px 10px 0 10px;
+      font-size: 125%;
+      line-height: 1em;
+      margin-bottom: 0;
+      color: white;
+      font-family: "jubilat", serif;
+      letter-spacing: .09em;
+      font-weight: 600; }
+      @media screen and (max-width: 720px) {
+        body.parksforward.responsive2 #content.template-home .site-description {
+          font-size: 100%; } }
+    body.parksforward.responsive2 #content.template-home .block-search-box {
+      padding: 20px; }
+      body.parksforward.responsive2 #content.template-home .block-search-box form {
+        display: block;
+        max-width: 1000px;
+        margin: 0 auto; }
+    body.parksforward.responsive2 #content.template-home .story-header {
+      color: white;
+      font-family: "jubilat", serif;
+      letter-spacing: .09em;
+      padding: 10px 20px 1px 20px;
+      font-size: 75%;
+      font-weight: 600;
+      text-align: center;
+      border-top: solid 1px rgba(0, 0, 0, 0.2); }
+  body.parksforward.responsive2 #content.template-park .has-streetview .modal-header {
+    display: none; }
+  body.parksforward.responsive2 #content.template-park > div {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 100%; }
+    body.parksforward.responsive2 #content.template-park > div:last-child {
+      margin-right: 0; }
+    @media screen and (min-width: 721px) {
+      body.parksforward.responsive2 #content.template-park > div {
+        display: table;
+        width: 100%;
+        table-layout: fixed; } }
+    body.parksforward.responsive2 #content.template-park > div section {
+      padding: 2.35765%;
+      background-color: #cfd8dc;
+      padding: 0;
+      vertical-align: top; }
+      body.parksforward.responsive2 #content.template-park > div section#park-info {
+        display: table-cell;
+        width: 58.33333%; }
+        body.parksforward.responsive2 #content.template-park > div section#park-info .block-photo-carousel {
+          height: 300px; }
+        @media screen and (max-width: 720px) {
+          body.parksforward.responsive2 #content.template-park > div section#park-info .block-photo-carousel {
+            height: 200px; } }
+        body.parksforward.responsive2 #content.template-park > div section#park-info .block-park-name {
+          margin-bottom: 10px; }
+          body.parksforward.responsive2 #content.template-park > div section#park-info .block-park-name .park-name {
+            font-size: 125%;
+            line-height: 1em;
+            font-weight: 600;
+            margin-bottom: 10px; }
+            body.parksforward.responsive2 #content.template-park > div section#park-info .block-park-name .park-name .block-activity-icons li {
+              width: 42px;
+              height: 42px;
+              background-size: 32px 32px; }
+        body.parksforward.responsive2 #content.template-park > div section#park-info .park-details {
+          padding: 10px 20px; }
+          body.parksforward.responsive2 #content.template-park > div section#park-info .park-details .agency-name {
+            line-height: 1em; }
+          body.parksforward.responsive2 #content.template-park > div section#park-info .park-details .social-breakdown {
+            font-size: 75%;
+            font-weight: 400;
+            line-height: 1.2em; }
+            @media screen and (max-width: 720px) {
+              body.parksforward.responsive2 #content.template-park > div section#park-info .park-details .social-breakdown {
+                font-size: 50%; } }
+            body.parksforward.responsive2 #content.template-park > div section#park-info .park-details .social-breakdown span {
+              white-space: nowrap; }
+              body.parksforward.responsive2 #content.template-park > div section#park-info .park-details .social-breakdown span span {
+                font-weight: 300; }
+            body.parksforward.responsive2 #content.template-park > div section#park-info .park-details .social-breakdown .total0 {
+              display: none; }
+        @media screen and (max-width: 720px) {
+          body.parksforward.responsive2 #content.template-park > div section#park-info {
+            display: table-cell;
+            width: 100%; } }
+      body.parksforward.responsive2 #content.template-park > div section#maps {
+        position: relative;
+        display: table-cell;
+        width: 41.66667%;
+        background-color: #cfd8dc; }
+        @media screen and (max-width: 720px) {
+          body.parksforward.responsive2 #content.template-park > div section#maps {
+            display: table-cell;
+            width: 100%;
+            display: block;
+            width: 100%;
+            height: 300px; }
+            body.parksforward.responsive2 #content.template-park > div section#maps .big-park-map {
+              height: 300px; } }
+        body.parksforward.responsive2 #content.template-park > div section#maps .action.fullscreen {
+          display: none; }
+          @media (max-width: 720px) {
+            body.parksforward.responsive2 #content.template-park > div section#maps .action.fullscreen {
+              display: block;
+              position: absolute;
+              bottom: 34px;
+              left: 5px; } }
+      body.parksforward.responsive2 #content.template-park > div section#get-out {
+        display: table-cell;
+        width: 100%; }
+        body.parksforward.responsive2 #content.template-park > div section#get-out h2 {
+          text-align: center;
+          font-size: 125%;
+          color: #333;
+          padding: 30px; }
+      body.parksforward.responsive2 #content.template-park > div section#search-area {
+        display: table-cell;
+        width: 100%;
+        height: 72px;
+        text-align: center;
+        background-color: #333;
+        padding: 15px 0; }
+        body.parksforward.responsive2 #content.template-park > div section#search-area > label {
+          margin-right: 0.4em;
+          vertical-align: middle;
+          font-size: 125%;
+          color: white; }
+        body.parksforward.responsive2 #content.template-park > div section#search-area .block-search-box {
+          display: block;
+          padding: 5px 20vw;
+          margin: 0;
+          width: 100vw; }
+          @media screen and (max-width: 720px) {
+            body.parksforward.responsive2 #content.template-park > div section#search-area .block-search-box {
+              margin: 10px; } }
+  body.parksforward.responsive2.tablet-viewport .viewport-containerparks {
+    position: relative;
+    height: 100vh;
+    height: 91vh; }
+  body.parksforward.responsive2.tablet-viewport footer #footer-actions a {
+    width: 50%;
+    text-align: center; }
+    body.parksforward.responsive2.tablet-viewport footer #footer-actions a.top-action {
+      display: none !important; }
+  @media screen and (max-width: 720px) {
+    body.parksforward.responsive2.tablet-viewport footer #footer-actions a {
+      width: 100%; } }
+  body.parksforward.responsive2 .search-state {
+    background-color: #333;
+    padding: 0 20px 0 20px;
+    z-index: 3;
+    height: 50px;
+    position: relative;
+    height: 44px;
+    text-align: center;
+    color: #cebf41;
+    font-weight: 600;
+    display: table-cell;
+    vertical-align: middle;
+    width: 100vw;
+    font-size: 125%; }
+    @media screen and (max-width: 720px) {
+      body.parksforward.responsive2 .search-state {
+        padding: 0 10px 10px 10px;
+        height: 54px; } }
+  body.parksforward.responsive2 .action-bar {
+    position: relative;
+    overflow: auto;
+    z-index: 3; }
+    body.parksforward.responsive2 .action-bar .block-activity-filter {
+      border-top: solid 1px rgba(0, 0, 0, 0.2);
+      background-color: #333; }
+  body.parksforward.responsive2 .tab-actions {
+    position: absolute;
+    right: 20px;
+    top: 0;
+    height: 100%;
+    height: 47px;
+    z-index: 4; }
+    body.parksforward.responsive2 .tab-actions button {
+      height: 100%;
+      background-color: transparent;
+      border: none; }
+    @media screen and (min-width: 721px) {
+      body.parksforward.responsive2 .tab-actions {
+        display: none; } }
+  body.parksforward.responsive2 #content.template-parks {
+    position: absolute;
+    top: 27px;
+    right: 0;
+    bottom: 0px;
+    left: 0; }
+    body.parksforward.responsive2 #content.template-parks .story-extra {
+      text-align: center;
+      color: white;
+      padding: 10px;
+      height: 50px; }
+      @media screen and (max-width: 720px) {
+        body.parksforward.responsive2 #content.template-parks .story-extra p {
+          display: none; } }
+    body.parksforward.responsive2 #content.template-parks.filtered .not-backpacking li.activity-backpacking {
+      background-color: #ccc; }
+    body.parksforward.responsive2 #content.template-parks.filtered .not-ball_fields li.activity-ball_fields {
+      background-color: #ccc; }
+    body.parksforward.responsive2 #content.template-parks.filtered .not-basketball li.activity-basketball {
+      background-color: #ccc; }
+    body.parksforward.responsive2 #content.template-parks.filtered .not-biking li.activity-biking {
+      background-color: #ccc; }
+    body.parksforward.responsive2 #content.template-parks.filtered .not-boating li.activity-boating {
+      background-color: #ccc; }
+    body.parksforward.responsive2 #content.template-parks.filtered .not-camping li.activity-camping {
+      background-color: #ccc; }
+    body.parksforward.responsive2 #content.template-parks.filtered .not-caving li.activity-caving {
+      background-color: #ccc; }
+    body.parksforward.responsive2 #content.template-parks.filtered .not-climbing li.activity-climbing {
+      background-color: #ccc; }
+    body.parksforward.responsive2 #content.template-parks.filtered .not-covered_picnic_tables li.activity-covered_picnic_tables {
+      background-color: #ccc; }
+    body.parksforward.responsive2 #content.template-parks.filtered .not-fishing li.activity-fishing {
+      background-color: #ccc; }
+    body.parksforward.responsive2 #content.template-parks.filtered .not-hiking li.activity-hiking {
+      background-color: #ccc; }
+    body.parksforward.responsive2 #content.template-parks.filtered .not-horsebackriding li.activity-horsebackriding {
+      background-color: #ccc; }
+    body.parksforward.responsive2 #content.template-parks.filtered .not-kayakingcanoeing li.activity-kayakingcanoeing {
+      background-color: #ccc; }
+    body.parksforward.responsive2 #content.template-parks.filtered .not-kiteboardingwindsurfing li.activity-kiteboardingwindsurfing {
+      background-color: #ccc; }
+    body.parksforward.responsive2 #content.template-parks.filtered .not-historicalsite li.activity-historicalsite {
+      background-color: #ccc; }
+    body.parksforward.responsive2 #content.template-parks.filtered .not-ohv li.activity-ohv {
+      background-color: #ccc; }
+    body.parksforward.responsive2 #content.template-parks.filtered .not-playground li.activity-playground {
+      background-color: #ccc; }
+    body.parksforward.responsive2 #content.template-parks.filtered .not-rusticcabins li.activity-rusticcabins {
+      background-color: #ccc; }
+    body.parksforward.responsive2 #content.template-parks.filtered .not-snowsports li.activity-snowsports {
+      background-color: #ccc; }
+    body.parksforward.responsive2 #content.template-parks.filtered .not-surfing li.activity-surfing {
+      background-color: #ccc; }
+    body.parksforward.responsive2 #content.template-parks.filtered .not-swimming li.activity-swimming {
+      background-color: #ccc; }
+    body.parksforward.responsive2 #content.template-parks.filtered .not-tennis li.activity-tennis {
+      background-color: #ccc; }
+    body.parksforward.responsive2 #content.template-parks.filtered .not-whitewaterraftingkayaking li.activity-whitewaterraftingkayaking {
+      background-color: #ccc; }
+    body.parksforward.responsive2 #content.template-parks.filtered .not-wildlifewatching li.activity-wildlifewatching {
+      background-color: #ccc; }
+    body.parksforward.responsive2 #content.template-parks .block-search-box {
+      padding: 20px; }
+      @media screen and (max-width: 720px) {
+        body.parksforward.responsive2 #content.template-parks .block-search-box {
+          padding: 10px; } }
+      body.parksforward.responsive2 #content.template-parks .block-search-box form {
+        display: block;
+        max-width: 1000px;
+        margin: 0 auto; }
+    body.parksforward.responsive2 #content.template-parks .tab-pane {
+      vertical-align: top;
+      margin: 0;
+      display: inline-block;
+      box-sizing: border-box;
+      float: left;
+      padding-bottom: 0em;
+      margin-bottom: -0em; }
+      body.parksforward.responsive2 #content.template-parks .tab-pane.list-tab-pane {
+        width: 33.33%;
+        position: absolute;
+        bottom: 0px;
+        top: 90px;
+        z-index: 2; }
+        @media screen and (max-width: 720px) {
+          body.parksforward.responsive2 #content.template-parks .tab-pane.list-tab-pane {
+            width: 100%;
+            top: 84px; }
+            body.parksforward.responsive2 #content.template-parks .tab-pane.list-tab-pane ul {
+              width: 100%; } }
+        body.parksforward.responsive2 #content.template-parks .tab-pane.list-tab-pane .search-results {
+          overflow: auto;
+          -webkit-overflow-scrolling: touch;
+          background-color: #cfd8dc;
+          position: absolute;
+          top: 81px;
+          bottom: 0px;
+          width: 100%; }
+          body.parksforward.responsive2 #content.template-parks .tab-pane.list-tab-pane .search-results .no-results {
+            margin: 20px; }
+            body.parksforward.responsive2 #content.template-parks .tab-pane.list-tab-pane .search-results .no-results a {
+              color: blue;
+              white-space: nowrap; }
+          body.parksforward.responsive2 #content.template-parks .tab-pane.list-tab-pane .search-results .search-result {
+            cursor: pointer; }
+          body.parksforward.responsive2 #content.template-parks .tab-pane.list-tab-pane .search-results .block-park-name {
+            color: #333;
+            border: inset 1px #bdc8ce;
+            border-width: 0 0 1px 0;
+            position: relative;
+            padding: 10px 20px; }
+            body.parksforward.responsive2 #content.template-parks .tab-pane.list-tab-pane .search-results .block-park-name .distance {
+              font-family: "expressway", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+              font-weight: 300;
+              color: #333;
+              font-size: 75%;
+              position: absolute;
+              right: 20px;
+              top: 10px; }
+            body.parksforward.responsive2 #content.template-parks .tab-pane.list-tab-pane .search-results .block-park-name a {
+              font-weight: 600;
+              font-family: "jubilat", serif;
+              letter-spacing: .09em;
+              color: #333;
+              margin-right: 100px;
+              display: block; }
+              @media screen and (max-width: 720px) {
+                body.parksforward.responsive2 #content.template-parks .tab-pane.list-tab-pane .search-results .block-park-name a {
+                  margin-right: 59px; } }
+          body.parksforward.responsive2 #content.template-parks .tab-pane.list-tab-pane .search-results li:last-of-type .block-park-name {
+            border: none; }
+      body.parksforward.responsive2 #content.template-parks .tab-pane.map-tab-pane {
+        width: 66.67%;
+        margin-left: 33.33%;
+        z-index: 1;
+        position: absolute;
+        display: block;
+        top: 171px;
+        bottom: 1px; }
+        body.parksforward.responsive2 #content.template-parks .tab-pane.map-tab-pane .gm-style-iw {
+          margin-top: 10px;
+          width: 200px; }
+          body.parksforward.responsive2 #content.template-parks .tab-pane.map-tab-pane .gm-style-iw .park-name {
+            padding-bottom: 10px; }
+        @media screen and (max-width: 720px) {
+          body.parksforward.responsive2 #content.template-parks .tab-pane.map-tab-pane {
+            top: 165px;
+            bottom: 0px; } }
+        body.parksforward.responsive2 #content.template-parks .tab-pane.map-tab-pane .search-this-area-action {
+          position: absolute;
+          left: 10px;
+          bottom: 35px;
+          opacity: 0;
+          transition: 0.5s opacity; }
+        body.parksforward.responsive2 #content.template-parks .tab-pane.map-tab-pane.slippy-map-bounds-dirty .search-this-area-action {
+          position: absolute;
+          opacity: 1; }
+        @media screen and (max-width: 720px) {
+          body.parksforward.responsive2 #content.template-parks .tab-pane.map-tab-pane {
+            width: 100%;
+            margin-left: 0; } }
+  @media screen and (max-width: 720px) {
+    body.parksforward.responsive2.tab-map #content.template-parks .tab-actions .list {
+      border-top: solid 1px transparent;
+      background-image: url("/svg/listicle-1885c7.svg"); }
+    body.parksforward.responsive2.tab-map #content.template-parks .tab-actions .map {
+      border-top: solid 1px white;
+      background-image: url("/svg/foldedmap-cfd8dc.svg"); }
+    body.parksforward.responsive2.tab-map #content.template-parks .tab-pane.list-tab-pane {
+      display: none; }
+    body.parksforward.responsive2.tab-map #content.template-parks .tab-pane.map-tab-pane {
+      display: block; }
+    body.parksforward.responsive2 #content.template-parks .tab-actions button {
+      color: transparent;
+      background-repeat: no-repeat;
+      background-position: 10px;
+      background-size: 20px;
+      width: 40px; }
+    body.parksforward.responsive2 #content.template-parks .tab-actions .list {
+      border-top: solid 1px white;
+      background-image: url("/svg/listicle-cfd8dc.svg"); }
+    body.parksforward.responsive2 #content.template-parks .tab-actions .map {
+      border-top: solid 1px transparent;
+      background-image: url("/svg/foldedmap-1885c7.svg"); }
+    body.parksforward.responsive2 #content.template-parks .tab-pane.list-tab-pane {
+      display: block; }
+    body.parksforward.responsive2 #content.template-parks .tab-pane.map-tab-pane {
+      display: none; } }
+  body.parksforward.responsive2 #content.template-embed {
+    clear: both;
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #cfd8dc;
+    color: #333; }
+    body.parksforward.responsive2 #content.template-embed .site-description {
+      text-align: center;
+      position: relative;
+      display: block;
+      padding: 10px 10px 0 10px;
+      font-size: 125%;
+      line-height: 1em;
+      margin-bottom: 0;
+      color: white;
+      font-family: "jubilat", serif;
+      letter-spacing: .09em;
+      font-weight: 600; }
+    body.parksforward.responsive2 #content.template-embed .block-search-box {
+      padding: 20px; }
+      body.parksforward.responsive2 #content.template-embed .block-search-box form {
+        display: block;
+        max-width: 1000px;
+        margin: 0 auto; }
+    body.parksforward.responsive2 #content.template-embed h1 {
+      margin-bottom: 20px;
+      color: #333;
+      max-width: 1000px;
+      line-height: 1em; }
+      body.parksforward.responsive2 #content.template-embed h1 a {
+        color: #333; }
+    body.parksforward.responsive2 #content.template-embed .fiddly-bits {
+      box-sizing: border-box;
+      width: 100%;
+      height: 50vh;
+      min-height: 400px;
+      color: #333; }
+      @media screen and (max-width: 720px) {
+        body.parksforward.responsive2 #content.template-embed .fiddly-bits {
+          height: auto; } }
+      body.parksforward.responsive2 #content.template-embed .fiddly-bits .sides {
+        box-sizing: border-box;
+        width: 49%;
+        height: 100%;
+        display: inline-block;
+        color: white;
+        vertical-align: top; }
+        @media screen and (max-width: 720px) {
+          body.parksforward.responsive2 #content.template-embed .fiddly-bits .sides {
+            float: auto;
+            width: 100%;
+            height: 300px;
+            clear: both;
+            overflow: auto;
+            margin-bottom: 20px; } }
+      body.parksforward.responsive2 #content.template-embed .fiddly-bits form {
+        display: block;
+        margin-bottom: 20px;
+        color: #333; }
+        body.parksforward.responsive2 #content.template-embed .fiddly-bits form legend {
+          margin-bottom: 20px; }
+        body.parksforward.responsive2 #content.template-embed .fiddly-bits form .control-group {
+          margin-left: 20px; }
+          body.parksforward.responsive2 #content.template-embed .fiddly-bits form .control-group label {
+            display: block;
+            margin-bottom: 10px; }
+        body.parksforward.responsive2 #content.template-embed .fiddly-bits form textarea {
+          width: 500px;
+          height: 100px;
+          margin-bottom: 10px;
+          padding: 10px; }
+        body.parksforward.responsive2 #content.template-embed .fiddly-bits form button {
+          display: block; }
+  body.parksforward.responsive2 #content.template-embed-park {
+    background-color: #333;
+    color: white;
+    font-size: 75%; }
+    body.parksforward.responsive2 #content.template-embed-park a {
+      color: white; }
+    body.parksforward.responsive2 #content.template-embed-park .site-name-embed {
+      display: block;
+      margin-bottom: 0;
+      padding: 7px 10px;
+      position: absolute;
+      bottom: 0;
+      height: 35px;
+      text-align: right;
+      font-weight: 600;
+      font-family: "jubilat", serif;
+      letter-spacing: .09em;
+      width: 100%; }
+      body.parksforward.responsive2 #content.template-embed-park .site-name-embed a {
+        color: white;
+        font-family: "jubilat", serif; }
+    body.parksforward.responsive2 #content.template-embed-park .block-static-park-map {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 30px;
+      left: 0; }
+      body.parksforward.responsive2 #content.template-embed-park .block-static-park-map .big-park-map {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        height: 100%; }
+    body.parksforward.responsive2 #content.template-embed-park .block-park-name {
+      display: none;
+      color: #333; }
+      body.parksforward.responsive2 #content.template-embed-park .block-park-name a {
+        color: #333; }
+    body.parksforward.responsive2 #content.template-embed-park .social-breakdown {
+      display: none; }
+    body.parksforward.responsive2 #content.template-embed-park.parkinfo .block-static-park-map {
+      bottom: 104px; }
+    body.parksforward.responsive2 #content.template-embed-park.parkinfo .block-park-name {
+      display: block;
+      position: absolute;
+      bottom: 30px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      background-color: #cfd8dc;
+      padding: 10px;
+      width: 100%;
+      height: 74px; }
+    body.parksforward.responsive2 #content.template-embed-park.parkinfo .park-name {
+      display: none; }
+    body.parksforward.responsive2 #content.template-embed-park.parkinfo .block-activity-icons {
+      display: none; }
+    body.parksforward.responsive2 #content.template-embed-park.parkinfo.name .park-name {
+      display: block;
+      font-size: 125%; }
+    body.parksforward.responsive2 #content.template-embed-park.parkinfo.activities .block-activity-icons {
+      display: block; }
+      body.parksforward.responsive2 #content.template-embed-park.parkinfo.activities .block-activity-icons li {
+        width: 37px;
+        height: 37px;
+        background-size: 27px 27px; }
+    body.parksforward.responsive2 #content.template-embed-park.parkinfo.name.activities .park-name {
+      display: block;
+      font-size: 100%; }
+    body.parksforward.responsive2 #content.template-embed-park.parkinfo.name.activities .block-activity-icons {
+      display: block; }
+      body.parksforward.responsive2 #content.template-embed-park.parkinfo.name.activities .block-activity-icons li {
+        width: 32px;
+        height: 32px;
+        background-size: 22px 22px; }
+    body.parksforward.responsive2 #content.template-embed-park.social .block-static-park-map {
+      bottom: 76px; }
+    body.parksforward.responsive2 #content.template-embed-park.social .social-breakdown {
+      display: block;
+      position: absolute;
+      bottom: 30px;
+      padding: 10px;
+      background-color: #cfd8dc;
+      width: 100%;
+      color: #333;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis; }
+      body.parksforward.responsive2 #content.template-embed-park.social .social-breakdown > span {
+        font-weight: 400; }
+        body.parksforward.responsive2 #content.template-embed-park.social .social-breakdown > span span {
+          font-weight: 300; }
+    body.parksforward.responsive2 #content.template-embed-park.social.parkinfo .block-static-park-map {
+      bottom: 139px; }
+    body.parksforward.responsive2 #content.template-embed-park.social.parkinfo .block-park-name {
+      display: block;
+      position: absolute;
+      bottom: 65px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      background-color: #cfd8dc;
+      padding: 10px 10px 0 10px;
+      width: 100%;
+      height: 74px; }
+    body.parksforward.responsive2 #content.template-embed-park.social.parkinfo .social-breakdown {
+      display: block;
+      position: absolute;
+      bottom: 30px;
+      padding: 10px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      background-color: #cfd8dc;
+      width: 100%;
+      color: #333; }
+      body.parksforward.responsive2 #content.template-embed-park.social.parkinfo .social-breakdown > span {
+        font-weight: 400; }
+        body.parksforward.responsive2 #content.template-embed-park.social.parkinfo .social-breakdown > span span {
+          font-weight: 300; }
+  body.parksforward.responsive2 #content.template-404 {
+    height: 100vh;
+    width: 100vw;
+    background-size: cover;
+    background-position: center; }
+    body.parksforward.responsive2 #content.template-404 .site-description {
+      text-align: center;
+      position: relative;
+      display: block;
+      padding: 20px 10px 0 10px;
+      font-size: 125%;
+      line-height: 1em;
+      margin-bottom: 0;
+      color: white;
+      font-family: "jubilat", serif;
+      letter-spacing: .09em;
+      font-weight: 600; }
+    body.parksforward.responsive2 #content.template-404 .block-search-box {
+      padding: 20px; }
+      body.parksforward.responsive2 #content.template-404 .block-search-box form {
+        display: block;
+        max-width: 1000px;
+        margin: 0 auto; }
+    body.parksforward.responsive2 #content.template-404 .attribution {
+      position: absolute;
+      right: 20px;
+      bottom: 20px;
+      font-size: 75%;
+      color: white; }
+      body.parksforward.responsive2 #content.template-404 .attribution div {
+        display: inline; }
+      body.parksforward.responsive2 #content.template-404 .attribution a {
+        color: white; }
+    body.parksforward.responsive2 #content.template-404 h1 {
+      line-height: 1.2em;
+      color: #333; }
+    body.parksforward.responsive2 #content.template-404 section {
+      position: absolute;
+      left: 8%;
+      right: 8%;
+      width: 80%;
+      margin: 20px auto;
+      line-height: 1.2em;
+      padding: 20px;
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 4px; }
+      body.parksforward.responsive2 #content.template-404 section p {
+        line-height: 1.2em; }
+      @media screen and (min-width: 721px) {
+        body.parksforward.responsive2 #content.template-404 section {
+          margin-top: 30vh; } }
+
+@media screen and (max-width: 720px) {
+  body.parksforward.responsive2 h1 {
+    font-size: 100%; } }
+
+/*# sourceMappingURL=responsive2-main.css.map */
