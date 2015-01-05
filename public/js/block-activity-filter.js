@@ -114,7 +114,18 @@ define(["require","exports","module","stamen-super-classy","routes"], function(
 
         rootNode.classList.toggle("closed");
 
+        if (rootNode.classList.contains("closed")) {
+          location.hash = "";
+        } else {
+          location.hash = "#filter-panel";
+        }
+
       }, false);
+
+      if (location.hash.indexOf("filter-panel") > -1) {
+        rootNode.classList.remove("closed");
+        location.hash = "#filter-panel";
+      }
 
     }
 

@@ -40,8 +40,9 @@ define([ "require", "exports", "module", "stamen-super-classy", "routes" ], func
         }
         function initDrawerToggleAction() {
             toggleDrawerActionNode.addEventListener("click", function(e) {
-                e.preventDefault(), rootNode.classList.toggle("closed");
-            }, !1);
+                e.preventDefault(), rootNode.classList.toggle("closed"), location.hash = rootNode.classList.contains("closed") ? "" : "#filter-panel";
+            }, !1), location.hash.indexOf("filter-panel") > -1 && (rootNode.classList.remove("closed"), 
+            location.hash = "#filter-panel");
         }
         function initDrawerCloseAction() {
             closeDrawerActionNode.addEventListener("click", function(e) {
