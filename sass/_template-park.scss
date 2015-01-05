@@ -141,7 +141,7 @@
           width:100vw;
 
           @include media(max-width 720px) {
-            margin:$box-padding-half;
+            padding:5px 20px;
           }
         }
       }
