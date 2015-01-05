@@ -12,7 +12,7 @@ define([ "require", "exports", "module", "stamen-super-classy" ], function(requi
             return status;
         }
         function generateIframeCode(status) {
-            return that.processTemplate('<iframe width="100%" height="100%" src="//{href}/embed/park?id={id}&directions={directions}&locatorMap={locatormap}"></iframe>', status);
+            return that.processTemplate('<iframe width="100%" height="100%" src="//{href}/embed/park?id={id}&directions={directions}&locatorMap={locatormap}&name={name}&activities={activities}&social={social}"></iframe>', status);
         }
         function update() {
             var iframeCode = generateIframeCode(getStatus());
