@@ -31,24 +31,25 @@ define([ "require", "exports", "module", "detect-os", "stamen-super-classy", "gm
             }), that.parksLayer;
         }
         function initBigMap() {
-            var bounds = geoJSONBBoxToGoogleBounds(viewOptions.bbox), zoom = getBoundsZoomLevel(bounds, bigMapNode);
-            zoom > 16 && (zoom -= 1), that.bigMap = new google.maps.Map(bigMapNode, {
+            var mapConfig, bounds = geoJSONBBoxToGoogleBounds(viewOptions.bbox), zoom = getBoundsZoomLevel(bounds, bigMapNode);
+            zoom > 16 && (zoom -= 1), mapConfig = {
                 mapTypeControl: !1,
                 streetViewControl: !1,
                 center: bounds.getCenter(),
                 zoom: zoom,
                 scrollwheel: !1,
-                disableDefaultUI: !0,
-                panControl: !1,
+                disableDefaultUI: !1,
+                panControl: !0,
                 zoomControlOptions: {
-                    style: 1,
-                    position: 4
+                    style: 1
                 },
-                draggable: !1,
+                draggable: !0,
                 mapTypeControlviewOptions: {
                     mapTypeIds: [ "parksLayer" ]
                 }
-            }), bigMapNode.offsetHeight || (bigMapNode.style.height = "100%"), that.bigMap.mapTypes.set("parksLayer", that.parksLayer), 
+            }, that.utils.get("body")[0].classList.contains("rendered-narrow") && (mapConfig.disableDefaultUI = !0, 
+            mapConfig.panControl = !1, mapConfig.draggable = !1), that.bigMap = new google.maps.Map(bigMapNode, mapConfig), 
+            bigMapNode.offsetHeight || (bigMapNode.style.height = "100%"), that.bigMap.mapTypes.set("parksLayer", that.parksLayer), 
             that.bigMap.setMapTypeId("parksLayer"), that.bigMap.data.setStyle({
                 fillColor: "rgba(2, 122, 187,.2)",
                 strokeColor: "rgba(2, 122, 187,.7)",

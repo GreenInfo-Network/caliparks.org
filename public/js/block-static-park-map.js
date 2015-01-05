@@ -98,29 +98,37 @@ define(["require","exports","module","detect-os","stamen-super-classy","gmap-cus
     function initBigMap() {
 
       var bounds = geoJSONBBoxToGoogleBounds(viewOptions.bbox),
-          zoom   = getBoundsZoomLevel(bounds, bigMapNode);
+          zoom   = getBoundsZoomLevel(bounds, bigMapNode),
+          mapConfig;
 
       if (zoom > 16) {
         zoom = zoom-1;
       }
 
-      that.bigMap = new google.maps.Map(bigMapNode,{
+      mapConfig = {
         mapTypeControl: false,
         streetViewControl: false,
         center: bounds.getCenter(),
         zoom                : zoom,
         scrollwheel         : false,
-        disableDefaultUI    : true,
-        panControl          : false,
+        disableDefaultUI    : false,
+        panControl          : true,
         zoomControlOptions: {
-          style: 1,
-          position: 4
+          style: 1
         },
-        draggable           : false,
+        draggable           : true,
         mapTypeControlviewOptions : {
           mapTypeIds : ["parksLayer"]
         }
-      });
+      };
+
+      if (that.utils.get("body")[0].classList.contains("rendered-narrow")) {
+        mapConfig.disableDefaultUI = true;
+        mapConfig.panControl       = false;
+        mapConfig.draggable        = false;
+      }
+
+      that.bigMap = new google.maps.Map(bigMapNode,mapConfig);
 
       if (!bigMapNode.offsetHeight) {
         bigMapNode.style.height = "100%";

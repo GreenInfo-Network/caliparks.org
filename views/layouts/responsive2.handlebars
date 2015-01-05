@@ -84,6 +84,10 @@
           return M.join(' ');
       })();
 
+      if (typeof window.innerWidth === "number" && window.innerWidth < 720 && document.getElementsByTagName("body")[0].classList) {
+        document.getElementsByTagName("body")[0].classList.add("rendered-narrow");
+      }
+
       require.config({
         baseUrl     : "/js/dist",
         paths       : {

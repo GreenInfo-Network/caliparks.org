@@ -26,5 +26,7 @@
       display: none !important; }
   .block-static-park-map .directions-action {
     position: absolute;
-    top: 10px;
-    left: 5px; }
+    bottom: 20px;
+    right: 10px; }
+
+/*# sourceMappingURL=block-static-park-map.css.map */

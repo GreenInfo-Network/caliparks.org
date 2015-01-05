@@ -660,8 +660,8 @@ body.parksforward.responsive2 {
         display: none !important; }
     body.parksforward.responsive2 .block-static-park-map .directions-action {
       position: absolute;
-      top: 10px;
-      left: 5px; }
+      bottom: 20px;
+      right: 10px; }
   body.parksforward.responsive2 .block-park-name .park-name {
     color: #333;
     font-family: "jubilat", serif;
