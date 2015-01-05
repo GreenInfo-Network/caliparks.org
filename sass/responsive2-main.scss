@@ -320,7 +320,7 @@ body.parksforward.responsive2 {
 
         background-color:$color-notsodark;
         background-repeat: no-repeat;
-        background-size: auto 50%;
+        background-size: 10% 50%;
         background-position:$box-padding-half;
 
         float:left;
@@ -341,7 +341,13 @@ body.parksforward.responsive2 {
           border-right-width:0;
         }
 
+        @include media(max-width 720px) {
+          width:100%;
+          padding:$box-padding 58px;
+        }
+
       }
+
     }
 
     #footer-credits {

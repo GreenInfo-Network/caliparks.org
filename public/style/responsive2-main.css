@@ -807,7 +807,7 @@ body.parksforward.responsive2 {
         padding: 20px 52px;
         background-color: #333;
         background-repeat: no-repeat;
-        background-size: auto 50%;
+        background-size: 10% 50%;
         background-position: 10px;
         float: left; }
         body.parksforward.responsive2 footer #footer-actions a.top-action {
@@ -818,6 +818,10 @@ body.parksforward.responsive2 {
           background-image: url("/style/responsive2/footer/speech-bubble.svg"); }
         body.parksforward.responsive2 footer #footer-actions a:last-of-type {
           border-right-width: 0; }
+        @media screen and (max-width: 720px) {
+          body.parksforward.responsive2 footer #footer-actions a {
+            width: 100%;
+            padding: 20px 58px; } }
     body.parksforward.responsive2 footer #footer-credits {
       float: left;
       display: block;
