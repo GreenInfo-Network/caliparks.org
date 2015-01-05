@@ -109,6 +109,8 @@ app.get('/', function(req, res, next) {
     templateData.layout = 'responsive2';
     templateData.view = 'home';
 
+    templateData.appTitle = req.__("Go outside");
+
     res.render('home', templateData);
 
   });
@@ -131,7 +133,7 @@ app.get('/hablas/:language', function(req, res, next) {
 app.get('/about', function(req,res) {
 
   res.render('about', {
-    appTitle : 'California Open Spaces: About',
+    appTitle: req.__("Go outside and find parks"),
     layout   : 'photo-back'
   });
 
@@ -209,6 +211,8 @@ app.get('/embed/:id(\\d{3,6})', function(req,res, next) {
       templateData.layout = 'responsive2';
       templateData.view   = 'embed';
 
+      templateData.appTitle = req.__("Go outside and visit ") + templateData.cpadPark.unit_name;
+
       res.render("embed", templateData);
     } else {
       return next();
@@ -239,37 +243,12 @@ app.get('/embed/park', function(req,res, next) {
       templateData.layout = 'embed-viewport';
       templateData.view   = 'embed-park';
 
+      templateData.appTitle = req.__("Go outside");
+
       res.render("embed-park", templateData);
     } else {
       return next();
     }
-
-  });
-
-});
-
-app.get('/agencies', function(req,res) {
-
-  require('./controllers/agencies.js')(req, res, {}, function(err, templateData) {
-
-    if (err) {
-      return next(err);
-    }
-
-    res.render('agencies', templateData);
-
-  });
-});
-
-app.get('/agency/:id', function(req,res) {
-
-  require('./controllers/agency.js')(req, res, {}, function(err, templateData) {
-
-    if (err) {
-      return next(err);
-    }
-
-    res.render('agency', templateData);
 
   });
 
@@ -306,6 +285,9 @@ app.get('/park/:id(\\d{3,6})', function(req,res, next) {
       templateData.hasAPI = true;
       templateData.layout = 'responsive2';
       templateData.view = 'park';
+
+      templateData.appTitle = req.__("Go outside and visit ") + templateData.cpadPark.unit_name;
+
       res.render('park', templateData);
     } else {
       return next();
@@ -418,6 +400,8 @@ app.get('/parks/:context(search|with|near|story)', function(req,res, next) {
     templateData.tabletViewport = true;
     templateData.context = req.params.context;
 
+    templateData.appTitle = req.__("Go outside and find parks");
+
     res.render('parks', templateData);
 
   });
@@ -441,30 +425,11 @@ app.get('/parks/:context(search|with|near|story)/:query', function(req,res, next
       templateData.view   = 'parks';
       templateData.tabletViewport = true;
       templateData.context = req.params.context;
+      templateData.appTitle = req.__("Go outside and find parks");
       res.render('parks', templateData);
     } else {
       return next();
     }
-
-  });
-
-});
-
-app.get('/agency/:query', function(req,res, next) {
-
-  require('./controllers/parks.js')(req, res, {
-    context : 'agency',
-    query   : req.params.query
-  }, function(err, templateData) {
-
-    if (err) {
-      return next(err);
-    }
-
-    templateData.layout = 'responsive';
-    templateData.tabletViewport = true;
-
-    res.render('parks', templateData);
 
   });
 
@@ -483,9 +448,9 @@ app.use(function(req, res, next) {
       photoid:7492144602,
       secret:'1706ca60db',
       ownername:'Grand Canyon NPS',
-      owner:'grand_canyon_nps'
+      owner:'grand_canyon_nps',
     },
-    appTitle : 'California Open Spaces: #BZZT'
+    appTitle: __("Go outside and find parks")
   });
 });
 
