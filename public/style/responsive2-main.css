@@ -392,7 +392,7 @@ body.parksforward.responsive2 {
         background-position: 10px center;
         display: inline-block;
         height: 23px;
-        background-size: auto 12px;
+        background-size: 25px 12px;
         width: 100%;
         margin-top: 0;
         background-color: rgba(0, 0, 0, 0.3);
@@ -400,7 +400,8 @@ body.parksforward.responsive2 {
         background-repeat: no-repeat;
         font-size: 75%;
         line-height: 1em;
-        padding: 3px 0 0 47px; }
+        padding: 3px 0 0 47px;
+        background-position: 13px; }
     @media screen and (max-width: 720px) {
       body.parksforward.responsive2 .block-story .details a.main-link {
         font-size: 100%; }
