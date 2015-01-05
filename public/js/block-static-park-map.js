@@ -107,7 +107,7 @@ define(["require","exports","module","detect-os","stamen-super-classy","gmap-cus
 
       mapConfig = {
         mapTypeControl: false,
-        streetViewControl: false,
+        streetViewControl: true,
         center: bounds.getCenter(),
         zoom                : zoom,
         scrollwheel         : false,
@@ -123,9 +123,10 @@ define(["require","exports","module","detect-os","stamen-super-classy","gmap-cus
       };
 
       if (that.utils.get("body")[0].classList.contains("rendered-narrow")) {
-        mapConfig.disableDefaultUI = true;
-        mapConfig.panControl       = false;
-        mapConfig.draggable        = false;
+        mapConfig.disableDefaultUI  = true;
+        mapConfig.panControl        = false;
+        mapConfig.draggable         = false;
+        mapConfig.streetViewControl = false;
       }
 
       that.bigMap = new google.maps.Map(bigMapNode,mapConfig);
