@@ -40,6 +40,7 @@ define(["require","exports","module","stamen-super-classy"], function(
         div.style.height          = config.size + "px";
         div.style.backgroundColor = "white";
         div.style.backgroundImage = "url(" + baseURL + ")";
+        div.style.backgroundSize  = "cover";
         return div;
     }
 
