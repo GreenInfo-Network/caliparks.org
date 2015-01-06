@@ -143,8 +143,6 @@ define(["require","exports","module","block-activity-filter","block-search-box",
           that.slippyMap.setCenter(park.geometry);
         }
 
-        scrollToParkInList(park.properties.superunit_id);
-
         that.fire("park-selected", {
           newPark : park
         });
@@ -174,6 +172,7 @@ define(["require","exports","module","block-activity-filter","block-search-box",
 
       that.slippyMap.on("marker-click", function(e) {
         that.slippyMap.pinLayer.clearMarkerSelections();
+        scrollToParkInList(e.caller.marker.feature.properties.superunit_id);
         selectPark(e.caller.marker.feature.properties.superunit_id, {
           "center" : false
         });

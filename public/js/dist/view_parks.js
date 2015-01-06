@@ -48,8 +48,7 @@ define([ "require", "exports", "module", "block-activity-filter", "block-search-
             if ((!selectedPark || (0 | selectedPark.properties.superunit_id) !== (0 | id)) && id) {
                 var park = getParkById(id), listItemNode = that.utils.get(".search-results .result-" + id)[0], isInBounds = park.geometry ? that.slippyMap.map.getBounds().contains(new google.maps.LatLng(parseFloat(park.geometry.coordinates[1]), parseFloat(park.geometry.coordinates[0]))) : null;
                 selectedPark = park, listItemNode && listItemNode.classList.add("selected"), that.slippyMap.pinLayer.setMarkersAsSelected([ id ]), 
-                !isInBounds && park.geometry && that.slippyMap.setCenter(park.geometry), scrollToParkInList(park.properties.superunit_id), 
-                that.fire("park-selected", {
+                !isInBounds && park.geometry && that.slippyMap.setCenter(park.geometry), that.fire("park-selected", {
                     newPark: park
                 });
             }
@@ -65,7 +64,8 @@ define([ "require", "exports", "module", "block-activity-filter", "block-search-
         }
         function initPark() {
             resultsNode = that.utils.get("#content .search-results")[0], that.slippyMap.on("marker-click", function(e) {
-                that.slippyMap.pinLayer.clearMarkerSelections(), selectPark(e.caller.marker.feature.properties.superunit_id, {
+                that.slippyMap.pinLayer.clearMarkerSelections(), scrollToParkInList(e.caller.marker.feature.properties.superunit_id), 
+                selectPark(e.caller.marker.feature.properties.superunit_id, {
                     center: !1
                 });
             }), that.slippyMap.on("select-markers", function(e) {
