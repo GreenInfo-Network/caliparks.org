@@ -106,6 +106,22 @@ define(["require","exports","module","block-activity-filter","block-search-box",
       return false;
     }
 
+    function scrollToParkInList(parkId) {
+      var listItems = that.utils.get(".search-result",resultsNode),
+          listItem;
+
+      for (var i=0; listItems.length > i; i++) {
+        if (listItems[i] && listItems[i].getAttribute("data-id") === parkId.toString()) {
+          listItem = listItems[i];
+          break;
+        }
+      }
+
+      if (listItem) {
+        listItem.parentNode.scrollTop = listItem.offsetTop;
+      }
+    }
+
     function selectPark(id, options) {
 
       if ((!selectedPark || ((selectedPark.properties.superunit_id|0) !== (id|0))) && id) {
@@ -126,6 +142,8 @@ define(["require","exports","module","block-activity-filter","block-search-box",
         if (!isInBounds && park.geometry) {
           that.slippyMap.setCenter(park.geometry);
         }
+
+        scrollToParkInList(park.properties.superunit_id);
 
         that.fire("park-selected", {
           newPark : park

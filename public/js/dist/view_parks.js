@@ -37,11 +37,19 @@ define([ "require", "exports", "module", "block-activity-filter", "block-search-
             for (var i = 0; options.parks.features.length > i; i++) if ((0 | options.parks.features[i].properties.superunit_id) === (0 | id)) return options.parks.features[i];
             return !1;
         }
+        function scrollToParkInList(parkId) {
+            for (var listItem, listItems = that.utils.get(".search-result", resultsNode), i = 0; listItems.length > i; i++) if (listItems[i] && listItems[i].getAttribute("data-id") === parkId.toString()) {
+                listItem = listItems[i];
+                break;
+            }
+            listItem && (listItem.parentNode.scrollTop = listItem.offsetTop);
+        }
         function selectPark(id) {
             if ((!selectedPark || (0 | selectedPark.properties.superunit_id) !== (0 | id)) && id) {
                 var park = getParkById(id), listItemNode = that.utils.get(".search-results .result-" + id)[0], isInBounds = park.geometry ? that.slippyMap.map.getBounds().contains(new google.maps.LatLng(parseFloat(park.geometry.coordinates[1]), parseFloat(park.geometry.coordinates[0]))) : null;
                 selectedPark = park, listItemNode && listItemNode.classList.add("selected"), that.slippyMap.pinLayer.setMarkersAsSelected([ id ]), 
-                !isInBounds && park.geometry && that.slippyMap.setCenter(park.geometry), that.fire("park-selected", {
+                !isInBounds && park.geometry && that.slippyMap.setCenter(park.geometry), scrollToParkInList(park.properties.superunit_id), 
+                that.fire("park-selected", {
                     newPark: park
                 });
             }
