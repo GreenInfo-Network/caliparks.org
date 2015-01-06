@@ -15,7 +15,8 @@ define(["require","exports","module","stamen-super-classy"], function(
   module.exports=function(config) {
 
     var that       = this,
-        subdomains = ["a","b","c","d"];
+        subdomains = ["a","b","c","d"],
+        tileConf;
 
     StamenSuperClassy.apply(that, arguments);
 
@@ -28,14 +29,22 @@ define(["require","exports","module","stamen-super-classy"], function(
       return subdomains[index];
     }
 
+    tileConf = {
+      s : getSubdomain(coord),
+      z : zoom,
+      x : coord.x,
+      y : coord.y
+    };
+
+    for (var i in config) {
+      if (config.hasOwnProperty(i)) {
+        tileConf[i] = config[i];
+      }
+    }
+
     function getTile(coord, zoom, ownerDocument) {
         var div = ownerDocument.createElement("DIV");
-        var baseURL = that.processTemplate(config.tilePath, {
-          s : getSubdomain(coord),
-          z : zoom,
-          x : coord.x,
-          y : coord.y
-        });
+        var baseURL = that.processTemplate(config.tilePath, tileConf);
         div.style.width           = config.size + "px";
         div.style.height          = config.size + "px";
         div.style.backgroundColor = "white";
