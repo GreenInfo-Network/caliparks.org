@@ -54,12 +54,54 @@ define(["require","exports","module","stamen-super-classy","gmap-custom-tile-lay
     // Initialization methods
     //
 
+    //
+    // Chooses a subdomain based off of x/y coords
+    // Lifted from https://github.com/Leaflet/Leaflet
+    //
+    var subdomains = ["a","b","c","d"];
+    function getSubdomain (tilePoint) {
+      var index = Math.abs(tilePoint.x + tilePoint.y) % subdomains.length;
+      return subdomains[index];
+    }
+
+    var processTemplate = function(template, data) {
+      return Object.keys(data).forEach(function(key) {
+          template = template.split("{" + key + "}").join(data[key]);
+      }), template;
+    };
+
     function initStamenLayer() {
-      that.parksLayer = new GmapCustomTileLayer({
+      var opts = {
         tilePath : "http://{s}.map.parks.stamen.com/{z}/{x}/{y}{r}.png",
         size     : 256,
         r        : (window.devicePixelRatio && window.devicePixelRatio > 1) ? "@2x" : ""
+      };
+
+      that.parksLayer = new google.maps.ImageMapType({
+        alt: "hi",
+        maxZoom: 20,
+        minZoom: 0,
+        name: "Parks",
+        opacity: 1,
+        tileSize: new google.maps.Size(256, 256),
+        getTileUrl: function(coord, zoom) {
+          var tileConf = {
+            s : getSubdomain(coord),
+            z : zoom,
+            x : coord.x,
+            y : coord.y
+          };
+
+          for (var i in opts) {
+            if (opts.hasOwnProperty(i)) {
+              tileConf[i] = opts[i];
+            }
+          }
+
+          return processTemplate(opts.tilePath, tileConf);
+        }
       });
+      // that.parksLayer = new GmapCustomTileLayer(opts);
 
       return that.parksLayer;
     }
