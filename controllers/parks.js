@@ -39,10 +39,14 @@ module.exports = function(req, res, data, callback) {
     story = stories.getBySlug(req.params.query);
 
     if (story.parks) {
-      return cpad.getParksByIdList(story.parks, req.query.with, function() {
+      return cpad.getParksByIdList(story.parks, req.query.with, req.query.near, function() {
 
         data.query = {
           with : req.query.with
+        }
+
+        if (req.query.near) {
+          data.query.near = req.query.near;
         }
 
         go.apply(this, arguments);

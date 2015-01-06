@@ -88,6 +88,16 @@
         document.getElementsByTagName("body")[0].classList.add("rendered-narrow");
       }
 
+      window.STMN.addNearArg = function addNearArg(uri) {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            location.href = uri.replace(/near=\[location\]/,"near="+position.coords.latitude+","+position.coords.longitude);
+          });
+        } else {
+          location.href = uri.replace(/near=\[location\]/,"");
+        }
+      }
+
       require.config({
         baseUrl     : "/js/dist",
         paths       : {

@@ -450,7 +450,7 @@ app.use(function(req, res, next) {
       ownername:'Grand Canyon NPS',
       owner:'grand_canyon_nps',
     },
-    appTitle: __("Go outside and find parks")
+    appTitle: req.__("Go outside and find parks")
   });
 });
 
