@@ -26,8 +26,9 @@ define([ "require", "exports", "module", "detect-os", "stamen-super-classy", "gm
         }
         function initStamenLayer() {
             return that.parksLayer = new GmapCustomTileLayer({
-                tilePath: "http://{s}.map.parks.stamen.com/{z}/{x}/{y}.png",
-                size: 256
+                tilePath: "http://{s}.map.parks.stamen.com/{z}/{x}/{y}{r}.png",
+                size: 256,
+                r: window.devicePixelRatio && window.devicePixelRatio > 1 ? "@2x" : ""
             }), that.parksLayer;
         }
         function initBigMap() {
@@ -97,7 +98,13 @@ define([ "require", "exports", "module", "detect-os", "stamen-super-classy", "gm
             }, !1);
         }
         function initialize() {
-            initStamenLayer(), initBigMap(), initSmallMap(), initActions(), callback(null, that);
+            initStamenLayer(), setTimeout(function() {
+                initBigMap(), setTimeout(function() {
+                    initSmallMap(), setTimeout(function() {
+                        initActions(), callback(null, that);
+                    }, 100);
+                }, 100);
+            }, 100);
         }
         var that = this;
         StamenSuperClassy.apply(that, arguments);

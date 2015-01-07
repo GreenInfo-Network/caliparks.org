@@ -210,11 +210,27 @@ define(["require","exports","module","detect-os","stamen-super-classy","gmap-cus
     //
     function initialize() {
       initStamenLayer();
-      initBigMap();
-      initSmallMap();
-      initActions();
 
-      callback(null, that);
+      setTimeout(function() {
+
+        initBigMap();
+
+        setTimeout(function() {
+
+          initSmallMap();
+
+          setTimeout(function() {
+
+            initActions();
+
+            callback(null, that);
+
+          },100);
+
+        },100);
+
+      },100);
+
     }
 
     //

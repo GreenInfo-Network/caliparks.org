@@ -29,28 +29,29 @@ define(["require","exports","module","stamen-super-classy"], function(
       return subdomains[index];
     }
 
-    tileConf = {
-      s : getSubdomain(coord),
-      z : zoom,
-      x : coord.x,
-      y : coord.y
-    };
-
-    for (var i in config) {
-      if (config.hasOwnProperty(i)) {
-        tileConf[i] = config[i];
-      }
-    }
-
     function getTile(coord, zoom, ownerDocument) {
-        var div = ownerDocument.createElement("DIV");
-        var baseURL = that.processTemplate(config.tilePath, tileConf);
-        div.style.width           = config.size + "px";
-        div.style.height          = config.size + "px";
-        div.style.backgroundColor = "white";
-        div.style.backgroundImage = "url(" + baseURL + ")";
-        div.style.backgroundSize  = "cover";
-        return div;
+
+      tileConf = {
+        s : getSubdomain(coord),
+        z : zoom,
+        x : coord.x,
+        y : coord.y
+      };
+
+      for (var i in config) {
+        if (config.hasOwnProperty(i)) {
+          tileConf[i] = config[i];
+        }
+      }
+
+      var div = ownerDocument.createElement("DIV");
+      var baseURL = that.processTemplate(config.tilePath, tileConf);
+      div.style.width           = config.size + "px";
+      div.style.height          = config.size + "px";
+      div.style.backgroundColor = "white";
+      div.style.backgroundImage = "url(" + baseURL + ")";
+      div.style.backgroundSize  = "cover";
+      return div;
     }
 
     config.name     = "Stamen Parks Map";

@@ -22,8 +22,9 @@ define([ "require", "exports", "module", "stamen-super-classy", "gmap-custom-til
         }
         function initStamenLayer() {
             return that.parksLayer = new GmapCustomTileLayer({
-                tilePath: "http://{s}.map.parks.stamen.com/{z}/{x}/{y}.png",
-                size: 256
+                tilePath: "http://{s}.map.parks.stamen.com/{z}/{x}/{y}{r}.png",
+                size: 256,
+                r: window.devicePixelRatio && window.devicePixelRatio > 1 ? "@2x" : ""
             }), that.parksLayer;
         }
         function initmap() {
