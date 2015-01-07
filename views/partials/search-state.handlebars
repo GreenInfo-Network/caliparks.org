@@ -3,9 +3,9 @@
 {{else}}
   {{#if query.bbox}}
     {{#if startat}}
-    {{total}} {{#__}}more parks in this area {{/__}}
+    {{#__ arg=total}}%s more parks in this area {{/__}}
     {{else}}
-    {{#__}}{{total}} parks in this area {{/__}}
+    {{#__ arg=total}}%s parks in this area {{/__}}
     {{/if}}
   {{else}}
 
@@ -18,9 +18,9 @@
 
       {{#if query.near}}
       {{#if startat}}
-      {{total}} {{#__}}more parks near {{/__}}
+      {{#__ arg=total}} %s more parks near {{/__}}
       {{else}}
-      {{#__}}The {{total}} parks nearest to {{/__}}
+      {{#__ arg=total}}The %s parks nearest to {{/__}}
       {{/if}}
 
       {{#if homeLocation}}
@@ -31,13 +31,13 @@
       {{/if}}
     {{else}}
 
-      {{#__}}No parks found near{{/__}} “{{place.name}}”{{#__}}; try expanding your filter.{{/__}}
+      {{#__ arg=place.name}}No parks found near “%s”; try expanding your filter.{{/__}}
 
       {{/if}}
       {{else}}
 
       {{#if query.near}}
-      “{{query.near}}” {{#__}}could not be found.{{/__}}
+       {{#__ arg=query.near}}“%s” could not be found.{{/__}}
       {{/if}}
 
       {{/if}}
