@@ -116,8 +116,10 @@ define(["require","exports","module","stamen-super-classy","routes"], function(
 
         if (rootNode.classList.contains("closed")) {
           location.hash = "";
+          that.fire("close");
         } else {
           location.hash = "#filter-panel";
+          that.fire("open");
         }
 
       }, false);
@@ -136,6 +138,7 @@ define(["require","exports","module","stamen-super-classy","routes"], function(
         e.preventDefault();
 
         rootNode.classList.add("closed");
+        that.fire("close");
 
       }, false);
 

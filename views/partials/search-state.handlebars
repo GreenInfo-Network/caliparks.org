@@ -10,7 +10,7 @@
   {{else}}
 
     {{#if query.with}}
-      {{total}} parks with {{#formatActivityList}}{{query.with}}{{/formatActivityList}}
+      {{#__ arg=total}}%s parks with{{/__}} {{#formatActivityList}}{{query.with}}{{/formatActivityList}}
 
     {{else}}
     {{#if place}}

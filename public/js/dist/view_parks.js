@@ -189,8 +189,13 @@ define([ "require", "exports", "module", "block-activity-filter", "block-search-
     }
     var routes = new Routes(), searchState = routes.getParamStateFromLocationObject(), blocks = {};
     blocks.blockSearchBox = new BlockSearchBox(".block-search-box", {}, function() {}), 
-    blocks.blockSearchBox.utils.get(".block-activity-filter")[0] && (blocks.blockActivityFilter = new BlockActivityFilter(".block-activity-filter", {}, function() {})), 
-    module.exports = new View({
+    blocks.blockSearchBox.utils.get(".block-activity-filter")[0] && (blocks.blockActivityFilter = new BlockActivityFilter(".block-activity-filter", {}, function(err, blockActivityFilter) {
+        blockActivityFilter.on("open", function() {
+            document.querySelector(".tab-actions").style.opacity = 0;
+        }), blockActivityFilter.on("close", function() {
+            document.querySelector(".tab-actions").style.opacity = 1;
+        });
+    })), module.exports = new View({
         geojsonURI: "/parks/search.geojson" + routes.stringifyUrlSearchParams(searchState),
         bounds: viewData.bounds,
         parks: viewData.parks

@@ -467,7 +467,14 @@ define(["require","exports","module","block-activity-filter","block-search-box",
   blocks.blockSearchBox      = new BlockSearchBox(".block-search-box",{}, function(err, blockSearchBox) {});
 
   if (blocks.blockSearchBox.utils.get(".block-activity-filter")[0]) {
-    blocks.blockActivityFilter = new BlockActivityFilter(".block-activity-filter",{}, function(err, blockActivityFilter) {});
+    blocks.blockActivityFilter = new BlockActivityFilter(".block-activity-filter",{}, function(err, blockActivityFilter) {
+      blockActivityFilter.on("open", function() {
+        document.querySelector(".tab-actions").style.opacity=0;
+      });
+      blockActivityFilter.on("close", function() {
+        document.querySelector(".tab-actions").style.opacity=1;
+      });
+    });
   }
 
   module.exports = new View({
