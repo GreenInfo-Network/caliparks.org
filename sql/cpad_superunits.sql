@@ -1,5 +1,5 @@
 -- matching on integers is way better than integer <-> numeric
-ALTER TABLE cpad_2014b7 ALTER COLUMN suid_nma TYPE integer;
+ALTER TABLE cpad_2014b8 ALTER COLUMN suid_nma TYPE integer;
 
 DROP VIEW IF EXISTS cpad_superunits;
 CREATE VIEW cpad_superunits AS
@@ -14,4 +14,4 @@ CREATE VIEW cpad_superunits AS
     label_name,
     gis_acres,
     geom
-  FROM cpad_2014b7;
+  FROM cpad_2014b8;
