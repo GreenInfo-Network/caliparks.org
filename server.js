@@ -91,6 +91,11 @@ app.engine('handlebars', exphbs({
 app.set('view engine', 'handlebars');
 
 //
+// This is where the app name is set for display throughout the site.
+//
+app.set('appName', 'CaliParks');
+
+//
 // Setup Routes
 //
 
@@ -133,7 +138,7 @@ app.get('/hablas/:language', function(req, res, next) {
 app.get('/about', function(req,res) {
 
   res.render('about', {
-    appTitle: req.__("Caliparks and find parks"),
+    appTitle: req.__("Go outside and find parks"),
     layout   : 'photo-back'
   });
 
@@ -211,7 +216,7 @@ app.get('/embed/:id(\\d{3,6})', function(req,res, next) {
       templateData.layout = 'responsive2';
       templateData.view   = 'embed';
 
-      templateData.appTitle = req.__("Caliparks and visit ") + templateData.cpadPark.unit_name;
+      templateData.appTitle = req.__("Go outside and visit ") + templateData.cpadPark.unit_name;
 
       res.render("embed", templateData);
     } else {
@@ -243,7 +248,7 @@ app.get('/embed/park', function(req,res, next) {
       templateData.layout = 'embed-viewport';
       templateData.view   = 'embed-park';
 
-      templateData.appTitle = req.__("Caliparks");
+      templateData.appTitle = app.get('appName');
 
       res.render("embed-park", templateData);
     } else {
@@ -286,7 +291,7 @@ app.get('/park/:id(\\d{3,6})', function(req,res, next) {
       templateData.layout = 'responsive2';
       templateData.view = 'park';
 
-      templateData.appTitle = req.__("Caliparks and visit ") + templateData.cpadPark.unit_name;
+      templateData.appTitle = req.__("Go outside and visit ") + templateData.cpadPark.unit_name;
 
       res.render('park', templateData);
     } else {
@@ -400,7 +405,7 @@ app.get('/parks/:context(search|with|near|story)', function(req,res, next) {
     templateData.tabletViewport = true;
     templateData.context = req.params.context;
 
-    templateData.appTitle = req.__("Caliparks and find parks");
+    templateData.appTitle = req.__("Go outside and find parks");
 
     res.render('parks', templateData);
 
@@ -425,7 +430,7 @@ app.get('/parks/:context(search|with|near|story)/:query', function(req,res, next
       templateData.view   = 'parks';
       templateData.tabletViewport = true;
       templateData.context = req.params.context;
-      templateData.appTitle = req.__("Caliparks and find parks");
+      templateData.appTitle = req.__("Go outside and find parks");
       res.render('parks', templateData);
     } else {
       return next();
@@ -450,7 +455,7 @@ app.use(function(req, res, next) {
       ownername:'Grand Canyon NPS',
       owner:'grand_canyon_nps',
     },
-    appTitle: req.__("Caliparks and find parks")
+    appTitle: req.__("Go outside and find parks")
   });
 });
 
