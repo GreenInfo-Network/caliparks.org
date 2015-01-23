@@ -1043,11 +1043,6 @@ body.parksforward.responsive2 {
     position: relative;
     height: 100vh;
     height: 91vh; }
-  body.parksforward.responsive2.tablet-viewport footer #footer-actions a {
-    width: 50%;
-    text-align: center; }
-    body.parksforward.responsive2.tablet-viewport footer #footer-actions a.top-action {
-      display: none !important; }
   @media screen and (max-width: 720px) {
     body.parksforward.responsive2.tablet-viewport footer #footer-actions a {
       width: 100%; } }

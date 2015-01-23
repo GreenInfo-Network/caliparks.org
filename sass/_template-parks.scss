@@ -8,14 +8,6 @@
 
   footer {
 
-    #footer-actions a{
-      width:50%;
-      text-align:center;
-      &.top-action {
-        display:none !important;
-      }
-    }
-
     @include media(max-width 720px) {
 
       #footer-actions {
