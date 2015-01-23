@@ -74,11 +74,11 @@ define(["require","exports","module","jquery","block-photo-carousel","block-inst
     document.querySelector("#content .action.fullscreen").addEventListener("click",function(e) {
       module.exports.mapOverlay.show();
     }, false);
+
+    module.exports.headerPhotos = new BlockPhotoCarousel(".block-photo-carousel", viewData, function(err, blockPhotoCarousel) {});
+
+    module.exports.instagramStrip = new BlockInstagramStrip(".block-instagram-strip", viewData, function(err, blockInstagramStrip) {});
   });
-
-  module.exports.headerPhotos = new BlockPhotoCarousel(".block-photo-carousel", viewData, function(err, blockPhotoCarousel) {});
-
-  module.exports.instagramStrip = new BlockInstagramStrip(".block-instagram-strip", viewData, function(err, blockInstagramStrip) {});
 
   var facebookFixer = new FacebookFixer();
 
