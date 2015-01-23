@@ -811,8 +811,8 @@ body.parksforward.responsive2 {
         background-size: 10% 50%;
         background-position: 10px;
         float: left; }
-        body.parksforward.responsive2 footer #footer-actions a.top-action {
-          background-image: url("/style/responsive2/footer/circle-arrow.svg"); }
+        body.parksforward.responsive2 footer #footer-actions a.lang-action {
+          background-image: url("/style/language.svg"); }
         body.parksforward.responsive2 footer #footer-actions a.wander-action {
           background-image: url("/style/responsive2/footer/circle-walking.svg"); }
         body.parksforward.responsive2 footer #footer-actions a.contact-action {
