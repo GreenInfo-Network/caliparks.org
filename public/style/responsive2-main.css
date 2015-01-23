@@ -54,6 +54,9 @@ html {
 /*
 *  Variables for everything
 */
+.twitter-share-button {
+  margin-bottom: -3px; }
+
 @media screen and (min-width: 721px) {
   .facebook-thing-closed .fb-like {
     z-index: 1;

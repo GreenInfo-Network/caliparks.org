@@ -29,9 +29,5 @@ define([ "require", "exports", "module", "jquery", "block-photo-carousel", "bloc
             module.exports.mapOverlay.show();
         }, !1), module.exports.headerPhotos = new BlockPhotoCarousel(".block-photo-carousel", viewData, function() {}), 
         module.exports.instagramStrip = new BlockInstagramStrip(".block-instagram-strip", viewData, function() {});
-    });
-    var facebookFixer = new FacebookFixer();
-    facebookFixer.on("facebook-frame-change", function(e) {
-        "open" === e.caller.state ? $("body").removeClass("facebook-thing-closed") : $("body").addClass("facebook-thing-closed");
     }), blocks.blockSearchBox = new BlockSearchBox(".block-search-box", {}, function() {});
 });

@@ -80,19 +80,6 @@ define(["require","exports","module","jquery","block-photo-carousel","block-inst
     module.exports.instagramStrip = new BlockInstagramStrip(".block-instagram-strip", viewData, function(err, blockInstagramStrip) {});
   });
 
-  var facebookFixer = new FacebookFixer();
-
-  //
-  // Add a class to the body when the facebook panel is open
-  //
-  facebookFixer.on("facebook-frame-change", function(e) {
-    if (e.caller.state === "open") {
-      $("body").removeClass("facebook-thing-closed");
-    } else {
-      $("body").addClass("facebook-thing-closed");
-    }
-  });
-
   blocks.blockSearchBox = new BlockSearchBox(".block-search-box",{}, function(err, blockSearchBox) {});
 
 });

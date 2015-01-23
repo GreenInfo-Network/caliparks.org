@@ -43,6 +43,9 @@ $font-size-large: 125%;
 $font-family-serif: "jubilat", serif;
 $font-family-sans: "expressway", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 
+.twitter-share-button {
+  margin-bottom: -3px;
+}
 
 @include media(min-width 721px) {
   .facebook-thing-closed .fb-like
