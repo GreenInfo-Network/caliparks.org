@@ -14,4 +14,5 @@ CREATE VIEW cpad_superunits AS
     label_name,
     gis_acres,
     geom
-  FROM cpad_2014b8;
+  FROM cpad_2014b8
+  WHERE suid_nma NOT IN (16161, 16162, 16163, 16166, 16164, 16165);
