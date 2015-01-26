@@ -62,13 +62,18 @@ module.exports = function(req, res, options, callback) {
       // CPAD output
       //
       if (apiResponse.cpad) {
+
+        var coords = JSON.parse(apiResponse.cpad.centroid).coordinates;
+
         output['appTitle']    = 'California Open Spaces > ' + apiResponse.cpad.unit_name;
         output['park_id']     = apiResponse.cpad.superunit_id;
-        output['unit_name']        = apiResponse.cpad.unit_name;
+        output['unit_name']   = apiResponse.cpad.unit_name;
         output['bbox']        = apiResponse.cpad.bbox;
         output['agency_slug'] = apiResponse.cpad.mng_agncy.split(' ').join('+');
-        output['centroid']           = apiResponse.cpad.centroid;
-        output['cpadPark']           = apiResponse.cpad;
+        output['centroid']    = apiResponse.cpad.centroid;
+        output['latitude']    = coords[1];
+        output['longitude']   = coords[0];
+        output['cpadPark']    = apiResponse.cpad;
       }
 
       //

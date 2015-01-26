@@ -93,7 +93,7 @@ app.set('view engine', 'handlebars');
 //
 // This is where the app name is set for display throughout the site.
 //
-app.set('appName', 'CaliParks');
+app.set('appName', 'CaliParks.org');
 
 //
 // Setup Routes
@@ -114,7 +114,7 @@ app.get('/', function(req, res, next) {
     templateData.layout = 'responsive2';
     templateData.view = 'home';
 
-    templateData.appTitle = req.__("Caliparks");
+    templateData.appTitle = app.get('appName');
 
     res.render('home', templateData);
 
@@ -290,6 +290,7 @@ app.get('/park/:id(\\d{3,6})', function(req,res, next) {
       templateData.hasAPI = true;
       templateData.layout = 'responsive2';
       templateData.view = 'park';
+      templateData.ogTypePark = "true";
 
       templateData.appTitle = req.__("Go outside and visit ") + templateData.cpadPark.unit_name;
 

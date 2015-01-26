@@ -1,0 +1,13 @@
+<meta property="fb:app_id" content="1234567890" />
+
+{{#if ogTypePark}}
+<meta property="og:type"            content="caliparks:park" />
+<meta property="og:url"             content="{{siteURL}}/park/{{park_id}}" />
+<meta property="og:title"           content="{{unit_name}}" />
+<meta property="og:image"           content="http://farm{{flickr.items.1.farm}}.staticflickr.com/{{flickr.items.1.server}}/{{flickr.items.1.photoid}}_{{flickr.items.1.secret}}_b.jpg" />
+<meta property="place:location:latitude"  content="{{latitude}}" />
+<meta property="place:location:longitude" content="{{longitude}}" />
+
+{{else}}
+
+{{/if}}
