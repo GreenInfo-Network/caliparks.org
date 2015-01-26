@@ -432,7 +432,15 @@ app.get('/parks/:context(search|with|near|story)/:query', function(req,res, next
       templateData.tabletViewport = true;
       templateData.context = req.params.context;
       templateData.appTitle = req.__("Go outside and find parks");
+
+      if (req.params.context === 'story') {
+        templateData.ogTypeStory = "true";
+      } else {
+        templateData.ogTypeSearch = "true";
+      }
+
       res.render('parks', templateData);
+
     } else {
       return next();
     }
