@@ -192,6 +192,12 @@
 	"Caliparks and visit ": "Caliparques y visite",
 	"The %s parks nearest to ": "El %s de parques cerca a",
 	"%s parks with": "%s de parques con",
-	"Go outside & discover California&#8217;s parks": "Go outside & discover California&#8217;s parks",
-	"CaliParks": "CaliParks"
+	"CaliParks":"CaliParques",
+	"Go outside and find parks":"Salir a la calle y encontrar parques",
+	"Go outside and visit ":"Salir a la calle y visitar",
+	"CaliParks.org":"CaliParks.org",
+	"on":"en",
+	"Photos, maps, and driving directions for %s.":"Fotos, mapas y direcciones de conducción para %s",
+	"Find parks near you. Select your favorite activities, from basketball to rock climbing. See park photos from Instagram and Flickr. Get directions.":"Encuentra parques cerca de usted. Seleccione sus actividades favoritas, el baloncesto, la escalada en roca. Ver fotos del parque de Instagram y Flickr. Obtener ruta.",
+	"Check out some of our favorite parks. See photos from Instagram and Flickr. Get directions.":"Echa un vistazo a algunos de nuestros parques favoritos. Ver fotos de Instagram y Flickr. Obtener ruta."
 }
