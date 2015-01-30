@@ -9,6 +9,7 @@ var cors       = require('cors'),
     i18n       = require("i18n"),
     cpad       = require("./lib/cpad.js"),
     routes     = require("./lib/routes.js"),
+    responseTime = require("response-time"),
     activities = require("./config/activities.json"),
     fs         = require("fs");
 
@@ -28,6 +29,9 @@ var languageFriendlyNames = {
 memwatch.on('leak', function(info) {
   console.log('Memory Leak detected:', info);
 });
+
+// Track response times
+app.use(responseTime());
 
 //
 // Set up Sentry logging

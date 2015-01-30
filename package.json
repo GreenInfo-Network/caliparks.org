@@ -51,6 +51,7 @@
     "raven": "~0.7.0",
     "request": "~2.33.0",
     "require-env": "0.0.4",
+    "response-time": "^2.2.0",
     "sanitizer": "~0.1.1",
     "satelize": "~0.1.0",
     "should": "~3.3.2",
