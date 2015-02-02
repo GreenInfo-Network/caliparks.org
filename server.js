@@ -83,6 +83,9 @@ app.use(function (req, res, next) {
     req.setLocale(req.cookies.localeparks);
   }
 
+  res.header('Vary', 'Content-Language');
+  res.header('Content-Language', req.getLocale());
+
   next();
 });
 
