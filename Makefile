@@ -86,7 +86,7 @@ db/all: db/activities db/cpad_entry_points db/featured_parks db/migrations db/pa
 
 .PHONY: db/indexes
 
-db/indexes: db/cpad_2014b8_suid_nma_idx db/cpad_entry_points_su_id_idx
+db/indexes: db/cpad_2014b9_suid_nma_idx db/cpad_entry_points_su_id_idx
 
 .PHONY: db/postgis
 
@@ -100,11 +100,11 @@ db/activities: db/cpad_facilities db/site_hipcamp_activities
 
 .PHONY: db/cpad
 
-db/cpad: db/cpad_2014b8
+db/cpad: db/cpad_2014b9
 
-.PHONY: db/cpad_2014b8
+.PHONY: db/cpad_2014b9
 
-db/cpad_2014b8: db/postgis data/cpad_2014b8_superunits_name_manager_access.zip
+db/cpad_2014b9: db/postgis data/cpad_2014b9_superunits_name_manager_access.zip
 	@psql -c "\d $(subst db/,,$@)" > /dev/null 2>&1 || \
 	ogr2ogr --config PG_USE_COPY YES \
 		-t_srs EPSG:3310 \
@@ -113,11 +113,11 @@ db/cpad_2014b8: db/postgis data/cpad_2014b8_superunits_name_manager_access.zip
 		-lco GEOMETRY_NAME=geom \
 		-lco SRID=3310 \
 		-f PGDump /vsistdout/ \
-		/vsizip/$(word 2,$^)/cpad_2014b8_superunits_name_manager_access.shp | pv | psql -q
+		/vsizip/$(word 2,$^)/cpad_2014b9_superunits_name_manager_access.shp | pv | psql -q
 
-.PHONY: db/cpad_2014b8_suid_nma_idx
+.PHONY: db/cpad_2014b9_suid_nma_idx
 
-db/cpad_2014b8_suid_nma_idx: db/cpad_2014b8
+db/cpad_2014b9_suid_nma_idx: db/cpad_2014b9
 	$(call create_relation)
 
 .PHONY: db/cpad_entry_points
@@ -191,9 +191,9 @@ db/rec_facil_ca: db/postgis data/Rec_Facil_send.zip
 db/site_hipcamp_activities: db sql/site_hipcamp_activities.sql
 	$(call create_relation)
 
-data/cpad_2014b8_superunits_name_manager_access.zip:
+data/cpad_2014b9_superunits_name_manager_access.zip:
 	@mkdir -p $$(dirname $@)
-	@curl -sLf http://websites.greeninfo.org/common_data/California/Public_Lands/CPAD/dev/CPAD2014b/cpad_2014b8_superunits_name_manager_access.zip -o $@
+	@curl -sLf http://websites.greeninfo.org/common_data/California/Public_Lands/CPAD/stable/CPAD2014b/cpad_2014b9_superunits_name_manager_access.zip -o $@
 
 data/cpad_entry_points.zip:
 	@mkdir -p $$(dirname $@)
