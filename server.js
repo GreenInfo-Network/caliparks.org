@@ -65,23 +65,26 @@ i18n.configure({
     cookie: 'localeparks'
 });
 
-app.use(function (req, res, next) {
-
-  if (!(req.cookies.localeparks && req.cookies.localeparks.length === 2)) {
-    app.set("showLangBanner",true);
-    res.cookie('localeparks', 'en' || req.params.language, { maxAge: (10 * 365 * 24 * 60 * 60), httpOnly: true });
-  } else {
-    app.set("showLangBanner",false);
-  }
-
-  res.setHeader("Content-Language", req.cookies.localeparks + ", " + req.cookies.localeparks + "-us;");
-  res.setHeader("Vary", "Content-Language");
-
-  next();
-});
 
 // init i18n module for this loop
 app.use(i18n.init);
+
+app.use(function (req, res, next) {
+
+  if (!(req.cookies.localeparks && req.cookies.localeparks.length === 2)) {
+
+    app.set("showLangBanner",true);
+    res.cookie('localeparks', ((req.params ? req.params.language : null) || req.getLocale()), { maxAge: (10 * 365 * 24 * 60 * 60), httpOnly: true });
+    if (req.params ? req.params.language : null) {
+      req.setLocale(req.params.language);
+    }
+  } else {
+    app.set("showLangBanner",false);
+    req.setLocale(req.cookies.localeparks);
+  }
+
+  next();
+});
 
 //
 // Setup Express
