@@ -111,7 +111,7 @@ define(["require","exports","module"], function(require, exports, module) {
             }
           };
 
-          xmlHttp.open( "GET", uri, false );
+          xmlHttp.open( "GET", uri, true );
           return xmlHttp.send( null );
         } else {
           return false;

@@ -98,19 +98,11 @@ define([ "require", "exports", "module", "detect-os", "stamen-super-classy", "gm
             }, !1);
         }
         function initialize() {
-            initStamenLayer(), setTimeout(function() {
-                initBigMap(), setTimeout(function() {
-                    initSmallMap(), setTimeout(function() {
-                        initActions(), callback(null, that);
-                    }, 100);
-                }, 100);
-            }, 100);
+            initStamenLayer(), initBigMap(), initSmallMap(), initActions(), callback(null, that);
         }
         var that = this;
         StamenSuperClassy.apply(that, arguments);
         var rootNode = that.utils.get(rootSelector)[0], bigMapNode = that.utils.get(".big-park-map", rootNode)[0], smallMapNode = that.utils.get(".small-park-map", rootNode)[0];
-        return google.maps.event.addDomListener(window, "load", function() {
-            initialize();
-        }), that;
+        return initialize(), that;
     };
 });

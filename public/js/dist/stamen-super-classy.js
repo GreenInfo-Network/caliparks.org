@@ -37,7 +37,7 @@ define([ "require", "exports", "module" ], function(require, exports, module) {
                     var xmlHttp = null;
                     return xmlHttp = new window.XMLHttpRequest(), xmlHttp.onreadystatechange = function() {
                         4 === (0 | xmlHttp.readyState) && (200 === (0 | xmlHttp.status) ? callback(null, xmlHttp) : callback(xmlHttp));
-                    }, xmlHttp.open("GET", uri, !1), xmlHttp.send(null);
+                    }, xmlHttp.open("GET", uri, !0), xmlHttp.send(null);
                 }
                 return !1;
             },

@@ -214,34 +214,21 @@ define(["require","exports","module","detect-os","stamen-super-classy","gmap-cus
     function initialize() {
       initStamenLayer();
 
-      setTimeout(function() {
+      initBigMap();
 
-        initBigMap();
+      initSmallMap();
 
-        setTimeout(function() {
+      initActions();
 
-          initSmallMap();
-
-          setTimeout(function() {
-
-            initActions();
-
-            callback(null, that);
-
-          },100);
-
-        },100);
-
-      },100);
+      callback(null, that);
 
     }
 
     //
     // GO GO GO!
     //
-    google.maps.event.addDomListener(window, "load", function() {
-      initialize();
-    });
+
+    initialize();
 
     return that;
 
