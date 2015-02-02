@@ -78,6 +78,9 @@ app.use(function (req, res, next) {
     if (req.params ? req.params.language : null) {
       req.setLocale(req.params.language);
     }
+  } else if (req.params ? req.params.language : null) {
+    res.cookie('localeparks', req.params.language, { maxAge: (10 * 365 * 24 * 60 * 60), httpOnly: true });
+    req.setLocale(req.params.language);
   } else {
     app.set("showLangBanner",false);
     req.setLocale(req.cookies.localeparks);
