@@ -97,7 +97,7 @@ define(["require","exports","module","content-carousel","stamen-super-classy","c
         location.href+"/flickr.json",
         "response.flickr.items",
         {
-          startat : 20,
+          startat : 5,
           incrementArg : "startat",
           srcArguments : {
             startat : 20,

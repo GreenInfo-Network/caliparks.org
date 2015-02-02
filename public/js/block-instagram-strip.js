@@ -96,7 +96,7 @@ define(["require","exports","module","content-carousel","stamen-super-classy","c
         location.href+"/instagram.json",
         "response.instagram.items",
         {
-          startat : 20,
+          startat : 15,
           incrementArg : "startat",
           srcArguments : {
             startat : 20,

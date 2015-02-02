@@ -132,6 +132,7 @@ define(["require","exports","module","detect-os","stamen-super-classy","gmap-cus
 
       that.bigMap = new google.maps.Map(bigMapNode,mapConfig);
 
+
       if (!bigMapNode.offsetHeight) {
         bigMapNode.style.height = "100%";
       }
@@ -158,6 +159,7 @@ define(["require","exports","module","detect-os","stamen-super-classy","gmap-cus
        google.maps.event.trigger(that.bigMap.getCenter(), "resize");
        that.bigMap.setCenter(that.bigMap.getCenter());
       });
+
     }
 
     function initSmallMap() {
@@ -191,6 +193,7 @@ define(["require","exports","module","detect-os","stamen-super-classy","gmap-cus
           position: new google.maps.LatLng(viewOptions.centroid.coordinates[1], viewOptions.centroid.coordinates[0])
         });
         that.smallMapCircle.setMap(that.smallMap);
+
       }
 
     }

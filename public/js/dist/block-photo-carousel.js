@@ -23,7 +23,7 @@ define([ "require", "exports", "module", "content-carousel", "stamen-super-class
                 e.caller.target.scrollLeft > e.caller.target.scrollWidth - (e.caller.target.offsetWidth + e.caller.target.offsetWidth / 2) ? rootNode.parentNode.parentNode.classList.add("scrolled-furthest") : rootNode.parentNode.parentNode.classList.remove("scrolled-furthest"), 
                 e.caller.target.scrollLeft < e.caller.target.offsetWidth / 2 ? rootNode.parentNode.parentNode.classList.add("not-scrolled") : rootNode.parentNode.parentNode.classList.remove("not-scrolled");
             }), contentFetcher = new ContentFetcher(slideContainerNode, "flickr_coverphoto", location.href + "/flickr.json", "response.flickr.items", {
-                startat: 20,
+                startat: 5,
                 incrementArg: "startat",
                 srcArguments: {
                     startat: 20,

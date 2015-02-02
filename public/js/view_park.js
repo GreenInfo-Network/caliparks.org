@@ -79,6 +79,7 @@ define(["require","exports","module","jquery","block-photo-carousel","block-inst
     module.exports.headerPhotos = new BlockPhotoCarousel(".block-photo-carousel", viewData, function(err, blockPhotoCarousel) {});
 
     module.exports.instagramStrip = new BlockInstagramStrip(".block-instagram-strip", viewData, function(err, blockInstagramStrip) {});
+
   });
 
   (new BlockSearchBox(".block-search-box",{}, function(err, blockSearchBox) {}));

@@ -101,12 +101,12 @@ app.engine('handlebars', exphbs({
   defaultLayout : 'main',
   helpers       : helpers
 }));
-app.set('view engine', 'handlebars');
+app.set("view engine", "handlebars");
 
 //
 // This is where the app name is set for display throughout the site.
 //
-app.set('appName', 'CaliParks.org');
+app.set("appName", "CaliParks.org");
 
 //
 // Setup Routes

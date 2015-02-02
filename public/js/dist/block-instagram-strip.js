@@ -22,7 +22,7 @@ define([ "require", "exports", "module", "content-carousel", "stamen-super-class
                 e.caller.target.scrollLeft > e.caller.target.scrollWidth - (e.caller.target.offsetWidth + e.caller.target.offsetWidth / 2) ? rootNode.parentNode.parentNode.classList.add("scrolled-furthest") : rootNode.parentNode.parentNode.classList.remove("scrolled-furthest"), 
                 e.caller.target.scrollLeft < e.caller.target.offsetWidth / 2 ? rootNode.parentNode.parentNode.classList.add("not-scrolled") : rootNode.parentNode.parentNode.classList.remove("not-scrolled");
             }), contentFetcher = new ContentFetcher(slideContainerNode, "instagram-photo", location.href + "/instagram.json", "response.instagram.items", {
-                startat: 20,
+                startat: 15,
                 incrementArg: "startat",
                 srcArguments: {
                     startat: 20,
