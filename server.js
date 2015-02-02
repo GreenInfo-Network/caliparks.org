@@ -74,6 +74,9 @@ app.use(function (req, res, next) {
     app.set("showLangBanner",false);
   }
 
+  res.setHeader("Content-Language", req.cookies.localeparks + ", " + req.cookies.localeparks + "-us;");
+  res.setHeader("Vary", "Content-Language");
+
   next();
 });
 
