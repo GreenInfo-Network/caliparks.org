@@ -1,4 +1,4 @@
-define(["require","exports","module","jquery","block-photo-carousel","block-instagram-strip","block-static-park-map","facebook-fixer","fullscreen-overlay","block-search-box"], function(
+define(["require","exports","module","jquery","block-photo-carousel","block-instagram-strip","block-static-park-map","facebook-fixer","fullscreen-overlay","block-search-box","block-stories-flexy"], function(
   require,
   exports,
   module,
@@ -8,7 +8,8 @@ define(["require","exports","module","jquery","block-photo-carousel","block-inst
   BlockStaticParkMap,
   FacebookFixer,
   FullscreenOverlay,
-  BlockSearchBox
+  BlockSearchBox,
+  BlockStoriesFlexy
 ) {
 
   "use strict";
@@ -80,6 +81,7 @@ define(["require","exports","module","jquery","block-photo-carousel","block-inst
     module.exports.instagramStrip = new BlockInstagramStrip(".block-instagram-strip", viewData, function(err, blockInstagramStrip) {});
   });
 
-  blocks.blockSearchBox = new BlockSearchBox(".block-search-box",{}, function(err, blockSearchBox) {});
+  (new BlockSearchBox(".block-search-box",{}, function(err, blockSearchBox) {}));
+  (new BlockStoriesFlexy(".block-stories-flexy",{}, function(err, blockStoriesFlexy) {}));
 
 });

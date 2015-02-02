@@ -1,6 +1,5 @@
-define([ "require", "exports", "module", "jquery", "block-photo-carousel", "block-instagram-strip", "block-static-park-map", "facebook-fixer", "fullscreen-overlay", "block-search-box" ], function(require, exports, module, jquery, BlockPhotoCarousel, BlockInstagramStrip, BlockStaticParkMap, FacebookFixer, FullscreenOverlay, BlockSearchBox) {
+define([ "require", "exports", "module", "jquery", "block-photo-carousel", "block-instagram-strip", "block-static-park-map", "facebook-fixer", "fullscreen-overlay", "block-search-box", "block-stories-flexy" ], function(require, exports, module, jquery, BlockPhotoCarousel, BlockInstagramStrip, BlockStaticParkMap, FacebookFixer, FullscreenOverlay, BlockSearchBox, BlockStoriesFlexy) {
     "use strict";
-    var blocks = {};
     module.exports = {}, module.exports.map = new BlockStaticParkMap(".block-static-park-map", viewData, function() {
         module.exports.mapOverlay = new FullscreenOverlay("#content", "/js/partials/fullscreen-map.handlebars", {
             className: "map-overlay"
@@ -29,5 +28,5 @@ define([ "require", "exports", "module", "jquery", "block-photo-carousel", "bloc
             module.exports.mapOverlay.show();
         }, !1), module.exports.headerPhotos = new BlockPhotoCarousel(".block-photo-carousel", viewData, function() {}), 
         module.exports.instagramStrip = new BlockInstagramStrip(".block-instagram-strip", viewData, function() {});
-    }), blocks.blockSearchBox = new BlockSearchBox(".block-search-box", {}, function() {});
+    }), new BlockSearchBox(".block-search-box", {}, function() {}), new BlockStoriesFlexy(".block-stories-flexy", {}, function() {});
 });
