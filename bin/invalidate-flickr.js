@@ -70,6 +70,7 @@ source._read = function(size) {
               "SELECT id, metadata -> 'url_s' AS url, last_checked",
               "FROM flickr_photos",
               "WHERE locked_at IS NULL",
+              "  AND (metadata ->> 'height_m')::integer < (metadata ->> 'width_m')::integer",
               "  AND (last_checked IS NULL OR last_checked <= NOW() - interval '30 days')",
               "ORDER BY COALESCE(last_checked, '2014-10-04'::timestamp with time zone) ASC",
               "LIMIT $1"
