@@ -156,14 +156,13 @@ app.get('/', function(req, res, next) {
   });
 });
 
-app.get('/speak/:language', function(req, res, next) {
+app.get('/:_(speak|hablas)/:language', function(req, res, next) {
+  // don't allow clients to cache these redirects (they'll drop the Set-Cookie
+  // headers)
+  res.set("Cache-Control", "no-cache");
 
-  res.cookie('localeparks', languageFriendlyNames[req.params.language.toLowerCase()] || req.params.language, { maxAge: (10 * 365 * 24 * 60 * 60) });
-
-  res.redirect('/');
-});
-
-app.get('/hablas/:language', function(req, res, next) {
+  // allow Fastly to cache
+  res.set("Surrogate-Control", "max-age=86400");
 
   res.cookie('localeparks', languageFriendlyNames[req.params.language.toLowerCase()] || req.params.language, { maxAge: (10 * 365 * 24 * 60 * 60) });
 
