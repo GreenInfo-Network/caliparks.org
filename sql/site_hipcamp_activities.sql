@@ -496,7 +496,7 @@ INSERT INTO site_hipcamp_activities (su_id, url, activities) VALUES (8838, '', A
 INSERT INTO site_hipcamp_activities (su_id, url, activities) VALUES (8896, '', ARRAY['fishing']);
 INSERT INTO site_hipcamp_activities (su_id, url, activities) VALUES (8953, '', ARRAY['biking', 'hiking', 'horsebackriding', 'wildlifewatching']);
 INSERT INTO site_hipcamp_activities (su_id, url, activities) VALUES (8979, '', ARRAY['biking', 'hiking', 'horsebackriding', 'climbing', 'wildlifewatching']);
-INSERT INTO site_hipcamp_activities (su_id, url, activities) VALUES (9248, 'http://parks.smcgov.org/edgewood-park-natural-preserve', ARRAY['biking', 'fishing', 'hiking', 'horsebackriding', 'kayakingcanoeing', 'wildlifewatching', 'camping']);
+INSERT INTO site_hipcamp_activities (su_id, url, activities) VALUES (9248, 'http://parks.smcgov.org/edgewood-park-natural-preserve', ARRAY['biking', 'hiking', 'horsebackriding', 'wildlifewatching']);
 INSERT INTO site_hipcamp_activities (su_id, url, activities) VALUES (9395, 'http://www.rivcoparks.org/reservations/camping-reservations/', ARRAY['biking', 'boating', 'fishing', 'hiking', 'horsebackriding', 'camping']);
 INSERT INTO site_hipcamp_activities (su_id, url, activities) VALUES (9397, '', ARRAY['biking', 'hiking', 'horsebackriding']);
 INSERT INTO site_hipcamp_activities (su_id, url, activities) VALUES (9398, '', ARRAY['biking', 'hiking', 'horsebackriding']);
