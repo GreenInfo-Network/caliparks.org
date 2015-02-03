@@ -66,7 +66,7 @@ i18n.configure({
   directory: './locales'
 });
 
-// Cache-friendly localization rules
+// Cache-friendly localization rules (equivalent to what Fastly does)
 app.use(function(req, res, next) {
   // extract preferred language from cookies and prepend it to the
   // Accept-Language header
@@ -97,13 +97,6 @@ app.use(function(req, res, next) {
   return next();
 });
 
-app.use(function (req, res, next) {
-  res.header("Vary", "Accept-Language");
-  res.header("Content-Language", req.getLocale());
-
-  return next();
-});
-
 //
 // Setup Express
 //
@@ -127,17 +120,26 @@ app.set("appName", "CaliParks.org");
 // Setup Routes
 //
 
-// default caching rules
+app.use('/style', express.static('./public/style', { maxAge: 3600e3 }));
+app.use('/js',    express.static('./public/js', { maxAge: 3600e3 }));
+app.use('/data',  express.static('./public/data', { maxAge: 3600e3 }));
+app.use('/js/partials',  express.static('./views/partials', { maxAge: 3600e3 }));
+
+// default caching rules for dynamic content
 app.use(function(req, res, next) {
   res.set("Cache-Control", "public, max-age=3600");
 
   return next();
 });
 
-app.use('/style', express.static('./public/style', { maxAge: 3600e3 }));
-app.use('/js',    express.static('./public/js', { maxAge: 3600e3 }));
-app.use('/data',  express.static('./public/data', { maxAge: 3600e3 }));
-app.use('/js/partials',  express.static('./views/partials', { maxAge: 3600e3 }));
+// dynamic content varies by language; static content does not (this is why
+// we're below the static routes)
+app.use(function (req, res, next) {
+  res.header("Vary", "Accept-Language");
+  res.header("Content-Language", req.getLocale());
+
+  return next();
+});
 
 app.get('/', function(req, res, next) {
 
