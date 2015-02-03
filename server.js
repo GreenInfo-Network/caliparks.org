@@ -60,36 +60,51 @@ app.use(cors());
 // Internationalization time (i18n)
 //
 i18n.configure({
-    locales:['en', 'es'],
-    directory: './locales',
-    cookie: 'localeparks'
+  locales: ['en', 'es'],
+  directory: './locales'
 });
 
+// Cache-friendly localization rules
+app.use(function(req, res, next) {
+  // extract preferred language from cookies and prepend it to the
+  // Accept-Language header
+  if (req.cookies.localeparks) {
+    req.headers["accept-language"] = [req.cookies.localeparks, req.get("accept-language")].join("; ");
+  }
+
+  // strip req.cookies (they will be from the first request that passes through
+  // the cache and _only_ relevant to that request)
+  req.cookies = {};
+
+  return next();
+});
 
 // init i18n module for this loop
 app.use(i18n.init);
 
-app.use(function (req, res, next) {
-
-  if (!(req.cookies.localeparks && req.cookies.localeparks.length === 2)) {
-
-    app.set("showLangBanner",true);
-    res.cookie('localeparks', ((req.params ? req.params.language : null) || req.getLocale()), { maxAge: (10 * 365 * 24 * 60 * 60), httpOnly: true });
-    if (req.params ? req.params.language : null) {
-      req.setLocale(req.params.language);
-    }
-  } else if (req.params ? req.params.language : null) {
-    res.cookie('localeparks', req.params.language, { maxAge: (10 * 365 * 24 * 60 * 60), httpOnly: true });
-    req.setLocale(req.params.language);
-  } else {
-    app.set("showLangBanner",false);
-    req.setLocale(req.cookies.localeparks);
+// override language preferences
+app.use(function(req, res, next) {
+  if (req.query.language) {
+    req.setLocale(req.query.language);
   }
 
-  res.header('Vary', 'Content-Language');
-  res.header('Content-Language', req.getLocale());
+  return next();
+});
 
-  next();
+// set a cookie to persist language preferences
+app.use(function(req, res, next) {
+  res.cookie("localeparks", req.getLocale(), {
+    maxAge: 10 * 365 * 24 * 60 * 60
+  });
+
+  return next();
+});
+
+app.use(function (req, res, next) {
+  res.header("Vary", "Accept-Language");
+  res.header("Content-Language", req.getLocale());
+
+  return next();
 });
 
 //
