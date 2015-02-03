@@ -19,7 +19,9 @@ var app            = express();
 var languageFriendlyNames = {
     "english" : "en",
     "espanol" : "es",
+    "español" : "es",
     "ingles"  : "en",
+    "inglés"  : "en",
     "spanish" : "es"
 };
 
