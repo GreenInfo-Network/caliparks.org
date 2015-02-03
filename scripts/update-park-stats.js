@@ -14,7 +14,7 @@ pg.connect(env.require("DATABASE_URL"), function(err, client, done) {
 
   return async.parallel({
     flickrPhotos: function(callback) {
-      return query("SELECT superunit_id, COUNT(id) AS count FROM flickr_photos GROUP BY superunit_id", function(err, result) {
+      return query("SELECT superunit_id, COUNT(id) AS count FROM flickr_photos WHERE (metadata ->> 'height_m')::integer < (metadata ->> 'width_m')::integer GROUP BY superunit_id", function(err, result) {
         if (err) {
           throw err;
         }
