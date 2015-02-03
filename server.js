@@ -156,14 +156,14 @@ app.get('/', function(req, res, next) {
 
 app.get('/speak/:language', function(req, res, next) {
 
-  res.cookie('localeparks', languageFriendlyNames[req.params.language] || req.params.language, { maxAge: (10 * 365 * 24 * 60 * 60), httpOnly: true });
+  res.cookie('localeparks', languageFriendlyNames[req.params.language] || req.params.language, { maxAge: (10 * 365 * 24 * 60 * 60) });
 
   res.redirect('/');
 });
 
 app.get('/hablas/:language', function(req, res, next) {
 
-  res.cookie('localeparks', languageFriendlyNames[req.params.language] || req.params.language, { maxAge: (10 * 365 * 24 * 60 * 60), httpOnly: true });
+  res.cookie('localeparks', languageFriendlyNames[req.params.language] || req.params.language, { maxAge: (10 * 365 * 24 * 60 * 60) });
 
   res.redirect('/');
 });
