@@ -82,20 +82,15 @@ app.use(function(req, res, next) {
 // init i18n module for this loop
 app.use(i18n.init);
 
-// override language preferences
+// override and persist language preferences
 app.use(function(req, res, next) {
   if (req.query.language) {
     req.setLocale(req.query.language);
+
+    res.cookie("localeparks", req.getLocale(), {
+      maxAge: 10 * 365 * 24 * 60 * 60
+    });
   }
-
-  return next();
-});
-
-// set a cookie to persist language preferences
-app.use(function(req, res, next) {
-  res.cookie("localeparks", req.getLocale(), {
-    maxAge: 10 * 365 * 24 * 60 * 60
-  });
 
   return next();
 });
