@@ -1,3 +1,3 @@
-<div title="{{#__}}This photo is {{title}} by {{owner}} on Flickr{{/__}}" data-flickr-url="http://flickr.com/photos/{{owner}}/{{photoid}}" onclick="(function(){location.href='http://flickr.com/photos/{{owner}}/{{photoid}}';}())" style="background-image:url('http://farm{{farm}}.staticflickr.com/{{server}}/{{photoid}}_{{secret}}_c.jpg');">
+<div onclick="location.href = this.getAttribute('data-flickr-url')" style="cursor:pointer" title="{{#__}}This photo is {{title}} by {{owner}} on Flickr{{/__}}" data-flickr-url="http://flickr.com/photos/{{owner}}/{{photoid}}" onclick="(function(){location.href='http://flickr.com/photos/{{owner}}/{{photoid}}';}())" style="background-image:url('http://farm{{farm}}.staticflickr.com/{{server}}/{{photoid}}_{{secret}}_c.jpg');">
 	<p class="attribution" title="{{#__}}{{title}} by {{owner}} on Flickr{{/__}}"><a href="http://flickr.com/photos/{{owner}}/{{photoid}}">{{#__}}{{title}} by {{owner}}{{/__}}</a></p>
 </div>
