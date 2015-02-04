@@ -956,7 +956,8 @@ body.parksforward.responsive2 {
           height: 300px; }
         @media screen and (max-width: 720px) {
           body.parksforward.responsive2 #content.template-park > div section#park-info .block-photo-carousel {
-            height: 200px; } }
+            height: 200px;
+            width: 100vw; } }
         body.parksforward.responsive2 #content.template-park > div section#park-info .block-park-name {
           margin-bottom: 10px; }
           body.parksforward.responsive2 #content.template-park > div section#park-info .block-park-name .park-name {
