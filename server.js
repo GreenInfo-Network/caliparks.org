@@ -303,6 +303,9 @@ app.get('/park', function(req,res) {
 });
 
 app.get('/wander', function(req,res, next) {
+  // don't allow clients to cache this
+  res.set("Cache-Control", "no-cache");
+
   cpad.getRandomBest(function(err, parkId) {
 
     if (err) {
