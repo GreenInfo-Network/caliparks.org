@@ -28,7 +28,7 @@ define(["require","exports","module","block-activity-filter","block-search-box",
 
     function lock() {
       state.locked = true;
-      that.utils.get("#content .search-state").innerHTML = "Finding parks...";
+      that.utils.get("#content .search-state")[0].innerHTML = "...";
     }
 
     function unLock() {

@@ -2,7 +2,7 @@ define([ "require", "exports", "module", "block-activity-filter", "block-search-
     "use strict";
     function View(options) {
         function lock() {
-            state.locked = !0, that.utils.get("#content .search-state").innerHTML = "Finding parks...";
+            state.locked = !0, that.utils.get("#content .search-state")[0].innerHTML = "...";
         }
         function unLock() {
             state.locked = !1;
