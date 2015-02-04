@@ -10,7 +10,7 @@
     <li>
       <button class="toggle-activity-action action {{#if filterState}}selected{{/if}}" data-filter="{{@key}}">
         <div class="activity-icon-container {{category}}"><img src="/style/activity-{{#removeSpaces}}{{@key}}{{/removeSpaces}}.svg"></div>
-        <label>{{label}}</label>
+        <label>{{#__}}{{#capitalise}}{{label}}{{/capitalise}}{{/__}}</label>
       </button>
     </li>
     {{/each}}
