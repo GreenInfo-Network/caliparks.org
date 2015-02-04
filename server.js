@@ -124,6 +124,7 @@ app.use('/style', express.static('./public/style', { maxAge: 3600e3 }));
 app.use('/js',    express.static('./public/js', { maxAge: 3600e3 }));
 app.use('/data',  express.static('./public/data', { maxAge: 3600e3 }));
 app.use('/js/partials',  express.static('./views/partials', { maxAge: 3600e3 }));
+app.use('/js/locales',  express.static('./locales', { maxAge: 3600e3 }));
 
 // default caching rules for dynamic content
 app.use(function(req, res, next) {

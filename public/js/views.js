@@ -23,7 +23,23 @@ define(["require","exports","module","handlebars","stamen-super-classy","../../j
 
         try {
           Handlebars.partials = JSON.parse(r.responseText);
-          callback(null);
+
+          //
+          // At this time we only need to support Spanish
+          //
+          that.utils.request("/js/locales/es.json", function(err, languageResponse) {
+            if (err) {
+              callback(err);
+            }
+
+            try {
+              STMN.localeEs = JSON.parse(languageResponse.responseText);
+              callback(null);
+            } catch (err) {
+              callback(err);
+            }
+          });
+
         } catch (err) {
           callback(err);
         }
@@ -32,20 +48,25 @@ define(["require","exports","module","handlebars","stamen-super-classy","../../j
 
     function init () {
 
-      if (!Object.keys(Handlebars.partials||{}).length) {
-        initPartials(function() {
+      if (typeof STMN === "object" && !STMN.localeEs) {
 
+        if (!STMN.viewInitCalled) {
+          STMN.viewInitCalled = true;
+
+          initPartials(function() {
+
+            if (callback) {
+              callback(null, that);
+            }
+          });
+        } else {
           if (callback) {
             callback(null, that);
           }
-        });
-      } else {
-        if (callback) {
-          callback(null, that);
         }
-      }
 
-      that.Handlebars = Handlebars;
+        that.Handlebars = Handlebars;
+      }
     }
 
     init();
