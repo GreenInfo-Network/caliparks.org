@@ -12,7 +12,7 @@ var cpad       = require('../lib/cpad'),
 
 // TODO why is formatting of numbers done here rather than in the view?
 var formatNumber = function(number) {
-  if (Number.isNaN(number)) {
+  if (!number || Number.isNaN(number)) {
     return 0;
   }
 
