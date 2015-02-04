@@ -4,7 +4,7 @@ define([ "require", "exports", "module", "stamen-super-classy" ], function(requi
     module.exports = function(rootSelector, config, callback) {
         function setLocateMeLoadingState(show) {
             var pathNode = that.utils.get("path", locateMeNode)[0];
-            show ? (locateMeNode.classList.add("pulse"), pathNode.style.fill = "blue") : (locateMeNode.classList.remove("pulse"), 
+            show ? (locateMeNode.classList.add("wait"), pathNode.style.fill = "blue") : (locateMeNode.classList.remove("wait"), 
             pathNode.style.fill = "inherit"), that.fire("loading", {
                 show: show
             });

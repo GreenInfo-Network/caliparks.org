@@ -28,10 +28,10 @@ define(["require","exports","module","stamen-super-classy"], function(
     function setLocateMeLoadingState(show) {
       var pathNode = that.utils.get("path", locateMeNode)[0];
       if (show) {
-        locateMeNode.classList.add("pulse");
+        locateMeNode.classList.add("wait");
         pathNode.style.fill="blue";
       } else {
-        locateMeNode.classList.remove("pulse");
+        locateMeNode.classList.remove("wait");
         pathNode.style.fill="inherit";
       }
       that.fire("loading", {show:show});
@@ -40,6 +40,7 @@ define(["require","exports","module","stamen-super-classy"], function(
     function initLocateMe() {
 
       locateMeNode.addEventListener("click", function() {
+
         if (navigator.geolocation) {
           setLocateMeLoadingState(true);
           navigator.geolocation.getCurrentPosition(function(r) {
