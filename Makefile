@@ -129,7 +129,7 @@ db/cpad_entry_points: db/postgis data/cpad_entry_points.zip
 		-nlt PROMOTE_TO_MULTI \
 		-nln $(subst db/,,$@) \
 		-lco GEOMETRY_NAME=geom \
-		-lco SRID=3310 \
+		-lco SRID=4326 \
 		-f PGDump /vsistdout/ \
 		/vsizip/$(word 2,$^) | pv | psql -q
 
