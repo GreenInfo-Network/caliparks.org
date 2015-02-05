@@ -9,7 +9,7 @@ define(["require","exports","module","stamen-super-classy"], function(
 
   module.exports = function BlockStoriesFlexy(rootSelector, viewData, callback) {
 
-    var that = this, stories, story, link;
+    var that = this, stories, story, link, timeout;
 
     StamenSuperClassy.apply(that, arguments);
 
@@ -26,10 +26,31 @@ define(["require","exports","module","stamen-super-classy"], function(
         e.target.classList.add("wait");
 
         if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(function(position) {
-            location.href = link.getAttribute("href") + "?near=" + position.coords.latitude + "," + position.coords.longitude;
-          }, function() {
+
+          //
+          // Set a timeout just in case the user does not see the
+          // browser request for location, but make it long
+          //
+          timeout = setTimeout(function() {
             location.href = link.getAttribute("href");
+          }, 100000);
+
+          navigator.geolocation.getCurrentPosition(function(position) { //Success!
+
+            //
+            //Clear the timeout and go to the location
+            //
+            clearTimeout(timeout);
+            location.href = link.getAttribute("href") + "?near=" + position.coords.latitude.toFixed(4) + ", " + position.coords.longitude.toFixed(4);
+
+          }, function() { //Fail :-(
+
+            //
+            // Clear the timeout and go to the default location
+            //
+            clearTimeout(timeout);
+            location.href = link.getAttribute("href");
+
           });
         } else {
           location.href = link.getAttribute("href");
