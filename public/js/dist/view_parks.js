@@ -113,7 +113,9 @@ define([ "require", "exports", "module", "block-activity-filter", "block-search-
         }
         function initRoutes() {
             that.on("route", function(e) {
-                history && history.pushState && history.pushState({}, null, "/parks/search" + routes.stringifyUrlSearchParams(e.caller.query));
+                var hash = location.hash;
+                history && history.pushState && (history.pushState({}, null, "/parks/search" + routes.stringifyUrlSearchParams(e.caller.query)), 
+                location.hash = hash);
             });
         }
         function initSinlepageFiltering() {

@@ -92,6 +92,8 @@ define(["require","exports","module","stamen-super-classy","gmap-custom-tile-lay
         }
       });
 
+      new google.maps.UrlHash(that.map);
+
       if (options.polygon) {
         that.map.data.setStyle(options.polygonOptions || {
           fillColor:"rgba(2, 122, 187,.2)",

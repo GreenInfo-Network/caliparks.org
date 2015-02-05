@@ -305,8 +305,10 @@ define(["require","exports","module","block-activity-filter","block-search-box",
 
     function initRoutes() {
       that.on("route", function(e) {
+        var hash = location.hash;
         if (history && history.pushState) {
           history.pushState({},null,"/parks/search" + routes.stringifyUrlSearchParams(e.caller.query));
+          location.hash = hash;
         }
       });
     }
