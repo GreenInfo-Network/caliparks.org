@@ -92,7 +92,7 @@ define(["require","exports","module","stamen-super-classy","gmap-custom-tile-lay
         }
       });
 
-      new google.maps.UrlHash(that.map);
+      //new google.maps.UrlHash(that.map);
 
       if (options.polygon) {
         that.map.data.setStyle(options.polygonOptions || {
