@@ -66,7 +66,7 @@ endef
 
 install: db/all
 
-sql/site_hipcamp_activities.sql: data/HipcampDataset_20150203b.csv
+sql/site_hipcamp_activities.sql: data/hipcamp.csv
 	@scripts/prepare-hipcamp-data.js $< > $@
 
 .PHONY: DATABASE_URL
