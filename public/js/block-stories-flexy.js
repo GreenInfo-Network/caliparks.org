@@ -25,7 +25,12 @@ define(["require","exports","module","stamen-super-classy"], function(
       if (story && link) {
         e.target.classList.add("wait");
 
-        if (navigator.geolocation) {
+        //
+        // turning this feature off for firefox until this issue is resolved to a point where
+        // firefox behaves closer to webkit and internet explorer
+        // https://bugzilla.mozilla.org/show_bug.cgi?id=675533
+        //
+        if (navigator.geolocation && !(STMN.ua && STMN.ua.split(" ")[0] === "Firefox")) {
 
           //
           // Set a timeout just in case the user does not see the
