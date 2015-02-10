@@ -113,7 +113,9 @@ define([ "require", "exports", "module", "block-activity-filter", "block-search-
         }
         function initRoutes() {
             that.on("route", function(e) {
-                history && history.pushState && history.pushState({}, null, "/parks/search" + routes.stringifyUrlSearchParams(e.caller.query));
+                var hash = location.hash;
+                history && history.pushState && (history.pushState({}, null, "/parks/search" + routes.stringifyUrlSearchParams(e.caller.query)), 
+                location.hash = hash);
             });
         }
         function initSinlepageFiltering() {
@@ -167,8 +169,9 @@ define([ "require", "exports", "module", "block-activity-filter", "block-search-
             });
         }
         function initTabControl() {
-            var rootNode = that.utils.get(".tab-actions")[0];
-            "#tab-map" === location.hash && bodyNode.classList.toggle("tab-map"), rootNode.addEventListener("click", function() {
+            var rootNode = that.utils.get(".tab-actions")[0], hashParts = location.hash.split("/");
+            ("#tab-map" === location.hash || hashParts && 3 === hashParts.length) && bodyNode.classList.toggle("tab-map"), 
+            rootNode.addEventListener("click", function() {
                 bodyNode.classList.toggle("tab-map"), bodyNode.classList.contains("tab-map") ? (that.slippyMap.resize(), 
                 location.hash = "#tab-map", that.fire("tab-toggle", {
                     view: "map"

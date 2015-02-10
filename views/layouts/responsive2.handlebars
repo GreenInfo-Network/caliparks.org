@@ -99,12 +99,25 @@
 
       'use strict';
 
-      /*
-
       //
       // Set up URL hashing for Gmaps
       //
       (function(window) {
+
+        function debounce(func, wait, immediate) {
+        var timeout;
+        return function() {
+          var context = this, args = arguments;
+          var later = function() {
+            timeout = null;
+            if (!immediate) {func.apply(context, args);}
+            };
+            var callNow = immediate && !timeout;
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+            if (callNow) {func.apply(context, args);}
+            };
+        }
 
         function UrlHash(map, config) {
 
@@ -115,9 +128,15 @@
           }
 
           function getUrlState() {
-            return location.hash.substring(1).split('/').map(function(item) {
+            var state = location.hash.substring(1).split('/').map(function(item) {
               return parseFloat(item, 10);
             });
+
+            if (state.length === 3) {
+              return state;
+            } else {
+              null;
+            }
           }
 
           function setUrlState() {
@@ -138,8 +157,10 @@
 
           function setMapState() {
             center = getUrlState();
-            map.setZoom(center[0]);
-            map.setCenter(new google.maps.LatLng(center[1], center[2]));
+            if (center) {
+              map.setZoom(center[0]);
+              map.setCenter(new google.maps.LatLng(center[1], center[2]));
+            }
           }
 
           google.maps.event.addListener(map, 'idle', function(e) {
@@ -158,17 +179,13 @@
 
           });
 
-          window.onhashchange = function() {
-             setMapState();
-          };
+          window.onhashchange = debounce(setMapState, 500);
 
         };
 
         google.maps.UrlHash = UrlHash;
 
       }(window));
-
-      */
 
       {{#if view}}
       require( ["view_{{view}}"] );

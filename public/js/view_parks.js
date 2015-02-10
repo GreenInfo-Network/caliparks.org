@@ -305,10 +305,10 @@ define(["require","exports","module","block-activity-filter","block-search-box",
 
     function initRoutes() {
       that.on("route", function(e) {
-        //var hash = location.hash;
+        var hash = location.hash;
         if (history && history.pushState) {
           history.pushState({},null,"/parks/search" + routes.stringifyUrlSearchParams(e.caller.query));
-          //location.hash = hash;
+          location.hash = hash;
         }
       });
     }
@@ -423,9 +423,10 @@ define(["require","exports","module","block-activity-filter","block-search-box",
     }
 
     function initTabControl() {
-      var rootNode = that.utils.get(".tab-actions")[0];
+      var rootNode  = that.utils.get(".tab-actions")[0],
+          hashParts = location.hash.split("/");
 
-      if (location.hash === "#tab-map") {
+      if (location.hash === "#tab-map" || (hashParts && hashParts.length === 3)) {
         bodyNode.classList.toggle("tab-map");
       }
 

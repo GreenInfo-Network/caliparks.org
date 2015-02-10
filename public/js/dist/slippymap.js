@@ -45,7 +45,7 @@ define([ "require", "exports", "module", "stamen-super-classy", "gmap-custom-til
                 mapTypeControloptions: {
                     mapTypeIds: [ "parksLayer" ]
                 }
-            }), options.polygon && (that.map.data.setStyle(options.polygonOptions || {
+            }), new google.maps.UrlHash(that.map), options.polygon && (that.map.data.setStyle(options.polygonOptions || {
                 fillColor: "rgba(2, 122, 187,.2)",
                 strokeColor: "rgba(2, 122, 187,.7)",
                 strokeWeight: 1
