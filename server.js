@@ -343,7 +343,7 @@ app.get('/park/:id(\\d{3,6})', function(req,res, next) {
 
 });
 
-app.get('/park/:id(\\d+)/:dataFilter:format(\.\\D+$)', function(req,res, next) {
+app.get('/park/:id(\\d+)/:dataFilter:format(\.json$)', function(req,res, next) {
 
   require('./controllers/park.js')(req, res, {
     "dataFilter" : req.params.dataFilter,
@@ -365,7 +365,7 @@ app.get('/park/:id(\\d+)/:dataFilter:format(\.\\D+$)', function(req,res, next) {
 
 });
 
-app.get('/park/:id(\\d+):format(\.\\D+$)', function(req,res, next) {
+app.get('/park/:id(\\d+):format(\.json$)', function(req,res, next) {
 
   require('./controllers/park.js')(req, res, {}, function(err, templateData) {
 
@@ -389,7 +389,7 @@ app.get('/parks', function(req,res, next) {
 
 });
 
-app.get('/parks/:context(search|with|near|story)/:query:format(\.\\D+$)', function(req,res, next) {
+app.get('/parks/:context(search|with|near|story)/:query:format(\.json$)', function(req,res, next) {
 
   require('./controllers/parks.js')(req, res, {
     context : req.params.context,
@@ -410,7 +410,7 @@ app.get('/parks/:context(search|with|near|story)/:query:format(\.\\D+$)', functi
 
 });
 
-app.get('/parks/:context(search|with|near|story):format(\.\\D+$)', function(req,res, next) {
+app.get('/parks/:context(search|with|near|story):format(\.json$)', function(req,res, next) {
 
   require('./controllers/parks.js')(req, res, {
     context : req.params.context,
