@@ -22,7 +22,10 @@ define([ "require", "exports", "module", "content-carousel", "stamen-super-class
             }), that.carouselInstance.on("backward", function(e) {
                 e.caller.target.scrollLeft > e.caller.target.scrollWidth - (e.caller.target.offsetWidth + e.caller.target.offsetWidth / 2) ? rootNode.parentNode.parentNode.classList.add("scrolled-furthest") : rootNode.parentNode.parentNode.classList.remove("scrolled-furthest"), 
                 e.caller.target.scrollLeft < e.caller.target.offsetWidth / 2 ? rootNode.parentNode.parentNode.classList.add("not-scrolled") : rootNode.parentNode.parentNode.classList.remove("not-scrolled");
-            }), contentFetcher = new ContentFetcher(slideContainerNode, "flickr_coverphoto", location.href + "/flickr.json", "response.flickr.items", {
+            }), rootNode.addEventListener("click", function(e) {
+                var titleLink = e.target.querySelector(".title-link"), edgeBuffer = 55, middle = [ e.target.offsetLeft - e.target.parentNode.offsetLeft + edgeBuffer, e.target.offsetLeft - e.target.parentNode.offsetLeft + e.target.offsetWidth - edgeBuffer ];
+                e.pageX >= middle[0] && e.pageX <= middle[1] && (location.href = titleLink.getAttribute("href"));
+            }, !1), contentFetcher = new ContentFetcher(slideContainerNode, "flickr_coverphoto", location.href + "/flickr.json", "response.flickr.items", {
                 startat: 5,
                 incrementArg: "startat",
                 srcArguments: {

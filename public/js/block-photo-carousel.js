@@ -87,6 +87,21 @@ define(["require","exports","module","content-carousel","stamen-super-classy","c
         }
       });
 
+      rootNode.addEventListener("click", function(e) {
+        var titleLink  = e.target.querySelector(".title-link"),
+            edgeBuffer = 55,
+            middle     = [(e.target.offsetLeft-e.target.parentNode.offsetLeft) + edgeBuffer, ((e.target.offsetLeft-e.target.parentNode.offsetLeft)+e.target.offsetWidth)-edgeBuffer];
+
+        //
+        // Edges are deturmined by the edgeBuffer which should be space on either side. The middle
+        // is what is left. Clicking the edges will advance or go back in the slideshow. Clicking the
+        // middle will go to the photo.
+        //
+        if (e.pageX >= middle[0] && e.pageX <= middle[1]) { //Center
+          location.href = titleLink.getAttribute("href");
+        }
+      }, false);
+
       //
       // Set up a fetcher which binds templates, content, and
       // this page together... awww

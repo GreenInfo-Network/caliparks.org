@@ -84,7 +84,7 @@ module.exports = function(req, res, options, callback) {
       // Flickr output
       //
       output.flickr = {
-        'total' : apiResponse.stats.flickr_photo_count,
+        'total' : apiResponse.flickr ? apiResponse.flickr.length : null,
         'items' : apiResponse.flickr
       };
 

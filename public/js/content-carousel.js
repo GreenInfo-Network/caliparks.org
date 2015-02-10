@@ -123,11 +123,9 @@ define(["require","exports","module","jquery","stamen-super-classy"], function(
     };
 
     rootElement.addEventListener("click", function(e) {
-      e.preventDefault();
 
       var edgeBuffer = 55,
-          middle     = [(e.target.offsetLeft) + edgeBuffer, (e.target.offsetLeft+e.target.offsetWidth)-edgeBuffer],
-          titleNode  = e.target.querySelector(".title-link");
+          middle     = [(rootElement.offsetLeft) + edgeBuffer, (rootElement.offsetLeft+rootElement.offsetWidth)-edgeBuffer];
 
       //
       // Edges are deturmined by the edgeBuffer which should be space on either side. The middle
@@ -136,12 +134,12 @@ define(["require","exports","module","jquery","stamen-super-classy"], function(
       //
 
       if (e.pageX >= middle[0] && e.pageX <= middle[1]) { //Center
-        if (titleNode) {
-          location.href = titleNode.getAttribute("href");
-        }
+        //do nothing
       } else if (e.pageX < middle[0]) { //left
+        e.preventDefault();
         that.goBackward();
       } else { //right
+        e.preventDefault();
         that.goForward();
       }
 
