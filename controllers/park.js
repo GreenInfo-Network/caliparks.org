@@ -84,7 +84,7 @@ module.exports = function(req, res, options, callback) {
       // Flickr output
       //
       output.flickr = {
-        'total' : apiResponse.flickr ? apiResponse.flickr.length : null,
+        'total' : apiResponse.flickr.length,
         'items' : apiResponse.flickr
       };
 
@@ -114,24 +114,21 @@ module.exports = function(req, res, options, callback) {
       //
       // Instagram output
       //
+      //
 
-      if (apiResponse.instagram) {
+      // We are only storing the path to the standard resolution version (or 7). This
+      // adds a property for the thumb (or 5) version
+      // TODO: Move this to the instagram lib
+      //
+      apiResponse.instagram = apiResponse.instagram.map(function(photo) {
+        photo.thumb = photo.standard_resolution.replace(/_7\.jpg/, '_5.jpg');
+        return photo;
+      });
 
-        //
-        // We are only storing the path to the standard resolution version (or 7). This
-        // adds a property for the thumb (or 5) version
-        // TODO: Move this to the instagram lib
-        //
-        apiResponse.instagram = apiResponse.instagram.map(function(photo) {
-          photo.thumb = photo.standard_resolution.replace(/_7\.jpg/, '_5.jpg');
-          return photo;
-        });
-
-        output.instagram = {
-          'total' : apiResponse.stats.instagram_photo_count,
-          'items' : apiResponse.instagram
-        };
-      }
+      output.instagram = {
+        'total' : apiResponse.instagram.length,
+        'items' : apiResponse.instagram
+      };
 
       //
       // Foursquare output
