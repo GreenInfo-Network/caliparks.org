@@ -122,6 +122,31 @@ define(["require","exports","module","jquery","stamen-super-classy"], function(
 
     };
 
+    rootElement.addEventListener("click", function(e) {
+      e.preventDefault();
+
+      var edgeBuffer = 55,
+          middle     = [(e.target.offsetLeft) + edgeBuffer, (e.target.offsetLeft+e.target.offsetWidth)-edgeBuffer],
+          titleNode  = e.target.querySelector(".title-link");
+
+      //
+      // Edges are deturmined by the edgeBuffer which should be space on either side. The middle
+      // is what is left. Clicking the edges will advance or go back in the slideshow. Clicking the
+      // middle will go to the photo.
+      //
+
+      if (e.pageX >= middle[0] && e.pageX <= middle[1]) { //Center
+        if (titleNode) {
+          location.href = titleNode.getAttribute("href");
+        }
+      } else if (e.pageX < middle[0]) { //left
+        that.goBackward();
+      } else { //right
+        that.goForward();
+      }
+
+    });
+
     //
     // Add root element class
     //

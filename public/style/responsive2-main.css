@@ -523,6 +523,10 @@ body.parksforward.responsive2 {
             display: none; }
         body.parksforward.responsive2 .block-photo-carousel .slide-container > div:first-of-type {
           margin-left: 0px; }
+    body.parksforward.responsive2 .block-photo-carousel .title-link {
+      position: absolute;
+      bottom: 42px;
+      right: -9px; }
     body.parksforward.responsive2 .block-photo-carousel button {
       z-index: 10;
       position: absolute;

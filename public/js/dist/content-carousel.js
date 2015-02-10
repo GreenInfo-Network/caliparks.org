@@ -37,7 +37,11 @@ define([ "require", "exports", "module", "jquery", "stamen-super-classy" ], func
                     target: rootElement
                 });
             });
-        }, rootElement.classList.add("stmn-carousel-module"), rootElement.style.overflow = "hidden", 
+        }, rootElement.addEventListener("click", function(e) {
+            e.preventDefault();
+            var edgeBuffer = 55, middle = [ e.target.offsetLeft + edgeBuffer, e.target.offsetLeft + e.target.offsetWidth - edgeBuffer ], titleNode = e.target.querySelector(".title-link");
+            e.pageX >= middle[0] && e.pageX <= middle[1] ? titleNode && (location.href = titleNode.getAttribute("href")) : e.pageX < middle[0] ? that.goBackward() : that.goForward();
+        }), rootElement.classList.add("stmn-carousel-module"), rootElement.style.overflow = "hidden", 
         rootElement.style.overflowX = "scroll", rootElement.style.position = "relative", 
         that) : !1;
     };
