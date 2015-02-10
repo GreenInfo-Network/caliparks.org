@@ -75,8 +75,12 @@ define(["require","exports","module","jquery","stamen-super-classy"], function(
 
       if (options.snapToSlide) {
         coverPhotos = that.utils.get(rootSelector + " ." + optionsInternal.slideClass);
-        next = Math.round(rootElement.scrollLeft/coverPhotos[0].offsetWidth)+1;
-        pos = (coverPhotos[next]) ? coverPhotos[next].offsetLeft : start;
+
+        if (coverPhotos.length) {
+          next = Math.round(rootElement.scrollLeft/coverPhotos[0].offsetWidth)+1;
+          pos = (coverPhotos[next]) ? coverPhotos[next].offsetLeft : start;
+        }
+
       } else {
         pos = start + rootElement.offsetWidth;
       }
@@ -102,8 +106,10 @@ define(["require","exports","module","jquery","stamen-super-classy"], function(
 
       if (options.snapToSlide) {
         coverPhotos = that.utils.get(rootSelector + " ." + optionsInternal.slideClass);
-        next = Math.round(rootElement.scrollLeft/coverPhotos[0].offsetWidth)-1;
-        pos = (coverPhotos[next]) ? coverPhotos[next].offsetLeft : start;
+        if (coverPhotos.length) {
+          next = Math.round(rootElement.scrollLeft/coverPhotos[0].offsetWidth)-1;
+          pos = (coverPhotos[next]) ? coverPhotos[next].offsetLeft : start;
+        }
       } else {
         pos = start - rootElement.offsetWidth;
       }

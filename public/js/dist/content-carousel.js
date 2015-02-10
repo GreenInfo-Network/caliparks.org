@@ -15,7 +15,8 @@ define([ "require", "exports", "module", "jquery", "stamen-super-classy" ], func
             animationInterval && (clearInterval(animationInterval), animationInterval = null);
             var pos, next, start = rootElement.scrollLeft;
             options.snapToSlide ? (coverPhotos = that.utils.get(rootSelector + " ." + optionsInternal.slideClass), 
-            next = Math.round(rootElement.scrollLeft / coverPhotos[0].offsetWidth) + 1, pos = coverPhotos[next] ? coverPhotos[next].offsetLeft : start) : pos = start + rootElement.offsetWidth, 
+            coverPhotos.length && (next = Math.round(rootElement.scrollLeft / coverPhotos[0].offsetWidth) + 1, 
+            pos = coverPhotos[next] ? coverPhotos[next].offsetLeft : start)) : pos = start + rootElement.offsetWidth, 
             $(rootElement).animate({
                 scrollLeft: pos
             }, null, null, function() {
@@ -27,7 +28,8 @@ define([ "require", "exports", "module", "jquery", "stamen-super-classy" ], func
             animationInterval && (clearInterval(animationInterval), animationInterval = null);
             var pos, next, start = rootElement.scrollLeft;
             options.snapToSlide ? (coverPhotos = that.utils.get(rootSelector + " ." + optionsInternal.slideClass), 
-            next = Math.round(rootElement.scrollLeft / coverPhotos[0].offsetWidth) - 1, pos = coverPhotos[next] ? coverPhotos[next].offsetLeft : start) : pos = start - rootElement.offsetWidth, 
+            coverPhotos.length && (next = Math.round(rootElement.scrollLeft / coverPhotos[0].offsetWidth) - 1, 
+            pos = coverPhotos[next] ? coverPhotos[next].offsetLeft : start)) : pos = start - rootElement.offsetWidth, 
             $(rootElement).animate({
                 scrollLeft: start - rootElement.offsetWidth
             }, null, null, function() {
