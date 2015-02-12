@@ -12,6 +12,29 @@
     box-sizing:border-box;
     font-size: 0 ;
     overflow-scrolling: touch !important;
+
+    > div {
+      height:119px;
+      width:119px;
+      box-sizing:border-box;
+      display:inline-block;
+      position:relative;
+
+      .attribution {
+        display:block;
+        position:absolute;
+        bottom:5px;left:5px;
+        color:transparent;
+        height: 13px;
+        width: 13px;
+        background-image:url('responsive2/instagram-logo.svg');
+        background-repeat:no-repeat;
+      }
+
+      &:first-of-type {
+        margin-left:0px;
+      }
+    }
   }
 
   button {
