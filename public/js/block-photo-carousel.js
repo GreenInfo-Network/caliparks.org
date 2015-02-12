@@ -115,7 +115,7 @@ define(["require","exports","module","content-carousel","stamen-super-classy","c
           startat : 5,
           incrementArg : "startat",
           srcArguments : {
-            startat : 20,
+            startat : 5,
             limit   : 20
           }
         }

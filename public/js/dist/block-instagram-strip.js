@@ -25,7 +25,7 @@ define([ "require", "exports", "module", "content-carousel", "stamen-super-class
                 startat: 15,
                 incrementArg: "startat",
                 srcArguments: {
-                    startat: 20,
+                    startat: 15,
                     limit: 50
                 }
             });
