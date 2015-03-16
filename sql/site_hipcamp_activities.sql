@@ -48,7 +48,7 @@ INSERT INTO site_hipcamp_activities (su_id, url, activities) VALUES (1446, 'http
 INSERT INTO site_hipcamp_activities (su_id, url, activities) VALUES (1447, 'http://www.hipcamp.com/ca/central-valley/brannan-island#rpl=1', ARRAY['boating', 'fishing', 'hiking', 'kiteboardingwindsurfing', 'swimming', 'wildlifewatching', 'camping', 'rusticcabins']);
 INSERT INTO site_hipcamp_activities (su_id, url, activities) VALUES (1448, '', ARRAY['biking', 'hiking', 'horsebackriding', 'wildlifewatching']);
 INSERT INTO site_hipcamp_activities (su_id, url, activities) VALUES (1449, '', ARRAY['biking', 'hiking', 'snowsports', 'wildlifewatching']);
-INSERT INTO site_hipcamp_activities (su_id, url, activities) VALUES (1451, 'http://www.hipcamp.com/ca/sf-bay-area/butano#rpl=1', ARRAY['backpacking', 'biking', 'hiking', 'swimming', 'wildlifewatching', 'camping']);
+INSERT INTO site_hipcamp_activities (su_id, url, activities) VALUES (1451, 'http://www.hipcamp.com/ca/sf-bay-area/butano#rpl=1', ARRAY['backpacking', 'biking', 'hiking', 'wildlifewatching', 'camping']);
 INSERT INTO site_hipcamp_activities (su_id, url, activities) VALUES (1454, 'http://www.hipcamp.com/ca/high-sierra/calaveras-big-trees#rpl=1', ARRAY['backpacking', 'biking', 'caving', 'fishing', 'hiking', 'snowsports', 'swimming', 'whitewaterraftingkayaking', 'wildlifewatching', 'camping']);
 INSERT INTO site_hipcamp_activities (su_id, url, activities) VALUES (1455, '', ARRAY['hiking', 'historicalsite']);
 INSERT INTO site_hipcamp_activities (su_id, url, activities) VALUES (1456, '', ARRAY['historicalsite']);
