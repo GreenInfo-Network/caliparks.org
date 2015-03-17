@@ -1,4 +1,4 @@
-define([ "require", "exports", "module", "block-activity-filter", "block-search-box", "slippymap", "stamen-super-classy", "routes", "content-fetcher", "../../js/helpers/paginationLast.js", "../../js/helpers/paginationNext.js", "../../js/helpers/formatActivityList.js" ], function(require, exports, module, BlockActivityFilter, BlockSearchBox, Slippymap, StamenSuperClassy, Routes, ContentFetcher) {
+define([ "require", "exports", "module", "block-activity-filter", "block-search-box", "slippymap", "stamen-super-classy", "routes", "content-fetcher", "../../js/helpers/paginationLast.js", "../../js/helpers/paginationNext.js", "../../js/helpers/formatActivityList.js", "../../js/helpers/pluralize.js" ], function(require, exports, module, BlockActivityFilter, BlockSearchBox, Slippymap, StamenSuperClassy, Routes, ContentFetcher) {
     "use strict";
     function View(options) {
         function lock() {
