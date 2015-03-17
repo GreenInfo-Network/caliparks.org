@@ -9,7 +9,7 @@ define(["require","exports","module","stamen-super-classy"], function(
 
   module.exports = function BlockStoriesFlexy(rootSelector, viewData, callback) {
 
-    var that = this, stories, story, link, timeout;
+    var that = this, stories, story, link, timeout, isWaiting;
 
     StamenSuperClassy.apply(that, arguments);
 
@@ -22,8 +22,9 @@ define(["require","exports","module","stamen-super-classy"], function(
       story = that.utils.parentHasClass(e.target, "block-story"),
       link  = that.utils.get(".main-link", story)[0];
 
-      if (story && link) {
+      if (story && link && !isWaiting) {
         e.target.classList.add("wait");
+        isWaiting = true;
 
         //
         // turning this feature off for firefox until this issue is resolved to a point where
