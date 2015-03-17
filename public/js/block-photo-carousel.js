@@ -88,7 +88,7 @@ define(["require","exports","module","content-carousel","stamen-super-classy","c
       });
 
       rootNode.addEventListener("click", function(e) {
-        var titleLink  = e.target.querySelector(".title-link"),
+        var titleLink  = e.target.querySelector(".title-link") || that.utils.parentHasClass(e.target, "title-link"),
             edgeBuffer = 55,
             middle     = [(e.target.offsetLeft-e.target.parentNode.offsetLeft) + edgeBuffer, ((e.target.offsetLeft-e.target.parentNode.offsetLeft)+e.target.offsetWidth)-edgeBuffer];
 
@@ -97,7 +97,9 @@ define(["require","exports","module","content-carousel","stamen-super-classy","c
         // is what is left. Clicking the edges will advance or go back in the slideshow. Clicking the
         // middle will go to the photo.
         //
-        if (e.pageX >= middle[0] && e.pageX <= middle[1]) { //Center
+        if ((e.pageX >= middle[0] && e.pageX <= middle[1]) || e.target.classList.contains("attribution")) { //Center
+          e.preventDefault();
+
           location.href = titleLink.getAttribute("href");
         }
       }, false);

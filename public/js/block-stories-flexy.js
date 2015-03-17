@@ -22,6 +22,10 @@ define(["require","exports","module","stamen-super-classy"], function(
       story = that.utils.parentHasClass(e.target, "block-story"),
       link  = that.utils.get(".main-link", story)[0];
 
+      if (e.target.classList.contains("attribution-link")) {
+        return location.href = e.target.href;
+      }
+
       if (story && link && !isWaiting) {
         e.target.classList.add("wait");
         isWaiting = true;
