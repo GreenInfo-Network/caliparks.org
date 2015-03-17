@@ -67,6 +67,7 @@
     &.carousel-back-button {
       left: $box-padding;
       transform:rotate(180deg);
+      -webkit-transform:rotate(180deg);
     }
 
     &.carousel-forward-button {

@@ -542,7 +542,8 @@ body.parksforward.responsive2 {
       cursor: pointer; }
       body.parksforward.responsive2 .block-photo-carousel button.carousel-back-button {
         left: 20px;
-        transform: rotate(180deg); }
+        transform: rotate(180deg);
+        -webkit-transform: rotate(180deg); }
       body.parksforward.responsive2 .block-photo-carousel button.carousel-forward-button {
         right: 20px; }
   body.parksforward.responsive2 .block-instagram-strip {
