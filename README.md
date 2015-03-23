@@ -1,4 +1,4 @@
-# [parks.stamen.com](http://parks.stamen.com)
+# [parks.stamen.com](http://parks.stamen.com) 
 
 Stories pour out of our parks every day. This project is a first step towards
 visualizing [Twitter](http://twitter.com), [Flickr](http://flickr.com),
