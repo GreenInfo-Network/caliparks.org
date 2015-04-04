@@ -29,7 +29,6 @@
     "geojson-extent": "~0.3.1",
     "google-spreadsheet": "~0.2.6",
     "gps-distance": "0.0.3",
-    "gps-util": "0.0.25",
     "gulp-autoprefixer": "^2.0.0",
     "gulp-compile-handlebars": "~0.2.0",
     "gulp-jshint": "~1.8.6",
@@ -40,7 +39,6 @@
     "i18n": "~0.5.0",
     "jshint-stylish": "~1.0.0",
     "map-stream": "~0.1.0",
-    "memwatch": "~0.2.2",
     "mocha": "~1.18.2",
     "morgan": "~1.5.1",
     "numeral": "~1.5.3",
@@ -56,8 +54,7 @@
     "sanitizer": "~0.1.1",
     "satelize": "~0.1.0",
     "should": "~3.3.2",
-    "supertest": "~0.12.1",
-    "gulp-autopolyfiller": "~1.1.1"
+    "supertest": "~0.12.1"
   },
   "license": "MIT",
   "engines": {
@@ -74,6 +71,6 @@
     "gulp-jshint": "~1.8.4",
     "map-stream": "~0.1.0",
     "gulp-uglifyjs": "~0.4.2",
-    "gulp-autopolyfiller": "~1.1.0"
+    "gulp-autopolyfiller": "~1.1.1"
   }
 }

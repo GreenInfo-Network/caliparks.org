@@ -3,7 +3,7 @@
 var cors       = require('cors'),
     express    = require('express'),
     exphbs     = require('express-handlebars'),
-    memwatch   = require('memwatch'),
+    //memwatch   = require('memwatch'), Not compatible with Node 0.12
     morgan     = require('morgan'),
     raven      = require('raven'),
     i18n       = require("i18n"),
@@ -25,12 +25,14 @@ var languageFriendlyNames = {
     "spanish" : "es"
 };
 
+/*
 //
 // Handle memory leaks
 //
 memwatch.on('leak', function(info) {
   console.log('Memory Leak detected:', info);
 });
+*/
 
 // Track response times
 app.use(responseTime());

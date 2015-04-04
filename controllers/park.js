@@ -1,7 +1,6 @@
 'use strict';
 
 var async    = require('async'),
-    gpsUtil  = require('gps-util'),
     numeral  = require('numeral');
 
 var cpad       = require('../lib/cpad'),
