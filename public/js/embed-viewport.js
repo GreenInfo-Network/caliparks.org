@@ -1,8 +1,9 @@
-define(["require","exports","module","block-static-park-map"], function(
+define(["require","exports","module","block-static-park-map","block-instagram-strip"], function(
   require,
   exports,
   module,
-  BlockStaticParkMap
+  BlockStaticParkMap,
+  BlockInstagramStrip
 ) {
 
   "use strict";
@@ -15,6 +16,8 @@ define(["require","exports","module","block-static-park-map"], function(
       blockStaticParkMap.bigMap.setCenter(blockStaticParkMap.bigMap.getCenter());
 
     });
+
+    new BlockInstagramStrip(".block-instagram-strip", viewData, function(err, blockInstagramStrip) {});
   },100);
 
 });

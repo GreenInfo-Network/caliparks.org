@@ -596,7 +596,7 @@ body.parksforward.responsive2 {
       background-size: cover;
       outline: none;
       top: 44%;
-      background-image: url("responsive2/blocks/photo-carousel/forward.svg");
+      background-image: url("/svg/forward-fff.svg");
       cursor: pointer; }
       body.parksforward.responsive2 .block-instagram-strip button.carousel-back-button {
         left: 20px;
@@ -1286,6 +1286,8 @@ body.parksforward.responsive2 {
     padding: 20px;
     background-color: #cfd8dc;
     color: #333; }
+    body.parksforward.responsive2 #content.template-embed iframe {
+      border: solid 1px #333; }
     body.parksforward.responsive2 #content.template-embed .site-description {
       text-align: center;
       position: relative;
@@ -1314,7 +1316,7 @@ body.parksforward.responsive2 {
     body.parksforward.responsive2 #content.template-embed .fiddly-bits {
       box-sizing: border-box;
       width: 100%;
-      height: 50vh;
+      height: 75vh;
       min-height: 400px;
       color: #333; }
       @media screen and (max-width: 720px) {
@@ -1354,126 +1356,105 @@ body.parksforward.responsive2 {
         body.parksforward.responsive2 #content.template-embed .fiddly-bits form button {
           display: block; }
   body.parksforward.responsive2 #content.template-embed-park {
-    background-color: #333;
-    color: white;
-    font-size: 75%; }
-    body.parksforward.responsive2 #content.template-embed-park a {
-      color: white; }
-    body.parksforward.responsive2 #content.template-embed-park .site-name-embed {
-      display: block;
-      margin-bottom: 0;
-      padding: 7px 10px;
-      position: absolute;
-      bottom: 0;
-      height: 35px;
-      text-align: right;
-      font-weight: 600;
-      font-family: "jubilat", serif;
-      letter-spacing: .09em;
-      width: 100%; }
-      body.parksforward.responsive2 #content.template-embed-park .site-name-embed a {
-        color: white;
-        font-family: "jubilat", serif; }
+    background-color: #f9fafa; }
+    body.parksforward.responsive2 #content.template-embed-park .park-name {
+      height: 53px;
+      color: #333;
+      text-align: center;
+      padding: 15px; }
+      body.parksforward.responsive2 #content.template-embed-park .park-name button {
+        opacity: 0;
+        z-index: 10;
+        position: absolute;
+        border: none;
+        background-color: transparent;
+        height: 25px;
+        width: 25px;
+        background-repeat: no-repeat;
+        background-size: cover;
+        outline: none;
+        top: 14px;
+        background-image: url("/svg/forward-333.svg");
+        cursor: pointer; }
+        body.parksforward.responsive2 #content.template-embed-park .park-name button.embed-back-button {
+          left: 20px;
+          transform: rotate(180deg);
+          transform: rotate(180deg); }
+        body.parksforward.responsive2 #content.template-embed-park .park-name button.embed-forward-button {
+          right: 20px; }
     body.parksforward.responsive2 #content.template-embed-park .block-static-park-map {
+      box-sizing: border-box;
+      height: 100vh;
       position: absolute;
       top: 0;
-      right: 0;
-      bottom: 30px;
-      left: 0; }
-      body.parksforward.responsive2 #content.template-embed-park .block-static-park-map .big-park-map {
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        height: 100%; }
+      left: 0;
+      width: 100vw;
+      padding: 53px 0;
+      padding-bottom: 33px; }
+      body.parksforward.responsive2 #content.template-embed-park .block-static-park-map .small-park-map {
+        top: 68px;
+        right: 15px; }
+      body.parksforward.responsive2 #content.template-embed-park .block-static-park-map .directions-action {
+        bottom: 48px;
+        right: 15px; }
     body.parksforward.responsive2 #content.template-embed-park .block-park-name {
-      display: none;
-      color: #333; }
-      body.parksforward.responsive2 #content.template-embed-park .block-park-name a {
-        color: #333; }
-    body.parksforward.responsive2 #content.template-embed-park .social-breakdown {
-      display: none; }
-    body.parksforward.responsive2 #content.template-embed-park.parkinfo .block-static-park-map {
-      bottom: 104px; }
-    body.parksforward.responsive2 #content.template-embed-park.parkinfo .block-park-name {
-      display: block;
+      z-index: 10;
       position: absolute;
-      bottom: 30px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      background-color: #cfd8dc;
-      padding: 10px;
+      bottom: 141px;
+      background-color: #f9fafa;
+      height: 40;
+      padding: 7px 15px;
       width: 100%;
-      height: 74px; }
-    body.parksforward.responsive2 #content.template-embed-park.parkinfo .park-name {
+      height: 67px;
       display: none; }
-    body.parksforward.responsive2 #content.template-embed-park.parkinfo .block-activity-icons {
+      body.parksforward.responsive2 #content.template-embed-park .block-park-name .park-name {
+        display: none; }
+    body.parksforward.responsive2 #content.template-embed-park .instagram-wrapper {
+      height: 108px;
+      z-index: 10;
+      position: absolute;
+      bottom: 72px;
+      width: 100%;
       display: none; }
-    body.parksforward.responsive2 #content.template-embed-park.parkinfo.name .park-name {
+      body.parksforward.responsive2 #content.template-embed-park .instagram-wrapper .block-instagram-strip {
+        top: 36%; }
+        body.parksforward.responsive2 #content.template-embed-park .instagram-wrapper .block-instagram-strip button {
+          top: 43px; }
+        body.parksforward.responsive2 #content.template-embed-park .instagram-wrapper .block-instagram-strip .slide-container > div {
+          height: 108px;
+          width: 108px;
+          background-size: 108px 108px; }
+    body.parksforward.responsive2 #content.template-embed-park .site-name-embed {
+      background-color: #f9fafa;
+      height: 33px;
+      text-align: right;
+      position: absolute;
+      bottom: 0;
       display: block;
-      font-size: 125%; }
-    body.parksforward.responsive2 #content.template-embed-park.parkinfo.activities .block-activity-icons {
+      margin: 0;
+      width: 100%;
+      padding: 10px;
+      padding: 8px;
+      font-size: 75%; }
+    body.parksforward.responsive2 #content.template-embed-park.instagram .block-static-park-map {
+      padding-bottom: 141px; }
+      body.parksforward.responsive2 #content.template-embed-park.instagram .block-static-park-map .directions-action {
+        bottom: 156px; }
+    body.parksforward.responsive2 #content.template-embed-park.instagram .instagram-wrapper {
       display: block; }
-      body.parksforward.responsive2 #content.template-embed-park.parkinfo.activities .block-activity-icons li {
-        width: 37px;
-        height: 37px;
-        background-size: 27px 27px; }
-    body.parksforward.responsive2 #content.template-embed-park.parkinfo.name.activities .park-name {
+    body.parksforward.responsive2 #content.template-embed-park.activities .block-static-park-map {
+      padding-bottom: 100px; }
+      body.parksforward.responsive2 #content.template-embed-park.activities .block-static-park-map .directions-action {
+        bottom: 115px; }
+    body.parksforward.responsive2 #content.template-embed-park.activities .block-park-name {
       display: block;
-      font-size: 100%; }
-    body.parksforward.responsive2 #content.template-embed-park.parkinfo.name.activities .block-activity-icons {
-      display: block; }
-      body.parksforward.responsive2 #content.template-embed-park.parkinfo.name.activities .block-activity-icons li {
-        width: 32px;
-        height: 32px;
-        background-size: 22px 22px; }
-    body.parksforward.responsive2 #content.template-embed-park.social .block-static-park-map {
-      bottom: 76px; }
-    body.parksforward.responsive2 #content.template-embed-park.social .social-breakdown {
-      display: block;
-      position: absolute;
-      bottom: 30px;
-      padding: 10px;
-      background-color: #cfd8dc;
-      width: 100%;
-      color: #333;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis; }
-      body.parksforward.responsive2 #content.template-embed-park.social .social-breakdown > span {
-        font-weight: 400; }
-        body.parksforward.responsive2 #content.template-embed-park.social .social-breakdown > span span {
-          font-weight: 300; }
-    body.parksforward.responsive2 #content.template-embed-park.social.parkinfo .block-static-park-map {
-      bottom: 139px; }
-    body.parksforward.responsive2 #content.template-embed-park.social.parkinfo .block-park-name {
-      display: block;
-      position: absolute;
-      bottom: 65px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      background-color: #cfd8dc;
-      padding: 10px 10px 0 10px;
-      width: 100%;
-      height: 74px; }
-    body.parksforward.responsive2 #content.template-embed-park.social.parkinfo .social-breakdown {
-      display: block;
-      position: absolute;
-      bottom: 30px;
-      padding: 10px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      background-color: #cfd8dc;
-      width: 100%;
-      color: #333; }
-      body.parksforward.responsive2 #content.template-embed-park.social.parkinfo .social-breakdown > span {
-        font-weight: 400; }
-        body.parksforward.responsive2 #content.template-embed-park.social.parkinfo .social-breakdown > span span {
-          font-weight: 300; }
+      bottom: 33px; }
+    body.parksforward.responsive2 #content.template-embed-park.activities.instagram .block-static-park-map {
+      padding-bottom: 208px; }
+      body.parksforward.responsive2 #content.template-embed-park.activities.instagram .block-static-park-map .directions-action {
+        bottom: 223px; }
+    body.parksforward.responsive2 #content.template-embed-park.activities.instagram .block-park-name {
+      bottom: 141px; }
   body.parksforward.responsive2 #content.template-404 {
     height: 100vh;
     width: 100vw;

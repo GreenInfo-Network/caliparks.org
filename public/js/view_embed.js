@@ -35,7 +35,7 @@ define(["require","exports","module","stamen-super-classy"], function(
     }
 
     function generateIframeCode(status) {
-      return that.processTemplate("<iframe width=\"100%\" height=\"100%\" src=\"//{href}/embed/park?id={id}&directions={directions}&locatorMap={locatormap}&name={name}&activities={activities}&social={social}\"></iframe>", status);
+      return that.processTemplate("<iframe width=\"100%\" height=\"100%\" src=\"//{href}/embed/park?id={id}&directions={directions}&locatorMap={locatormap}&instagram={instagram}&activities={activities}&social={social}\"></iframe>", status);
     }
 
     function update() {
@@ -61,6 +61,7 @@ define(["require","exports","module","stamen-super-classy"], function(
       initTextarea();
       initCheckboxes();
       update();
+
     }
 
     //
