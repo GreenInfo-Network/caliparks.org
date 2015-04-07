@@ -1,98 +1,364 @@
-/*
-Syntax error: Invalid CSS after "    eot": expected ")", was ":   $font-url +..."
-        on line 22 of sass/helpers/_font-source-declaration.scss
-        from line 13 of sass/_bourbon.scss
-        from line 3 of ./sass/parksforward-main.scss
-
-17:   $font-url) {
-18: 
-19:   $src: null;
-20: 
-21:   $formats-map: (
-22:     eot:   $font-url + "(\"#{$file-path}.eot?#iefix\")" format("embedded-opentype"),
-23:     woff2: $font-url + "(\"#{$file-path}.woff2\")" format("woff2"),
-24:     woff:  $font-url + "(\"#{$file-path}.woff\")" format("woff"),
-25:     ttf:   $font-url + "(\"#{$file-path}.ttf\")" format("truetype"),
-26:     svg:   $font-url + "(\"#{$file-path}.svg##{$font-family}\")" format("svg")
-27:   );
-
-Backtrace:
-sass/helpers/_font-source-declaration.scss:22
-sass/_bourbon.scss:13
-./sass/parksforward-main.scss:3
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/scss/parser.rb:1147:in `expected'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/script/lexer.rb:196:in `expected!'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/script/parser.rb:483:in `assert_tok'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/script/parser.rb:433:in `paren'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/script/parser.rb:418:in `special_fun'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/script/parser.rb:413:in `raw'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/script/parser.rb:337:in `funcall'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/script/parser.rb:319:in `ident'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/script/parser.rb:228:in `unary_not'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/script/parser.rb:228:in `unary_div'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/script/parser.rb:228:in `unary_minus'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/script/parser.rb:228:in `unary_plus'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/script/parser.rb:209:in `times_div_or_mod'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/script/parser.rb:209:in `plus_or_minus'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/script/parser.rb:209:in `relational'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/script/parser.rb:209:in `eq_or_neq'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/script/parser.rb:209:in `and_expr'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/script/parser.rb:209:in `or_expr'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/script/parser.rb:298:in `space'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/script/parser.rb:283:in `interpolation'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/script/parser.rb:246:in `expr'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/script/parser.rb:477:in `assert_expr'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/script/parser.rb:49:in `parse'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/scss/parser.rb:1022:in `sass_script'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/scss/parser.rb:514:in `variable'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/scss/parser.rb:552:in `block_child'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/scss/parser.rb:546:in `block_contents'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/scss/parser.rb:535:in `block'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/scss/parser.rb:211:in `function_directive'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/scss/parser.rb:174:in `special_directive'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/scss/parser.rb:146:in `directive'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/scss/parser.rb:553:in `block_child'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/scss/parser.rb:546:in `block_contents'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/scss/parser.rb:82:in `stylesheet'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/scss/parser.rb:27:in `parse'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/engine.rb:342:in `_to_tree'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/engine.rb:274:in `to_tree'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/tree/visitors/perform.rb:225:in `visit_import'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/tree/visitors/base.rb:37:in `visit'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/tree/visitors/perform.rb:100:in `visit'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/tree/visitors/perform.rb:227:in `block in visit_import'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/tree/visitors/perform.rb:227:in `map'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/tree/visitors/perform.rb:227:in `visit_import'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/tree/visitors/base.rb:37:in `visit'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/tree/visitors/perform.rb:100:in `visit'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/tree/visitors/base.rb:53:in `block in visit_children'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/tree/visitors/base.rb:53:in `map'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/tree/visitors/base.rb:53:in `visit_children'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/tree/visitors/perform.rb:109:in `block in visit_children'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/tree/visitors/perform.rb:121:in `with_environment'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/tree/visitors/perform.rb:108:in `visit_children'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/tree/visitors/base.rb:37:in `block in visit'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/tree/visitors/perform.rb:128:in `visit_root'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/tree/visitors/base.rb:37:in `visit'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/tree/visitors/perform.rb:100:in `visit'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/tree/visitors/perform.rb:7:in `visit'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/tree/root_node.rb:20:in `render'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/engine.rb:315:in `_render'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/engine.rb:262:in `render'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/plugin/compiler.rb:362:in `update_stylesheet'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/plugin/compiler.rb:203:in `block in update_stylesheets'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/plugin/compiler.rb:201:in `each'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/plugin/compiler.rb:201:in `update_stylesheets'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/lib/sass/plugin/compiler.rb:283:in `block in watch'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/vendor/listen/lib/listen/multi_listener.rb:108:in `call'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/vendor/listen/lib/listen/multi_listener.rb:108:in `on_change'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/vendor/listen/lib/listen/multi_listener.rb:117:in `block in initialize_adapter'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/vendor/listen/lib/listen/adapter.rb:198:in `call'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/vendor/listen/lib/listen/adapter.rb:198:in `report_changes'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/vendor/listen/lib/listen/adapter.rb:210:in `poll_changed_dirs'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.2.14/vendor/listen/lib/listen/adapters/darwin.rb:38:in `block in start'
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
 */
-body:before {
-  white-space: pre;
-  font-family: monospace;
-  content: "Syntax error: Invalid CSS after \"    eot\": expected \")\", was \":   $font-url +...\"\A         on line 22 of sass/helpers/_font-source-declaration.scss\A         from line 13 of sass/_bourbon.scss\A         from line 3 of ./sass/parksforward-main.scss\A \A 17:   $font-url) {\A 18: \A 19:   $src: null;\A 20: \A 21:   $formats-map: (\A 22:     eot:   $font-url + \"(\\"#{$file-path}.eot?#iefix\\")\" format(\"embedded-opentype\"),\A 23:     woff2: $font-url + \"(\\"#{$file-path}.woff2\\")\" format(\"woff2\"),\A 24:     woff:  $font-url + \"(\\"#{$file-path}.woff\\")\" format(\"woff\"),\A 25:     ttf:   $font-url + \"(\\"#{$file-path}.ttf\\")\" format(\"truetype\"),\A 26:     svg:   $font-url + \"(\\"#{$file-path}.svg##{$font-family}\\")\" format(\"svg\")\A 27:   );"; }
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline; }
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block; }
+
+body {
+  line-height: 1.5em; }
+
+ol, ul {
+  list-style: none; }
+
+blockquote, q {
+  quotes: none; }
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none; }
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0; }
+
+html {
+  box-sizing: border-box; }
+
+*, *::after, *::before {
+  box-sizing: inherit; }
+
+/*
+*  Variables for everything
+*/
+/*
+*  Styles for everything
+*/
+body.parksforward.responsive {
+  max-width: 68em;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #9A9C9F;
+  font-size: 16px;
+  line-height: 20px;
+  font-family: "HelveticaNeue", "Helvetica Neue", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; }
+  body.parksforward.responsive::after {
+    clear: both;
+    content: "";
+    display: table; }
+  body.parksforward.responsive h1 {
+    font-size: 200%;
+    line-height: 100%;
+    margin-bottom: 15px;
+    clear: both;
+    font-family: "cooper-black-std",sans-serif; }
+  body.parksforward.responsive a {
+    color: #72C4B9;
+    text-decoration: none; }
+  body.parksforward.responsive input {
+    outline: none;
+    width: 100%;
+    border: solid 1px red; }
+    body.parksforward.responsive input[type="search"]::-webkit-search-decoration, body.parksforward.responsive input[type="search"]::-webkit-search-results-button, body.parksforward.responsive input[type="search"]::-webkit-search-results-decoration {
+      display: none; }
+    body.parksforward.responsive input[type="search"]::-webkit-search-cancel-button {
+      -webkit-appearance: none;
+      /* Now your own custom styles */
+      height: 10px;
+      width: 10px;
+      background: red; }
+  body.parksforward.responsive header {
+    z-index: 10;
+    float: left;
+    display: block;
+    margin-right: 4.82916%;
+    width: 100%;
+    background-color: #72C4B9;
+    padding: 15px;
+    position: relative;
+    /* IE10 Consumer Preview */
+    background-image: -ms-linear-gradient(top, #72C4B9 0%, transparent 100%);
+    /* Mozilla Firefox */
+    background-image: -moz-linear-gradient(top, #72C4B9 0%, transparent 100%);
+    /* Opera */
+    background-image: -o-linear-gradient(top, #72C4B9 0%, transparent 100%);
+    /* Webkit (Safari/Chrome 10) */
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #72C4B9), color-stop(1, #FFFFFF));
+    /* Webkit (Chrome 11+) */
+    background-image: -webkit-linear-gradient(top, #72C4B9 0%, transparent 100%);
+    /* W3C Markup, IE10 Release Preview */
+    background-image: linear-gradient(to bottom, #72C4B9 0%, transparent 100%);
+    color: white; }
+    body.parksforward.responsive header:last-child {
+      margin-right: 0; }
+    body.parksforward.responsive header a {
+      color: white; }
+    body.parksforward.responsive header .logo {
+      font-size: 200%;
+      font-family: "cooper-black-std",sans-serif; }
+      body.parksforward.responsive header .logo a {
+        color: white; }
+    body.parksforward.responsive header nav {
+      position: absolute;
+      bottom: 15px;
+      right: 15px; }
+    body.parksforward.responsive header.has-coverphoto {
+      background-color: transparent; }
+  body.parksforward.responsive div#content {
+    float: left;
+    display: block;
+    margin-right: 4.82916%;
+    width: 100%;
+    position: relative;
+    background-color: white;
+    /* Flickr cover photo module */ }
+    body.parksforward.responsive div#content:last-child {
+      margin-right: 0; }
+    body.parksforward.responsive div#content .explore-parks-near {
+      background-color: #A4D0C4; }
+    body.parksforward.responsive div#content #content-column {
+      padding: 15px; }
+      body.parksforward.responsive div#content #content-column .map-group {
+        float: left;
+        display: block;
+        margin-right: 2.35765%;
+        width: 48.82117%;
+        display: table;
+        width: 100%;
+        table-layout: fixed; }
+        body.parksforward.responsive div#content #content-column .map-group:last-child {
+          margin-right: 0; }
+        body.parksforward.responsive div#content #content-column .map-group .map {
+          height: 300px;
+          margin-bottom: 15px; }
+          body.parksforward.responsive div#content #content-column .map-group .map .park-map-dot {
+            border-radius: 999px;
+            background-color: #72C4B9; }
+          body.parksforward.responsive div#content #content-column .map-group .map.in {
+            display: table-cell;
+            width: 50%;
+            padding: 2.35765%;
+            border-right: solid 3px white; }
+            body.parksforward.responsive div#content #content-column .map-group .map.in .park-map-dot {
+              width: 25px;
+              height: 25px;
+              border: solid 4px white; }
+          body.parksforward.responsive div#content #content-column .map-group .map.out {
+            display: table-cell;
+            width: 50%;
+            padding: 2.35765%; }
+            body.parksforward.responsive div#content #content-column .map-group .map.out .park-map-dot {
+              width: 15px;
+              height: 15px;
+              border: solid 2px white; }
+    body.parksforward.responsive div#content section#search-box {
+      background-color: #A4D0C4; }
+      body.parksforward.responsive div#content section#search-box input {
+        background-color: transparent;
+        border: none;
+        padding: 15px 70px 15px 15px; }
+      body.parksforward.responsive div#content section#search-box div.search-actions {
+        position: absolute;
+        top: 6px;
+        right: 0;
+        padding: 3px 15px; }
+        body.parksforward.responsive div#content section#search-box div.search-actions button {
+          padding: 0;
+          margin: 0;
+          height: 2em;
+          width: 2em;
+          display: inline-block;
+          vertical-align: middle;
+          background-color: transparent;
+          border: none;
+          color: transparent;
+          cursor: pointer; }
+          body.parksforward.responsive div#content section#search-box div.search-actions button img {
+            width: 2em;
+            height: 2em;
+            fill: blue; }
+    body.parksforward.responsive div#content ul.activity-icons {
+      display: inline-block;
+      margin-bottom: 15px;
+      vertical-align: top;
+      white-space: nowrap; }
+      body.parksforward.responsive div#content ul.activity-icons li {
+        display: inline-block;
+        margin-right: 10px;
+        border: solid transparent 1px;
+        padding: 3px;
+        border-radius: 4px;
+        background-color: #A4D0C4;
+        width: 30px;
+        height: 30px; }
+        body.parksforward.responsive div#content ul.activity-icons li img {
+          width: 20px;
+          height: 20px;
+          fill-color: white; }
+    body.parksforward.responsive div#content ul.social-badges {
+      font-size: 60%;
+      font-weight: bolder;
+      display: inline-block;
+      margin-bottom: 15px;
+      vertical-align: top;
+      white-space: nowrap;
+      overflow: hidden; }
+      body.parksforward.responsive div#content ul.social-badges li {
+        display: inline-block;
+        margin-right: 10px;
+        border: solid transparent 1px;
+        padding: 3px;
+        border-radius: 4px;
+        background-color: #A4D0C4;
+        height: 30px;
+        /*
+        &.social-badge-tweets {
+          background-color:#00b6f1;
+        }
+        &.social-badge-photos {
+          background-color:#ff0084;
+        }
+        &.social-badge-venues {
+          background-color:rgb(252, 69, 117);
+        }
+        &.social-badge-checkins {
+          background-color:rgb(252, 69, 117);
+        }
+        */ }
+    body.parksforward.responsive div#content .stmn-carousel-module ::-webkit-scrollbar {
+      width: 20px; }
+    body.parksforward.responsive div#content .stmn-carousel-module ::-webkit-scrollbar-thumb {
+      background-color: black; }
+    body.parksforward.responsive div#content .stmn-carousel-module {
+      margin-top: -59px;
+      scrollbar-highlight-color: aqua !important;
+      scrollbar-face-color: blue !important;
+      scrollbar-arrow-color: blue !important;
+      border-color: blue !important; }
+    body.parksforward.responsive div#content .has-coverphoto .coverphoto {
+      height: 480px;
+      background: no-repeat center center;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-size: cover;
+      position: relative;
+      width: 100%; }
+    body.parksforward.responsive div#content #coverphoto-carousel .flickr-title {
+      display: inline-block;
+      max-width: 248px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: -2px; }
+    body.parksforward.responsive div#content #people-from {
+      right: 15px;
+      color: white; }
+      body.parksforward.responsive div#content #people-from a {
+        color: white; }
+      body.parksforward.responsive div#content #people-from span {
+        background-color: #72C4B9; }
+    body.parksforward.responsive div#content #coverphoto-carousel {
+      transition: height .5s;
+      width: 100%;
+      height: 480px; }
+    body.parksforward.responsive div#content .has-coverphoto .coverphoto span.attribution {
+      position: absolute;
+      right: 15px;
+      bottom: 15px;
+      background-color: #9A9C9F;
+      padding: 10px;
+      line-height: 10px;
+      font-size: 60%;
+      color: white; }
+      body.parksforward.responsive div#content .has-coverphoto .coverphoto span.attribution a {
+        text-decoration: none;
+        color: white; }
+    body.parksforward.responsive div#content .carousel-container {
+      position: relative;
+      margin-bottom: 25px; }
+    body.parksforward.responsive div#content .carousel-container h2 {
+      margin-bottom: 25px; }
+    body.parksforward.responsive div#content .carousel-forward-button, body.parksforward.responsive div#content .carousel-back-button {
+      background-color: transparent;
+      width: 52px;
+      height: 52px;
+      top: 143px;
+      border: none;
+      position: absolute;
+      cursor: pointer; }
+    body.parksforward.responsive div#content .carousel-forward-button {
+      background-image: url("/style/forward-arrow-normal.png"); }
+    body.parksforward.responsive div#content .carousel-forward-button:hover {
+      background-image: url("/style/forward-arrow-hover.png"); }
+    body.parksforward.responsive div#content .carousel-back-button {
+      background-image: url("/style/back-arrow-normal.png"); }
+    body.parksforward.responsive div#content .carousel-back-button:hover {
+      background-image: url("/style/back-arrow-hover.png"); }
+    body.parksforward.responsive div#content .carousel-forward-button, body.parksforward.responsive div#content body.openspaces .carousel-back-button:focus {
+      outline-width: 0; }
+    body.parksforward.responsive div#content .carousel-forward-button {
+      transition: opacity .5s;
+      opacity: 1;
+      right: 10px; }
+    body.parksforward.responsive div#content .carousel-back-button {
+      transition: opacity .5s;
+      left: 10px; }
+    body.parksforward.responsive div#content .not-scrolled .carousel-back-button {
+      opacity: 0;
+      transition: opacity .5s; }
+  body.parksforward.responsive footer {
+    float: left;
+    display: block;
+    margin-right: 4.82916%;
+    width: 100%;
+    padding: 15px;
+    position: relative;
+    background-color: #72C4B9;
+    color: white; }
+    body.parksforward.responsive footer:last-child {
+      margin-right: 0; }
+    body.parksforward.responsive footer a {
+      color: white; }
+
+/*
+*  Styles for Desktop
+*/
+/*
+*  Styles for Mobile
+*/
+@media (max-width: 720px) {
+  body.parksforward.responsive div#content .has-coverphoto .coverphoto {
+    height: 200px; }
+  body.parksforward.responsive div#content #coverphoto-carousel {
+    height: 200px; }
+  body.parksforward.responsive div#content .carousel-forward-button {
+    display: none; }
+  body.parksforward.responsive div#content .carousel-back-button {
+    display: none; }
+  body.parksforward.responsive div#content #people-from {
+    display: none; } }
+
+/*# sourceMappingURL=parksforward-main.css.map */
