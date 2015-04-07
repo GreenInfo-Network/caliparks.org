@@ -140,41 +140,45 @@ define(["require","exports","module","detect-os","stamen-super-classy","gmap-cus
       that.bigMap.mapTypes.set("parksLayer", that.parksLayer);
       that.bigMap.setMapTypeId("parksLayer");
 
-      //
-      // Instagram
-      //
-      that.bigMap.overlayMapTypes.insertAt(0, new GmapCustomTileLayer({
-        tilePath : "https://stamen-org.cartodb.com/api/v1/map/5471799c671ddd84c05898ed99475bf9:1418253542174.26/{z}/{x}/{y}.png?map_key=d950cf0c5c3edd5ac6b151f1e124ebca159e700a&api_key=d950cf0c5c3edd5ac6b151f1e124ebca159e700a&cache_policy=persist",
-        size     : 256,
-        r        : (window.devicePixelRatio && window.devicePixelRatio > 1) ? "@2x" : ""
-      }));
+      if (viewOptions.showSocial) {
+        //
+        // Instagram
+        //
+        that.bigMap.overlayMapTypes.insertAt(0, new GmapCustomTileLayer({
+          tilePath : "https://stamen-org.cartodb.com/api/v1/map/5471799c671ddd84c05898ed99475bf9:1418253542174.26/{z}/{x}/{y}.png?map_key=d950cf0c5c3edd5ac6b151f1e124ebca159e700a&api_key=d950cf0c5c3edd5ac6b151f1e124ebca159e700a&cache_policy=persist",
+          size     : 256,
+          r        : (window.devicePixelRatio && window.devicePixelRatio > 1) ? "@2x" : ""
+        }));
 
-      //
-      // Flickr
-      //
-      that.bigMap.overlayMapTypes.insertAt(0, new GmapCustomTileLayer({
-        tilePath : "https://stamen-org.cartodb.com/api/v1/map/96b5b2b3d458bcb2827d3d1ce6f8a8e6:1418253115682.29/{z}/{x}/{y}.png?map_key=d950cf0c5c3edd5ac6b151f1e124ebca159e700a&api_key=d950cf0c5c3edd5ac6b151f1e124ebca159e700a&cache_policy=persist",
-        size     : 256,
-        r        : (window.devicePixelRatio && window.devicePixelRatio > 1) ? "@2x" : ""
-      }));
+        //
+        // Twitter
+        //
+        that.bigMap.overlayMapTypes.insertAt(0, new GmapCustomTileLayer({
+          tilePath : "https://stamen-org.cartodb.com/api/v1/map/37b29415d0242f08967a034a8f1a1dbd:1428364376213.8901/{z}/{x}/{y}.png?map_key=d950cf0c5c3edd5ac6b151f1e124ebca159e700a&api_key=d950cf0c5c3edd5ac6b151f1e124ebca159e700a&cache_policy=persist",
+          size     : 256,
+          r        : (window.devicePixelRatio && window.devicePixelRatio > 1) ? "@2x" : ""
+        }));
 
-      //
-      // Twitter
-      //
-      that.bigMap.overlayMapTypes.insertAt(0, new GmapCustomTileLayer({
-        tilePath : "https://stamen-org.cartodb.com/api/v1/map/37b29415d0242f08967a034a8f1a1dbd:1428364376213.8901/{z}/{x}/{y}.png?map_key=d950cf0c5c3edd5ac6b151f1e124ebca159e700a&api_key=d950cf0c5c3edd5ac6b151f1e124ebca159e700a&cache_policy=persist",
-        size     : 256,
-        r        : (window.devicePixelRatio && window.devicePixelRatio > 1) ? "@2x" : ""
-      }));
+        //
+        // Flickr
+        //
+        that.bigMap.overlayMapTypes.insertAt(0, new GmapCustomTileLayer({
+          tilePath : "https://stamen-org.cartodb.com/api/v1/map/96b5b2b3d458bcb2827d3d1ce6f8a8e6:1418253115682.29/{z}/{x}/{y}.png?map_key=d950cf0c5c3edd5ac6b151f1e124ebca159e700a&api_key=d950cf0c5c3edd5ac6b151f1e124ebca159e700a&cache_policy=persist",
+          size     : 256,
+          r        : (window.devicePixelRatio && window.devicePixelRatio > 1) ? "@2x" : ""
+        }));
 
-      //
-      // Foursquare
-      //
-      that.bigMap.overlayMapTypes.insertAt(0, new GmapCustomTileLayer({
-        tilePath : "https://stamen-org.cartodb.com/api/v1/map/6c71c420282371e13a1bb5b19d634907:1428364717332.52/{z}/{x}/{y}.png?map_key=d950cf0c5c3edd5ac6b151f1e124ebca159e700a&api_key=d950cf0c5c3edd5ac6b151f1e124ebca159e700a&cache_policy=persist",
-        size     : 256,
-        r        : (window.devicePixelRatio && window.devicePixelRatio > 1) ? "@2x" : ""
-      }));
+        //
+        // Foursquare
+        //
+        that.bigMap.overlayMapTypes.insertAt(0, new GmapCustomTileLayer({
+          tilePath : "https://stamen-org.cartodb.com/api/v1/map/6c71c420282371e13a1bb5b19d634907:1428364717332.52/{z}/{x}/{y}.png?map_key=d950cf0c5c3edd5ac6b151f1e124ebca159e700a&api_key=d950cf0c5c3edd5ac6b151f1e124ebca159e700a&cache_policy=persist",
+          size     : 256,
+          r        : (window.devicePixelRatio && window.devicePixelRatio > 1) ? "@2x" : ""
+        }));
+
+        rootNode.classList.add("showSocial");
+      }
 
       that.bigMap.data.setStyle({
         fillColor:"rgba(2, 122, 187,.2)",

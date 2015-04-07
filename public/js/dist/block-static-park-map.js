@@ -52,12 +52,8 @@ define([ "require", "exports", "module", "detect-os", "stamen-super-classy", "gm
             mapConfig.panControl = !1, mapConfig.draggable = !1, mapConfig.streetViewControl = !1), 
             that.bigMap = new google.maps.Map(bigMapNode, mapConfig), bigMapNode.offsetHeight || (bigMapNode.style.height = "100%"), 
             that.bigMap.mapTypes.set("parksLayer", that.parksLayer), that.bigMap.setMapTypeId("parksLayer"), 
-            that.bigMap.overlayMapTypes.insertAt(0, new GmapCustomTileLayer({
+            viewOptions.showSocial && (that.bigMap.overlayMapTypes.insertAt(0, new GmapCustomTileLayer({
                 tilePath: "https://stamen-org.cartodb.com/api/v1/map/5471799c671ddd84c05898ed99475bf9:1418253542174.26/{z}/{x}/{y}.png?map_key=d950cf0c5c3edd5ac6b151f1e124ebca159e700a&api_key=d950cf0c5c3edd5ac6b151f1e124ebca159e700a&cache_policy=persist",
-                size: 256,
-                r: window.devicePixelRatio && window.devicePixelRatio > 1 ? "@2x" : ""
-            })), that.bigMap.overlayMapTypes.insertAt(0, new GmapCustomTileLayer({
-                tilePath: "https://stamen-org.cartodb.com/api/v1/map/96b5b2b3d458bcb2827d3d1ce6f8a8e6:1418253115682.29/{z}/{x}/{y}.png?map_key=d950cf0c5c3edd5ac6b151f1e124ebca159e700a&api_key=d950cf0c5c3edd5ac6b151f1e124ebca159e700a&cache_policy=persist",
                 size: 256,
                 r: window.devicePixelRatio && window.devicePixelRatio > 1 ? "@2x" : ""
             })), that.bigMap.overlayMapTypes.insertAt(0, new GmapCustomTileLayer({
@@ -65,10 +61,14 @@ define([ "require", "exports", "module", "detect-os", "stamen-super-classy", "gm
                 size: 256,
                 r: window.devicePixelRatio && window.devicePixelRatio > 1 ? "@2x" : ""
             })), that.bigMap.overlayMapTypes.insertAt(0, new GmapCustomTileLayer({
+                tilePath: "https://stamen-org.cartodb.com/api/v1/map/96b5b2b3d458bcb2827d3d1ce6f8a8e6:1418253115682.29/{z}/{x}/{y}.png?map_key=d950cf0c5c3edd5ac6b151f1e124ebca159e700a&api_key=d950cf0c5c3edd5ac6b151f1e124ebca159e700a&cache_policy=persist",
+                size: 256,
+                r: window.devicePixelRatio && window.devicePixelRatio > 1 ? "@2x" : ""
+            })), that.bigMap.overlayMapTypes.insertAt(0, new GmapCustomTileLayer({
                 tilePath: "https://stamen-org.cartodb.com/api/v1/map/6c71c420282371e13a1bb5b19d634907:1428364717332.52/{z}/{x}/{y}.png?map_key=d950cf0c5c3edd5ac6b151f1e124ebca159e700a&api_key=d950cf0c5c3edd5ac6b151f1e124ebca159e700a&cache_policy=persist",
                 size: 256,
                 r: window.devicePixelRatio && window.devicePixelRatio > 1 ? "@2x" : ""
-            })), that.bigMap.data.setStyle({
+            })), rootNode.classList.add("showSocial")), that.bigMap.data.setStyle({
                 fillColor: "rgba(2, 122, 187,.2)",
                 strokeColor: "rgba(2, 122, 187,.7)",
                 strokeWeight: 1
