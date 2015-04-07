@@ -15,7 +15,7 @@ define([ "require", "exports", "module", "stamen-super-classy" ], function(requi
             for (var i in config) config.hasOwnProperty(i) && (tileConf[i] = config[i]);
             var div = ownerDocument.createElement("DIV"), baseURL = that.processTemplate(config.tilePath, tileConf);
             return div.style.width = config.size + "px", div.style.height = config.size + "px", 
-            div.style.backgroundColor = "white", div.style.backgroundImage = "url(" + baseURL + ")", 
+            div.style.backgroundColor = "transparent", div.style.backgroundImage = "url(" + baseURL + ")", 
             div.style.backgroundSize = "cover", div;
         }
         var tileConf, that = this, subdomains = [ "a", "b", "c", "d" ];
