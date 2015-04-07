@@ -24,7 +24,8 @@ var formatNumber = function(number) {
 
 module.exports = function(req, res, options, callback) {
     var park_id = req.params.id || req.query.id,
-        positions = {};
+        positions = {},
+        withList;
 
   var dbRequests = {
     cpad       : async.apply(cpad.getPark,                 park_id, options),
@@ -161,6 +162,24 @@ module.exports = function(req, res, options, callback) {
       //
       if (!options.dataFilter) {
         output.stories = stories.get();
+      }
+
+      //
+      // If this park is in a list context with other parks, show
+      // indicated by the URL having a 'with' param which is a
+      // comma separated list of park ids, pass that list through.
+      // This park should be in the list so the client knows where in
+      // the context it is. If the park does not exist in the list, it
+      // will be added to the beginning when passed to the client
+      //
+      if (req.query.with) {
+        withList = req.query.with.split(",");
+
+        if (withList.indexOf(park_id) < 0) {
+          withList.unshift(park_id);
+        }
+
+        output.withList = withList.join(",");
       }
 
 

@@ -127,7 +127,7 @@ $directionsActionBottom:48px;
     padding:15px;
 
     button {
-      opacity:0;
+      display:none;
       z-index: 10;
       position: absolute;
       border: none;
@@ -270,6 +270,14 @@ $directionsActionBottom:48px;
       }
     }
 
+  }
+
+  &.with {
+    .park-name {
+      button {
+        display:block;
+      }
+    }
   }
 
 }

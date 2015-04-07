@@ -35,7 +35,14 @@ define(["require","exports","module","stamen-super-classy"], function(
     }
 
     function generateIframeCode(status) {
-      return that.processTemplate("<iframe width=\"100%\" height=\"100%\" src=\"//{href}/embed/park?id={id}&directions={directions}&locatorMap={locatormap}&instagram={instagram}&activities={activities}&social={social}\"></iframe>", status);
+
+      if (viewData.withList) {
+        status.with = "&with=" + viewData.withList;
+      } else {
+        status.with = "";
+      }
+
+      return that.processTemplate("<iframe width=\"100%\" height=\"100%\" src=\"//{href}/embed/park?id={id}&directions={directions}&locatorMap={locatormap}&instagram={instagram}&activities={activities}&social={social}{with}\"></iframe>", status);
     }
 
     function update() {

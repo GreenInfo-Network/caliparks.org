@@ -1363,7 +1363,7 @@ body.parksforward.responsive2 {
       text-align: center;
       padding: 15px; }
       body.parksforward.responsive2 #content.template-embed-park .park-name button {
-        opacity: 0;
+        display: none;
         z-index: 10;
         position: absolute;
         border: none;
@@ -1455,6 +1455,8 @@ body.parksforward.responsive2 {
         bottom: 223px; }
     body.parksforward.responsive2 #content.template-embed-park.activities.instagram .block-park-name {
       bottom: 141px; }
+    body.parksforward.responsive2 #content.template-embed-park.with .park-name button {
+      display: block; }
   body.parksforward.responsive2 #content.template-404 {
     height: 100vh;
     width: 100vw;

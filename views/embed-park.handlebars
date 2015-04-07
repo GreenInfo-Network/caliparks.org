@@ -1,4 +1,4 @@
-<div id="content" class="template-{{view}} {{#if query.social}}social{{/if}} {{#if query.instagram}}instagram{{/if}} {{#if query.activities}}activities{{/if}}">
+<div id="content" class="template-{{view}} {{#if query.social}}social{{/if}} {{#if query.instagram}}instagram{{/if}} {{#if query.activities}}activities{{/if}} {{#if withList}}with{{/if}}">
 	<div class="park-name">
 		<button class="embed-back-button">&nbsp;</button>
 	  <button class="embed-forward-button">&nbsp;</button>
@@ -11,9 +11,11 @@
 </div>
 <script>
 var viewData = {
+	"park_id"   : "{{park_id}}",
 	"centroid"  : {{{centroid}}},
 	"bbox"      : {{{bbox}}},
 	"unit_name" : "{{unit_name}}",
-	"geometry"  : {{{cpadPark.geometry}}}
+	"geometry"  : {{{cpadPark.geometry}}},
+	"withList"  : "{{withList}}"
 }
 </script>
