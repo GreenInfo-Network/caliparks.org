@@ -48,7 +48,7 @@ define(["require","exports","module","stamen-super-classy"], function(
       var baseURL = that.processTemplate(config.tilePath, tileConf);
       div.style.width           = config.size + "px";
       div.style.height          = config.size + "px";
-      div.style.backgroundColor = "white";
+      div.style.backgroundColor = "transparent";
       div.style.backgroundImage = "url(" + baseURL + ")";
       div.style.backgroundSize  = "cover";
       return div;

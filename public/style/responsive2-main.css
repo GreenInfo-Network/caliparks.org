@@ -538,7 +538,7 @@ body.parksforward.responsive2 {
       background-size: cover;
       outline: none;
       top: 44%;
-      background-image: url("responsive2/blocks/photo-carousel/forward.svg");
+      background-image: url("/svg/forward-fff.svg");
       cursor: pointer; }
       body.parksforward.responsive2 .block-photo-carousel button.carousel-back-button {
         left: 20px;
@@ -1397,6 +1397,13 @@ body.parksforward.responsive2 {
       body.parksforward.responsive2 #content.template-embed-park .block-static-park-map .directions-action {
         bottom: 48px;
         right: 15px; }
+    body.parksforward.responsive2 #content.template-embed-park .social-legend {
+      position: absolute;
+      right: 15px;
+      top: 176px; }
+      body.parksforward.responsive2 #content.template-embed-park .social-legend img {
+        width: 100px;
+        height: 102px; }
     body.parksforward.responsive2 #content.template-embed-park .block-park-name {
       z-index: 10;
       position: absolute;
