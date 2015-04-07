@@ -16,8 +16,8 @@ define([ "require", "exports", "module", "detect-os", "stamen-super-classy", "gm
             return Math.min(latZoom, lngZoom, ZOOM_MAX);
         }
         function geoJSONBBoxToGoogleBounds(GeoJSONBBoxPolygon) {
-            for (var a, b, point, bounds = new google.maps.LatLngBounds(), ii = 0; ii < GeoJSONBBoxPolygon.coordinates[0].length; ii++) a = GeoJSONBBoxPolygon.coordinates[0][ii][1],
-            b = GeoJSONBBoxPolygon.coordinates[0][ii][0], point = new google.maps.LatLng(a, b),
+            for (var a, b, point, bounds = new google.maps.LatLngBounds(), ii = 0; ii < GeoJSONBBoxPolygon.coordinates[0].length; ii++) a = GeoJSONBBoxPolygon.coordinates[0][ii][1], 
+            b = GeoJSONBBoxPolygon.coordinates[0][ii][0], point = new google.maps.LatLng(a, b), 
             bounds.extend(point);
             return bounds;
         }
@@ -48,9 +48,9 @@ define([ "require", "exports", "module", "detect-os", "stamen-super-classy", "gm
                 mapTypeControlviewOptions: {
                     mapTypeIds: [ "parksLayer" ]
                 }
-            }, that.utils.get("body")[0].classList.contains("rendered-narrow") && (mapConfig.disableDefaultUI = !0,
-            mapConfig.panControl = !1, mapConfig.draggable = !1, mapConfig.streetViewControl = !1),
-            that.bigMap = new google.maps.Map(bigMapNode, mapConfig), bigMapNode.offsetHeight || (bigMapNode.style.height = "100%"),
+            }, that.utils.get("body")[0].classList.contains("rendered-narrow") && (mapConfig.disableDefaultUI = !0, 
+            mapConfig.panControl = !1, mapConfig.draggable = !1, mapConfig.streetViewControl = !1), 
+            that.bigMap = new google.maps.Map(bigMapNode, mapConfig), bigMapNode.offsetHeight || (bigMapNode.style.height = "100%"), 
             that.bigMap.mapTypes.set("parksLayer", that.parksLayer), that.bigMap.setMapTypeId("parksLayer"), 
             viewOptions.showSocial && (that.bigMap.overlayMapTypes.insertAt(0, new GmapCustomTileLayer({
                 tilePath: "https://stamen-org.cartodb.com/api/v1/map/5471799c671ddd84c05898ed99475bf9:1418253542174.26/{z}/{x}/{y}.png?map_key=d950cf0c5c3edd5ac6b151f1e124ebca159e700a&api_key=d950cf0c5c3edd5ac6b151f1e124ebca159e700a&cache_policy=persist",
@@ -94,7 +94,7 @@ define([ "require", "exports", "module", "detect-os", "stamen-super-classy", "gm
                 mapTypeControlOptions: {
                     mapTypeIds: [ "parksLayer" ]
                 }
-            }), that.smallMap.mapTypes.set("parksLayer", that.parksLayer), that.smallMap.setMapTypeId("parksLayer"),
+            }), that.smallMap.mapTypes.set("parksLayer", that.parksLayer), that.smallMap.setMapTypeId("parksLayer"), 
             that.smallMapCircle = new google.maps.Marker({
                 icon: {
                     path: "M0,5a5,5 0 1,0 10,0a5,5 0 1,0 -10,0",

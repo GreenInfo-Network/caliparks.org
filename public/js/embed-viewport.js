@@ -8,8 +8,6 @@ define(["require","exports","module","block-static-park-map","block-instagram-st
 
   "use strict";
 
-  console.log("load");
-
   var rootElement     = document.querySelector("body"),
       parkNameElement = rootElement.querySelector(".park-name"),
       withArray       = viewData.withList ? viewData.withList.split(",") : null,
@@ -28,8 +26,6 @@ define(["require","exports","module","block-static-park-map","block-instagram-st
       if (e.target.tagName === "BUTTON") {
 
         thisIdIndex = withArray.indexOf(viewData.park_id);
-
-        console.log(viewData.park_id, thisIdIndex, withArray.length);
 
         if (e.target.className === "embed-back-button") {
 
