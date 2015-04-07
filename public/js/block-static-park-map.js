@@ -154,7 +154,7 @@ define(["require","exports","module","detect-os","stamen-super-classy","gmap-cus
         // Twitter
         //
         that.bigMap.overlayMapTypes.insertAt(0, new GmapCustomTileLayer({
-          tilePath : "https://stamen-org.cartodb.com/api/v1/map/37b29415d0242f08967a034a8f1a1dbd:1428364376213.8901/{z}/{x}/{y}.png?map_key=d950cf0c5c3edd5ac6b151f1e124ebca159e700a&api_key=d950cf0c5c3edd5ac6b151f1e124ebca159e700a&cache_policy=persist",
+          tilePath : "https://stamen-org.cartodb.com/api/v1/map/41c04e81e912fcada9aa0cde708dee49:1428364376213.8901/{z}/{x}/{y}.png?map_key=d950cf0c5c3edd5ac6b151f1e124ebca159e700a&api_key=d950cf0c5c3edd5ac6b151f1e124ebca159e700a&cache_policy=persist",
           size     : 256,
           r        : (window.devicePixelRatio && window.devicePixelRatio > 1) ? "@2x" : ""
         }));
@@ -163,7 +163,7 @@ define(["require","exports","module","detect-os","stamen-super-classy","gmap-cus
         // Flickr
         //
         that.bigMap.overlayMapTypes.insertAt(0, new GmapCustomTileLayer({
-          tilePath : "https://stamen-org.cartodb.com/api/v1/map/96b5b2b3d458bcb2827d3d1ce6f8a8e6:1418253115682.29/{z}/{x}/{y}.png?map_key=d950cf0c5c3edd5ac6b151f1e124ebca159e700a&api_key=d950cf0c5c3edd5ac6b151f1e124ebca159e700a&cache_policy=persist",
+          tilePath : "https://stamen-org.cartodb.com/api/v1/map/8a573aeae06783f7862a2f87c2662ecb:1418253115682.29/{z}/{x}/{y}.png?map_key=d950cf0c5c3edd5ac6b151f1e124ebca159e700a&api_key=d950cf0c5c3edd5ac6b151f1e124ebca159e700a&cache_policy=persist",
           size     : 256,
           r        : (window.devicePixelRatio && window.devicePixelRatio > 1) ? "@2x" : ""
         }));
