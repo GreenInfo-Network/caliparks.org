@@ -42,7 +42,8 @@ define(["require","exports","module","stamen-super-classy"], function(
         status.with = "";
       }
 
-      return that.processTemplate("<iframe width=\"100%\" height=\"100%\" src=\"//{href}/embed/park?id={id}&directions={directions}&locatorMap={locatormap}&instagram={instagram}&activities={activities}&social={social}{with}\"></iframe>", status);
+      //&social={social} was removed to disable social
+      return that.processTemplate("<iframe width=\"100%\" height=\"100%\" src=\"//{href}/embed/park?id={id}&directions={directions}&locatorMap={locatormap}&instagram={instagram}&activities={activities}{with}\"></iframe>", status);
     }
 
     function update() {

@@ -140,6 +140,7 @@ define(["require","exports","module","detect-os","stamen-super-classy","gmap-cus
       that.bigMap.mapTypes.set("parksLayer", that.parksLayer);
       that.bigMap.setMapTypeId("parksLayer");
 
+      /*
       if (viewOptions.showSocial) {
         //
         // Instagram
@@ -179,6 +180,7 @@ define(["require","exports","module","detect-os","stamen-super-classy","gmap-cus
 
         rootNode.classList.add("showSocial");
       }
+      */
 
       that.bigMap.data.setStyle({
         fillColor:"rgba(2, 122, 187,.2)",

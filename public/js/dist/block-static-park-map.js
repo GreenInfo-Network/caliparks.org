@@ -52,23 +52,7 @@ define([ "require", "exports", "module", "detect-os", "stamen-super-classy", "gm
             mapConfig.panControl = !1, mapConfig.draggable = !1, mapConfig.streetViewControl = !1), 
             that.bigMap = new google.maps.Map(bigMapNode, mapConfig), bigMapNode.offsetHeight || (bigMapNode.style.height = "100%"), 
             that.bigMap.mapTypes.set("parksLayer", that.parksLayer), that.bigMap.setMapTypeId("parksLayer"), 
-            viewOptions.showSocial && (that.bigMap.overlayMapTypes.insertAt(0, new GmapCustomTileLayer({
-                tilePath: "https://stamen-org.cartodb.com/api/v1/map/5471799c671ddd84c05898ed99475bf9:1418253542174.26/{z}/{x}/{y}.png?map_key=d950cf0c5c3edd5ac6b151f1e124ebca159e700a&api_key=d950cf0c5c3edd5ac6b151f1e124ebca159e700a&cache_policy=persist",
-                size: 256,
-                r: window.devicePixelRatio && window.devicePixelRatio > 1 ? "@2x" : ""
-            })), that.bigMap.overlayMapTypes.insertAt(0, new GmapCustomTileLayer({
-                tilePath: "https://stamen-org.cartodb.com/api/v1/map/41c04e81e912fcada9aa0cde708dee49:1428364376213.8901/{z}/{x}/{y}.png?map_key=d950cf0c5c3edd5ac6b151f1e124ebca159e700a&api_key=d950cf0c5c3edd5ac6b151f1e124ebca159e700a&cache_policy=persist",
-                size: 256,
-                r: window.devicePixelRatio && window.devicePixelRatio > 1 ? "@2x" : ""
-            })), that.bigMap.overlayMapTypes.insertAt(0, new GmapCustomTileLayer({
-                tilePath: "https://stamen-org.cartodb.com/api/v1/map/8a573aeae06783f7862a2f87c2662ecb:1418253115682.29/{z}/{x}/{y}.png?map_key=d950cf0c5c3edd5ac6b151f1e124ebca159e700a&api_key=d950cf0c5c3edd5ac6b151f1e124ebca159e700a&cache_policy=persist",
-                size: 256,
-                r: window.devicePixelRatio && window.devicePixelRatio > 1 ? "@2x" : ""
-            })), that.bigMap.overlayMapTypes.insertAt(0, new GmapCustomTileLayer({
-                tilePath: "https://stamen-org.cartodb.com/api/v1/map/6c71c420282371e13a1bb5b19d634907:1428364717332.52/{z}/{x}/{y}.png?map_key=d950cf0c5c3edd5ac6b151f1e124ebca159e700a&api_key=d950cf0c5c3edd5ac6b151f1e124ebca159e700a&cache_policy=persist",
-                size: 256,
-                r: window.devicePixelRatio && window.devicePixelRatio > 1 ? "@2x" : ""
-            })), rootNode.classList.add("showSocial")), that.bigMap.data.setStyle({
+            that.bigMap.data.setStyle({
                 fillColor: "rgba(2, 122, 187,.2)",
                 strokeColor: "rgba(2, 122, 187,.7)",
                 strokeWeight: 1

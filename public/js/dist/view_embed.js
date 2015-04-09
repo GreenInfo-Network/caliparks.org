@@ -12,7 +12,7 @@ define([ "require", "exports", "module", "stamen-super-classy" ], function(requi
             return status;
         }
         function generateIframeCode(status) {
-            return status.with = viewData.withList ? "&with=" + viewData.withList : "", that.processTemplate('<iframe width="100%" height="100%" src="//{href}/embed/park?id={id}&directions={directions}&locatorMap={locatormap}&instagram={instagram}&activities={activities}&social={social}{with}"></iframe>', status);
+            return status.with = viewData.withList ? "&with=" + viewData.withList : "", that.processTemplate('<iframe width="100%" height="100%" src="//{href}/embed/park?id={id}&directions={directions}&locatorMap={locatormap}&instagram={instagram}&activities={activities}{with}"></iframe>', status);
         }
         function update() {
             var iframeCode = generateIframeCode(getStatus());
