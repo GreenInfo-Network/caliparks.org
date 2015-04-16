@@ -50,13 +50,15 @@
     <!--[if lte IE 9]>
     <script src="/js/helpers/polyfills.js"></script>
     <![endif]-->
+    <script src="http://libs.cartocdn.com/cartodb.js/v3/3.13/cartodb.core.js"></script>
     <script src="/js/dist/vendor/require.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCN-GnHQiVvap-YQh8QykZTxJTSLsxI2uw"></script>
     <script>
 
       "use strict";
 
-      window.STMN = {};
+      window.STMN = {
+      };
 
       if (navigator.appVersion.indexOf("Win")!=-1) {STMN.OSName="Windows";}
       if (navigator.appVersion.indexOf("Mac")!=-1) {STMN.OSName="MacOS";}

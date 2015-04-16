@@ -42,8 +42,7 @@ define(["require","exports","module","stamen-super-classy"], function(
         status.with = "";
       }
 
-      //&social={social} was removed to disable social
-      return that.processTemplate("<iframe width=\"100%\" height=\"100%\" src=\"//{href}/embed/park?id={id}&directions={directions}&locatorMap={locatormap}&instagram={instagram}&activities={activities}{with}\"></iframe>", status);
+      return that.processTemplate("<iframe width=\"100%\" height=\"100%\" src=\"//{href}/embed/park?id={id}&directions={directions}&locatorMap={locatormap}&instagram={instagram}&activities={activities}{with}&social={social}\"></iframe>", status);
     }
 
     function update() {

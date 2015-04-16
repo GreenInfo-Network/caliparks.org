@@ -19,6 +19,8 @@ define(["require","exports","module","detect-os","stamen-super-classy","gmap-cus
         bigMapNode = that.utils.get(".big-park-map",rootNode)[0],
         smallMapNode = that.utils.get(".small-park-map",rootNode)[0];
 
+    var cartoDBLayerTemplates = {};
+
     //
     // Lifted from http://stackoverflow.com/questions/6048975/google-maps-v3-how-to-calculate-the-zoom-level-for-a-given-bounds
     //
@@ -96,6 +98,34 @@ define(["require","exports","module","detect-os","stamen-super-classy","gmap-cus
       return that.parksLayer;
     }
 
+    function getCartoDBTilesTemplates(layers, callback) {
+
+      var toResolve = Object.keys(layers).length;
+
+      Object.keys(layers).forEach(function (layerId) {
+
+        cartodb.Tiles.getTiles({
+          type: 'cartodb',
+          user_name: 'stamen-org',
+          api_key:"d950cf0c5c3edd5ac6b151f1e124ebca159e700a",
+          sublayers: [layers[layerId]]
+        },
+        function(tiles, err) {
+          if(tiles == null) {
+            callback(err);
+          }
+
+          cartoDBLayerTemplates[layerId] = tiles;
+
+          if (Object.keys(cartoDBLayerTemplates).length >= toResolve) {
+            callback(null, cartoDBLayerTemplates);
+          }
+
+        });
+
+      });
+    }
+
     function initBigMap() {
 
       var bounds = geoJSONBBoxToGoogleBounds(viewOptions.bbox),
@@ -140,47 +170,68 @@ define(["require","exports","module","detect-os","stamen-super-classy","gmap-cus
       that.bigMap.mapTypes.set("parksLayer", that.parksLayer);
       that.bigMap.setMapTypeId("parksLayer");
 
-      /*
       if (viewOptions.showSocial) {
-        //
-        // Instagram
-        //
-        that.bigMap.overlayMapTypes.insertAt(0, new GmapCustomTileLayer({
-          tilePath : "https://stamen-org.cartodb.com/api/v1/map/5471799c671ddd84c05898ed99475bf9:1418253542174.26/{z}/{x}/{y}.png?map_key=d950cf0c5c3edd5ac6b151f1e124ebca159e700a&api_key=d950cf0c5c3edd5ac6b151f1e124ebca159e700a&cache_policy=persist",
-          size     : 256,
-          r        : (window.devicePixelRatio && window.devicePixelRatio > 1) ? "@2x" : ""
-        }));
 
-        //
-        // Twitter
-        //
-        that.bigMap.overlayMapTypes.insertAt(0, new GmapCustomTileLayer({
-          tilePath : "https://stamen-org.cartodb.com/api/v1/map/41c04e81e912fcada9aa0cde708dee49:1428364376213.8901/{z}/{x}/{y}.png?map_key=d950cf0c5c3edd5ac6b151f1e124ebca159e700a&api_key=d950cf0c5c3edd5ac6b151f1e124ebca159e700a&cache_policy=persist",
-          size     : 256,
-          r        : (window.devicePixelRatio && window.devicePixelRatio > 1) ? "@2x" : ""
-        }));
+        getCartoDBTilesTemplates({
+          "foursquare" : {
+            "sql"      : "SELECT * FROM park_foursquare_venues_dots",
+            "cartocss" : "#park_foursquare_venues{  marker-fill-opacity: 1;  marker-line-color: #FFF;  marker-line-width: 0;  marker-line-opacity: 0.75;  marker-placement: point;  marker-type: ellipse;  marker-width: 3;  marker-fill: #2e176b;marker-allow-overlap: true;}"
+          },
+          "instagram" : {
+            "sql"      : "SELECT * FROM instagram_photos_2014_12_10",
+            "cartocss" : "#instagram_photos_2014_12_10{  marker-fill-opacity: 0.7;  marker-line-color: #FFF;  marker-line-width: 0;  marker-line-opacity: 0.75;  marker-placement: point;  marker-type: ellipse;  marker-width:3;  marker-fill: #126c94;  marker-allow-overlap: true;}"
+          },
+          "flickr" : {
+            "sql"      : "SELECT * FROM flickr_photos_2014_12_10",
+            "cartocss" : "#flickr_photos_2014_12_10{  marker-fill-opacity: 0.9;  marker-line-color: #FFF;  marker-line-width: 0;  marker-line-opacity: 0.75;  marker-placement: point;  marker-type: ellipse;  marker-width: 3;  marker-fill: #f4606f;  marker-allow-overlap: true;}"
+          },
+          "twitter" : {
+            "sql"      : "SELECT * FROM site_tweets_dots",
+            "cartocss" : "#site_tweets{  marker-fill-opacity: 0.9;  marker-line-color: #FFF;  marker-line-width: 0;  marker-line-opacity: 0.75;  marker-placement: point;  marker-type: ellipse;  marker-width: 3;  marker-fill: #21cad5;  marker-allow-overlap: true;}"
+          }
+        }, function(err, tileSets) {
 
-        //
-        // Flickr
-        //
-        that.bigMap.overlayMapTypes.insertAt(0, new GmapCustomTileLayer({
-          tilePath : "https://stamen-org.cartodb.com/api/v1/map/8a573aeae06783f7862a2f87c2662ecb:1418253115682.29/{z}/{x}/{y}.png?map_key=d950cf0c5c3edd5ac6b151f1e124ebca159e700a&api_key=d950cf0c5c3edd5ac6b151f1e124ebca159e700a&cache_policy=persist",
-          size     : 256,
-          r        : (window.devicePixelRatio && window.devicePixelRatio > 1) ? "@2x" : ""
-        }));
+          //
+          // Instagram
+          //
+          that.bigMap.overlayMapTypes.insertAt(0, new GmapCustomTileLayer({
+            tilePath : tileSets["instagram"].tiles[0],
+            size     : 256,
+            r        : (window.devicePixelRatio && window.devicePixelRatio > 1) ? "@2x" : ""
+          }));
 
-        //
-        // Foursquare
-        //
-        that.bigMap.overlayMapTypes.insertAt(0, new GmapCustomTileLayer({
-          tilePath : "https://stamen-org.cartodb.com/api/v1/map/6c71c420282371e13a1bb5b19d634907:1428364717332.52/{z}/{x}/{y}.png?map_key=d950cf0c5c3edd5ac6b151f1e124ebca159e700a&api_key=d950cf0c5c3edd5ac6b151f1e124ebca159e700a&cache_policy=persist",
-          size     : 256,
-          r        : (window.devicePixelRatio && window.devicePixelRatio > 1) ? "@2x" : ""
-        }));
+          //
+          // Twitter
+          //
+          that.bigMap.overlayMapTypes.insertAt(0, new GmapCustomTileLayer({
+            tilePath : tileSets["twitter"].tiles[0],
+            size     : 256,
+            r        : (window.devicePixelRatio && window.devicePixelRatio > 1) ? "@2x" : ""
+          }));
 
-        rootNode.classList.add("showSocial");
+          //
+          // Flickr
+          //
+          that.bigMap.overlayMapTypes.insertAt(0, new GmapCustomTileLayer({
+            tilePath : tileSets["flickr"].tiles[0],
+            size     : 256,
+            r        : (window.devicePixelRatio && window.devicePixelRatio > 1) ? "@2x" : ""
+          }));
+
+          //
+          // Foursquare
+          //
+          that.bigMap.overlayMapTypes.insertAt(0, new GmapCustomTileLayer({
+            tilePath : tileSets["foursquare"].tiles[0],
+            size     : 256,
+            r        : (window.devicePixelRatio && window.devicePixelRatio > 1) ? "@2x" : ""
+          }));
+
+          rootNode.classList.add("showSocial");
+
+        });
+
       }
-      */
 
       that.bigMap.data.setStyle({
         fillColor:"rgba(2, 122, 187,.2)",
