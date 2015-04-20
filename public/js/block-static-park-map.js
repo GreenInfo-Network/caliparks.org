@@ -107,7 +107,6 @@ define(["require","exports","module","detect-os","stamen-super-classy","gmap-cus
         cartodb.Tiles.getTiles({
           type: 'cartodb',
           user_name: 'stamen-org',
-          api_key:"d950cf0c5c3edd5ac6b151f1e124ebca159e700a",
           sublayers: [layers[layerId]]
         },
         function(tiles, err) {
