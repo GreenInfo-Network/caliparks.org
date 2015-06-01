@@ -52,7 +52,7 @@ source._read = function(size) {
 
   fetching = true;
 
-  var batchSize = 50,
+  var batchSize = 1000,
       buffering = true,
       self = this;
 
