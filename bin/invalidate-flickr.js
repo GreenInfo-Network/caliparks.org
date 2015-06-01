@@ -173,6 +173,7 @@ var Checker = function() {
       }
 
       if (rsp.statusCode === 200) {
+        process.stdout.write(".");
         return pg.connect(DATABASE_URL, function(err, client, done) {
           if (err) {
             console.warn(err);
