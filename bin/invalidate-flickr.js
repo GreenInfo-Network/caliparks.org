@@ -14,7 +14,7 @@ var Balancer = require("../lib/balancer");
 
 var DATABASE_URL = env.require("DATABASE_URL");
 
-http.globalAgent.maxSockets = Infinity;
+http.globalAgent.maxSockets = 75;
 
 var unlockPhoto = function(id, callback) {
   callback = callback || function(err) {
