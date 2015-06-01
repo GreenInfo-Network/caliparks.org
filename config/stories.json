@@ -1,5 +1,13 @@
 [
-{
+  {
+    "copy"            : "@JeffSullPhoto's top ten parks",
+    "photo"           : "https://farm8.staticflickr.com/7501/16013865875_eca673f61b_z.jpg",
+    "attributionUrl"  : "https://www.flickr.com/photos/jeffreysullivan/16013865875/",
+    "attributionCopy" : "Jeff Sullivan",
+    "parks"            : [1442,14310,14042,1964,14210,14290,14236,14184,1413,14241],
+    "slug"            : "jeff-sullivan-picks"
+  },
+  {
     "copy"            : "Top 25 Parks on Social Media",
     "photo"           : "https://farm4.staticflickr.com/3074/2797751350_9e31ba478a_z.jpg",
     "attributionUrl"  : "https://www.flickr.com/photos/tkksummers/2797751350/",
@@ -54,13 +62,5 @@
     "attributionCopy" : "Viv",
     "parks"           : [972,1393,1413,1465,1560,1574,1659,1697,1822,4250,6899,8049,10131,11189,11910,12198,12793,12795,13771,13774,13795,14005,14013,14029,14042,14043,14047,14060,14070,14079,14086,14099,14103,14108,14116,14127,14137,14138,14143,14153,14172,14184,14210,14236,14257,14290],
     "slug"            : "go-off-road"
-  },
-  {
-    "copy"            : "Climb the walls",
-    "photo"           : "https://farm8.staticflickr.com/7168/6677509939_89bc171f10_z.jpg",
-    "attributionUrl"  : "https://www.flickr.com/photos/63106298@N02/6677509939",
-    "attributionCopy" : "DualD FlipFlop",
-    "parks"            : [1371,1430,1469,1472,1485,1524,1545,1555,1614,1650,1651,1652,1656,1671,1686,1697,1761,1834,1981,1993,2079,3244,3569,3820,4425,5294,5656,5974,6108,6341,8049,10407,10435,10698,10725,10841,12198,13774,13795,14005,14013,14014,14032,14042,14070,14079,14086,14099,14103,14116,14127,14138,14143,14153,14172,14184,14205,14210,14212,14236,14241,14248,14264,14289,14290,14303,14310],
-    "slug"            : "climb-the-walls"
   }
 ]
