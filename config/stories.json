@@ -1,5 +1,13 @@
 [
   {
+    "copy"            : "@monicagoesshow's top ten parks",
+    "photo"           : "https://farm8.staticflickr.com/7777/17729590133_de1d933f89_z.jpg",
+    "attributionUrl"  : "https://www.flickr.com/photos/133681582@N05/17729590133/",
+    "attributionCopy" : "Monica Ortega",
+    "parks"           : [14236,14005,12213,1692,14310,14271,14248,14088,14241,14172],
+    "slug"            : "monica-ortega-picks"
+  },
+  {
     "copy"            : "@JeffSullPhoto's top ten parks",
     "photo"           : "https://farm8.staticflickr.com/7501/16013865875_eca673f61b_z.jpg",
     "attributionUrl"  : "https://www.flickr.com/photos/jeffreysullivan/16013865875/",
@@ -54,13 +62,5 @@
     "attributionCopy" : "Brian Cross",
     "parks"           : [14215,14191,14207,23486,15818,26679,25505,21796,27406,27429,15989,15925,18540,15848,24468,19155,18030,26379,19677,18273,25429,19905,22598,20696],
     "slug"            : "walk-the-dog"
-  },
-  {
-    "copy"            : "Go off road",
-    "photo"           : "https://farm5.staticflickr.com/4133/4988821723_035ea5ec65_z.jpg",
-    "attributionUrl"  : "https://www.flickr.com/photos/24958892@N00/4988821723",
-    "attributionCopy" : "Viv",
-    "parks"           : [972,1393,1413,1465,1560,1574,1659,1697,1822,4250,6899,8049,10131,11189,11910,12198,12793,12795,13771,13774,13795,14005,14013,14029,14042,14043,14047,14060,14070,14079,14086,14099,14103,14108,14116,14127,14137,14138,14143,14153,14172,14184,14210,14236,14257,14290],
-    "slug"            : "go-off-road"
   }
 ]
