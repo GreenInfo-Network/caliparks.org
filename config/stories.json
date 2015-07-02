@@ -1,4 +1,12 @@
 [
+ {
+    "copy"            : "@NationalParksandMore's top ten parks",
+    "photo"           : "https://farm9.staticflickr.com/8592/16406676208_8220d9096d_z.jpg",
+    "attributionUrl"  : "https://www.flickr.com/photos/131437671@N05/16406676208/",
+    "attributionCopy" : "Sameer Mundkur",
+    "parks"           : [1413,1570,1580,1585,1993,1951,1775,1454,1394,14184],
+    "slug"            : "natparksandmore-picks"
+  }, 
   {
     "copy"            : "@monicagoesshow's top ten parks",
     "photo"           : "https://farm8.staticflickr.com/7777/17729590133_de1d933f89_z.jpg",
@@ -6,14 +14,6 @@
     "attributionCopy" : "Monica Ortega",
     "parks"           : [14236,14005,12213,1692,14310,14271,14248,14088,14241,14172],
     "slug"            : "monica-ortega-picks"
-  },
-  {
-    "copy"            : "@JeffSullPhoto's top ten parks",
-    "photo"           : "https://farm8.staticflickr.com/7501/16013865875_eca673f61b_z.jpg",
-    "attributionUrl"  : "https://www.flickr.com/photos/jeffreysullivan/16013865875/",
-    "attributionCopy" : "Jeff Sullivan",
-    "parks"            : [1442,14310,14042,1964,14210,14290,14236,14184,1413,14241],
-    "slug"            : "jeff-sullivan-picks"
   },
   {
     "copy"            : "Top 25 Parks on Social Media",
@@ -48,12 +48,12 @@
     "slug"            : "camp-in-the-woods"
   },
   {
-    "copy"            : "Ride the singletrack",
-    "photo"           : "https://farm7.staticflickr.com/6237/6304761071_6ed6df0964_z.jpg",
-    "attributionUrl"  : "https://www.flickr.com/photos/7701678@N07/6304761071",
-    "attributionCopy" : "Preston Theler",
-    "parks"           : [14005,14108,14099,1767,22314,14153,14172,14029,13774,14289,14042,1787,14224,1488,1570,1478,3220,1503,1564,1395,1475,1668,14202,10725,1948,6503,17209],
-    "slug"            : "ride-the-singletrack"
+    "copy"            : "@JeffSullPhoto's top ten parks",
+    "photo"           : "https://farm8.staticflickr.com/7501/16013865875_eca673f61b_z.jpg",
+    "attributionUrl"  : "https://www.flickr.com/photos/jeffreysullivan/16013865875/",
+    "attributionCopy" : "Jeff Sullivan",
+    "parks"            : [1442,14310,14042,1964,14210,14290,14236,14184,1413,14241],
+    "slug"            : "jeff-sullivan-picks"
   },
   {
     "copy"            : "Walk the dog",
