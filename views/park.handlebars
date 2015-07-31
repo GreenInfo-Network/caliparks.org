@@ -7,6 +7,7 @@
 			<div class="park-details">
 				<p class="agency-name">{{cpadPark.mng_agncy}}</p>
 				{{>block-park-name nolink=false centroid=centroid}}
+				<!-- hiding social counts until/unless they can be made clickable
 				<p class="social-breakdown">
 					{{#if twitter}}
 						<span class="total{{twitter.total}}">{{#pluralize}}{{twitter.total}} <span>{{#__}}Tweet{{/__}}</span>|<span>{{#__}}Tweets{{/__}}</span>{{/pluralize}}
@@ -28,7 +29,7 @@
 						<span class="total{{foursquare.venues_tips}}">{{#pluralize}}{{foursquare.venues_tips}} <span>{{#__}}Tip{{/__}}</span>|{{#__}}Tips{{/__}}</span>{{/pluralize}}
 						&nbsp;&nbsp;</span>
 					{{/if}}
-				</p>
+				</p>-->
 				<div>
 					{{#if cpadPark.park_url}}<button class="action" onclick="(function(){console.log(viewData);location.href='{{cpadPark.park_url}}';}());">{{#__}}Park Info{{/__}}</button>{{/if}}
 					{{#if cpadPark.hipcamp_url}}<button class="action" onclick="(function(){console.log(viewData);location.href='{{cpadPark.hipcamp_url}}';}());">{{#__}}Camp Here{{/__}}</button>{{/if}}
