@@ -1,11 +1,11 @@
 DROP VIEW IF EXISTS activities;
 
 CREATE VIEW activities AS
-  WITH hipcamp AS (
+  WITH a AS (
     SELECT
       su_id AS superunit_id,
       activities
-    FROM site_hipcamp_activities
+    FROM activities_raw
   ),
   cpad AS (
     SELECT
@@ -16,6 +16,6 @@ CREATE VIEW activities AS
   )
   SELECT
     superunit_id,
-    hipcamp.activities || cpad.facilities AS activities
-  FROM hipcamp
+    a.activities || cpad.facilities AS activities
+  FROM a
   FULL OUTER JOIN cpad USING (superunit_id);

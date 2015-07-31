@@ -69,6 +69,9 @@ install: db/all
 sql/site_hipcamp_activities.sql: data/hipcamp.csv
 	@scripts/prepare-hipcamp-data.js $< > $@
 
+sql/activities_raw.sql: data/hipcamp.csv
+	@scripts/prepare-hipcamp-data.js $< > $@
+
 .PHONY: DATABASE_URL
 
 DATABASE_URL:
@@ -95,7 +98,7 @@ db/postgis: db
 
 .PHONY: db/activities
 
-db/activities: db/cpad_facilities db/site_hipcamp_activities
+db/activities: db/cpad_facilities db/activities_raw
 	$(call create_relation)
 
 .PHONY: db/cpad
@@ -189,6 +192,11 @@ db/rec_facil_ca: db/postgis data/Rec_Facil_send.zip
 .PHONY: db/site_hipcamp_activities
 
 db/site_hipcamp_activities: db sql/site_hipcamp_activities.sql
+	$(call create_relation)
+
+.PHONY: db/activities_raw
+
+db/activities_raw: db sql/activities_raw.sql
 	$(call create_relation)
 
 data/cpad_2014b9_superunits_name_manager_access.zip:

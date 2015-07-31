@@ -79,6 +79,22 @@ pg.connect(env.require("DATABASE_URL"), function(err, client, done) {
         }, callback);
       });
     },
+    activities: function(callback) {
+      return query([
+        " SELECT",
+        "   su_id AS superunit_id,",
+        "   array_length(activities, 1) AS count",
+        "   FROM activities_raw"
+      ].join("\n"), function(err, result) {
+        if (err) {
+          throw err;
+        }
+
+        return async.forEach(result.rows, function(row, done) {
+          query("UPDATE park_stats SET activity_count = $1 WHERE superunit_id = $2", [row.count, row.superunit_id], done);
+        }, callback);
+      });
+    },
     hipcamp: function(callback) {
       return query([
         " SELECT",
