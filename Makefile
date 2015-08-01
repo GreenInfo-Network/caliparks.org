@@ -69,8 +69,8 @@ install: db/all
 sql/site_hipcamp_activities.sql: data/hipcamp.csv
 	@scripts/prepare-hipcamp-data.js $< > $@
 
-sql/activities_raw.sql: data/hipcamp.csv
-	@scripts/prepare-hipcamp-data.js $< > $@
+sql/activities_raw.sql: data/activities.csv
+	@scripts/prepare-activities.js $< > $@
 
 .PHONY: DATABASE_URL
 
