@@ -1,7 +1,7 @@
 <ul class="block-activity-icons">
 {{#each activity.items}}
   {{#if id}}
-  <li style="background-image:url('/style/activity-{{#removeSpaces}}{{id}}{{/removeSpaces}}.svg');" title="{{#__}}This park has {{name}}{{/__}}" class="{{category}} activity-{{#removeSpaces}}{{id}}{{/removeSpaces}}" onclick="if(viewData.centroid) {location.href='/parks/with/{{id}}?near=' + viewData.centroid.coordinates[1] + ',' + viewData.centroid.coordinates[0];} else {location.href='/parks/with/{{id}}';}">{{name}}</li>
+  <li style="background-image:url('/style/activity-{{#removeSpaces}}{{id}}{{/removeSpaces}}.svg');" title="{{#__}}This park is good for {{name}}{{/__}}" class="{{category}} activity-{{#removeSpaces}}{{id}}{{/removeSpaces}}" onclick="if(viewData.centroid) {location.href='/parks/with/{{id}}?near=' + viewData.centroid.coordinates[1] + ',' + viewData.centroid.coordinates[0];} else {location.href='/parks/with/{{id}}';}">{{name}}</li>
   {{/if}}
 {{/each}}
 </ul>
