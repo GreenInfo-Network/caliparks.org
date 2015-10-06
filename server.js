@@ -11,7 +11,8 @@ var cors       = require('cors'),
     routes     = require("./lib/routes.js"),
     responseTime = require("response-time"),
     activities = require("./config/activities.json"),
-    fs         = require("fs");
+    fs         = require("fs"),
+    cookieParser = require('cookie-parser');
 
 var app            = express();
     module.exports = app;
@@ -56,7 +57,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 // you'll need cookies
-app.use(express.cookieParser());
+app.use(cookieParser());
 
 app.use(cors());
 
