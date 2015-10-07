@@ -1,3 +1,0 @@
-web: node server
-gulp: gulp watch
-sass: sass --watch ./sass:./public/style
