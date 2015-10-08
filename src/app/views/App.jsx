@@ -8,7 +8,8 @@ import Layout from './Layout.jsx';
 export default class App extends Component {
 
   static propTypes = {
-    title: PropTypes.string.isRequired
+    title: PropTypes.string.isRequired,
+    viewdata: PropTypes.object.isRequired
   };
 
   constructor(props) {

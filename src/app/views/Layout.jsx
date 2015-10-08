@@ -1,6 +1,12 @@
-import React from 'react';
+import React, {
+  PropTypes
+} from 'react';
 
 class Layout extends React.Component {
+  static propTypes = {
+    title: PropTypes.string.isRequired,
+    children: PropTypes.optionalNode
+  };
 
   render() {
     return (

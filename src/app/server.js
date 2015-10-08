@@ -27,7 +27,7 @@ app.use(express.static(publicPath));
 const faviconPath = path.join(__dirname, '..', '..', 'build', 'public', 'favicon.ico');
 app.use(favicon(faviconPath));
 
-const viewData = [];
+const viewData = {};
 app.get('*', (req, res) => {
   res.render(req.url, {
     viewdata: viewData,
