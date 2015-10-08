@@ -1,5 +1,10 @@
 .DS_Store
-node_modules/
+node_modules
 *.env
 .sass-cache/
 data/
+npm-debug.log
+# hide builded files on repo
+build/public/*
+!build/.gitkeep
+!build/public/favicon.ico
