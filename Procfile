@@ -1,0 +1,1 @@
+web: babel-node --stage 0 -- ./src/app/server.js

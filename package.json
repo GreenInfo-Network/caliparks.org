@@ -1,0 +1,61 @@
+{
+  "name": "parks.stamen.com",
+  "private": true,
+  "version": "0.1.0",
+  "author": "Sean Connelley connelley@stamen.com",
+  "description": "A nice project about parks",
+  "contributors": [
+    {
+      "name": "Eric Gelinas",
+      "email": "eric@standardpixel.com"
+    }
+  ],
+  "main": "./src/app/server.js",
+  "scripts": {
+    "start": "heroku local -f Procfile",
+    "dev": "RELOAD_PORT=3001&TARGET=development heroku local -f Procfile",
+    "build": "TARGET=production webpack",
+    "deploy": "TARGET=production webpack -p -d"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stamen/caliparks.org/tree/parksforward-redesign"
+  },
+  "bugs": {
+    "url": "https://github.com/stamen/caliparks.org/issues"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=4.1 <5",
+    "npm": ">=3.1 <4"
+  },
+  "dependencies": {
+    "express": "^4.13.3",
+    "react": "^0.13.3",
+    "react-engine": "^2.2.0",
+    "react-router": "^0.13.4",
+    "serve-favicon": "^2.3.0"
+  },
+  "devDependencies": {
+    "babel": "^5.6.14",
+    "babel-core": "^5.8.3",
+    "babel-eslint": "^4.1.3",
+    "babel-loader": "^5.3.2",
+    "babel-runtime": "^5.6.15",
+    "css-loader": "^0.19.0",
+    "eslint": "^1.6.0",
+    "eslint-config-airbnb": "^0.1.0",
+    "eslint-loader": "^1.0.0",
+    "eslint-plugin-react": "^2.7.1",
+    "esprima-fb": "^15001.1.0-dev-harmony-fb",
+    "estraverse": "^4.1.0",
+    "extract-text-webpack-plugin": "^0.8.2",
+    "json-loader": "^0.5.3",
+    "react-hot-loader": "^1.2.8",
+    "sass-loader": "^3.0.0",
+    "style-loader": "^0.12.3",
+    "webpack": "^1.10.5",
+    "webpack-dev-server": "^1.10.1",
+    "webpack-merge": "^0.1.2"
+  }
+}
