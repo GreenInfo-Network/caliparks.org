@@ -1,10 +1,10 @@
 'use strict';
 
 import express from 'express';
-import instagram from './data/instagram';
+import instagram from './data/instagram.js';
 import path from 'path';
-import config from '../config';
-import file from './utils/file';
+import config from '../config.js';
+import file from './utils/file.js';
 
 const router = express.Router();
 
