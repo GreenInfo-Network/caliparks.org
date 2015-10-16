@@ -15,7 +15,10 @@
     "start": "heroku local -f Procfile",
     "dev": "RELOAD_PORT=3001&TARGET=development heroku local -f Procfile",
     "build": "TARGET=production webpack",
-    "deploy": "TARGET=production webpack -p -d"
+    "deploy": "TARGET=production webpack -p -d",
+    "heroku": "git push heroku parksforward-redesign:master",
+    "pull": "git pull origin parksforward-redesign",
+    "push": "git push origin parksforward-redesign"
   },
   "repository": {
     "type": "git",
