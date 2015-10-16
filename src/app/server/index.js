@@ -52,23 +52,6 @@ app.listen(port, () => {
 
 
 // Start hot reload server
-// TODO: Clean this up
-import webpack from 'webpack';
-import wpconfig from '../../../webpack.config.js';
-import WebpackDevServer from 'webpack-dev-server';
-
 if (ENVIRONMENT === 'development') {
-  new WebpackDevServer(webpack(wpconfig), {
-    hot: true,
-    historyApiFallback: true,
-    proxy: {
-      "*": "http://localhost:" + port
-    }
-  }).listen(LIVE_RELOAD_PORT, 'localhost', function (err, result) {
-    if (err) {
-      console.log(err);
-    }
-
-    console.log(`Hot reloading at: http://localhost:${LIVE_RELOAD_PORT}`);
-  });
+ require('./lib/devserver.js')(port, LIVE_RELOAD_PORT);
 }
