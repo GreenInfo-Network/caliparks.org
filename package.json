@@ -60,6 +60,7 @@
     "estraverse": "^4.1.0",
     "extract-text-webpack-plugin": "^0.8.2",
     "json-loader": "^0.5.3",
+    "node-sass": "^3.3.3",
     "react-hot-loader": "^1.2.8",
     "sass-loader": "^3.0.0",
     "style-loader": "^0.12.3",
