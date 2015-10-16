@@ -1,0 +1,47 @@
+nav {
+  padding: 10px 0;
+  overflow: hidden;
+  text-align: center;
+
+  ul {
+    display: inline-block;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  li {
+    float: left;
+    margin: 0 30px;
+  }
+
+  a {
+    display: block;
+    text-decoration: none;
+    text-transform: uppercase;
+
+    h5 {
+      margin: 0;
+    }
+
+    div {
+      display: block;
+      padding: 0;
+      margin: 0;
+      font-size: 1.2rem;
+      line-height: 1;
+      color: $color-base;
+      text-transform: uppercase;
+    }
+  }
+
+}
+
+
+#logo-banner {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}

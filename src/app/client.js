@@ -1,8 +1,13 @@
 import Client from 'react-engine/lib/client';
-import routes from './routes.js';
+import Routes from './routes.js';
 
 // -- Boot Options
-const options = { routes };
+const options = {
+  routes: Routes,
+  viewResolver: function(viewName) {
+    return require('./views/' + viewName);
+  }
+};
 
 document.addEventListener('DOMContentLoaded', function onLoad() {
   Client.boot(options);

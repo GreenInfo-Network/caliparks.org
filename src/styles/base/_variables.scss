@@ -1,0 +1,23 @@
+// -----------------------------------------------------------------------------
+// This file contains all application-wide Sass variables.
+// -----------------------------------------------------------------------------
+
+$max-width: 1600px !default;
+
+$font-stack-main: 'Lato', 'Helvetica Neue Light', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif !default;
+
+$color-base: #000 !default;
+$color-white: #fff !default;
+$color-blue: #358292 !default;
+$color-grey-dark: #33322e !default;
+
+
+
+$depth-1: 1 !default;
+$depth-2: 2 !default;
+$depth-3: 3 !default;
+$depth-4: 4 !default;
+$depth-5: 5 !default;
+$depth-10: 10 !default;
+$depth-100: 100 !default;
+$depth-max: 99999999 !default;

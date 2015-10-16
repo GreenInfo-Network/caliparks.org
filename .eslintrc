@@ -11,7 +11,9 @@
   },
   "globals": {
     "__DEV__": true,
-    "__SERVER__": true
+    "__SERVER__": true,
+    "$":true,
+    "jquery":true
   },
   "ecmaFeatures": {
     "jsx": false,
@@ -29,6 +31,7 @@
     "strict": [2, "never"],
     "comma-dangle": [2, "never"],
     "no-shadow": [0],
+    "no-console": [0],
     "no-use-before-define": [2, "nofunc"],
     "new-cap": [0],
 

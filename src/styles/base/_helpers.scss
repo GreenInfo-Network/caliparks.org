@@ -1,0 +1,22 @@
+// -----------------------------------------------------------------------------
+// This file contains CSS helper classes.
+// -----------------------------------------------------------------------------
+
+.clearfix::after {
+  clear: both;
+  content: '';
+  display: table;
+}
+
+.container {
+  max-width: $max-width; /* 1 */
+  margin-left: auto; /* 2 */
+  margin-right: auto; /* 2 */
+  padding-left: 0; /* 3 */
+  padding-right: 0; /* 3 */
+  width: 100%; /* 1 */
+ }
+
+ .pos-relative {
+  position: relative;
+ }

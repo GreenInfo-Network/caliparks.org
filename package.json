@@ -31,9 +31,14 @@
   },
   "dependencies": {
     "express": "^4.13.3",
+    "glob": "^5.0.15",
+    "jquery": "^2.1.4",
+    "pg": "^4.4.2",
     "react": "^0.13.3",
-    "react-engine": "^2.2.0",
+    "react-engine": "^2.3.0",
     "react-router": "^0.13.4",
+    "react-slick": "^0.8.0",
+    "require-env": "0.0.4",
     "serve-favicon": "^2.3.0"
   },
   "devDependencies": {

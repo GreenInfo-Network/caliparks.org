@@ -1,3 +1,20 @@
-body {
-  background: #fff000;
-}
+@charset 'UTF-8';
+
+@import 'vendor/normalize';
+
+@import 'base/variables';
+
+// utils
+@import 'utils/functions';
+@import 'utils/mixins';
+
+// base
+@import 'base/base';
+@import 'base/helpers';
+@import 'base/typography';
+
+// layout
+@import 'layout/nav';
+@import 'layout/home';
+
+// components

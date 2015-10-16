@@ -4,6 +4,7 @@ node_modules
 .sass-cache/
 data/
 npm-debug.log
+.ai
 # hide builded files on repo
 build/public/*
 !build/.gitkeep
