@@ -3,6 +3,8 @@ node_modules
 *.env
 .sass-cache/
 npm-debug.log
+data/
+!src/app/server/data
 .ai
 # hide builded files on repo
 build/public/*
