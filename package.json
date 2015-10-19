@@ -13,7 +13,7 @@
   "main": "./src/app/server.js",
   "scripts": {
     "start": "heroku local -f Procfile",
-    "dev": "RELOAD_PORT=3001&TARGET=development heroku local -f Procfile",
+    "dev": "RELOAD_PORT=3001 TARGET=development heroku local -f Procfile",
     "build": "TARGET=production webpack",
     "deploy": "TARGET=production webpack -p -d"
   },
