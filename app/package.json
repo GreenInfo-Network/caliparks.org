@@ -17,8 +17,6 @@
     "webpack:dev": "rm -rf public/bundle.js && webpack --config ./webpack.config.dev.js",
     "webpack:prod": "rm -rf public/bundle.js && webpack --config ./webpack.config.prod.js",
     "brow": "webpack -t reactify -t require-globify public/index.js -o public/bundle.js",
-    "pull": "git pull origin parksforward-redesign",
-    "push": "git push origin parksforward-redesign",
     "heroku": "git push heroku parksforward-redesign:master",
     "postinstall": "npm run webpack:prod"
   },

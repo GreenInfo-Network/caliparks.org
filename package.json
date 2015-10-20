@@ -11,7 +11,10 @@
     }
   ],
   "main": "./src/app/server.js",
-  "scripts": {},
+  "scripts": {
+    "pull": "git pull origin parksforward-redesign",
+    "push": "git push origin parksforward-redesign"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/stamen/caliparks.org/tree/parksforward-redesign"
