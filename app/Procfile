@@ -1,0 +1,1 @@
+web: node ./node_modules/babel/bin/babel-node --stage 0 server/index.js
