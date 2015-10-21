@@ -11,10 +11,6 @@ class Home extends React.Component {
     ]).isRequired
   };
 
-  state = {
-    parks: []
-  };
-
   constructor(props) {
     super(props);
 
@@ -23,6 +19,10 @@ class Home extends React.Component {
       this.state = {parks: data.parks};
     }
   }
+
+  state = {
+    parks: []
+  };
 
   componentDidMount() {
     const that = this;

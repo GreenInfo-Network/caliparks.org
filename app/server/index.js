@@ -1,9 +1,25 @@
 import path from 'path';
+import {sync as globSync} from 'glob';
+import {readFileSync} from 'fs';
 import express from 'express';
 import renderer from 'react-engine';
 import favicon from 'serve-favicon';
+import locale from "locale";
+import cookieParser from 'cookie-parser';
 import dataStore from '../services/store';
 import config from '../config';
+
+
+const translations = globSync(path.join(__dirname, '../locales/*.json'))
+    .map((filename) => [
+        path.basename(filename, '.json'),
+        readFileSync(filename, 'utf8'),
+    ])
+    .map(([locale, file]) => [locale, JSON.parse(file)])
+    .reduce((collection, [locale, messages]) => {
+        collection[locale] = messages;
+        return collection;
+    }, {});
 
 const app = express();
 const PORT = process.env.PORT || config.app.port || 3000;
@@ -28,11 +44,39 @@ app.set('view engine', 'jsx');
 // finally, set the custom view
 app.set('view', renderer.expressView);
 
+app.use(cookieParser());
+
 // favicon
 app.use(favicon(path.join(__dirname, '../public/assets/favicon.ico')));
 
 //expose public folder as static assets
 app.use(express.static(path.join(__dirname, '../public')));
+
+locale.Locale.default = config.locales[0];
+app.use(locale(config.locales));
+app.use((req, res, next) => {
+  console.log('Detected locale (from browser) is %s', req.locale);
+
+  // Locale can be changed by passing ?hl=<locale> in the querystring
+  if (req.query.hl) {
+    // But only the supported ones!
+    if (config.locales.indexOf(req.query.hl) > -1) {
+      req.locale = req.query.hl;
+      console.log('Locale has been set from querystring: %s', req.locale);
+    }
+  }
+
+  // TODO: make cookies work
+  // Or by setting a `hl` cookie
+  else if (req.cookies && req.cookies.hl) {
+    if (config.locales.indexOf(req.cookies.hl) > -1) {
+      req.locale = req.cookies.hl;
+      console.log('Locale has been set from cookie: %s', req.locale);
+    }
+  }
+
+  next();
+});
 
 let loadHeaderImages = true;
 let headerImages = [];
@@ -56,7 +100,6 @@ function getInitialPayload(callback) {
 // These basically are only called on initial load
 // TODO: Move to separate file
 app.get('/', (req, res, next) => {
-  console.log(req.originalUrl)
   if (req.originalUrl !== '/favicon.ico') {
     getInitialPayload((images) => {
       let parks = [];
@@ -67,6 +110,8 @@ app.get('/', (req, res, next) => {
       }).then(() => {
         res.render(req.originalUrl, {
           title: config.app.name,
+          messages: translations[req.locale],
+          lang: req.locale,
           viewdata: {
             header: images,
             parks: parks

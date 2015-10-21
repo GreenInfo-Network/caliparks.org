@@ -1,8 +1,26 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import Slider from 'react-slick';
 import { Link } from 'react-router';
 
 class SliderBase extends React.Component {
+
+  static propTypes = {
+    klass: PropTypes.string,
+    propKey: PropTypes.string,
+    overlay: PropTypes.bool,
+    images: PropTypes.array,
+    clickHandler: PropTypes.func,
+    settings: PropTypes.object.isRequired
+  };
+
+  static defaultProps = {
+    klass: '',
+    propKey: null,
+    overlay: false,
+    images: [],
+    clickHandler: ()=>{},
+    settings: {}
+  };
 
   constructor(props) {
     super(props);
@@ -10,18 +28,18 @@ class SliderBase extends React.Component {
 
   componentDidMount() { }
 
-  componentDidUpdate() { }
-
   shouldComponentUpdate() {
     return true;
   }
 
-  imgError(evt) {
-    console.log('EVT: ', evt.target);
-  }
+  componentDidUpdate() { }
 
   onClick(evt) {
     if (typeof this.props.clickHandler === 'function') this.props.clickHandler(evt.target);
+  }
+
+  imgError(evt) {
+    console.log('EVT: ', evt.target);
   }
 
   makeSlides() {
@@ -32,7 +50,7 @@ class SliderBase extends React.Component {
     if (!this.props.images) return [];
     if (!this.props.images.length) return [];
 
-    return this.props.images.map(function(row, idx) {
+    return this.props.images.map((row, idx) => {
       const url = (propKey) ? row[propKey] : row;
 
       if (!overlay) return (<div key={idx}><img src={url} onError={that.imgError} onClick={that.onClick}/></div>);
