@@ -97,3 +97,28 @@ a {
     }
   }
 }
+
+.locale-switcher {
+  position: fixed;
+  right:5px;
+  top: 5px;
+  z-index: $depth-10;
+
+  a {
+    text-decoration: none;
+    line-height: 1;
+    margin-left: 5px;
+    padding: 5px;
+    color: $color-base;
+    background: rgba(255,255,255,0.6);
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+    &.active {
+      pointer-events: none;
+      opacity: 0.6;
+    }
+  }
+}

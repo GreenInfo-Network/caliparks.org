@@ -1,11 +1,13 @@
 import React, { PropTypes } from 'react';
-import Nav from './nav.jsx';
+import Nav from './nav';
+import LocaleSwitcher from './localeSwitcher';
 import Slider from 'react-slick';
 
 class Header extends React.Component {
 
   static propTypes = {
     title: PropTypes.string.isRequired,
+    lang: PropTypes.string.isRequired,
     viewdata: PropTypes.oneOfType([
       PropTypes.object,
       PropTypes.array
@@ -53,6 +55,7 @@ class Header extends React.Component {
 
     return (
       <header>
+        <LocaleSwitcher current={this.props.lang} />
         <div className='pos-relative'>
           <div id='logo-banner'>
             <img src='assets/svgs/header-banner.svg'/>

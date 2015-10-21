@@ -52,25 +52,27 @@ app.use(favicon(path.join(__dirname, '../public/assets/favicon.ico')));
 //expose public folder as static assets
 app.use(express.static(path.join(__dirname, '../public')));
 
-locale.Locale.default = config.locales[0];
-app.use(locale(config.locales));
+const availableLocales = Object.keys(config.locales.available);
+const localeCookieName = config.locales.cookie;
+
+locale.Locale.default = availableLocales[0];
+app.use(locale(availableLocales));
 app.use((req, res, next) => {
   console.log('Detected locale (from browser) is %s', req.locale);
 
   // Locale can be changed by passing ?hl=<locale> in the querystring
   if (req.query.hl) {
     // But only the supported ones!
-    if (config.locales.indexOf(req.query.hl) > -1) {
+    if (availableLocales.indexOf(req.query.hl) > -1) {
       req.locale = req.query.hl;
       console.log('Locale has been set from querystring: %s', req.locale);
     }
   }
 
-  // TODO: make cookies work
-  // Or by setting a `hl` cookie
-  else if (req.cookies && req.cookies.hl) {
-    if (config.locales.indexOf(req.cookies.hl) > -1) {
-      req.locale = req.cookies.hl;
+  // Or by setting cookie
+  else if (req.cookies && req.cookies[localeCookieName]) {
+    if (availableLocales.indexOf(req.cookies[localeCookieName]) > -1) {
+      req.locale = req.cookies[localeCookieName];
       console.log('Locale has been set from cookie: %s', req.locale);
     }
   }
