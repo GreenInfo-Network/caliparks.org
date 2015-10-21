@@ -29,6 +29,7 @@ class Home extends React.Component {
     const data = this.props.viewdata;
     if (!data.parks || data.parks.length === 0) {
       api.get('parks', {}).then((data) => {
+        console.log(data);
         that.setState({parks: data});
       })
       .catch((err) => {

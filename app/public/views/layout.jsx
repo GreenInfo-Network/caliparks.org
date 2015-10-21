@@ -1,11 +1,17 @@
 import React, {PropTypes} from 'react';
+import Header from '../components/header.jsx';
 
 class Layout extends React.Component {
   static propTypes = {
     title: PropTypes.string.isRequired,
+    viewdata: PropTypes.oneOfType([
+      PropTypes.object,
+      PropTypes.array
+    ]).isRequired,
     children: PropTypes.oneOfType([
       PropTypes.renderable
     ]).isRequired
+
   };
 
   render() {
@@ -23,10 +29,13 @@ class Layout extends React.Component {
         </head>
         <body>
           <div className='container'>
-            { this.props.children }
+            <Header {...this.props}/>
+            <main role='application'>
+              { this.props.children }
+            </main>
           </div>
+          <script src='/bundle.js'></script>
         </body>
-        <script src='/bundle.js'></script>
       </html>
     );
   }

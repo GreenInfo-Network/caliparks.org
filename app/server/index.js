@@ -12,7 +12,8 @@ const ENVIRONMENT = process.env.NODE_ENV || 'production';
 // create the view engine with `react-engine`
 const engine = renderer.server.create({
   routes: require(path.join(__dirname, '../public/routes.jsx')),
-  routesFilePath: path.join(__dirname, '../public/routes.jsx') // optional, enables live reloading of React routes and components
+  routesFilePath: path.join(__dirname, '../public/routes.jsx'), // optional, enables live reloading of React routes and components
+  page404: require(path.join(__dirname, '../public/views/404.jsx'))
 });
 
 // set the engine
@@ -55,22 +56,27 @@ function getInitialPayload(callback) {
 // These basically are only called on initial load
 // TODO: Move to separate file
 app.get('/', (req, res, next) => {
-  getInitialPayload((images) => {
-    let parks = [];
-    dataStore.db.photos({}).then((data) => {
-      parks = data;
-    }).catch((err) => {
-      console.log('Err: ', err);
-    }).then(() => {
-      res.render(req.url, {
-        title: config.app.name,
-        viewdata: {
-          header: images,
-          parks: parks
-        }
+  console.log(req.originalUrl)
+  if (req.originalUrl !== '/favicon.ico') {
+    getInitialPayload((images) => {
+      let parks = [];
+      dataStore.db.photos({}).then((data) => {
+        parks = data;
+      }).catch((err) => {
+        console.log('Err: ', err);
+      }).then(() => {
+        res.render(req.originalUrl, {
+          title: config.app.name,
+          viewdata: {
+            header: images,
+            parks: parks
+          }
+        });
       });
     });
-  });
+  } else {
+     next();
+  }
 });
 
 app.get('/parks', (req, res, next) => {
@@ -120,7 +126,6 @@ app.get('/wander', (req, res, next) => {
     });
   });
 });
-
 
 // Handles XHR based requests
 app.get('/api/xhr/:id', (req, res, next) => {
