@@ -3,3 +3,5 @@ node_modules
 *.env
 .sass-cache
 npm-debug.log
+public/bundle.*
+public/styles.*
