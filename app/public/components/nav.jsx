@@ -9,7 +9,7 @@ class Nav extends React.Component {
       <nav>
         <ul>
           <li>
-            <Link to='/explore' poo='foo'>
+            <Link to='/explore'>
               <h5>
                 <FormattedMessage
                   id='Explore'
@@ -31,7 +31,7 @@ class Nav extends React.Component {
             </Link>
           </li>
           <li>
-            <Link to='/'>
+            <Link to='/wander'>
               <h5>
                 <FormattedMessage
                   id='Wander'

@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react';
-import App from './app.jsx';
+import App from './app';
 import {IntlProvider, addLocaleData} from 'react-intl';
 import en from '../../node_modules/react-intl/lib/locale-data/en';
 import es from '../../node_modules/react-intl/lib/locale-data/es';

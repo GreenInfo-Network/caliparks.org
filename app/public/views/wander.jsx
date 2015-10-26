@@ -6,7 +6,7 @@ class Wander extends React.Component {
 
   render() {
     return (
-      <section>
+      <section className='sub-view'>
         <h1>Wander</h1>
       </section>
     );

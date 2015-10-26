@@ -5,17 +5,13 @@ import SliderBase  from '../components/sliderBase.jsx';
 class Home extends React.Component {
 
   static propTypes = {
-    viewdata: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.array
-    ]).isRequired
+    payload: PropTypes.object.isRequired
   };
 
   constructor(props) {
     super(props);
-
-    const data = this.props.viewdata;
-    if (data.parks || data.parks.length > 0) {
+    const data = this.props.payload.viewdata;
+    if (data.parks && data.parks.length > 0) {
       this.state = {parks: data.parks};
     }
   }
@@ -26,10 +22,10 @@ class Home extends React.Component {
 
   componentDidMount() {
     const that = this;
-    const data = this.props.viewdata;
+    const data = this.props.payload.viewdata;
     if (!data.parks || data.parks.length === 0) {
       api.get('parks', {}).then((data) => {
-        console.log(data);
+        // console.log(data);
         that.setState({parks: data});
       })
       .catch((err) => {

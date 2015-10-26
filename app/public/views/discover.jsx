@@ -6,7 +6,7 @@ class Discover extends React.Component {
 
   render() {
     return (
-      <section>
+      <section className='sub-view'>
         <h1>Discover</h1>
       </section>
     );

@@ -18,9 +18,7 @@ class Header extends React.Component {
     super(props);
   }
 
-  componentDidMount() {
-
-  }
+  componentDidMount() { }
 
   shouldComponentUpdate() {
     return true;
@@ -50,6 +48,8 @@ class Header extends React.Component {
       slidesToShow: 1,
       slidesToScroll: 1,
       centerMode: true,
+      variableWidth: true,
+      adaptiveHeight: true,
       centerPadding: '100px'
     };
 

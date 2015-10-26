@@ -122,3 +122,66 @@ a {
     }
   }
 }
+
+body {
+  height: 100vh;
+  overflow: hidden;
+}
+.container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  transition: transform 1s ease;
+}
+.container.sub-section {
+  transform: translate3d(0px,-864px,0px);
+}
+.container.goto-home {
+  transform: translate3d(0px,0px,0px);
+}
+
+.fullpage {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+
+.sub-nav {
+  position: absolute;
+  background: #fff;
+  width: 100%;
+  height: auto;
+  color: black;
+  text-align: center;
+  height: 50px;
+
+  h1 {
+    line-height: 50px;
+    margin: 0;
+    font-weight: bold;
+  }
+}
+
+.sub-view {
+  position: relative;
+  top: 66px;
+  height: calc(100vh - 66px);
+}
+
+.example-enter {
+  opacity: 0.01;
+  transition: opacity 1s ease-in;
+}
+
+.example-enter.example-enter-active {
+  opacity: 1;
+}
+
+.example-leave {
+  opacity: 1;
+  transition: opacity .5s ease-in;
+}
+
+.example-leave.example-leave-active {
+  opacity: 0;
+}

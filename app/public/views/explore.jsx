@@ -11,7 +11,7 @@ class Explore extends React.Component {
   };
 
   componentDidMount() {
-    const data = this.props.viewdata;
+    const data = this.props.payload.viewdata;
     if (!data.stories || data.stories.length === 0) {
       api.get('stories', {}).then((data) => {
         console.log(data);
@@ -24,7 +24,7 @@ class Explore extends React.Component {
 
   render() {
     return (
-      <section>
+      <section className='sub-view'>
         <h1>Explore</h1>
       </section>
     );

@@ -77,6 +77,7 @@ app.use((req, res, next) => {
     }
   }
 
+  res.locals.messages = translations[req.locale] || translations['en'];
   next();
 });
 
@@ -101,25 +102,31 @@ function getInitialPayload(callback) {
 // routes
 // These basically are only called on initial load
 // TODO: Move to separate file
+//
+app.use('/', (req, res, next) => {
+  getInitialPayload((images) => {
+    res.locals.payload = {
+      title: config.app.name,
+      messages: res.locals.messages,
+      lang: req.locale,
+      viewdata: {
+        header: images
+      }
+    };
+    next();
+  });
+});
+
 app.get('/', (req, res, next) => {
   if (req.originalUrl !== '/favicon.ico') {
-    getInitialPayload((images) => {
-      let parks = [];
-      dataStore.db.photos({}).then((data) => {
-        parks = data;
-      }).catch((err) => {
-        console.log('Err: ', err);
-      }).then(() => {
-        res.render(req.originalUrl, {
-          title: config.app.name,
-          messages: translations[req.locale],
-          lang: req.locale,
-          viewdata: {
-            header: images,
-            parks: parks
-          }
-        });
-      });
+    let parks = [];
+    dataStore.db.photos({}).then((data) => {
+      parks = data;
+    }).catch((err) => {
+      console.log('Err: ', err);
+    }).then(() => {
+      res.locals.payload.viewdata.parks = parks;
+      res.render(req.originalUrl);
     });
   } else {
      next();
@@ -131,47 +138,19 @@ app.get('/parks', (req, res, next) => {
 });
 
 app.get('/parks/:id(\\d{3,6})', (req, res, next) => {
-  getInitialPayload((images) => {
-    res.render(req.url, {
-      title: config.app.name,
-      viewdata: {
-        header: images
-      }
-    });
-  });
+  res.render(req.originalUrl);
 });
 
 app.get('/explore', (req, res, next) => {
-  getInitialPayload((images) => {
-    res.render(req.url, {
-      title: config.app.name,
-      viewdata: {
-        header: images
-      }
-    });
-  });
+  res.render(req.originalUrl);
 });
 
 app.get('/discover', (req, res, next) => {
-  getInitialPayload((images) => {
-    res.render(req.url, {
-      title: config.app.name,
-      viewdata: {
-        header: images
-      }
-    });
-  });
+  res.render(req.originalUrl);
 });
 
 app.get('/wander', (req, res, next) => {
-  getInitialPayload((images) => {
-    res.render(req.url, {
-      title: config.app.name,
-      viewdata: {
-        header: images
-      }
-    });
-  });
+  res.render(req.originalUrl);
 });
 
 // Handles XHR based requests
@@ -203,10 +182,8 @@ app.get('/api/db/:id', (req, res, next) => {
 
 // 404 template
 app.use((req, res, next) => {
-  res.render('404', {
-    title: config.app.name,
-    url: req.url
-  });
+  res.locals.payload.url = req.url;
+  res.render('404');
 });
 
 const server = app.listen(PORT, () => {
@@ -217,5 +194,3 @@ const server = app.listen(PORT, () => {
 if (ENVIRONMENT === 'development') {
  require('./lib/hotserver.js')(PORT, process.env.RELOAD_PORT || 3001);
 }
-
-
