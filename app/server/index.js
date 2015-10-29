@@ -24,6 +24,7 @@ const translations = globSync(path.join(__dirname, '../locales/*.json'))
 const app = express();
 const PORT = process.env.PORT || config.app.port || 3000;
 const ENVIRONMENT = process.env.NODE_ENV || 'production';
+const GOOGLE_APP_KEY = process.env.GOOGLE_APP_KEY || null;
 
 // create the view engine with `react-engine`
 const engine = renderer.server.create({
@@ -109,6 +110,7 @@ app.use('/', (req, res, next) => {
       title: config.app.name,
       messages: res.locals.messages,
       lang: req.locale,
+      gak: GOOGLE_APP_KEY,
       viewdata: {
         header: images
       }

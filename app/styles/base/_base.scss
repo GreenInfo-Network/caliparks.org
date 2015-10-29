@@ -13,6 +13,11 @@ html {
 
 body {}
 
+.container {
+  @include container();
+  max-width: $max-width;
+}
+
 main {
   background: $color-grey-dark;
   color: $color-white;
@@ -22,6 +27,7 @@ a {
   color: $color-blue;
 }
 
+// slick gallery
 .slider-home.slick-slider {
   margin-bottom: 0;
 }
@@ -98,6 +104,7 @@ a {
   }
 }
 
+// locale switcher
 .locale-switcher {
   position: fixed;
   right:5px;
@@ -123,16 +130,17 @@ a {
   }
 }
 
+// full page scrolling
 body {
   height: 100vh;
   overflow: hidden;
 }
+
 .container {
-  position: relative;
-  width: 100vw;
   height: 100vh;
   transition: transform 1s ease;
 }
+
 .container.sub-section {
   transform: translate3d(0px,-864px,0px);
 }
@@ -153,19 +161,42 @@ body {
   height: auto;
   color: black;
   text-align: center;
-  height: 50px;
+  height: 66px;
 
   h1 {
-    line-height: 50px;
+    line-height: 66px;
     margin: 0;
-    font-weight: bold;
+    font-weight: 400;
+    text-transform: uppercase;
+
+    a {
+      text-decoration: none;
+    }
   }
 }
 
 .sub-view {
   position: relative;
-  top: 66px;
-  height: calc(100vh - 66px);
+  top: 74px;
+  height: calc(100vh - 74px);
+  padding: 15px 8px 8px;
+
+  &.theme-white {
+    background-color: #fff;
+    color: #000;
+  }
+
+  .arrow {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 0;
+    height: 0;
+    margin-left: -8px;
+    border-style: solid;
+    border-width: 8px 8px 0 8px;
+    border-color: $color-grey-dark transparent transparent transparent;
+  }
 }
 
 .example-enter {

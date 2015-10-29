@@ -12,15 +12,27 @@
   display: none;
 }
 
-.container {
-  max-width: $max-width; /* 1 */
-  margin-left: auto; /* 2 */
-  margin-right: auto; /* 2 */
-  padding-left: 0; /* 3 */
-  padding-right: 0; /* 3 */
-  width: 100%; /* 1 */
- }
-
- .pos-relative {
+.pos-relative {
   position: relative;
- }
+}
+.height-full {
+  height: 100%;
+}
+
+.row { @include row(); }
+.col-one { @include columns(1); }
+.col-two { @include columns(2); }
+.col-three { @include columns(3); }
+.col-four { @include columns(4); }
+.col-five { @include columns(5); }
+.col-six { @include columns(6); }
+.col-seven { @include columns(7); }
+.col-eight { @include columns(8); }
+.col-nine { @include columns(9); }
+.col-ten { @include columns(10); }
+.col-eleven { @include columns(11); }
+.col-twelve { @include columns(12); }
+.col-thirteen { @include columns(13); }
+.col-fourteen { @include columns(14); }
+.col-fifteen { @include columns(15); }
+.col-sixteen { @include columns(16); }

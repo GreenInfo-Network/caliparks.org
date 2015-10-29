@@ -55,7 +55,7 @@ class App extends React.Component {
 
         <main role='application' className='fullpage' style={{height: windowHeight}}>
           <div className='sub-nav'>
-            <Link to='/'><h1>Caliparks</h1></Link>
+            <h1><Link to='/'>Caliparks</Link></h1>
           </div>
           <ReactCSSTransitionGroup component='div' transitionName='example' transitionEnterTimeout={300} transitionLeaveTimeout={300}>
             {React.cloneElement(this.props.children || <div />, { key: pathname })}

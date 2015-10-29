@@ -9,9 +9,10 @@
 @import 'utils/mixins';
 
 // base
+@import 'base/grid';
+@import 'base/typography';
 @import 'base/base';
 @import 'base/helpers';
-@import 'base/typography';
 
 // layout
 @import 'layout/nav';
