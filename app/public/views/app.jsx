@@ -1,10 +1,11 @@
 import React, {PropTypes} from 'react';
-import { Link } from 'react-router';
 import Header from '../components/header';
 import Home from './home';
 import Explore from './explore';
 import Discover from './discover';
 import Footer from '../partials/footer';
+import StickyNav from '../partials/sticky-nav';
+import Schticky from 'react-sticky';
 
 class App extends React.Component {
   static propTypes = {
@@ -37,9 +38,9 @@ class App extends React.Component {
         <Header {...this.props.payload} />
         <Home {...this.props} />
         <main role='application'>
-          <div className='sub-nav'>
-            <h1><Link to='/'>Caliparks</Link></h1>
-          </div>
+          <Schticky>
+            <StickyNav />
+          </Schticky>
           <Explore {...this.props} />
           <Discover {...this.props} />
         </main>

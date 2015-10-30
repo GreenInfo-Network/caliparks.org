@@ -1,3 +1,35 @@
 .home-slider-wrap {
+  position: relative;
   padding: 10px 0;
+
+  background: $color-grey-dark;
+
+   &::before {
+      content:' ';
+      position: absolute;
+      display: block;
+      top: -8px;
+      left: 50%;
+      width: 0;
+      height: 0;
+      margin-left: -4px;
+      border-style: solid;
+      border-width: 0 8px 8px 8px;
+      border-color: transparent transparent $color-grey-dark transparent;
+    }
+
+    &::after {
+      content:' ';
+      position: absolute;
+      display: block;
+      bottom: -8px;
+      left: 50%;
+      width: 0;
+      height: 0;
+      margin-left: -4px;
+      border-style: solid;
+      border-width: 8px 8px 0 8px;
+      border-color: $color-grey-dark transparent transparent transparent;
+      z-index: 1;
+    }
 }

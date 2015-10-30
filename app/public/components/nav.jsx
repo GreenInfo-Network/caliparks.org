@@ -9,7 +9,7 @@ class Nav extends React.Component {
       <nav>
         <ul>
           <li>
-            <Link to='/explore'>
+            <a href='#explore'>
               <h5>
                 <FormattedMessage
                   id='Explore'
@@ -17,10 +17,10 @@ class Nav extends React.Component {
                 />
               </h5>
               <div><span>See what's happening in<br/>parks near you</span></div>
-            </Link>
+            </a>
           </li>
           <li>
-            <Link to='/discover'>
+            <a href='#discover'>
               <h5>
                 <FormattedMessage
                   id='Discover'
@@ -28,7 +28,7 @@ class Nav extends React.Component {
                 />
               </h5>
               <div><span>Learn more about parks<br/>across the state</span></div>
-            </Link>
+            </a>
           </li>
           <li>
             <Link to='/wander'>

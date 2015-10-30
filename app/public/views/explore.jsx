@@ -22,20 +22,20 @@ class Explore extends React.Component {
 
   render() {
     const options = [
-        { value: 'today', label: 'Today' },
-        { value: 'yesterday', label: 'Yesterday' },
-        { value: 'week-now', label: 'This week' },
-        { value: 'week-last', label: 'Last week' },
-        { value: 'month-now', label: 'This month' },
-        { value: 'month-last', label: 'Last month' },
-        { value: 'season-now', label: 'This season' },
-        { value: 'season-last', label: 'Last season' },
-        { value: 'year-now', label: 'This year' },
-        { value: 'year-last', label: 'Last year' }
+      { value: 'today', label: 'Today' },
+      { value: 'yesterday', label: 'Yesterday' },
+      { value: 'week-now', label: 'This week' },
+      { value: 'week-last', label: 'Last week' },
+      { value: 'month-now', label: 'This month' },
+      { value: 'month-last', label: 'Last month' },
+      { value: 'season-now', label: 'This season' },
+      { value: 'season-last', label: 'Last season' },
+      { value: 'year-now', label: 'This year' },
+      { value: 'year-last', label: 'Last year' }
     ];
 
     return (
-      <div id='explore' className='row theme-white'>
+      <div id='explore' name='explore' className='row theme-white'>
         <div className='col-four'>
           <div className='center-align-container'>
             <h4 className='uppercase'>Explore</h4>
@@ -48,6 +48,7 @@ class Explore extends React.Component {
                 name='park-top-ten-picker'
                 value='week-now'
                 options={options}
+                clearable={false}
                 onChange={this.logChange} />
             </div>
           </div>

@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react';
 import api from '../../services/xhr.js';
 import Slider from 'react-slick';
+import { Link } from 'react-router';
 
 class Home extends React.Component {
 
@@ -39,13 +40,19 @@ class Home extends React.Component {
 
   componentWillUnmount() { }
 
+  imgError(evt) {
+    console.log('EVT: ', evt.target);
+  }
+
   makeSlides() {
+    const that = this;
     return this.state.parks.map((row, idx) => {
       return (
         <div key={idx}>
-          <div>
-            <img src={row.standard_resolution}/>
-          </div>
+          <Link to={`/park/${row.su_id}`}>
+            <div className='overlay'><p className='place'>{row.su_name}</p></div>
+            <img src={row.standard_resolution} onError={that.imgError}/>
+          </Link>
         </div>
         );
     });

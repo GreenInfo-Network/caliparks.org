@@ -61,7 +61,7 @@ class Header extends React.Component {
           <div id='logo-banner'>
             <img src='assets/svgs/header-banner.svg'/>
           </div>
-          <div ref='slider' className='slider-home' style={{height: '332px'}}>
+          <div ref='slider' className='slider-home' style={{height: '332px', overflow: 'hidden'}}>
             <Slider {...settings}>
               {this.makeSlides()}
             </Slider>

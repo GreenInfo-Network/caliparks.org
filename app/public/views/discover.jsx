@@ -58,6 +58,7 @@ class Discover extends React.Component {
                       name='park-activity-sorter'
                       value='popular'
                       options={options}
+                      clearable={false}
                       onChange={this.logChange} />
                   </div>
                 </div>

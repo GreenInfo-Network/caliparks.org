@@ -18,8 +18,11 @@
 // layout
 @import 'layout/nav';
 @import 'layout/home';
+@import 'layout/explore';
 @import 'layout/discover';
 @import 'layout/footer';
 
 // components
 @import '../node_modules/react-select/dist/default.css';
+@import 'components/slider';
+@import 'components/locale-switcher';
