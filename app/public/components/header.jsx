@@ -48,8 +48,9 @@ class Header extends React.Component {
       slidesToShow: 1,
       slidesToScroll: 1,
       centerMode: true,
+      initialSlide: 0,
       variableWidth: true,
-      adaptiveHeight: true,
+      adaptiveHeight: false,
       centerPadding: '100px'
     };
 
@@ -60,7 +61,7 @@ class Header extends React.Component {
           <div id='logo-banner'>
             <img src='assets/svgs/header-banner.svg'/>
           </div>
-          <div ref='slider' className='slider-home'>
+          <div ref='slider' className='slider-home' style={{height: '332px'}}>
             <Slider {...settings}>
               {this.makeSlides()}
             </Slider>

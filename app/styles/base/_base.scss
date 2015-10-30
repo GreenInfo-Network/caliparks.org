@@ -27,9 +27,43 @@ a {
   color: $color-blue;
 }
 
-// slick gallery
-.slider-home.slick-slider {
+.btn {
+  display: inline-block;
+  padding: 6px 10px;
   margin-bottom: 0;
+  background: transparent;
+  background-image: none;
+  border: 1px solid transparent;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  outline: 0;
+
+  svg {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 0;
+  }
+}
+
+.btn:focus {
+  outline: 0;
+}
+
+// slick gallery
+.slick-slider {
+  display: none;
+  margin-bottom: 0;
+}
+.slick-initialized.slick-slider {
+  display: block;
 }
 
 .slick-slide {
@@ -130,32 +164,13 @@ a {
   }
 }
 
-// full page scrolling
-body {
-  height: 100vh;
-  overflow: hidden;
-}
-
-.container {
-  height: 100vh;
-  transition: transform 1s ease;
-}
-
-.container.sub-section {
-  transform: translate3d(0px,-864px,0px);
-}
-.container.goto-home {
-  transform: translate3d(0px,0px,0px);
-}
-
-.fullpage {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
+.theme-white {
+  background: white;
+  color: black;
 }
 
 .sub-nav {
-  position: absolute;
+  position: relative;
   background: #fff;
   width: 100%;
   height: auto;
@@ -175,44 +190,10 @@ body {
   }
 }
 
-.sub-view {
-  position: relative;
-  top: 74px;
-  height: calc(100vh - 74px);
-  padding: 15px 8px 8px;
+#explore {
+  height: 700px;
 
-  &.theme-white {
-    background-color: #fff;
-    color: #000;
+  &>div {
+    height: 100%;
   }
-
-  .arrow {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    width: 0;
-    height: 0;
-    margin-left: -8px;
-    border-style: solid;
-    border-width: 8px 8px 0 8px;
-    border-color: $color-grey-dark transparent transparent transparent;
-  }
-}
-
-.example-enter {
-  opacity: 0.01;
-  transition: opacity 1s ease-in;
-}
-
-.example-enter.example-enter-active {
-  opacity: 1;
-}
-
-.example-leave {
-  opacity: 1;
-  transition: opacity .5s ease-in;
-}
-
-.example-leave.example-leave-active {
-  opacity: 0;
 }

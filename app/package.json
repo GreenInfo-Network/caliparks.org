@@ -56,7 +56,7 @@
     "react-engine": "git@github.com:paypal/react-engine.git#v3.x",
     "react-intl": "^2.0.0-pr-3",
     "react-router": "1.0.0-rc3",
-    "react-slick": "^0.9.0-rc1",
+    "react-slick": "stamen/react-slick#0.14",
     "sass-loader": "^3.0.0",
     "serve-favicon": "^2.3.0",
     "style-loader": "^0.13.0",

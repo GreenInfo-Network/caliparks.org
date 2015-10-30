@@ -15,8 +15,13 @@
 .pos-relative {
   position: relative;
 }
+
 .height-full {
   height: 100%;
+}
+
+.uppercase {
+  text-transform: uppercase;
 }
 
 .row { @include row(); }
@@ -36,3 +41,4 @@
 .col-fourteen { @include columns(14); }
 .col-fifteen { @include columns(15); }
 .col-sixteen { @include columns(16); }
+.offset-one { @include offset(1); }

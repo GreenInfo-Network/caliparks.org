@@ -150,14 +150,14 @@ $botMinWidth: 480px;
 
 @mixin offset($num: 1) {
   $offset: 2 * $margin;
-  padding-left: skeleton-column-width($num, $base-width) + $offset;
+  margin-left: skeleton-column-width($num, $base-width) + $offset;
 
   @media only screen and (min-width: $botMaxWidth ) and (max-width: $topMaxWidth ) {
-    padding-left: skeleton-column-width($num, $tablet-width) + $offset;
+    margin-left: skeleton-column-width($num, $tablet-width) + $offset;
   }
 
   @media only screen and (max-width: $medMaxWidth ) {
-    padding-left: 0;
+    margin-left: 0;
   }
 }
 

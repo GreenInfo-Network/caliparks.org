@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 import api from '../../services/xhr.js';
-import SliderBase  from '../components/sliderBase.jsx';
+import Slider from 'react-slick';
 
 class Home extends React.Component {
 
@@ -22,14 +22,15 @@ class Home extends React.Component {
 
   componentDidMount() {
     const that = this;
-    const data = this.props.payload.viewdata;
-    if (!data.parks || data.parks.length === 0) {
+    const parks = this.state.parks;
+
+    if (parks.length === 0) {
       api.get('parks', {}).then((data) => {
-        // console.log(data);
+        console.log(data);
         that.setState({parks: data});
       })
       .catch((err) => {
-        console.log('Error: ', err);
+        console.error('Error: ', err);
       });
     }
   }
@@ -38,23 +39,36 @@ class Home extends React.Component {
 
   componentWillUnmount() { }
 
+  makeSlides() {
+    return this.state.parks.map((row, idx) => {
+      return (
+        <div key={idx}>
+          <div>
+            <img src={row.standard_resolution}/>
+          </div>
+        </div>
+        );
+    });
+  }
+
   render() {
+    const settings = {
+      dots: false,
+      infinite: true,
+      speed: 500,
+      arrows: true,
+      slidesToShow: 4,
+      variableWidth: true,
+      slidesToScroll: 3
+    };
+
     return (
       <div className='home-slider-wrap'>
-        <SliderBase
-          images={this.state.parks}
-          propKey='standard_resolution'
-          klass='slider-recent'
-          overlay={true}
-          settings={{
-            dots: false,
-            infinite: true,
-            speed: 500,
-            arrows: true,
-            slidesToShow: 4,
-            slidesToScroll: 4,
-            variableWidth: true}}
-        />
+        <div ref='slide-recent' className='slider-recent'>
+          <Slider {...settings}>
+            {this.makeSlides()}
+          </Slider>
+        </div>
       </div>
     );
   }

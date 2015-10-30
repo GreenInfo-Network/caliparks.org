@@ -1,0 +1,23 @@
+.footer {
+  height: 90px;
+
+  [class^="col-"] {
+    height: 100%;
+  }
+
+  .actions {
+    display: table;
+    height: 100%;
+    width: 100%;
+
+    div {
+      display: table-cell;
+      width: 50%;
+      height: auto;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    button {display: inline;}
+  }
+}
