@@ -1,0 +1,30 @@
+.icon {
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+
+  &.stamen {
+    width: 120px;
+    height: 27px;
+  }
+
+  &.green-info {
+    width: 105px;
+    height: 49px;
+  }
+
+  &.resource-fund {
+    width: 202px;
+    height: 47px;
+  }
+
+  &.parks-forward {
+    width: 44px;
+    height: 49px;
+  }
+
+  &.park-activity {
+    width: 40px;
+    height: 40px;
+  }
+}

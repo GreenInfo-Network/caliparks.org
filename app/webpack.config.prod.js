@@ -6,7 +6,7 @@ var config = require('./webpack.config.js');
 
 config.devtool = 'source-map';
 
-config.plugins = [
+config.plugins = config.plugins.concat([
   new webpack.DefinePlugin({
     'process.env': {
       'NODE_ENV': JSON.stringify('production')
@@ -18,7 +18,7 @@ config.plugins = [
     }
   }),
   new ExtractTextPlugin('styles.css')
-];
+]);
 
 config.module.loaders = [
   {

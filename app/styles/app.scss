@@ -12,11 +12,14 @@
 @import 'base/grid';
 @import 'base/typography';
 @import 'base/base';
+@import 'base/icons';
 @import 'base/helpers';
 
 // layout
 @import 'layout/nav';
 @import 'layout/home';
+@import 'layout/discover';
 @import 'layout/footer';
 
 // components
+@import '../node_modules/react-select/dist/default.css';

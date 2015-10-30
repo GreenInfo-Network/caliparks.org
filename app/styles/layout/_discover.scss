@@ -1,0 +1,54 @@
+// 413 x 206
+
+#discover {
+
+  ol {
+    margin: 0;
+    padding: 0;
+  }
+
+  .blocks {
+    padding: 10px;
+  }
+
+  .block {
+    position: relative;
+    float: left;
+
+    &.hero {}
+
+    .table {
+      position: absolute;
+      top: 50%;
+      height: 80px;
+      width: 100%;
+      table-layout: fixed;
+      margin-top: -40px;
+      background: rgba(0,0,0,0.6);
+      z-index: 1;
+    }
+
+    .table-cell {
+      text-align: left;
+      vertical-align: middle;
+    }
+
+    .activity-icon {
+      width: 49px;
+      padding-left: 8%;
+    }
+
+    .activity-name {
+      font-size: 2.4rem;
+      text-transform: uppercase;
+      font-weight: 400;
+      padding-left: 10%;
+    }
+
+    img {
+      width: 100%;
+      max-width: 100%;
+    }
+  }
+
+}

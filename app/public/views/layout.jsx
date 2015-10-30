@@ -34,6 +34,8 @@ class Layout extends React.Component {
             <IntlProvider locale={this.props.lang} messages={this.props.messages}>
               <App {...this.props} />
             </IntlProvider>
+            <script src='/vendor/js/svg4everybody.min.js'></script>
+            <script>svg4everybody();</script>
             <script src='/bundle.js'></script>
           </body>
         </html>

@@ -5,14 +5,11 @@
     height: 100%;
   }
 
-  .actions {
-    display: table;
+  .table {
     height: 100%;
     width: 100%;
 
-    div {
-      display: table-cell;
-      width: 50%;
+    .table-cell {
       height: auto;
       text-align: center;
       vertical-align: middle;

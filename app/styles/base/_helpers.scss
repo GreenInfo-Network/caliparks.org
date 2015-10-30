@@ -16,6 +16,13 @@
   position: relative;
 }
 
+.block { display: block; }
+.inline-block { display: inline-block; }
+.inline { display: inline; }
+.table { display: table; }
+.table-row { display: table-row; }
+.table-cell {display: table-cell;}
+
 .height-full {
   height: 100%;
 }
@@ -37,8 +44,26 @@
 .col-ten { @include columns(10); }
 .col-eleven { @include columns(11); }
 .col-twelve { @include columns(12); }
-.col-thirteen { @include columns(13); }
-.col-fourteen { @include columns(14); }
-.col-fifteen { @include columns(15); }
-.col-sixteen { @include columns(16); }
-.offset-one { @include offset(1); }
+
+
+.center-align-container {
+  display: block;
+  width: 60%;
+  margin: 0 auto;
+
+  h4 {
+    margin: 2.5rem 0 1.3rem;
+  }
+
+  .description {
+    margin: 0 0 4.5rem;
+  }
+}
+.dropdown-filter {
+
+  .label {
+    margin: 0 0 5px;
+    text-transform: uppercase;
+  }
+  .dropdown {}
+}

@@ -14,7 +14,7 @@ config.entry = [
 config.plugins = [
   new webpack.HotModuleReplacementPlugin(),
   new webpack.NoErrorsPlugin()
-];
+].concat(config.plugins);
 
 config.module.loaders = [
   {

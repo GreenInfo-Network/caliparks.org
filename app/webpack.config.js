@@ -2,6 +2,7 @@
 
 var webpack = require('webpack');
 var path = require('path');
+var SvgStore = require('webpack-svgstore-plugin');
 
 module.exports = {
 
@@ -32,7 +33,21 @@ module.exports = {
     ],
   },
 
-  plugins: [],
+  plugins: [
+    new SvgStore(path.join(__dirname + '/public/assets/svgs'), {
+      // svg prefix
+      svg: {
+        style: 'position:absolute; width:0; height:0',
+        xmlns: 'http://www.w3.org/2000/svg'
+      },
+      output: [
+        {
+          filter: 'all',
+          sprite: 'main.svg'
+        }
+      ]
+    })
+  ],
 
   resolve: {
     extensions: ['', '.js', '.jsx', '.json']
