@@ -23,6 +23,6 @@
 @import 'layout/footer';
 
 // components
-@import '../node_modules/react-select/dist/default.css';
+@import '~react-select/dist/react-select.css';
 @import 'components/slider';
 @import 'components/locale-switcher';
