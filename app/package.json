@@ -53,7 +53,7 @@
     "pg": "^4.4.3",
     "react": "^0.14",
     "react-addons-css-transition-group": "^0.14.0",
-    "react-engine": "git@github.com:paypal/react-engine.git#v3.x",
+    "react-engine": "^3.0.0-alpha.1",
     "react-intl": "^2.0.0-pr-3",
     "react-router": "1.0.0-rc3",
     "react-select": "^0.9.0",
