@@ -1,5 +1,6 @@
 import path from 'path';
 
+import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import SvgStore from 'webpack-svgstore-plugin';
 
 export default {
@@ -26,11 +27,17 @@ export default {
       {
         test: /\.json$/,
         loader: 'json'
+      },
+      {
+        test: /\.scss$/,
+        exclude: /node_modules/,
+        loader: ExtractTextPlugin.extract('style', 'css!sass')
       }
     ]
   },
 
   plugins: [
+    new ExtractTextPlugin('styles.css'),
     new SvgStore(path.join(__dirname + '/public/assets/svgs'), {
       // svg prefix
       svg: {

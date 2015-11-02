@@ -1,4 +1,3 @@
-import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import webpack from 'webpack';
 
 import config from './webpack.config';
@@ -15,8 +14,7 @@ config.plugins = config.plugins.concat([
     compress: {
       warnings: false
     }
-  }),
-  new ExtractTextPlugin('styles.css')
+  })
 ]);
 
 config.module.loaders = [
@@ -24,11 +22,6 @@ config.module.loaders = [
     test: /\.jsx?$/,
     exclude: /node_modules/,
     loader: 'babel?optional[]=es7.classProperties'
-  },
-  {
-    test: /\.scss$/,
-    exclude: /node_modules/,
-    loader: ExtractTextPlugin.extract('style', 'css!sass')
   }
 ].concat(config.module.loaders);
 
