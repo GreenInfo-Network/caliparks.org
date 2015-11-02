@@ -19,7 +19,7 @@ export default {
 
   module: {
     preLoaders: [
-      {test: /\.jsx?$/, loader: "eslint", exclude: [/node_modules/, /sticky.js/]}
+      {test: /\.jsx?$/, loader: 'eslint',  exclude: [/node_modules/, /sticky.js/]}
     ],
 
     loaders: [
