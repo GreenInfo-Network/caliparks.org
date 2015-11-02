@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
 import Nav from './nav';
-import LocaleSwitcher from './localeSwitcher';
 import Slider from 'react-slick';
 
 class Header extends React.Component {
@@ -56,7 +55,6 @@ class Header extends React.Component {
 
     return (
       <header>
-        <LocaleSwitcher current={this.props.lang} />
         <div className='pos-relative'>
           <div id='logo-banner'>
             <img src='assets/svgs/header-banner.svg'/>

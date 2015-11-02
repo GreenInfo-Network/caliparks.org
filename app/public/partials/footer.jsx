@@ -1,6 +1,11 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
+import LocaleSwitcher from '../components/localeSwitcher';
 
 class Footer extends React.Component {
+
+  static propTypes = {
+    lang: PropTypes.string.isRequired
+  };
 
   componentDidMount() { }
 
@@ -45,7 +50,9 @@ class Footer extends React.Component {
 
         <div className='col-three footer-actions'>
           <div className='table'>
-            <div className='table-cell'><button className='btn uppercase'>en espaÑol</button></div>
+            <div className='table-cell'>
+              <LocaleSwitcher current={this.props.lang} className='btn uppercase'/>
+            </div>
             <div className='table-cell'><button className='btn uppercase'>feedback</button></div>
           </div>
         </div>

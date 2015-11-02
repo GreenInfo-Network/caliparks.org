@@ -5,7 +5,7 @@ import Explore from './explore';
 import Discover from './discover';
 import Footer from '../partials/footer';
 import StickyNav from '../partials/sticky-nav';
-import Schticky from 'react-sticky';
+import Schticky from '../lib/sticky';
 
 class App extends React.Component {
   static propTypes = {
@@ -44,7 +44,7 @@ class App extends React.Component {
           <Explore {...this.props} />
           <Discover {...this.props} />
         </main>
-        <Footer />
+        <Footer lang={this.props.payload.lang} />
       </div>
     );
   }

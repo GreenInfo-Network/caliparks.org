@@ -20,7 +20,7 @@ config.module.loaders = [
   {
     test: /\.jsx?$/,
     loaders: ['react-hot','babel?optional[]=es7.classProperties'],
-    exclude: /node_modules/
+    exclude: [/node_modules/]
   },
   {
     test: /\.scss$/,

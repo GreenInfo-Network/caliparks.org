@@ -4,7 +4,9 @@ import Config from '../../config';
 
 class LocaleSwitcher extends Component {
   static propTypes = {
-    current: PropTypes.string.isRequired
+    current: PropTypes.string.isRequired,
+    renderer: PropTypes.func,
+    className: PropTypes.string
   };
 
   handleLocaleClick(locale, evt) {
@@ -13,32 +15,41 @@ class LocaleSwitcher extends Component {
     window.location.reload();
   }
 
-  makeLocaleLink(locale) {
-    const { current } = this.props;
+  makeLocaleLinks() {
+    const locales = Object.keys(Config.locales.available);
 
-    let className = '';
-    if (locale === current) {
-      className = 'active';
-    }
+    if (this.props.renderer &&
+      this.props.renderer === 'function') return this.props.renderer(locales);
 
-    const localeName = Config.locales.available[locale];
+    return locales.map((locale) => {
+      const { current } = this.props;
 
-    return (
-      <a key={ locale }
-         className={ className }
-         onClick={ this.handleLocaleClick.bind(this, locale) }
-         href={ `?hl=${locale}` }>
-          { localeName }
-      </a>
-    );
+      let klass = '';
+      if (locale === current) {
+        klass = 'active';
+      }
+
+      if (this.props.className) {
+        klass += ' ' + this.props.className;
+      }
+
+      const localeName = Config.locales.available[locale];
+
+      return (
+        <a key={ locale }
+           className={ klass }
+           onClick={ this.handleLocaleClick.bind(this, locale) }
+           href={ `?hl=${locale}` }>
+            { localeName }
+        </a>
+      );
+    });
   }
 
   render() {
-    const locales = Object.keys(Config.locales.available);
-
     return (
       <div className='locale-switcher'>
-        { locales.map(this.makeLocaleLink, this) }
+        { this.makeLocaleLinks() }
       </div>
     );
   }

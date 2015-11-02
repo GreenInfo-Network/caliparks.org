@@ -1,10 +1,8 @@
 .locale-switcher {
-  position: fixed;
-  right:5px;
-  top: 5px;
-  z-index: $depth-10;
+  position: relative;
 
   a {
+    display: inline-block;
     text-decoration: none;
     line-height: 1;
     margin-left: 5px;
@@ -17,6 +15,7 @@
     }
 
     &.active {
+      display: none;
       pointer-events: none;
       opacity: 0.6;
     }

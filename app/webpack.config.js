@@ -22,7 +22,7 @@ module.exports = {
 
   module: {
     preLoaders: [
-      {test: /\.jsx?$/, loader: "eslint", exclude: /node_modules/}
+      {test: /\.jsx?$/, loader: "eslint", exclude: [/node_modules/, /sticky.js/]}
     ],
 
     loaders: [
@@ -30,7 +30,7 @@ module.exports = {
         test: /\.json$/,
         loader: 'json'
       }
-    ],
+    ]
   },
 
   plugins: [

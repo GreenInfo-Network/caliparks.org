@@ -7,7 +7,7 @@ const config = {
     cookie: 'localeparks',
     available: {
       en: 'english',
-      es: 'español'
+      es: 'en español'
     }
   }
 };
