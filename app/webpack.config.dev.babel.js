@@ -1,13 +1,12 @@
-'use strict';
+import webpack from 'webpack';
 
-var webpack = require('webpack');
-var config = require('./webpack.config.js');
+import config from './webpack.config';
 
-var LIVE_RELOAD_PORT = process.env.RELOAD_PORT || 3001;
+const LIVE_RELOAD_PORT = process.env.RELOAD_PORT || 3001;
 
 config.devtool = 'eval';
 config.entry = [
-  'webpack-dev-server/client?http://localhost:' +  LIVE_RELOAD_PORT + '/',
+  `webpack-dev-server/client?http://localhost:${LIVE_RELOAD_PORT}/`,
   'webpack/hot/only-dev-server'
 ].concat(config.entry);
 
@@ -19,7 +18,7 @@ config.plugins = [
 config.module.loaders = [
   {
     test: /\.jsx?$/,
-    loaders: ['react-hot','babel?optional[]=es7.classProperties'],
+    loaders: ['react-hot', 'babel?optional[]=es7.classProperties'],
     exclude: [/node_modules/]
   },
   {

@@ -1,8 +1,7 @@
-'use strict';
+import ExtractTextPlugin from 'extract-text-webpack-plugin';
+import webpack from 'webpack';
 
-var webpack = require('webpack');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var config = require('./webpack.config.js');
+import config from './webpack.config';
 
 config.devtool = 'source-map';
 

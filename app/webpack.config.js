@@ -1,11 +1,8 @@
-'use strict';
+import path from 'path';
 
-var webpack = require('webpack');
-var path = require('path');
-var SvgStore = require('webpack-svgstore-plugin');
+import SvgStore from 'webpack-svgstore-plugin';
 
-module.exports = {
-
+export default {
   entry: [
     './public/index.js',
     './styles/app.scss'

@@ -15,8 +15,8 @@
     "start": "heroku local -f Procfile",
     "start:prod": "npm run webpack:prod && heroku local -f Procfile",
     "start:dev": "RELOAD_PORT=3001 npm run webpack:dev && heroku local -f Procfile",
-    "webpack:dev": "rm -rf public/bundle.js && webpack --config ./webpack.config.dev.js",
-    "webpack:prod": "rm -rf public/bundle.js && webpack --config ./webpack.config.prod.js",
+    "webpack:dev": "rm -rf public/bundle.js && webpack --config ./webpack.config.dev.babel.js",
+    "webpack:prod": "rm -rf public/bundle.js && webpack --config ./webpack.config.prod.babel.js",
     "brow": "webpack -t reactify -t require-globify public/index.js -o public/bundle.js"
   },
   "repository": {

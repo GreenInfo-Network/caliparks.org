@@ -1,7 +1,7 @@
 // Start hot reload server
 // TODO: Clean this up
 import webpack from 'webpack';
-import wpconfig from '../../webpack.config.dev.js';
+import wpconfig from '../../webpack.config.dev.babel.js';
 import WebpackDevServer from 'webpack-dev-server';
 
 module.exports = function(port, reloadPort) {
