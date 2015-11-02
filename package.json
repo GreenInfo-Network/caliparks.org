@@ -12,11 +12,9 @@
   ],
   "main": "./app/server/index.js",
   "scripts": {
-    "start": "cd app && npm run webpacK:prod",
     "pull": "git pull origin parksforward-redesign",
     "push": "git push origin parksforward-redesign",
-    "heroku": "git push heroku parksforward-redesign:master",
-    "postinstall": "cd app && npm run webpack:prod"
+    "heroku": "git push heroku `git subtree split --prefix app parksforward-redesign`:master --force"
   },
   "repository": {
     "type": "git",
