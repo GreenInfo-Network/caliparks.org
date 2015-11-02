@@ -48,7 +48,7 @@ class Home extends React.Component {
     const that = this;
     return this.state.parks.map((row, idx) => {
       return (
-        <div key={idx}>
+        <div key={idx} className='slide-container'>
           <Link to={`/park/${row.su_id}`}>
             <div className='overlay'><p className='place'>{row.su_name}</p></div>
             <img src={row.standard_resolution} onError={that.imgError}/>
@@ -69,6 +69,7 @@ class Home extends React.Component {
       slidesToScroll: 3
     };
 
+    // <Slider {...settings}>
     return (
       <div className='home-slider-wrap'>
         <div ref='slide-recent' className='slider-recent'>

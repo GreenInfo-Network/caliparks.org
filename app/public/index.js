@@ -8,7 +8,6 @@ const options = {
   // supply a function that can be called
   // to resolve the file that was rendered.
   viewResolver: (viewName) => {
-    console.log('V: ', viewName);
     return require('./views/' + viewName);
   }
 };

@@ -9,7 +9,8 @@ class Explore extends React.Component {
     viewdata: PropTypes.oneOfType([
       PropTypes.object,
       PropTypes.array
-    ]).isRequired
+    ]).isRequired,
+    height: PropTypes.number
   };
 
   componentDidMount() {
@@ -34,8 +35,9 @@ class Explore extends React.Component {
       { value: 'year-last', label: 'Last year' }
     ];
 
+    const height = this.props.height || 700;
     return (
-      <div id='explore' name='explore' className='row theme-white'>
+      <div id='explore' name='explore' className='row theme-white' style={{height: height + 'px'}}>
         <div className='col-four'>
           <div className='center-align-container'>
             <h4 className='uppercase'>Explore</h4>

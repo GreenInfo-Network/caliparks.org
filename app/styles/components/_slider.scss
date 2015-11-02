@@ -21,12 +21,21 @@
   height: auto;
 }
 
-.slider-recent .slick-slide img {
+.slider-recent {
+  max-height: 332px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.slider-recent img {
   max-height: 332px;
   max-width: 332px;
   width: 332px;
   height: auto;
   overflow: hidden;
+}
+.slider-recent .slide-container {
+  float: left;
 }
 
 .slick-next {
