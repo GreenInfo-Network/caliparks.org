@@ -12,9 +12,9 @@
   ],
   "main": "./server/index.js",
   "scripts": {
-    "start": "heroku local -f Procfile",
-    "start:prod": "npm run webpack:prod && heroku local -f Procfile",
-    "start:dev": "RELOAD_PORT=3001 npm run webpack:dev && heroku local -f Procfile",
+    "start": "nf -j Procfile start",
+    "start:prod": "npm run webpack:prod && nf -j Procfile start",
+    "start:dev": "RELOAD_PORT=3001 npm run webpack:dev && nf -j Procfile start",
     "webpack:dev": "rm -rf public/bundle.js && webpack --config ./webpack.config.dev.babel.js",
     "webpack:prod": "rm -rf public/bundle.js && webpack --config ./webpack.config.prod.babel.js",
     "brow": "webpack -t reactify -t require-globify public/index.js -o public/bundle.js"
@@ -68,6 +68,7 @@
     "webpack-svgstore-plugin": "^1.0.3"
   },
   "devDependencies": {
+    "foreman": "^1.4.1",
     "react-hot-loader": "^1.3.0",
     "webpack-dev-server": "^1.12.1"
   }
