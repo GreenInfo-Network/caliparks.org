@@ -119,7 +119,7 @@ app.use('/', (req, res, next) => {
       messages: res.locals.messages,
       lang: req.locale,
       gak: GOOGLE_APP_KEY,
-      viewdata: {
+      viewData: {
         header: images
       }
     };
@@ -131,7 +131,7 @@ app.use('/', (req, res, next) => {
 // load (additional) data required for /
 app.get('/', (req, res, next) => {
   return dataStore.db.photos({}).then((data) => {
-    res.locals.viewdata.parks = data;
+    res.locals.viewData.parks = data;
     return next();
   }).catch((err) => {
     return next(err);

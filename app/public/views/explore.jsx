@@ -6,7 +6,7 @@ import GoogleMap from 'google-map-react';
 export default class Explore extends React.Component {
 
   static propTypes = {
-    viewdata: PropTypes.oneOfType([
+    viewData: PropTypes.oneOfType([
       PropTypes.object,
       PropTypes.array
     ]).isRequired,

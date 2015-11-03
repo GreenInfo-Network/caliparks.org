@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 
 export default class Home extends React.Component {
   static propTypes = {
-    viewdata: PropTypes.object.isRequired
+    viewData: PropTypes.object.isRequired
   };
 
   static defaultProps = {
@@ -16,7 +16,7 @@ export default class Home extends React.Component {
     super(props);
 
     this.setState({
-      parks: this.props.viewdata.parks || []
+      parks: this.props.viewData.parks || []
     });
   }
 

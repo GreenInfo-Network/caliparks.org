@@ -7,7 +7,7 @@ class Header extends React.Component {
   static propTypes = {
     title: PropTypes.string.isRequired,
     lang: PropTypes.string.isRequired,
-    viewdata: PropTypes.oneOfType([
+    viewData: PropTypes.oneOfType([
       PropTypes.object,
       PropTypes.array
     ]).isRequired
@@ -30,10 +30,10 @@ class Header extends React.Component {
   }
 
   makeSlides() {
-    if (!this.props.viewdata.header) return [];
-    if (!this.props.viewdata.header.length) return [];
+    if (!this.props.viewData.header) return [];
+    if (!this.props.viewData.header.length) return [];
 
-    return this.props.viewdata.header.map((row, idx) => {
+    return this.props.viewData.header.map((row, idx) => {
       return (
         <div key={idx}><img src={row} onError={this.imgError} /></div>
       );
