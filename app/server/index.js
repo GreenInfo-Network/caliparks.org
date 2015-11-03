@@ -1,11 +1,13 @@
-import path from 'path';
-import {sync as globSync} from 'glob';
 import {readFileSync} from 'fs';
-import express from 'express';
-import renderer from 'react-engine';
-import favicon from 'serve-favicon';
-import locale from "locale";
+import path from 'path';
+
 import cookieParser from 'cookie-parser';
+import express from 'express';
+import {sync as globSync} from 'glob';
+import locale from 'locale';
+import ReactEngine from 'react-engine';
+import favicon from 'serve-favicon';
+
 import dataStore from '../services/store';
 import config from '../config';
 
@@ -27,7 +29,7 @@ const ENVIRONMENT = process.env.NODE_ENV || 'production';
 const GOOGLE_APP_KEY = process.env.GOOGLE_APP_KEY || null;
 
 // create the view engine with `react-engine`
-const engine = renderer.server.create({
+const engine = ReactEngine.server.create({
   routes: require(path.join(__dirname, '../public/routes.jsx')),
   routesFilePath: path.join(__dirname, '../public/routes.jsx'), // optional, enables live reloading of React routes and components
   page404: require(path.join(__dirname, '../public/views/404.jsx'))
@@ -43,7 +45,7 @@ app.set('views', path.join(__dirname, '../public/views'));
 app.set('view engine', 'jsx');
 
 // finally, set the custom view
-app.set('view', renderer.expressView);
+app.set('view', ReactEngine.expressView);
 
 app.use(cookieParser());
 
