@@ -5,7 +5,7 @@ class SubView extends Component {
   static propTypes = {
     theme: PropTypes.string,
     children: PropTypes.oneOfType([
-      PropTypes.renderable
+      PropTypes.node
     ]).isRequired
   };
 

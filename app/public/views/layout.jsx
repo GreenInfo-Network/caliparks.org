@@ -12,7 +12,7 @@ export default class Layout extends React.Component {
     messages: PropTypes.object,
     title: PropTypes.string.isRequired,
     children: PropTypes.oneOfType([
-      PropTypes.renderable
+      PropTypes.node
     ]).isRequired
   };
 
