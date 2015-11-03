@@ -30,11 +30,13 @@ class Header extends React.Component {
   }
 
   makeSlides() {
-    const that = this;
     if (!this.props.viewdata.header) return [];
     if (!this.props.viewdata.header.length) return [];
+
     return this.props.viewdata.header.map((row, idx) => {
-      return (<div key={idx}><img src={row} onError={that.imgError} /></div>);
+      return (
+        <div key={idx}><img src={row} onError={this.imgError} /></div>
+      );
     });
   }
 
