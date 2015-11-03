@@ -10,10 +10,7 @@ import {throttle} from 'lodash';
 
 export default class App extends React.Component {
   static propTypes = {
-    payload: PropTypes.object.isRequired,
-    children: PropTypes.oneOfType([
-      PropTypes.renderable
-    ]).isRequired
+    lang: PropTypes.string.isRequired
   };
 
   constructor(props) {
@@ -57,7 +54,7 @@ export default class App extends React.Component {
   render() {
     return (
       <div className='container'>
-        <Header {...this.props.payload} />
+        <Header {...this.props} />
         <Home {...this.props} />
         <main role='application'>
           <Schticky>
@@ -66,7 +63,7 @@ export default class App extends React.Component {
           <Explore {...this.props} height={this.state.win.height} />
           <Discover {...this.props} />
         </main>
-        <Footer lang={this.props.payload.lang} />
+        <Footer lang={this.props.lang} />
       </div>
     );
   }

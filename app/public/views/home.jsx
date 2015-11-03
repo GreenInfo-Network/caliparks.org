@@ -6,12 +6,12 @@ import { Link } from 'react-router';
 export default class Home extends React.Component {
 
   static propTypes = {
-    payload: PropTypes.object.isRequired
+    viewdata: PropTypes.object.isRequired
   };
 
   constructor(props) {
     super(props);
-    const data = this.props.payload.viewdata;
+    const data = this.props.viewdata;
     if (data.parks && data.parks.length > 0) {
       this.state = {parks: data.parks};
     }

@@ -1,5 +1,4 @@
 import React, {PropTypes} from 'react';
-import App from './app';
 import {IntlProvider, addLocaleData} from 'react-intl';
 import en from '../../node_modules/react-intl/lib/locale-data/en';
 import es from '../../node_modules/react-intl/lib/locale-data/es';
@@ -9,7 +8,7 @@ addLocaleData(es);
 
 export default class Layout extends React.Component {
   static propTypes = {
-    lang: PropTypes.string,
+    lang: PropTypes.string.isRequired,
     messages: PropTypes.object,
     title: PropTypes.string.isRequired,
     children: PropTypes.oneOfType([
@@ -19,7 +18,7 @@ export default class Layout extends React.Component {
 
   render() {
     return (
-        <html lang='es'>
+        <html lang={this.props.lang}>
           <head>
             <meta charSet='utf-8' />
             <title>{this.props.title}</title>
@@ -32,7 +31,7 @@ export default class Layout extends React.Component {
           </head>
           <body>
             <IntlProvider locale={this.props.lang} messages={this.props.messages}>
-              <App {...this.props} />
+              { this.props.children }
             </IntlProvider>
             <script src='/vendor/js/svg4everybody.min.js'></script>
             <script>svg4everybody();</script>

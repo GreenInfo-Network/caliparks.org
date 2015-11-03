@@ -112,8 +112,8 @@ function getInitialPayload(callback) {
 // TODO: Move to separate file
 //
 app.use('/', (req, res, next) => {
-  getInitialPayload((images) => {
-    res.locals.payload = {
+  return getInitialPayload((images) => {
+    res.locals = {
       title: config.app.name,
       messages: res.locals.messages,
       lang: req.locale,
@@ -122,44 +122,19 @@ app.use('/', (req, res, next) => {
         header: images
       }
     };
-    next();
+
+    return next();
   });
 });
 
+// load (additional) data required for /
 app.get('/', (req, res, next) => {
-  if (req.originalUrl !== '/favicon.ico') {
-    let parks = [];
-    dataStore.db.photos({}).then((data) => {
-      parks = data;
-    }).catch((err) => {
-      console.log('Err: ', err);
-    }).then(() => {
-      res.locals.payload.viewdata.parks = parks;
-      res.render(req.originalUrl);
-    });
-  } else {
-     next();
-  }
-});
-
-app.get('/parks', (req, res, next) => {
-  res.redirect('/');
-});
-
-app.get('/parks/:id(\\d{3,6})', (req, res, next) => {
-  res.render(req.originalUrl);
-});
-
-app.get('/explore', (req, res, next) => {
-  res.render(req.originalUrl);
-});
-
-app.get('/discover', (req, res, next) => {
-  res.render(req.originalUrl);
-});
-
-app.get('/wander', (req, res, next) => {
-  res.render(req.originalUrl);
+  return dataStore.db.photos({}).then((data) => {
+    res.locals.viewdata.parks = data;
+    return next();
+  }).catch((err) => {
+    return next(err);
+  });
 });
 
 // Handles XHR based requests
@@ -189,10 +164,11 @@ app.get('/api/db/:id', (req, res, next) => {
   }
 });
 
-// 404 template
+// defer to react-router
 app.use((req, res, next) => {
-  res.locals.payload.url = req.url;
-  res.render('404');
+  return res.render(req.url, {
+    url: req.url
+  });
 });
 
 app.listen(PORT, () => {

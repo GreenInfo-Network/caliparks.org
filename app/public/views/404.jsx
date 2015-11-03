@@ -1,5 +1,4 @@
 import React, {PropTypes} from 'react';
-import Layout from './layout.jsx';
 
 export default class NotFound extends React.Component {
   static propTypes = {
@@ -8,9 +7,7 @@ export default class NotFound extends React.Component {
 
   render() {
     return (
-      <Layout {...this.props}>
-        <h3>URL: {this.props.url} - Not Found(404)</h3>
-      </Layout>
+      <h3>URL: {this.props.url} - Not Found (404)</h3>
     );
   }
 }
