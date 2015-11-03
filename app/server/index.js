@@ -33,7 +33,6 @@ const GOOGLE_APP_KEY = process.env.GOOGLE_APP_KEY || null;
 const engine = ReactEngine.server.create({
   routes: require(path.join(__dirname, '../public/routes.jsx')),
   routesFilePath: path.join(__dirname, '../public/routes.jsx'), // optional, enables live reloading of React routes and components
-  page404: require(path.join(__dirname, '../public/views/404.jsx'))
 });
 
 // set the engine
