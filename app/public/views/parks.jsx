@@ -1,7 +1,6 @@
 import React from 'react';
 
-class Park extends React.Component {
-
+export default class Parks extends React.Component {
   render() {
     return (
       <section>
@@ -9,7 +8,4 @@ class Park extends React.Component {
       </section>
     );
   }
-
 }
-
-export default Park;

@@ -3,7 +3,7 @@ import api from '../../services/xhr.js';
 import Slider from 'react-slick';
 import { Link } from 'react-router';
 
-class Home extends React.Component {
+export default class Home extends React.Component {
 
   static propTypes = {
     payload: PropTypes.object.isRequired
@@ -82,5 +82,3 @@ class Home extends React.Component {
   }
 
 }
-
-export default Home;

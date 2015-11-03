@@ -7,7 +7,7 @@ import es from '../../node_modules/react-intl/lib/locale-data/es';
 addLocaleData(en);
 addLocaleData(es);
 
-class Layout extends React.Component {
+export default class Layout extends React.Component {
   static propTypes = {
     lang: PropTypes.string,
     messages: PropTypes.object,
@@ -39,9 +39,6 @@ class Layout extends React.Component {
             <script src='/bundle.js'></script>
           </body>
         </html>
-
     );
   }
 }
-
-export default Layout;

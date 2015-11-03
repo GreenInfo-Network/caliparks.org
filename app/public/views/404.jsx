@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import Layout from './layout.jsx';
 
-class NotFound extends React.Component {
+export default class NotFound extends React.Component {
   static propTypes = {
     url: PropTypes.string.isRequired
   };
@@ -13,7 +13,4 @@ class NotFound extends React.Component {
       </Layout>
     );
   }
-
 }
-
-export default NotFound;

@@ -8,7 +8,7 @@ import StickyNav from '../partials/sticky-nav';
 import Schticky from '../lib/sticky';
 import {throttle} from 'lodash';
 
-class App extends React.Component {
+export default class App extends React.Component {
   static propTypes = {
     payload: PropTypes.object.isRequired,
     children: PropTypes.oneOfType([
@@ -71,5 +71,3 @@ class App extends React.Component {
     );
   }
 }
-
-export default App;

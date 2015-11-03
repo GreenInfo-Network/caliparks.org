@@ -3,7 +3,7 @@ import Dropdown from 'react-select';
 import GoogleMap from 'google-map-react';
 // import api from '../../services/xhr.js';
 
-class Explore extends React.Component {
+export default class Explore extends React.Component {
 
   static propTypes = {
     viewdata: PropTypes.oneOfType([
@@ -68,6 +68,3 @@ class Explore extends React.Component {
   }
 
 }
-
-export default Explore;
-

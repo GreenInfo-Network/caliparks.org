@@ -57,7 +57,7 @@ app.use(cookieParser());
 // favicon
 app.use(favicon(path.join(__dirname, '../public/assets/favicon.ico')));
 
-//expose public folder as static assets
+// expose public folder as static assets
 app.use(express.static(path.join(__dirname, '../public')));
 
 const availableLocales = Object.keys(config.locales.available);
@@ -195,11 +195,11 @@ app.use((req, res, next) => {
   res.render('404');
 });
 
-const server = app.listen(PORT, () => {
+app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);
 });
 
 // Start hot reload server
 if (ENVIRONMENT === 'development') {
- require('./lib/hotserver.js')(PORT, process.env.RELOAD_PORT || 3001);
+  require('./lib/hotserver.js')(PORT, process.env.RELOAD_PORT || 3001);
 }

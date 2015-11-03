@@ -2,7 +2,7 @@ import React from 'react';
 import Dropdown from 'react-select';
 import { helpers, activities } from '../../constants/park-activities';
 
-class Discover extends React.Component {
+export default class Discover extends React.Component {
 
   componentDidMount() { }
 
@@ -72,5 +72,3 @@ class Discover extends React.Component {
   }
 
 }
-
-export default Discover;

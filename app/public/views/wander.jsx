@@ -1,6 +1,6 @@
 import React from 'react';
 
-class Wander extends React.Component {
+export default class Wander extends React.Component {
 
   componentDidMount() { }
 
@@ -11,7 +11,4 @@ class Wander extends React.Component {
       </section>
     );
   }
-
 }
-
-export default Wander;
