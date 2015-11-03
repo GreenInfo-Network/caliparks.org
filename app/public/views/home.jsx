@@ -11,9 +11,7 @@ export default class Home extends React.Component {
   constructor(props) {
     super(props);
 
-    this.setState({
-      parks: this.props.viewData.parks || []
-    });
+    this.state.parks = this.props.viewData.parks || [];
   }
 
   state = {
