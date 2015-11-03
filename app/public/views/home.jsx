@@ -8,16 +8,16 @@ export default class Home extends React.Component {
     viewData: PropTypes.object.isRequired
   };
 
-  static defaultProps = {
-    parks: []
-  }
-
   constructor(props) {
     super(props);
 
     this.setState({
       parks: this.props.viewData.parks || []
     });
+  }
+
+  state = {
+    parks: []
   }
 
   componentDidMount() {
