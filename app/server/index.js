@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import express from 'express';
 import {sync as globSync} from 'glob';
 import locale from 'locale';
+import morgan from 'morgan';
 import ReactEngine from 'react-engine';
 import favicon from 'serve-favicon';
 
@@ -46,6 +47,10 @@ app.set('view engine', 'jsx');
 
 // finally, set the custom view
 app.set('view', ReactEngine.expressView);
+
+if (process.NODE_ENV !== 'production') {
+  app.use(morgan('dev'));
+}
 
 app.use(cookieParser());
 
