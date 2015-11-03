@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import {IntlProvider, addLocaleData} from 'react-intl';
-import en from '../../node_modules/react-intl/lib/locale-data/en';
-import es from '../../node_modules/react-intl/lib/locale-data/es';
+import en from 'react-intl/lib/locale-data/en';
+import es from 'react-intl/lib/locale-data/es';
 
 addLocaleData(en);
 addLocaleData(es);

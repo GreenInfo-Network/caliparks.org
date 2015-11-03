@@ -14,15 +14,15 @@ import config from '../config';
 
 
 const translations = globSync(path.join(__dirname, '../locales/*.json'))
-    .map((filename) => [
-        path.basename(filename, '.json'),
-        readFileSync(filename, 'utf8'),
-    ])
-    .map(([locale, file]) => [locale, JSON.parse(file)])
-    .reduce((collection, [locale, messages]) => {
-        collection[locale] = messages;
-        return collection;
-    }, {});
+  .map((filename) => [
+    path.basename(filename, '.json'),
+    readFileSync(filename, 'utf8'),
+  ])
+  .map(([locale, file]) => [locale, JSON.parse(file)])
+  .reduce((collection, [locale, messages]) => {
+    collection[locale] = messages;
+    return collection;
+  }, {});
 
 const app = express();
 const PORT = process.env.PORT || config.app.port || 3000;
@@ -75,10 +75,8 @@ app.use((req, res, next) => {
       req.locale = req.query.hl;
       console.log('Locale has been set from querystring: %s', req.locale);
     }
-  }
-
-  // Or by setting cookie
-  else if (req.cookies && req.cookies[localeCookieName]) {
+  } else if (req.cookies && req.cookies[localeCookieName]) {
+    // Or by setting cookie
     if (availableLocales.indexOf(req.cookies[localeCookieName]) > -1) {
       req.locale = req.cookies[localeCookieName];
       console.log('Locale has been set from cookie: %s', req.locale);
@@ -94,17 +92,21 @@ let headerImages = [];
 
 function getInitialPayload(callback) {
   if (!loadHeaderImages) return callback(headerImages);
-  dataStore.file.glob('assets/images/header/*.jpg', {cwd: path.join(__dirname,'../public/')})
-  .then((data) => {
-    headerImages = data;
-  })
-  .catch((err) => {
-    console.log('Err: ', err);
-  })
-  .then(() => {
-    loadHeaderImages = false;
-    callback(headerImages);
-  });
+
+  dataStore
+    .file.glob('assets/images/header/*.jpg', {
+      cwd: path.join(__dirname, '../public/'
+    )})
+    .then((data) => {
+      headerImages = data;
+    })
+    .catch((err) => {
+      console.log('Err: ', err);
+    })
+    .then(() => {
+      loadHeaderImages = false;
+      callback(headerImages);
+    });
 }
 
 // routes
@@ -171,8 +173,8 @@ app.use((req, res, next) => {
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`App listening on port ${PORT}`);
+app.listen(PORT, function() {
+  console.log('Listening at http://%s:%d/', this.address().address, this.address().port);
 });
 
 // Start hot reload server
