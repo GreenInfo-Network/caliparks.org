@@ -5,3 +5,4 @@ node_modules
 npm-debug.log
 public/bundle.*
 public/styles.*
+public/main.svg
