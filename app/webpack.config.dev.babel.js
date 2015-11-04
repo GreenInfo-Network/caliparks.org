@@ -1,6 +1,5 @@
 import path from 'path';
 
-import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import SvgStore from 'webpack-svgstore-plugin';
 import webpack from 'webpack';
 
