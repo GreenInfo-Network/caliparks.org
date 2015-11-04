@@ -54,7 +54,7 @@ app.set('view', ReactEngine.expressView);
 // compress responses
 app.use(compression());
 
-if (process.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV !== 'production') {
   // logging
   app.use(morgan('dev'));
 
