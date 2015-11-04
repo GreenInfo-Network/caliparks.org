@@ -13,7 +13,7 @@
   "main": "./server/index.js",
   "scripts": {
     "start": "nf -j Procfile start",
-    "start:prod": "npm run webpack:prod && nf -j Procfile start",
+    "start:prod": "npm run webpack:prod && npm start",
     "start:dev": "npm start",
     "webpack:prod": "rm -rf public/bundle.js && webpack --config ./webpack.config.prod.babel.js",
     "brow": "webpack -t reactify -t require-globify public/index.js -o public/bundle.js"
