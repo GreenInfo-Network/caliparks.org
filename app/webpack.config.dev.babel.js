@@ -1,26 +1,97 @@
+import path from 'path';
+
+import ExtractTextPlugin from 'extract-text-webpack-plugin';
+import SvgStore from 'webpack-svgstore-plugin';
 import webpack from 'webpack';
 
-import config from './webpack.config';
+export default {
+  devtool: 'eval-source-map',
+  entry: [
+    'webpack-hot-middleware/client',
+    './public/index.js',
+    './styles/app.scss'
+  ],
 
-const LIVE_RELOAD_PORT = process.env.RELOAD_PORT || 3001;
+  output: {
+    path: path.resolve(__dirname, 'public'),
+    filename: 'bundle.js'
+  },
 
-config.devtool = 'eval';
-config.entry = [
-  `webpack-dev-server/client?http://localhost:${LIVE_RELOAD_PORT}/`,
-  'webpack/hot/only-dev-server'
-].concat(config.entry);
+  eslint: {
+    configFile: path.join(__dirname, '.eslintrc')
+  },
 
-config.plugins = [
-  new webpack.HotModuleReplacementPlugin(),
-  new webpack.NoErrorsPlugin()
-].concat(config.plugins);
+  module: {
+    preLoaders: [
+      {test: /\.jsx?$/, loader: 'eslint',  exclude: [/node_modules/, /sticky.js/]}
+    ],
 
-config.module.loaders = [
-  {
-    test: /\.jsx?$/,
-    loaders: ['react-hot', 'babel?optional[]=es7.classProperties'],
-    exclude: [/node_modules/]
+    loaders: [
+      {
+        test: /\.jsx?$/,
+        loader: 'babel',
+        query: {
+          stage: 0,
+          plugins: [
+            'react-transform'
+          ],
+          extra: {
+            'react-transform': {
+              transforms: [
+                {
+                  transform: 'react-transform-hmr',
+                  imports: ['react'],
+                  locals: ['module']
+                }
+              ]
+            }
+          },
+          optional: [
+            'es7.classProperties'
+          ]
+        },
+        exclude: [/node_modules/]
+      },
+      {
+        test: /\.json$/,
+        loader: 'json'
+      },
+      {
+        test: /\.scss$/,
+        exclude: /node_modules/,
+        loader: ExtractTextPlugin.extract('style', 'css!sass')
+      }
+    ],
+
+    postLoaders: [
+      {
+        test: /\.css?$/,
+        exclude: /node_modules/,
+        loaders: ['style', 'css']
+      }
+    ]
+  },
+
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoErrorsPlugin(),
+    new ExtractTextPlugin('styles.css'),
+    new SvgStore(path.join(__dirname + '/public/assets/svgs'), {
+      // svg prefix
+      svg: {
+        style: 'position:absolute; width:0; height:0',
+        xmlns: 'http://www.w3.org/2000/svg'
+      },
+      output: [
+        {
+          filter: 'all',
+          sprite: 'main.svg'
+        }
+      ]
+    })
+  ],
+
+  resolve: {
+    extensions: ['', '.js', '.jsx', '.json']
   }
-].concat(config.module.loaders);
-
-module.exports = config;
+};

@@ -8,9 +8,13 @@ import locale from 'locale';
 import morgan from 'morgan';
 import ReactEngine from 'react-engine';
 import favicon from 'serve-favicon';
+import webpack from 'webpack';
+import webpackMiddleware from 'webpack-dev-middleware';
+import webpackHotMiddleware from 'webpack-hot-middleware';
 
 import dataStore from '../services/store';
 import config from '../config';
+import webpackConfig from '../webpack.config.dev.babel.js';
 
 
 const translations = globSync(path.join(__dirname, '../locales/*.json'))
@@ -26,7 +30,6 @@ const translations = globSync(path.join(__dirname, '../locales/*.json'))
 
 const app = express();
 const PORT = process.env.PORT || config.app.port || 3000;
-const ENVIRONMENT = process.env.NODE_ENV || 'production';
 const GOOGLE_APP_KEY = process.env.GOOGLE_APP_KEY || null;
 
 // create the view engine with `react-engine`
@@ -48,7 +51,20 @@ app.set('view engine', 'jsx');
 app.set('view', ReactEngine.expressView);
 
 if (process.NODE_ENV !== 'production') {
-  app.use(morgan('dev'));
+  // logging
+  app.use(morgan('dev', {
+    skip: (req, res) => req.url.indexOf('/socket.io') >= 0
+  }));
+
+  // integrated webpack build
+  const compiler = webpack(webpackConfig);
+
+  app.use(webpackMiddleware(compiler, {
+    stats: {
+      colors: true
+    }
+  }));
+  app.use(webpackHotMiddleware(compiler));
 }
 
 app.use(cookieParser());
@@ -65,7 +81,7 @@ const localeCookieName = config.locales.cookie;
 locale.Locale.default = availableLocales[0];
 app.use(locale(availableLocales));
 app.use((req, res, next) => {
-  console.log('Detected locale (from browser) is %s', req.locale);
+  // console.log('Detected locale (from browser) is %s', req.locale);
 
   // Locale can be changed by passing ?hl=<locale> in the querystring
   if (req.query.hl) {
@@ -175,8 +191,3 @@ app.use((req, res, next) => {
 app.listen(PORT, function() {
   console.log('Listening at http://%s:%d/', this.address().address, this.address().port);
 });
-
-// Start hot reload server
-if (ENVIRONMENT === 'development') {
-  require('./lib/hotserver.js')(PORT, process.env.RELOAD_PORT || 3001);
-}

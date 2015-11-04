@@ -14,8 +14,7 @@
   "scripts": {
     "start": "nf -j Procfile start",
     "start:prod": "npm run webpack:prod && nf -j Procfile start",
-    "start:dev": "RELOAD_PORT=3001 npm run webpack:dev && nf -j Procfile start",
-    "webpack:dev": "rm -rf public/bundle.js && webpack --config ./webpack.config.dev.babel.js",
+    "start:dev": "npm start",
     "webpack:prod": "rm -rf public/bundle.js && webpack --config ./webpack.config.prod.babel.js",
     "brow": "webpack -t reactify -t require-globify public/index.js -o public/bundle.js"
   },
@@ -68,8 +67,11 @@
     "webpack-svgstore-plugin": "^1.0.3"
   },
   "devDependencies": {
+    "babel-plugin-react-transform": "^1.1.1",
     "foreman": "^1.4.1",
-    "react-hot-loader": "^1.3.0",
-    "webpack-dev-server": "^1.12.1"
+    "react-transform-hmr": "^1.0.1",
+    "webpack-dev-middleware": "^1.2.0",
+    "webpack-dev-server": "^1.12.1",
+    "webpack-hot-middleware": "^2.4.1"
   }
 }
