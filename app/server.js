@@ -12,12 +12,12 @@ import webpack from 'webpack';
 import webpackMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 
-import dataStore from '../services/store';
-import config from '../config';
-import webpackConfig from '../webpack.config.dev.babel.js';
+import dataStore from './services/store';
+import config from './config';
+import webpackConfig from './webpack.config.dev.babel.js';
 
 
-const translations = globSync(path.join(__dirname, '../locales/*.json'))
+const translations = globSync(path.join(__dirname, './locales/*.json'))
   .map((filename) => [
     path.basename(filename, '.json'),
     readFileSync(filename, 'utf8'),
@@ -34,15 +34,15 @@ const GOOGLE_APP_KEY = process.env.GOOGLE_APP_KEY || null;
 
 // create the view engine with `react-engine`
 const engine = ReactEngine.server.create({
-  routes: require(path.join(__dirname, '../public/routes.jsx')),
-  routesFilePath: path.join(__dirname, '../public/routes.jsx'), // optional, enables live reloading of React routes and components
+  routes: require(path.join(__dirname, './public/routes.jsx')),
+  routesFilePath: path.join(__dirname, './public/routes.jsx'), // optional, enables live reloading of React routes and components
 });
 
 // set the engine
 app.engine('.jsx', engine);
 
 // set the view directory
-app.set('views', path.join(__dirname, '../public/views'));
+app.set('views', path.join(__dirname, './public/views'));
 
 // set jsx as the view engine
 app.set('view engine', 'jsx');
@@ -70,10 +70,10 @@ if (process.NODE_ENV !== 'production') {
 app.use(cookieParser());
 
 // favicon
-app.use(favicon(path.join(__dirname, '../public/assets/favicon.ico')));
+app.use(favicon(path.join(__dirname, './public/assets/favicon.ico')));
 
 // expose public folder as static assets
-app.use(express.static(path.join(__dirname, '../public')));
+app.use(express.static(path.join(__dirname, './public')));
 
 const availableLocales = Object.keys(config.locales.available);
 const localeCookieName = config.locales.cookie;
@@ -110,7 +110,7 @@ function getInitialPayload(callback) {
 
   dataStore
     .file.glob('assets/images/header/*.jpg', {
-      cwd: path.join(__dirname, '../public/'
+      cwd: path.join(__dirname, './public/'
     )})
     .then((data) => {
       headerImages = data;
