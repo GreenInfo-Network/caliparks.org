@@ -4,7 +4,7 @@ import SvgStore from 'webpack-svgstore-plugin';
 import webpack from 'webpack';
 
 export default {
-  devtool: 'eval-source-map',
+  devtool: 'eval',
   entry: [
     'webpack-hot-middleware/client',
     './public/index.js',
