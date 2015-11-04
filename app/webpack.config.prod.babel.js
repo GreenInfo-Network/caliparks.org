@@ -44,15 +44,7 @@ export default {
       {
         test: /\.scss$/,
         exclude: /node_modules/,
-        loader: ExtractTextPlugin.extract('style', 'css!sass')
-      }
-    ],
-
-    postLoaders: [
-      {
-        test: /\.css?$/,
-        exclude: /node_modules/,
-        loaders: ['style', 'css']
+        loaders: ['style', 'css', 'sass']
       }
     ]
   },
@@ -60,7 +52,6 @@ export default {
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.NoErrorsPlugin(),
-    new ExtractTextPlugin('styles.css'),
     new SvgStore(path.join(__dirname + '/public/assets/svgs'), {
       // svg prefix
       svg: {
