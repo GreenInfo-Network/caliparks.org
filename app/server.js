@@ -56,9 +56,7 @@ app.use(compression());
 
 if (process.NODE_ENV !== 'production') {
   // logging
-  app.use(morgan('dev', {
-    skip: (req, res) => req.url.indexOf('/socket.io') >= 0
-  }));
+  app.use(morgan('dev'));
 
   // integrated webpack build
   const compiler = webpack(webpackConfig);
