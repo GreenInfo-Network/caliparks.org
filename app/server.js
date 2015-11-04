@@ -85,7 +85,7 @@ const localeCookieName = config.locales.cookie;
 locale.Locale.default = availableLocales[0];
 app.use(locale(availableLocales));
 app.use((req, res, next) => {
-  // console.log('Detected locale (from browser) is %s', req.locale);
+  console.log('Detected locale (from browser) is %s', req.locale);
 
   // Locale can be changed by passing ?hl=<locale> in the querystring
   if (req.query.hl) {
