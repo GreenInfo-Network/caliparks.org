@@ -24,8 +24,8 @@ export default class Layout extends React.Component {
             <title>{this.props.title}</title>
             <meta name='viewport' content='width=device-width, initial-scale=1' />
             <meta name='description' content='' />
-            <link href='https://fonts.googleapis.com/css?family=Lato:400,100,300,900,700' rel='stylesheet' type='text/css'/>
-            <link rel='stylesheet' type='text/css' href='https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.3.15/slick.css' />
+            <link href='//fonts.googleapis.com/css?family=Lato:400,100,300,900,700' rel='stylesheet' type='text/css'/>
+            <link rel='stylesheet' type='text/css' href='//cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.3.15/slick.css' />
             <link rel='stylesheet' href='/styles.css' type='text/css'/>
             <link rel='shortcut icon' href='/favicon.ico' type='image/x-icon'/>
           </head>
