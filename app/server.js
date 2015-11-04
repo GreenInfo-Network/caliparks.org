@@ -2,6 +2,7 @@ import {readFileSync} from 'fs';
 import path from 'path';
 
 import cookieParser from 'cookie-parser';
+import compression from 'compression';
 import express from 'express';
 import {sync as globSync} from 'glob';
 import locale from 'locale';
@@ -49,6 +50,9 @@ app.set('view engine', 'jsx');
 
 // finally, set the custom view
 app.set('view', ReactEngine.expressView);
+
+// compress responses
+app.use(compression());
 
 if (process.NODE_ENV !== 'production') {
   // logging
