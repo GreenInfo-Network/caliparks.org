@@ -20,18 +20,19 @@ export default class Home extends React.Component {
 
   componentDidMount() {
     if (this.state.parks.length === 0) {
-      api.get('parks', {}).then((parks) => {
-        console.log('park data:', parks);
+      api.get('parks', {})
+        .then((parks) => {
+          console.log('park data:', parks);
 
-        if (this.mounted()) {
-          this.setState({
-            parks
-          });
-        }
-      })
-      .catch((err) => {
-        console.error('Error: ', err);
-      });
+          if (this.mounted()) {
+            this.setState({
+              parks
+            });
+          }
+        })
+        .catch((err) => {
+          console.error('Error: ', err);
+        });
     }
   }
 
