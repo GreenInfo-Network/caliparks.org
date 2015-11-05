@@ -23,7 +23,7 @@
     "classes": true
   },
   "rules": {
-    "no-unused-vars": [2, {"vars": "all", "args": "none"}],
+    "no-unused-vars": [1, {"vars": "all", "args": "none"}],
     "indent": [2, 2],
     "quotes": [2, "single"],
     "no-multi-spaces": 0,
@@ -36,6 +36,7 @@
     "new-cap": [0],
     "func-names": [0],
     "dot-notation": [0],
+    "no-trailing-spaces": [1],
 
     "react/jsx-quotes": 0,
     "jsx-quotes": [2, "prefer-single"],
