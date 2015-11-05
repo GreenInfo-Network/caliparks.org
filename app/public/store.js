@@ -6,7 +6,7 @@ import reducer from './reducer';
 
 const middleware = [thunkMiddleware];
 
-if (typeof __REACT_ENGINE__ !== 'undefined') {
+if (typeof window !== 'undefined') {
   // redux-logger only works in a browser environment
   middleware.push(createLogger());
 }
