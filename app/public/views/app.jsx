@@ -1,3 +1,4 @@
+import {Map} from 'immutable';
 import {throttle} from 'lodash';
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
@@ -9,29 +10,22 @@ import Discover from './discover';
 import Footer from '../partials/footer';
 import StickyNav from '../partials/sticky-nav';
 import Schticky from '../lib/sticky';
-import api from '../../services/xhr';
-import * as actionCreators from '../action_creators';
+import * as actions from '../actions';
 
 function mapStateToProps(state) {
-  console.log('mapStateToProps:', state.toJS());
-  // NOTE: this assumes that state is always an ImmutableJS object
-  return state.toJS();
+  // NOTE: this may or may not be an Immutable JS object
+  return Map(state).toJS();
 }
 
 export class App extends React.Component {
   static propTypes = {
+    featuredParks: PropTypes.object,
+    fetchFeaturedParks: PropTypes.func.isRequired,
     lang: PropTypes.string.isRequired,
     viewData: PropTypes.object.isRequired
   };
 
-  constructor(props) {
-    super(props);
-
-    this.state.parks = this.props.viewData.parks || [];
-  }
-
   state = {
-    parks: [],
     win: {height: 0, width: 0}
   };
 
@@ -45,21 +39,9 @@ export class App extends React.Component {
     // window size
     this.handleResize();
 
-    // TODO replace this with a redux action that loads these
-    if (this.state.parks.length === 0) {
-      api.get('parks', {})
-        .then((parks) => {
-          console.log('park data:', parks);
-
-          if (this.mounted()) {
-            this.setState({
-              parks
-            });
-          }
-        })
-        .catch((err) => {
-          console.error('Error: ', err);
-        });
+    if (Map(this.props.featuredParks).isEmpty()) {
+      console.log('Fetching featured parks');
+      this.props.fetchFeaturedParks();
     }
   }
 
@@ -86,7 +68,7 @@ export class App extends React.Component {
     return (
       <div className='container'>
         <Header images={this.props.viewData.header} />
-        <Home parks={this.state.parks} />
+        <Home featuredParks={this.props.featuredParks} />
         <main role='application'>
           <Schticky>
             <StickyNav />
@@ -100,4 +82,4 @@ export class App extends React.Component {
   }
 }
 
-export const AppContainer = connect(mapStateToProps, actionCreators)(App);
+export const AppContainer = connect(mapStateToProps, actions)(App);

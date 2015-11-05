@@ -1,14 +1,15 @@
 import {applyMiddleware, createStore} from 'redux';
+import thunkMiddleware from 'redux-thunk';
 
-import apiMiddleware from './api_middleware';
 import reducer from './reducer';
 
+
 const createStoreWithMiddleware = applyMiddleware(
-  apiMiddleware
+  thunkMiddleware
 )(createStore);
 
-export default function makeStore() {
-  const store = createStoreWithMiddleware(reducer);
+export default function makeStore(initialState) {
+  const store = createStoreWithMiddleware(reducer, initialState);
 
   if (module.hot) {
     // enable Webpack hot module replacement for reducers

@@ -5,7 +5,9 @@ import { Link } from 'react-router';
 
 export default class Home extends PureComponent {
   static propTypes = {
-    parks: PropTypes.array.isRequired
+    featuredParks: PropTypes.shape({
+      parks: PropTypes.array
+    }).isRequired
   };
 
   constructor(props) {
@@ -13,7 +15,7 @@ export default class Home extends PureComponent {
   }
 
   getParks() {
-    return this.props.parks || [];
+    return this.props.featuredParks.parks || [];
   }
 
   componentDidMount() {

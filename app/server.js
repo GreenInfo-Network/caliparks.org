@@ -148,9 +148,20 @@ app.use('/', (req, res, next) => {
 
 // load (additional) data required for /
 app.get('/', (req, res, next) => {
-  return dataStore.db.photos({}).then((data) => {
-    res.locals.viewData.parks = data;
+  return dataStore.db.photos({}).then((parks) => {
+    res.locals.featuredParks = {
+      parks
+    };
+
     return next();
+  }).catch((err) => {
+    return next(err);
+  });
+});
+
+app.get('/api/featured_parks.json', (req, res, next) => {
+  return dataStore.db.photos({}).then((data) => {
+    return res.json(data);
   }).catch((err) => {
     return next(err);
   });

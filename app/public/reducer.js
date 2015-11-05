@@ -1,23 +1,45 @@
 import {Map} from 'immutable';
+import {combineReducers} from 'redux';
 
 import * as actions from './actions';
 
 const INITIAL_STATE = Map();
 
-export default function reducer(state = INITIAL_STATE, action) {
+function featuredParks(state = INITIAL_STATE, action) {
   switch (action.type) {
-  case actions.FETCH_PARK_INFO:
-    console.log('fetching park info', state);
-    console.log(state.merge({ thing: 'whatevs' }));
+  case actions.REQUEST_FEATURED_PARKS:
+    return Map(state).merge({
+      isFetching: true
+    });
 
-    // TOOD do a thing
-    return state.merge({
-      thing: 'whatevs'
+  case actions.RECEIVE_FEATURED_PARKS:
+    return Map(state).merge({
+      isFetching: false,
+      parks: action.parks,
+      lastUpdated: action.receivedAt
     });
 
   default:
-    console.warn(`Unrecognized action type: ${action.type}`);
+    return state;
   }
+}
 
+function identity(state = INITIAL_STATE, action) {
   return state;
+}
+
+const combinedReducers = combineReducers({
+  featuredParks,
+  // TODO consider folding these into a global subtree
+  // TODO may also need react-router-related props (to support correct routing)?
+  gak: identity,
+  lang: identity,
+  messages: identity,
+  title: identity,
+  url: identity,
+  viewData: identity
+});
+
+export default function rootReducer(state = INITIAL_STATE, action) {
+  return combinedReducers.apply(null, arguments);
 }

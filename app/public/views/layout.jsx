@@ -9,15 +9,6 @@ import makeStore from '../store';
 addLocaleData(en);
 addLocaleData(es);
 
-const store = makeStore();
-
-store.subscribe(() => console.log('updated state', store.getState().toJS()));
-
-store.dispatch({
-  type: 'FETCH_PARK_INFO'
-});
-
-
 export default class Layout extends React.Component {
   static propTypes = {
     lang: PropTypes.string.isRequired,
@@ -28,9 +19,16 @@ export default class Layout extends React.Component {
     ]).isRequired
   };
 
+  constructor(props) {
+    super(props);
+
+    // seed the redux state with initial properties
+    this.store = makeStore(props);
+  }
+
   render() {
     return (
-        <Provider store={store}>
+        <Provider store={this.store}>
           <html lang={this.props.lang}>
             <head>
               <meta charSet='utf-8' />
