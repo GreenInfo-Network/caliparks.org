@@ -37,7 +37,7 @@ export function fetchFeaturedParks() {
   return (dispatch) => {
     dispatch(requestFeaturedParks());
 
-    return fetch('http://localhost:3000/api/featured_parks.json')
+    return fetch('/api/featured_parks.json')
       .then(response => response.json())
       .then(parks => dispatch(receiveFeaturedParks(parks)))
       .catch(err => console.warn(err.stack));
