@@ -62,6 +62,7 @@ if (process.env.NODE_ENV !== 'production') {
   const compiler = webpack(webpackConfig);
 
   app.use(webpackMiddleware(compiler, {
+    noInfo: true,
     stats: {
       colors: true
     }
