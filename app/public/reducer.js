@@ -24,9 +24,7 @@ function featuredParks(state = INITIAL_STATE, action) {
   }
 }
 
-function identity(state = INITIAL_STATE, action) {
-  return state;
-}
+const identity = (state = INITIAL_STATE, action) => state;
 
 const combinedReducers = combineReducers({
   featuredParks,
