@@ -1,4 +1,7 @@
+import {throttle} from 'lodash';
 import React, {PropTypes} from 'react';
+import {connect} from 'react-redux';
+
 import Header from '../components/header';
 import Home from './home';
 import Explore from './explore';
@@ -6,18 +9,29 @@ import Discover from './discover';
 import Footer from '../partials/footer';
 import StickyNav from '../partials/sticky-nav';
 import Schticky from '../lib/sticky';
-import {throttle} from 'lodash';
+import api from '../../services/xhr';
+import * as actionCreators from '../action_creators';
 
-export default class App extends React.Component {
+function mapStateToProps(state) {
+  console.log('mapStateToProps:', state.toJS());
+  // NOTE: this assumes that state is always an ImmutableJS object
+  return state.toJS();
+}
+
+export class App extends React.Component {
   static propTypes = {
-    lang: PropTypes.string.isRequired
+    lang: PropTypes.string.isRequired,
+    viewData: PropTypes.object.isRequired
   };
 
   constructor(props) {
     super(props);
+
+    this.state.parks = this.props.viewData.parks || [];
   }
 
   state = {
+    parks: [],
     win: {height: 0, width: 0}
   };
 
@@ -30,6 +44,23 @@ export default class App extends React.Component {
     // Cause a re-render to resize components with
     // window size
     this.handleResize();
+
+    // TODO replace this with a redux action that loads these
+    if (this.state.parks.length === 0) {
+      api.get('parks', {})
+        .then((parks) => {
+          console.log('park data:', parks);
+
+          if (this.mounted()) {
+            this.setState({
+              parks
+            });
+          }
+        })
+        .catch((err) => {
+          console.error('Error: ', err);
+        });
+    }
   }
 
   componentWillUnmount() {
@@ -54,17 +85,19 @@ export default class App extends React.Component {
   render() {
     return (
       <div className='container'>
-        <Header {...this.props} />
-        <Home {...this.props} />
+        <Header images={this.props.viewData.header} />
+        <Home parks={this.state.parks} />
         <main role='application'>
           <Schticky>
             <StickyNav />
           </Schticky>
-          <Explore {...this.props} height={this.state.win.height} />
-          <Discover {...this.props} />
+          <Explore height={this.state.win.height} />
+          <Discover />
         </main>
         <Footer lang={this.props.lang} />
       </div>
     );
   }
 }
+
+export const AppContainer = connect(mapStateToProps, actionCreators)(App);

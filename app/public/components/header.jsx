@@ -1,16 +1,12 @@
 import React, { PropTypes } from 'react';
-import Nav from './nav';
+import PureComponent from 'react-pure-render/component';
 import Slider from 'react-slick';
 
-class Header extends React.Component {
+import Nav from './nav';
 
+export default class Header extends PureComponent {
   static propTypes = {
-    title: PropTypes.string.isRequired,
-    lang: PropTypes.string.isRequired,
-    viewData: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.array
-    ]).isRequired
+    images: PropTypes.array.isRequired
   };
 
   constructor(props) {
@@ -25,17 +21,18 @@ class Header extends React.Component {
 
   componentDidUpdate() { }
 
+  getImages() {
+    return this.props.images || [];
+  }
+
   imgError(evt) {
     console.log('EVT: ', evt.target);
   }
 
   makeSlides() {
-    if (!this.props.viewData.header) return [];
-    if (!this.props.viewData.header.length) return [];
-
-    return this.props.viewData.header.map((row, idx) => {
+    return this.getImages().map((src, idx) => {
       return (
-        <div key={idx}><img src={row} onError={this.imgError} /></div>
+        <div key={idx}><img src={src} onError={this.imgError} /></div>
       );
     });
   }
@@ -73,5 +70,3 @@ class Header extends React.Component {
   }
 
 }
-
-export default Header;

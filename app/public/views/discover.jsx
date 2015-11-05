@@ -1,8 +1,9 @@
 import React from 'react';
+import PureComponent from 'react-pure-render/component';
 import Dropdown from 'react-select';
 import { helpers, activities } from '../../constants/park-activities';
 
-export default class Discover extends React.Component {
+export default class Discover extends PureComponent {
 
   componentDidMount() { }
 

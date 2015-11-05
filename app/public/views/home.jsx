@@ -1,39 +1,22 @@
 import React, {PropTypes} from 'react';
-import api from '../../services/xhr';
+import PureComponent from 'react-pure-render/component';
 import Slider from 'react-slick';
 import { Link } from 'react-router';
 
-export default class Home extends React.Component {
+export default class Home extends PureComponent {
   static propTypes = {
-    viewData: PropTypes.object.isRequired
+    parks: PropTypes.array.isRequired
   };
 
   constructor(props) {
     super(props);
-
-    this.state.parks = this.props.viewData.parks || [];
   }
 
-  state = {
-    parks: []
+  getParks() {
+    return this.props.parks || [];
   }
 
   componentDidMount() {
-    if (this.state.parks.length === 0) {
-      api.get('parks', {})
-        .then((parks) => {
-          console.log('park data:', parks);
-
-          if (this.mounted()) {
-            this.setState({
-              parks
-            });
-          }
-        })
-        .catch((err) => {
-          console.error('Error: ', err);
-        });
-    }
   }
 
   componentDidUpdate() { }
@@ -45,12 +28,12 @@ export default class Home extends React.Component {
   }
 
   makeSlides() {
-    return this.state.parks.map((row, idx) => {
+    return this.getParks().map((park, idx) => {
       return (
         <div key={idx} className='slide-container'>
-          <Link to={`/park/${row.su_id}`}>
-            <div className='overlay'><p className='place'>{row.su_name}</p></div>
-            <img src={row.standard_resolution} onError={this.imgError}/>
+          <Link to={`/park/${park.su_id}`}>
+            <div className='overlay'><p className='place'>{park.su_name}</p></div>
+            <img src={park.standard_resolution} onError={this.imgError}/>
           </Link>
         </div>
         );

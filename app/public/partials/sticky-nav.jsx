@@ -1,8 +1,8 @@
 import React from 'react';
+import PureComponent from 'react-pure-render/component';
 import { Link } from 'react-router';
 
-class StickyNav extends React.Component {
-
+export default class StickyNav extends PureComponent {
   render() {
     return (
       <div className='sub-nav'>
@@ -10,7 +10,4 @@ class StickyNav extends React.Component {
       </div>
     );
   }
-
 }
-
-export default StickyNav;

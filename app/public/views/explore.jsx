@@ -1,20 +1,15 @@
 import React, {PropTypes} from 'react';
+import PureComponent from 'react-pure-render/component';
 import Dropdown from 'react-select';
 import GoogleMap from 'google-map-react';
-// import api from '../../services/xhr.js';
 
-export default class Explore extends React.Component {
-
+export default class Explore extends PureComponent {
   static propTypes = {
-    viewData: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.array
-    ]).isRequired,
     height: PropTypes.number
   };
 
-  componentDidMount() {
-    // see home.jsx to see how to load data via XHR
+  getHeight() {
+    return this.props.height || 700;
   }
 
   logChange(val) {
@@ -35,9 +30,8 @@ export default class Explore extends React.Component {
       { value: 'year-last', label: 'Last year' }
     ];
 
-    const height = this.props.height || 700;
     return (
-      <div id='explore' name='explore' className='row theme-white' style={{height: height + 'px'}}>
+      <div id='explore' name='explore' className='row theme-white' style={{height: this.getHeight() + 'px'}}>
         <div className='col-four'>
           <div className='center-align-container'>
             <h4 className='uppercase'>Explore</h4>
@@ -66,5 +60,4 @@ export default class Explore extends React.Component {
       </div>
     );
   }
-
 }

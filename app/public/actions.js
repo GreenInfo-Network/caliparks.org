@@ -1,0 +1,1 @@
+export const FETCH_PARK_INFO = 'FETCH_PARK_INFO';

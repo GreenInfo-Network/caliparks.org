@@ -1,13 +1,17 @@
 import React, {PropTypes} from 'react';
+import PureComponent from 'react-pure-render/component';
 import LocaleSwitcher from '../components/localeSwitcher';
 
-class Footer extends React.Component {
-
+export default class Footer extends PureComponent {
   static propTypes = {
     lang: PropTypes.string.isRequired
   };
 
   componentDidMount() { }
+
+  getLang() {
+    return this.props.lang;
+  }
 
   render() {
     return (
@@ -51,7 +55,7 @@ class Footer extends React.Component {
         <div className='col-three footer-actions'>
           <div className='table'>
             <div className='table-cell'>
-              <LocaleSwitcher current={this.props.lang} className='btn uppercase'/>
+              <LocaleSwitcher current={this.getLang()} className='btn uppercase'/>
             </div>
             <div className='table-cell'><button className='btn uppercase'>feedback</button></div>
           </div>
@@ -59,7 +63,4 @@ class Footer extends React.Component {
       </footer>
     );
   }
-
 }
-
-export default Footer;
