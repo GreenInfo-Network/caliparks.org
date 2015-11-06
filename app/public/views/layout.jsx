@@ -37,7 +37,7 @@ export default class Layout extends React.Component {
               <meta name='description' content='' />
               <link href='//fonts.googleapis.com/css?family=Lato:400,100,300,900,700' rel='stylesheet' type='text/css'/>
               <link rel='stylesheet' type='text/css' href='//cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.3.15/slick.css' />
-              { typeof window === 'undefined' && <link rel='stylesheet' type='text/css' href='/styles.css' /> }
+              <link rel='stylesheet' type='text/css' href='/styles.css' />
               <link rel='shortcut icon' href='/favicon.ico' type='image/x-icon'/>
             </head>
             <body>
