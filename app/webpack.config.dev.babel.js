@@ -1,5 +1,6 @@
 import path from 'path';
 
+import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import SvgStore from 'webpack-svgstore-plugin';
 import webpack from 'webpack';
 
@@ -22,7 +23,11 @@ export default {
 
   module: {
     preLoaders: [
-      {test: /\.jsx?$/, loader: 'eslint',  exclude: [/node_modules/, /sticky.js/]}
+      {
+        test: /\.jsx?$/,
+        loader: 'eslint',
+        exclude: [/node_modules/, /sticky.js/]
+      }
     ],
 
     loaders: [
@@ -58,7 +63,9 @@ export default {
       {
         test: /\.scss$/,
         exclude: /node_modules/,
-        loaders: ['style', 'css', 'sass']
+        loader: ExtractTextPlugin.extract('style', ['css', 'sass'], {
+          remove: false // extract as styles.css, but also leave in the bundle
+        })
       }
     ]
   },
@@ -70,6 +77,8 @@ export default {
     new webpack.HotModuleReplacementPlugin(),
     // don't generate assets containing errors
     new webpack.NoErrorsPlugin(),
+    // extract CSS as styles.CSS
+    new ExtractTextPlugin('styles.css'),
     new SvgStore(path.join(__dirname + '/public/assets/svgs'), {
       // svg prefix
       svg: {
