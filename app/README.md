@@ -5,6 +5,7 @@ Staging site here: [https://stamen-caliparks-dev.herokuapp.com/](https://stamen-
 * In the root of the repo run `npm install`
 * `mv .env-sample .env`
 * Change setting in .env to match your local config
+* Install `node-foreman` by running `npm install -g foreman`
 * Run `npm run build`.
 
 #### To mirror openspaces database locally

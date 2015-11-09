@@ -6,7 +6,14 @@ import Nav from './nav';
 
 export default class Header extends PureComponent {
   static propTypes = {
-    images: PropTypes.array.isRequired
+    images: PropTypes.array.isRequired,
+    autoplay: PropTypes.bool,
+    autoplaySpeed: PropTypes.number
+  };
+
+  static defaultProps = {
+    autoplay: false,
+    autoplaySpeed: 5000
   };
 
   constructor(props) {
@@ -43,6 +50,8 @@ export default class Header extends PureComponent {
       arrows: false,
       infinite: true,
       speed: 500,
+      autoplay: this.props.autoplay,
+      autoplaySpeed: this.props.autoplaySpeed,
       slidesToShow: 1,
       slidesToScroll: 1,
       adaptiveHeight: true,
@@ -54,7 +63,7 @@ export default class Header extends PureComponent {
 
     return (
       <header>
-        <div className='pos-relative'>
+        <div className='pos-relative' style={{height: '332px', overflow: 'hidden'}}>
           <div id='logo-banner'>
             <img src='assets/svgs/header-banner.svg'/>
           </div>

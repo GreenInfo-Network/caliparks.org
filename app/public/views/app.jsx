@@ -67,7 +67,7 @@ export class App extends React.Component {
   render() {
     return (
       <div className='container'>
-        <Header images={this.props.viewData.header} />
+        <Header images={this.props.viewData.header} autoplay={true} autoplaySpeed={8000} />
         <Home featuredParks={this.props.featuredParks} />
         <main role='application'>
           <Schticky>
