@@ -17,14 +17,59 @@
 
     &.hero {}
 
-    .table {
+    &.activity {
+      font-size: 0;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    &.col-four {
+      margin-left: 0.5%;
+      margin-bottom: 0.5%;
+      width: 33%;
+    }
+
+    &.col-four:first-child,
+    &.col-four.new-row {
+      margin-left: 0;
+    }
+
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      transition: background $transition-duration linear;
+    }
+
+    &.activity:hover .overlay {
+      background: rgba(0, 0, 0, 0);
+    }
+
+    .label-wrap {
       position: absolute;
       top: 50%;
       height: 80px;
       width: 100%;
-      table-layout: fixed;
       margin-top: -40px;
-      background: rgba(0,0,0,0.6);
+      transition: background $transition-duration linear;
+    }
+
+    & .icon.park-activity {
+      transition: all $transition-duration linear;
+    }
+
+    &.activity:hover .label-wrap {
+      background: rgba(0,0,0,0.6) !important;
+    }
+
+    .table {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      table-layout: fixed;
       z-index: 1;
     }
 

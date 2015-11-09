@@ -1,7 +1,8 @@
 import React from 'react';
 import PureComponent from 'react-pure-render/component';
 import Dropdown from 'react-select';
-import { helpers, activities } from '../../constants/park-activities';
+import Color from 'color';
+import { helpers, activities, colorGroups } from '../../constants/park-activities';
 
 export default class Discover extends PureComponent {
 
@@ -12,20 +13,30 @@ export default class Discover extends PureComponent {
   }
 
   renderActivities() {
-    return activities.map((activity) => {
+    return activities.map((activity, idx) => {
+      let klass = 'block activity col-four';
+      if (idx === 4 || (idx > 4 && (idx - 4) % 3 === 0)) {
+        klass += ' new-row';
+      }
+
       const icon = helpers.iconprefix + activity.assetname;
       const thumb = helpers.imgpath + activity.assetname + '_rect.jpg';
+      const color = Color(colorGroups[activity.clrGroup]);
+      color.alpha(0.5);
 
       return (
-        <li key={activity.assetname} className='block col-four'>
+        <li key={activity.assetname} className={klass}>
+          <div className='overlay' />
           <img src={thumb} />
-          <div className='label table'>
-            <div className='table-cell activity-icon'>
-              <svg className='icon park-activity'>
-                <use xlinkHref={icon} />
-              </svg>
+          <div className='label-wrap' style={{background: color.rgbString()}}>
+            <div className='label table'>
+              <div className='table-cell activity-icon'>
+                <svg className={'icon park-activity ' + activity.assetname}>
+                  <use xlinkHref={icon} />
+                </svg>
+              </div>
+              <div className='table-cell activity-name'>{activity.name}</div>
             </div>
-            <div className='table-cell activity-name'>{activity.name}</div>
           </div>
         </li>
       );

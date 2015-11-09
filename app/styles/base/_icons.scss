@@ -1,3 +1,8 @@
+$green: #4CAF50;
+$blue: #2196F3;
+$lgtBlue: #00BCD4;
+$purple: #9C27B0;
+
 .icon {
   display: inline-block;
   width: 25px;
@@ -26,5 +31,66 @@
   &.park-activity {
     width: 40px;
     height: 40px;
+    color: #fff;
+  }
+}
+
+.icon.park-activity {
+  &.backpacking,
+  &.biking,
+  &.camping,
+  &.hiking,
+  &.horseback,
+  &.ohv,
+  &.watching {
+    fill: $green;
+  }
+
+  &.boardsports,
+  &.boating,
+  &.fishing,
+  &.kayak-canoe,
+  &.swimming {
+    fill: $blue;
+  }
+
+  &.snowsports {
+    fill: $lgtBlue;
+  }
+
+  &.dogs {
+    fill: $purple;
+  }
+}
+
+li:hover .icon.park-activity {
+  &.backpacking,
+  &.biking,
+  &.camping,
+  &.hiking,
+  &.horseback,
+  &.ohv,
+  &.watching {
+    fill: #fff;
+    color: $green;
+  }
+
+  &.boardsports,
+  &.boating,
+  &.fishing,
+  &.kayak-canoe,
+  &.swimming {
+    fill: #fff;
+    color: $blue;
+  }
+
+  &.snowsports {
+    fill: #fff;
+    color: $lgtBlue;
+  }
+
+  &.dogs {
+    fill: #fff;
+    color: $purple;
   }
 }
