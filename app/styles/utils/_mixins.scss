@@ -32,6 +32,10 @@
   }
 }
 
+/// https://css-tricks.com/snippets/sass/maintain-aspect-ratio-mixin/
+/// @author Sean Dempsey
+/// @param {Number} $width
+/// @param {Number} $height
 @mixin aspect-ratio($width, $height) {
   position: relative;
   &:before {
