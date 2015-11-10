@@ -26,16 +26,18 @@ export default class Discover extends PureComponent {
 
       return (
         <li key={activity.assetname} className={klass}>
-          <div className='overlay' />
-          <img src={thumb} />
-          <div className='label-wrap' style={{background: color.rgbString()}}>
-            <div className='label table'>
-              <div className='table-cell activity-icon'>
-                <svg className={'icon park-activity ' + activity.assetname}>
-                  <use xlinkHref={icon} />
-                </svg>
+          <div className='aspect-content'>
+            <div className='overlay' />
+            <img src={thumb} />
+            <div className='label-wrap' style={{background: color.rgbString()}}>
+              <div className='label table'>
+                <div className='table-cell activity-icon'>
+                  <svg className={'icon park-activity ' + activity.assetname}>
+                    <use xlinkHref={icon} />
+                  </svg>
+                </div>
+                <div className='table-cell activity-name'>{activity.name}</div>
               </div>
-              <div className='table-cell activity-name'>{activity.name}</div>
             </div>
           </div>
         </li>
@@ -59,19 +61,21 @@ export default class Discover extends PureComponent {
           <div className='row'>
             <ol>
               <li className='col-four block hero'>
-                <div className='center-align-container'>
-                  <h4 className='uppercase'>Discover</h4>
-                  <p className='description'>Find out which parks to head to for your favorite activities.</p>
+                <div className='aspect-content'>
+                  <div className='center-align-container'>
+                    <h4 className='uppercase'>Discover</h4>
+                    <p className='description'>Find out which parks to head to for your favorite activities.</p>
 
-                  <div className='dropdown-filter'>
-                    <p className='label uppercase'>Sorting activities by</p>
-                    <Dropdown
-                      className='dropdown'
-                      name='park-activity-sorter'
-                      value='popular'
-                      options={options}
-                      clearable={false}
-                      onChange={this.logChange} />
+                    <div className='dropdown-filter'>
+                      <p className='label uppercase'>Sorting activities by</p>
+                      <Dropdown
+                        className='dropdown'
+                        name='park-activity-sorter'
+                        value='popular'
+                        options={options}
+                        clearable={false}
+                        onChange={this.logChange} />
+                    </div>
                   </div>
                 </div>
               </li>

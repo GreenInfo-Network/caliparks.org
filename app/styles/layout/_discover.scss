@@ -15,12 +15,19 @@
     position: relative;
     float: left;
 
-    &.hero {}
+    // 1.32:1 (165:125)
+    &.hero {
+      @include aspect-ratio(165, 125);
+    }
 
+    // 660x320
+    // 2.06:1 (165:80)
     &.activity {
       font-size: 0;
       line-height: 1;
       cursor: pointer;
+      overflow: hidden;
+      @include aspect-ratio(165, 80);
     }
 
     &.col-four {
@@ -41,7 +48,7 @@
       width: 100%;
       height: 100%;
       background: rgba(0, 0, 0, 0.5);
-      transition: background $transition-duration linear;
+      transition: background $transition-duration $transition-ease;
     }
 
     &.activity:hover .overlay {
@@ -54,11 +61,11 @@
       height: 80px;
       width: 100%;
       margin-top: -40px;
-      transition: background $transition-duration linear;
+      transition: background $transition-duration $transition-ease;
     }
 
     & .icon.park-activity {
-      transition: all $transition-duration linear;
+      transition: all $transition-duration $transition-ease $transition-ease;
     }
 
     &.activity:hover .label-wrap {
