@@ -1,5 +1,5 @@
 import path from 'path';
-
+import Clean from 'clean-webpack-plugin';
 import SvgStore from 'webpack-svgstore-plugin';
 import webpack from 'webpack';
 
@@ -68,6 +68,8 @@ export default {
   },
 
   plugins: [
+    // wipe any output files
+    new Clean(['public/bundle.js*', 'public/styles.css*', 'public/main.svg']),
     // ensure consistent build hashes
     new webpack.optimize.OccurenceOrderPlugin(),
     // enable hot module replacement

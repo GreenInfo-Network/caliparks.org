@@ -1,5 +1,6 @@
 import path from 'path';
-
+import ExtractTextPlugin from 'extract-text-webpack-plugin';
+import Clean from 'clean-webpack-plugin';
 import SvgStore from 'webpack-svgstore-plugin';
 import webpack from 'webpack';
 
@@ -37,20 +38,25 @@ export default {
         }
       },
       {
-        test: /\.json$/,
-        loader: 'json'
-      },
-      {
         test: /\.scss$/,
         exclude: /node_modules/,
-        loaders: ['style', 'css', 'sass']
+        loader: ExtractTextPlugin.extract('style', ['css', 'sass'], {
+          remove: false // extract as styles.css, but also leave in the bundle
+        })
+      },
+      {
+        test: /\.json$/,
+        loader: 'json'
       }
     ]
   },
 
   plugins: [
+    // wipe any output files
+    new Clean(['public/bundle.js*', 'public/styles.css*', 'public/main.svg']),
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.NoErrorsPlugin(),
+    new ExtractTextPlugin('styles.css'),
     new SvgStore(path.join(__dirname + '/public/assets/svgs'), {
       // svg prefix
       svg: {
