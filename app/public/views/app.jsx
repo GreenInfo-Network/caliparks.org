@@ -3,11 +3,11 @@ import {throttle} from 'lodash';
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
 
-import Header from '../components/header';
-import Home from './home';
-import Explore from './explore';
-import Discover from './discover';
+import Header from '../partials/header';
+import Explore from '../partials/explore';
+import Discover from '../partials/discover';
 import Footer from '../partials/footer';
+import SliderMostShared from '../partials/sliderMostShared';
 import StickyNav from '../partials/sticky-nav';
 import Schticky from '../lib/sticky';
 import * as actions from '../actions';
@@ -86,20 +86,19 @@ export class App extends React.Component {
     return (
       <div className='container'>
         <Header images={this.props.viewData.header} autoplay={true} autoplaySpeed={8000} />
-        <Home featuredParks={this.props.featuredParks} />
+        <SliderMostShared featuredParks={this.props.featuredParks} />
         <main role='application'>
           <div>
-          <StickyNav />
-          <Schticky className={'real-sticky'}>
             <StickyNav />
-          </Schticky>
+            <Schticky className={'real-sticky'}>
+              <StickyNav />
+            </Schticky>
           </div>
           <Explore
             height={this.state.win.height}
             mostSharedParks={this.props.mostSharedParks}
             handleOnChange={this.handleExploreChange.bind(this)}
-            handleMarkerClick={this.handleMarkerClick.bind(this)}
-            />
+            handleMarkerClick={this.handleMarkerClick.bind(this)} />
           <Discover />
         </main>
         <Footer lang={this.props.lang} />

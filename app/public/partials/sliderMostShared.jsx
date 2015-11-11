@@ -4,7 +4,7 @@ import Slider from 'react-slick';
 import { Link } from 'react-router';
 import __ from 'lodash';
 
-export default class Home extends PureComponent {
+export default class SliderMostShared extends PureComponent {
   static propTypes = {
     featuredParks: PropTypes.shape({
       parks: PropTypes.array

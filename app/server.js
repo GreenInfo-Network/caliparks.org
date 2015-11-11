@@ -142,6 +142,11 @@ app.use('/', (req, res, next) => {
         parks: [],
         isFetching: false
       },
+      selectedPark: {
+        images: [],
+        park: [],
+        isFetching: false
+      },
       viewData: {
         header: images
       }
@@ -153,7 +158,6 @@ app.use('/', (req, res, next) => {
 
 // load (additional) data required for /
 app.get('/', (req, res, next) => {
-  console.log('################################!!');
   return dataStore.db('latestPhotoFromMostSharedPark', {}).then((parks) => {
     res.locals.featuredParks = {
       parks
@@ -162,6 +166,23 @@ app.get('/', (req, res, next) => {
     return next();
   }).catch((err) => {
     return next(err);
+  });
+});
+
+app.get('/park/:id', (req, res, next) => {
+  return dataStore.db('getSelectedParkPhotos', {id: req.params.id}).then((images) => {
+    res.locals.selectedPark.images = images;
+
+    return dataStore.db('getSelectedPark', {id: req.params.id});
+  })
+  .then((park) => {
+    res.locals.selectedPark.park = park;
+  })
+  .catch((err) => {
+    return next(err);
+  })
+  .then(() => {
+    return next();
   });
 });
 
@@ -190,9 +211,7 @@ app.get('/api/featured_parks.json', (req, res, next) => {
 });
 
 app.get('/api/most_shared_parks.json', (req, res, next) => {
-  console.log('<<<<<<<<<<<<< most_shared_parks : ' + req.query.interval + ' >>>>>>>>>>>>>>>');
   return  dataStore.db('mostSharedParks', {interval: req.query.interval || null}).then((data) => {
-    console.log('*********************');
     return res.json(data);
   }).catch((err) => {
     return next(err);

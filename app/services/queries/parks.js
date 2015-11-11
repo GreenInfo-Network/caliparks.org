@@ -130,9 +130,56 @@ function mostSharedParks(options) {
   return {query: q, opts:[parkCount, photoCount]};
 }
 
+
+function getSelectedParkPhotos(options) {
+  options = options || {};
+  const id = options.id;
+  const photoCount = options.photoCount || '12';
+
+  const q = ["SELECT"].concat(BASE_PHOTO_ATTRIBUTES).concat([
+    " FROM instagram_photos photos",
+    " WHERE photos.superunit_id = $1",
+    " ORDER BY (photos.metadata->>'created_time')::int",
+    " DESC limit $2"
+  ]).join('\n');
+
+  return {query: q, opts:[id, photoCount]};
+}
+
+function getSelectedPark(options) {
+  options = options || {};
+  const id = options.id;
+
+  const q = [
+    "SELECT",
+    " cpad.unit_name AS su_name,",
+    "cpad.superunit_id::int AS su_id,",
+    "cpad.park_url,",
+    "cpad.manager_id::int,",
+    "cpad.mng_agncy,",
+    "cpad.access_typ,",
+    "cpad.gis_acres::real,",
+    "things.activities,",
+    "activities_raw.url AS camping_url,",
+    "ST_AsGeoJSON(COALESCE(ST_Transform(cpad_entry_points.geom, 4326), ST_Centroid(ST_Transform(cpad.geom, 4326))))::json AS centroid,",
+    "ST_AsGeoJSON(ST_Transform(cpad.geom, 4326))::json AS geometry,",
+    "ST_AsGeoJSON(ST_Envelope(ST_Transform(cpad.geom, 4326)))::json AS bbox",
+    " FROM cpad_superunits cpad",
+    " LEFT JOIN activities AS things USING (superunit_id)",
+    " LEFT JOIN (SELECT su_id, geom FROM cpad_entry_points WHERE pt_type = 'primary') AS cpad_entry_points ON cpad_entry_points.su_id = cpad.superunit_id",
+    " LEFT JOIN activities_raw ON activities_raw.su_id = cpad.superunit_id",
+    " WHERE cpad.superunit_id = $1 AND cpad.access_typ = 'Open Access'",
+    " LIMIT 1"
+  ].join('\n');
+
+  return {query: q, opts:[id]};
+}
+
 export const queries = {
   latestPhotoFromMostSharedPark: latestPhotoFromMostSharedPark,
-  mostSharedParks: mostSharedParks
+  mostSharedParks: mostSharedParks,
+  getSelectedParkPhotos: getSelectedParkPhotos,
+  getSelectedPark: getSelectedPark
 }
 
 
