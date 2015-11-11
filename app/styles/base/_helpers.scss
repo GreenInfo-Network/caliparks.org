@@ -31,6 +31,18 @@
   text-transform: uppercase;
 }
 
+.link-plain {
+  text-decoration: none;
+  color: $color-grey-dark;
+
+  &:hover {
+    text-decoration: underline;
+  }
+  &>sub {
+    bottom: 0;
+  }
+}
+
 .row { @include row(); }
 .col-one { @include columns(1); }
 .col-two { @include columns(2); }

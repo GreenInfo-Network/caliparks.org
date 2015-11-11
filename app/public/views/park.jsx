@@ -7,6 +7,7 @@ import * as actions from '../actions';
 
 import StickyNav from '../partials/sticky-nav';
 import ParkMap from '../components/parkMap';
+import ActivityGrid from '../components/activityGrid';
 
 function mapStateToProps(state) {
   // NOTE: this may or may not be an Immutable JS object
@@ -65,7 +66,7 @@ export class Park extends PureComponent {
 
   getColumnHeight() {
     if (this.props.windowSize.width === 0) return '0px';
-    return Math.round(this.props.windowSize.width * 0.3333333) + 'px';
+    return Math.round((this.props.windowSize.width - 20) * 0.3333333) + 'px';
   }
 
   handleResize() {
@@ -87,7 +88,8 @@ export class Park extends PureComponent {
     return (
       <div className='inner'>
         <h4>{details.su_name}</h4>
-        <p><a href={details.park_url}>Link to park site</a></p>
+        <p><a className='link-plain' href={details.park_url}>Link to park site <sub>></sub></a></p>
+        <ActivityGrid activities={details.activities} />
       </div>
     );
   }

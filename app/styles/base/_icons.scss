@@ -2,6 +2,8 @@ $green: #4CAF50;
 $blue: #2196F3;
 $lgtBlue: #00BCD4;
 $purple: #9C27B0;
+$orange: #FF9F00;
+$brown: #8C6D62;
 
 .icon {
   display: inline-block;
@@ -52,17 +54,29 @@ $purple: #9C27B0;
   &.backpacking,
   &.biking,
   &.camping,
+  &.covered_picnic_tables,
   &.hiking,
-  &.horseback,
+  &.horsebackriding,
   &.ohv,
-  &.watching {
+  &.rusticcabins,
+  &.wildlifewatching {
     fill: $green;
+  }
+
+  &.ball_fields,
+  &.basketball,
+  &.tennis {
+    fill: $orange;
+  }
+
+  &.historicalsite {
+    fill: $brown;
   }
 
   &.boardsports,
   &.boating,
   &.fishing,
-  &.kayak-canoe,
+  &.kayakingcanoeing,
   &.swimming {
     fill: $blue;
   }
@@ -71,27 +85,43 @@ $purple: #9C27B0;
     fill: $lgtBlue;
   }
 
-  &.dogs {
+  &.dogs,
+  &.playground {
     fill: $purple;
   }
 }
 
-li:hover .icon.park-activity {
+li:hover .icon.park-activity,
+.icon.park-activity.alt {
   &.backpacking,
   &.biking,
   &.camping,
+  &.covered_picnic_tables,
   &.hiking,
-  &.horseback,
+  &.horsebackriding,
   &.ohv,
-  &.watching {
+  &.rusticcabins,
+  &.wildlifewatching {
     fill: #fff;
     color: $green;
+  }
+
+  &.ball_fields,
+  &.basketball,
+  &.tennis {
+    fill: #fff;
+    color: $orange;
+  }
+
+  &.historicalsite {
+    fill: #fff;
+    color: $brown;
   }
 
   &.boardsports,
   &.boating,
   &.fishing,
-  &.kayak-canoe,
+  &.kayakingcanoeing,
   &.swimming {
     fill: #fff;
     color: $blue;
@@ -102,7 +132,8 @@ li:hover .icon.park-activity {
     color: $lgtBlue;
   }
 
-  &.dogs {
+  &.dogs,
+  &.playground  {
     fill: #fff;
     color: $purple;
   }

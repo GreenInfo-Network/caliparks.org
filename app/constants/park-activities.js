@@ -13,15 +13,29 @@ export const colorGroups = {
   green: '#4CAF50',
   blue: '#2196F3',
   lgtBlue: '#00BCD4',
-  purple: '#9C27B0'
+  purple: '#9C27B0',
+  orange: '#FF9F00',
+  brown: '#8C6D62'
 };
-// fill="currentColor"
+
 export const activities = [
   {
     name: 'Backpacking',
     assetname: 'backpacking',
     feature: true,
     clrGroup: 'green'
+  },
+  {
+    name: 'Ball fields',
+    assetname: 'ball_fields',
+    feature: true,
+    clrGroup: 'orange'
+  },
+  {
+    name: 'Basketball',
+    assetname: 'basketball',
+    feature: true,
+    clrGroup: 'orange'
   },
   {
     name: 'Biking',
@@ -48,6 +62,12 @@ export const activities = [
     clrGroup: 'green'
   },
   {
+    name: 'Covered picnic tables',
+    assetname: 'covered_picnic_tables',
+    feature: true,
+    clrGroup: 'green'
+  },
+  {
     name: 'Dogs',
     assetname: 'dogs',
     feature: true,
@@ -66,20 +86,38 @@ export const activities = [
     clrGroup: 'green'
   },
   {
+    name: 'Museums & historical sites',
+    assetname: 'historicalsite',
+    feature: true,
+    clrGroup: 'brown'
+  },
+  {
     name: 'Horseback riding',
-    assetname: 'horseback',
+    assetname: 'horsebackriding',
     feature: false,
     clrGroup: 'green'
   },
   {
     name: 'Kayaking / Canoeing',
-    assetname: 'kayak-canoe',
+    assetname: 'kayakingcanoeing',
     feature: true,
     clrGroup: 'blue'
   },
   {
     name: 'OHV',
     assetname: 'ohv',
+    feature: false,
+    clrGroup: 'green'
+  },
+  {
+    name: 'Playgrounds',
+    assetname: 'playground',
+    feature: false,
+    clrGroup: 'purple'
+  },
+  {
+    name: 'Rustic cabins',
+    assetname: 'rusticcabins',
     feature: false,
     clrGroup: 'green'
   },
@@ -96,8 +134,14 @@ export const activities = [
     clrGroup: 'blue'
   },
   {
+    name: 'Tennis',
+    assetname: 'tennis',
+    feature: false,
+    clrGroup: 'orange'
+  },
+  {
     name: 'Wildlife watching',
-    assetname: 'watching',
+    assetname: 'wildlifewatching',
     feature: false,
     clrGroup: 'green'
   }
