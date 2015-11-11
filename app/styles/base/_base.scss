@@ -51,10 +51,14 @@ a {
     vertical-align: middle;
     line-height: 0;
   }
-}
 
-.btn:focus {
-  outline: 0;
+  &:focus {
+    outline: 0;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+  }
 }
 
 .theme-white {

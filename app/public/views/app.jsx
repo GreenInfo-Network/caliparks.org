@@ -76,6 +76,11 @@ export class App extends React.Component {
     this.props.fetchMostSharedParks(val);
   }
 
+  handleMarkerClick(id) {
+    const {history} = this.props;
+    history.pushState(null, `/park/${id}`);
+  }
+
   render() {
     return (
       <div className='container'>
@@ -88,7 +93,12 @@ export class App extends React.Component {
             <StickyNav />
           </Schticky>
           </div>
-          <Explore height={this.state.win.height} mostSharedParks={this.props.mostSharedParks} handleOnChange={this.handleExploreChange.bind(this)}/>
+          <Explore
+            height={this.state.win.height}
+            mostSharedParks={this.props.mostSharedParks}
+            handleOnChange={this.handleExploreChange.bind(this)}
+            handleMarkerClick={this.handleMarkerClick.bind(this)}
+            />
           <Discover />
         </main>
         <Footer lang={this.props.lang} />

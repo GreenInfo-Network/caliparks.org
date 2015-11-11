@@ -63,24 +63,33 @@ function datesForTime(t) {
 
   switch(t) {
   case 'week-now':
-  default:
     start = "date_trunc('week', now()) - interval '1 day'";
     end = "date_trunc('week', now()) + interval '6 days'";
+    break;
   case 'week-last':
     start = "date_trunc('week', now() - interval '1 week') - interval '1 day'";
     end = "date_trunc('week', now() - interval '1 week') + interval '6 days'";
+    break;
   case 'month-now':
     start = "date_trunc('month', now())";
     end = "date_trunc('month', now() + interval '1 month')";
+    break;
   case 'month-last':
     start = "date_trunc('month', now() - interval '1 month')";
     end = "date_trunc('month', now() - interval '1 month') + interval '1 month'";
+    break;
   case 'year-now':
     start = "date_trunc('year', now())";
     end = "date_trunc('year', now() + interval '1 year')";
+    break;
   case 'year-last':
     start = "date_trunc('year', now() - interval '1 year')";
     end = "date_trunc('year', now() - interval '1 year') + interval '1 year'";
+    break;
+  default:
+    start = "date_trunc('week', now()) - interval '1 day'";
+    end = "date_trunc('week', now()) + interval '6 days'";
+    break;
   }
 
   return `(photos.metadata->>'created_time')::int >= cast(extract(epoch from (${start})) as integer) AND (photos.metadata->>'created_time')::int < cast(extract(epoch from (${end})) as integer)`;
@@ -112,9 +121,9 @@ function mostSharedParks(options) {
   ].concat(BASE_PHOTO_ATTRIBUTES).concat([
     " FROM instagram_photos photos",
     " WHERE photos.superunit_id = parks.superunit_id",
-    " AND (",
+    " AND ",
     dateStr,
-    ") ORDER BY (photos.metadata->>'created_time')::int DESC LIMIT $2) q1",
+    " ORDER BY (photos.metadata->>'created_time')::int DESC LIMIT $2) q1",
     " GROUP BY parks.superunit_id, parks.unit_name;"
   ]).join('\n');
 

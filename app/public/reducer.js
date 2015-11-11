@@ -35,7 +35,8 @@ function mostSharedParks(state = INITIAL_STATE, action) {
     return Map(state).merge({
       isFetching: false,
       parks: action.parks,
-      lastUpdated: action.receivedAt
+      lastUpdated: action.receivedAt,
+      interval: action.interval
     });
 
   default:

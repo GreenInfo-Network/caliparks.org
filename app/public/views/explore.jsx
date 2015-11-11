@@ -30,6 +30,12 @@ export default class Explore extends PureComponent {
     }
   }
 
+  onMarkerClick(item) {
+    if (typeof this.props.handleMarkerClick === 'function') {
+      this.props.handleMarkerClick(item.superunit_id);
+    }
+  }
+
   render() {
     /*
     { value: 'today', label: 'Today' },
@@ -55,7 +61,6 @@ export default class Explore extends PureComponent {
       strokeOpacity: 0
     };
 
-    console.log('FETCHING: ', this.props.mostSharedParks.parks);
     return (
       <div id='explore' name='explore' className='row theme-white' style={{height: this.getHeight() + 'px'}}>
         <div className='col-four'>
@@ -68,7 +73,7 @@ export default class Explore extends PureComponent {
               <Dropdown
                 className='dropdown'
                 name='park-top-ten-picker'
-                value='week-now'
+                value={this.props.mostSharedParks.interval || 'week-now'}
                 options={options}
                 clearable={false}
                 onChange={this.logChange.bind(this)} />
@@ -96,7 +101,7 @@ export default class Explore extends PureComponent {
             <CustomTileLayer tileUrl='http://{s}.map.parks.stamen.com/{z}/{x}/{y}{r}.png' {...this.props} />
             {this.props.mostSharedParks.parks.map((marker, index) => {
               const coords = marker.centroid.coordinates;
-              return <Marker key={marker.superunit_id} icon={sym} position={{lat:coords[1], lng:coords[0]}} />;
+              return <Marker key={marker.superunit_id} onClick={this.onMarkerClick.bind(this, marker)}icon={sym} position={{lat:coords[1], lng:coords[0]}} />;
             })}
           </GoogleMap>
         </div>

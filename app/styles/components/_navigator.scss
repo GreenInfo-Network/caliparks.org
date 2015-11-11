@@ -4,19 +4,37 @@
   color: #fff;
   z-index: $depth-1;
 
-  .col {
-    display: inline-block;
-    vertical-align: middle;
-  }
-
   .inner {
     margin: 0;
+    width: 250px;
   }
-
+  .top {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    border-bottom: 1px solid #fff;
+    line-height: 1;
+    overflow: hidden;
+  }
   .top, .bottom {
     padding: 0;
   }
 
+  .col {
+    display: table-cell;
+    vertical-align: middle;
+    padding: 8px 0;
+    /*
+    float:left;
+    display: inline-block;
+    vertical-align: middle;
+    */
+  }
+  .col.arrow {
+    width: 31px;
+  }
+
+  /*
   .top {
     border-bottom: 1px solid #fff;
     line-height: 1;
@@ -24,30 +42,45 @@
   }
 
   .arrow.btn {
+    width: 31px;
     vertical-align: middle;
   }
 
-  h3 {
-    display: inline-block;
+  .arrow.btn:last-child {
+    float: right;
+  }
+  */
+
+  .rank {
+    display: inline;
     margin: 0;
     padding: 0;
     font-size: 3rem;
     font-weight: 700;
-    line-height: 1;
     letter-spacing: 0;
+    line-height: 1;
+    vertical-align: middle;
   }
 
   .count {
-    display: inline-block;
-    vertical-align: middle;
+    position: relative;
+    top: 1px;
+    display: inline;
     margin-left: 15px;
     font-size: 1.4rem;
     font-weight: 400;
     line-height: 1;
+    vertical-align: middle;
   }
 
   .name {
+    font-size: 1.4rem;
     margin: 0;
-    padding: 8px 8px 8px 31px;
+    padding: 8px 31px;
+
+    a {
+      color: #fff;
+      text-decoration: none;
+    }
   }
 }

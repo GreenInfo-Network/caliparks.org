@@ -139,7 +139,8 @@ app.use('/', (req, res, next) => {
       lang: req.locale,
       gak: GOOGLE_APP_KEY,
       mostSharedParks: {
-        parks: []
+        parks: [],
+        isFetching: false
       },
       viewData: {
         header: images
@@ -152,6 +153,7 @@ app.use('/', (req, res, next) => {
 
 // load (additional) data required for /
 app.get('/', (req, res, next) => {
+  console.log('################################!!');
   return dataStore.db('latestPhotoFromMostSharedPark', {}).then((parks) => {
     res.locals.featuredParks = {
       parks
@@ -166,7 +168,6 @@ app.get('/', (req, res, next) => {
 /*
 
 // load most shared parks
-// TODO: fix slowness
 app.get('/', (req, res, next) => {
   return dataStore.db('mostSharedParks', {}).then((parks) => {
     res.locals.mostShared = {
@@ -189,7 +190,9 @@ app.get('/api/featured_parks.json', (req, res, next) => {
 });
 
 app.get('/api/most_shared_parks.json', (req, res, next) => {
+  console.log('<<<<<<<<<<<<< most_shared_parks : ' + req.query.interval + ' >>>>>>>>>>>>>>>');
   return  dataStore.db('mostSharedParks', {interval: req.query.interval || null}).then((data) => {
+    console.log('*********************');
     return res.json(data);
   }).catch((err) => {
     return next(err);
