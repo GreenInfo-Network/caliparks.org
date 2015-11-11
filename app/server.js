@@ -17,6 +17,7 @@ import dataStore from './services/store';
 import config from './config';
 import webpackConfig from './webpack.config.dev.babel.js';
 
+import getInvolvedLinks from './public/assets/data/stories.json';
 
 const translations = globSync(path.join(__dirname, './locales/*.json'))
   .map((filename) => [
@@ -177,6 +178,7 @@ app.get('/park/:id', (req, res, next) => {
   })
   .then((park) => {
     res.locals.selectedPark.park = park;
+    res.locals.selectedPark.involved = getInvolvedLinks[req.params.id] || null;
 
     return next();
   })
@@ -221,7 +223,8 @@ app.get('/api/selected_park.json', (req, res, next) => {
 
   const obj = {
     park: [],
-    images: []
+    images: [],
+    involved: getInvolvedLinks[req.query.id] || null
   };
 
   return dataStore.db('getSelectedParkPhotos', {id: req.query.id}).then((images) => {
