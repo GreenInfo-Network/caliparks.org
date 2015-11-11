@@ -1,7 +1,7 @@
 import {Map} from 'immutable';
-import {throttle} from 'lodash';
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
+import {throttle} from 'lodash';
 
 import Header from '../partials/header';
 import Explore from '../partials/explore';
@@ -26,10 +26,6 @@ export class App extends React.Component {
     lang: PropTypes.string.isRequired,
     viewData: PropTypes.object.isRequired,
     history: PropTypes.object
-  };
-
-  state = {
-    win: {height: 0, width: 0}
   };
 
   componentWillMount() {}
@@ -70,7 +66,7 @@ export class App extends React.Component {
   }
 
   handleResize() {
-    this.setState({win: this.getWindowDimensions()});
+    this.props.setWindowSize(this.getWindowDimensions());
   }
 
   handleExploreChange(val) {
@@ -95,7 +91,7 @@ export class App extends React.Component {
             </Schticky>
           </div>
           <Explore
-            height={this.state.win.height}
+            height={this.props.windowSize.height || 0}
             mostSharedParks={this.props.mostSharedParks}
             handleOnChange={this.handleExploreChange.bind(this)}
             handleMarkerClick={this.handleMarkerClick.bind(this)} />

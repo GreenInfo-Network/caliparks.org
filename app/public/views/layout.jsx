@@ -26,6 +26,10 @@ export default class Layout extends React.Component {
     this.store = makeStore(props);
   }
 
+  componentDidMount() {}
+
+  componentWillUnmount() {}
+
   render() {
     return (
         <Provider store={this.store}>

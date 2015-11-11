@@ -44,11 +44,46 @@ function mostSharedParks(state = INITIAL_STATE, action) {
   }
 }
 
+function selectedPark(state = INITIAL_STATE, action) {
+  switch (action.type) {
+  case actions.REQUEST_SELECTED_PARK:
+    return Map(state).merge({
+      isFetching: true
+    });
+
+  case actions.RECEIVE_SELECTED_PARK:
+    return Map(state).merge({
+      isFetching: false,
+      park: action.park.park,
+      images: action.park.images,
+      lastUpdated: action.receivedAt
+    });
+
+  default:
+    return state;
+  }
+}
+
+function windowSize(state = INITIAL_STATE, action) {
+  switch (action.type) {
+  case actions.SET_WINDOW_SIZE:
+    return Map(state).merge({
+      width: action.size.width,
+      height: action.size.height
+    });
+
+  default:
+    return state;
+  }
+}
+
 const identity = (state = INITIAL_STATE, action) => state;
 
 const combinedReducers = combineReducers({
   featuredParks,
   mostSharedParks,
+  selectedPark,
+  windowSize,
   // TODO consider folding these into a global subtree
   // TODO may also need react-router-related props (to support correct routing)?
   gak: identity,

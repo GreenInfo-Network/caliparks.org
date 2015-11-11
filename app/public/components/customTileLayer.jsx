@@ -13,7 +13,7 @@ import {default as GoogleMapHolder} from 'react-google-maps/lib/creators/GoogleM
 export default class CustomTileLayer extends Component {
 
   static propTypes = {
-    mapHolderRef: PropTypes.instanceOf(GoogleMapHolder).isRequired,
+    mapHolderRef: PropTypes.instanceOf(GoogleMapHolder),
     subdomains: PropTypes.array,
     tileUrl: PropTypes.string.isRequired,
     tileSize: PropTypes.number,
@@ -49,9 +49,11 @@ export default class CustomTileLayer extends Component {
 
   componentDidMount() {
     if (!this.state.tileLayer) return;
-    const map = this.props.mapHolderRef.getMap();
-    map.mapTypes.set('park', this.state.tileLayer);
-    map.setMapTypeId('park');
+    if (this.props.mapHolderRef) {
+      const map = this.props.mapHolderRef.getMap();
+      map.mapTypes.set('park', this.state.tileLayer);
+      map.setMapTypeId('park');
+    }
   }
 
   componentDidUpdate(prevProps) {

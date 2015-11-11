@@ -177,17 +177,15 @@ app.get('/park/:id', (req, res, next) => {
   })
   .then((park) => {
     res.locals.selectedPark.park = park;
+
+    return next();
   })
   .catch((err) => {
     return next(err);
-  })
-  .then(() => {
-    return next();
   });
 });
 
 /*
-
 // load most shared parks
 app.get('/', (req, res, next) => {
   return dataStore.db('mostSharedParks', {}).then((parks) => {
@@ -214,6 +212,27 @@ app.get('/api/most_shared_parks.json', (req, res, next) => {
   return  dataStore.db('mostSharedParks', {interval: req.query.interval || null}).then((data) => {
     return res.json(data);
   }).catch((err) => {
+    return next(err);
+  });
+});
+
+app.get('/api/selected_park.json', (req, res, next) => {
+  if (!req.query.id) return next();
+
+  const obj = {
+    park: [],
+    images: []
+  };
+
+  return dataStore.db('getSelectedParkPhotos', {id: req.query.id}).then((images) => {
+    obj.images = images;
+    return dataStore.db('getSelectedPark', {id: req.query.id});
+  })
+  .then((park) => {
+    obj.park = park;
+    return res.json(obj);
+  })
+  .catch((err) => {
     return next(err);
   });
 });
