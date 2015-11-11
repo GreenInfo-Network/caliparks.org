@@ -1,14 +1,14 @@
-import React from 'react';
+import React, {Component} from 'react';
 
-export default class Wander extends React.Component {
+export default class Wander extends Component {
 
   componentDidMount() { }
 
   render() {
     return (
-      <section className='sub-view'>
+      <div className='container'>
         <h1>Wander</h1>
-      </section>
+      </div>
     );
   }
 }

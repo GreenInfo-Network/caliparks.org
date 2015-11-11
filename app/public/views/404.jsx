@@ -1,13 +1,15 @@
-import React, {PropTypes} from 'react';
+import React, {PropTypes, Component} from 'react';
 
-export default class NotFound extends React.Component {
+export default class NotFound extends .Component {
   static propTypes = {
     url: PropTypes.string.isRequired
   };
 
   render() {
     return (
-      <h3>URL: {this.props.url} - Not Found (404)</h3>
+      <div className='container'>
+        <h3>URL: {this.props.url} - Not Found (404)</h3>
+      </div>
     );
   }
 }
