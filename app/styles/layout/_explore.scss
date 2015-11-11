@@ -4,6 +4,12 @@
   height: 700px;
 
   &>div {
+    position: relative;
     height: 100%;
+  }
+
+  .navigator {
+    top: 8px;
+    right: 8px;
   }
 }

@@ -39,6 +39,7 @@ export default class Layout extends React.Component {
               <link rel='stylesheet' type='text/css' href='//cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.3.15/slick.css' />
               <link rel='stylesheet' type='text/css' href='/styles.css' />
               <link rel='shortcut icon' href='/favicon.ico' type='image/x-icon'/>
+              <script src='https://maps.googleapis.com/maps/api/js'></script>
             </head>
             <body>
               <IntlProvider locale={this.props.lang} messages={this.props.messages}>

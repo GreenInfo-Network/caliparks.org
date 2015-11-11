@@ -1,9 +1,9 @@
 import XHR from './xhr';
-import * as DB from './db';
+import {query} from './db';
 import * as File from './file';
 
 module.exports = {
   xhr: XHR,
-  db: DB,
+  db: query,
   file: File
 };

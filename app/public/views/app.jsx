@@ -19,6 +19,8 @@ function mapStateToProps(state) {
 
 export class App extends React.Component {
   static propTypes = {
+    mostSharedParks: PropTypes.object,
+    fetchMostSharedParks: PropTypes.func.isRequired,
     featuredParks: PropTypes.object,
     fetchFeaturedParks: PropTypes.func.isRequired,
     lang: PropTypes.string.isRequired,
@@ -43,6 +45,12 @@ export class App extends React.Component {
       console.log('Fetching featured parks');
       this.props.fetchFeaturedParks();
     }
+
+    if (Map(this.props.mostSharedParks.parks).isEmpty()
+                && !this.props.mostSharedParks.isFetching) {
+      console.log('Fetching featured parks');
+      this.props.fetchMostSharedParks();
+    }
   }
 
   componentWillUnmount() {
@@ -64,16 +72,23 @@ export class App extends React.Component {
     this.setState({win: this.getWindowDimensions()});
   }
 
+  handleExploreChange(val) {
+    this.props.fetchMostSharedParks(val);
+  }
+
   render() {
     return (
       <div className='container'>
         <Header images={this.props.viewData.header} autoplay={true} autoplaySpeed={8000} />
         <Home featuredParks={this.props.featuredParks} />
         <main role='application'>
-          <Schticky>
+          <div>
+          <StickyNav />
+          <Schticky className={'real-sticky'}>
             <StickyNav />
           </Schticky>
-          <Explore height={this.state.win.height} />
+          </div>
+          <Explore height={this.state.win.height} mostSharedParks={this.props.mostSharedParks} handleOnChange={this.handleExploreChange.bind(this)}/>
           <Discover />
         </main>
         <Footer lang={this.props.lang} />

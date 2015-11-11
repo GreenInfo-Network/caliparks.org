@@ -33,6 +33,19 @@ $purple: #9C27B0;
     height: 40px;
     color: #fff;
   }
+
+  &.prev-arrow,
+  &.next-arrow {
+    color: #EEEFF3;
+    width: 18px;
+    height: 34px;
+  }
+
+  &.prev-arrow.small,
+  &.next-arrow.small {
+    width: 9px;
+    height: 17px;
+  }
 }
 
 .icon.park-activity {

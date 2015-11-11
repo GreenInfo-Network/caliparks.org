@@ -2,6 +2,7 @@ import React, {PropTypes} from 'react';
 import PureComponent from 'react-pure-render/component';
 import Slider from 'react-slick';
 import { Link } from 'react-router';
+import __ from 'lodash';
 
 export default class Home extends PureComponent {
   static propTypes = {
@@ -14,25 +15,30 @@ export default class Home extends PureComponent {
     super(props);
   }
 
-  getParks() {
-    return this.props.featuredParks.parks || [];
-  }
-
-  componentDidMount() {
-  }
+  componentDidMount() {}
 
   componentDidUpdate() { }
 
   componentWillUnmount() { }
+
+  getParks() {
+    return this.props.featuredParks.parks || [];
+  }
 
   imgError(evt) {
     console.log('EVT: ', evt.target);
   }
 
   makeSlides() {
-    return this.getParks().map((park, idx) => {
+    // sort slides based on count
+    const slides = __.slice(this.getParks());
+    slides.sort((a, b) => {
+      return +b.count - +a.count;
+    });
+
+    return slides.map((park) => {
       return (
-        <div key={idx} className='slide-container'>
+        <div key={park.su_id} className='slide-container'>
           <Link to={`/park/${park.su_id}`}>
             <div className='overlay'><p className='place'>{park.su_name}</p></div>
             <img src={park.standard_resolution} onError={this.imgError}/>
@@ -50,7 +56,8 @@ export default class Home extends PureComponent {
       arrows: true,
       slidesToShow: 4,
       variableWidth: true,
-      slidesToScroll: 3
+      slidesToScroll: 3,
+      initialSlide: 0
     };
 
     // <Slider {...settings}>

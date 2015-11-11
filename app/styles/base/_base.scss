@@ -101,3 +101,10 @@ a {
     }
   }
 }
+
+.real-sticky {
+  display: none;
+  &.sticky {
+    display: block;
+  }
+}

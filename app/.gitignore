@@ -6,3 +6,6 @@ npm-debug.log
 public/bundle.*
 public/styles.*
 public/main.svg
+
+//
+QUERIES.sql
