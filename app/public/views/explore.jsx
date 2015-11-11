@@ -11,14 +11,38 @@ export default class Explore extends PureComponent {
     height: PropTypes.number,
     handleOnChange: PropTypes.func,
     mostSharedParks: PropTypes.shape({
-      parks: PropTypes.array
-    }).isRequired
+      parks: PropTypes.array,
+      interval: PropTypes.string,
+      isFetching: PropTypes.bool
+    }).isRequired,
+    handleMarkerClick: PropTypes.func
   };
 
+  state = {
+    selectedMarkerIdx: 0
+  }
 
   componentDidMount() {}
 
   componentDidUpdate() {}
+
+  onMarkerClick(item) {
+    if (typeof this.props.handleMarkerClick === 'function') {
+      this.props.handleMarkerClick(item.superunit_id);
+    }
+  }
+
+  onNavigatorChange(dir) {
+    console.log('DIR:::: ', dir);
+    const length = this.props.mostSharedParks.parks.length - 1;
+    const idx = this.state.selectedMarkerIdx;
+    console.log(idx, length);
+    if (dir === 'prev') {
+      if (idx > 0) this.setState({selectedMarkerIdx: this.state.selectedMarkerIdx - 1});
+    } else {
+      if (idx < length) this.setState({selectedMarkerIdx: this.state.selectedMarkerIdx + 1});
+    }
+  }
 
   getHeight() {
     return this.props.height || 700;
@@ -30,10 +54,27 @@ export default class Explore extends PureComponent {
     }
   }
 
-  onMarkerClick(item) {
-    if (typeof this.props.handleMarkerClick === 'function') {
-      this.props.handleMarkerClick(item.superunit_id);
+  getMarkerIcon(idx) {
+    // circle icon path generator:
+    // http://complexdan.com/svg-circleellipse-to-path-converter/
+    const icon = {
+      scale: 1,
+      fillOpacity: 1,
+      strokeOpacity: 1
+    };
+
+    if (idx === this.state.selectedMarkerIdx) {
+      icon.path = 'M-8,0a8,8 0 1,0 16,0a8,8 0 1,0 -16,0';
+      icon.fillColor = '#ffffff';
+      icon.strokeColor = '#358292';
+      icon.strokeWeight = 4;
+    } else {
+      icon.path = 'M-10,0a10,10 0 1,0 20,0a10,10 0 1,0 -20,0';
+      icon.fillColor = '#358292';
+      icon.strokeColor = '#358292';
+      icon.strokeWeight = 0;
     }
+    return icon;
   }
 
   render() {
@@ -51,15 +92,6 @@ export default class Explore extends PureComponent {
       { value: 'year-now', label: 'This year' },
       { value: 'year-last', label: 'Last year' }
     ];
-
-    // http://complexdan.com/svg-circleellipse-to-path-converter/
-    const sym = {
-      path: 'M-8,0a8,8 0 1,0 16,0a8,8 0 1,0 -16,0',
-      scale: 1,
-      fillColor: '#358292',
-      fillOpacity: 1,
-      strokeOpacity: 0
-    };
 
     return (
       <div id='explore' name='explore' className='row theme-white' style={{height: this.getHeight() + 'px'}}>
@@ -84,7 +116,12 @@ export default class Explore extends PureComponent {
           {this.props.mostSharedParks.isFetching &&
             <div className='loading-data'><h3>Loading</h3></div>
           }
-          <Navigator items={this.props.mostSharedParks.parks} nameKey={'unit_name'}/>
+          <Navigator
+            items={this.props.mostSharedParks.parks}
+            selectedItem={this.state.selectedMarkerIdx}
+            nameKey={'unit_name'}
+            onChange={this.onNavigatorChange.bind(this)} />
+
           <GoogleMap containerProps={{
             style: {
               height: '100%',
@@ -101,56 +138,15 @@ export default class Explore extends PureComponent {
             <CustomTileLayer tileUrl='http://{s}.map.parks.stamen.com/{z}/{x}/{y}{r}.png' {...this.props} />
             {this.props.mostSharedParks.parks.map((marker, index) => {
               const coords = marker.centroid.coordinates;
-              return <Marker key={marker.superunit_id} onClick={this.onMarkerClick.bind(this, marker)}icon={sym} position={{lat:coords[1], lng:coords[0]}} />;
+              return (<Marker
+                key={marker.superunit_id}
+                onClick={this.onMarkerClick.bind(this, marker)}
+                icon={this.getMarkerIcon(index)}
+                position={{lat:coords[1], lng:coords[0]}} />
+              );
             })}
           </GoogleMap>
         </div>
-      </div>
-    );
-  }
-}
-
-/*
-<GoogleMap
-  center={{lat: 37.735969, lng: -121.640625}}
-  zoom={6}
-  options = {{
-    scrollwheel: false
-  }}>
-    <ParkLocation lat={32.9953804} lng={-116.7560043} text={'A'} />
-  </GoogleMap>
-*/
-
-export class ParkLocation extends PureComponent {
-  static propTypes = {
-    text: PropTypes.string
-  };
-
-  constructor(props) {
-    super(props);
-  }
-  render() {
-    const style = {
-      // initially any map object has left top corner at lat lng coordinates
-      // it's on you to set object origin to 0,0 coordinates
-      position: 'absolute',
-      width: 20,
-      height: 20,
-      left: -20 / 2,
-      top: -20 / 2,
-
-      border: '5px solid #f44336',
-      borderRadius: 20,
-      backgroundColor: 'white',
-      textAlign: 'center',
-      color: '#3f51b5',
-      fontSize: 16,
-      fontWeight: 'bold',
-      padding: 4
-    };
-    return (
-      <div style={style}>
-        {this.props.text}
       </div>
     );
   }

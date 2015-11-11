@@ -24,7 +24,8 @@ export class App extends React.Component {
     featuredParks: PropTypes.object,
     fetchFeaturedParks: PropTypes.func.isRequired,
     lang: PropTypes.string.isRequired,
-    viewData: PropTypes.object.isRequired
+    viewData: PropTypes.object.isRequired,
+    history: PropTypes.object
   };
 
   state = {

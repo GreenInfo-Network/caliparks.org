@@ -7,12 +7,16 @@ export default class Navigator extends PureComponent {
 
   static propTypes = {
     items: PropTypes.array,
-    nameKey: PropTypes.string
+    nameKey: PropTypes.string,
+    selectedItem: PropTypes.number,
+    onChange: PropTypes.func
   };
 
   static defaultProps = {
     items: [],
-    nameKey: 'name'
+    nameKey: 'name',
+    selectedItem: 0,
+    onChange: () => {}
   }
 
   state = {
@@ -23,25 +27,21 @@ export default class Navigator extends PureComponent {
 
   componentDidUpdate() {}
 
-  getBtnState(btnName) {
-    if (btnName === 'prev' && this.state.index === 0) return true;
-    if (btnName === 'next' && this.state.index === (this.props.items.length - 1)) return true;
-    return false;
+  onClickHandler(dir) {
+    if (typeof this.props.onChange === 'function') {
+      this.props.onChange(dir);
+    }
   }
 
-  onClickHandler(dir) {
-    const length = this.props.items.length - 1;
-    const idx = this.state.index;
-    if (dir === 'prev') {
-      if (idx > 0) this.setState({index: this.state.index - 1});
-    } else {
-      if (idx < length) this.setState({index: this.state.index + 1});
-    }
+  getBtnState(btnName) {
+    if (btnName === 'prev' && this.props.selectedItem === 0) return true;
+    if (btnName === 'next' && this.props.selectedItem === (this.props.items.length - 1)) return true;
+    return false;
   }
 
   render() {
     const showNavi = this.props.items.length ? true : false;
-    const item = this.props.items.length ? this.props.items[this.state.index] : {};
+    const item = this.props.items.length ? this.props.items[this.props.selectedItem] : {};
     return (
       <div className='navigator'>
         {showNavi &&
@@ -55,7 +55,7 @@ export default class Navigator extends PureComponent {
               </button>
               </div>
               <div className='col rank-count'>
-                <span className='rank'>{this.state.index + 1}</span>
+                <span className='rank'>{this.props.selectedItem + 1}</span>
                 <span className='count'><FormattedNumber value={item.total} /> photos</span>
               </div>
               <div className='col arrow'>
