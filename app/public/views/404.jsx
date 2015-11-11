@@ -1,6 +1,6 @@
 import React, {PropTypes, Component} from 'react';
 
-export default class NotFound extends .Component {
+export default class NotFound extends Component {
   static propTypes = {
     url: PropTypes.string.isRequired
   };
