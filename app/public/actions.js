@@ -54,6 +54,10 @@ export function requestMostSharedParks() {
 
 export const RECEIVE_MOST_SHARED_PARKS = 'RECEIVE_MOST_SHARED_PARKS';
 export function receiveMostSharedParks(parks, interval) {
+  parks.sort((a, b) => {
+    return +b.total - +a.total;
+  });
+
   return {
     type: RECEIVE_MOST_SHARED_PARKS,
     parks,

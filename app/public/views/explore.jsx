@@ -33,10 +33,8 @@ export default class Explore extends PureComponent {
   }
 
   onNavigatorChange(dir) {
-    console.log('DIR:::: ', dir);
     const length = this.props.mostSharedParks.parks.length - 1;
     const idx = this.state.selectedMarkerIdx;
-    console.log(idx, length);
     if (dir === 'prev') {
       if (idx > 0) this.setState({selectedMarkerIdx: this.state.selectedMarkerIdx - 1});
     } else {
