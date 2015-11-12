@@ -1,4 +1,4 @@
-.page-park {}
+
 
 .page-park-top {
   margin: 1.5rem 10px 0;
@@ -36,5 +36,30 @@
   height: auto;
   width: 100%;
   max-width: 100%;
+ }
+
+ .share {
+  position: absolute;
+  bottom: 0;
+
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      text-align: left;
+    }
+
+    li {
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    li + li {
+      &:before {
+        content: '-';
+        display: inline-block;
+        margin: 0 4px;
+      }
+    }
  }
 }

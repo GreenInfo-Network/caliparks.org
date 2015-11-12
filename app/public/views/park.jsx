@@ -21,6 +21,10 @@ export class Park extends PureComponent {
     }).isRequired
   };
 
+  state = {
+    selectedPhoto: 0
+  };
+
   componentWillMount() {}
 
   componentDidMount() {
@@ -90,6 +94,14 @@ export class Park extends PureComponent {
         <h4>{details.su_name}</h4>
         <p><a className='link-plain' href={details.park_url}>Link to park site <sub>></sub></a></p>
         <ActivityGrid activities={details.activities} />
+        <div className='share'>
+          <ul>
+            <li><a className='link-plain' href=''>Like</a></li>
+            <li><a className='link-plain' href=''>Tweet</a></li>
+            <li><a className='link-plain' href=''>Get Directions</a></li>
+            <li><a className='link-plain' href=''>Camp Here</a></li>
+          </ul>
+        </div>
       </div>
     );
   }
@@ -99,7 +111,7 @@ export class Park extends PureComponent {
     const images = this.props.selectedPark.images;
     return (
       <div className='inner'>
-        <img src={images[0].standard_resolution} />
+        <img src={images[this.state.selectedPhoto].standard_resolution} />
       </div>
     );
   }
@@ -122,6 +134,9 @@ export class Park extends PureComponent {
             <div className='col photo' style={{height: this.getColumnHeight()}}>
               {this.placeImage()}
             </div>
+          </div>
+          <div className='page-park-bottom'>
+
           </div>
         </main>
       </div>
