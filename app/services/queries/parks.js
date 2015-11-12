@@ -135,15 +135,17 @@ function getSelectedParkPhotos(options) {
   options = options || {};
   const id = options.id;
   const photoCount = options.photoCount || '12';
+  const offset = options.offset || '0';
 
   const q = ["SELECT"].concat(BASE_PHOTO_ATTRIBUTES).concat([
     " FROM instagram_photos photos",
     " WHERE photos.superunit_id = $1",
-    " ORDER BY (photos.metadata->>'created_time')::int",
-    " DESC limit $2"
+    " ORDER BY (photos.metadata->>'created_time')::int DESC",
+    " OFFSET $2",
+    " LIMIT $3"
   ]).join('\n');
 
-  return {query: q, opts:[id, photoCount]};
+  return {query: q, opts:[id, offset, photoCount]};
 }
 
 function getSelectedPark(options) {

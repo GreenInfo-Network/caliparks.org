@@ -101,6 +101,22 @@ export function receiveSelectedPark(park) {
   };
 }
 
+export const REQUEST_SELECTED_PARK_PHOTOS = 'REQUEST_SELECTED_PARK_PHOTOS';
+export function requestSelectedParkPhotos() {
+  return {
+    type: REQUEST_SELECTED_PARK_PHOTOS
+  };
+}
+
+export const RECEIVE_SELECTED_PARK_PHOTOS = 'RECEIVE_SELECTED_PARK_PHOTOS';
+export function receiveSelectedParkPhotos(images) {
+  return {
+    type: RECEIVE_SELECTED_PARK_PHOTOS,
+    images,
+    receivedAt: Date.now()
+  };
+}
+
 export function fetchSelectedPark(id) {
   return (dispatch) => {
     dispatch(requestSelectedPark());
@@ -108,6 +124,17 @@ export function fetchSelectedPark(id) {
     return fetch('/api/selected_park.json?id=' + id)
       .then(response => response.json())
       .then(park => dispatch(receiveSelectedPark(park)))
+      .catch(err => console.warn(err.stack));
+  };
+}
+
+export function fetchSelectedParkPhotos(id, offset) {
+  return (dispatch) => {
+    dispatch(requestSelectedParkPhotos());
+
+    return fetch('/api/park/' + id + '/photos?offset=' + (offset || 0))
+      .then(response => response.json())
+      .then(images => dispatch(receiveSelectedParkPhotos(images)))
       .catch(err => console.warn(err.stack));
   };
 }

@@ -145,7 +145,8 @@ app.use('/', (req, res, next) => {
       },
       selectedPark: {
         images: [],
-        park: []
+        park: [],
+        isFetching: false
       },
       viewData: {
         header: images
@@ -233,6 +234,21 @@ app.get('/api/selected_park.json', (req, res, next) => {
   .then((park) => {
     obj.park = park;
     return res.json(obj);
+  })
+  .catch((err) => {
+    return next(err);
+  });
+});
+
+app.get('/api/park/:id/photos', (req, res, next) => {
+  const options = {
+    id: req.params.id,
+    offset: req.query.offset || 0
+  };
+
+  return dataStore.db('getSelectedParkPhotos', options)
+  .then((images) => {
+    return res.json(images);
   })
   .catch((err) => {
     return next(err);

@@ -51,11 +51,26 @@ function selectedPark(state = INITIAL_STATE, action) {
       isFetching: true
     });
 
+  case actions.REQUEST_SELECTED_PARK_PHOTOS:
+    return Map(state).merge({
+      isFetching: true
+    });
+
   case actions.RECEIVE_SELECTED_PARK:
     return Map(state).merge({
       isFetching: false,
       park: action.park.park,
       images: action.park.images,
+      lastUpdated: action.receivedAt
+    });
+
+  case actions.RECEIVE_SELECTED_PARK_PHOTOS:
+    // TODO: Not sure this is best way to concat new
+    // images to Immutable state images
+    const prv = state.toJS();
+    return Map(state).merge({
+      isFetching: false,
+      images: prv.images ? prv.images.concat(action.images) : action.images,
       lastUpdated: action.receivedAt
     });
 

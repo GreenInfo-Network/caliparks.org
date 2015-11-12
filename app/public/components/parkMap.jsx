@@ -39,7 +39,7 @@ export default class ParkMap extends PureComponent {
         }
 
         {this.props.park.images.map((marker, index) => {
-          const zidx = (this.props.selectedMarker === index) ? google.maps.Marker.MAX_ZINDEX + 1 : index;
+          const zidx = (this.props.selectedMarker === index) ? 1000 + index : index;
           return (<Marker
             ref={marker.photoid}
             key={marker.photoid}

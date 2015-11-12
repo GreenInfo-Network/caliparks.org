@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react';
 import PureComponent from 'react-pure-render/component';
+import Waypoint from 'react-waypoint';
 
 export default class PhotoGrid extends PureComponent {
   static propTypes = {
@@ -28,7 +29,14 @@ export default class PhotoGrid extends PureComponent {
     return 'photo';
   }
 
+  loadMoreImages() {
+    if (typeof this.props.loadImageHandler === 'function') {
+      this.props.loadImageHandler();
+    }
+  }
+
   render() {
+    const showWaypoint = this.props.fetching ? false : true;
     return (
       <div className='photo-grid'>
         <ul className='inner'>
@@ -40,6 +48,11 @@ export default class PhotoGrid extends PureComponent {
           );
         })}
         </ul>
+        {showWaypoint &&
+          <Waypoint
+            onEnter={this.loadMoreImages.bind(this)}
+            threshold={0} />
+        }
       </div>
     );
   }

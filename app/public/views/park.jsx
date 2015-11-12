@@ -129,8 +129,13 @@ export class Park extends PureComponent {
     );
   }
 
+  loadPhotos() {
+    if (!this.props.selectedPark.images.length) return;
+    if (this.props.selectedPark.isFetching) return;
+    this.props.fetchSelectedParkPhotos(this.props.params.id, this.props.selectedPark.images.length);
+  }
+
   render() {
-    console.log(this.props.selectedPark);
     return (
       <div className='container'>
         <main className='theme-white page-park' role='application'>
@@ -149,7 +154,7 @@ export class Park extends PureComponent {
             </div>
           </div>
           <div className='page-park-bottom'>
-            <PhotoGrid photos={this.props.selectedPark.images} selected={this.state.selectedPhoto} onPhotoClick={this.onPhotoClick.bind(this)} />
+            <PhotoGrid loadImageHandler={this.loadPhotos.bind(this)} photos={this.props.selectedPark.images} fetching={this.props.selectedPark.isFetching} selected={this.state.selectedPhoto} onPhotoClick={this.onPhotoClick.bind(this)} />
           </div>
         </main>
       </div>
