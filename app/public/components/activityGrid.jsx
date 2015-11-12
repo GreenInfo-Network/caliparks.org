@@ -28,10 +28,11 @@ export default class ActivityGrid extends PureComponent {
     return (
       <div className='activity-grid'>
         {this.props.activities.map((activity, index) => {
+          const cleaned = activity.split(' ').join('_');
           return (
-            <button key={index} className='btn' title={this.getTitle(activity)}>
-              <svg className={'icon park-activity alt ' + activity}>
-                <use xlinkHref={'/main.svg#activity-' + activity} />
+            <button key={index} className='btn' title={this.getTitle(cleaned)}>
+              <svg className={'icon park-activity alt ' + cleaned}>
+                <use xlinkHref={'/main.svg#activity-' + cleaned} />
               </svg>
             </button>
           );

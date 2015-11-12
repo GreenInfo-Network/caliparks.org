@@ -52,7 +52,7 @@ export const activities = [
   {
     name: 'Boating',
     assetname: 'boating',
-    feature: false,
+    feature: true,
     clrGroup: 'blue'
   },
   {
@@ -94,7 +94,7 @@ export const activities = [
   {
     name: 'Horseback riding',
     assetname: 'horsebackriding',
-    feature: false,
+    feature: true,
     clrGroup: 'green'
   },
   {
@@ -106,19 +106,19 @@ export const activities = [
   {
     name: 'OHV',
     assetname: 'ohv',
-    feature: false,
+    feature: true,
     clrGroup: 'green'
   },
   {
     name: 'Playgrounds',
     assetname: 'playground',
-    feature: false,
+    feature: true,
     clrGroup: 'purple'
   },
   {
     name: 'Rustic cabins',
     assetname: 'rusticcabins',
-    feature: false,
+    feature: true,
     clrGroup: 'green'
   },
   {
@@ -130,19 +130,19 @@ export const activities = [
   {
     name: 'Swimming',
     assetname: 'swimming',
-    feature: false,
+    feature: true,
     clrGroup: 'blue'
   },
   {
     name: 'Tennis',
     assetname: 'tennis',
-    feature: false,
+    feature: true,
     clrGroup: 'orange'
   },
   {
     name: 'Wildlife watching',
     assetname: 'wildlifewatching',
-    feature: false,
+    feature: true,
     clrGroup: 'green'
   }
 ];
