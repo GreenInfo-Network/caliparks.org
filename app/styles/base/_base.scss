@@ -117,3 +117,49 @@ a {
     z-index: 9999999;
   }
 }
+
+.zoom-control-container {
+  -webkit-user-select: none;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 4px -1px;
+  border-radius: 2px;
+  cursor: pointer;
+  width: 28px;
+  height: 55px;
+  color: #EEEFF3;
+  background-color: #33322E;
+  background-color: rgba(51, 50, 46, 0.6);
+  line-height: 0;
+
+  .zoom-in,.zoom-out {
+    position: relative;
+    width: 28px;
+    height: 27px;
+    left: 0px;
+    top: 0px;
+    font-size: 2rem;
+    line-height: 27px;
+    text-align: center;
+  }
+
+  .divider {
+    position: relative;
+    overflow: hidden;
+    width: 80%;
+    height: 1px;
+    left: 10%;
+    top: 0px;
+    background-color: #C4C4C4;
+  }
+
+  .icon-wrap {
+    overflow: hidden;
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    left: 7px;
+    top: 6px;
+  }
+
+}

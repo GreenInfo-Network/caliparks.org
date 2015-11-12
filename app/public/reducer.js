@@ -46,6 +46,15 @@ function mostSharedParks(state = INITIAL_STATE, action) {
 
 function selectedPark(state = INITIAL_STATE, action) {
   switch (action.type) {
+  case actions.CLEAR_SELECTED_PARK:
+    return Map(state).merge({
+      isFetching: false,
+      park: [],
+      images: [],
+      parkid: [],
+      lastUpdated: null
+    });
+
   case actions.REQUEST_SELECTED_PARK:
     return Map(state).merge({
       isFetching: true
@@ -61,6 +70,7 @@ function selectedPark(state = INITIAL_STATE, action) {
       isFetching: false,
       park: action.park.park,
       images: action.park.images,
+      parkid: action.parkid,
       lastUpdated: action.receivedAt
     });
 

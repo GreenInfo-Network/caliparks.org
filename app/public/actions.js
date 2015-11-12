@@ -93,10 +93,11 @@ export function requestSelectedPark() {
 }
 
 export const RECEIVE_SELECTED_PARK = 'RECEIVE_SELECTED_PARK';
-export function receiveSelectedPark(park) {
+export function receiveSelectedPark(park, parkid) {
   return {
     type: RECEIVE_SELECTED_PARK,
     park,
+    parkid,
     receivedAt: Date.now()
   };
 }
@@ -123,8 +124,21 @@ export function fetchSelectedPark(id) {
 
     return fetch('/api/selected_park.json?id=' + id)
       .then(response => response.json())
-      .then(park => dispatch(receiveSelectedPark(park)))
+      .then(park => dispatch(receiveSelectedPark(park, id)))
       .catch(err => console.warn(err.stack));
+  };
+}
+
+export const CLEAR_SELECTED_PARK = 'CLEAR_SELECTED_PARK';
+export function clearSelectedPark() {
+  return {
+    type: CLEAR_SELECTED_PARK
+  };
+}
+
+export function clearSelectedParkData() {
+  return (dispatch) => {
+    dispatch(clearSelectedPark());
   };
 }
 

@@ -37,9 +37,12 @@ export class Park extends PureComponent {
     window.addEventListener('resize', this.handleResizeThrottled);
     this.handleResize();
 
-    if (Map(this.props.selectedPark.park).isEmpty()
-                && !this.props.selectedPark.isFetching) {
-      this.props.fetchSelectedPark(this.props.params.id);
+    if (!this.props.selectedPark.isFetching) {
+      if (Map(this.props.selectedPark.park).isEmpty()) {
+        this.props.fetchSelectedPark(this.props.params.id);
+      } else if (this.props.selectedPark.parkid !== this.props.params.id) {
+        this.props.fetchSelectedPark(this.props.params.id);
+      }
     }
   }
 
@@ -61,6 +64,7 @@ export class Park extends PureComponent {
   }
 
   componentWillUnmount() {
+    this.props.clearSelectedParkData(this.props.params.id);
     window.removeEventListener('resize', this.handleResizeThrottled);
   }
 

@@ -3,6 +3,7 @@ import PureComponent from 'react-pure-render/component';
 import {GoogleMap, Marker} from 'react-google-maps';
 import CustomTileLayer from '../components/customTileLayer';
 import GmapDataLayer from  '../components/gmapDataLayer';
+import GmapControls from './gmapControls';
 
 export default class ParkMap extends PureComponent {
   static propTypes = {
@@ -27,13 +28,16 @@ export default class ParkMap extends PureComponent {
         },
       }}
         defaultZoom={6}
-        options={{
+        defaultOptions={{
           streetViewControl: false,
           scrollwheel: false,
-          mapTypeControl: false
+          mapTypeControl: false,
+          zoomControl: false
         }}
         defaultCenter={{lat: 37.735969, lng: -121.640625}} >
         <CustomTileLayer tileUrl='http://{s}.map.parks.stamen.com/{z}/{x}/{y}{r}.png' {...this.props} />
+        <GmapControls {...this.props} />
+
         {this.props.park.park.length &&
           <GmapDataLayer geometry={this.props.park.park[0].geometry} />
         }

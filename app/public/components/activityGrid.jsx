@@ -24,19 +24,25 @@ export default class ActivityGrid extends PureComponent {
     return activity;
   }
 
+  renderActivities() {
+    if (!this.props.activities) return (<h5 className='error'>No activities!</h5>);
+
+    return this.props.activities.map((activity, index) => {
+      const cleaned = activity.split(' ').join('_');
+      return (
+        <button key={index} className='btn' title={this.getTitle(cleaned)}>
+          <svg className={'icon park-activity alt ' + cleaned}>
+            <use xlinkHref={'/main.svg#activity-' + cleaned} />
+          </svg>
+        </button>
+      );
+    });
+  }
+
   render() {
     return (
       <div className='activity-grid'>
-        {this.props.activities.map((activity, index) => {
-          const cleaned = activity.split(' ').join('_');
-          return (
-            <button key={index} className='btn' title={this.getTitle(cleaned)}>
-              <svg className={'icon park-activity alt ' + cleaned}>
-                <use xlinkHref={'/main.svg#activity-' + cleaned} />
-              </svg>
-            </button>
-          );
-        })}
+        {this.renderActivities()}
       </div>
     );
   }

@@ -4,6 +4,7 @@ import Dropdown from 'react-select';
 // import GoogleMap from 'google-map-react';
 import {GoogleMap, Marker} from 'react-google-maps';
 import CustomTileLayer from '../components/customTileLayer';
+import GmapControls from '../components/gmapControls';
 import Navigator from '../components/navigator';
 
 export default class Explore extends PureComponent {
@@ -126,13 +127,14 @@ export default class Explore extends PureComponent {
             },
           }}
             defaultZoom={6}
-            options={{
+            defaultCenter={{lat: 37.735969, lng: -121.640625}}
+            defaultOptions={{
               streetViewControl: false,
               scrollwheel: false,
-              mapTypeControl: false
-            }}
-            defaultCenter={{lat: 37.735969, lng: -121.640625}}
-          >
+              mapTypeControl: false,
+              zoomControl: false
+            }}>
+            <GmapControls {...this.props} />
             <CustomTileLayer tileUrl='http://{s}.map.parks.stamen.com/{z}/{x}/{y}{r}.png' {...this.props} />
             {this.props.mostSharedParks.parks.map((marker, index) => {
               const coords = marker.centroid.coordinates;
