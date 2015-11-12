@@ -145,8 +145,7 @@ app.use('/', (req, res, next) => {
       },
       selectedPark: {
         images: [],
-        park: [],
-        isFetching: false
+        park: []
       },
       viewData: {
         header: images

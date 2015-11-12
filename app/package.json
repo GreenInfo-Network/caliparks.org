@@ -66,6 +66,7 @@
     "react-select": "^0.9.0",
     "react-slick": "stamen/react-slick#0.14",
     "react-sticky": "^3.0.0",
+    "react-waypoint": "^1.1.0",
     "redux": "^3.0.4",
     "redux-logger": "^2.0.4",
     "redux-thunk": "^1.0.0",

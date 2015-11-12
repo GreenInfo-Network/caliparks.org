@@ -8,6 +8,7 @@ import * as actions from '../actions';
 import StickyNav from '../partials/sticky-nav';
 import ParkMap from '../components/parkMap';
 import ActivityGrid from '../components/activityGrid';
+import PhotoGrid from '../components/photoGrid';
 
 function mapStateToProps(state) {
   // NOTE: this may or may not be an Immutable JS object
@@ -18,7 +19,11 @@ export class Park extends PureComponent {
   static propTypes = {
     params: PropTypes.shape({
       id: PropTypes.string.isRequired
-    }).isRequired
+    }).isRequired,
+    selectedPark: PropTypes.object,
+    windowSize: PropTypes.object,
+    setWindowSize: PropTypes.func,
+    fetchSelectedPark: PropTypes.func
   };
 
   state = {
@@ -39,6 +44,7 @@ export class Park extends PureComponent {
   }
 
   componentDidUpdate() {
+    /*
     if (!this.props.selectedPark.park.length) return;
     const details = this.props.selectedPark.park[0];
 
@@ -51,6 +57,7 @@ export class Park extends PureComponent {
         }
       }
     }
+    */
   }
 
   componentWillUnmount() {
@@ -66,6 +73,11 @@ export class Park extends PureComponent {
       width: window.innerWidth,
       height: window.innerHeight
     };
+  }
+
+  onPhotoClick(idx) {
+    if (this.state.selectedPhoto === idx) return;
+    this.setState({selectedPhoto: idx});
   }
 
   getColumnHeight() {
@@ -91,7 +103,7 @@ export class Park extends PureComponent {
 
     return (
       <div className='inner'>
-        <h4>{details.su_name}</h4>
+        <h4 className='uppercase'>{details.su_name}</h4>
         <p><a className='link-plain' href={details.park_url}>Link to park site <sub>></sub></a></p>
         <ActivityGrid activities={details.activities} />
         <div className='share'>
@@ -111,6 +123,7 @@ export class Park extends PureComponent {
     const images = this.props.selectedPark.images;
     return (
       <div className='inner'>
+        <div className='instagram-logo' />
         <img src={images[this.state.selectedPhoto].standard_resolution} />
       </div>
     );
@@ -128,7 +141,7 @@ export class Park extends PureComponent {
             </div>
             <div className='col map' style={{height: this.getColumnHeight()}}>
               <div className='inner'>
-                <ParkMap ref='mapp' {...this.props} />
+                <ParkMap ref='mapp' park={this.props.selectedPark} selectedMarker={this.state.selectedPhoto}/>
               </div>
             </div>
             <div className='col photo' style={{height: this.getColumnHeight()}}>
@@ -136,7 +149,7 @@ export class Park extends PureComponent {
             </div>
           </div>
           <div className='page-park-bottom'>
-
+            <PhotoGrid photos={this.props.selectedPark.images} selected={this.state.selectedPhoto} onPhotoClick={this.onPhotoClick.bind(this)} />
           </div>
         </main>
       </div>

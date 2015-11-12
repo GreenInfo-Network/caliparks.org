@@ -1,7 +1,11 @@
 
+.page-park-top,
+.page-park-bottom {
+  padding: 1rem 1rem 0;
+}
 
 .page-park-top {
-  margin: 1.5rem 10px 0;
+  margin-top: 0.5rem;
   overflow: hidden;
 
   .col {
@@ -12,7 +16,8 @@
 
     &.details .inner {
       width: 80%;
-      margin: 0 auto;
+      margin: 0 auto 0;
+      padding-top: 1rem;
     }
 
     &.map .inner {
@@ -36,6 +41,17 @@
   height: auto;
   width: 100%;
   max-width: 100%;
+ }
+
+ & .photo .instagram-logo {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 30px;
+  height: 30px;
+  background: url('/assets/svgs/icon-instagram.svg') 0 0 no-repeat;
+  background-size: cover;
+  z-index: 1;
  }
 
  .share {
@@ -62,4 +78,9 @@
       }
     }
  }
+}
+
+.page-park-bottom {
+  margin-top: 1rem;
+  background: $color-grey-dark;
 }
