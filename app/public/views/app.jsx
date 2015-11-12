@@ -1,5 +1,6 @@
 import {Map} from 'immutable';
 import React, {PropTypes} from 'react';
+import ReactDOM from 'react-dom';
 import {connect} from 'react-redux';
 import {throttle} from 'lodash';
 
@@ -9,7 +10,7 @@ import Discover from '../partials/discover';
 import Footer from '../partials/footer';
 import SliderMostShared from '../partials/sliderMostShared';
 import StickyNav from '../partials/sticky-nav';
-import Schticky from '../lib/sticky';
+import Waypoint from 'react-waypoint';
 import * as actions from '../actions';
 
 function mapStateToProps(state) {
@@ -78,17 +79,25 @@ export class App extends React.Component {
     history.pushState(null, `/park/${id}`);
   }
 
+  onStickyHandler(msg, evt, pos) {
+    if (this.refs.sticky) {
+      const klass = (msg === 'leave' && pos === 'above') ? 'sticky-container stuck' : 'sticky-container';
+      ReactDOM.findDOMNode(this.refs.sticky).className = klass;
+    }
+  }
+
   render() {
     return (
       <div className='container'>
         <Header images={this.props.viewData.header} autoplay={true} autoplaySpeed={8000} />
         <SliderMostShared featuredParks={this.props.featuredParks} />
         <main role='application'>
-          <div>
-            <StickyNav />
-            <Schticky className={'real-sticky'}>
-              <StickyNav />
-            </Schticky>
+          <Waypoint
+            onEnter={this.onStickyHandler.bind(this, 'enter')}
+            onLeave={this.onStickyHandler.bind(this, 'leave')}
+            threshold={0} />
+          <div ref='sticky' className='sticky-container'>
+            <StickyNav/>
           </div>
           <Explore
             height={this.props.windowSize.height || 0}

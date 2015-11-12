@@ -106,9 +106,14 @@ a {
   }
 }
 
-.real-sticky {
-  display: none;
-  &.sticky {
-    display: block;
+.sticky-container.stuck {
+  height: 76px;
+
+  .sub-nav {
+    position: fixed;
+    top:0;
+    left: 0;
+    width: 100%;
+    z-index: 9999999;
   }
 }
