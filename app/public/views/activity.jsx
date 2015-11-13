@@ -10,6 +10,7 @@ import * as actions from '../actions';
 import StickyNav from '../partials/sticky-nav';
 import ParkMap from '../components/parkMap';
 import { helpers } from '../../constants/park-activities';
+import Navigator from '../components/navigator';
 
 
 function mapStateToProps(state) {
@@ -100,12 +101,12 @@ export class Activity extends PureComponent {
     };
 
     if (idx === this.state.selectedMarker) {
-      icon.path = 'M-8,0a8,8 0 1,0 16,0a8,8 0 1,0 -16,0';
+      icon.path = 'M-4,0a4,4 0 1,0 8,0a4,4 0 1,0 -8,0';
       icon.fillColor = '#ffffff';
       icon.strokeColor = '#358292';
-      icon.strokeWeight = 4;
+      icon.strokeWeight = 2;
     } else {
-      icon.path = 'M-10,0a10,10 0 1,0 20,0a10,10 0 1,0 -20,0';
+      icon.path = 'M-5,0a5,5 0 1,0 10,0a5,5 0 1,0 -10,0';
       icon.fillColor = '#358292';
       icon.strokeColor = '#358292';
       icon.strokeWeight = 0;
@@ -123,6 +124,11 @@ export class Activity extends PureComponent {
 
   handleResize() {
     this.props.setWindowSize(this.getWindowDimensions());
+  }
+
+  onListClick(idx) {
+    if (this.state.selectedMarker === idx) return;
+    this.setState({selectedMarker: idx});
   }
 
   render() {
@@ -144,24 +150,30 @@ export class Activity extends PureComponent {
               </div>
 
               <div className='inset'>
-                <h4 className='title uppercase'>{helpers.title(this.props.params.activity)}</h4>
+                <h4 className='title uppercase'>{helpers.title(this.props.params.activity)} <span>{this.props.selectedActivity.parks.length}</span></h4>
 
                 <ul ref='parklist' className='park-list'>
                 {this.props.selectedActivity.parks.map((park, index) => {
                   return (
-                    <li key={park.su_id} ref={park.su_id} className={(this.state.selectedMarker === index) ? 'selected' : ''}>{park.su_name}</li>
+                    <li key={park.su_id} ref={park.su_id} className={(this.state.selectedMarker === index) ? 'selected' : ''} onClick={this.onListClick.bind(this, index)}>{park.su_name}</li>
                   );
                 })}
                 </ul>
               </div>
             </div>
-            <div className='col-eight map-wrap'>
+            <div className='col-eight map-wrap pos-relative'>
               <ParkMap
                 markers={this.props.selectedActivity.parks}
                 selectedMarker={this.state.selectedMarker}
                 setMarkerIcon={this.setMarkerIcon.bind(this)}
                 setMarkerId={this.setMarkerId.bind(this)}
                 setMarkerPosition={this.setMarkerPosition.bind(this)}/>
+
+              <Navigator
+                items={this.props.selectedActivity.parks}
+                selectedItem={this.state.selectedMarker}
+                nameKey={'su_name'}
+                idKey={'su_id'} />
             </div>
           </div>
         </main>

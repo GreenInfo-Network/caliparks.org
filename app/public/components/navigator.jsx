@@ -8,6 +8,7 @@ export default class Navigator extends PureComponent {
   static propTypes = {
     items: PropTypes.array,
     nameKey: PropTypes.string,
+    idKey: PropTypes.string,
     selectedItem: PropTypes.number,
     onChange: PropTypes.func
   };
@@ -15,6 +16,7 @@ export default class Navigator extends PureComponent {
   static defaultProps = {
     items: [],
     nameKey: 'name',
+    idKey: 'id',
     selectedItem: 0,
     onChange: () => {}
   }
@@ -46,27 +48,29 @@ export default class Navigator extends PureComponent {
       <div className='navigator'>
         {showNavi &&
           <div className='inner'>
-            <div className='top'>
-              <div className='col arrow'>
-              <button className='btn' disabled={this.getBtnState('prev')} onClick={this.onClickHandler.bind(this, 'prev')}>
-                <svg className={'icon prev-arrow small' }>
-                  <use xlinkHref='main.svg#prev-arrow' />
-                </svg>
-              </button>
+            {item.total &&
+              <div className='top'>
+                <div className='col arrow'>
+                <button className='btn' disabled={this.getBtnState('prev')} onClick={this.onClickHandler.bind(this, 'prev')}>
+                  <svg className={'icon prev-arrow small' }>
+                    <use xlinkHref='main.svg#prev-arrow' />
+                  </svg>
+                </button>
+                </div>
+                <div className='col rank-count'>
+                  <span className='rank'>{this.props.selectedItem + 1}</span>
+                  <span className='count'><FormattedNumber value={item.total} /> photos</span>
+                </div>
+                <div className='col arrow'>
+                <button className='btn' disabled={this.getBtnState('next')} onClick={this.onClickHandler.bind(this, 'next')}>
+                  <svg className={'icon next-arrow small' }>
+                    <use xlinkHref='main.svg#next-arrow' />
+                  </svg>
+                </button>
+                </div>
               </div>
-              <div className='col rank-count'>
-                <span className='rank'>{this.props.selectedItem + 1}</span>
-                <span className='count'><FormattedNumber value={item.total} /> photos</span>
-              </div>
-              <div className='col arrow'>
-              <button className='btn' disabled={this.getBtnState('next')} onClick={this.onClickHandler.bind(this, 'next')}>
-                <svg className={'icon next-arrow small' }>
-                  <use xlinkHref='main.svg#next-arrow' />
-                </svg>
-              </button>
-              </div>
-            </div>
-            <p className='name'><Link to={`/park/${item.superunit_id}`}>{item[this.props.nameKey]}</Link></p>
+            }
+            <p className='name'><Link to={`/park/${item[this.props.idKey]}`}>{item[this.props.nameKey]}</Link></p>
           </div>
         }
       </div>

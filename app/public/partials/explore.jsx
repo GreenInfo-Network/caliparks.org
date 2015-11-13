@@ -20,7 +20,7 @@ export default class Explore extends PureComponent {
   };
 
   state = {
-    selectedMarkerIdx: 0
+    selectedMarker: 0
   }
 
   componentDidMount() {}
@@ -35,11 +35,11 @@ export default class Explore extends PureComponent {
 
   onNavigatorChange(dir) {
     const length = this.props.mostSharedParks.parks.length - 1;
-    const idx = this.state.selectedMarkerIdx;
+    const idx = this.state.selectedMarker;
     if (dir === 'prev') {
-      if (idx > 0) this.setState({selectedMarkerIdx: this.state.selectedMarkerIdx - 1});
+      if (idx > 0) this.setState({selectedMarker: idx - 1});
     } else {
-      if (idx < length) this.setState({selectedMarkerIdx: this.state.selectedMarkerIdx + 1});
+      if (idx < length) this.setState({selectedMarker: idx + 1});
     }
   }
 
@@ -62,13 +62,13 @@ export default class Explore extends PureComponent {
       strokeOpacity: 1
     };
 
-    if (idx === this.state.selectedMarkerIdx) {
-      icon.path = 'M-8,0a8,8 0 1,0 16,0a8,8 0 1,0 -16,0';
+    if (idx === this.state.selectedMarker) {
+      icon.path = 'M-4,0a4,4 0 1,0 8,0a4,4 0 1,0 -8,0';
       icon.fillColor = '#ffffff';
       icon.strokeColor = '#358292';
-      icon.strokeWeight = 4;
+      icon.strokeWeight = 2;
     } else {
-      icon.path = 'M-10,0a10,10 0 1,0 20,0a10,10 0 1,0 -20,0';
+      icon.path = 'M-5,0a5,5 0 1,0 10,0a5,5 0 1,0 -10,0';
       icon.fillColor = '#358292';
       icon.strokeColor = '#358292';
       icon.strokeWeight = 0;
@@ -117,8 +117,9 @@ export default class Explore extends PureComponent {
           }
           <Navigator
             items={this.props.mostSharedParks.parks}
-            selectedItem={this.state.selectedMarkerIdx}
+            selectedItem={this.state.selectedMarker}
             nameKey={'unit_name'}
+            idKey={'superunit_id'}
             onChange={this.onNavigatorChange.bind(this)} />
 
           <GoogleMap containerProps={{

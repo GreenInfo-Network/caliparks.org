@@ -53,12 +53,22 @@
     li {
       font-size: 1.4rem;
       color: #5d5c5a;
+      cursor: pointer;
+
+      &.selected,
+      &:hover {
+        color: #EEEFF3;
+      }
 
       &.selected {
-        color: #EEEFF3;
+        cursor: default;
       }
     }
   }
 
+  .navigator {
+    top: 8px;
+    right: 8px;
+  }
 
 }
