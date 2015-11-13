@@ -26,7 +26,9 @@ export class App extends React.Component {
     fetchFeaturedParks: PropTypes.func.isRequired,
     lang: PropTypes.string.isRequired,
     viewData: PropTypes.object.isRequired,
-    history: PropTypes.object
+    history: PropTypes.object,
+    setWindowSize: PropTypes.func,
+    windowSize: PropTypes.object
   };
 
   componentWillMount() {}

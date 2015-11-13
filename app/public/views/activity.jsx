@@ -24,7 +24,9 @@ export class Activity extends PureComponent {
       activity: PropTypes.string.isRequired
     }).isRequired,
     selectedActivity: PropTypes.shape({
-      parks: PropTypes.array.isRequired
+      parks: PropTypes.array.isRequired,
+      isFetching: PropTypes.bool,
+      activity: PropTypes.string
     }).isRequired,
     windowSize: PropTypes.object,
     setWindowSize: PropTypes.func,
@@ -33,7 +35,8 @@ export class Activity extends PureComponent {
   };
 
   state = {
-    selectedMarker: 0
+    selectedMarker: 0,
+    hovered: null
   };
 
   componentWillMount() {}
@@ -57,7 +60,7 @@ export class Activity extends PureComponent {
   }
 
   componentWillUnmount() {
-    this.props.clearSelectedActivityData(this.props.params.id);
+    this.props.clearSelectedActivityData(this.props.params.activity);
     window.removeEventListener('resize', this.handleResizeThrottled);
   }
 
@@ -100,7 +103,7 @@ export class Activity extends PureComponent {
       strokeOpacity: 1
     };
 
-    if (idx === this.state.selectedMarker) {
+    if (idx === this.state.selectedMarker || idx === this.state.hovered) {
       icon.path = 'M-4,0a4,4 0 1,0 8,0a4,4 0 1,0 -8,0';
       icon.fillColor = '#ffffff';
       icon.strokeColor = '#358292';
@@ -122,6 +125,10 @@ export class Activity extends PureComponent {
     return {lat: marker.centroid.coordinates[1], lng: marker.centroid.coordinates[0]};
   }
 
+  setMarkerZindex(marker, idx) {
+    return (this.state.selectedMarker === idx || this.state.hovered === idx) ? 1000 + idx : idx;
+  }
+
   handleResize() {
     this.props.setWindowSize(this.getWindowDimensions());
   }
@@ -129,6 +136,15 @@ export class Activity extends PureComponent {
   onListClick(idx) {
     if (this.state.selectedMarker === idx) return;
     this.setState({selectedMarker: idx});
+  }
+
+  onListMouseOver(idx) {
+    if (this.state.hovered === idx) return;
+    // this.setState({hovered: idx});
+  }
+  onListMouseOut(idx) {
+    if (this.state.hovered !== idx) return;
+    // this.setState({hovered: null});
   }
 
   render() {
@@ -150,12 +166,20 @@ export class Activity extends PureComponent {
               </div>
 
               <div className='inset'>
-                <h4 className='title uppercase'>{helpers.title(this.props.params.activity)} <span>{this.props.selectedActivity.parks.length}</span></h4>
+                <h4 className='title uppercase'>{helpers.title(this.props.params.activity)}</h4>
 
                 <ul ref='parklist' className='park-list'>
                 {this.props.selectedActivity.parks.map((park, index) => {
                   return (
-                    <li key={park.su_id} ref={park.su_id} className={(this.state.selectedMarker === index) ? 'selected' : ''} onClick={this.onListClick.bind(this, index)}>{park.su_name}</li>
+                    <li
+                      key={park.su_id}
+                      ref={park.su_id}
+                      className={(this.state.selectedMarker === index) ? 'selected' : ''}
+                      onClick={this.onListClick.bind(this, index)}
+                      onMouseOver={this.onListMouseOver.bind(this, index)}
+                      onMouseOut={this.onListMouseOut.bind(this, index)}>
+                      {park.su_name}
+                    </li>
                   );
                 })}
                 </ul>
@@ -167,7 +191,8 @@ export class Activity extends PureComponent {
                 selectedMarker={this.state.selectedMarker}
                 setMarkerIcon={this.setMarkerIcon.bind(this)}
                 setMarkerId={this.setMarkerId.bind(this)}
-                setMarkerPosition={this.setMarkerPosition.bind(this)}/>
+                setMarkerPosition={this.setMarkerPosition.bind(this)}
+                setMarkerZindex={this.setMarkerZindex.bind(this)} />
 
               <Navigator
                 items={this.props.selectedActivity.parks}

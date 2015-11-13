@@ -136,23 +136,39 @@ function mostSharedParks(options) {
 }
 
 function randomPark(options) {
-  options = options || {};
-  const interval = options.interval || 'week-now';
-  const dateStr = datesForTime(interval);
-
   const q = [
-  " SELECT top.total, cpad.superunit_id AS su_id, cpad.unit_name AS su_name",
-    " FROM (SELECT count(*) as total, cpad.superunit_id",
-    " FROM (SELECT * FROM instagram_photos photos",
-    " WHERE",
-    dateStr,
-    ") as q1",
+  "WITH most_shared_parks AS (",
+    "SELECT",
+      " top.total,",
+      "cpad.superunit_id AS su_id,",
+      "cpad.unit_name AS su_name",
+    " FROM (",
+      "SELECT",
+      " count(*) as total,",
+      " cpad.superunit_id",
+    " FROM (",
+      "SELECT *",
+      " FROM instagram_photos photos",
+      " WHERE",
+      " (photos.metadata->>'created_time')::int >= cast(extract(epoch from (date_trunc('month', now() - interval '1 month'))) as integer)",
+      " AND",
+      " (photos.metadata->>'created_time')::int < cast(extract(epoch from (date_trunc('month', now() + interval '1 month'))) as integer)",
+      ") as q1",
     " JOIN cpad_superunits cpad ON cpad.superunit_id = q1.superunit_id",
-    " GROUP BY cpad.superunit_id ORDER by total DESC LIMIT 1 OFFSET FLOOR(random() * 500)) as top,",
-    " cpad_superunits cpad WHERE top.superunit_id = cpad.superunit_id"
-  ];
+    " GROUP BY cpad.superunit_id ORDER by total DESC LIMIT 500",
+    ") as top, cpad_superunits cpad",
+  " WHERE top.superunit_id = cpad.superunit_id AND top.total > 10",
+  ")",
+  "SELECT",
+  " total,",
+  " su_id,",
+  " su_name",
+  " FROM most_shared_parks",
+  "LIMIT 1",
+  "OFFSET FLOOR(random() * (select count(*) from most_shared_parks));"
+  ].join('\n');
 
-  return {query: q.join('\n'), opts:[]};
+  return {query: q, opts:[]};
 }
 
 

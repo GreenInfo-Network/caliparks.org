@@ -12,7 +12,8 @@ export default class ParkMap extends PureComponent {
     selectedMarker: PropTypes.number,
     setMarkerIcon: PropTypes.func,
     setMarkerId: PropTypes.func,
-    setMarkerPosition: PropTypes.func
+    setMarkerPosition: PropTypes.func,
+    setMarkerZindex: PropTypes.func
   };
 
   componentDidMount() {}
@@ -45,6 +46,14 @@ export default class ParkMap extends PureComponent {
     return {lat:0, lng:0};
   }
 
+  getMarkerZindex(marker, index) {
+    if (typeof this.props.setMarkerZindex === 'function') {
+      return this.props.setMarkerZindex(marker, index);
+    }
+
+    return (this.props.selectedMarker === index) ? 1000 + index : index;
+  }
+
   render() {
     return (
       <GoogleMap ref='map' containerProps={{
@@ -68,13 +77,12 @@ export default class ParkMap extends PureComponent {
         }
 
         {this.props.markers.map((marker, index) => {
-          const zidx = (this.props.selectedMarker === index) ? 1000 + index : index;
           const id = this.getMarkerId(marker, index);
           return (<Marker
             ref={id}
             key={id}
             icon={this.getMarkerIcon(marker, index)}
-            zIndex={zidx}
+            zIndex={this.getMarkerZindex(marker, index)}
             position={this.getMarkerPosition(marker, index)} />
           );
         })}

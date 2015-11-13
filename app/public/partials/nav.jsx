@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router';
 import {FormattedMessage} from 'react-intl';
 
 class Nav extends React.Component {

@@ -203,9 +203,6 @@ app.get('/activity/:activity', (req, res, next) => {
 
 app.get('/wander', (req, res, next) => {
   return dataStore.db('randomPark', {interval:'month-now'}).then((park) => {
-    console.log('<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>');
-    console.log(park);
-    console.log('<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>');
     const parkid = park[0].su_id;
 
     return res.redirect('/park/' + parkid);
