@@ -115,15 +115,20 @@ function mostSharedParks(options) {
     " GROUP BY cpad.superunit_id order by total DESC LIMIT $1) as topten,",
     " cpad_superunits cpad WHERE topten.superunit_id = cpad.superunit_id",
     ")",
-    " SELECT parks.superunit_id, MAX(parks.total) as total, parks.unit_name, MIN(parks.centroid)::json as centroid, array_agg(row_to_json(q1)) as item",
+    " SELECT",
+      " parks.superunit_id,",
+      " MAX(parks.total) as total,",
+      " parks.unit_name,",
+      " MIN(parks.centroid)::json as centroid,",
+      " array_agg(row_to_json(q1)) as item",
     " FROM most_shared_parks parks,",
     " LATERAL(SELECT "
   ].concat(BASE_PHOTO_ATTRIBUTES).concat([
-    " FROM instagram_photos photos",
-    " WHERE photos.superunit_id = parks.superunit_id",
-    " AND ",
-    dateStr,
-    " ORDER BY (photos.metadata->>'created_time')::int DESC LIMIT $2) q1",
+      " FROM instagram_photos photos",
+      " WHERE photos.superunit_id = parks.superunit_id",
+      " AND ",
+      dateStr,
+      " ORDER BY (photos.metadata->>'created_time')::int DESC LIMIT $2) q1",
     " GROUP BY parks.superunit_id, parks.unit_name;"
   ]).join('\n');
 

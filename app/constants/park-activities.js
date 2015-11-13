@@ -4,20 +4,16 @@
  *
  */
 
-export const helpers = {
-  iconprefix: '/main.svg#activity-',
-  imgpath: 'assets/images/activities/'
-};
-
-export const colorGroups = {
-  green: '#4CAF50',
-  blue: '#2196F3',
-  lgtBlue: '#00BCD4',
-  purple: '#9C27B0',
-  orange: '#FF9F00',
-  brown: '#8C6D62'
-};
-
+/**
+*
+* Supported activities
+*
+* @assetname - is the name of the activity in
+*  the DB table `activity`. Replacing spaces with
+*  underscores because it also is used to reference
+*  SVG & IMG assets.
+*
+*/
 export const activities = [
   {
     name: 'Backpacking',
@@ -146,3 +142,45 @@ export const activities = [
     clrGroup: 'green'
   }
 ];
+
+export const colorGroups = {
+  green: '#4CAF50',
+  blue: '#2196F3',
+  lgtBlue: '#00BCD4',
+  purple: '#9C27B0',
+  orange: '#FF9F00',
+  brown: '#8C6D62'
+};
+
+export const helpers = {
+  iconprefix: '/main.svg#activity-',
+  imgpath: 'assets/images/activities/',
+  imageURL: imageURL,
+  iconURL: iconURL,
+  sanitize: sanitize,
+  title: title
+};
+
+function imageURL(activity, aspectRatio = 'rect') {
+  const postfix = (aspectRatio === 'rect') ? '_rect.jpg' : '_square.jpg';
+  return [helpers.imgpath, sanitize(activity), postfix].join('');
+}
+
+function iconURL(activity) {
+  return [helpers.iconprefix, sanitize(activity)].join('');
+}
+
+function sanitize(activity) {
+  return activity.split(' ').join('_');
+}
+
+function title(activity) {
+  const sanitized = sanitize(activity);
+
+  const result = activities.filter((row) =>{
+    return row.assetname === sanitized;
+  });
+
+  if (result.length) return result[0].name;
+  return activity;
+}

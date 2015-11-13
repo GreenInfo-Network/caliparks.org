@@ -35,9 +35,8 @@ export default class GmapControls extends Component {
     if (this.props.mapHolderRef) {
       const map = this.props.mapHolderRef.getMap();
       const centerControlDiv = document.createElement('div');
-      const centerControl = this.centerControl(centerControlDiv, map);
       centerControlDiv.index = 1;
-      map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(centerControlDiv);
+      map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(this.centerControl(centerControlDiv, map));
     }
   }
 

@@ -89,6 +89,34 @@ function selectedPark(state = INITIAL_STATE, action) {
   }
 }
 
+function selectedActivity(state = INITIAL_STATE, action) {
+  switch (action.type) {
+  case actions.CLEAR_SELECTED_ACTIVITY:
+    return Map(state).merge({
+      isFetching: false,
+      park: [],
+      activity: '',
+      lastUpdated: null
+    });
+
+  case actions.REQUEST_SELECTED_ACTIVITY:
+    return Map(state).merge({
+      isFetching: true
+    });
+
+  case actions.RECEIVE_SELECTED_ACTIVITY:
+    return Map(state).merge({
+      isFetching: false,
+      parks: action.parks,
+      activity: action.activity,
+      lastUpdated: action.receivedAt
+    });
+
+  default:
+    return state;
+  }
+}
+
 function windowSize(state = INITIAL_STATE, action) {
   switch (action.type) {
   case actions.SET_WINDOW_SIZE:
@@ -108,6 +136,7 @@ const combinedReducers = combineReducers({
   featuredParks,
   mostSharedParks,
   selectedPark,
+  selectedActivity,
   windowSize,
   // TODO consider folding these into a global subtree
   // TODO may also need react-router-related props (to support correct routing)?

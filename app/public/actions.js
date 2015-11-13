@@ -152,3 +152,45 @@ export function fetchSelectedParkPhotos(id, offset) {
       .catch(err => console.warn(err.stack));
   };
 }
+
+/* =====  Selected Activities  ====== */
+export const CLEAR_SELECTED_ACTIVITY = 'CLEAR_SELECTED_ACTIVITY';
+export function clearSelectedActivity() {
+  return {
+    type: CLEAR_SELECTED_ACTIVITY
+  };
+}
+
+export function clearSelectedActivityData() {
+  return (dispatch) => {
+    dispatch(clearSelectedActivity());
+  };
+}
+
+export const REQUEST_SELECTED_ACTIVITY = 'REQUEST_SELECTED_ACTIVITY';
+export function requestSelectedActivity() {
+  return {
+    type: REQUEST_SELECTED_ACTIVITY
+  };
+}
+
+export const RECEIVE_SELECTED_ACTIVITY = 'RECEIVE_SELECTED_ACTIVITY';
+export function receiveSelectedActivity(parks, activity) {
+  return {
+    type: RECEIVE_SELECTED_ACTIVITY,
+    parks,
+    activity,
+    receivedAt: Date.now()
+  };
+}
+
+export function fetchSelectedActivity(activity) {
+  return (dispatch) => {
+    dispatch(requestSelectedActivity());
+
+    return fetch('/api/selected_activity.json?activity=' + activity)
+      .then(response => response.json())
+      .then(parks => dispatch(receiveSelectedActivity(parks, activity)))
+      .catch(err => console.warn(err.stack));
+  };
+}

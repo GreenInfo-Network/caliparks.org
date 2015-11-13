@@ -6,7 +6,9 @@ export default class PhotoGrid extends PureComponent {
   static propTypes = {
     photos: PropTypes.array,
     selected: PropTypes.number,
-    onPhotoClick: PropTypes.func
+    onPhotoClick: PropTypes.func,
+    loadImageHandler: PropTypes.func,
+    fetching: PropTypes.bool
   };
 
   static defaultProps = {

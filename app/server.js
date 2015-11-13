@@ -148,6 +148,10 @@ app.use('/', (req, res, next) => {
         park: [],
         isFetching: false
       },
+      selectedActivity: {
+        parks: [],
+        isFetching:false
+      },
       viewData: {
         header: images
       }
@@ -183,6 +187,16 @@ app.get('/park/:id', (req, res, next) => {
     return next();
   })
   .catch((err) => {
+    return next(err);
+  });
+});
+
+app.get('/activity/:activity', (req, res, next) => {
+  return dataStore.db('getParksForActivity', {activity: req.params.activity}).then((parks) => {
+    res.locals.selectedActivity.parks = parks;
+
+    return next();
+  }).catch((err) => {
     return next(err);
   });
 });
@@ -236,6 +250,14 @@ app.get('/api/selected_park.json', (req, res, next) => {
     return res.json(obj);
   })
   .catch((err) => {
+    return next(err);
+  });
+});
+
+app.get('/api/selected_activity.json', (req, res, next) => {
+  return dataStore.db('getParksForActivity', {activity: req.query.activity}).then((data) => {
+    return res.json(data);
+  }).catch((err) => {
     return next(err);
   });
 });

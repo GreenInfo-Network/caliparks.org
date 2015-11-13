@@ -43,14 +43,14 @@ export default class Explore extends PureComponent {
     }
   }
 
-  getHeight() {
-    return this.props.height || 700;
-  }
-
-  logChange(val) {
+  onDropdownChange(val) {
     if (typeof this.props.handleOnChange === 'function') {
       this.props.handleOnChange(val);
     }
+  }
+
+  getHeight() {
+    return this.props.height || 700;
   }
 
   getMarkerIcon(idx) {
@@ -107,7 +107,7 @@ export default class Explore extends PureComponent {
                 value={this.props.mostSharedParks.interval || 'week-now'}
                 options={options}
                 clearable={false}
-                onChange={this.logChange.bind(this)} />
+                onChange={this.onDropdownChange.bind(this)} />
             </div>
           </div>
         </div>

@@ -1,7 +1,13 @@
 #activity {
   .content {
     padding: 1rem 1rem 0;
+
+    .inset {
+      width: 90%;
+      margin: 2rem auto 0;
+    }
   }
+
   .map-wrap {
     height: 100%;
   }
@@ -35,6 +41,22 @@
       margin-top: 20px;
       font-size: 1.4rem;
       text-decoration: none;
+    }
+  }
+
+  .park-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    overflow: auto;
+
+    li {
+      font-size: 1.4rem;
+      color: #5d5c5a;
+
+      &.selected {
+        color: #EEEFF3;
+      }
     }
   }
 

@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react';
 import PureComponent from 'react-pure-render/component';
-import {activities as Activities} from '../../constants/park-activities';
+import { Link } from 'react-router';
+import {helpers} from '../../constants/park-activities';
 
 export default class ActivityGrid extends PureComponent {
   static propTypes = {
@@ -15,26 +16,18 @@ export default class ActivityGrid extends PureComponent {
 
   componentDidUpdate() {}
 
-  getTitle(activity) {
-    const result = Activities.filter((row) =>{
-      return row.assetname === activity;
-    });
-
-    if (result.length) return result[0].name;
-    return activity;
-  }
-
   renderActivities() {
     if (!this.props.activities) return (<h5 className='error'>No activities!</h5>);
-
     return this.props.activities.map((activity, index) => {
-      const cleaned = activity.split(' ').join('_');
+      const sanitized = helpers.sanitize(activity);
       return (
-        <button key={index} className='btn' title={this.getTitle(cleaned)}>
-          <svg className={'icon park-activity alt ' + cleaned}>
-            <use xlinkHref={'/main.svg#activity-' + cleaned} />
+        <Link key={index} className='link' to={`/activity/${sanitized}`}>
+        <button className='btn' title={helpers.title(activity)}>
+          <svg className={'icon park-activity alt ' + sanitized}>
+            <use xlinkHref={helpers.iconURL(activity)} />
           </svg>
         </button>
+        </Link>
       );
     });
   }

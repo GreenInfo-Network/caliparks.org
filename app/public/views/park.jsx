@@ -23,7 +23,9 @@ export class Park extends PureComponent {
     selectedPark: PropTypes.object,
     windowSize: PropTypes.object,
     setWindowSize: PropTypes.func,
-    fetchSelectedPark: PropTypes.func
+    fetchSelectedPark: PropTypes.func,
+    clearSelectedParkData: PropTypes.func,
+    fetchSelectedParkPhotos: PropTypes.func
   };
 
   state = {
@@ -46,26 +48,29 @@ export class Park extends PureComponent {
     }
   }
 
-  componentDidUpdate() {
-    /*
-    if (!this.props.selectedPark.park.length) return;
-    const details = this.props.selectedPark.park[0];
-
-    if (this.refs.mapp && this.refs.mapp.refs.map) {
-      if (!this.boundsSet) {
-        const bds = this.geoJSONBBoxToGoogleBounds(details.bbox.coordinates[0]);
-        if (!bds.isEmpty()) {
-          this.boundsSet = true;
-          this.refs.mapp.refs.map.fitBounds(bds);
-        }
-      }
-    }
-    */
-  }
+  componentDidUpdate() {}
 
   componentWillUnmount() {
     this.props.clearSelectedParkData(this.props.params.id);
     window.removeEventListener('resize', this.handleResizeThrottled);
+  }
+
+  onPhotoClick(idx) {
+    if (this.state.selectedPhoto === idx) return;
+    this.setState({selectedPhoto: idx});
+  }
+
+  setMarkerIcon(marker, idx) {
+    if (idx === this.state.selectedPhoto) return '/assets/svgs/icon-instagram.svg';
+    return '/assets/svgs/icon-square-4px.svg';
+  }
+
+  setMarkerId(marker, idx) {
+    return marker.photoid;
+  }
+
+  setMarkerPosition(marker, idx) {
+    return {lat:marker.lat, lng:marker.lng};
   }
 
   getWindowDimensions() {
@@ -79,18 +84,26 @@ export class Park extends PureComponent {
     };
   }
 
-  onPhotoClick(idx) {
-    if (this.state.selectedPhoto === idx) return;
-    this.setState({selectedPhoto: idx});
-  }
-
   getColumnHeight() {
     if (this.props.windowSize.width === 0) return '0px';
     return Math.round((this.props.windowSize.width - 20) * 0.3333333) + 'px';
   }
 
-  handleResize() {
-    this.props.setWindowSize(this.getWindowDimensions());
+  loadPhotos() {
+    if (!this.props.selectedPark.images.length) return;
+    if (this.props.selectedPark.isFetching) return;
+    this.props.fetchSelectedParkPhotos(this.props.params.id, this.props.selectedPark.images.length);
+  }
+
+  placeImage() {
+    if (!this.props.selectedPark.images.length) return [];
+    const images = this.props.selectedPark.images;
+    return (
+      <div className='inner'>
+        <div className='instagram-logo' />
+        <img src={images[this.state.selectedPhoto].standard_resolution} />
+      </div>
+    );
   }
 
   geoJSONBBoxToGoogleBounds(envelope) {
@@ -99,6 +112,10 @@ export class Park extends PureComponent {
       bds.extend(new google.maps.LatLng(envelope[i][1], envelope[i][0]));
     }
     return bds;
+  }
+
+  handleResize() {
+    this.props.setWindowSize(this.getWindowDimensions());
   }
 
   renderDetails() {
@@ -122,24 +139,8 @@ export class Park extends PureComponent {
     );
   }
 
-  placeImage() {
-    if (!this.props.selectedPark.images.length) return [];
-    const images = this.props.selectedPark.images;
-    return (
-      <div className='inner'>
-        <div className='instagram-logo' />
-        <img src={images[this.state.selectedPhoto].standard_resolution} />
-      </div>
-    );
-  }
-
-  loadPhotos() {
-    if (!this.props.selectedPark.images.length) return;
-    if (this.props.selectedPark.isFetching) return;
-    this.props.fetchSelectedParkPhotos(this.props.params.id, this.props.selectedPark.images.length);
-  }
-
   render() {
+    const geometry = this.props.selectedPark.park.length ? this.props.selectedPark.park[0].geometry : null;
     return (
       <div className='container'>
         <main className='theme-white page-park' role='application'>
@@ -150,7 +151,13 @@ export class Park extends PureComponent {
             </div>
             <div className='col map' style={{height: this.getColumnHeight()}}>
               <div className='inner'>
-                <ParkMap ref='mapp' park={this.props.selectedPark} selectedMarker={this.state.selectedPhoto}/>
+                <ParkMap
+                  markers={this.props.selectedPark.images}
+                  geometry={geometry}
+                  selectedMarker={this.state.selectedPhoto}
+                  setMarkerIcon={this.setMarkerIcon.bind(this)}
+                  setMarkerId={this.setMarkerId.bind(this)}
+                  setMarkerPosition={this.setMarkerPosition.bind(this)}/>
               </div>
             </div>
             <div className='col photo' style={{height: this.getColumnHeight()}}>

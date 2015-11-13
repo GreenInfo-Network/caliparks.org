@@ -7,17 +7,42 @@ import GmapControls from './gmapControls';
 
 export default class ParkMap extends PureComponent {
   static propTypes = {
-    park: PropTypes.object,
-    selectedMarker: PropTypes.number
+    markers: PropTypes.array,
+    geometry: PropTypes.object,
+    selectedMarker: PropTypes.number,
+    setMarkerIcon: PropTypes.func,
+    setMarkerId: PropTypes.func,
+    setMarkerPosition: PropTypes.func
   };
 
   componentDidMount() {}
 
   componentDidUpdate() {}
 
-  getMarkerIcon(idx) {
-    if (idx === this.props.selectedMarker) return '/assets/svgs/icon-instagram.svg';
-    return '/assets/svgs/icon-square-4px.svg';
+  getMarkerIcon(marker, index) {
+    if (typeof this.props.setMarkerIcon === 'function') {
+      return this.props.setMarkerIcon(marker, index);
+    }
+
+    return null;
+  }
+
+  getMarkerId(marker, index) {
+    if (typeof this.props.setMarkerId === 'function') {
+      return this.props.setMarkerId(marker, index);
+    }
+
+    return index;
+  }
+
+  getMarkerPosition(marker, index) {
+    if (typeof this.props.setMarkerPosition === 'function') {
+      return this.props.setMarkerPosition(marker, index);
+    }
+
+    if (marker.lat && marker.lng) return {lat:marker.lat, lng:marker.lng};
+
+    return {lat:0, lng:0};
   }
 
   render() {
@@ -38,18 +63,19 @@ export default class ParkMap extends PureComponent {
         <CustomTileLayer tileUrl='http://{s}.map.parks.stamen.com/{z}/{x}/{y}{r}.png' {...this.props} />
         <GmapControls {...this.props} />
 
-        {this.props.park.park.length &&
-          <GmapDataLayer geometry={this.props.park.park[0].geometry} />
+        {this.props.geometry &&
+          <GmapDataLayer geometry={this.props.geometry} />
         }
 
-        {this.props.park.images.map((marker, index) => {
+        {this.props.markers.map((marker, index) => {
           const zidx = (this.props.selectedMarker === index) ? 1000 + index : index;
+          const id = this.getMarkerId(marker, index);
           return (<Marker
-            ref={marker.photoid}
-            key={marker.photoid}
-            icon={this.getMarkerIcon(index)}
+            ref={id}
+            key={id}
+            icon={this.getMarkerIcon(marker, index)}
             zIndex={zidx}
-            position={{lat:marker.lat, lng:marker.lng}} />
+            position={this.getMarkerPosition(marker, index)} />
           );
         })}
       </GoogleMap>

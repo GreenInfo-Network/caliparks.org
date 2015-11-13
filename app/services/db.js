@@ -3,7 +3,7 @@
 import pg from 'pg';
 import util from 'util';
 import {Promise} from 'es6-promise';
-import {queries} from './queries/parks';
+import {queries} from './queries/index';
 
 const DATABASE_URL = process.env.DATABASE_URL || null;
 
