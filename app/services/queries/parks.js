@@ -135,6 +135,26 @@ function mostSharedParks(options) {
   return {query: q, opts:[parkCount, photoCount]};
 }
 
+function randomPark(options) {
+  options = options || {};
+  const interval = options.interval || 'week-now';
+  const dateStr = datesForTime(interval);
+
+  const q = [
+  " SELECT top.total, cpad.superunit_id AS su_id, cpad.unit_name AS su_name",
+    " FROM (SELECT count(*) as total, cpad.superunit_id",
+    " FROM (SELECT * FROM instagram_photos photos",
+    " WHERE",
+    dateStr,
+    ") as q1",
+    " JOIN cpad_superunits cpad ON cpad.superunit_id = q1.superunit_id",
+    " GROUP BY cpad.superunit_id ORDER by total DESC LIMIT 1 OFFSET FLOOR(random() * 500)) as top,",
+    " cpad_superunits cpad WHERE top.superunit_id = cpad.superunit_id"
+  ];
+
+  return {query: q.join('\n'), opts:[]};
+}
+
 
 function getSelectedParkPhotos(options) {
   options = options || {};
@@ -186,7 +206,8 @@ export const queries = {
   latestPhotoFromMostSharedPark: latestPhotoFromMostSharedPark,
   mostSharedParks: mostSharedParks,
   getSelectedParkPhotos: getSelectedParkPhotos,
-  getSelectedPark: getSelectedPark
+  getSelectedPark: getSelectedPark,
+  randomPark: randomPark
 }
 
 

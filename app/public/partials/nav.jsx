@@ -31,7 +31,7 @@ class Nav extends React.Component {
             </a>
           </li>
           <li>
-            <Link to='/wander'>
+            <a href='/wander'>
               <h5>
                 <FormattedMessage
                   id='Wander'
@@ -39,7 +39,7 @@ class Nav extends React.Component {
                 />
               </h5>
               <div><span>Find out more about one<br/>of our featured parks</span></div>
-            </Link>
+            </a>
           </li>
         </ul>
       </nav>
