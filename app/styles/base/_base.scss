@@ -104,6 +104,17 @@ a {
       text-decoration: none;
     }
   }
+
+  &.alt {
+    height: 76;
+    border-bottom: 0;
+
+    &::after {
+      bottom: -8px;
+      border-color: #fff transparent transparent transparent;
+    }
+
+  }
 }
 
 .sticky-container.stuck {

@@ -1,10 +1,11 @@
 import React from 'react';
 import {IndexRoute, Redirect, Route, Router} from 'react-router';
 
-import {AppContainer} from './views/app.jsx';
-import Layout from './views/layout.jsx';
-import NotFound from './views/404.jsx';
-import {ParkContainer} from './views/park.jsx';
+import {AppContainer} from './views/app';
+import Layout from './views/layout';
+import NotFound from './views/404';
+import {ParkContainer} from './views/park';
+import {ActivityContainer} from './views/activity';
 
 export default (
   <Router>
@@ -14,7 +15,7 @@ export default (
       <Route path='discover' component={NotFound} />
       <Route path='explore' component={NotFound} />
       <Route path='park/:id' component={ParkContainer} />
-      <Route path='wander' component={NotFound} />
+      <Route path='activity/:activity' component={ActivityContainer} />
 
       <Redirect from='parks/:id' to='/park/:id' />
       <Redirect from='parks' to='/' />

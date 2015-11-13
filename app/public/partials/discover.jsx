@@ -1,5 +1,6 @@
 import React from 'react';
 import PureComponent from 'react-pure-render/component';
+import { Link } from 'react-router';
 import Dropdown from 'react-select';
 import Color from 'color';
 import { helpers, activities, colorGroups } from '../../constants/park-activities';
@@ -27,6 +28,7 @@ export default class Discover extends PureComponent {
       return (
         <li key={activity.assetname} className={klass}>
           <div className='aspect-content'>
+            <Link className='activity-link' to={`/activity/${activity.assetname}`}>
             <div className='overlay' />
             <img src={thumb} />
             <div className='label-wrap' style={{background: color.rgbString()}}>
@@ -39,6 +41,7 @@ export default class Discover extends PureComponent {
                 <div className='table-cell activity-name'>{activity.name}</div>
               </div>
             </div>
+            </Link>
           </div>
         </li>
       );

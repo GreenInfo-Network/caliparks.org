@@ -5,7 +5,7 @@
  */
 
 export const helpers = {
-  iconprefix: 'main.svg#activity-',
+  iconprefix: '/main.svg#activity-',
   imgpath: 'assets/images/activities/'
 };
 

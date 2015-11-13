@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import PureComponent from 'react-pure-render/component';
 import Dropdown from 'react-select';
-// import GoogleMap from 'google-map-react';
+
 import {GoogleMap, Marker} from 'react-google-maps';
 import CustomTileLayer from '../components/customTileLayer';
 import GmapControls from '../components/gmapControls';

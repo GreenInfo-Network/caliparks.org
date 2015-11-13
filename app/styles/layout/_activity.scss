@@ -1,0 +1,42 @@
+#activity {
+  .content {
+    padding: 1rem 1rem 0;
+  }
+  .map-wrap {
+    height: 100%;
+  }
+
+  .activity-hero {
+    position: relative;
+    margin-right: 1rem;
+
+    img {
+      width: 100%;
+      height: auto;
+      opacity: 0.8;
+    }
+  }
+
+  .activity-logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -62.5px;
+    margin-left: -62.5px;
+
+    a {
+      position: absolute;
+      top: 100%;
+      color: #fff;
+      white-space: nowrap;
+      left: 0;
+      text-align: center;
+      text-transform: uppercase;
+      margin-top: 20px;
+      font-size: 1.4rem;
+      text-decoration: none;
+    }
+  }
+
+
+}

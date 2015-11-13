@@ -36,6 +36,11 @@ $brown: #8C6D62;
     color: #fff;
   }
 
+  &.park-activity.large {
+    width: 125px;
+    height: 125px;
+  }
+
   &.prev-arrow,
   &.next-arrow {
     stroke: #fff;
