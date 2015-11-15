@@ -48,6 +48,10 @@ export default class Discover extends PureComponent {
     });
   }
 
+  getHeight() {
+    return this.props.height || 700;
+  }
+
   render() {
     const options = [
         { value: 'popular', label: 'Most popular' },
@@ -59,7 +63,7 @@ export default class Discover extends PureComponent {
         { value: 'family', label: 'Family-friendly' }
     ];
     return (
-      <section id='discover' className='row'>
+      <section id='discover' name='discover' className='row' style={{height: this.getHeight() + 'px'}}>
         <div className='col-twelve blocks'>
           <div className='row'>
             <ol>

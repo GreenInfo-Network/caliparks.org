@@ -36,6 +36,7 @@ function latestPhotoFromMostSharedPark(options) {
       " FROM (select count(*), cpad.unit_name, cpad.superunit_id, MIN(q1.id) as min_id, MAX(q1.id) as max_id",
       " FROM (select * FROM instagram_photos photos WHERE (photos.metadata->>'created_time')::int >= cast(extract(epoch from current_timestamp - interval '6 days') as integer)) as q1",
       " JOIN cpad_superunits cpad ON cpad.superunit_id = q1.superunit_id",
+      " WHERE cpad.access_typ = 'Open Access'",
       " GROUP BY cpad.unit_name, cpad.superunit_id",
       " ORDER by count DESC LIMIT $1) as q2",
       " JOIN instagram_photos photos ON q2.min_id = photos.id"
@@ -114,6 +115,7 @@ function mostSharedParks(options) {
     " JOIN cpad_superunits cpad ON cpad.superunit_id = q1.superunit_id",
     " GROUP BY cpad.superunit_id order by total DESC LIMIT $1) as topten,",
     " cpad_superunits cpad WHERE topten.superunit_id = cpad.superunit_id",
+    " AND cpad.access_typ = 'Open Access'",
     ")",
     " SELECT",
       " parks.superunit_id,",
@@ -158,6 +160,7 @@ function randomPark(options) {
     " GROUP BY cpad.superunit_id ORDER by total DESC LIMIT 500",
     ") as top, cpad_superunits cpad",
   " WHERE top.superunit_id = cpad.superunit_id AND top.total > 10",
+  " AND cpad.access_typ = 'Open Access'",
   ")",
   "SELECT",
   " total,",
@@ -180,7 +183,9 @@ function getSelectedParkPhotos(options) {
 
   const q = ["SELECT"].concat(BASE_PHOTO_ATTRIBUTES).concat([
     " FROM instagram_photos photos",
+    " JOIN cpad_superunits cpad ON cpad.superunit_id = photos.superunit_id",
     " WHERE photos.superunit_id = $1",
+    " AND cpad.access_typ = 'Open Access'",
     " ORDER BY (photos.metadata->>'created_time')::int DESC",
     " OFFSET $2",
     " LIMIT $3"

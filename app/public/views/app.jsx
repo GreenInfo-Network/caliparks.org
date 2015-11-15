@@ -13,6 +13,8 @@ import StickyNav from '../partials/sticky-nav';
 import Waypoint from 'react-waypoint';
 import * as actions from '../actions';
 
+import {SectionsContainer, Section} from 'react-fullpage';
+
 function mapStateToProps(state) {
   // NOTE: this may or may not be an Immutable JS object
   return Map(state).toJS();
@@ -82,33 +84,46 @@ export class App extends React.Component {
   }
 
   onStickyHandler(msg, evt, pos) {
+    console.log('WP: ', msg, pos);
     if (this.refs.sticky) {
       const klass = (msg === 'leave' && pos === 'above') ? 'sticky-container stuck' : 'sticky-container';
-      ReactDOM.findDOMNode(this.refs.sticky).className = klass;
+      // ReactDOM.findDOMNode(this.refs.sticky).className = klass;
     }
   }
 
   render() {
+    const options = {
+      activeClass:          'active', // the class that is appended to the sections links
+      anchors:              ['homer', 'explorer', 'discoverr'], // the anchors for each sections
+      arrowNavigation:      true, // use arrow keys
+      className:            'SectionContainer', // the class name for the section container
+      delay:                700, // the scroll animation speed
+      navigation:           false, // use dots navigatio
+      scrollBar:            false, // use the browser default scrollbar
+      sectionClassName:     'section', // the section class name
+      sectionPaddingTop:    '0', // the section top padding
+      sectionPaddingBottom: '0', // the section bottom padding
+      verticalAlign:        false // align the content of each section vertical
+    };
     return (
       <div className='container'>
-        <Header images={this.props.viewData.header} autoplay={true} autoplaySpeed={8000} />
-        <SliderMostShared featuredParks={this.props.featuredParks} />
-        <main role='application'>
-          <Waypoint
-            onEnter={this.onStickyHandler.bind(this, 'enter')}
-            onLeave={this.onStickyHandler.bind(this, 'leave')}
-            threshold={0} />
-          <div ref='sticky' className='sticky-container'>
-            <StickyNav/>
-          </div>
-          <Explore
-            height={this.props.windowSize.height || 0}
-            mostSharedParks={this.props.mostSharedParks}
-            handleOnChange={this.handleExploreChange.bind(this)}
-            handleMarkerClick={this.handleMarkerClick.bind(this)} />
-          <Discover />
-        </main>
-        <Footer lang={this.props.lang} />
+        <SectionsContainer {...options}>
+          <Section>
+            <Header images={this.props.viewData.header} autoplay={true} autoplaySpeed={8000} />
+            <SliderMostShared featuredParks={this.props.featuredParks} />
+          </Section>
+          <Section>
+            <Explore
+              height={this.props.windowSize.height || 0}
+              mostSharedParks={this.props.mostSharedParks}
+              handleOnChange={this.handleExploreChange.bind(this)}
+              handleMarkerClick={this.handleMarkerClick.bind(this)} />
+          </Section>
+          <Section>
+            <Discover height={this.props.windowSize.height || 0} />
+            <Footer lang={this.props.lang} />
+          </Section>
+        </SectionsContainer>
       </div>
     );
   }

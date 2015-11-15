@@ -26,7 +26,7 @@ export default {
       {
         test: /\.jsx?$/,
         loader: 'eslint',
-        exclude: [/node_modules/, /sticky.js/]
+        exclude: [/node_modules/]
       }
     ],
 
