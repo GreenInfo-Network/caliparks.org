@@ -93,7 +93,7 @@ export default class Explore extends PureComponent {
     ];
 
     return (
-      <div id='explore' name='explore' className='row theme-white' style={{height: this.getHeight() + 'px'}}>
+      <div id='explore-section' className='row theme-white' style={{height: this.getHeight() + 'px'}}>
         <div className='col-four'>
           <div className='center-align-container'>
             <h4 className='uppercase'>Explore</h4>

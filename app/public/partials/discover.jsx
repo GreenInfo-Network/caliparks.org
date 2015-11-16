@@ -63,7 +63,7 @@ export default class Discover extends PureComponent {
         { value: 'family', label: 'Family-friendly' }
     ];
     return (
-      <section id='discover' name='discover' className='row' style={{height: this.getHeight() + 'px'}}>
+      <section id='discover-section' className='row' style={{height: this.getHeight() + 'px'}}>
         <div className='col-twelve blocks'>
           <div className='row'>
             <ol>

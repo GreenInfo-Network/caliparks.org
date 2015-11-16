@@ -94,7 +94,7 @@ export class App extends React.Component {
   render() {
     const options = {
       activeClass:          'active', // the class that is appended to the sections links
-      anchors:              ['homer', 'explorer', 'discoverr'], // the anchors for each sections
+      anchors:              ['index', 'explore', 'discover', 'footer'], // the anchors for each sections
       arrowNavigation:      true, // use arrow keys
       className:            'SectionContainer', // the class name for the section container
       delay:                700, // the scroll animation speed
@@ -103,7 +103,8 @@ export class App extends React.Component {
       sectionClassName:     'section', // the section class name
       sectionPaddingTop:    '0', // the section top padding
       sectionPaddingBottom: '0', // the section bottom padding
-      verticalAlign:        false // align the content of each section vertical
+      verticalAlign:        false, // align the content of each section vertical
+      autoFooterHeight:     true
     };
     return (
       <div className='container'>
@@ -121,6 +122,8 @@ export class App extends React.Component {
           </Section>
           <Section>
             <Discover height={this.props.windowSize.height || 0} />
+          </Section>
+          <Section>
             <Footer lang={this.props.lang} />
           </Section>
         </SectionsContainer>

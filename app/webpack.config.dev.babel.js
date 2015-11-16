@@ -3,6 +3,8 @@ import Clean from 'clean-webpack-plugin';
 import SvgStore from 'webpack-svgstore-plugin';
 import webpack from 'webpack';
 
+console.log(path.join(__dirname, 'node_modules'));
+
 export default {
   devtool: 'eval',
   entry: [
@@ -26,7 +28,7 @@ export default {
       {
         test: /\.jsx?$/,
         loader: 'eslint',
-        exclude: [/node_modules/]
+        exclude: [/node_modules/, /react-fullpage/]
       }
     ],
 
@@ -91,8 +93,11 @@ export default {
       ]
     })
   ],
-
   resolve: {
+    alias: {
+      react: path.join(__dirname, 'node_modules/react'),
+      'react-dom': path.join(__dirname, 'node_modules/react-dom')
+    },
     extensions: ['', '.js', '.jsx', '.json']
   }
 };

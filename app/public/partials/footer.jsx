@@ -15,7 +15,7 @@ export default class Footer extends PureComponent {
 
   render() {
     return (
-      <footer id='footer' className='row footer theme-white'>
+      <footer id='footer-section' className='row footer theme-white'>
         <div className='col-nine'>
           <div className='table'>
             <div className='table-cell'>
