@@ -39,9 +39,10 @@ export default class PhotoGrid extends PureComponent {
 
   render() {
     const showWaypoint = this.props.fetching ? false : true;
+    const width = this.props.photos.length * 160;
     return (
       <div className='photo-grid'>
-        <ul className='inner'>
+        <ul className='inner' style={{width: width}}>
         {this.props.photos.map((photo, idx) => {
           return (
             <li key={idx} className={this.getPhotoClass(idx)} onClick={this.onClickHandler.bind(this, idx)}>

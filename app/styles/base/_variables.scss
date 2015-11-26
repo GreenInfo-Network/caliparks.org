@@ -15,7 +15,6 @@ $transition-duration: 300ms !default;
 $transition-ease: ease-in-out;
 
 
-
 $depth-1: 1 !default;
 $depth-2: 2 !default;
 $depth-3: 3 !default;
@@ -24,3 +23,10 @@ $depth-5: 5 !default;
 $depth-10: 10 !default;
 $depth-100: 100 !default;
 $depth-max: 99999999 !default;
+
+
+$breakpoint-tablet: 768px !default;
+
+$breakpoints: (
+  'full': (min-width: $breakpoint-tablet)
+);

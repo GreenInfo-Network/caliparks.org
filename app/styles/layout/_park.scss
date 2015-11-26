@@ -1,11 +1,11 @@
 
 .page-park-top,
 .page-park-bottom {
-  padding: 1rem 1rem 0;
+  padding: 0 10px 0;
 }
 
 .page-park-top {
-  margin-top: 0.5rem;
+  margin-top: 10px;
   overflow: hidden;
 
   .col {
@@ -81,6 +81,14 @@
 }
 
 .page-park-bottom {
-  margin-top: 1rem;
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px 5px;
   background: $color-grey-dark;
+
+  .table-cell {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
 }

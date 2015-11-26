@@ -184,11 +184,16 @@ export function receiveSelectedActivity(parks, activity) {
   };
 }
 
-export function fetchSelectedActivity(activity) {
+export function fetchSelectedActivity(activity, bbox) {
   return (dispatch) => {
     dispatch(requestSelectedActivity());
 
-    return fetch('/api/selected_activity.json?activity=' + activity)
+    let params = 'activity=' + activity;
+    if (bbox) {
+      params += '&bbox=' + bbox.join(',');
+    }
+
+    return fetch('/api/selected_activity.json?' + params)
       .then(response => response.json())
       .then(parks => dispatch(receiveSelectedActivity(parks, activity)))
       .catch(err => console.warn(err.stack));

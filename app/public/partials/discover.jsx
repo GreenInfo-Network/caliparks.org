@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import PureComponent from 'react-pure-render/component';
 import { Link } from 'react-router';
 import Dropdown from 'react-select';
@@ -6,6 +6,10 @@ import Color from 'color';
 import { helpers, activities, colorGroups } from '../../constants/park-activities';
 
 export default class Discover extends PureComponent {
+  static propTypes = {
+    width: PropTypes.number,
+    height: PropTypes.number
+  };
 
   componentDidMount() { }
 
@@ -15,11 +19,10 @@ export default class Discover extends PureComponent {
 
   renderActivities() {
     return activities.map((activity, idx) => {
-      let klass = 'block activity col-four';
-      if (idx === 4 || (idx > 4 && (idx - 4) % 3 === 0)) {
+      let klass = 'block activity col-six';
+      if (idx === 2 || (idx > 2 && (idx - 2) % 2 === 0)) {
         klass += ' new-row';
       }
-
       const icon = helpers.iconprefix + activity.assetname;
       const thumb = helpers.imgpath + activity.assetname + '_rect.jpg';
       const color = Color(colorGroups[activity.clrGroup]);
@@ -62,35 +65,35 @@ export default class Discover extends PureComponent {
         { value: 'attractions', label: 'Cultural attractions' },
         { value: 'family', label: 'Family-friendly' }
     ];
-    return (
-      <section id='discover-section' className='row' style={{height: this.getHeight() + 'px'}}>
-        <div className='col-twelve blocks'>
-          <div className='row'>
-            <ol>
-              <li className='col-four block hero'>
-                <div className='aspect-content'>
-                  <div className='center-align-container'>
-                    <h4 className='uppercase'>Discover</h4>
-                    <p className='description'>Find out which parks to head to for your favorite activities.</p>
+    const leftWidth = this.props.leftWidth || 350;
+    const variableWidth = this.props.width - leftWidth;
 
-                    <div className='dropdown-filter'>
-                      <p className='label uppercase'>Sorting activities by</p>
-                      <Dropdown
-                        className='dropdown'
-                        name='park-activity-sorter'
-                        value='popular'
-                        options={options}
-                        clearable={false}
-                        onChange={this.logChange} />
-                    </div>
-                  </div>
-                </div>
-              </li>
-              {this.renderActivities()}
-            </ol>
+    return (
+      <div id='discover-section' style={{height: (this.getHeight() - 8) + 'px'}}>
+        <div className='wrapper row height-full'>
+          <div className='col-four' style={{width: leftWidth + 'px'}}>
+            <div className='center-align-container'>
+              <h4 className='uppercase'>Discover</h4>
+              <p className='description'>Find out which parks to head to for your favorite activities.</p>
+
+              <div className='dropdown-filter'>
+                <p className='label uppercase'>Sorting activities by</p>
+                <Dropdown
+                  className='dropdown'
+                  name='park-activity-sorter'
+                  value='popular'
+                  options={options}
+                  clearable={false}
+                  onChange={this.logChange} />
+              </div>
+            </div>
+          </div>
+          <div className='col-eight' style={{width: variableWidth + 'px'}}>
+            {this.renderActivities()}
           </div>
         </div>
-      </section>
+        <div className='scroll-helper-arrow down'/>
+      </div>
     );
   }
 

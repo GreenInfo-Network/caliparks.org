@@ -1,26 +1,20 @@
-import {Map} from 'immutable';
 import React, {PropTypes} from 'react';
-import ReactDOM from 'react-dom';
+import PureComponent from 'react-pure-render/component';
 import {connect} from 'react-redux';
-import {throttle} from 'lodash';
+import {throttle, isEmpty} from 'lodash';
 
-import Header from '../partials/header';
+import HomeIndex from '../partials/index';
 import Explore from '../partials/explore';
 import Discover from '../partials/discover';
 import Footer from '../partials/footer';
-import SliderMostShared from '../partials/sliderMostShared';
 import StickyNav from '../partials/sticky-nav';
-import Waypoint from 'react-waypoint';
 import * as actions from '../actions';
 
 import {SectionsContainer, Section} from 'react-fullpage';
 
-function mapStateToProps(state) {
-  // NOTE: this may or may not be an Immutable JS object
-  return Map(state).toJS();
-}
+const mapStateToProps = (state) => state;
 
-export class App extends React.Component {
+export class App extends PureComponent {
   static propTypes = {
     mostSharedParks: PropTypes.object,
     fetchMostSharedParks: PropTypes.func.isRequired,
@@ -33,7 +27,9 @@ export class App extends React.Component {
     windowSize: PropTypes.object
   };
 
-  componentWillMount() {}
+  componentWillMount() {
+    this.currentIndex = 0;
+  }
 
   componentDidMount() {
     this.handleResizeThrottled = throttle(this.handleResize, 250).bind(this);
@@ -43,12 +39,12 @@ export class App extends React.Component {
     // window size
     this.handleResize();
 
-    if (Map(this.props.featuredParks).isEmpty()) {
+    if (isEmpty(this.props.featuredParks)) {
       console.log('Fetching featured parks');
       this.props.fetchFeaturedParks();
     }
 
-    if (Map(this.props.mostSharedParks.parks).isEmpty()
+    if (isEmpty(this.props.mostSharedParks.parks)
                 && !this.props.mostSharedParks.isFetching) {
       console.log('Fetching featured parks');
       this.props.fetchMostSharedParks();
@@ -57,6 +53,16 @@ export class App extends React.Component {
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.handleResizeThrottled);
+  }
+
+  componentDidUpdate(prevProps) {}
+
+  onLeaveHandler(prevIndex, currentIndex) {
+    this.currentIndex = currentIndex;
+  }
+
+  onAfterLoadHandler(currentIndex) {
+    console.log('Loaded: %s', currentIndex);
   }
 
   getWindowDimensions() {
@@ -75,20 +81,13 @@ export class App extends React.Component {
   }
 
   handleExploreChange(val) {
+    if (this.props.mostSharedParks.isFetching) return;
     this.props.fetchMostSharedParks(val);
   }
 
   handleMarkerClick(id) {
     const {history} = this.props;
     history.pushState(null, `/park/${id}`);
-  }
-
-  onStickyHandler(msg, evt, pos) {
-    console.log('WP: ', msg, pos);
-    if (this.refs.sticky) {
-      const klass = (msg === 'leave' && pos === 'above') ? 'sticky-container stuck' : 'sticky-container';
-      // ReactDOM.findDOMNode(this.refs.sticky).className = klass;
-    }
   }
 
   render() {
@@ -106,22 +105,39 @@ export class App extends React.Component {
       verticalAlign:        false, // align the content of each section vertical
       autoFooterHeight:     true
     };
+
+    const isSticky = this.currentIndex >= 1 ? true : false;
+    const stickyKlass = (this.currentIndex === 2 || this.currentIndex === 3) ? ' white' : '';
+
     return (
       <div className='container'>
-        <SectionsContainer {...options}>
+        {isSticky &&
+          <div className={'sticky-container'}>
+            <StickyNav className={stickyKlass}/>
+          </div>
+        }
+        <SectionsContainer onLeave={this.onLeaveHandler.bind(this)} afterLoad={this.onAfterLoadHandler.bind(this)} {...options}>
           <Section>
-            <Header images={this.props.viewData.header} autoplay={true} autoplaySpeed={8000} />
-            <SliderMostShared featuredParks={this.props.featuredParks} />
+            <HomeIndex
+              height={this.props.windowSize.height || 0}
+              width={this.props.windowSize.width || 0}
+              images={this.props.viewData.header}
+              autoplay={true}
+              autoplaySpeed={8000}
+              featuredParks={this.props.featuredParks}/>
           </Section>
           <Section>
             <Explore
+              mostShared={this.props.mostSharedParks}
+              width={this.props.windowSize.width || 0}
               height={this.props.windowSize.height || 0}
-              mostSharedParks={this.props.mostSharedParks}
               handleOnChange={this.handleExploreChange.bind(this)}
               handleMarkerClick={this.handleMarkerClick.bind(this)} />
           </Section>
           <Section>
-            <Discover height={this.props.windowSize.height || 0} />
+            <Discover
+              width={this.props.windowSize.width || 0}
+              height={this.props.windowSize.height || 0} />
           </Section>
           <Section>
             <Footer lang={this.props.lang} />

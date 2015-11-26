@@ -1,5 +1,5 @@
 /*
-* Skeleton-Sass V1.0
+* Based off of Skeleton-Sass V1.0
 * Copyright 2012 by Michael Lazer-Walker
 * https://github.com/lazerwalker/Skeleton-Sass
 *
@@ -29,18 +29,9 @@ html {
 /* #Variable Definitions
 ================================================== */
 $base-width: 100%;
-$tablet-width: 768px;
-$mobile-portrait-width: 300px;
-$mobile-landscape-width: 420px;
-
 $num-columns: 12;
 $margin: 0;
 
-$topMaxWidth: 959px;
-$topMinWidth: 768px;
-$medMaxWidth: $topMinWidth - 1;
-$botMaxWidth: $medMaxWidth;
-$botMinWidth: 480px;
 
 /* Grid
 ================================================== */
@@ -63,27 +54,17 @@ $botMinWidth: 480px;
     clear: both;
     visibility: hidden;
   }
-
-  @media only screen and (min-width: $topMinWidth ) and (max-width: $topMaxWidth ) {
-    width: $tablet-width;
-  }
-
-  @media only screen and (max-width: $medMaxWidth) {
-    width: $mobile-portrait-width;
-  }
-
-  @media only screen and (min-width: $botMinWidth ) and (max-width: $botMaxWidth ) {
-    width: $mobile-landscape-width;
-  }
 }
 
 @mixin column {
   float: left;
   display: inline;
-  margin-left: $margin;
-  margin-right: $margin;
+  margin: 0;
 
-  @media only screen and (max-width: $medMaxWidth ) { margin: 0; }
+  @include respond-to('full') {
+    margin-left: $margin;
+    margin-right: $margin;
+  }
 }
 
 @mixin row {
@@ -96,18 +77,10 @@ $botMinWidth: 480px;
 
 @mixin columns($num: 1) {
   @include column;
-  width: skeleton-column-width($num, $base-width);
+  width: 100%;
 
-  @media only screen and (min-width: $topMinWidth ) and (max-width: $topMaxWidth ) {
-    width: skeleton-column-width($num, $tablet-width);
-  }
-
-  @media only screen and (max-width: $medMaxWidth) {
-    width: $mobile-portrait-width;
-  }
-
-  @media only screen and (min-width: $botMinWidth ) and (max-width: $botMaxWidth ) {
-    width: $mobile-landscape-width;
+  @include respond-to('full') {
+    width: skeleton-column-width($num, $base-width);
   }
 }
 
@@ -115,49 +88,29 @@ $botMinWidth: 480px;
   @include column;
   @include alpha;
   @include omega;
-  width: skeleton-column-width($num, $base-width);
+  width: 100%;
 
-  @media only screen and (min-width: $topMinWidth ) and (max-width: $topMaxWidth ) {
-    width: skeleton-column-width($num, $tablet-width);
-  }
-
-  @media only screen and (max-width: $medMaxWidth ) {
-    width: $mobile-portrait-width;
-  }
-
-  @media only screen and (min-width: $botMinWidth ) and (max-width: $botMinWidth ) {
-    width: $mobile-landscape-width;
+  @include respond-to('full') {
+    width: skeleton-column-width($num, $base-width);
   }
 }
 
 
 @mixin third($num: 1) {
   @include column;
-  width: skeleton-third-width($num, $base-width);
+  width: 100%;
 
-  @media only screen and (min-width: $topMinWidth ) and (max-width: $topMaxWidth ) {
-    width: skeleton-third-width($num, $tablet-width);
-  }
-
-  @media only screen and (max-width: $medMinWidth) {
-    width: $mobile-portrait-width;
-  }
-
-  @media only screen and (min-width: $botMinWidth ) and (max-width: $botMaxWidth ) {
-    width: $mobile-landscape-width;
+  @include respond-to('full') {
+    width: skeleton-third-width($num, $base-width);
   }
 }
 
 @mixin offset($num: 1) {
   $offset: 2 * $margin;
-  margin-left: skeleton-column-width($num, $base-width) + $offset;
+  padding-left: 0;
 
-  @media only screen and (min-width: $botMaxWidth ) and (max-width: $topMaxWidth ) {
-    margin-left: skeleton-column-width($num, $tablet-width) + $offset;
-  }
-
-  @media only screen and (max-width: $medMaxWidth ) {
-    margin-left: 0;
+  @include respond-to('full') {
+    padding-left: skeleton-column-width($num, $base-width) + $offset;
   }
 }
 

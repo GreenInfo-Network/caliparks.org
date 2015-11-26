@@ -141,6 +141,7 @@ app.use('/', (req, res, next) => {
       gak: GOOGLE_APP_KEY,
       mostSharedParks: {
         parks: [],
+        interval: 'week-now',
         isFetching: false
       },
       selectedPark: {
@@ -265,7 +266,7 @@ app.get('/api/selected_park.json', (req, res, next) => {
 });
 
 app.get('/api/selected_activity.json', (req, res, next) => {
-  return dataStore.db('getParksForActivity', {activity: req.query.activity}).then((data) => {
+  return dataStore.db('getParksForActivity', {activity: req.query.activity, bbox: req.query.bbox}).then((data) => {
     return res.json(data);
   }).catch((err) => {
     return next(err);

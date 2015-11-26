@@ -11,16 +11,14 @@ html {
 }
 
 
-body {}
+body {
+  background: $color-grey-dark;
+  color: $color-white;
+}
 
 .container {
   @include container();
   max-width: $max-width;
-}
-
-main {
-  background: $color-grey-dark;
-  color: $color-white;
 }
 
 a {
@@ -62,28 +60,33 @@ a {
 }
 
 .theme-white {
-  background: white;
   color: black;
+  background: $color-white;
 }
 
-.sticky {
-  z-index: $depth-10 !important;
+.sticky-container {
+  height: 76px;
+  position: fixed;
+  top:0;
+  left: 0;
+  width: 100%;
+  z-index: $depth-10;
 }
+
 .sub-nav {
   position: relative;
   background: #fff;
-  border-bottom: 10px solid $color-grey-dark;
   width: 100%;
   height: auto;
   color: black;
   text-align: center;
-  height: 76px;
+  height: auto;
 
   &::after {
     content:' ';
     position: absolute;
     display: block;
-    bottom: -18px;
+    bottom: -8px;
     left: 50%;
     width: 0;
     height: 0;
@@ -92,6 +95,14 @@ a {
     border-width: 8px 8px 0 8px;
     border-color: $color-grey-dark transparent transparent transparent;
     z-index: 1;
+  }
+
+  &.no-pointer::after {
+    display: none;
+  }
+
+  &.white::after {
+    border-color: $color-white transparent transparent transparent;
   }
 
   h1 {
@@ -105,6 +116,18 @@ a {
     }
   }
 
+  hr {
+    height: 10px;
+    padding: 0;
+    margin: 0;
+    background: $color-grey-dark;
+    border: 0;
+  }
+
+  &.white hr {
+    background: $color-white;
+  }
+
   &.alt {
     height: 76;
     border-bottom: 0;
@@ -113,19 +136,6 @@ a {
       bottom: -8px;
       border-color: #fff transparent transparent transparent;
     }
-
-  }
-}
-
-.sticky-container.stuck {
-  height: 76px;
-
-  .sub-nav {
-    position: fixed;
-    top:0;
-    left: 0;
-    width: 100%;
-    z-index: 9999999;
   }
 }
 
@@ -178,8 +188,4 @@ a {
 .SectionContainer,
 .section {
   position: relative;
-}
-
-#discover-section {
-  overflow: hidden;
 }

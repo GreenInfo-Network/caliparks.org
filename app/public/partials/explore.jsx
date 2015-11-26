@@ -9,9 +9,10 @@ import Navigator from '../components/navigator';
 
 export default class Explore extends PureComponent {
   static propTypes = {
+    width: PropTypes.number,
     height: PropTypes.number,
     handleOnChange: PropTypes.func,
-    mostSharedParks: PropTypes.shape({
+    mostShared: PropTypes.shape({
       parks: PropTypes.array,
       interval: PropTypes.string,
       isFetching: PropTypes.bool
@@ -25,7 +26,8 @@ export default class Explore extends PureComponent {
 
   componentDidMount() {}
 
-  componentDidUpdate() {}
+  componentDidUpdate() {
+  }
 
   onMarkerClick(item) {
     if (typeof this.props.handleMarkerClick === 'function') {
@@ -34,7 +36,7 @@ export default class Explore extends PureComponent {
   }
 
   onNavigatorChange(dir) {
-    const length = this.props.mostSharedParks.parks.length - 1;
+    const length = this.props.mostShared.parks.length - 1;
     const idx = this.state.selectedMarker;
     if (dir === 'prev') {
       if (idx > 0) this.setState({selectedMarker: idx - 1});
@@ -92,62 +94,68 @@ export default class Explore extends PureComponent {
       { value: 'year-last', label: 'Last year' }
     ];
 
-    return (
-      <div id='explore-section' className='row theme-white' style={{height: this.getHeight() + 'px'}}>
-        <div className='col-four'>
-          <div className='center-align-container'>
-            <h4 className='uppercase'>Explore</h4>
-            <p className='description'>Photos pour out of our parks daily. See what’s happening and where.</p>
+    const leftWidth = this.props.leftWidth || 350;
+    const variableWidth = this.props.width - leftWidth;
 
-            <div className='dropdown-filter'>
-              <p className='label uppercase'>Showing top 10 parks</p>
-              <Dropdown
-                className='dropdown'
-                name='park-top-ten-picker'
-                value={this.props.mostSharedParks.interval || 'week-now'}
-                options={options}
-                clearable={false}
-                onChange={this.onDropdownChange.bind(this)} />
+    return (
+      <div id='explore-section' className='theme-white' style={{height: (this.getHeight() - 8) + 'px'}}>
+        <div className='wrapper row height-full'>
+          <div className='col-four' style={{width: leftWidth + 'px'}}>
+            <div className='center-align-container'>
+              <h4 className='uppercase'>Explore</h4>
+              <p className='description'>Photos pour out of our parks daily. See what’s happening and where.</p>
+
+              <div className='dropdown-filter'>
+                <p className='label uppercase'>Showing top 10 parks</p>
+                <Dropdown
+                  className='dropdown'
+                  name='park-top-ten-picker'
+                  value={this.props.mostShared.interval || 'week-now'}
+                  options={options}
+                  clearable={false}
+                  onChange={this.onDropdownChange.bind(this)} />
+              </div>
             </div>
           </div>
-        </div>
-        <div className='col-eight'>
-          {this.props.mostSharedParks.isFetching &&
-            <div className='loading-data'><h3>Loading</h3></div>
-          }
-          <Navigator
-            items={this.props.mostSharedParks.parks}
-            selectedItem={this.state.selectedMarker}
-            nameKey={'unit_name'}
-            idKey={'superunit_id'}
-            onChange={this.onNavigatorChange.bind(this)} />
+          <div className='col-eight' style={{width: variableWidth + 'px'}}>
+            {this.props.mostShared.isFetching &&
+              <div className='loading-data'><h3>Loading parks...</h3></div>
+            }
+            <Navigator
+              items={this.props.mostShared.parks}
+              selectedItem={this.state.selectedMarker}
+              nameKey={'unit_name'}
+              idKey={'superunit_id'}
+              onChange={this.onNavigatorChange.bind(this)} />
 
-          <GoogleMap containerProps={{
-            style: {
-              height: '100%',
-            },
-          }}
-            defaultZoom={6}
-            defaultCenter={{lat: 37.735969, lng: -121.640625}}
-            defaultOptions={{
-              streetViewControl: false,
-              scrollwheel: false,
-              mapTypeControl: false,
-              zoomControl: false
-            }}>
-            <GmapControls {...this.props} />
-            <CustomTileLayer tileUrl='http://{s}.map.parks.stamen.com/{z}/{x}/{y}{r}.png' {...this.props} />
-            {this.props.mostSharedParks.parks.map((marker, index) => {
-              const coords = marker.centroid.coordinates;
-              return (<Marker
-                key={marker.superunit_id}
-                onClick={this.onMarkerClick.bind(this, marker)}
-                icon={this.getMarkerIcon(index)}
-                position={{lat:coords[1], lng:coords[0]}} />
-              );
-            })}
-          </GoogleMap>
+            <GoogleMap containerProps={{
+              style: {
+                height: '100%',
+              },
+            }}
+              defaultZoom={6}
+              defaultCenter={{lat: 37.735969, lng: -121.640625}}
+              defaultOptions={{
+                streetViewControl: false,
+                scrollwheel: false,
+                mapTypeControl: false,
+                zoomControl: false
+              }}>
+              <GmapControls {...this.props} />
+              <CustomTileLayer tileUrl='http://{s}.map.parks.stamen.com/{z}/{x}/{y}{r}.png' {...this.props} />
+              {this.props.mostShared.parks.map((marker, index) => {
+                const coords = marker.centroid.coordinates;
+                return (<Marker
+                  key={marker.superunit_id}
+                  onClick={this.onMarkerClick.bind(this, marker)}
+                  icon={this.getMarkerIcon(index)}
+                  position={{lat:coords[1], lng:coords[0]}} />
+                );
+              })}
+            </GoogleMap>
+          </div>
         </div>
+        <div className='scroll-helper-arrow down dark'/>
       </div>
     );
   }

@@ -1,6 +1,12 @@
 // 413 x 206
 
 #discover-section {
+  padding-top: 90px;
+  padding-bottom: 0;
+
+  .wrapper {
+    overflow: hidden;
+  }
 
   ol {
     margin: 0;
@@ -29,14 +35,14 @@
       @include aspect-ratio(165, 80);
     }
 
-    &.col-four {
+    &.col-six {
       margin-left: 0.5%;
       margin-bottom: 0.5%;
-      width: 33%;
+      width: 49.5%;
     }
 
-    &.col-four:first-child,
-    &.col-four.new-row {
+    &.col-six:first-child,
+    &.col-six.new-row {
       margin-left: 0;
     }
 

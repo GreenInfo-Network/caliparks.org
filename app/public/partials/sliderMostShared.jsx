@@ -1,14 +1,16 @@
 import React, {PropTypes} from 'react';
+import ReactDOM from 'react-dom';
 import PureComponent from 'react-pure-render/component';
 import Slider from 'react-slick';
 import { Link } from 'react-router';
-import __ from 'lodash';
+import {slice as loSlice} from 'lodash';
 
 export default class SliderMostShared extends PureComponent {
   static propTypes = {
     featuredParks: PropTypes.shape({
       parks: PropTypes.array
-    }).isRequired
+    }).isRequired,
+    width: PropTypes.number.isRequired
   };
 
   constructor(props) {
@@ -25,23 +27,34 @@ export default class SliderMostShared extends PureComponent {
     return this.props.featuredParks.parks || [];
   }
 
-  imgError(evt) {
-    console.log('EVT: ', evt.target);
+  onImageError(evt) {
+    // TODO: Doesn't work when trying
+    // to find slide by ref
+    try {
+      evt.target.parentNode.parentNode.style.display = 'none';
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  getSlidesToShowLength() {
+    if (this.props.width === 0) return 4;
+    return Math.max(1, Math.ceil((this.props.width) / 330));
   }
 
   makeSlides() {
     // sort slides based on count
-    const slides = __.slice(this.getParks());
+    const slides = loSlice(this.getParks());
     slides.sort((a, b) => {
       return +b.count - +a.count;
     });
 
     return slides.map((park) => {
       return (
-        <div key={park.su_id} className='slide-container'>
+        <div ref={park.photoid} key={park.su_id} className='slide-container'>
           <Link to={`/park/${park.su_id}`}>
             <div className='overlay'><p className='place'>{park.su_name}</p></div>
-            <img src={park.standard_resolution} onError={this.imgError}/>
+            <img onError={this.onImageError} src={park.standard_resolution}/>
           </Link>
         </div>
         );
@@ -54,13 +67,12 @@ export default class SliderMostShared extends PureComponent {
       infinite: true,
       speed: 500,
       arrows: true,
-      slidesToShow: 4,
+      slidesToShow: this.getSlidesToShowLength(),
       variableWidth: true,
-      slidesToScroll: 3,
+      slidesToScroll: Math.max(1, this.getSlidesToShowLength() - 1),
       initialSlide: 0
     };
 
-    // <Slider {...settings}>
     return (
       <div className='home-slider-wrap'>
         <div ref='slide-recent' className='slider-recent'>

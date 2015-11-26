@@ -1,18 +1,19 @@
-import {Map} from 'immutable';
 import PureComponent from 'react-pure-render/component';
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {throttle} from 'lodash';
+import {throttle, isEmpty} from 'lodash';
 import * as actions from '../actions';
 
 import StickyNav from '../partials/sticky-nav';
 import ParkMap from '../components/parkMap';
 import ActivityGrid from '../components/activityGrid';
-import PhotoGrid from '../components/photoGrid';
+// import PhotoGrid from '../components/photoGrid';
+import Slider from 'react-slick';
+import {socs} from '../lib/socs';
+import {directionsLink} from '../../constants/map';
 
 function mapStateToProps(state) {
-  // NOTE: this may or may not be an Immutable JS object
-  return Map(state).toJS();
+  return state;
 }
 
 export class Park extends PureComponent {
@@ -29,10 +30,12 @@ export class Park extends PureComponent {
   };
 
   state = {
-    selectedPhoto: 0
+    selectedPhoto: null
   };
 
-  componentWillMount() {}
+  componentWillMount() {
+    this.getInitialSelectedPhoto();
+  }
 
   componentDidMount() {
     this.handleResizeThrottled = throttle(this.handleResize, 250).bind(this);
@@ -40,19 +43,31 @@ export class Park extends PureComponent {
     this.handleResize();
 
     if (!this.props.selectedPark.isFetching) {
-      if (Map(this.props.selectedPark.park).isEmpty()) {
+      if (isEmpty(this.props.selectedPark.park)) {
         this.props.fetchSelectedPark(this.props.params.id);
       } else if (this.props.selectedPark.parkid !== this.props.params.id) {
         this.props.fetchSelectedPark(this.props.params.id);
       }
     }
+
+    socs.sharing();
   }
 
-  componentDidUpdate() {}
+  componentDidUpdate() {
+    this.getInitialSelectedPhoto();
+  }
 
   componentWillUnmount() {
     this.props.clearSelectedParkData(this.props.params.id);
     window.removeEventListener('resize', this.handleResizeThrottled);
+  }
+
+  getInitialSelectedPhoto() {
+    if (this.state.selectedPhoto === null &&
+        this.props.selectedPark.images &&
+        this.props.selectedPark.images.length) {
+      this.setState({selectedPhoto: this.props.selectedPark.images[0].photoid});
+    }
   }
 
   onPhotoClick(idx) {
@@ -61,7 +76,7 @@ export class Park extends PureComponent {
   }
 
   setMarkerIcon(marker, idx) {
-    if (idx === this.state.selectedPhoto) return '/assets/svgs/icon-instagram.svg';
+    if (marker.photoid === this.state.selectedPhoto) return '/assets/svgs/icon-instagram.svg';
     return '/assets/svgs/icon-square-4px.svg';
   }
 
@@ -84,9 +99,37 @@ export class Park extends PureComponent {
     };
   }
 
-  getColumnHeight() {
-    if (this.props.windowSize.width === 0) return '0px';
-    return Math.round((this.props.windowSize.width - 20) * 0.3333333) + 'px';
+  // TODO: clean this up
+  // got messy when we had to account for
+  // no images
+  getDimensions() {
+    if (this.props.windowSize.width === 0) return ['0px', '0px', '0px', '0px'];
+    const photoSliderHeight = 160 + 20; // with padding
+    const topContainerPadding = 20;
+    const nav = 76;
+    const imagesLength = this.props.selectedPark.images.length;
+
+    let topHeight = (imagesLength) ? this.props.windowSize.height - nav - topContainerPadding - photoSliderHeight :
+      this.props.windowSize.height - nav - topContainerPadding;
+    let bottomHeight = (imagesLength) ? this.props.windowSize.height - nav - topHeight - topContainerPadding : 0;
+    let middleWidth = (this.props.windowSize.width - 20 - (2 * topHeight));
+
+    if (!imagesLength) {
+      return ['33.3333%', '66.6666%', topHeight + 'px', bottomHeight + 'px'];
+    } else if (middleWidth < topHeight) {
+      middleWidth = 33.3333;
+      topHeight = Math.round((this.props.windowSize.width - 20) * (middleWidth / 100));
+      bottomHeight = this.props.windowSize.height - nav - topHeight - topContainerPadding;
+      return [middleWidth + '%', middleWidth + '%', topHeight + 'px', bottomHeight + 'px'];
+    }
+
+    middleWidth = middleWidth / this.props.windowSize.width * 100;
+    return [topHeight + 'px', middleWidth + '%', topHeight + 'px', bottomHeight + 'px'];
+  }
+
+  getSlidesToShowLength() {
+    if (this.props.windowSize.width === 0) return 4;
+    return Math.ceil((this.props.windowSize.width - 20) / 160);
   }
 
   loadPhotos() {
@@ -96,12 +139,15 @@ export class Park extends PureComponent {
   }
 
   placeImage() {
-    if (!this.props.selectedPark.images.length) return [];
-    const images = this.props.selectedPark.images;
+    if (!this.props.selectedPark.images.length && !this.state.selectedPhoto) return [];
+    const image = this.props.selectedPark.images.filter((photo) => {
+      return photo.photoid === this.state.selectedPhoto;
+    });
+    if (!image.length) return [];
     return (
       <div className='inner'>
         <div className='instagram-logo' />
-        <img src={images[this.state.selectedPhoto].standard_resolution} />
+        <img src={image[0].standard_resolution} />
       </div>
     );
   }
@@ -121,6 +167,7 @@ export class Park extends PureComponent {
   renderDetails() {
     if (!this.props.selectedPark.park.length) return [];
     const details = this.props.selectedPark.park[0];
+    const directions = directionsLink(details.centroid);
 
     return (
       <div className='inner'>
@@ -129,30 +176,80 @@ export class Park extends PureComponent {
         <ActivityGrid activities={details.activities} />
         <div className='share'>
           <ul>
-            <li><a className='link-plain' href=''>Like</a></li>
-            <li><a className='link-plain' href=''>Tweet</a></li>
-            <li><a className='link-plain' href=''>Get Directions</a></li>
-            <li><a className='link-plain' href=''>Camp Here</a></li>
+            <li><a className='link-plain social-item' data-social-service='facebook' href='#'>Like</a></li>
+            <li><a className='link-plain social-item' data-social-service='twitter' href='#'>Tweet</a></li>
+            <li><a className='link-plain' href={directions}>Get Directions</a></li>
+            {details.camping_url &&
+              <li><a className='link-plain' href={details.camping_url}>Camp Here</a></li>
+            }
           </ul>
         </div>
       </div>
     );
   }
 
+  onImageError(evt) {
+    // TODO: Doesn't work when trying
+    // to find slide by ref
+    try {
+      evt.target.parentNode.style.display = 'none';
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  makeSlides() {
+    return this.props.selectedPark.images.map((photo, idx) => {
+      const klass = photo.photoid === this.state.selectedPhoto ? 'selected' : '';
+      return (
+        <div className={klass} key={idx}><img src={photo.standard_resolution} onError={this.onImageError} onClick={this.onPhotoClick.bind(this, photo.photoid)}/></div>
+      );
+    });
+  }
+
+  onSliderAfterChange(currentSlide) {
+    const numShowing = this.getSlidesToShowLength();
+    if (currentSlide + numShowing >= this.props.selectedPark.images.length && !this.props.selectedPark.isFetching) {
+      this.loadPhotos();
+    }
+  }
+
   render() {
     const geometry = this.props.selectedPark.park.length ? this.props.selectedPark.park[0].geometry : null;
+    const [columnWidth, columnMiddleWidth, columnHeight, bottomHeight] = this.getDimensions();
+
+    const settings = {
+      dots: false,
+      infinite: false,
+      speed: 500,
+      arrows: true,
+      slidesToShow: this.getSlidesToShowLength(),
+      variableWidth: false,
+      slidesToScroll: this.getSlidesToShowLength(),
+      slideHasThisWidth: 160,
+      initialSlide: 0
+    };
+
+    const parkSlideClass = this.props.selectedPark.isFetching ? ' loading' : '';
+    const markers = this.props.selectedPark.images.filter((photo, idx) => {
+      return this.state.selectedPhoto === photo.photoid;
+    });
+
+    // In case we have no images...
+    const noImageKlass = (this.props.selectedPark.images.length === 0) ? ' hide' : '';
     return (
       <div className='container'>
         <main className='theme-white page-park' role='application'>
           <StickyNav />
           <div className='page-park-top'>
-            <div className='col details' style={{height: this.getColumnHeight()}}>
+            <div className='col details' style={{height: columnHeight, width: columnWidth }}>
               {this.renderDetails()}
             </div>
-            <div className='col map' style={{height: this.getColumnHeight()}}>
+            <div className='col map' style={{height: columnHeight, width: columnMiddleWidth}}>
               <div className='inner'>
                 <ParkMap
-                  markers={this.props.selectedPark.images}
+                  shouldResize={this.props.windowSize.width + this.props.windowSize.height}
+                  markers={markers}
                   geometry={geometry}
                   selectedMarker={this.state.selectedPhoto}
                   setMarkerIcon={this.setMarkerIcon.bind(this)}
@@ -160,12 +257,17 @@ export class Park extends PureComponent {
                   setMarkerPosition={this.setMarkerPosition.bind(this)}/>
               </div>
             </div>
-            <div className='col photo' style={{height: this.getColumnHeight()}}>
+            <div className={'col photo' + noImageKlass} style={{height: columnHeight, width: columnWidth}}>
               {this.placeImage()}
             </div>
           </div>
-          <div className='page-park-bottom'>
-            <PhotoGrid loadImageHandler={this.loadPhotos.bind(this)} photos={this.props.selectedPark.images} fetching={this.props.selectedPark.isFetching} selected={this.state.selectedPhoto} onPhotoClick={this.onPhotoClick.bind(this)} />
+          <div className={'page-park-bottom' + noImageKlass} style={{height: bottomHeight}}>
+            <div className={'park-slider' + parkSlideClass}>
+              <div className='loader' />
+              <Slider {...settings} afterChange={this.onSliderAfterChange.bind(this)}>
+                {this.makeSlides()}
+              </Slider>
+            </div>
           </div>
         </main>
       </div>

@@ -1,5 +1,7 @@
 .photo-grid {
   position: relative;
+  height: 160px;
+  overflow: hidden;
 
   .inner {
     position: relative;
@@ -12,8 +14,9 @@
   .photo {
     position: relative;
     float: left;
-    width: 15.966%;
-    margin:  0 0.35% 0.35%;
+    width: 160px;
+    height: 160px;
+    margin:  0 5px 5px;
     cursor: pointer;
     overflow: hidden;
 

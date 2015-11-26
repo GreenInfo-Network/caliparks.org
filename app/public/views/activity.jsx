@@ -1,4 +1,3 @@
-import {Map} from 'immutable';
 import PureComponent from 'react-pure-render/component';
 import React, {PropTypes} from 'react';
 import ReactDOM from 'react-dom';
@@ -12,10 +11,11 @@ import ParkMap from '../components/parkMap';
 import { helpers } from '../../constants/park-activities';
 import Navigator from '../components/navigator';
 
+import {getTwoColumnWidth} from '../../constants/layout';
+
 
 function mapStateToProps(state) {
-  // NOTE: this may or may not be an Immutable JS object
-  return Map(state).toJS();
+  return state;
 }
 
 export class Activity extends PureComponent {
@@ -36,21 +36,30 @@ export class Activity extends PureComponent {
 
   state = {
     selectedMarker: 0,
+    selectedIndex: 0,
     hovered: null
   };
 
-  componentWillMount() {}
+  componentWillMount() {
+    this.setSelectedMarkerIfEmpty(this.props);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setSelectedMarkerIfEmpty(nextProps);
+  }
 
   componentDidMount() {
     this.handleResizeThrottled = throttle(this.handleResize, 250).bind(this);
     window.addEventListener('resize', this.handleResizeThrottled);
     this.handleResize();
 
-    if (!this.props.selectedActivity.isFetching) {
-      if (Map(this.props.selectedActivity.parks).isEmpty()) {
-        this.props.fetchSelectedActivity(this.props.params.activity);
-      } else if (this.props.selectedActivity.activity !== this.props.params.activity) {
-        this.props.fetchSelectedActivity(this.props.params.activity);
+    const {params, selectedActivity, fetchSelectedActivity} = this.props;
+    if (!selectedActivity.isFetching) {
+      if (!selectedActivity ||
+          !selectedActivity.parks ||
+          selectedActivity.parks.length === 0 ||
+          selectedActivity.activity !== params.activity) {
+        fetchSelectedActivity(params.activity);
       }
     }
   }
@@ -62,6 +71,26 @@ export class Activity extends PureComponent {
   componentWillUnmount() {
     this.props.clearSelectedActivityData(this.props.params.activity);
     window.removeEventListener('resize', this.handleResizeThrottled);
+  }
+
+  setSelectedMarkerIfEmpty(props) {
+    const {selectedActivity} = props;
+    if (selectedActivity.isFetching || !selectedActivity.parks.length) return;
+
+    if (this.state.selectedMarker === 0 || this.boundsChange) {
+      this.boundsChange = false;
+
+      const containsPark = selectedActivity.parks.filter((park) => {
+        return park.su_id === this.state.selectedMarker;
+      });
+
+      if (this.state.selectedMarker === 0 || containsPark.length === 0) {
+        this.setState({
+          selectedMarker: selectedActivity.parks[0].su_id,
+          selectedIndex: 0
+        });
+      }
+    }
   }
 
   getWindowDimensions() {
@@ -103,7 +132,7 @@ export class Activity extends PureComponent {
       strokeOpacity: 1
     };
 
-    if (idx === this.state.selectedMarker || idx === this.state.hovered) {
+    if (marker.su_id === this.state.selectedMarker || marker.su_id === this.state.hovered) {
       icon.path = 'M-4,0a4,4 0 1,0 8,0a4,4 0 1,0 -8,0';
       icon.fillColor = '#ffffff';
       icon.strokeColor = '#358292';
@@ -126,35 +155,44 @@ export class Activity extends PureComponent {
   }
 
   setMarkerZindex(marker, idx) {
-    return (this.state.selectedMarker === idx || this.state.hovered === idx) ? 1000 + idx : idx;
+    return (this.state.selectedMarker === marker.su_id || this.state.hovered === marker.su_id) ? 1000 + idx : idx;
   }
 
   handleResize() {
     this.props.setWindowSize(this.getWindowDimensions());
   }
 
-  onListClick(idx) {
-    if (this.state.selectedMarker === idx) return;
-    this.setState({selectedMarker: idx});
+  onListClick(id, idx) {
+    if (this.state.selectedMarker === id) return;
+    this.setState({selectedMarker: id, selectedIndex: idx});
   }
 
-  onListMouseOver(idx) {
-    if (this.state.hovered === idx) return;
+  onListMouseOver(id, idx) {
+    if (this.state.hovered === id) return;
     // this.setState({hovered: idx});
   }
-  onListMouseOut(idx) {
-    if (this.state.hovered !== idx) return;
+  onListMouseOut(id, idx) {
+    if (this.state.hovered !== id) return;
     // this.setState({hovered: null});
+  }
+
+  onBoundsChange(bounds) {
+    const {params, selectedActivity, fetchSelectedActivity} = this.props;
+    if (selectedActivity.isFetching) return;
+    this.boundsChange = true;
+    fetchSelectedActivity(params.activity, [bounds[1], bounds[0], bounds[3], bounds[2]]);
   }
 
   render() {
     const icon = helpers.iconprefix + this.props.params.activity;
+    const [leftWidth, rightWidth] = getTwoColumnWidth(this.props.windowSize.width, 20);
     return (
       <div id='activity' className='container'>
         <main className='page-activity' role='application'>
-          <StickyNav className='alt' />
+          <StickyNav className='white' />
+
           <div className='row content' style={{height: this.getHeight() + 'px'}}>
-            <div className='col-four'>
+            <div className='col-four height-full' style={{width: leftWidth + 'px'}}>
               <div className='activity-hero'>
                 <img src={'/assets/images/activities/' + this.props.params.activity + '_square.jpg'} />
                 <div className='activity-logo'>
@@ -174,10 +212,10 @@ export class Activity extends PureComponent {
                     <li
                       key={park.su_id}
                       ref={park.su_id}
-                      className={(this.state.selectedMarker === index) ? 'selected' : ''}
-                      onClick={this.onListClick.bind(this, index)}
-                      onMouseOver={this.onListMouseOver.bind(this, index)}
-                      onMouseOut={this.onListMouseOut.bind(this, index)}>
+                      className={(this.state.selectedMarker === park.su_id) ? 'selected' : ''}
+                      onClick={this.onListClick.bind(this, park.su_id, index)}
+                      onMouseOver={this.onListMouseOver.bind(this, park.su_id, index)}
+                      onMouseOut={this.onListMouseOut.bind(this, park.su_id, index)}>
                       {park.su_name}
                     </li>
                   );
@@ -185,18 +223,24 @@ export class Activity extends PureComponent {
                 </ul>
               </div>
             </div>
-            <div className='col-eight map-wrap pos-relative'>
+            <div className='col-eight map-wrap pos-relative' style={{width: rightWidth + 'px'}}>
+              {this.props.selectedActivity.isFetching &&
+                <div className='loading-data'><h3>Loading new parks...</h3></div>
+              }
               <ParkMap
+                cluster={true}
+                shouldResize={this.props.windowSize.width + this.props.windowSize.height}
                 markers={this.props.selectedActivity.parks}
                 selectedMarker={this.state.selectedMarker}
                 setMarkerIcon={this.setMarkerIcon.bind(this)}
                 setMarkerId={this.setMarkerId.bind(this)}
                 setMarkerPosition={this.setMarkerPosition.bind(this)}
-                setMarkerZindex={this.setMarkerZindex.bind(this)} />
+                setMarkerZindex={this.setMarkerZindex.bind(this)}
+                onBoundsChange={this.onBoundsChange.bind(this)} />
 
               <Navigator
                 items={this.props.selectedActivity.parks}
-                selectedItem={this.state.selectedMarker}
+                selectedItem={this.state.selectedIndex}
                 nameKey={'su_name'}
                 idKey={'su_id'} />
             </div>

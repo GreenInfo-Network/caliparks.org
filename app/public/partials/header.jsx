@@ -6,6 +6,7 @@ import Nav from './nav';
 
 export default class Header extends PureComponent {
   static propTypes = {
+    height: PropTypes.number.isRequired,
     images: PropTypes.array.isRequired,
     autoplay: PropTypes.bool,
     autoplaySpeed: PropTypes.number
@@ -61,13 +62,14 @@ export default class Header extends PureComponent {
       centerPadding: '100px'
     };
 
+    const sliderHeight = this.props.height - 77 - 8;
     return (
       <header>
-        <div className='pos-relative' style={{height: '332px', overflow: 'hidden'}}>
-          <div id='logo-banner'>
+        <div className='pos-relative' style={{height: sliderHeight + 'px', overflow: 'hidden'}}>
+          <div id='logo-banner' className='col'>
             <img src='assets/svgs/header-banner.svg'/>
           </div>
-          <div ref='slider' className='slider-home'>
+          <div ref='slider' className='slider-home col'>
             <Slider {...settings}>
               {this.makeSlides()}
             </Slider>

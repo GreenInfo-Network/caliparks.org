@@ -9,13 +9,14 @@ import {
 } from 'can-use-dom';
 
 import {default as GoogleMapHolder} from 'react-google-maps/lib/creators/GoogleMapHolder';
+import {geojsonStyles} from '../../constants/map';
+import {isEqual} from 'lodash';
 
 export default class GmapDataLayer extends Component {
 
   static propTypes = {
     mapHolderRef: PropTypes.instanceOf(GoogleMapHolder),
     geometry: PropTypes.object
-
   }
 
   static defaultProps = {
@@ -33,11 +34,28 @@ export default class GmapDataLayer extends Component {
     this.addGeoJson();
   }
 
-  componentDidUpdate() {
-
+  componentDidUpdate(prevProps) {
+    if (this.props.geometry !== prevProps.geometry) {
+      console.log('.......... GEOMETRY CHANGE ..........');
+      this.removeGeoJson();
+      this.addGeoJson();
+    }
   }
 
-  componentWillUnmount() {}
+  componentWillUnmount() {
+    if (this.props.mapHolderRef) {
+      this.removeGeoJson();
+    }
+  }
+
+  removeGeoJson() {
+    if (this.props.mapHolderRef) {
+      const map = this.props.mapHolderRef.getMap();
+      map.data.forEach((feature) => {
+        map.data.remove(feature);
+      });
+    }
+  }
 
   addGeoJson() {
     if (this.props.mapHolderRef && this.props.geometry) {
@@ -58,10 +76,8 @@ export default class GmapDataLayer extends Component {
         }
       });
       map.data.addGeoJson(tempObject);
-      map.data.setStyle({
-        fillColor: '#358292',
-        strokeWeight: 0
-      });
+      map.data.setStyle(geojsonStyles);
+
       this.zoom(map);
     }
   }
@@ -71,7 +87,8 @@ export default class GmapDataLayer extends Component {
     map.data.forEach((feature) => {
       this.processPoints(feature.getGeometry(), bounds.extend, bounds);
     });
-    map.fitBounds(bounds);
+
+    if (!bounds.isEmpty()) map.fitBounds(bounds);
   }
 
   processPoints(geometry, callback, thisArg) {

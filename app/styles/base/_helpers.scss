@@ -21,7 +21,8 @@
 .inline { display: inline; }
 .table { display: table; }
 .table-row { display: table-row; }
-.table-cell {display: table-cell;}
+.table-cell { display: table-cell; }
+.align-middle { vertical-align: middle; }
 
 .height-full {
   height: 100%;
@@ -98,23 +99,67 @@
 
 .loading-data {
   position: absolute;
-  top: 0;
-  bottom: 0;
+  top: 50%;
   left: 0;
-  right: 0;
+  width: 100%;
+  margin-top: -1.5rem;
   z-index: 10;
+  opacity: 1;
+  text-align: center;
+  transition: opacity 100ms linear;
 
   h3 {
-    position: absolute;
-    top: 50%;
-    left: 0;
-    width: 100%;
-    margin: 0;
-    padding: 10px 0;
+    position: relative;
+    display: inline-block;
+    margin: 0 auto;
+    width: auto;
+    padding: 0 2rem;
     color: #666;
+    font-size: 2rem;
+    line-height: 8rem;
+    white-space: nowrap;
     background: rgba(255, 255, 255, 0.75);
     font-weight: 400;
-    line-height: 1;
-    text-align: center;
+    border-radius: 4rem;
   }
+}
+
+.scroll-helper-arrow {
+  position: relative;
+  height:8px;
+  width: 100%;
+  background: $color-white;
+
+  &::before {
+    content:' ';
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 50%;
+    width: 0;
+    height: 0;
+    margin-left: -4px;
+    border-style: solid;
+    z-index: 1;
+  }
+
+  &.dark {
+    background: $color-grey-dark;
+  }
+
+  &.down::before {
+    border-width: 8px 8px 0 8px;
+    border-color: $color-grey-dark transparent transparent transparent;
+  }
+
+  &.down.dark::before {
+    border-color: $color-white transparent transparent transparent;
+  }
+
+  &.up::before {
+    border-width: 0 8px 8px 8px;
+    border-color: transparent transparent $color-grey-dark transparent;
+  }
+
+
 }

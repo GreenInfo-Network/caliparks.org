@@ -1,23 +1,23 @@
-import {Map} from 'immutable';
 import {combineReducers} from 'redux';
-
 import * as actions from './actions';
 
-const INITIAL_STATE = Map();
+const INITIAL_STATE = {};
 
 function featuredParks(state = INITIAL_STATE, action) {
   switch (action.type) {
   case actions.REQUEST_FEATURED_PARKS:
-    return Map(state).merge({
+    return {
+      ...state,
       isFetching: true
-    });
+    };
 
   case actions.RECEIVE_FEATURED_PARKS:
-    return Map(state).merge({
+    return {
+      ...state,
       isFetching: false,
       parks: action.parks,
       lastUpdated: action.receivedAt
-    });
+    };
 
   default:
     return state;
@@ -27,17 +27,19 @@ function featuredParks(state = INITIAL_STATE, action) {
 function mostSharedParks(state = INITIAL_STATE, action) {
   switch (action.type) {
   case actions.REQUEST_MOST_SHARED_PARKS:
-    return Map(state).merge({
+    return {
+      ...state,
       isFetching: true
-    });
+    };
 
   case actions.RECEIVE_MOST_SHARED_PARKS:
-    return Map(state).merge({
+    return {
+      ...state,
       isFetching: false,
-      parks: action.parks,
+      parks: action.parks.slice(0),
       lastUpdated: action.receivedAt,
       interval: action.interval
-    });
+    };
 
   default:
     return state;
@@ -47,42 +49,44 @@ function mostSharedParks(state = INITIAL_STATE, action) {
 function selectedPark(state = INITIAL_STATE, action) {
   switch (action.type) {
   case actions.CLEAR_SELECTED_PARK:
-    return Map(state).merge({
+    return {
+      ...state,
       isFetching: false,
       park: [],
       images: [],
       parkid: [],
       lastUpdated: null
-    });
+    };
 
   case actions.REQUEST_SELECTED_PARK:
-    return Map(state).merge({
+    return {
+      ...state,
       isFetching: true
-    });
+    };
 
   case actions.REQUEST_SELECTED_PARK_PHOTOS:
-    return Map(state).merge({
+    return {
+      ...state,
       isFetching: true
-    });
+    };
 
   case actions.RECEIVE_SELECTED_PARK:
-    return Map(state).merge({
+    return {
+      ...state,
       isFetching: false,
       park: action.park.park,
       images: action.park.images,
       parkid: action.parkid,
       lastUpdated: action.receivedAt
-    });
+    };
 
   case actions.RECEIVE_SELECTED_PARK_PHOTOS:
-    // TODO: Not sure this is best way to concat new
-    // images to Immutable state images
-    const prv = state.toJS();
-    return Map(state).merge({
+    return {
+      ...state,
       isFetching: false,
-      images: prv.images ? prv.images.concat(action.images) : action.images,
+      images: state.images ? state.images.concat(action.images) : action.images,
       lastUpdated: action.receivedAt
-    });
+    };
 
   default:
     return state;
@@ -92,25 +96,28 @@ function selectedPark(state = INITIAL_STATE, action) {
 function selectedActivity(state = INITIAL_STATE, action) {
   switch (action.type) {
   case actions.CLEAR_SELECTED_ACTIVITY:
-    return Map(state).merge({
+    return {
+      ...state,
       isFetching: false,
-      park: [],
+      parks: [],
       activity: '',
       lastUpdated: null
-    });
+    };
 
   case actions.REQUEST_SELECTED_ACTIVITY:
-    return Map(state).merge({
+    return {
+      ...state,
       isFetching: true
-    });
+    };
 
   case actions.RECEIVE_SELECTED_ACTIVITY:
-    return Map(state).merge({
+    return {
+      ...state,
       isFetching: false,
       parks: action.parks,
       activity: action.activity,
       lastUpdated: action.receivedAt
-    });
+    };
 
   default:
     return state;
@@ -120,10 +127,11 @@ function selectedActivity(state = INITIAL_STATE, action) {
 function windowSize(state = INITIAL_STATE, action) {
   switch (action.type) {
   case actions.SET_WINDOW_SIZE:
-    return Map(state).merge({
+    return {
+      ...state,
       width: action.size.width,
       height: action.size.height
-    });
+    };
 
   default:
     return state;

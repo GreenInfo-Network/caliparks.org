@@ -3,8 +3,6 @@ import Clean from 'clean-webpack-plugin';
 import SvgStore from 'webpack-svgstore-plugin';
 import webpack from 'webpack';
 
-console.log(path.join(__dirname, 'node_modules'));
-
 export default {
   devtool: 'eval',
   entry: [
@@ -28,7 +26,7 @@ export default {
       {
         test: /\.jsx?$/,
         loader: 'eslint',
-        exclude: [/node_modules/, /react-fullpage/]
+        exclude: [/node_modules/, /react-fullpage/, /react-slick/, /socs.js/]
       }
     ],
 
