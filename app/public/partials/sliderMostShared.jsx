@@ -1,5 +1,4 @@
 import React, {PropTypes} from 'react';
-import ReactDOM from 'react-dom';
 import PureComponent from 'react-pure-render/component';
 import Slider from 'react-slick';
 import { Link } from 'react-router';
@@ -23,10 +22,6 @@ export default class SliderMostShared extends PureComponent {
 
   componentWillUnmount() { }
 
-  getParks() {
-    return this.props.featuredParks.parks || [];
-  }
-
   onImageError(evt) {
     // TODO: Doesn't work when trying
     // to find slide by ref
@@ -35,6 +30,10 @@ export default class SliderMostShared extends PureComponent {
     } catch (e) {
       console.error(e);
     }
+  }
+
+  getParks() {
+    return this.props.featuredParks.parks || [];
   }
 
   getSlidesToShowLength() {

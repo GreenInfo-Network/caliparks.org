@@ -1,11 +1,15 @@
 import React, {PropTypes} from 'react';
+import ReactDOM from 'react-dom';
 import PureComponent from 'react-pure-render/component';
 import Dropdown from 'react-select';
+import {debounce} from 'lodash';
 
 import {GoogleMap, Marker} from 'react-google-maps';
 import CustomTileLayer from '../components/customTileLayer';
 import GmapControls from '../components/gmapControls';
 import Navigator from '../components/navigator';
+
+import {getTwoColumnWidth} from '../../constants/layout';
 
 export default class Explore extends PureComponent {
   static propTypes = {
@@ -17,16 +21,23 @@ export default class Explore extends PureComponent {
       interval: PropTypes.string,
       isFetching: PropTypes.bool
     }).isRequired,
-    handleMarkerClick: PropTypes.func
+    handleMarkerClick: PropTypes.func,
+    boundsChange: PropTypes.func
   };
 
   state = {
     selectedMarker: 0
   }
-
+  componentWillMount() {
+    this.onBoundsChangeDebounced = debounce(this.onBoundsChange, 500).bind(this);
+  }
   componentDidMount() {}
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
+    if (prevProps.width !== this.props.width &&
+        prevProps.height !== this.props.height) {
+      this.resizeMap();
+    }
   }
 
   onMarkerClick(item) {
@@ -55,6 +66,15 @@ export default class Explore extends PureComponent {
     return this.props.height || 700;
   }
 
+  resizeMap() {
+    if (this.refs.map &&
+      typeof window !== 'undefined'
+    ) {
+      const map = ReactDOM.findDOMNode(this.refs.map);
+      window.google.maps.event.trigger(map, 'resize');
+    }
+  }
+
   getMarkerIcon(idx) {
     // circle icon path generator:
     // http://complexdan.com/svg-circleellipse-to-path-converter/
@@ -78,6 +98,13 @@ export default class Explore extends PureComponent {
     return icon;
   }
 
+  onBoundsChange() {
+    if (typeof this.props.boundsChange === 'function') {
+      const bounds = this.refs.map.getBounds().toUrlValue(4).split(',');
+      this.props.boundsChange(bounds);
+    }
+  }
+
   render() {
     /*
     { value: 'today', label: 'Today' },
@@ -94,8 +121,7 @@ export default class Explore extends PureComponent {
       { value: 'year-last', label: 'Last year' }
     ];
 
-    const leftWidth = this.props.leftWidth || 350;
-    const variableWidth = this.props.width - leftWidth;
+    const [leftWidth, rightWidth] = getTwoColumnWidth(this.props.width, 0);
 
     return (
       <div id='explore-section' className='theme-white' style={{height: (this.getHeight() - 8) + 'px'}}>
@@ -117,7 +143,7 @@ export default class Explore extends PureComponent {
               </div>
             </div>
           </div>
-          <div className='col-eight' style={{width: variableWidth + 'px'}}>
+          <div className='col-eight' style={{width: rightWidth + 'px'}}>
             {this.props.mostShared.isFetching &&
               <div className='loading-data'><h3>Loading parks...</h3></div>
             }
@@ -128,7 +154,7 @@ export default class Explore extends PureComponent {
               idKey={'superunit_id'}
               onChange={this.onNavigatorChange.bind(this)} />
 
-            <GoogleMap containerProps={{
+            <GoogleMap ref='map' containerProps={{
               style: {
                 height: '100%',
               },
@@ -140,7 +166,9 @@ export default class Explore extends PureComponent {
                 scrollwheel: false,
                 mapTypeControl: false,
                 zoomControl: false
-              }}>
+              }}
+              onBoundsChanged={this.onBoundsChangeDebounced.bind(this)}
+              >
               <GmapControls {...this.props} />
               <CustomTileLayer tileUrl='http://{s}.map.parks.stamen.com/{z}/{x}/{y}{r}.png' {...this.props} />
               {this.props.mostShared.parks.map((marker, index) => {

@@ -55,8 +55,6 @@ export class App extends PureComponent {
     window.removeEventListener('resize', this.handleResizeThrottled);
   }
 
-  componentDidUpdate(prevProps) {}
-
   onLeaveHandler(prevIndex, currentIndex) {
     this.currentIndex = currentIndex;
   }
@@ -80,14 +78,21 @@ export class App extends PureComponent {
     this.props.setWindowSize(this.getWindowDimensions());
   }
 
-  handleExploreChange(val) {
-    if (this.props.mostSharedParks.isFetching) return;
-    this.props.fetchMostSharedParks(val);
-  }
-
   handleMarkerClick(id) {
     const {history} = this.props;
     history.pushState(null, `/park/${id}`);
+  }
+
+  handleExploreChange(interval) {
+    const {mostSharedParks, fetchMostSharedParks} = this.props;
+    if (mostSharedParks.isFetching) return;
+    fetchMostSharedParks(interval, mostSharedParks.bbox);
+  }
+
+  handleExploreBoundsChange(bounds) {
+    const {mostSharedParks, fetchMostSharedParks} = this.props;
+    if (mostSharedParks.isFetching) return;
+    fetchMostSharedParks(mostSharedParks.interval, [bounds[1], bounds[0], bounds[3], bounds[2]]);
   }
 
   render() {
@@ -132,7 +137,8 @@ export class App extends PureComponent {
               width={this.props.windowSize.width || 0}
               height={this.props.windowSize.height || 0}
               handleOnChange={this.handleExploreChange.bind(this)}
-              handleMarkerClick={this.handleMarkerClick.bind(this)} />
+              handleMarkerClick={this.handleMarkerClick.bind(this)}
+              boundsChange={this.handleExploreBoundsChange.bind(this)} />
           </Section>
           <Section>
             <Discover

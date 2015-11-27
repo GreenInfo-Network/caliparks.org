@@ -38,7 +38,8 @@ function mostSharedParks(state = INITIAL_STATE, action) {
       isFetching: false,
       parks: action.parks.slice(0),
       lastUpdated: action.receivedAt,
-      interval: action.interval
+      interval: action.interval,
+      bbox: action.bbox
     };
 
   default:

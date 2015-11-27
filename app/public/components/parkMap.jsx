@@ -11,15 +11,16 @@ import {debounce} from 'lodash';
 export default class ParkMap extends PureComponent {
   static propTypes = {
     geometry: PropTypes.object,
-    shouldResize: React.PropTypes.oneOfType([
+    shouldResize: PropTypes.oneOfType([
       PropTypes.number,
       PropTypes.string,
       PropTypes.bool
-    ])
+    ]),
+    onBoundsChange: PropTypes.func
   };
 
   componentWillMount() {
-    this.handleBoundsChangeThrottled = debounce(this.handleBoundsChange, 500).bind(this);
+    this.handleBoundsChangeDebounced = debounce(this.handleBoundsChange, 500).bind(this);
   }
 
   componentDidMount() {}
@@ -60,7 +61,7 @@ export default class ParkMap extends PureComponent {
           zoomControl: false
         }}
         defaultCenter={{lat: 37.735969, lng: -121.640625}}
-        onBoundsChanged={this.handleBoundsChangeThrottled.bind(this)}>
+        onBoundsChanged={this.handleBoundsChangeDebounced.bind(this)}>
         <CustomTileLayer tileUrl='http://{s}.map.parks.stamen.com/{z}/{x}/{y}{r}.png' {...this.props} />
         <GmapControls {...this.props} />
 

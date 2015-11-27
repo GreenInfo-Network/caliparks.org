@@ -44,10 +44,6 @@ export class Activity extends PureComponent {
     this.setSelectedMarkerIfEmpty(this.props);
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setSelectedMarkerIfEmpty(nextProps);
-  }
-
   componentDidMount() {
     this.handleResizeThrottled = throttle(this.handleResize, 250).bind(this);
     window.addEventListener('resize', this.handleResizeThrottled);
@@ -64,6 +60,10 @@ export class Activity extends PureComponent {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setSelectedMarkerIfEmpty(nextProps);
+  }
+
   componentDidUpdate() {
     this.setScrollContainerHeight();
   }
@@ -71,26 +71,6 @@ export class Activity extends PureComponent {
   componentWillUnmount() {
     this.props.clearSelectedActivityData(this.props.params.activity);
     window.removeEventListener('resize', this.handleResizeThrottled);
-  }
-
-  setSelectedMarkerIfEmpty(props) {
-    const {selectedActivity} = props;
-    if (selectedActivity.isFetching || !selectedActivity.parks.length) return;
-
-    if (this.state.selectedMarker === 0 || this.boundsChange) {
-      this.boundsChange = false;
-
-      const containsPark = selectedActivity.parks.filter((park) => {
-        return park.su_id === this.state.selectedMarker;
-      });
-
-      if (this.state.selectedMarker === 0 || containsPark.length === 0) {
-        this.setState({
-          selectedMarker: selectedActivity.parks[0].su_id,
-          selectedIndex: 0
-        });
-      }
-    }
   }
 
   getWindowDimensions() {
@@ -117,10 +97,54 @@ export class Activity extends PureComponent {
     return Math.round(h / 2) + 'px';
   }
 
+  handleResize() {
+    this.props.setWindowSize(this.getWindowDimensions());
+  }
+
   setScrollContainerHeight() {
     if (!this.refs.parklist) return;
     const elm = ReactDOM.findDOMNode(this.refs.parklist);
     elm.style.height = (this.props.windowSize.height - elm.offsetTop - 40) + 'px';
+  }
+
+  onListClick(id, idx) {
+    if (this.state.selectedMarker === id) return;
+    this.setState({selectedMarker: id, selectedIndex: idx});
+  }
+
+  onListMouseOver(id, idx) {
+    if (this.state.hovered === id) return;
+    // this.setState({hovered: idx});
+  }
+  onListMouseOut(id, idx) {
+    if (this.state.hovered !== id) return;
+    // this.setState({hovered: null});
+  }
+
+  onBoundsChange(bounds) {
+    const {params, selectedActivity, fetchSelectedActivity} = this.props;
+    if (selectedActivity.isFetching) return;
+    this.boundsChange = true;
+    fetchSelectedActivity(params.activity, [bounds[1], bounds[0], bounds[3], bounds[2]]);
+  }
+
+  setSelectedMarkerIfEmpty(props) {
+    const {selectedActivity} = props;
+    if (selectedActivity.isFetching || !selectedActivity.parks.length) return;
+
+    if (this.state.selectedMarker === 0 || this.boundsChange) {
+      this.boundsChange = false;
+      const containsPark = selectedActivity.parks.filter((park) => {
+        return park.su_id === this.state.selectedMarker;
+      });
+
+      if (this.state.selectedMarker === 0 || containsPark.length === 0) {
+        this.setState({
+          selectedMarker: selectedActivity.parks[0].su_id,
+          selectedIndex: 0
+        });
+      }
+    }
   }
 
   setMarkerIcon(marker, idx) {
@@ -156,31 +180,6 @@ export class Activity extends PureComponent {
 
   setMarkerZindex(marker, idx) {
     return (this.state.selectedMarker === marker.su_id || this.state.hovered === marker.su_id) ? 1000 + idx : idx;
-  }
-
-  handleResize() {
-    this.props.setWindowSize(this.getWindowDimensions());
-  }
-
-  onListClick(id, idx) {
-    if (this.state.selectedMarker === id) return;
-    this.setState({selectedMarker: id, selectedIndex: idx});
-  }
-
-  onListMouseOver(id, idx) {
-    if (this.state.hovered === id) return;
-    // this.setState({hovered: idx});
-  }
-  onListMouseOut(id, idx) {
-    if (this.state.hovered !== id) return;
-    // this.setState({hovered: null});
-  }
-
-  onBoundsChange(bounds) {
-    const {params, selectedActivity, fetchSelectedActivity} = this.props;
-    if (selectedActivity.isFetching) return;
-    this.boundsChange = true;
-    fetchSelectedActivity(params.activity, [bounds[1], bounds[0], bounds[3], bounds[2]]);
   }
 
   render() {

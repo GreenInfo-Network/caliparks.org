@@ -10,7 +10,6 @@ import {
 
 import {default as GoogleMapHolder} from 'react-google-maps/lib/creators/GoogleMapHolder';
 import {geojsonStyles} from '../../constants/map';
-import {isEqual} from 'lodash';
 
 export default class GmapDataLayer extends Component {
 

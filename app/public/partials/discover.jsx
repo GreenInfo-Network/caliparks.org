@@ -4,6 +4,7 @@ import { Link } from 'react-router';
 import Dropdown from 'react-select';
 import Color from 'color';
 import { helpers, activities, colorGroups } from '../../constants/park-activities';
+import {getTwoColumnWidth} from '../../constants/layout';
 
 export default class Discover extends PureComponent {
   static propTypes = {
@@ -65,9 +66,8 @@ export default class Discover extends PureComponent {
         { value: 'attractions', label: 'Cultural attractions' },
         { value: 'family', label: 'Family-friendly' }
     ];
-    const leftWidth = this.props.leftWidth || 350;
-    const variableWidth = this.props.width - leftWidth;
 
+    const [leftWidth, rightWidth] = getTwoColumnWidth(this.props.width, 0);
     return (
       <div id='discover-section' style={{height: (this.getHeight() - 8) + 'px'}}>
         <div className='wrapper row height-full'>
@@ -88,7 +88,7 @@ export default class Discover extends PureComponent {
               </div>
             </div>
           </div>
-          <div className='col-eight' style={{width: variableWidth + 'px'}}>
+          <div className='col-eight' style={{width: rightWidth + 'px'}}>
             {this.renderActivities()}
           </div>
         </div>

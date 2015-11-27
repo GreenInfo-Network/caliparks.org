@@ -236,7 +236,7 @@ app.get('/api/featured_parks.json', (req, res, next) => {
 });
 
 app.get('/api/most_shared_parks.json', (req, res, next) => {
-  return  dataStore.db('mostSharedParks', {interval: req.query.interval || null}).then((data) => {
+  return  dataStore.db('mostSharedParks', {interval: req.query.interval || null, bbox: req.query.bbox}).then((data) => {
     return res.json(data);
   }).catch((err) => {
     return next(err);

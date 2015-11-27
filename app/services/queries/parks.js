@@ -1,3 +1,5 @@
+import escape from 'pg-escape';
+
 const BASE_PHOTO_ATTRIBUTES = [
   "  photos.photo_id AS photoid,",
   "  COALESCE(NULLIF(photos.metadata ->> 'caption', 'null')::json, '{ \"caption\": { \"text\": \"\" } }'::json) -> 'text' AS title,",
@@ -103,16 +105,25 @@ function mostSharedParks(options) {
   const dateStr = datesForTime(interval);
   const parkCount = options.parkCount || '10';
   const photoCount = options.photoCount || '10';
+  const bbox = options.bbox || null;
+
+  let bboxWhere = [];
+  if (bbox) {
+    const bboxParams = bbox.split(',').map(parseFloat);
+    bboxWhere = [escape(" WHERE ST_Transform(cpad.geom, 4326) && ST_MakeEnvelope(%s, %s, %s, %s, 4326)", bboxParams[0], bboxParams[1], bboxParams[2], bboxParams[3])];
+  }
+
   const q = [
     "WITH most_shared_parks AS (",
     " SELECT topten.total, cpad.superunit_id, cpad.unit_name,",
     " ST_AsGeoJSON(ST_Centroid(ST_Transform(cpad.geom, 4326))) AS centroid",
     " FROM (SELECT count(*) as total, cpad.superunit_id",
-    " FROM (SELECT * FROM instagram_photos photos",
-    " WHERE",
-    dateStr,
-    ") as q1",
-    " JOIN cpad_superunits cpad ON cpad.superunit_id = q1.superunit_id",
+      " FROM (SELECT * FROM instagram_photos photos",
+      " WHERE",
+      dateStr,
+      ") as q1",
+    " JOIN cpad_superunits cpad ON cpad.superunit_id = q1.superunit_id"
+  ].concat(bboxWhere).concat([
     " GROUP BY cpad.superunit_id order by total DESC LIMIT $1) as topten,",
     " cpad_superunits cpad WHERE topten.superunit_id = cpad.superunit_id",
     " AND cpad.access_typ = 'Open Access'",
@@ -125,7 +136,7 @@ function mostSharedParks(options) {
       " array_agg(row_to_json(q1)) as item",
     " FROM most_shared_parks parks,",
     " LATERAL(SELECT "
-  ].concat(BASE_PHOTO_ATTRIBUTES).concat([
+  ]).concat(BASE_PHOTO_ATTRIBUTES).concat([
       " FROM instagram_photos photos",
       " WHERE photos.superunit_id = parks.superunit_id",
       " AND ",
