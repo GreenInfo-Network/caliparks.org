@@ -12,17 +12,32 @@ export default class Discover extends PureComponent {
     height: PropTypes.number
   };
 
-  componentDidMount() { }
+  state = {
+    navigationPosition: 0
+  }
+
+  componentWillMount() {
+
+  }
+
+  componentDidMount() {}
 
   logChange(val) {
     console.log('Selected: ' + val);
   }
 
-  renderActivities() {
+  renderActivities(activityHeight) {
+    const showOnly = [this.state.navigationPosition,  this.state.navigationPosition + 7];
+
     return activities.map((activity, idx) => {
       let klass = 'block activity col-six';
-      if (idx === 2 || (idx > 2 && (idx - 2) % 2 === 0)) {
+      const layoutPos = idx - this.state.navigationPosition;
+      if (layoutPos % 2 === 0) {
         klass += ' new-row';
+      }
+
+      if (idx < showOnly[0] || idx >= showOnly[1]) {
+        klass += ' hide';
       }
       const icon = helpers.iconprefix + activity.assetname;
       const thumb = helpers.imgpath + activity.assetname + '_rect.jpg';
@@ -30,11 +45,10 @@ export default class Discover extends PureComponent {
       color.alpha(0.5);
 
       return (
-        <li key={activity.assetname} className={klass}>
-          <div className='aspect-content'>
+        <li key={activity.assetname} className={klass} style={{height: activityHeight + 'px'}}>
+          <div className='aspect-content' style={{backgroundImage: 'url(' + thumb + ')'}}>
             <Link className='activity-link' to={`/activity/${activity.assetname}`}>
             <div className='overlay' />
-            <img src={thumb} />
             <div className='label-wrap' style={{background: color.rgbString()}}>
               <div className='label table'>
                 <div className='table-cell activity-icon'>
@@ -56,6 +70,34 @@ export default class Discover extends PureComponent {
     return this.props.height || 700;
   }
 
+  onActivityNavigationClick(dir) {
+    let pos = 0;
+    if (dir === 'less' && this.state.navigationPosition > 0) {
+      if (this.state.navigationPosition - 7 < 0) {
+        pos = 0;
+      } else {
+        pos = this.state.navigationPosition - 7;
+      }
+
+      this.setState({navigationPosition: pos });
+    } else if (dir === 'more' && this.state.navigationPosition + 7 < activities.length) {
+      if (this.state.navigationPosition + 7 > activities.length) {
+        pos = activities.length - 7;
+      } else {
+        pos = this.state.navigationPosition + 7;
+      }
+
+      this.setState({navigationPosition: pos });
+    }
+  }
+
+  activityNavigationEnabled(dir) {
+    if (dir === 'less' && this.state.navigationPosition > 0) return false;
+    if (dir === 'more' && this.state.navigationPosition + 7 < activities.length) return false;
+
+    return true;
+  }
+
   render() {
     const options = [
         { value: 'popular', label: 'Most popular' },
@@ -68,6 +110,10 @@ export default class Discover extends PureComponent {
     ];
 
     const [leftWidth, rightWidth] = getTwoColumnWidth(this.props.width, 0);
+    const availableHeight = (this.getHeight() - 98 - 5);
+    const availableActivityHeight = (availableHeight + 5) - (4 * 5);
+    const activityHeight = Math.floor(availableActivityHeight / 4);
+
     return (
       <div id='discover-section' style={{height: (this.getHeight() - 8) + 'px'}}>
         <div className='wrapper row height-full'>
@@ -76,7 +122,7 @@ export default class Discover extends PureComponent {
               <h4 className='uppercase'>Discover</h4>
               <p className='description'>Find out which parks to head to for your favorite activities.</p>
 
-              <div className='dropdown-filter'>
+              <div className='dropdown-filter hide'>
                 <p className='label uppercase'>Sorting activities by</p>
                 <Dropdown
                   className='dropdown'
@@ -88,8 +134,17 @@ export default class Discover extends PureComponent {
               </div>
             </div>
           </div>
-          <div className='col-eight' style={{width: rightWidth + 'px'}}>
-            {this.renderActivities()}
+          <div className='col-eight activity-blocks' style={{width: rightWidth + 'px'}}>
+            <ul className='activity-blocks' style={{height: availableHeight + 'px'}}>
+              {this.renderActivities(activityHeight)}
+            </ul>
+            <div className='block col-six activity-navigation' style={{height: activityHeight + 'px'}}>
+              <div className='table'>
+                <div className='table-cell no-text-selection'>
+                  <button className='btn' disabled={this.activityNavigationEnabled('less')} onClick={this.onActivityNavigationClick.bind(this, 'less')}>&lt;</button><span>More</span><button className='btn' onClick={this.onActivityNavigationClick.bind(this, 'more')} disabled={this.activityNavigationEnabled('more')}>&gt;</button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <div className='scroll-helper-arrow down'/>

@@ -9,7 +9,7 @@
 }
 
 .hide {
-  display: none;
+  display: none !important;
 }
 
 .pos-relative {
@@ -57,6 +57,13 @@
     margin-left: 10px;
     vertical-align: text-bottom;
   }
+}
+
+.no-text-selection {
+  -webkit-user-select: none;  /* Chrome all / Safari all */
+  -moz-user-select: none;     /* Firefox all */
+  -ms-user-select: none;      /* IE 10+ */
+  user-select: none;          /* Likely future */
 }
 
 .row { @include row(); }

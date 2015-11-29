@@ -17,6 +17,14 @@
     padding: 10px;
   }
 
+  .activity-blocks {
+    position: relative;
+    overflow: hidden;
+    list-style: 0;
+    margin: 0;
+    padding: 0;
+  }
+
   .block {
     position: relative;
     float: left;
@@ -32,18 +40,24 @@
       line-height: 1;
       cursor: pointer;
       overflow: hidden;
-      @include aspect-ratio(165, 80);
+      // @include aspect-ratio(165, 80);
     }
 
     &.col-six {
-      margin-left: 0.5%;
-      margin-bottom: 0.5%;
+      margin-left: 5px;
+      margin-bottom: 5px;
       width: 49.5%;
     }
 
     &.col-six:first-child,
     &.col-six.new-row {
       margin-left: 0;
+    }
+
+    & .aspect-content {
+      height: 100%;
+      background-size: cover;
+      background-position: 50% 50%;
     }
 
     .overlay {
@@ -117,4 +131,29 @@
     }
   }
 
+}
+
+.activity-navigation.block.col-six {
+  position: absolute !important;
+  bottom: 0;
+  right: 0;
+
+  .table {
+    height: 100%;
+  }
+
+  .table-cell {
+    text-align: center !important;
+    font-size: 2.4rem;
+
+    span {
+      display: inline-block;
+      text-transform: uppercase;
+      line-height: 1;
+      vertical-align: middle;
+      cursor: default;
+    }
+
+    button {}
+  }
 }

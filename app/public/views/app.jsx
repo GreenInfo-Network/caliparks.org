@@ -121,7 +121,9 @@ export class App extends PureComponent {
             <StickyNav className={stickyKlass}/>
           </div>
         }
-        <SectionsContainer onLeave={this.onLeaveHandler.bind(this)} afterLoad={this.onAfterLoadHandler.bind(this)} {...options}>
+        <SectionsContainer
+          onLeave={this.onLeaveHandler.bind(this)}
+          afterLoad={this.onAfterLoadHandler.bind(this)} {...options}>
           <Section>
             <HomeIndex
               height={this.props.windowSize.height || 0}
