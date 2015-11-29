@@ -44,6 +44,11 @@ a {
   user-select: none;
   outline: 0;
 
+  &.link {
+    padding: 0;
+    display: inline;
+  }
+
   svg {
     display: inline-block;
     vertical-align: middle;

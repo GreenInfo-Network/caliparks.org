@@ -24,13 +24,9 @@ class LocaleSwitcher extends Component {
     return locales.map((locale) => {
       const { current } = this.props;
 
-      let klass = '';
+      let klass = this.props.className ? this.props.className : '';
       if (locale === current) {
-        klass = 'active';
-      }
-
-      if (this.props.className) {
-        klass += ' ' + this.props.className;
+        klass += ' selected';
       }
 
       const localeName = Config.locales.available[locale];
