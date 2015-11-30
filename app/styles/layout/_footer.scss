@@ -5,6 +5,15 @@
     height: 100%;
   }
 
+  a {
+    text-decoration: none;
+    color: $color-base;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
   .table {
     height: 100%;
     width: 100%;

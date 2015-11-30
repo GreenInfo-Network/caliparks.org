@@ -1,6 +1,11 @@
-#faq-section {
+$section-padding: 4rem;
+
+.page-faq {
+  padding-top: 2rem;
+  font-size: 1.4rem;
+  color: $color-grey-dark;
+
   & .table {
-    margin-top: 3rem;
     width: 100%;
     table-layout: fixed;
   }
@@ -19,7 +24,7 @@
 
   a {
       text-decoration: none;
-      color: #000;
+      color: $color-grey-dark;
     }
 }
 
@@ -29,7 +34,7 @@
 }
 
 #faq-section .faq-menu {
-  margin-bottom: 5rem;
+  margin-bottom: 4rem;
 
 
   li::before {
@@ -37,9 +42,21 @@
     position: inline;
     margin-right: 10px;
   }
+
+  a {
+    font-weight: 300;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }
 
 .faq-content {
+  h5 {
+    font-size: 1.4rem;
+    text-transform: uppercase;
+  }
   h5::before {
     content: '▲';
     position: inline;
@@ -47,7 +64,7 @@
   }
 
   li {
-    margin-bottom: 5rem;
+    margin-bottom: 4rem;
 
     &:last-child {
       margin-bottom: 0;
@@ -56,7 +73,9 @@
 }
 
 .faq-images {
+  display: none;
   position: relative;
+  height: 100%;
 
   ul {
     position: absolute;
@@ -64,15 +83,22 @@
     bottom: 0;
     left: 0;
     right: 0;
-    margin-right: 1.5%;
+    margin-right: 10px;
   }
 
   li {
     width: auto;
-    height: 8%;
-    margin-bottom: 1.5%;
+    margin-bottom: 8px;
     overflow: hidden;
     background-size: cover;
     background-position: 50% 50%;
+  }
+
+  li:last-child {
+    margin-bottom: 0;
+  }
+
+  @include respond-to('full') {
+    display: table-cell;
   }
 }

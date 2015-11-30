@@ -7,6 +7,8 @@ import { Link } from 'react-router';
 
 import * as actions from '../actions';
 import StickyNav from '../partials/sticky-nav';
+import Footer from '../partials/footer';
+
 import {faqs as FAQS} from '../../constants/faq';
 
 const mapStateToProps = (state) => state;
@@ -29,7 +31,16 @@ export class Faq extends PureComponent {
 
   componentWillReceiveProps(nextProps) {}
 
-  componentDidUpdate() {}
+  componentDidUpdate() {
+    const elm = ReactDOM.findDOMNode(this.refs.faqthings);
+    const imgs = document.querySelectorAll('.faqimage');
+
+    const height = (elm.offsetHeight - (11 * 8)) / 12;
+
+    [].forEach.call(imgs, (img) => {
+      img.style.height = height + 'px';
+    });
+  }
 
   componentWillUnmount() {
     this.props.clearSelectedActivityData(this.props.params.activity);
@@ -84,14 +95,14 @@ export class Faq extends PureComponent {
   }
 
   render() {
-    console.log(this.props.viewData.header.length);
+    const imgHeight = (100 / this.props.viewData.header.length);
     return (
-      <div id='faq-section' className='container'>
-        <main className='theme-white page-park' role='application'>
-          <StickyNav />
-          <div className='table'>
+      <div id='faq-section' className=''>
+        <StickyNav />
+        <main className='theme-white page-faq' role='application'>
+          <div ref='faqs' className='table height-full'>
             <div className='table-cell'>
-              <div className='faq-items'>
+              <div ref='faqthings' className='faq-items'>
                 <h3>FAQ</h3>
                 <ul className='faq-menu plain'>
                   {FAQS.map((faq) => {
@@ -113,14 +124,18 @@ export class Faq extends PureComponent {
             </div>
 
             <div className='table-cell faq-images'>
-              <ul className='plain'>
+              <ul ref='faqimgs' className='plain'>
                 {this.props.viewData.header.map((img) => {
-                  return <li style={{backgroundImage: 'url(' + img + ')'}} />;
+                  return <li className='faqimage' style={{backgroundImage: 'url(' + img + ')'}} />;
                 })}
               </ul>
             </div>
           </div>
         </main>
+        <div style={{marginTop: '8px'}}>
+          <div className='scroll-helper-arrow down'/>
+          <Footer lang={this.props.lang} />
+        </div>
       </div>
     );
   }

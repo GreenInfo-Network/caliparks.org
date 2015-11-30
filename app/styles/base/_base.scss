@@ -65,7 +65,7 @@ a {
 }
 
 .theme-white {
-  color: black;
+  color: $color-grey-dark;
   background: $color-white;
 }
 
@@ -80,7 +80,7 @@ a {
 
 .sub-nav {
   position: relative;
-  background: #fff;
+  background: $color-white;
   width: 100%;
   height: auto;
   color: black;
