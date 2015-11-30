@@ -8,7 +8,7 @@ class Nav extends React.Component {
       <nav>
         <ul>
           <li>
-            <a href='#explorer'>
+            <a href='#explore'>
               <h5>
                 <FormattedMessage
                   id='Explore'
@@ -19,7 +19,7 @@ class Nav extends React.Component {
             </a>
           </li>
           <li>
-            <a href='#discoverr'>
+            <a href='#discover'>
               <h5>
                 <FormattedMessage
                   id='Discover'
