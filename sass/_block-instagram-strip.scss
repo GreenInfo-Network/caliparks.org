@@ -20,23 +20,15 @@
       display:inline-block;
       position:relative;
 
-      background-size:cover;
-      display:block;
-      background-position: center center;
-
       .attribution {
         display:block;
         position:absolute;
         bottom:5px;left:5px;
-        cursor:pointer;
         color:transparent;
         height: 13px;
         width: 13px;
         background-image:url('responsive2/instagram-logo.svg');
         background-repeat:no-repeat;
-        >div, >a {
-          display:none;
-        }
       }
 
       &:first-of-type {
