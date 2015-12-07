@@ -9,7 +9,7 @@ import CustomTileLayer from '../components/customTileLayer';
 import GmapControls from '../components/gmapControls';
 import Navigator from '../components/navigator';
 
-import {getTwoColumnWidth} from '../../constants/layout';
+import {getTwoColumnWidthPercent} from '../../constants/layout';
 
 export default class Explore extends PureComponent {
   static propTypes = {
@@ -121,12 +121,12 @@ export default class Explore extends PureComponent {
       { value: 'year-last', label: 'Last year' }
     ];
 
-    const [leftWidth, rightWidth] = getTwoColumnWidth(this.props.width, 0);
+    const [leftWidth, rightWidth] = getTwoColumnWidthPercent(this.props.width, 0);
 
     return (
       <div id='explore-section' className='theme-white' style={{height: (this.getHeight() - 8) + 'px'}}>
         <div className='wrapper row height-full'>
-          <div className='col-four' style={{width: leftWidth + 'px'}}>
+          <div className='col-four' style={{width: leftWidth + '%'}}>
             <div className='center-align-container'>
               <h4 className='uppercase'>Explore</h4>
               <p className='description'>Photos pour out of our parks daily. See what’s happening and where.</p>
@@ -143,7 +143,7 @@ export default class Explore extends PureComponent {
               </div>
             </div>
           </div>
-          <div className='col-eight' style={{width: rightWidth + 'px'}}>
+          <div className='col-eight' style={{width: rightWidth + '%'}}>
             {this.props.mostShared.isFetching &&
               <div className='loading-data'><h3>Loading parks...</h3></div>
             }

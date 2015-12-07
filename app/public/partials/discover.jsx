@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import Dropdown from 'react-select';
 import Color from 'color';
 import { helpers, activities, colorGroups } from '../../constants/park-activities';
-import {getTwoColumnWidth} from '../../constants/layout';
+import {getTwoColumnWidthPercent} from '../../constants/layout';
 
 export default class Discover extends PureComponent {
   static propTypes = {
@@ -109,7 +109,7 @@ export default class Discover extends PureComponent {
         { value: 'family', label: 'Family-friendly' }
     ];
 
-    const [leftWidth, rightWidth] = getTwoColumnWidth(this.props.width, 0);
+    const [leftWidth, rightWidth] = getTwoColumnWidthPercent(this.props.width, 0);
     const availableHeight = (this.getHeight() - 98 - 5);
     const availableActivityHeight = (availableHeight + 5) - (4 * 5);
     const activityHeight = Math.floor(availableActivityHeight / 4);
@@ -117,7 +117,7 @@ export default class Discover extends PureComponent {
     return (
       <div id='discover-section' style={{height: (this.getHeight() - 8) + 'px'}}>
         <div className='wrapper row height-full'>
-          <div className='col-four' style={{width: leftWidth + 'px'}}>
+          <div className='col-four' style={{width: leftWidth + '%'}}>
             <div className='center-align-container'>
               <h4 className='uppercase'>Discover</h4>
               <p className='description'>Find out which parks to head to for your favorite activities.</p>
@@ -134,7 +134,7 @@ export default class Discover extends PureComponent {
               </div>
             </div>
           </div>
-          <div className='col-eight activity-blocks' style={{width: rightWidth + 'px'}}>
+          <div className='col-eight activity-blocks' style={{width: rightWidth + '%'}}>
             <ul className='activity-blocks' style={{height: availableHeight + 'px'}}>
               {this.renderActivities(activityHeight)}
             </ul>
