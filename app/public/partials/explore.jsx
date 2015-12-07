@@ -18,7 +18,7 @@ export default class Explore extends PureComponent {
     handleOnChange: PropTypes.func,
     mostShared: PropTypes.shape({
       parks: PropTypes.array,
-      interval: PropTypes.string,
+      interval: PropTypes.object,
       isFetching: PropTypes.bool
     }).isRequired,
     handleMarkerClick: PropTypes.func,
@@ -28,21 +28,37 @@ export default class Explore extends PureComponent {
   state = {
     selectedMarker: 0
   }
+
   componentWillMount() {
     this.onBoundsChangeDebounced = debounce(this.onBoundsChange, 500).bind(this);
   }
+
   componentDidMount() {}
 
   componentDidUpdate(prevProps) {
-    if (prevProps.width !== this.props.width &&
+    if (prevProps.width !== this.props.width ||
         prevProps.height !== this.props.height) {
       this.resizeMap();
     }
   }
 
-  onMarkerClick(item) {
+  getMarkerIndex(marker) {
+    let start = -1;
+    this.props.mostShared.parks.forEach((pk, idx) => {
+      if (pk.superunit_id === marker.superunit_id) start = idx;
+    });
+
+    return start;
+  }
+
+  onMarkerClick(marker) {
+    const idx = this.getMarkerIndex(marker);
+    if (idx > -1 && this.state.selectedMarker !== idx) {
+      this.setState({selectedMarker: idx});
+    }
+
     if (typeof this.props.handleMarkerClick === 'function') {
-      this.props.handleMarkerClick(item.superunit_id);
+      this.props.handleMarkerClick(marker);
     }
   }
 
@@ -122,7 +138,6 @@ export default class Explore extends PureComponent {
     ];
 
     const [leftWidth, rightWidth] = getTwoColumnWidthPercent(this.props.width, 0);
-
     return (
       <div id='explore-section' className='theme-white' style={{height: (this.getHeight() - 8) + 'px'}}>
         <div className='wrapper row height-full'>

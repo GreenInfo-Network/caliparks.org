@@ -78,15 +78,10 @@ export class App extends PureComponent {
     this.props.setWindowSize(this.getWindowDimensions());
   }
 
-  handleMarkerClick(id) {
-    const {history} = this.props;
-    history.pushState(null, `/park/${id}`);
-  }
-
   handleExploreChange(interval) {
     const {mostSharedParks, fetchMostSharedParks} = this.props;
     if (mostSharedParks.isFetching) return;
-    fetchMostSharedParks(interval, mostSharedParks.bbox);
+    fetchMostSharedParks(interval.value, mostSharedParks.bbox);
   }
 
   handleExploreBoundsChange(bounds) {
@@ -139,7 +134,6 @@ export class App extends PureComponent {
               width={this.props.windowSize.width || 0}
               height={this.props.windowSize.height || 0}
               handleOnChange={this.handleExploreChange.bind(this)}
-              handleMarkerClick={this.handleMarkerClick.bind(this)}
               boundsChange={this.handleExploreBoundsChange.bind(this)} />
           </Section>
           <Section>
