@@ -70,7 +70,7 @@ export default class Navigator extends PureComponent {
                 </div>
               </div>
             }
-            <p className='name'><Link to={`/park/${item[this.props.idKey]}`}>{item[this.props.nameKey]}</Link></p>
+            <p className='name'><Link to={`/park/${item[this.props.idKey]}`}>{item[this.props.nameKey]} <span className='right-triangle'>▶</span></Link></p>
           </div>
         }
       </div>
