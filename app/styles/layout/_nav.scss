@@ -2,6 +2,11 @@ nav {
   padding: 10px 0;
   overflow: hidden;
   text-align: center;
+  width: 100%;
+
+  .table-cell {
+    vertical-align: middle;
+  }
 
   ul {
     display: inline-block;

@@ -62,10 +62,12 @@ export default class Header extends PureComponent {
       centerPadding: '100px'
     };
 
-    const sliderHeight = this.props.height - 77 - 8;
+    let headerHeight = this.props.height - 77 - 8;
+    if (headerHeight > 332) headerHeight = 332;
+    const navHeight = this.props.height - headerHeight - 8;
     return (
       <header>
-        <div className='pos-relative' style={{height: sliderHeight + 'px', overflow: 'hidden'}}>
+        <div className='pos-relative' style={{height: headerHeight + 'px', overflow: 'hidden'}}>
           <div id='logo-banner' className='col'>
             <img src='assets/svgs/header-banner.svg'/>
           </div>
@@ -75,7 +77,7 @@ export default class Header extends PureComponent {
             </Slider>
           </div>
         </div>
-        <Nav/>
+        <Nav height={navHeight}/>
       </header>
     );
   }

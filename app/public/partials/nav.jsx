@@ -5,7 +5,8 @@ class Nav extends React.Component {
 
   render() {
     return (
-      <nav>
+      <nav className='table' style={{height: this.props.height + 'px'}}>
+        <div className='table-cell'>
         <ul>
           <li>
             <a href='#explore'>
@@ -41,6 +42,7 @@ class Nav extends React.Component {
             </a>
           </li>
         </ul>
+        </div>
       </nav>
     );
   }
