@@ -24,6 +24,7 @@ export default class GmapMarkerClusterer extends Component {
     setMarkerId: PropTypes.func,
     setMarkerPosition: PropTypes.func,
     setMarkerZindex: PropTypes.func,
+    onMarkerClick: PropTypes.func,
     cluster: PropTypes.bool,
     mapHolderRef: PropTypes.instanceOf(GoogleMapHolder)
   };
@@ -93,7 +94,9 @@ export default class GmapMarkerClusterer extends Component {
   }
 
   onMarkerClick(marker, idx) {
-    console.log(marker);
+    if (typeof this.props.onMarkerClick === 'function') {
+      this.props.onMarkerClick(marker, idx);
+    }
   }
 
   getMarkers() {

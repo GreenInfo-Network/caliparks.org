@@ -28,17 +28,18 @@ function getParksForActivity(options) {
     "cpad.mng_agncy,",
     "cpad.access_typ,",
     "cpad.gis_acres::real as gis_acres,",
+    "cpad_entry_points.ogc_fid,",
     "ST_AsGeoJSON(COALESCE(ST_Transform(cpad_entry_points.geom, 4326), ST_Centroid(ST_Transform(cpad.geom, 4326))))::json AS centroid,",
     "a.activities",
   " FROM activities a",
   " JOIN cpad_superunits cpad USING (superunit_id)",
-  " LEFT JOIN (SELECT su_id, geom FROM cpad_entry_points WHERE pt_type = \'primary\') AS cpad_entry_points ON cpad_entry_points.su_id = cpad.superunit_id",
+  " LEFT JOIN (SELECT su_id,ogc_fid,geom FROM cpad_entry_points WHERE pt_type = \'primary\') AS cpad_entry_points ON cpad_entry_points.su_id = cpad.superunit_id",
   " WHERE ",
   where.join(' AND '),
   " ORDER BY gis_acres DESC",
   " LIMIT $1) q ORDER BY q.su_name ASC"
   ];
-  console.log(opts);
+
   return {query: q.join('\n'), opts: opts};
 }
 

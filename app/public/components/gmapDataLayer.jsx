@@ -83,7 +83,7 @@ export default class GmapDataLayer extends Component {
 
   getBoundsZoomLevel(bounds, mapDim) {
     const WORLD_DIM = { height: 256, width: 256 };
-    const ZOOM_MAX = 21;
+    const ZOOM_MAX = 18;
 
     function latRad(lat) {
       const sin = Math.sin(lat * Math.PI / 180);
@@ -113,13 +113,15 @@ export default class GmapDataLayer extends Component {
     });
 
     if (!bounds.isEmpty()) {
-      const div = map.getDiv();
       window.google.maps.event.trigger(map, 'resize');
-      const minZoomNeeded = this.getBoundsZoomLevel(bounds, {width: div.offsetWidth, height: div.offsetHeight});
       // map.fitBounds(bounds);
+
+      // Getting zoom level needed to fit geometry bounds
+      // so we can zoom in a little more...
+      const div = map.getDiv();
+      const minZoomNeeded = this.getBoundsZoomLevel(bounds, {width: div.offsetWidth, height: div.offsetHeight});
       map.setCenter(bounds.getCenter());
       map.setZoom(minZoomNeeded + 1);
-      console.log('ZOOM : ', map.getZoom());
     }
   }
 

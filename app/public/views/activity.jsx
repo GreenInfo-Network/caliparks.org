@@ -3,7 +3,7 @@ import React, {PropTypes} from 'react';
 import ReactDOM from 'react-dom';
 import {connect} from 'react-redux';
 import { Link } from 'react-router';
-import {throttle} from 'lodash';
+import {throttle, uniq} from 'lodash';
 import * as actions from '../actions';
 
 import StickyNav from '../partials/sticky-nav';
@@ -64,13 +64,22 @@ export class Activity extends PureComponent {
     this.setSelectedMarkerIfEmpty(nextProps);
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps, prevState) {
     this.setScrollContainerHeight();
+    if (prevState.selectedMarker !== this.state.selectedMarker) {
+      const container = ReactDOM.findDOMNode(this.refs.parklist);
+      const selected = ReactDOM.findDOMNode(this.refs[this.state.selectedMarker]);
+      container.scrollTop = selected.offsetTop - container.offsetTop;
+    }
   }
 
   componentWillUnmount() {
     this.props.clearSelectedActivityData(this.props.params.activity);
     window.removeEventListener('resize', this.handleResizeThrottled);
+  }
+
+  handleResize() {
+    this.props.setWindowSize(this.getWindowDimensions());
   }
 
   getWindowDimensions() {
@@ -97,14 +106,16 @@ export class Activity extends PureComponent {
     return Math.round(h / 2) + 'px';
   }
 
-  handleResize() {
-    this.props.setWindowSize(this.getWindowDimensions());
-  }
-
   setScrollContainerHeight() {
     if (!this.refs.parklist) return;
     const elm = ReactDOM.findDOMNode(this.refs.parklist);
     elm.style.height = (this.props.windowSize.height - elm.offsetTop - 40) + 'px';
+  }
+
+  onMarkerClick(marker, idx) {
+    const id = this.setMarkerId(marker);
+    if (this.state.selectedMarker === id) return;
+    this.setState({selectedMarker: id, selectedIndex: idx});
   }
 
   onListClick(id, idx) {
@@ -185,6 +196,10 @@ export class Activity extends PureComponent {
   render() {
     const icon = helpers.iconprefix + this.props.params.activity;
     const [leftWidth, rightWidth] = getTwoColumnWidth(this.props.windowSize.width, 20);
+
+    // TODO: How to handle parks with multiple entry points
+    // which creates duplicate parks
+    const uniqueParks = uniq(this.props.selectedActivity.parks, true, 'su_id');
     return (
       <div id='activity' className='container'>
         <main className='page-activity' role='application'>
@@ -206,7 +221,7 @@ export class Activity extends PureComponent {
                 <h4 className='title uppercase'>{helpers.title(this.props.params.activity)}</h4>
 
                 <ul ref='parklist' className='park-list'>
-                {this.props.selectedActivity.parks.map((park, index) => {
+                {uniqueParks.map((park, index) => {
                   return (
                     <li
                       key={park.su_id}
@@ -229,16 +244,17 @@ export class Activity extends PureComponent {
               <ParkMap
                 cluster={true}
                 shouldResize={this.props.windowSize.width + this.props.windowSize.height}
-                markers={this.props.selectedActivity.parks}
+                markers={uniqueParks}
                 selectedMarker={this.state.selectedMarker}
                 setMarkerIcon={this.setMarkerIcon.bind(this)}
                 setMarkerId={this.setMarkerId.bind(this)}
                 setMarkerPosition={this.setMarkerPosition.bind(this)}
                 setMarkerZindex={this.setMarkerZindex.bind(this)}
+                onMarkerClick={this.onMarkerClick.bind(this)}
                 onBoundsChange={this.onBoundsChange.bind(this)} />
 
               <Navigator
-                items={this.props.selectedActivity.parks}
+                items={uniqueParks}
                 selectedItem={this.state.selectedIndex}
                 nameKey={'su_name'}
                 idKey={'su_id'} />
