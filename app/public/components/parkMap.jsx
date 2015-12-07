@@ -23,7 +23,9 @@ export default class ParkMap extends PureComponent {
     this.handleBoundsChangeDebounced = debounce(this.handleBoundsChange, 500).bind(this);
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.resizeMap();
+  }
 
   componentDidUpdate(prevProps) {
     if (this.props.shouldResize !== prevProps.shouldResize) this.resizeMap();
