@@ -3,6 +3,7 @@ import {IntlProvider, addLocaleData} from 'react-intl';
 import en from 'react-intl/lib/locale-data/en';
 import es from 'react-intl/lib/locale-data/es';
 import {Provider} from 'react-redux';
+import UserVoice from  '../components/userVoice';
 
 import makeStore from '../store';
 
@@ -71,7 +72,7 @@ export default class Layout extends React.Component {
               <IntlProvider locale={this.props.lang} messages={this.props.messages}>
                 { this.props.children }
               </IntlProvider>
-
+              <UserVoice />
               <script src='/vendor/js/addtohomescreen.js'></script>
               <script dangerouslySetInnerHTML={{__html: 'addToHomescreen({skipFirstVisit: true,maxDisplayCount: 1});'}} />
               <script src='/vendor/js/svg4everybody.min.js'></script>

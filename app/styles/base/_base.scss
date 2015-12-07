@@ -195,3 +195,14 @@ a {
   position: relative;
   overflow-x: hidden !important;
 }
+
+// User voice widget
+.uv-popover {
+  position: fixed !important;
+  top: 50% !important;
+  margin-top: -162px;
+}
+
+.uv-popover-tail {
+  display: none !important;
+}

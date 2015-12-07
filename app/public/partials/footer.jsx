@@ -58,7 +58,7 @@ export default class Footer extends PureComponent {
               <LocaleSwitcher current={this.getLang()} className='btn uppercase'/>
             </div>
             <div className='table-cell'><a href='/faq' className='btn uppercase'>FAQ</a></div>
-            <div className='table-cell'><button className='btn uppercase'>feedback</button></div>
+            <div className='table-cell'><a href='mailto:parks@stamen.com' className='btn uppercase' data-uv-trigger>feedback</a></div>
           </div>
         </div>
       </footer>
