@@ -144,10 +144,11 @@ export class Park extends PureComponent {
       return photo.photoid === this.state.selectedPhoto;
     });
     if (!image.length) return [];
+
     return (
       <div className='inner'>
         <div className='instagram-logo' />
-        <img src={image[0].standard_resolution} />
+        <a className='block' href={image[0].link} target='_blank'><img src={image[0].standard_resolution} /></a>
       </div>
     );
   }

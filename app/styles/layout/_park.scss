@@ -36,23 +36,27 @@
   .col:nth-child(3) { left: 0; background: #eee; }
   */
 
- & .photo img {
-  border: 7px solid $color-grey-dark;
-  height: auto;
-  width: 100%;
-  max-width: 100%;
- }
+  & .photo a.block {
+    text-decoration: none !important;
+  }
 
- & .photo .instagram-logo {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 30px;
-  height: 30px;
-  background: url('/assets/svgs/icon-instagram-30x30.svg') 0 0 no-repeat;
-  background-size: cover;
-  z-index: 1;
- }
+  & .photo img {
+    border: 7px solid $color-grey-dark;
+    height: auto;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  & .photo .instagram-logo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 30px;
+    height: 30px;
+    background: url('/assets/svgs/icon-instagram-30x30.svg') 0 0 no-repeat;
+    background-size: cover;
+    z-index: 1;
+  }
 
  .share {
   position: absolute;
