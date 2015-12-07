@@ -64,7 +64,7 @@
     "react-intl": "^2.0.0-pr-3",
     "react-pure-render": "^1.0.2",
     "react-redux": "^4.0.0",
-    "react-router": "^1.0.0-rc4",
+    "react-router": "^1.0.1",
     "react-select": "^1.0.0-beta5",
     "react-slick": "stamen/react-slick",
     "react-sticky": "^3.0.0",
