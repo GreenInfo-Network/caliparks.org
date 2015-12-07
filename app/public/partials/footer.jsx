@@ -19,7 +19,7 @@ export default class Footer extends PureComponent {
         <div className='col-nine'>
           <div className='table'>
             <div className='table-cell'>
-              <a className='inline-block' href=''>
+              <a className='inline-block' href='http://www.stamen.com/' target='_blank'>
                 <svg className='icon stamen'>
                   <use xlinkHref='main.svg#logo-stamen' />
                 </svg>
@@ -27,7 +27,7 @@ export default class Footer extends PureComponent {
             </div>
 
             <div className='table-cell'>
-              <a className='inline-block' href=''>
+              <a className='inline-block' href='http://www.greeninfo.org/' target='_blank'>
                 <svg className='icon green-info'>
                   <use xlinkHref='main.svg#logo-green-info' />
                 </svg>
@@ -35,7 +35,7 @@ export default class Footer extends PureComponent {
             </div>
 
             <div className='table-cell'>
-              <a className='inline-block' href=''>
+              <a className='inline-block' href='http://www.parksforward.com/' target='_blank'>
                 <svg className='icon parks-forward'>
                   <use xlinkHref='main.svg#logo-parks-forward' />
                 </svg>
@@ -43,7 +43,7 @@ export default class Footer extends PureComponent {
             </div>
 
             <div className='table-cell'>
-              <a className='inline-block' href=''>
+              <a className='inline-block' href='http://www.resourceslegacyfund.org/' target='_blank'>
                 <svg className='icon resource-fund'>
                   <use xlinkHref='main.svg#logo-resource-fund' />
                 </svg>
