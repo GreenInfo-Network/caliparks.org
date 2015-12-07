@@ -215,7 +215,7 @@ export class Activity extends PureComponent {
                       onClick={this.onListClick.bind(this, park.su_id, index)}
                       onMouseOver={this.onListMouseOver.bind(this, park.su_id, index)}
                       onMouseOut={this.onListMouseOut.bind(this, park.su_id, index)}>
-                      {park.su_name}
+                      {park.su_name} &gt;
                     </li>
                   );
                 })}
