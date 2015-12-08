@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react';
 import PureComponent from 'react-pure-render/component';
 import LocaleSwitcher from '../components/localeSwitcher';
+import {FormattedMessage} from 'react-intl';
 
 export default class Footer extends PureComponent {
   static propTypes = {
@@ -57,8 +58,22 @@ export default class Footer extends PureComponent {
             <div className='table-cell'>
               <LocaleSwitcher current={this.getLang()} className='btn uppercase'/>
             </div>
-            <div className='table-cell'><a href='/faq' className='btn uppercase'>FAQ</a></div>
-            <div className='table-cell'><a href='mailto:parks@stamen.com' className='btn uppercase' data-uv-trigger>feedback</a></div>
+            <div className='table-cell'>
+              <a href='/faq' className='btn uppercase'>
+                <FormattedMessage
+                  id='footer.faq'
+                  defaultMessage='FAQ'
+                />
+              </a>
+            </div>
+            <div className='table-cell'>
+              <a href='mailto:parks@stamen.com' className='btn uppercase' data-uv-trigger>
+                <FormattedMessage
+                  id='footer.feedback'
+                  defaultMessage='Feedback'
+                />
+              </a>
+            </div>
           </div>
         </div>
       </footer>

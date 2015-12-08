@@ -80,6 +80,7 @@
     "webpack-svgstore-plugin": "^1.0.3"
   },
   "devDependencies": {
+    "babel-plugin-react-intl": "^1.0.0",
     "babel-plugin-react-transform": "^1.1.1",
     "foreman": "^1.4.1",
     "react-transform-hmr": "^1.0.1",

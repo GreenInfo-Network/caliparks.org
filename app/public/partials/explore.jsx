@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react';
 import ReactDOM from 'react-dom';
 import PureComponent from 'react-pure-render/component';
+import {FormattedMessage, defineMessages} from 'react-intl';
 import Dropdown from 'react-select';
 import {debounce} from 'lodash';
 
@@ -30,6 +31,7 @@ export default class Explore extends PureComponent {
   }
 
   componentWillMount() {
+    this.configureDropdownOptions();
     this.onBoundsChangeDebounced = debounce(this.onBoundsChange, 500).bind(this);
   }
 
@@ -40,6 +42,50 @@ export default class Explore extends PureComponent {
         prevProps.height !== this.props.height) {
       this.resizeMap();
     }
+  }
+
+  configureDropdownOptions() {
+    /*
+    { value: 'today', label: 'Today' },
+    { value: 'yesterday', label: 'Yesterday' },
+    { value: 'season-now', label: 'This season' },
+    { value: 'season-last', label: 'Last season' },
+     */
+    const messages = defineMessages({
+      weeknow: {
+        id: 'week-now',
+        defaultMessage: 'This week'
+      },
+      weeklast: {
+        id: 'week-last',
+        defaultMessage: 'Last week'
+      },
+      monthnow: {
+        id: 'month-now',
+        defaultMessage: 'This month'
+      },
+      monthlast: {
+        id: 'month-last',
+        defaultMessage: 'Last month'
+      },
+      yearnow: {
+        id: 'year-now',
+        defaultMessage: 'This year'
+      },
+      yearlast: {
+        id: 'year-last',
+        defaultMessage: 'Last year'
+      },
+    });
+
+    this.dropdownOptions = [
+      { value: 'week-now', label: <FormattedMessage {...messages.weeknow}/> },
+      { value: 'week-last', label: <FormattedMessage {...messages.weeklast}/> },
+      { value: 'month-now', label: <FormattedMessage {...messages.monthnow}/> },
+      { value: 'month-last', label: <FormattedMessage {...messages.monthlast}/> },
+      { value: 'year-now', label: <FormattedMessage {...messages.yearnow}/> },
+      { value: 'year-last', label: <FormattedMessage {...messages.yearlast}/> }
+    ];
   }
 
   getMarkerIndex(marker) {
@@ -122,37 +168,34 @@ export default class Explore extends PureComponent {
   }
 
   render() {
-    /*
-    { value: 'today', label: 'Today' },
-    { value: 'yesterday', label: 'Yesterday' },
-    { value: 'season-now', label: 'This season' },
-    { value: 'season-last', label: 'Last season' },
-     */
-    const options = [
-      { value: 'week-now', label: 'This week' },
-      { value: 'week-last', label: 'Last week' },
-      { value: 'month-now', label: 'This month' },
-      { value: 'month-last', label: 'Last month' },
-      { value: 'year-now', label: 'This year' },
-      { value: 'year-last', label: 'Last year' }
-    ];
-
     const [leftWidth, rightWidth] = getTwoColumnWidthPercent(this.props.width, 0);
     return (
       <div id='explore-section' className='theme-white' style={{height: (this.getHeight() - 8) + 'px'}}>
         <div className='wrapper row height-full'>
           <div className='col-four' style={{width: leftWidth + '%'}}>
             <div className='center-align-container'>
-              <h4 className='uppercase'>Explore</h4>
-              <p className='description'>Photos pour out of our parks daily. See what’s happening and where.</p>
+              <h4 className='uppercase'>
+                <FormattedMessage
+                  id='explore'
+                  defaultMessage='Explore' />
+              </h4>
+              <p className='description'>
+                <FormattedMessage
+                  id='explore.section.message'
+                  defaultMessage={`Photos pour out of our parks daily. See what's happening and where.`} />
+              </p>
 
               <div className='dropdown-filter'>
-                <p className='label uppercase'>Showing top 10 parks</p>
+                <p className='label uppercase'>
+                <FormattedMessage
+                    id='explore.section.dropdown.title'
+                    defaultMessage={`Showing top 10 parks`} />
+                </p>
                 <Dropdown
                   className='dropdown'
                   name='park-top-ten-picker'
                   value={this.props.mostShared.interval || 'week-now'}
-                  options={options}
+                  options={this.dropdownOptions}
                   clearable={false}
                   onChange={this.onDropdownChange.bind(this)} />
               </div>
@@ -160,7 +203,13 @@ export default class Explore extends PureComponent {
           </div>
           <div className='col-eight' style={{width: rightWidth + '%'}}>
             {this.props.mostShared.isFetching &&
-              <div className='loading-data'><h3>Loading parks...</h3></div>
+              <div className='loading-data'>
+                <h3>
+                  <FormattedMessage
+                      id='loading.parks'
+                      defaultMessage={`Loading parks...`} />
+                </h3>
+              </div>
             }
             <Navigator
               items={this.props.mostShared.parks}

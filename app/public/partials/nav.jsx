@@ -1,5 +1,5 @@
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, FormattedHTMLMessage} from 'react-intl';
 
 class Nav extends React.Component {
 
@@ -12,33 +12,45 @@ class Nav extends React.Component {
             <a href='#explore'>
               <h5>
                 <FormattedMessage
-                  id='Explore'
+                  id='explore'
                   defaultMessage='Explore'
                 />
               </h5>
-              <div><span>See what's happening in<br/>parks near you</span></div>
+              <div>
+                <FormattedHTMLMessage
+                  id='explore.description'
+                  defaultMessage={`See what's happening in<br/>parks near you`} />
+              </div>
             </a>
           </li>
           <li>
             <a href='#discover'>
               <h5>
                 <FormattedMessage
-                  id='Discover'
+                  id='discover'
                   defaultMessage='Discover'
                 />
               </h5>
-              <div><span>Learn more about parks<br/>across the state</span></div>
+              <div>
+                <FormattedHTMLMessage
+                  id='discover.description'
+                  defaultMessage={`Learn more about parks<br/>across the state`} />
+              </div>
             </a>
           </li>
           <li>
             <a href='/wander'>
               <h5>
                 <FormattedMessage
-                  id='Wander'
+                  id='wander'
                   defaultMessage='Wander'
                 />
               </h5>
-              <div><span>Find out more about one<br/>of our featured parks</span></div>
+              <div>
+                <FormattedHTMLMessage
+                  id='wander.description'
+                  defaultMessage={`Find out more about one<br/>of our featured parks`} />
+              </div>
             </a>
           </li>
         </ul>

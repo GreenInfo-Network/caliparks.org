@@ -3,6 +3,7 @@ import React, {PropTypes} from 'react';
 import ReactDOM from 'react-dom';
 import {connect} from 'react-redux';
 import { Link } from 'react-router';
+import {FormattedMessage} from 'react-intl';
 import {throttle, uniq} from 'lodash';
 import * as actions from '../actions';
 
@@ -213,7 +214,13 @@ export class Activity extends PureComponent {
                   <svg className={'icon alt large park-activity ' + this.props.params.activity}>
                     <use xlinkHref={icon} />
                   </svg>
-                  <Link to='/' hash='#discover'>Back to activities</Link>
+                  <Link to='/' hash='#discover'>
+                    <span>&lt; </span>
+                    <FormattedMessage
+                      id='activity-page.back'
+                      defaultMessage='Back to activities'
+                    />
+                  </Link>
                 </div>
               </div>
 

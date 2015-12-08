@@ -1,6 +1,7 @@
 import PureComponent from 'react-pure-render/component';
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
+import {FormattedMessage} from 'react-intl';
 import {throttle, isEmpty} from 'lodash';
 import * as actions from '../actions';
 
@@ -177,18 +178,50 @@ export class Park extends PureComponent {
     return (
       <div className='inner'>
         <h4 className='uppercase'>{details.su_name}</h4>
-        <p><a className='link-plain' href={details.park_url} target='_blank'>Link to park site <sub>&gt;</sub></a></p>
+        <p><a className='link-plain' href={details.park_url} target='_blank'>
+        <FormattedMessage
+          id='park.park-link'
+          defaultMessage='Link to park site'
+        />
+        <sub> &gt;</sub>
+        </a></p>
         {involved &&
-          <p className='involved-link'><a className='link-plain' href={involved} target='_blank'>Get involved with this park <sub>&gt;</sub></a></p>
+          <p className='involved-link'><a className='link-plain' href={involved} target='_blank'>
+          <FormattedMessage
+            id='park.involved-link'
+            defaultMessage='Get involved with this park'
+          />
+          <sub> &gt;</sub>
+          </a></p>
         }
         <ActivityGrid activities={details.activities} />
         <div className='share'>
           <ul>
-            <li><a className='link-plain social-item' data-social-service='facebook' href='#'>Share</a></li>
-            <li><a className='link-plain social-item' data-social-service='twitter' data-social-title={details.su_name} data-social-hashtags='caliparks' href='#'>Tweet</a></li>
-            <li><a className='link-plain' href={directions} target='_blank'>Get Directions</a></li>
+            <li><a className='link-plain social-item' data-social-service='facebook' href='#'>
+              <FormattedMessage
+                id='social.share'
+                defaultMessage='Share'
+              />
+            </a></li>
+            <li><a className='link-plain social-item' data-social-service='twitter' data-social-title={details.su_name} data-social-hashtags='caliparks' href='#'>
+              <FormattedMessage
+                id='social.tweet'
+                defaultMessage='Tweet'
+              />
+            </a></li>
+            <li><a className='link-plain' href={directions} target='_blank'>
+              <FormattedMessage
+                id='directions-link'
+                defaultMessage='Get Directions'
+              />
+            </a></li>
             {details.camping_url &&
-              <li><a className='link-plain' href={details.camping_url} target='_blank'>Camp Here</a></li>
+              <li><a className='link-plain' href={details.camping_url} target='_blank'>
+                <FormattedMessage
+                  id='camp-here'
+                  defaultMessage='Camp Here'
+                />
+              </a></li>
             }
           </ul>
         </div>

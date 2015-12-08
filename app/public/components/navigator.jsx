@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 import PureComponent from 'react-pure-render/component';
-import {FormattedNumber} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import { Link } from 'react-router';
 
 export default class Navigator extends PureComponent {
@@ -59,7 +59,17 @@ export default class Navigator extends PureComponent {
                 </div>
                 <div className='col rank-count'>
                   <span className='rank'>{this.props.selectedItem + 1}</span>
-                  <span className='count'><FormattedNumber value={item.total} /> photos</span>
+                  <span className='count'>
+                    <FormattedMessage
+                      id='navigator.count'
+                      defaultMessage={`{count, plural,
+                        =0 {no photos}
+                        =1 {one photo}
+                        other {# photos}}
+                      `}
+                      values={{count: item.total}}
+                    />
+                  </span>
                 </div>
                 <div className='col arrow'>
                 <button className='btn' disabled={this.getBtnState('next')} onClick={this.onClickHandler.bind(this, 'next')}>

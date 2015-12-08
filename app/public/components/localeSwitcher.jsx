@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import {FormattedMessage} from 'react-intl';
 import {write as CookieWriter} from '../lib/cookies';
 import Config from '../../config';
 
@@ -36,7 +37,10 @@ class LocaleSwitcher extends Component {
            className={ klass }
            onClick={ this.handleLocaleClick.bind(this, locale) }
            href={ `?hl=${locale}` }>
-            { localeName }
+            <FormattedMessage
+              id='locale-name'
+              defaultMessage='en español'
+            />
         </a>
       );
     });

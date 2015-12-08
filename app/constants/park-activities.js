@@ -14,129 +14,219 @@
 *  SVG & IMG assets.
 *
 */
+import React from 'react';
+import {FormattedMessage, defineMessages} from 'react-intl';
+
+const messages = defineMessages({
+  backpacking: {
+    id: 'act_backpacking',
+    defaultMessage: 'Backpacking'
+  },
+  ball_fields: {
+    id: 'act_ball_fields',
+    defaultMessage: 'Ball fields'
+  },
+  basketball: {
+    id: 'act_basketball',
+    defaultMessage: 'Basketball'
+  },
+  biking: {
+    id: 'act_biking',
+    defaultMessage: 'Biking'
+  },
+  boardsports: {
+    id: 'act_boardsports',
+    defaultMessage: 'Board sports'
+  },
+  boating: {
+    id: 'act_boating',
+    defaultMessage: 'Boating'
+  },
+  camping: {
+    id: 'act_camping',
+    defaultMessage: 'Camping'
+  },
+  covered_picnic_tables: {
+    id: 'act_covered_picnic_tables',
+    defaultMessage: 'Covered picnic tables'
+  },
+  dogs: {
+    id: 'act_dogs',
+    defaultMessage: 'Dogs'
+  },
+  fishing: {
+    id: 'act_fishing',
+    defaultMessage: 'Fishing'
+  },
+  hiking: {
+    id: 'act_hiking',
+    defaultMessage: 'Hiking'
+  },
+  historicalsite: {
+    id: 'act_historicalsite',
+    defaultMessage: 'Museums & historical sites'
+  },
+  horsebackriding: {
+    id: 'act_horsebackriding',
+    defaultMessage: 'Horseback riding'
+  },
+  kayakingcanoeing: {
+    id: 'act_kayakingcanoeing',
+    defaultMessage: 'Kayaking / Canoeing'
+  },
+  ohv: {
+    id: 'act_ohv',
+    defaultMessage: 'OHV'
+  },
+  playground: {
+    id: 'act_playground',
+    defaultMessage: 'Playgrounds'
+  },
+  rusticcabins: {
+    id: 'act_rusticcabins',
+    defaultMessage: 'Rustic cabins'
+  },
+  snowsports: {
+    id: 'act_snowsports',
+    defaultMessage: 'Snow sports'
+  },
+  swimming: {
+    id: 'act_swimming',
+    defaultMessage: 'Swimming'
+  },
+  tennis: {
+    id: 'act_tennis',
+    defaultMessage: 'Tennis'
+  },
+  wildlifewatching: {
+    id: 'act_wildlifewatching',
+    defaultMessage: 'Wildlife watching'
+  }
+});
+
 export const activities = [
   {
-    name: 'Backpacking',
+    name: <FormattedMessage {...messages.act_backpacking}/>,
     assetname: 'backpacking',
     feature: true,
     clrGroup: 'green'
   },
   {
-    name: 'Ball fields',
+    name: <FormattedMessage {...messages.act_ball_fields}/>,
     assetname: 'ball_fields',
     feature: true,
     clrGroup: 'orange'
   },
   {
-    name: 'Basketball',
+    name: <FormattedMessage {...messages.act_basketball}/>,
     assetname: 'basketball',
     feature: true,
     clrGroup: 'orange'
   },
   {
-    name: 'Biking',
+    name: <FormattedMessage {...messages.act_biking}/>,
     assetname: 'biking',
     feature: true,
     clrGroup: 'green'
   },
   {
-    name: 'Board sports',
+    name: <FormattedMessage {...messages.act_boardsports}/>,
     assetname: 'boardsports',
     feature: true,
     clrGroup: 'blue'
   },
   {
-    name: 'Boating',
+    name: <FormattedMessage {...messages.act_boating}/>,
     assetname: 'boating',
     feature: true,
     clrGroup: 'blue'
   },
   {
-    name: 'Camping',
+    name: <FormattedMessage {...messages.act_camping}/>,
     assetname: 'camping',
     feature: true,
     clrGroup: 'green'
   },
   {
-    name: 'Covered picnic tables',
+    name: <FormattedMessage {...messages.act_covered_picnic_tables}/>,
     assetname: 'covered_picnic_tables',
     feature: true,
     clrGroup: 'green'
   },
   {
-    name: 'Dogs',
+    name: <FormattedMessage {...messages.act_dogs}/>,
     assetname: 'dogs',
     feature: true,
     clrGroup: 'purple'
   },
   {
-    name: 'Fishing',
+    name: <FormattedMessage {...messages.act_fishing}/>,
     assetname: 'fishing',
     feature: true,
     clrGroup: 'blue'
   },
   {
-    name: 'Hiking',
+    name: <FormattedMessage {...messages.act_hiking}/>,
     assetname: 'hiking',
     feature: true,
     clrGroup: 'green'
   },
   {
-    name: 'Museums & historical sites',
+    name: <FormattedMessage {...messages.act_historicalsite}/>,
     assetname: 'historicalsite',
     feature: true,
     clrGroup: 'brown'
   },
   {
-    name: 'Horseback riding',
+    name: <FormattedMessage {...messages.act_horsebackriding}/>,
     assetname: 'horsebackriding',
     feature: true,
     clrGroup: 'green'
   },
   {
-    name: 'Kayaking / Canoeing',
+    name: <FormattedMessage {...messages.act_kayakingcanoeing}/>,
     assetname: 'kayakingcanoeing',
     feature: true,
     clrGroup: 'blue'
   },
   {
-    name: 'OHV',
+    name: <FormattedMessage {...messages.act_ohv}/>,
     assetname: 'ohv',
     feature: true,
     clrGroup: 'green'
   },
   {
-    name: 'Playgrounds',
+    name: <FormattedMessage {...messages.act_playground}/>,
     assetname: 'playground',
     feature: true,
     clrGroup: 'purple'
   },
   {
-    name: 'Rustic cabins',
+    name: <FormattedMessage {...messages.act_rusticcabins}/>,
     assetname: 'rusticcabins',
     feature: true,
     clrGroup: 'green'
   },
   {
-    name: 'Snow sports',
+    name: <FormattedMessage {...messages.act_snowsports}/>,
     assetname: 'snowsports',
     feature: true,
     clrGroup: 'lgtBlue'
   },
   {
-    name: 'Swimming',
+    name: <FormattedMessage {...messages.act_swimming}/>,
     assetname: 'swimming',
     feature: true,
     clrGroup: 'blue'
   },
   {
-    name: 'Tennis',
+    name: <FormattedMessage {...messages.act_tennis}/>,
     assetname: 'tennis',
     feature: true,
     clrGroup: 'orange'
   },
   {
-    name: 'Wildlife watching',
+    name: <FormattedMessage {...messages.act_wildlifewatching}/>,
     assetname: 'wildlifewatching',
     feature: true,
     clrGroup: 'green'

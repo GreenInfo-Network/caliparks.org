@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import PureComponent from 'react-pure-render/component';
+import {FormattedMessage} from 'react-intl';
 import { Link } from 'react-router';
-import Dropdown from 'react-select';
 import Color from 'color';
 import { helpers, activities, colorGroups } from '../../constants/park-activities';
 import {getTwoColumnWidthPercent} from '../../constants/layout';
@@ -21,10 +21,6 @@ export default class Discover extends PureComponent {
   }
 
   componentDidMount() {}
-
-  logChange(val) {
-    console.log('Selected: ' + val);
-  }
 
   renderActivities(activityHeight) {
     const showOnly = [this.state.navigationPosition,  this.state.navigationPosition + 7];
@@ -99,16 +95,6 @@ export default class Discover extends PureComponent {
   }
 
   render() {
-    const options = [
-        { value: 'popular', label: 'Most popular' },
-        { value: 'land-rec', label: 'Land recreation' },
-        { value: 'water-rec', label: 'Water recreation' },
-        { value: 'winter-rec', label: 'Winter recreation' },
-        { value: 'sports', label: 'Sports' },
-        { value: 'attractions', label: 'Cultural attractions' },
-        { value: 'family', label: 'Family-friendly' }
-    ];
-
     const [leftWidth, rightWidth] = getTwoColumnWidthPercent(this.props.width, 0);
     const availableHeight = (this.getHeight() - 98 - 5);
     const availableActivityHeight = (availableHeight + 5) - (4 * 5);
@@ -119,19 +105,16 @@ export default class Discover extends PureComponent {
         <div className='wrapper row height-full'>
           <div className='col-four' style={{width: leftWidth + '%'}}>
             <div className='center-align-container'>
-              <h4 className='uppercase'>Discover</h4>
-              <p className='description'>Find out which parks to head to for your favorite activities.</p>
-
-              <div className='dropdown-filter hide'>
-                <p className='label uppercase'>Sorting activities by</p>
-                <Dropdown
-                  className='dropdown'
-                  name='park-activity-sorter'
-                  value='popular'
-                  options={options}
-                  clearable={false}
-                  onChange={this.logChange} />
-              </div>
+              <h4 className='uppercase'>
+                <FormattedMessage
+                  id='discover'
+                  defaultMessage='Discover' />
+              </h4>
+              <p className='description'>
+                <FormattedMessage
+                  id='discover.section.message'
+                  defaultMessage={`Find out which parks to head to for your favorite activities.`} />
+              </p>
             </div>
           </div>
           <div className='col-eight activity-blocks' style={{width: rightWidth + '%'}}>
@@ -141,7 +124,11 @@ export default class Discover extends PureComponent {
             <div className='block col-six activity-navigation' style={{height: activityHeight + 'px'}}>
               <div className='table'>
                 <div className='table-cell no-text-selection'>
-                  <button className='btn' disabled={this.activityNavigationEnabled('less')} onClick={this.onActivityNavigationClick.bind(this, 'less')}>&lt;</button><span>More</span><button className='btn' onClick={this.onActivityNavigationClick.bind(this, 'more')} disabled={this.activityNavigationEnabled('more')}>&gt;</button>
+                  <button className='btn' disabled={this.activityNavigationEnabled('less')} onClick={this.onActivityNavigationClick.bind(this, 'less')}>&lt;</button>
+                  <FormattedMessage
+                    id='discover.section.more'
+                    defaultMessage='More' />
+                  <button className='btn' onClick={this.onActivityNavigationClick.bind(this, 'more')} disabled={this.activityNavigationEnabled('more')}>&gt;</button>
                 </div>
               </div>
             </div>

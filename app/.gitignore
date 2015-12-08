@@ -6,6 +6,7 @@ npm-debug.log
 public/bundle.*
 public/styles.*
 public/main.svg
+translations
 
 //
 QUERIES.sql
