@@ -32,17 +32,28 @@ function latestPhotoFromMostSharedPark(options) {
   options = options || {};
   const photoCount = options.photoCount || '20';
 
-  const q = ["SELECT q2.count, q2.unit_name AS su_name, q2.superunit_id AS su_id,"]
-    .concat(BASE_PHOTO_ATTRIBUTES)
-    .concat([
-      " FROM (select count(*), cpad.unit_name, cpad.superunit_id, MIN(q1.id) as min_id, MAX(q1.id) as max_id",
-      " FROM (select * FROM instagram_photos photos WHERE (photos.metadata->>'created_time')::int >= cast(extract(epoch from current_timestamp - interval '6 days') as integer)) as q1",
-      " JOIN cpad_superunits cpad ON cpad.superunit_id = q1.superunit_id",
-      " WHERE cpad.access_typ = 'Open Access'",
-      " GROUP BY cpad.unit_name, cpad.superunit_id",
-      " ORDER by count DESC LIMIT $1) as q2",
-      " JOIN instagram_photos photos ON q2.min_id = photos.id"
-    ]).join('\n');
+  const q = [
+  "WITH most_shared_parks AS (",
+  " SELECT",
+  " count(*),",
+  "cpad.superunit_id AS su_id,",
+  "cpad.unit_name AS su_name",
+  " FROM (",
+    "SELECT * FROM instagram_photos photos",
+    " WHERE (photos.metadata->>'created_time')::int >= cast(extract(epoch from current_timestamp - interval '6 days') as integer)",
+    ") as q1",
+    " JOIN cpad_superunits cpad ON cpad.superunit_id = q1.superunit_id",
+    " WHERE cpad.access_typ = 'Open Access'",
+    " GROUP BY cpad.unit_name, cpad.superunit_id",
+    " ORDER by count DESC",
+    " LIMIT $1",
+  ")",
+  "SELECT p.*, q2.* FROM most_shared_parks p,",
+  "LATERAL(SELECT"
+  ].concat(BASE_PHOTO_ATTRIBUTES)
+  .concat([
+  " FROM instagram_photos photos WHERE photos.superunit_id = p.su_id ORDER BY (photos.metadata->>'created_time')::int DESC LIMIT 1) as q2;"
+  ]).join('\n');
 
   return {query: q, opts:[photoCount]};
 }
