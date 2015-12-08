@@ -3,7 +3,7 @@ import React, {PropTypes} from 'react';
 import ReactDOM from 'react-dom';
 import {connect} from 'react-redux';
 import { Link } from 'react-router';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, injectIntl} from 'react-intl';
 import {throttle, uniq} from 'lodash';
 import * as actions from '../actions';
 
@@ -195,6 +195,7 @@ export class Activity extends PureComponent {
   }
 
   render() {
+    const {formatMessage} = this.props.intl;
     const icon = helpers.iconprefix + this.props.params.activity;
     const [leftWidth, rightWidth] = getTwoColumnWidth(this.props.windowSize.width, 20);
 
@@ -218,14 +219,13 @@ export class Activity extends PureComponent {
                     <span>&lt; </span>
                     <FormattedMessage
                       id='activity-page.back'
-                      defaultMessage='Back to activities'
-                    />
+                      defaultMessage='Back to activities' />
                   </Link>
                 </div>
               </div>
 
               <div className='inset'>
-                <h4 className='title uppercase'>{helpers.title(this.props.params.activity)}</h4>
+                <h4 className='title uppercase'>{helpers.title(this.props.params.activity, formatMessage)}</h4>
 
                 <ul ref='parklist' className='park-list'>
                 {uniqueParks.map((park, index) => {
@@ -273,4 +273,4 @@ export class Activity extends PureComponent {
   }
 }
 
-export const ActivityContainer = connect(mapStateToProps, actions)(Activity);
+export const ActivityContainer = injectIntl(connect(mapStateToProps, actions)(Activity));

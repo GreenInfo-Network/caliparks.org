@@ -106,127 +106,127 @@ const messages = defineMessages({
 
 export const activities = [
   {
-    name: <FormattedMessage {...messages.act_backpacking}/>,
+    name: <FormattedMessage {...messages.backpacking}/>,
     assetname: 'backpacking',
     feature: true,
     clrGroup: 'green'
   },
   {
-    name: <FormattedMessage {...messages.act_ball_fields}/>,
+    name: <FormattedMessage {...messages.ball_fields}/>,
     assetname: 'ball_fields',
     feature: true,
     clrGroup: 'orange'
   },
   {
-    name: <FormattedMessage {...messages.act_basketball}/>,
+    name: <FormattedMessage {...messages.basketball}/>,
     assetname: 'basketball',
     feature: true,
     clrGroup: 'orange'
   },
   {
-    name: <FormattedMessage {...messages.act_biking}/>,
+    name: <FormattedMessage {...messages.biking}/>,
     assetname: 'biking',
     feature: true,
     clrGroup: 'green'
   },
   {
-    name: <FormattedMessage {...messages.act_boardsports}/>,
+    name: <FormattedMessage {...messages.boardsports}/>,
     assetname: 'boardsports',
     feature: true,
     clrGroup: 'blue'
   },
   {
-    name: <FormattedMessage {...messages.act_boating}/>,
+    name: <FormattedMessage {...messages.boating}/>,
     assetname: 'boating',
     feature: true,
     clrGroup: 'blue'
   },
   {
-    name: <FormattedMessage {...messages.act_camping}/>,
+    name: <FormattedMessage {...messages.camping}/>,
     assetname: 'camping',
     feature: true,
     clrGroup: 'green'
   },
   {
-    name: <FormattedMessage {...messages.act_covered_picnic_tables}/>,
+    name: <FormattedMessage {...messages.covered_picnic_tables}/>,
     assetname: 'covered_picnic_tables',
     feature: true,
     clrGroup: 'green'
   },
   {
-    name: <FormattedMessage {...messages.act_dogs}/>,
+    name: <FormattedMessage {...messages.dogs}/>,
     assetname: 'dogs',
     feature: true,
     clrGroup: 'purple'
   },
   {
-    name: <FormattedMessage {...messages.act_fishing}/>,
+    name: <FormattedMessage {...messages.fishing}/>,
     assetname: 'fishing',
     feature: true,
     clrGroup: 'blue'
   },
   {
-    name: <FormattedMessage {...messages.act_hiking}/>,
+    name: <FormattedMessage {...messages.hiking}/>,
     assetname: 'hiking',
     feature: true,
     clrGroup: 'green'
   },
   {
-    name: <FormattedMessage {...messages.act_historicalsite}/>,
+    name: <FormattedMessage {...messages.historicalsite}/>,
     assetname: 'historicalsite',
     feature: true,
     clrGroup: 'brown'
   },
   {
-    name: <FormattedMessage {...messages.act_horsebackriding}/>,
+    name: <FormattedMessage {...messages.horsebackriding}/>,
     assetname: 'horsebackriding',
     feature: true,
     clrGroup: 'green'
   },
   {
-    name: <FormattedMessage {...messages.act_kayakingcanoeing}/>,
+    name: <FormattedMessage {...messages.kayakingcanoeing}/>,
     assetname: 'kayakingcanoeing',
     feature: true,
     clrGroup: 'blue'
   },
   {
-    name: <FormattedMessage {...messages.act_ohv}/>,
+    name: <FormattedMessage {...messages.ohv}/>,
     assetname: 'ohv',
     feature: true,
     clrGroup: 'green'
   },
   {
-    name: <FormattedMessage {...messages.act_playground}/>,
+    name: <FormattedMessage {...messages.playground}/>,
     assetname: 'playground',
     feature: true,
     clrGroup: 'purple'
   },
   {
-    name: <FormattedMessage {...messages.act_rusticcabins}/>,
+    name: <FormattedMessage {...messages.rusticcabins}/>,
     assetname: 'rusticcabins',
     feature: true,
     clrGroup: 'green'
   },
   {
-    name: <FormattedMessage {...messages.act_snowsports}/>,
+    name: <FormattedMessage {...messages.snowsports}/>,
     assetname: 'snowsports',
     feature: true,
     clrGroup: 'lgtBlue'
   },
   {
-    name: <FormattedMessage {...messages.act_swimming}/>,
+    name: <FormattedMessage {...messages.swimming}/>,
     assetname: 'swimming',
     feature: true,
     clrGroup: 'blue'
   },
   {
-    name: <FormattedMessage {...messages.act_tennis}/>,
+    name: <FormattedMessage {...messages.tennis}/>,
     assetname: 'tennis',
     feature: true,
     clrGroup: 'orange'
   },
   {
-    name: <FormattedMessage {...messages.act_wildlifewatching}/>,
+    name: <FormattedMessage {...messages.wildlifewatching}/>,
     assetname: 'wildlifewatching',
     feature: true,
     clrGroup: 'green'
@@ -264,13 +264,15 @@ function sanitize(activity) {
   return activity.split(' ').join('_');
 }
 
-function title(activity) {
+function title(activity, formatter) {
   const sanitized = sanitize(activity);
 
   const result = activities.filter((row) =>{
     return row.assetname === sanitized;
   });
 
-  if (result.length) return result[0].name;
+  if (result.length && formatter) {
+    return formatter(messages[result[0].assetname]);
+  }
   return activity;
 }

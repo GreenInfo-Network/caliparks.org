@@ -1,14 +1,13 @@
 import PureComponent from 'react-pure-render/component';
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, injectIntl} from 'react-intl';
 import {throttle, isEmpty} from 'lodash';
 import * as actions from '../actions';
 
 import StickyNav from '../partials/sticky-nav';
 import ParkMap from '../components/parkMap';
 import ActivityGrid from '../components/activityGrid';
-// import PhotoGrid from '../components/photoGrid';
 import Slider from 'react-slick';
 import {socs} from '../lib/socs';
 import {directionsLink} from '../../constants/map';
@@ -194,7 +193,7 @@ export class Park extends PureComponent {
           <sub> &gt;</sub>
           </a></p>
         }
-        <ActivityGrid activities={details.activities} />
+        <ActivityGrid activities={details.activities} {...this.props} />
         <div className='share'>
           <ul>
             <li><a className='link-plain social-item' data-social-service='facebook' href='#'>
@@ -256,6 +255,7 @@ export class Park extends PureComponent {
   }
 
   render() {
+    console.log(this.props.intl);
     const geometry = this.props.selectedPark.park.length ? this.props.selectedPark.park[0].geometry : null;
     const [columnWidth, columnMiddleWidth, columnHeight, bottomHeight] = this.getDimensions();
 
@@ -316,4 +316,4 @@ export class Park extends PureComponent {
   }
 }
 
-export const ParkContainer = connect(mapStateToProps, actions)(Park);
+export const ParkContainer = injectIntl(connect(mapStateToProps, actions)(Park));

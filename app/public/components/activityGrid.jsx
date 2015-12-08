@@ -18,11 +18,13 @@ export default class ActivityGrid extends PureComponent {
 
   renderActivities() {
     if (!this.props.activities) return (<h5 className='error'>No activities!</h5>);
+    const {formatMessage} = this.props.intl;
+
     return this.props.activities.map((activity, index) => {
       const sanitized = helpers.sanitize(activity);
       return (
         <Link key={index} className='link' to={`/activity/${sanitized}`}>
-        <button className='btn' title={helpers.title(activity)}>
+        <button className='btn' title={helpers.title(activity, formatMessage)}>
           <svg className={'icon park-activity alt ' + sanitized}>
             <use xlinkHref={helpers.iconURL(activity)} />
           </svg>

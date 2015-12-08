@@ -1,12 +1,12 @@
 import React, {PropTypes} from 'react';
 import PureComponent from 'react-pure-render/component';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, injectIntl} from 'react-intl';
 import { Link } from 'react-router';
 import Color from 'color';
 import { helpers, activities, colorGroups } from '../../constants/park-activities';
 import {getTwoColumnWidthPercent} from '../../constants/layout';
 
-export default class Discover extends PureComponent {
+class Discover extends PureComponent {
   static propTypes = {
     width: PropTypes.number,
     height: PropTypes.number
@@ -24,6 +24,7 @@ export default class Discover extends PureComponent {
 
   renderActivities(activityHeight) {
     const showOnly = [this.state.navigationPosition,  this.state.navigationPosition + 7];
+    const {formatMessage} = this.props.intl;
 
     return activities.map((activity, idx) => {
       let klass = 'block activity col-six';
@@ -38,6 +39,7 @@ export default class Discover extends PureComponent {
       const icon = helpers.iconprefix + activity.assetname;
       const thumb = helpers.imgpath + activity.assetname + '_rect.jpg';
       const color = Color(colorGroups[activity.clrGroup]);
+      const name = helpers.title(activity.assetname, formatMessage);
       color.alpha(0.5);
 
       return (
@@ -52,7 +54,7 @@ export default class Discover extends PureComponent {
                     <use xlinkHref={icon} />
                   </svg>
                 </div>
-                <div className='table-cell activity-name'>{activity.name}</div>
+                <div className='table-cell activity-name'>{name}</div>
               </div>
             </div>
             </Link>
@@ -138,5 +140,6 @@ export default class Discover extends PureComponent {
       </div>
     );
   }
-
 }
+
+export default injectIntl(Discover);

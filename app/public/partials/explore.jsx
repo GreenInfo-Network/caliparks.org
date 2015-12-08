@@ -75,7 +75,7 @@ export default class Explore extends PureComponent {
       yearlast: {
         id: 'year-last',
         defaultMessage: 'Last year'
-      },
+      }
     });
 
     this.dropdownOptions = [
