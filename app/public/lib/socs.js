@@ -16,7 +16,7 @@ socs.sharing = function(){
     // set options from config
     utils.extend(options, config);
 
-    __.version = '0.0.2';
+    __.version = '0.0.3';
 
 
     // query DOM for anything matching options.selector
@@ -78,14 +78,28 @@ socs.sharing = function(){
         }
 
     };
+    __.destroy = function() {
+        first = false;
+
+        items.forEach(function(item) {
+            item.elm.removeEventListener('click');
+        });
+
+        items = [];
+    };
 
     __.refresh = function() {
         if(!first) getMetaDefaults();
 
+        if (items) {
+            items.forEach(function(item) {
+                item.elm.removeEventListener('click');
+            });
+        }
+
         items = [];
         getItems();
         if (!items) return;
-
         first = true;
     };
 
@@ -332,10 +346,7 @@ var service = {
             p[opt] = (elm.getAttribute(dataKey)) ? elm.getAttribute(dataKey) : this.defaults[opt];
         }
 
-        console.log(this.defaults);
-
         return p;
-
     },
 
     makeURL: function() {

@@ -31,6 +31,23 @@ export default class Layout extends React.Component {
 
   componentWillUnmount() {}
 
+  renderMetaTags() {
+    const location = this.props.baseUrl + this.props.location.pathname;
+    const path = this.props.location.pathname.split('/');
+    let image = this.props.baseUrl + this.props.viewData.header[0];
+    if (path.length > 1 && path[1] === 'park' && this.props.selectedPark && this.props.selectedPark.images) {
+      image = this.props.selectedPark.images[0].standard_resolution;
+    }
+    return [
+      <meta property='og:url' content={location} />,
+      <meta name='twitter:url' content={location} />,
+      <meta property='og:title' content='Metadata markup' />,
+      <meta name='twitter:title' content='Metadata markup' />,
+      <meta name='twitter:image' content={image} />,
+      <meta property='og:image' content={image} />
+    ];
+  }
+
   render() {
     return (
         <Provider store={this.store}>
@@ -39,7 +56,9 @@ export default class Layout extends React.Component {
               <meta charSet='utf-8' />
               <title>{this.props.title}</title>
               <meta name='viewport' content='width=device-width, initial-scale=1' />
-              <meta name='description' content='' />
+              <meta name='description' content='Find parks near you. Select your favorite activities, from basketball to rock climbing. See park photos from Instagram. Get directions.' />
+              <meta name='twitter:description' content='Find parks near you. Select your favorite activities, from basketball to rock climbing. See park photos from Instagram. Get directions.' />
+              {this.renderMetaTags()}
               <link rel='apple-touch-icon' sizes='57x57' href='/assets/icons/apple-touch-icon-57x57.png'/>
               <link rel='apple-touch-icon' sizes='60x60' href='/assets/icons/apple-touch-icon-60x60.png'/>
               <link rel='apple-touch-icon' sizes='72x72' href='/assets/icons/apple-touch-icon-72x72.png'/>

@@ -139,6 +139,7 @@ app.use('/', (req, res, next) => {
       messages: res.locals.messages,
       lang: req.locale,
       gak: GOOGLE_APP_KEY,
+      baseUrl: req.protocol + '://' + req.get('host'),
       mostSharedParks: {
         parks: [],
         interval: 'week-now',

@@ -50,16 +50,19 @@ export class Park extends PureComponent {
       }
     }
 
-    socs.sharing();
+    this.socs = socs.sharing();
   }
 
   componentDidUpdate() {
     this.getInitialSelectedPhoto();
+    if (this.socs) this.socs.refresh();
   }
 
   componentWillUnmount() {
     this.props.clearSelectedParkData(this.props.params.id);
     window.removeEventListener('resize', this.handleResizeThrottled);
+    if (this.socs) this.socs.destroy();
+    this.socs = null;
   }
 
   getInitialSelectedPhoto() {
