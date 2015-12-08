@@ -120,7 +120,9 @@ export default class GmapDataLayer extends Component {
       // so we can zoom in a little more...
       const div = map.getDiv();
       const minZoomNeeded = this.getBoundsZoomLevel(bounds, {width: div.offsetWidth, height: div.offsetHeight});
-      map.setCenter(bounds.getCenter());
+
+      const ctr = this.props.setCenterTo || bounds.getCenter();
+      map.setCenter(ctr);
       map.setZoom(minZoomNeeded + 1);
     }
   }

@@ -54,7 +54,12 @@ export default class GmapMarkerClusterer extends Component {
     return update;
   }
 
-  componentDidUpdate(prevProps) {}
+  componentDidUpdate(prevProps) {
+    if (this.props.setCenterTo !== prevProps.setCenterTo && this.props.setCenterTo && this.props.mapHolderRef) {
+      const map = this.props.mapHolderRef.getMap();
+      map.setCenter(this.props.setCenterTo);
+    }
+  }
 
   componentWillUnmount() {}
 

@@ -73,9 +73,9 @@ export class Park extends PureComponent {
     }
   }
 
-  onPhotoClick(idx) {
-    if (this.state.selectedPhoto === idx) return;
-    this.setState({selectedPhoto: idx});
+  onPhotoClick(photoid) {
+    if (this.state.selectedPhoto === photoid) return;
+    this.setState({selectedPhoto: photoid});
   }
 
   setMarkerIcon(marker, idx) {
@@ -255,7 +255,6 @@ export class Park extends PureComponent {
   }
 
   render() {
-    console.log(this.props.intl);
     const geometry = this.props.selectedPark.park.length ? this.props.selectedPark.park[0].geometry : null;
     const [columnWidth, columnMiddleWidth, columnHeight, bottomHeight] = this.getDimensions();
 
@@ -291,6 +290,7 @@ export class Park extends PureComponent {
                 <ParkMap
                   shouldResize={this.props.windowSize.width + this.props.windowSize.height}
                   markers={markers}
+                  cluster={false}
                   geometry={geometry}
                   selectedMarker={this.state.selectedPhoto}
                   setMarkerIcon={this.setMarkerIcon.bind(this)}

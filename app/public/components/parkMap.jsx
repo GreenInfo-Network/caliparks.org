@@ -40,6 +40,19 @@ export default class ParkMap extends PureComponent {
     }
   }
 
+  getSelectedCoordinates() {
+    const sel = this.props.markers.filter((m) => {
+      return this.props.selectedMarker === m.photoid;
+    });
+
+    if (sel.length) {
+      const coords = this.props.setMarkerPosition(sel[0]);
+      return coords;
+    }
+
+    return null;
+  }
+
   handleBoundsChange() {
     if (typeof this.props.onBoundsChange === 'function') {
       const bds = this.refs.map.getBounds().toUrlValue(4).split(',');
@@ -68,10 +81,10 @@ export default class ParkMap extends PureComponent {
         <GmapControls {...this.props} />
 
         {hasGeometry &&
-          <GmapDataLayer geometry={this.props.geometry} />
+          <GmapDataLayer geometry={this.props.geometry} setCenterTo={this.getSelectedCoordinates()} />
         }
 
-        <GmapMarkerClusterer {...this.props} />
+        <GmapMarkerClusterer {...this.props} setCenterTo={this.getSelectedCoordinates()} />
       </GoogleMap>
     );
   }
