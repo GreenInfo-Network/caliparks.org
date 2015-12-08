@@ -104,7 +104,8 @@ var config = socs.sharing.config = {
         image: "",
         title: "",
         caption: "",
-        desc: ""
+        desc: "",
+        hashtags: ""
     },
     services: {}
 
@@ -135,7 +136,8 @@ config.services.twitter = {
     method: 'popup',
     metaProps: {
         url: 'url',
-        title: 'text'
+        title: 'text',
+        hashtags: 'hashtags'
     },
     miscProps: {
         lang: 'en'
@@ -329,6 +331,8 @@ var service = {
             var elm = (this.metaElement) ? this.metaElement : this.elm;
             p[opt] = (elm.getAttribute(dataKey)) ? elm.getAttribute(dataKey) : this.defaults[opt];
         }
+
+        console.log(this.defaults);
 
         return p;
 

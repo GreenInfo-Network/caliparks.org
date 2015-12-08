@@ -181,8 +181,8 @@ export class Park extends PureComponent {
         <ActivityGrid activities={details.activities} />
         <div className='share'>
           <ul>
-            <li><a className='link-plain social-item' data-social-service='facebook' href='#'>Like</a></li>
-            <li><a className='link-plain social-item' data-social-service='twitter' href='#'>Tweet</a></li>
+            <li><a className='link-plain social-item' data-social-service='facebook' href='#'>Share</a></li>
+            <li><a className='link-plain social-item' data-social-service='twitter' data-social-title={details.su_name} data-social-hashtags='caliparks' href='#'>Tweet</a></li>
             <li><a className='link-plain' href={directions}>Get Directions</a></li>
             {details.camping_url &&
               <li><a className='link-plain' href={details.camping_url}>Camp Here</a></li>
@@ -220,7 +220,6 @@ export class Park extends PureComponent {
   }
 
   render() {
-    console.log(this.props.selectedPark);
     const geometry = this.props.selectedPark.park.length ? this.props.selectedPark.park[0].geometry : null;
     const [columnWidth, columnMiddleWidth, columnHeight, bottomHeight] = this.getDimensions();
 
