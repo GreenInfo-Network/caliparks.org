@@ -1,6 +1,10 @@
 .activity-grid {
   margin-left: -5px;
 
+  &.no-data {
+    margin-left: 0;
+  }
+
   .link {
     display: inline-block;
   }

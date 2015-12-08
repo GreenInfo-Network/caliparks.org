@@ -52,18 +52,7 @@ ul.plain {
 }
 
 .error {
-  color: #ff0099;
-  text-decoration: blink;
-
-  &:after {
-    content: '¯\_(ツ)_/¯';
-    display: inline-block;
-    unicode-bidi: embed;
-    font-family: monospace;
-    white-space: pre;
-    margin-left: 10px;
-    vertical-align: text-bottom;
-  }
+  color: $color-blue;
 }
 
 .no-text-selection {
