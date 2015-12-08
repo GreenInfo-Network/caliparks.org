@@ -35,14 +35,16 @@ export default class Layout extends React.Component {
     const location = this.props.baseUrl + this.props.location.pathname;
     const path = this.props.location.pathname.split('/');
     let image = this.props.baseUrl + this.props.viewData.header[0];
-    if (path.length > 1 && path[1] === 'park' && this.props.selectedPark && this.props.selectedPark.images) {
+    let title = this.props.title;
+    if (path.length > 1 && path[1] === 'park' && this.props.selectedPark && this.props.selectedPark.images && this.props.selectedPark.images.length) {
       image = this.props.selectedPark.images[0].standard_resolution;
+      title += ' : ' + this.props.selectedPark.park[0].su_name;
     }
     return [
       <meta property='og:url' content={location} />,
       <meta name='twitter:url' content={location} />,
-      <meta property='og:title' content='Metadata markup' />,
-      <meta name='twitter:title' content='Metadata markup' />,
+      <meta property='og:title' content={title} />,
+      <meta name='twitter:title' content={title} />,
       <meta name='twitter:image' content={image} />,
       <meta property='og:image' content={image} />
     ];
@@ -56,6 +58,7 @@ export default class Layout extends React.Component {
               <meta charSet='utf-8' />
               <title>{this.props.title}</title>
               <meta name='viewport' content='width=device-width, initial-scale=1' />
+              <meta property='fb:app_id' content='1234567890' />
               <meta name='description' content='Find parks near you. Select your favorite activities, from basketball to rock climbing. See park photos from Instagram. Get directions.' />
               <meta name='twitter:description' content='Find parks near you. Select your favorite activities, from basketball to rock climbing. See park photos from Instagram. Get directions.' />
               {this.renderMetaTags()}

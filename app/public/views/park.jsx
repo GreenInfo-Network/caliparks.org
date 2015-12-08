@@ -186,9 +186,9 @@ export class Park extends PureComponent {
           <ul>
             <li><a className='link-plain social-item' data-social-service='facebook' href='#'>Share</a></li>
             <li><a className='link-plain social-item' data-social-service='twitter' data-social-title={details.su_name} data-social-hashtags='caliparks' href='#'>Tweet</a></li>
-            <li><a className='link-plain' href={directions}>Get Directions</a></li>
+            <li><a className='link-plain' href={directions} target='_blank'>Get Directions</a></li>
             {details.camping_url &&
-              <li><a className='link-plain' href={details.camping_url}>Camp Here</a></li>
+              <li><a className='link-plain' href={details.camping_url} target='_blank'>Camp Here</a></li>
             }
           </ul>
         </div>
