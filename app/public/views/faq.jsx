@@ -96,6 +96,8 @@ export class Faq extends PureComponent {
 
   render() {
     const imgHeight = (100 / this.props.viewData.header.length);
+    const faqsByLocale = (this.props.lang === 'en') ? FAQS.en : FAQS.es;
+
     return (
       <div id='faq-section' className=''>
         <StickyNav />
@@ -105,12 +107,12 @@ export class Faq extends PureComponent {
               <div ref='faqthings' className='faq-items'>
                 <h3>FAQ</h3>
                 <ul className='faq-menu plain'>
-                  {FAQS.map((faq) => {
+                  {faqsByLocale.map((faq) => {
                     return <li><a href={'#' + faq.anchor}>{faq.title}</a></li>;
                   })}
                 </ul>
                 <ul className='faq-content plain'>
-                  {FAQS.map((faq) => {
+                  {faqsByLocale.map((faq) => {
                     return <li>
                     <a name={faq.anchor} className='anchors'></a>
                     <div>
