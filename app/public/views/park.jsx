@@ -169,11 +169,15 @@ export class Park extends PureComponent {
     if (!this.props.selectedPark.park.length) return [];
     const details = this.props.selectedPark.park[0];
     const directions = directionsLink(details.centroid);
+    const involved = this.props.selectedPark.involved || null;
 
     return (
       <div className='inner'>
         <h4 className='uppercase'>{details.su_name}</h4>
-        <p><a className='link-plain' href={details.park_url}>Link to park site <sub>></sub></a></p>
+        <p><a className='link-plain' href={details.park_url} target='_blank'>Link to park site <sub>&gt;</sub></a></p>
+        {involved &&
+          <p className='involved-link'><a className='link-plain' href={involved} target='_blank'>Get involved with this park <sub>&gt;</sub></a></p>
+        }
         <ActivityGrid activities={details.activities} />
         <div className='share'>
           <ul>
@@ -216,6 +220,7 @@ export class Park extends PureComponent {
   }
 
   render() {
+    console.log(this.props.selectedPark);
     const geometry = this.props.selectedPark.park.length ? this.props.selectedPark.park[0].geometry : null;
     const [columnWidth, columnMiddleWidth, columnHeight, bottomHeight] = this.getDimensions();
 
