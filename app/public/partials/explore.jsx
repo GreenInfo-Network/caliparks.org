@@ -37,6 +37,12 @@ export default class Explore extends PureComponent {
 
   componentDidMount() {}
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.mostShared.interval !== nextProps.mostShared.interval) {
+      this.setState({selectedMarker: 0});
+    }
+  }
+
   componentDidUpdate(prevProps) {
     if (prevProps.width !== this.props.width ||
         prevProps.height !== this.props.height) {
