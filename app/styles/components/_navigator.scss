@@ -3,6 +3,7 @@
   background: rgba(51, 50, 46, 0.6);
   color: #fff;
   z-index: $depth-1;
+  transform: translateZ(0);
 
   .inner {
     margin: 0;
