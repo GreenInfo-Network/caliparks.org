@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react';
 import PureComponent from 'react-pure-render/component';
+import {FormattedMessage} from 'react-intl';
 
 export default class StickyNav extends PureComponent {
   static propTypes = {
@@ -18,7 +19,11 @@ export default class StickyNav extends PureComponent {
   render() {
     return (
       <div className={this.getClassName()}>
-        <h1><a href='/#index'>Caliparks</a></h1>
+        <h1><a href='/#index'>
+          <FormattedMessage
+            id='caliparks'
+            defaultMessage='Caliparks'/>
+        </a></h1>
         <hr/>
       </div>
     );
