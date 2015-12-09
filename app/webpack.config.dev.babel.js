@@ -6,6 +6,7 @@ import webpack from 'webpack';
 export default {
   devtool: 'eval',
   entry: [
+    'babel-core/polyfill',
     'webpack-hot-middleware/client',
     './public/index.js',
     './styles/app.scss'
@@ -67,7 +68,7 @@ export default {
       {
         test: /\.scss$/,
         exclude: /node_modules/,
-        loaders: ['style', 'css', 'sass']
+        loaders: ['style', 'css', 'autoprefixer', 'sass']
       }
     ]
   },

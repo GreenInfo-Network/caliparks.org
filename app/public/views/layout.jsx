@@ -41,12 +41,12 @@ export default class Layout extends React.Component {
       title += ' : ' + this.props.selectedPark.park[0].su_name;
     }
     return [
-      <meta property='og:url' content={location} />,
-      <meta name='twitter:url' content={location} />,
-      <meta property='og:title' content={title} />,
-      <meta name='twitter:title' content={title} />,
-      <meta name='twitter:image' content={image} />,
-      <meta property='og:image' content={image} />
+      <meta key={'og:url'} property='og:url' content={location} />,
+      <meta key={'twitter:url'} name='twitter:url' content={location} />,
+      <meta key={'og:title'} property='og:title' content={title} />,
+      <meta key={'twitter:title'} name='twitter:title' content={title} />,
+      <meta key={'twitter:image'} name='twitter:image' content={image} />,
+      <meta key={'og:image'} property='og:image' content={image} />
     ];
   }
 
@@ -78,7 +78,7 @@ export default class Layout extends React.Component {
               <link rel='icon' type='image/png' href='/assets/icons/favicon-16x16.png' sizes='16x16'/>
               <link rel='manifest' href='/assets/icons/manifest.json'/>
               <link rel='mask-icon' href='/assets/icons/safari-pinned-tab.svg' color='#5bbad5'/>
-              <link rel='shortcut icon' type='image/png' href='/favicon.ico?v=2' type='image/x-icon'/>
+              <link rel='shortcut icon' href='/favicon.ico?v=2' type='image/x-icon'/>
               <meta name='msapplication-TileColor' content='#da532c'/>
               <meta name='msapplication-TileImage' content='/mstile-144x144.png'/>
               <meta name='msapplication-config' content='/assets/icons/browserconfig.xml'/>
@@ -87,7 +87,7 @@ export default class Layout extends React.Component {
               <link href='//fonts.googleapis.com/css?family=Lato:400,300,900,700' rel='stylesheet' type='text/css'/>
               <link rel='stylesheet' type='text/css' href='//cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.3.15/slick.css' />
               <link rel='stylesheet' type='text/css' href='/styles.css' />
-              <script src='https://cdn.polyfill.io/v1/polyfill.min.js?features=Intl.~locale.en,Intl.~locale.es'></script>
+              <script src='https://cdn.polyfill.io/v2/polyfill.min.js?features=Intl,Intl.~locale.en,Intl.~locale.es'></script>
               <script src='https://maps.googleapis.com/maps/api/js'></script>
             </head>
             <body>

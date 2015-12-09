@@ -7,6 +7,7 @@ import webpack from 'webpack';
 export default {
   devtool: 'source-map',
   entry: [
+    'babel-core/polyfill',
     './public/index.js',
     './styles/app.scss'
   ],

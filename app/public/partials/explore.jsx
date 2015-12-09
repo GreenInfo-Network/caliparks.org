@@ -19,7 +19,7 @@ export default class Explore extends PureComponent {
     handleOnChange: PropTypes.func,
     mostShared: PropTypes.shape({
       parks: PropTypes.array,
-      interval: PropTypes.object,
+      interval: PropTypes.string,
       isFetching: PropTypes.bool
     }).isRequired,
     handleMarkerClick: PropTypes.func,
