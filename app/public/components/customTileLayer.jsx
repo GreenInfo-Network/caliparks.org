@@ -17,8 +17,7 @@ export default class CustomTileLayer extends Component {
     subdomains: PropTypes.array,
     tileUrl: PropTypes.string.isRequired,
     tileSize: PropTypes.number,
-
-  }
+  };
 
   static defaultProps = {
     mapHolderRef: null,
@@ -56,9 +55,7 @@ export default class CustomTileLayer extends Component {
     }
   }
 
-  componentDidUpdate(prevProps) {
-
-  }
+  componentDidUpdate(prevProps) {}
 
   componentWillUnmount() {}
 

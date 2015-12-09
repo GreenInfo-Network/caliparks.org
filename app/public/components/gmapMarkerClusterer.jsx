@@ -104,8 +104,8 @@ export default class GmapMarkerClusterer extends Component {
     }
   }
 
-  getMarkers() {
-    return this.props.markers.map((marker, index) => {
+  createMarkers(markers) {
+    return markers.map((marker, index) => {
       const id = this.getMarkerId(marker, index);
       return (<Marker
         mapHolderRef={this.props.mapHolderRef}
@@ -121,8 +121,23 @@ export default class GmapMarkerClusterer extends Component {
 
   renderMarkers() {
     if (!this.props.mapHolderRef) return [];
-
     if (this.props.cluster) {
+      let selected = null;
+      let markers = null;
+
+      if (this.props.selectedMarker) {
+        selected = [];
+        markers = [];
+        this.props.markers.forEach((m) => {
+          const id = this.getMarkerId(m);
+          if (id === this.props.selectedMarker) {
+            selected.push(m);
+          } else {
+            markers.push(m);
+          }
+        });
+      }
+
       const clusterStyles = [
         {
           textColor: 'white',
@@ -144,24 +159,29 @@ export default class GmapMarkerClusterer extends Component {
         }
       ];
       return (
-        <MarkerClusterer
-          mapHolderRef={this.props.mapHolderRef}
-          averageCenter={ true }
-          enableRetinaIcons={ false }
-          styles={clusterStyles}
-          minimumClusterSize={4}
-          batchSize={1000}
-          batchSizeIE={200}
-          maxZoom={12}
-          gridSize={ 60 }>
-          {this.getMarkers()}
-        </MarkerClusterer>
+        <div style={{display: 'none'}}>
+          <MarkerClusterer
+            mapHolderRef={this.props.mapHolderRef}
+            averageCenter={ true }
+            enableRetinaIcons={ false }
+            styles={clusterStyles}
+            minimumClusterSize={4}
+            batchSize={1000}
+            batchSizeIE={200}
+            maxZoom={12}
+            gridSize={ 60 }>
+            {this.createMarkers(markers || this.props.markers)}
+          </MarkerClusterer>
+          {selected &&
+            this.createMarkers(selected)
+          }
+        </div>
       );
     }
 
     return (
       <div style={{display: 'none'}}>
-        {this.getMarkers()}
+        {this.createMarkers(this.props.markers)}
       </div>
     );
   }
