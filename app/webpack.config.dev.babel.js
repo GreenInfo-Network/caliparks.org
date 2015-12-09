@@ -38,8 +38,7 @@ export default {
         query: {
           stage: 0,
           plugins: [
-            'react-transform',
-            'react-intl'
+            'react-transform'
           ],
           extra: {
             'react-transform': {
@@ -50,9 +49,6 @@ export default {
                   locals: ['module']
                 }
               ]
-            },
-            'react-intl': {
-              'messagesDir': './translations'
             }
           },
           optional: [

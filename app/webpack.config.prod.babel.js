@@ -45,7 +45,7 @@ export default {
       {
         test: /\.scss$/,
         exclude: /node_modules/,
-        loader: ExtractTextPlugin.extract('style', ['css', 'sass'], {
+        loader: ExtractTextPlugin.extract('style', ['css', 'autoprefixer', 'sass'], {
           remove: false // extract as styles.css, but also leave in the bundle
         })
       },
