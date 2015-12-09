@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import {connect} from 'react-redux';
 import {throttle} from 'lodash';
 import { Link } from 'react-router';
+import animateWindowScroll from '../lib/animateWindowScroll';
 
 import * as actions from '../actions';
 import StickyNav from '../partials/sticky-nav';
@@ -14,7 +15,12 @@ import {faqs as FAQS} from '../../constants/faq';
 const mapStateToProps = (state) => state;
 
 export class Faq extends PureComponent {
-  static propTypes = {};
+  static propTypes = {
+    windowSize: PropTypes.object,
+    setWindowSize: PropTypes.func,
+    lang: PropTypes.string,
+    viewData: PropTypes.object
+  };
 
   state = {};
 
@@ -22,7 +28,6 @@ export class Faq extends PureComponent {
 
   componentDidMount() {
     this.anchors =  document.querySelectorAll('.anchors');
-    // this.handleScrollThrottle = throttle(this.handleScroll, 100).bind(this);
     window.addEventListener('scroll', this.handleScroll.bind(this));
     this.handleResizeThrottled = throttle(this.handleResize, 250).bind(this);
     window.addEventListener('resize', this.handleResizeThrottled);
@@ -43,7 +48,7 @@ export class Faq extends PureComponent {
   }
 
   componentWillUnmount() {
-    this.props.clearSelectedActivityData(this.props.params.activity);
+    window.removeEventListener('scroll', this.handleScroll);
     window.removeEventListener('resize', this.handleResizeThrottled);
   }
 
@@ -70,8 +75,6 @@ export class Faq extends PureComponent {
     this.props.setWindowSize(this.getWindowDimensions());
   }
 
-  setScrollContainerHeight() {}
-
   handleScroll() {
     [].forEach.call(this.anchors, (elm) => {
       const top = window.pageYOffset;
@@ -90,12 +93,15 @@ export class Faq extends PureComponent {
 
   scrollToTop() {
     if (typeof window !== 'undefined') {
-      window.scrollTo(0, 0);
+      animateWindowScroll(
+        0,
+        400,
+        () => {}
+      );
     }
   }
 
   render() {
-    const imgHeight = (100 / this.props.viewData.header.length);
     const faqsByLocale = (this.props.lang === 'en') ? FAQS.en : FAQS.es;
 
     return (
@@ -107,19 +113,19 @@ export class Faq extends PureComponent {
               <div ref='faqthings' className='faq-items'>
                 <h3>FAQ</h3>
                 <ul className='faq-menu plain'>
-                  {faqsByLocale.map((faq) => {
-                    return <li><a href={'#' + faq.anchor}>{faq.title}</a></li>;
+                  {faqsByLocale.map((faq, idx) => {
+                    return <li key={'faqmenu-' + idx}><a href={'#' + faq.anchor}>{faq.title}</a></li>;
                   })}
                 </ul>
                 <ul className='faq-content plain'>
-                  {faqsByLocale.map((faq) => {
-                    return <li>
+                  {faqsByLocale.map((faq, idx) => {
+                    return (<li key={'faqcontent-' + idx}>
                     <a name={faq.anchor} className='anchors'></a>
                     <div>
-                      <h5><Link to='/faq' onClick={this.scrollToTop.bind(this)}>{faq.title}</Link></h5>
+                      <h5><Link to='/faq' onClick={this.scrollToTop.bind(this)}><span className='arrow'>▲</span>{faq.title}</Link></h5>
                       <div dangerouslySetInnerHTML={{__html: faq.content}} />
                     </div>
-                    </li>;
+                    </li>);
                   })}
                 </ul>
               </div>
@@ -127,8 +133,8 @@ export class Faq extends PureComponent {
 
             <div className='table-cell faq-images'>
               <ul ref='faqimgs' className='plain'>
-                {this.props.viewData.header.map((img) => {
-                  return <li className='faqimage' style={{backgroundImage: 'url(' + img + ')'}} />;
+                {this.props.viewData.header.map((img, idx) => {
+                  return <li key={'faqimg-' + idx} className='faqimage' style={{backgroundImage: 'url(' + img + ')'}} />;
                 })}
               </ul>
             </div>

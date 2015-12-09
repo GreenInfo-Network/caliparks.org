@@ -56,11 +56,10 @@ $section-padding: 4rem;
   h5 {
     font-size: 1.4rem;
     text-transform: uppercase;
-  }
-  h5::before {
-    content: '▲';
-    position: inline;
-    margin-right: 10px;
+
+    .arrow {
+      margin-right: 8px;
+    }
   }
 
   li {

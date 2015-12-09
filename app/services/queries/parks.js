@@ -109,7 +109,6 @@ function datesForTime(t) {
   return `(photos.metadata->>'created_time')::int >= cast(extract(epoch from (${start})) as integer) AND (photos.metadata->>'created_time')::int < cast(extract(epoch from (${end})) as integer)`;
 }
 
-// TODO: restrict query to bounding box
 function mostSharedParks(options) {
   options = options || {};
   const interval = options.interval || 'week-now';

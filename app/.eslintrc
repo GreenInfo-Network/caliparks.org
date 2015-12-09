@@ -39,6 +39,7 @@
     "dot-notation": [0],
     "no-trailing-spaces": [1],
     "id-length": [0],
+    "no-nested-ternary": [0],
 
     "react/jsx-quotes": 0,
     "jsx-quotes": [2, "prefer-single"],
