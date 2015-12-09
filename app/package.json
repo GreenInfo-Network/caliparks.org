@@ -61,7 +61,7 @@
     "react": "^0.14.3",
     "react-addons-css-transition-group": "^0.14.0",
     "react-engine": "^3.0.0-alpha.1",
-    "react-fullpage": "stamen/react-fullpage",
+    "react-fullpage": "stamen/react-fullpage#82b062ea2bfc47136628651323f3cb5c70ee400c",
     "react-google-maps": "^4.6.0",
     "react-intl": "^2.0.0-pr-3",
     "react-pure-render": "^1.0.2",
