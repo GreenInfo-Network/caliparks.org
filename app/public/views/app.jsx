@@ -27,10 +27,12 @@ export class App extends PureComponent {
     windowSize: PropTypes.object
   };
 
-  componentWillMount() {
-    this.currentSection = 0;
-    this.prevSection = 0;
+  state = {
+    currentSection: 0,
+    prevSection: 0
   }
+
+  componentWillMount() {}
 
   componentDidMount() {
     this.handleResizeThrottled = throttle(this.handleResize, 250).bind(this);
@@ -55,12 +57,22 @@ export class App extends PureComponent {
   }
 
   onLeaveHandler(prevSection, currentSection) {
-    this.prevSection = prevSection;
-    this.currentSection = currentSection;
+    console.log('Leaving: from %s to %s', prevSection, currentSection);
+    if (this.state.currentSection !== currentSection) {
+      this.setState({
+        currentSection: currentSection,
+        prevSection: prevSection
+      });
+    }
   }
 
   onAfterLoadHandler(currentSection) {
-    if (currentSection !== this.currentSection) this.currentSection = currentSection;
+    console.log('Arrived at %s', currentSection);
+    if (currentSection !== this.state.currentSection) {
+      this.setState({
+        currentSection: currentSection
+      });
+    }
   }
 
   getWindowDimensions() {
@@ -106,8 +118,8 @@ export class App extends PureComponent {
       autoFooterHeight:     true
     };
 
-    const isSticky = (this.currentSection >= 2 || this.prevSection >= 2) ? true : false;
-    const stickyKlass = (this.currentSection === 2 || this.currentSection === 3) ? ' white' : '';
+    const isSticky = (this.state.currentSection >= 2 || (this.state.currentSection === 1 && this.state.prevSection > 1)) ? true : false;
+    const stickyKlass = (this.state.currentSection === 2 || this.state.currentSection === 3) ? ' white' : '';
 
     return (
       <div className='container'>
