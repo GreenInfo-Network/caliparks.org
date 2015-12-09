@@ -3,7 +3,7 @@ import React, {PropTypes} from 'react';
 import ReactDOM from 'react-dom';
 import {connect} from 'react-redux';
 import { Link } from 'react-router';
-import {FormattedMessage, injectIntl} from 'react-intl';
+import {FormattedMessage, injectIntl, intlShape} from 'react-intl';
 import {throttle, uniq} from 'lodash';
 import * as actions from '../actions';
 
@@ -32,7 +32,8 @@ export class Activity extends PureComponent {
     windowSize: PropTypes.object,
     setWindowSize: PropTypes.func,
     clearSelectedActivityData: PropTypes.func,
-    fetchSelectedActivity: PropTypes.func
+    fetchSelectedActivity: PropTypes.func,
+    intl: intlShape.isRequired
   };
 
   state = {
@@ -67,20 +68,17 @@ export class Activity extends PureComponent {
 
   componentDidUpdate(prevProps, prevState) {
     this.setScrollContainerHeight();
-    if (prevState.selectedMarker !== this.state.selectedMarker) {
+    if (prevState.selectedMarker !== this.state.selectedMarker && !this.isFromListClick) {
       const container = ReactDOM.findDOMNode(this.refs.parklist);
       const selected = ReactDOM.findDOMNode(this.refs[this.state.selectedMarker]);
       container.scrollTop = selected.offsetTop - container.offsetTop;
     }
+    this.isFromListClick = false;
   }
 
   componentWillUnmount() {
     this.props.clearSelectedActivityData(this.props.params.activity);
     window.removeEventListener('resize', this.handleResizeThrottled);
-  }
-
-  handleResize() {
-    this.props.setWindowSize(this.getWindowDimensions());
   }
 
   getWindowDimensions() {
@@ -92,6 +90,10 @@ export class Activity extends PureComponent {
       width: window.innerWidth,
       height: window.innerHeight
     };
+  }
+
+  handleResize() {
+    this.props.setWindowSize(this.getWindowDimensions());
   }
 
   getHeight() {
@@ -116,11 +118,13 @@ export class Activity extends PureComponent {
   onMarkerClick(marker, idx) {
     const id = this.setMarkerId(marker);
     if (this.state.selectedMarker === id) return;
+    this.isFromListClick = false;
     this.setState({selectedMarker: id, selectedIndex: idx});
   }
 
   onListClick(id, idx) {
     if (this.state.selectedMarker === id) return;
+    this.isFromListClick = true;
     this.setState({selectedMarker: id, selectedIndex: idx});
   }
 
@@ -237,7 +241,8 @@ export class Activity extends PureComponent {
                       onClick={this.onListClick.bind(this, park.su_id, index)}
                       onMouseOver={this.onListMouseOver.bind(this, park.su_id, index)}
                       onMouseOut={this.onListMouseOut.bind(this, park.su_id, index)}>
-                      {park.su_name} &gt;
+                      <span>{park.su_name}</span>
+                      <a href={'/park/' + park.su_id}>&gt;</a>
                     </li>
                   );
                 })}

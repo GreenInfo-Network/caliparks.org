@@ -63,6 +63,12 @@
       &.selected {
         cursor: default;
       }
+
+      a {
+        text-decoration: none;
+        color: inherit;
+        margin-left: 5px;
+      }
     }
   }
 
