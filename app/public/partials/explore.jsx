@@ -131,7 +131,8 @@ export default class Explore extends PureComponent {
   }
 
   getHeight() {
-    return this.props.height || 700;
+    const h = this.props.height || 700;
+    return h - 76;
   }
 
   resizeMap() {

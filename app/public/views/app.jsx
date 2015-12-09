@@ -28,7 +28,8 @@ export class App extends PureComponent {
   };
 
   componentWillMount() {
-    this.currentIndex = 0;
+    this.currentSection = 0;
+    this.prevSection = 0;
   }
 
   componentDidMount() {
@@ -40,13 +41,11 @@ export class App extends PureComponent {
     this.handleResize();
 
     if (isEmpty(this.props.featuredParks)) {
-      console.log('Fetching featured parks');
       this.props.fetchFeaturedParks();
     }
 
     if (isEmpty(this.props.mostSharedParks.parks)
                 && !this.props.mostSharedParks.isFetching) {
-      console.log('Fetching featured parks');
       this.props.fetchMostSharedParks();
     }
   }
@@ -55,12 +54,13 @@ export class App extends PureComponent {
     window.removeEventListener('resize', this.handleResizeThrottled);
   }
 
-  onLeaveHandler(prevIndex, currentIndex) {
-    this.currentIndex = currentIndex;
+  onLeaveHandler(prevSection, currentSection) {
+    this.prevSection = prevSection;
+    this.currentSection = currentSection;
   }
 
-  onAfterLoadHandler(currentIndex) {
-    console.log('Loaded: %s', currentIndex);
+  onAfterLoadHandler(currentSection) {
+    if (currentSection !== this.currentSection) this.currentSection = currentSection;
   }
 
   getWindowDimensions() {
@@ -106,8 +106,8 @@ export class App extends PureComponent {
       autoFooterHeight:     true
     };
 
-    const isSticky = this.currentIndex >= 1 ? true : false;
-    const stickyKlass = (this.currentIndex === 2 || this.currentIndex === 3) ? ' white' : '';
+    const isSticky = (this.currentSection >= 2 || this.prevSection >= 2) ? true : false;
+    const stickyKlass = (this.currentSection === 2 || this.currentSection === 3) ? ' white' : '';
 
     return (
       <div className='container'>
@@ -129,6 +129,7 @@ export class App extends PureComponent {
               featuredParks={this.props.featuredParks}/>
           </Section>
           <Section>
+            <StickyNav className={stickyKlass}/>
             <Explore
               mostShared={this.props.mostSharedParks}
               width={this.props.windowSize.width || 0}
