@@ -30,7 +30,8 @@ export class Park extends PureComponent {
   };
 
   state = {
-    selectedPhoto: null
+    selectedPhoto: null,
+    badImages: []
   };
 
   componentWillMount() {
@@ -110,7 +111,7 @@ export class Park extends PureComponent {
     const photoSliderHeight = 160 + 20; // with padding
     const topContainerPadding = 20;
     const nav = 76;
-    const imagesLength = this.props.selectedPark.images.length;
+    const imagesLength = this.getValidImages().length;
 
     let topHeight = (imagesLength) ? this.props.windowSize.height - nav - topContainerPadding - photoSliderHeight :
       this.props.windowSize.height - nav - topContainerPadding;
@@ -228,21 +229,25 @@ export class Park extends PureComponent {
     );
   }
 
-  onImageError(evt) {
-    // TODO: Doesn't work when trying
-    // to find slide by ref
-    try {
-      evt.target.parentNode.style.display = 'none';
-    } catch (e) {
-      console.error(e);
-    }
+  onImageError(photo) {
+    const badImages = this.state.badImages.slice(0);
+    badImages.push(photo.photoid);
+    this.setState({
+      badImages: badImages
+    });
+  }
+
+  getValidImages() {
+    return this.props.selectedPark.images.filter((img) => {
+      return this.state.badImages.indexOf(img.photoid) < 0;
+    });
   }
 
   makeSlides() {
-    return this.props.selectedPark.images.map((photo, idx) => {
+    return this.getValidImages().map((photo, idx) => {
       const klass = photo.photoid === this.state.selectedPhoto ? 'selected' : '';
       return (
-        <div className={klass} key={idx}><img src={photo.standard_resolution} onError={this.onImageError} onClick={this.onPhotoClick.bind(this, photo.photoid)}/></div>
+        <div className={klass} key={idx}><img onError={this.onImageError.bind(this, photo)} src={photo.standard_resolution} onClick={this.onPhotoClick.bind(this, photo.photoid)}/></div>
       );
     });
   }
@@ -271,12 +276,13 @@ export class Park extends PureComponent {
     };
 
     const parkSlideClass = this.props.selectedPark.isFetching ? ' loading' : '';
-    const markers = this.props.selectedPark.images.filter((photo, idx) => {
+    const validImages = this.getValidImages();
+    const markers = validImages.filter((photo, idx) => {
       return this.state.selectedPhoto === photo.photoid;
     });
 
     // In case we have no images...
-    const noImageKlass = (this.props.selectedPark.images.length === 0) ? ' hide' : '';
+    const noImageKlass = (validImages.length === 0) ? ' hide' : '';
     return (
       <div className='container'>
         <main className='theme-white page-park' role='application'>
