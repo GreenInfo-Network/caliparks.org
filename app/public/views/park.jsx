@@ -35,6 +35,12 @@ export class Park extends PureComponent {
   };
 
   componentWillMount() {
+    // set state back to original state
+    this.setState({
+      selectedPhoto: null,
+      badImages: []
+    });
+
     this.getInitialSelectedPhoto();
   }
 
@@ -282,9 +288,10 @@ export class Park extends PureComponent {
     });
 
     // In case we have no images...
-    const noImageKlass = (validImages.length === 0) ? ' hide' : '';
+    const containerClass = (validImages.length === 0) ? 'container no-images' : 'container';
+    const shouldMapResize = (validImages.length === 0) ? true : this.props.windowSize.width + this.props.windowSize.height;
     return (
-      <div className='container'>
+      <div className={containerClass}>
         <main className='theme-white page-park' role='application'>
           <StickyNav />
           <div className='page-park-top'>
@@ -294,7 +301,7 @@ export class Park extends PureComponent {
             <div className='col map' style={{height: columnHeight, width: columnMiddleWidth}}>
               <div className='inner'>
                 <ParkMap
-                  shouldResize={this.props.windowSize.width + this.props.windowSize.height}
+                  shouldResize={shouldMapResize}
                   markers={markers}
                   cluster={false}
                   geometry={geometry}
@@ -304,11 +311,11 @@ export class Park extends PureComponent {
                   setMarkerPosition={this.setMarkerPosition.bind(this)}/>
               </div>
             </div>
-            <div className={'col photo' + noImageKlass} style={{height: columnHeight, width: columnWidth}}>
+            <div className='col selected-photo' style={{height: columnHeight, width: columnWidth}}>
               {this.placeImage()}
             </div>
           </div>
-          <div className={'page-park-bottom' + noImageKlass} style={{height: bottomHeight}}>
+          <div className='page-park-bottom' style={{height: bottomHeight}}>
             <div className={'park-slider' + parkSlideClass}>
               <div className='loader' />
               <Slider {...settings} afterChange={this.onSliderAfterChange.bind(this)}>
