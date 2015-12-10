@@ -2,6 +2,15 @@
 // This file contains all application-wide Sass mixins.
 // -----------------------------------------------------------------------------
 
+
+@mixin clearfix {
+  &::after {
+    clear: both;
+    content: "";
+    display: table;
+  }
+}
+
 /// Event wrapper
 /// @author Harry Roberts
 /// @param {Bool} $self [false] - Whether or not to include current selector

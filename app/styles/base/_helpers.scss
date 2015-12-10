@@ -164,5 +164,8 @@ ul.plain {
     border-color: transparent transparent $color-grey-dark transparent;
   }
 
+  &.no-arrow::before {
+    display: none;
+  }
 
 }

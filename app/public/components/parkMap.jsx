@@ -11,11 +11,7 @@ import {debounce} from 'lodash';
 export default class ParkMap extends PureComponent {
   static propTypes = {
     geometry: PropTypes.object,
-    shouldResize: PropTypes.oneOfType([
-      PropTypes.number,
-      PropTypes.string,
-      PropTypes.bool
-    ]),
+    shouldResize: PropTypes.bool,
     onBoundsChange: PropTypes.func
   };
 
@@ -28,7 +24,7 @@ export default class ParkMap extends PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.shouldResize !== prevProps.shouldResize) this.resizeMap();
+    if (this.props.shouldResize) this.resizeMap();
   }
 
   resizeMap() {

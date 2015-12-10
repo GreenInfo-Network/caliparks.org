@@ -5,12 +5,14 @@ import {FormattedMessage, injectIntl} from 'react-intl';
 import {throttle, isEmpty} from 'lodash';
 import * as actions from '../actions';
 
+import Footer from '../partials/footer';
 import StickyNav from '../partials/sticky-nav';
 import ParkMap from '../components/parkMap';
 import ActivityGrid from '../components/activityGrid';
 import Slider from 'react-slick';
 import {socs} from '../lib/socs';
 import {directionsLink} from '../../constants/map';
+import {MOBILE_BREAKPOINT} from '../../constants/layout';
 
 function mapStateToProps(state) {
   return state;
@@ -31,7 +33,8 @@ export class Park extends PureComponent {
 
   state = {
     selectedPhoto: null,
-    badImages: []
+    badImages: [],
+    tabSection: 'map'
   };
 
   componentWillMount() {
@@ -40,7 +43,7 @@ export class Park extends PureComponent {
       selectedPhoto: null,
       badImages: []
     });
-
+    this.mapNeedsResizing = true;
     this.getInitialSelectedPhoto();
   }
 
@@ -58,6 +61,13 @@ export class Park extends PureComponent {
     }
 
     this.socs = socs.sharing();
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    this.mapNeedsResizing = false;
+    if (nextState.tabSection === 'map' && (this.state.tabSection !== nextState.tabSection)) this.mapNeedsResizing = true;
+    if (nextProps.windowSize.width !== this.props.windowSize.width || nextProps.windowSize.height !== this.props.windowSize.height) this.mapNeedsResizing = true;
+    if (nextState.badImages !== this.state.badImages) this.mapNeedsResizing = true;
   }
 
   componentDidUpdate() {
@@ -112,33 +122,47 @@ export class Park extends PureComponent {
   // TODO: clean this up
   // got messy when we had to account for
   // no images
+  //
+  // returns [columnWidth, columnMiddleWidth, columnHeight, columnMiddleHeight, bottomHeight]
   getDimensions() {
-    if (this.props.windowSize.width === 0) return ['0px', '0px', '0px', '0px'];
+    if (!this.props.windowSize.width ||
+        this.props.windowSize.width === 0 ||
+        this.props.windowSize.width < MOBILE_BREAKPOINT) {
+      return ['100%', '100%', 'auto', this.props.windowSize.width + 'px', 'auto'];
+    }
+
     const photoSliderHeight = 160 + 20; // with padding
     const topContainerPadding = 20;
     const nav = 76;
     const imagesLength = this.getValidImages().length;
+    const bottomHeight = (imagesLength) ? 180 : 0;
+    const availableWidth = this.props.windowSize.width - 20;
 
-    let topHeight = (imagesLength) ? this.props.windowSize.height - nav - topContainerPadding - photoSliderHeight :
-      this.props.windowSize.height - nav - topContainerPadding;
-    let bottomHeight = (imagesLength) ? this.props.windowSize.height - nav - topHeight - topContainerPadding : 0;
-    let middleWidth = (this.props.windowSize.width - 20 - (2 * topHeight));
+    let middleWidth = 33.3333;
+    let topHeight = this.props.windowSize.height - nav - topContainerPadding;
 
     if (!imagesLength) {
-      return ['33.3333%', '66.6666%', topHeight + 'px', bottomHeight + 'px'];
-    } else if (middleWidth < topHeight) {
-      middleWidth = 33.3333;
-      topHeight = Math.round((this.props.windowSize.width - 20) * (middleWidth / 100));
-      bottomHeight = this.props.windowSize.height - nav - topHeight - topContainerPadding;
-      return [middleWidth + '%', middleWidth + '%', topHeight + 'px', bottomHeight + 'px'];
+      return [middleWidth + '%', '66.6666%', topHeight + 'px', topHeight + 'px', bottomHeight + 'px'];
     }
 
-    middleWidth = middleWidth / this.props.windowSize.width * 100;
-    return [topHeight + 'px', middleWidth + '%', topHeight + 'px', bottomHeight + 'px'];
+    topHeight -= photoSliderHeight;
+    middleWidth = (availableWidth - (2 * topHeight));
+
+    if (middleWidth < topHeight) {
+      middleWidth = 33.3333;
+      topHeight = Math.round((this.props.windowSize.width - 20) * (middleWidth / 100));
+      return [middleWidth + '%', middleWidth + '%', topHeight + 'px', topHeight + 'px', bottomHeight + 'px'];
+    }
+
+    const otherWidth = Math.max(330, (availableWidth - middleWidth) / 2) / availableWidth * 100;
+    middleWidth = 100 - otherWidth * 2;
+    topHeight = Math.round((availableWidth) * (otherWidth / 100));
+
+    return [otherWidth + '%', middleWidth + '%', topHeight + 'px', topHeight + 'px', bottomHeight + 'px'];
   }
 
   getSlidesToShowLength() {
-    if (this.props.windowSize.width === 0) return 4;
+    if (this.props.windowSize.width === 0 || this.props.windowSize.width < MOBILE_BREAKPOINT) return 1;
     return Math.ceil((this.props.windowSize.width - 20) / 160);
   }
 
@@ -265,9 +289,19 @@ export class Park extends PureComponent {
     }
   }
 
+  onTabChange(val) {
+    if (val === this.state.tabSection) return;
+    this.setState({tabSection: val});
+  }
+
+  getTabBtnClass(val) {
+    const active = val === this.state.tabSection ? ' active' : '';
+    return 'btn' + active;
+  }
+
   render() {
     const geometry = this.props.selectedPark.park.length ? this.props.selectedPark.park[0].geometry : null;
-    const [columnWidth, columnMiddleWidth, columnHeight, bottomHeight] = this.getDimensions();
+    const [columnWidth, columnMiddleWidth, columnHeight, mapHeight, bottomHeight] = this.getDimensions();
 
     const settings = {
       dots: false,
@@ -277,7 +311,7 @@ export class Park extends PureComponent {
       slidesToShow: this.getSlidesToShowLength(),
       variableWidth: false,
       slidesToScroll: this.getSlidesToShowLength(),
-      slideHasThisWidth: 160,
+      slideHasThisWidth: (this.props.windowSize.width < MOBILE_BREAKPOINT) ? this.props.windowSize.width : 160,
       initialSlide: 0
     };
 
@@ -288,20 +322,26 @@ export class Park extends PureComponent {
     });
 
     // In case we have no images...
-    const containerClass = (validImages.length === 0) ? 'container no-images' : 'container';
-    const shouldMapResize = (validImages.length === 0) ? true : this.props.windowSize.width + this.props.windowSize.height;
+    const containerClass = (validImages.length === 0) ? 'theme-white page-park container no-images' : 'theme-white page-park container';
+
     return (
-      <div className={containerClass}>
-        <main className='theme-white page-park' role='application'>
-          <StickyNav />
-          <div className='page-park-top'>
+      <div className={containerClass + ' tab-' + this.state.tabSection}>
+        <StickyNav />
+        <main role='application'>
+          <div className='page-park-wrapper'>
             <div className='col details' style={{height: columnHeight, width: columnWidth }}>
               {this.renderDetails()}
             </div>
-            <div className='col map' style={{height: columnHeight, width: columnMiddleWidth}}>
+            <div className='tabs'>
+              <div className='tabs-inner'>
+                <button className={this.getTabBtnClass('photos')} onClick={this.onTabChange.bind(this, 'photos')}>Photo View</button>
+                <button className={this.getTabBtnClass('map')} onClick={this.onTabChange.bind(this, 'map')}>Map View</button>
+              </div>
+            </div>
+            <div className='col map' style={{height: mapHeight, width: columnMiddleWidth}}>
               <div className='inner'>
                 <ParkMap
-                  shouldResize={shouldMapResize}
+                  shouldResize={this.mapNeedsResizing}
                   markers={markers}
                   cluster={false}
                   geometry={geometry}
@@ -310,20 +350,29 @@ export class Park extends PureComponent {
                   setMarkerId={this.setMarkerId.bind(this)}
                   setMarkerPosition={this.setMarkerPosition.bind(this)}/>
               </div>
+
+              <div className='park-slider-container' style={{height: bottomHeight}}>
+                <div className='slider-inner'>
+                  <div className={'park-slider' + parkSlideClass}>
+                    <div className='loader' />
+                    <Slider {...settings} afterChange={this.onSliderAfterChange.bind(this)}>
+                      {this.makeSlides()}
+                    </Slider>
+                  </div>
+                </div>
+              </div>
             </div>
+
             <div className='col selected-photo' style={{height: columnHeight, width: columnWidth}}>
               {this.placeImage()}
             </div>
-          </div>
-          <div className='page-park-bottom' style={{height: bottomHeight}}>
-            <div className={'park-slider' + parkSlideClass}>
-              <div className='loader' />
-              <Slider {...settings} afterChange={this.onSliderAfterChange.bind(this)}>
-                {this.makeSlides()}
-              </Slider>
-            </div>
+
           </div>
         </main>
+        <div>
+          <div className='scroll-helper-arrow down no-arrow'/>
+          <Footer lang={this.props.lang} />
+        </div>
       </div>
     );
   }

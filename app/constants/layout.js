@@ -4,6 +4,7 @@
  *
  */
 
+export const MOBILE_BREAKPOINT = 768;
 
 export function getTwoColumnWidth(windowWidth, padding = 20) {
   const available = Math.max(0, windowWidth - padding);

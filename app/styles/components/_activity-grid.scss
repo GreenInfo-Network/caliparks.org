@@ -1,5 +1,6 @@
 .activity-grid {
   margin-left: -5px;
+  margin-bottom: 3.5rem;
 
   &.no-data {
     margin-left: 0;
@@ -11,5 +12,9 @@
 
   .btn {
     padding: 5px;
+  }
+
+  @include respond-to('full') {
+
   }
 }

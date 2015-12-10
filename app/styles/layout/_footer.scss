@@ -1,5 +1,5 @@
 .footer {
-  height: 90px;
+  height: auto;
 
   [class^="col-"] {
     height: 100%;
@@ -25,5 +25,62 @@
     }
 
     button {display: inline;}
+  }
+
+  .footer-logos {
+    margin: 5px 0 1rem 0;
+    float: right;
+
+    .table {
+      display: block;
+      width: 80%;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .table-cell {
+      display: inline-block;
+      width: auto;
+      text-align: left;
+      padding-right: 8%;
+    }
+    .table-cell:last-child {
+      padding-right: 0;
+    }
+  }
+
+  .footer-actions {
+    float: left;
+    border-bottom: 2px solid $color-grey-dark;
+  }
+
+  @include respond-to('full') {
+    & {
+      height: 90px;
+    }
+
+    .footer-logos {
+      float: left;
+      margin: 0;
+
+      .table {
+        display: table;
+        width: 100%;
+        margin: 0;
+        text-align: left;
+      }
+
+      .table-cell {
+        display: table-cell;
+        width: auto;
+        text-align: center;
+        padding-right: 0;
+      }
+    }
+
+    .footer-actions {
+      float: right;
+      border-bottom: none;
+    }
   }
 }
