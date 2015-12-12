@@ -17,7 +17,7 @@ CREATE OR REPLACE FUNCTION update_instagram_photos() RETURNS TRIGGER AS $$
       -- check intersection on INSERT
       NEW.superunit_id := (SELECT superunit_id
         FROM cpad_superunits cpad
-        WHERE ST_Intersects(ST_Transform(NEW.geom, ST_SRID(cpad.geom)), cpad.geom));
+        WHERE ST_Intersects(ST_Transform(NEW.geom, ST_SRID(cpad.geom)), cpad.geom) LIMIT 1);
 
       IF NEW.superunit_id IS NULL THEN
         RETURN NULL; -- don't insert
