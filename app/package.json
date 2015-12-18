@@ -79,11 +79,11 @@
     "style-loader": "^0.13.0",
     "superagent": "^1.4.0",
     "webpack": "^1.10.5",
-    "webpack-svgstore-plugin": "^1.0.3"
-  },
-  "devDependencies": {
+    "webpack-svgstore-plugin": "^1.0.3",
     "babel-plugin-react-intl": "^1.0.0",
     "babel-plugin-react-transform": "^1.1.1",
+  },
+  "devDependencies": {
     "foreman": "^1.4.1",
     "react-transform-hmr": "^1.0.1",
     "webpack-dev-middleware": "^1.2.0",
