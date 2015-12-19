@@ -61,6 +61,7 @@ export default {
     new ExtractTextPlugin("styles.css"),
     new SvgStore(path.join(__dirname, 'public', 'assets', 'svgs', '**/*.svg'), '/', {
       name: 'main.svg',
+      prefix: '',
       svgoOptions: {
         svg: {
           style: 'position:absolute; width:0; height:0',
