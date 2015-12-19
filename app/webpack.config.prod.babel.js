@@ -59,18 +59,14 @@ export default {
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.NoErrorsPlugin(),
     new ExtractTextPlugin("styles.css"),
-    new SvgStore(path.join(__dirname + '/public/assets/svgs'), {
-      // svg prefix
-      svg: {
-        style: 'position:absolute; width:0; height:0',
-        xmlns: 'http://www.w3.org/2000/svg'
-      },
-      output: [
-        {
-          filter: 'all',
-          sprite: 'main.svg'
+    new SvgStore(path.join(__dirname, 'public', 'assets', 'svgs', '**/*.svg'), '/', {
+      name: 'main.svg',
+      svgoOptions: {
+        svg: {
+          style: 'position:absolute; width:0; height:0',
+          xmlns: 'http://www.w3.org/2000/svg'
         }
-      ]
+      }
     }),
     new webpack.DefinePlugin({
       'process.env': {

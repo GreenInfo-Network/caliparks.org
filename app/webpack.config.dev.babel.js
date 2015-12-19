@@ -63,25 +63,22 @@ export default {
 
   plugins: [
     // wipe any output files
-    new Clean(['public/bundle.js*', 'public/styles.css*', 'public/main.svg']),
+    new Clean(['public/bundle.js*', 'public/styles.css*', '/']),
     // ensure consistent build hashes
     new webpack.optimize.OccurenceOrderPlugin(),
     // enable hot module replacement
     new webpack.HotModuleReplacementPlugin(),
     // don't generate assets containing errors
     new webpack.NoErrorsPlugin(),
-    new SvgStore(path.join(__dirname + '/public/assets/svgs'), {
-      // svg prefix
-      svg: {
-        style: 'position:absolute; width:0; height:0',
-        xmlns: 'http://www.w3.org/2000/svg'
-      },
-      output: [
-        {
-          filter: 'all',
-          sprite: 'main.svg'
+    new SvgStore(path.join(__dirname, 'public', 'assets', 'svgs', '**/*.svg'), '/apples', {
+      name: 'main.svg',
+      prefix: '',
+      svgoOptions: {
+        svg: {
+          style: 'position:absolute; width:0; height:0',
+          xmlns: 'http://www.w3.org/2000/svg'
         }
-      ]
+      }
     })
   ],
   resolve: {

@@ -16,6 +16,7 @@ import webpackHotMiddleware from 'webpack-hot-middleware';
 import dataStore from './services/store';
 import config from './config';
 import webpackConfig from './webpack.config.dev.babel.js';
+import Routes from './public/routes';
 
 import getInvolvedLinks from './public/assets/data/stories.json';
 
@@ -36,8 +37,7 @@ const GOOGLE_APP_KEY = process.env.GOOGLE_APP_KEY || null;
 
 // create the view engine with `react-engine`
 const engine = ReactEngine.server.create({
-  routes: require(path.join(__dirname, './public/routes.jsx')),
-  routesFilePath: path.join(__dirname, './public/routes.jsx'), // optional, enables live reloading of React routes and components
+  routes: Routes
 });
 
 // set the engine
@@ -74,6 +74,7 @@ if (process.env.NODE_ENV !== 'production') {
 app.use(cookieParser());
 
 // favicon
+// TODO: switch to https://www.npmjs.com/package/serve-favicons
 app.use(favicon(path.join(__dirname, './public/assets/favicon.ico')));
 
 // expose public folder as static assets
@@ -127,6 +128,28 @@ function getInitialPayload(callback) {
       callback(headerImages);
     });
 }
+/*
+app.get('/main.svg', (req, res, next) => {
+  const options = {
+    root: path.join(__dirname, './public'),
+    dotfiles: 'deny',
+    headers: {
+        'x-timestamp': Date.now(),
+        'x-sent': true
+    }
+  };
+
+  res.sendFile('main.svg', options, function (err) {
+    if (err) {
+      console.log(err);
+      res.status(err.status).end();
+    }
+    else {
+      console.log('Sent:', fileName);
+    }
+  });
+});
+*/
 
 // routes
 // These basically are only called on initial load
@@ -165,7 +188,6 @@ app.use('/', (req, res, next) => {
 
 // load (additional) data required for /
 app.get('/', (req, res, next) => {
-  console.log('/: ', req.url);
   return dataStore.db('latestPhotoFromMostSharedPark', {}).then((parks) => {
     res.locals.featuredParks = {
       parks
@@ -319,7 +341,6 @@ app.get('/api/db/:id', (req, res, next) => {
 
 // defer to react-router
 app.use((req, res, next) => {
-  console.log('Route to: ', req.url);
   return res.render(req.url, {
     url: req.url
   });
