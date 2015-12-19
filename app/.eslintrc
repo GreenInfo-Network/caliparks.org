@@ -43,8 +43,12 @@
 
     "react/jsx-quotes": 0,
     "jsx-quotes": [2, "prefer-single"],
-
+    "object-curly-spacing": 0,
+    "space-before-function-paren": 0,
+    "object-shorthand": 0,
     "react/display-name": 0,
+    "react/jsx-closing-bracket-location": 0,
+    "react/jsx-indent-props": 0,
     "react/jsx-boolean-value": 0,
     "react/jsx-no-undef": 1,
     "react/jsx-sort-prop-types": 0,

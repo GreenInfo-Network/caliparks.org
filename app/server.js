@@ -165,6 +165,7 @@ app.use('/', (req, res, next) => {
 
 // load (additional) data required for /
 app.get('/', (req, res, next) => {
+  console.log('/: ', req.url);
   return dataStore.db('latestPhotoFromMostSharedPark', {}).then((parks) => {
     res.locals.featuredParks = {
       parks
@@ -318,6 +319,7 @@ app.get('/api/db/:id', (req, res, next) => {
 
 // defer to react-router
 app.use((req, res, next) => {
+  console.log('Route to: ', req.url);
   return res.render(req.url, {
     url: req.url
   });

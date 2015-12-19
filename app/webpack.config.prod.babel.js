@@ -7,7 +7,7 @@ import webpack from 'webpack';
 export default {
   devtool: 'source-map',
   entry: [
-    'babel-core/polyfill',
+    'babel-polyfill',
     './public/index.js',
     './styles/app.scss'
   ],
@@ -36,10 +36,7 @@ export default {
         exclude: /node_modules/,
         loader: 'babel',
         query: {
-          stage: 0,
-          optional: [
-            'es7.classProperties'
-          ]
+          presets: ['es2015', 'stage-0', 'react'],
         }
       },
       {
@@ -61,7 +58,7 @@ export default {
     new Clean(['public/bundle.js*', 'public/styles.css*', 'public/main.svg']),
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.NoErrorsPlugin(),
-    new ExtractTextPlugin('styles.css'),
+    new ExtractTextPlugin("styles.css"),
     new SvgStore(path.join(__dirname + '/public/assets/svgs'), {
       // svg prefix
       svg: {

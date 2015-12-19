@@ -267,7 +267,7 @@ function sanitize(activity) {
 function title(activity, formatter) {
   const sanitized = sanitize(activity);
 
-  const result = activities.filter((row) =>{
+  const result = activities.filter((row) => {
     return row.assetname === sanitized;
   });
 

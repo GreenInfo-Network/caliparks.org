@@ -6,7 +6,7 @@ import webpack from 'webpack';
 export default {
   devtool: 'eval',
   entry: [
-    'babel-core/polyfill',
+    'babel-polyfill',
     'webpack-hot-middleware/client',
     './public/index.js',
     './styles/app.scss'
@@ -36,23 +36,15 @@ export default {
         test: /\.jsx?$/,
         loader: 'babel',
         query: {
-          stage: 0,
+          presets: ['es2015', 'stage-0', 'react'],
           plugins: [
-            'react-transform'
-          ],
-          extra: {
-            'react-transform': {
-              transforms: [
-                {
-                  transform: 'react-transform-hmr',
-                  imports: ['react'],
-                  locals: ['module']
-                }
-              ]
-            }
-          },
-          optional: [
-            'es7.classProperties'
+            ['react-transform', {
+              'transforms': [{
+                'transform': 'react-transform-hmr',
+                'imports': ['react'],
+                'locals': ['module']
+              }]
+            }]
           ]
         },
         exclude: [/node_modules/]
