@@ -95,7 +95,6 @@
   "devDependencies": {
     "foreman": "^1.4.1",
     "webpack-dev-middleware": "^1.4.0",
-    "webpack-dev-server": "^1.14.0",
     "webpack-hot-middleware": "^2.6.0"
   }
 }
