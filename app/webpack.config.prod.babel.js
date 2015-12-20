@@ -59,7 +59,7 @@ export default {
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.NoErrorsPlugin(),
     new ExtractTextPlugin("styles.css"),
-    new SvgStore(path.join(__dirname, 'public', 'assets', 'svgs', '**/*.svg'), '/', {
+    new SvgStore(path.join(__dirname, 'public', 'assets', 'svgs', '**/*.svg'), '.', {
       name: 'main.svg',
       prefix: '',
       svgoOptions: {

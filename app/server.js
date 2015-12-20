@@ -35,6 +35,25 @@ const app = express();
 const PORT = process.env.PORT || config.app.port || 3000;
 const GOOGLE_APP_KEY = process.env.GOOGLE_APP_KEY || null;
 
+// compress responses
+app.use(compression());
+
+if (process.env.NODE_ENV !== 'production') {
+  // logging
+  app.use(morgan('dev'));
+
+  // integrated webpack build
+  const compiler = webpack(webpackConfig);
+
+  app.use(webpackMiddleware(compiler, {
+    noInfo: false,
+    stats: {
+      colors: true
+    }
+  }));
+  app.use(webpackHotMiddleware(compiler));
+}
+
 // create the view engine with `react-engine`
 const engine = ReactEngine.server.create({
   routes: Routes
@@ -51,25 +70,6 @@ app.set('view engine', 'jsx');
 
 // finally, set the custom view
 app.set('view', ReactEngine.expressView);
-
-// compress responses
-app.use(compression());
-
-if (process.env.NODE_ENV !== 'production') {
-  // logging
-  app.use(morgan('dev'));
-
-  // integrated webpack build
-  const compiler = webpack(webpackConfig);
-
-  app.use(webpackMiddleware(compiler, {
-    noInfo: true,
-    stats: {
-      colors: true
-    }
-  }));
-  app.use(webpackHotMiddleware(compiler));
-}
 
 app.use(cookieParser());
 

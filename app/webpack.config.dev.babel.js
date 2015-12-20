@@ -63,14 +63,14 @@ export default {
 
   plugins: [
     // wipe any output files
-    new Clean(['public/bundle.js*', 'public/styles.css*', '/']),
+    new Clean(['public/bundle.js*', 'public/styles.css*', 'public/main.svg']),
     // ensure consistent build hashes
     new webpack.optimize.OccurenceOrderPlugin(),
     // enable hot module replacement
     new webpack.HotModuleReplacementPlugin(),
     // don't generate assets containing errors
     new webpack.NoErrorsPlugin(),
-    new SvgStore(path.join(__dirname, 'public', 'assets', 'svgs', '**/*.svg'), '/apples', {
+    new SvgStore(path.join(__dirname, 'public', 'assets', 'svgs', '**/*.svg'), '.', {
       name: 'main.svg',
       prefix: '',
       svgoOptions: {
