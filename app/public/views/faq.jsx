@@ -27,7 +27,7 @@ export class Faq extends PureComponent {
   componentWillMount() {}
 
   componentDidMount() {
-    this.anchors =  document.querySelectorAll('.anchors');
+    this.anchors = document.querySelectorAll('.anchors');
     window.addEventListener('scroll', this.handleScroll.bind(this));
     this.handleResizeThrottled = throttle(this.handleResize, 250).bind(this);
     window.addEventListener('resize', this.handleResizeThrottled);

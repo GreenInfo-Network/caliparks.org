@@ -7,12 +7,14 @@ import {FormattedMessage, injectIntl, intlShape} from 'react-intl';
 import {throttle, uniq} from 'lodash';
 import * as actions from '../actions';
 
+import Footer from '../partials/footer';
 import StickyNav from '../partials/sticky-nav';
 import ParkMap from '../components/parkMap';
 import { helpers } from '../../constants/park-activities';
 import Navigator from '../components/navigator';
 
-import {getTwoColumnWidth} from '../../constants/layout';
+import {MOBILE_BREAKPOINT} from '../../constants/layout';
+import {getTwoColumnWidthPercent} from '../../constants/layout';
 
 
 function mapStateToProps(state) {
@@ -39,6 +41,7 @@ export class Activity extends PureComponent {
   state = {
     selectedMarker: 0,
     selectedIndex: 0,
+    tabSection: 'map',
     hovered: null
   };
 
@@ -53,8 +56,7 @@ export class Activity extends PureComponent {
 
     const {params, selectedActivity, fetchSelectedActivity} = this.props;
     if (!selectedActivity.isFetching) {
-      if (!selectedActivity ||
-          !selectedActivity.parks ||
+      if (!selectedActivity.parks ||
           selectedActivity.parks.length === 0 ||
           selectedActivity.activity !== params.activity) {
         fetchSelectedActivity(params.activity);
@@ -68,10 +70,8 @@ export class Activity extends PureComponent {
 
   componentDidUpdate(prevProps, prevState) {
     this.setScrollContainerHeight();
-    if (prevState.selectedMarker !== this.state.selectedMarker && !this.isFromListClick) {
-      const container = ReactDOM.findDOMNode(this.refs.parklist);
-      const selected = ReactDOM.findDOMNode(this.refs[this.state.selectedMarker]);
-      container.scrollTop = selected.offsetTop - container.offsetTop;
+    if ((this.state.tabSection !== prevState.tabSection && this.state.tabSection === 'list') || prevState.selectedMarker !== this.state.selectedMarker && !this.isFromListClick) {
+      this.setScrollPosition();
     }
     this.isFromListClick = false;
   }
@@ -97,16 +97,22 @@ export class Activity extends PureComponent {
   }
 
   getHeight() {
-    if (this.props.windowSize.height) {
-      return this.props.windowSize.height - 76;
+    if (!this.props.windowSize.height || !this.refs.sectionmap || !this.refs.smallscreenheight) return 700;
+
+
+    if (this.props.windowSize.width < MOBILE_BREAKPOINT) {
+      return this.props.windowSize.height - this.refs.smallscreenheight.offsetTop - 40;
     }
 
-    return 700;
+    return this.props.windowSize.height - this.refs.sectionmap.offsetTop - 20;
   }
 
-  getHalfHeight() {
-    const h = this.getHeight();
-    return Math.round(h / 2) + 'px';
+  setScrollPosition() {
+    if (!this.state.selectedMarker) return;
+    const container = ReactDOM.findDOMNode(this.refs.parklist);
+    const selected = ReactDOM.findDOMNode(this.refs[this.state.selectedMarker]);
+    container.scrollTop = selected.offsetTop - container.offsetTop;
+    this.isFromListClick = false;
   }
 
   setScrollContainerHeight() {
@@ -138,6 +144,7 @@ export class Activity extends PureComponent {
   }
 
   onBoundsChange(bounds) {
+    if (bounds.length !== 4) return;
     const {params, selectedActivity, fetchSelectedActivity} = this.props;
     if (selectedActivity.isFetching) return;
     this.boundsChange = true;
@@ -198,22 +205,41 @@ export class Activity extends PureComponent {
     return (this.state.selectedMarker === marker.su_id || this.state.hovered === marker.su_id) ? 1000 + idx : idx;
   }
 
+  onTabChange(val) {
+    if (val === this.state.tabSection) return;
+    this.setState({tabSection: val});
+  }
+
+  getTabBtnClass(val) {
+    const active = val === this.state.tabSection ? ' active' : '';
+    return 'btn' + active;
+  }
+
   render() {
     const {formatMessage} = this.props.intl;
     const icon = helpers.iconprefix + this.props.params.activity;
-    const [leftWidth, rightWidth] = getTwoColumnWidth(this.props.windowSize.width, 20);
+    const [leftWidth, rightWidth] = getTwoColumnWidthPercent(this.props.windowSize.width, 20);
 
     // TODO: How to handle parks with multiple entry points
     // which creates duplicate parks
     const uniqueParks = uniq(this.props.selectedActivity.parks, true, 'su_id');
     return (
-      <div id='activity' className='container'>
+      <div id='activity' className={'container tab-' + this.state.tabSection}>
         <main className='page-activity' role='application'>
           <StickyNav className='white' />
 
-          <div className='row content' style={{height: this.getHeight() + 'px'}}>
-            <div className='col-four height-full' style={{width: leftWidth + 'px'}}>
+          <div className='row content'>
+            <div className='col col-four height-full' style={{width: leftWidth + '%'}}>
               <div className='activity-hero'>
+                <div className='small-hero'>
+                  <h4 className='uppercase'>
+                    <FormattedMessage
+                      id='discover'
+                      defaultMessage='Discover'
+                    />
+                  </h4>
+                  <p className='uppercase font-small'>{helpers.title(this.props.params.activity, formatMessage)}</p>
+                </div>
                 <img src={'/assets/images/activities/' + this.props.params.activity + '_square.jpg'} />
                 <div className='activity-logo'>
                   <svg className={'icon alt large park-activity ' + this.props.params.activity}>
@@ -227,8 +253,14 @@ export class Activity extends PureComponent {
                   </Link>
                 </div>
               </div>
-
-              <div className='inset'>
+              <div className='tabs'>
+                <div className='tabs-inner'>
+                  <button className={this.getTabBtnClass('list')} onClick={this.onTabChange.bind(this, 'list')}>List View</button>
+                  <button className={this.getTabBtnClass('map')} onClick={this.onTabChange.bind(this, 'map')}>Map View</button>
+                </div>
+              </div>
+              <div ref='smallscreenheight' />
+              <div id='section-list' className='inset'>
                 <h4 className='title uppercase'>{helpers.title(this.props.params.activity, formatMessage)}</h4>
 
                 <ul ref='parklist' className='park-list'>
@@ -249,7 +281,7 @@ export class Activity extends PureComponent {
                 </ul>
               </div>
             </div>
-            <div className='col-eight map-wrap pos-relative' style={{width: rightWidth + 'px'}}>
+            <div id='section-map' ref='sectionmap' className='col col-eight map-wrap pos-relative' style={{width: rightWidth + '%', height: this.getHeight() + 'px'}}>
               {this.props.selectedActivity.isFetching &&
                 <div className='loading-data'><h3>Loading new parks...</h3></div>
               }
@@ -273,6 +305,10 @@ export class Activity extends PureComponent {
             </div>
           </div>
         </main>
+        <div>
+          <div className='scroll-helper-arrow down no-arrow'/>
+          <Footer lang={this.props.lang} />
+        </div>
       </div>
     );
   }

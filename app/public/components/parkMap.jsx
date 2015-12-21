@@ -51,8 +51,18 @@ export default class ParkMap extends PureComponent {
 
   handleBoundsChange() {
     if (typeof this.props.onBoundsChange === 'function') {
-      const bds = this.refs.map.getBounds().toUrlValue(4).split(',');
-      this.props.onBoundsChange(bds);
+      const bds = this.refs.map.getBounds();
+      if (!bds || bds.isEmpty()) return;
+
+      const ne = bds.getNorthEast();
+      const sw = bds.getSouthWest();
+
+      if (ne.equals(sw)) return;
+
+      if (this._prevBounds && bds.equals(this._prevBounds)) return;
+      this._prevBounds = bds;
+
+      this.props.onBoundsChange(bds.toUrlValue(4).split(','));
     }
   }
 
