@@ -5,7 +5,9 @@ import {
 } from 'can-use-dom';
 
 export default class UserVoice extends PureComponent {
-  static propTypes = {}
+  static propTypes = {
+    locale: PropTypes.string
+  }
 
   constructor(props) {
     super(props);
@@ -40,7 +42,8 @@ export default class UserVoice extends PureComponent {
       trigger_color: 'white',
       trigger_background_color: 'rgba(46, 49, 51, 0.6)',
       target: document.body,
-      position: 'top-left'
+      position: 'top-left',
+      locale: (this.props.locale === 'es') ? 'es' : 'en'
     }]);
   }
 

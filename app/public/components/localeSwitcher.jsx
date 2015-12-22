@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import {FormattedMessage} from 'react-intl';
-import {write as CookieWriter} from '../lib/cookies';
+import CookieWriter from '../lib/cookies';
 import Config from '../../config';
 
 class LocaleSwitcher extends Component {
@@ -12,7 +12,7 @@ class LocaleSwitcher extends Component {
 
   handleLocaleClick(locale, evt) {
     evt.preventDefault();
-    CookieWriter(Config.locales.cookie, locale, 365);
+    CookieWriter.write(Config.locales.cookie, locale, 365);
     window.location.reload();
   }
 

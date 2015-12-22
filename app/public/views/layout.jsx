@@ -94,7 +94,7 @@ export default class Layout extends React.Component {
               <IntlProvider locale={this.props.lang} messages={this.props.messages}>
                 { this.props.children }
               </IntlProvider>
-              <UserVoice />
+              <UserVoice locale={this.props.lang} />
               <script src='/vendor/js/addtohomescreen.js'></script>
               <script dangerouslySetInnerHTML={{__html: 'addToHomescreen({skipFirstVisit: true,maxDisplayCount: 1});'}} />
               <script src='/vendor/js/svg4everybody.min.js'></script>

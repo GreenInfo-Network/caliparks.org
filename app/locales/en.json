@@ -20,7 +20,7 @@
   "act_swimming": "Swimming",
   "act_tennis": "Tennis",
   "act_wildlifewatching": "Wildlife watching",
-  "caliparks": "Caliparks",
+  "park-page.no-activities": "No activities data available.",
   "locale-name": "en español",
   "navigator.count": "{count, plural, =0 {no photos} =1 {one photo} other {# photos}}",
   "discover": "Discover",
@@ -42,12 +42,16 @@
   "discover.description": "Learn more about parks<br/>across the state",
   "wander": "Wander",
   "wander.description": "Find out more about one<br/>of our featured parks",
+  "caliparks": "Caliparks",
   "not-found-msg": "Sorry the page you were looking for could not be found.",
   "activity-page.back": "Back to activities",
+  "tab.listview": "List View",
+  "tab.mapview": "Map View",
   "park.park-link": "Link to park site",
   "park.involved-link": "Get involved with this park",
   "social.share": "Share",
   "social.tweet": "Tweet",
   "directions-link": "Get Directions",
-  "camp-here": "Camp Here"
+  "camp-here": "Camp Here",
+  "tab.photoview": "Photo View"
 }

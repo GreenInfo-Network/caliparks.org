@@ -20,17 +20,11 @@ export default {
         exclude: /node_modules/,
         loader: 'babel',
         query: {
-          stage: 0,
+          presets: ['es2015', 'stage-0', 'react'],
           plugins: [
-            'react-intl'
-          ],
-          extra: {
-            'react-intl': {
+            ['react-intl', {
               'messagesDir': './translations/sources'
-            }
-          },
-          optional: [
-            'es7.classProperties'
+            }]
           ]
         }
       },
@@ -43,7 +37,7 @@ export default {
 
   plugins: [
     // wipe any output files
-    new Clean(['translations/*']),
+    new Clean(['translations/**/*']),
   ],
 
   resolve: {

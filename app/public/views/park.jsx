@@ -334,8 +334,16 @@ export class Park extends PureComponent {
             </div>
             <div className='tabs'>
               <div className='tabs-inner'>
-                <button className={this.getTabBtnClass('photos')} onClick={this.onTabChange.bind(this, 'photos')}>Photo View</button>
-                <button className={this.getTabBtnClass('map')} onClick={this.onTabChange.bind(this, 'map')}>Map View</button>
+                <button className={this.getTabBtnClass('photos')} onClick={this.onTabChange.bind(this, 'photos')}>
+                  <FormattedMessage
+                    id='tab.photoview'
+                    defaultMessage='Photo View' />
+                </button>
+                <button className={this.getTabBtnClass('map')} onClick={this.onTabChange.bind(this, 'map')}>
+                  <FormattedMessage
+                    id='tab.mapview'
+                    defaultMessage='Map View' />
+                </button>
               </div>
             </div>
             <div className='col map' style={{height: mapHeight, width: columnMiddleWidth}}>

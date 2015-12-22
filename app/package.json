@@ -16,7 +16,8 @@
     "start:prod": "npm run webpack:prod && NODE_ENV=production npm start",
     "start:dev": "npm start",
     "webpack:prod": "webpack --config ./webpack.config.prod.babel.js",
-    "postinstall": "npm run webpack:prod"
+    "postinstall": "npm run webpack:prod",
+    "translate": "webpack --config ./webpack.config.translations.babel.js && ./node_modules/.bin/babel-node translate.js"
   },
   "repository": {
     "type": "git",

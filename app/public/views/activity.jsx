@@ -255,8 +255,16 @@ export class Activity extends PureComponent {
               </div>
               <div className='tabs'>
                 <div className='tabs-inner'>
-                  <button className={this.getTabBtnClass('list')} onClick={this.onTabChange.bind(this, 'list')}>List View</button>
-                  <button className={this.getTabBtnClass('map')} onClick={this.onTabChange.bind(this, 'map')}>Map View</button>
+                  <button className={this.getTabBtnClass('list')} onClick={this.onTabChange.bind(this, 'list')}>
+                    <FormattedMessage
+                      id='tab.listview'
+                      defaultMessage='List View' />
+                  </button>
+                  <button className={this.getTabBtnClass('map')} onClick={this.onTabChange.bind(this, 'map')}>
+                    <FormattedMessage
+                      id='tab.mapview'
+                      defaultMessage='Map View' />
+                  </button>
                 </div>
               </div>
               <div ref='smallscreenheight' />
@@ -283,7 +291,13 @@ export class Activity extends PureComponent {
             </div>
             <div id='section-map' ref='sectionmap' className='col col-eight map-wrap pos-relative' style={{width: rightWidth + '%', height: this.getHeight() + 'px'}}>
               {this.props.selectedActivity.isFetching &&
-                <div className='loading-data'><h3>Loading new parks...</h3></div>
+                <div className='loading-data'>
+                  <h3>
+                    <FormattedMessage
+                        id='loading.parks'
+                        defaultMessage={`Loading parks...`} />
+                  </h3>
+                </div>
               }
               <ParkMap
                 cluster={true}

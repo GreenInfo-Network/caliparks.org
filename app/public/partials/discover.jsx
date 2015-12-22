@@ -51,7 +51,6 @@ class Discover extends PureComponent {
       }
       const icon = helpers.iconprefix + activity.assetname;
       const thumb = (width < MOBILE_BREAKPOINT) ? helpers.imageURL(activity.assetname, 'square') : helpers.imageURL(activity.assetname);
-      // helpers.imgpath + activity.assetname + '_rect.jpg';
       const color = Color(colorGroups[activity.clrGroup]).alpha(0.5);
       const name = helpers.title(activity.assetname, formatMessage);
       const height = (width < MOBILE_BREAKPOINT) ? '100%' : activityHeight + 'px';
