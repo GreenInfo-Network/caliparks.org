@@ -4,6 +4,8 @@ import {FormattedMessage, injectIntl} from 'react-intl';
 import { Link } from 'react-router';
 import Color from 'color';
 import { helpers, activities, colorGroups } from '../../constants/park-activities';
+
+import {MOBILE_BREAKPOINT} from '../../constants/layout';
 import {getTwoColumnWidthPercent} from '../../constants/layout';
 
 class Discover extends PureComponent {
@@ -20,15 +22,26 @@ class Discover extends PureComponent {
 
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.resizeSections();
+  }
+
+  componentDidUpdate(prevProps) {
+    this.resizeSections();
+  }
 
   renderActivities(activityHeight) {
-    const showOnly = [this.state.navigationPosition,  this.state.navigationPosition + 7];
+    const {navigationPosition} = this.state;
+    const {width} = this.props;
     const {formatMessage} = this.props.intl;
+
+    const showOnly = (width < MOBILE_BREAKPOINT) ?
+      [navigationPosition, navigationPosition + 1] :
+      [navigationPosition,  navigationPosition + 7];
 
     return activities.map((activity, idx) => {
       let klass = 'block activity col-six';
-      const layoutPos = idx - this.state.navigationPosition;
+      const layoutPos = idx - navigationPosition;
       if (layoutPos % 2 === 0) {
         klass += ' new-row';
       }
@@ -37,13 +50,14 @@ class Discover extends PureComponent {
         klass += ' hide';
       }
       const icon = helpers.iconprefix + activity.assetname;
-      const thumb = helpers.imgpath + activity.assetname + '_rect.jpg';
-      const color = Color(colorGroups[activity.clrGroup]);
+      const thumb = (width < MOBILE_BREAKPOINT) ? helpers.imageURL(activity.assetname, 'square') : helpers.imageURL(activity.assetname);
+      // helpers.imgpath + activity.assetname + '_rect.jpg';
+      const color = Color(colorGroups[activity.clrGroup]).alpha(0.5);
       const name = helpers.title(activity.assetname, formatMessage);
-      color.alpha(0.5);
+      const height = (width < MOBILE_BREAKPOINT) ? '100%' : activityHeight + 'px';
 
       return (
-        <li key={activity.assetname} className={klass} style={{height: activityHeight + 'px'}}>
+        <li key={activity.assetname} className={klass} style={{height: height}}>
           <div className='aspect-content' style={{backgroundImage: 'url(' + thumb + ')'}}>
             <Link className='activity-link' to={`/activity/${activity.assetname}`}>
             <div className='overlay' />
@@ -65,24 +79,47 @@ class Discover extends PureComponent {
   }
 
   getHeight() {
-    return this.props.height || 700;
+    const h = this.props.height || 700;
+    return h - 8;
+  }
+
+  resizeSections() {
+    const {sideleft, sideright} = this.refs;
+    if (sideleft && sideright) {
+      if (this.props.width < MOBILE_BREAKPOINT) {
+        const height = this.getHeight();
+
+        sideleft.style.height = 'auto';
+
+        const leftHeight = sideleft.offsetHeight + 20;
+
+        sideleft.style.height = leftHeight + 'px';
+        sideright.style.height = (height - leftHeight - sideleft.offsetTop - 5) + 'px';
+      } else {
+        sideright.style.height = sideleft.style.height = '100%';
+      }
+    }
   }
 
   onActivityNavigationClick(dir) {
+    const {navigationPosition} = this.state;
+    const {width} = this.props;
+    const step = (width < MOBILE_BREAKPOINT) ? 1 : 7;
     let pos = 0;
-    if (dir === 'less' && this.state.navigationPosition > 0) {
-      if (this.state.navigationPosition - 7 < 0) {
+
+    if (dir === 'less' && navigationPosition > 0) {
+      if (navigationPosition - step < 0) {
         pos = 0;
       } else {
-        pos = this.state.navigationPosition - 7;
+        pos = navigationPosition - step;
       }
 
       this.setState({navigationPosition: pos });
-    } else if (dir === 'more' && this.state.navigationPosition + 7 < activities.length) {
-      if (this.state.navigationPosition + 7 > activities.length) {
-        pos = activities.length - 7;
+    } else if (dir === 'more' && navigationPosition + step < activities.length) {
+      if (navigationPosition + step > activities.length) {
+        pos = activities.length - step;
       } else {
-        pos = this.state.navigationPosition + 7;
+        pos = navigationPosition + step;
       }
 
       this.setState({navigationPosition: pos });
@@ -98,14 +135,16 @@ class Discover extends PureComponent {
 
   render() {
     const [leftWidth, rightWidth] = getTwoColumnWidthPercent(this.props.width, 0);
-    const availableHeight = (this.getHeight() - 98 - 5);
-    const availableActivityHeight = (availableHeight + 5) - (4 * 5);
+    const availableHeight = this.getHeight();
+    const availableActivityHeight = (availableHeight - 76 - 10) - (4 * 5);
     const activityHeight = Math.floor(availableActivityHeight / 4);
 
+    const activitiesBlockHoverable = (this.props.width < MOBILE_BREAKPOINT) ? ' hoverable' : '';
+
     return (
-      <div id='discover-section' style={{height: (this.getHeight() - 8) + 'px'}}>
+      <div id='discover-section' style={{height: availableHeight + 'px'}}>
         <div className='wrapper row height-full'>
-          <div className='col-four' style={{width: leftWidth + '%'}}>
+          <div ref='sideleft' className='col-four' style={{width: leftWidth + '%'}}>
             <div className='center-align-container'>
               <h4 className='uppercase'>
                 <FormattedMessage
@@ -119,10 +158,14 @@ class Discover extends PureComponent {
               </p>
             </div>
           </div>
-          <div className='col-eight activity-blocks' style={{width: rightWidth + '%'}}>
-            <ul className='activity-blocks' style={{height: availableHeight + 'px'}}>
+          <div ref='sideright' className='col-eight activity-blocks' style={{width: rightWidth + '%'}}>
+
+            <ul className={'activity-blocks no-text-selection' + activitiesBlockHoverable} style={{height: '100%'}}>
               {this.renderActivities(activityHeight)}
+              <button className='slick-prev' disabled={this.activityNavigationEnabled('less')} onClick={this.onActivityNavigationClick.bind(this, 'less')}/>
+              <button className='slick-next' disabled={this.activityNavigationEnabled('more')} onClick={this.onActivityNavigationClick.bind(this, 'more')}/>
             </ul>
+
             <div className='block col-six activity-navigation' style={{height: activityHeight + 'px'}}>
               <div className='table'>
                 <div className='table-cell no-text-selection'>
@@ -134,6 +177,7 @@ class Discover extends PureComponent {
                 </div>
               </div>
             </div>
+
           </div>
         </div>
         <div className='scroll-helper-arrow down'/>

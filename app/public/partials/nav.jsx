@@ -16,7 +16,7 @@ class Nav extends React.Component {
                   defaultMessage='Explore'
                 />
               </h5>
-              <div>
+              <div className='desc'>
                 <FormattedHTMLMessage
                   id='explore.description'
                   defaultMessage={`See what's happening in<br/>parks near you`} />
@@ -31,7 +31,7 @@ class Nav extends React.Component {
                   defaultMessage='Discover'
                 />
               </h5>
-              <div>
+              <div className='desc'>
                 <FormattedHTMLMessage
                   id='discover.description'
                   defaultMessage={`Learn more about parks<br/>across the state`} />
@@ -46,7 +46,7 @@ class Nav extends React.Component {
                   defaultMessage='Wander'
                 />
               </h5>
-              <div>
+              <div className='desc'>
                 <FormattedHTMLMessage
                   id='wander.description'
                   defaultMessage={`Find out more about one<br/>of our featured parks`} />

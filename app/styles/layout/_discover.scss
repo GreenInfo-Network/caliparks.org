@@ -1,7 +1,7 @@
 // 413 x 206
 
 #discover-section {
-  padding-top: 90px;
+  padding-top: 76px;
   padding-bottom: 0;
 
   .wrapper {
@@ -17,12 +17,26 @@
     padding: 10px;
   }
 
+  .center-align-container .description {
+    margin-bottom: 0;
+  }
+
   .activity-blocks {
     position: relative;
     overflow: hidden;
-    list-style: 0;
+    list-style: none;
     margin: 0;
     padding: 0;
+  }
+
+  .hoverable {
+    &:hover .activity .overlay {
+      background: rgba(0, 0, 0, 0);
+    }
+
+    &:hover .activity .label-wrap {
+      background: rgba(0,0,0,0.6) !important;
+    }
   }
 
   .block {
@@ -44,9 +58,9 @@
     }
 
     &.col-six {
-      margin-left: 5px;
-      margin-bottom: 5px;
-      width: 49.5%;
+      margin-left: 0;
+      margin-bottom: 0;
+      width: 100%;
     }
 
     &.col-six:first-child,
@@ -106,14 +120,14 @@
 
     .activity-icon {
       width: 49px;
-      padding-left: 8%;
+      padding-left: 55px;
     }
 
     .activity-name {
       font-size: 2.4rem;
       text-transform: uppercase;
       font-weight: 400;
-      padding-left: 10%;
+      padding-left: 55px;
     }
 
     img {
@@ -129,11 +143,57 @@
       position: relative;
       color: $color-white;
     }
+
+    @include respond-to('full') {
+      &.col-six {
+        margin-left: 5px;
+        margin-bottom: 5px;
+        width: 49.5%;
+      }
+
+      .activity-icon {
+        padding-left: 8%;
+      }
+
+      .activity-name {
+        padding-left: 10%;
+      }
+    }
+  }
+
+  .slick-prev, .slick-next {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    height: 58px;
+    margin-top: -29px;
+    background: transparent;
+    z-index: $depth-2;
+  }
+
+  .slick-next {
+    right: 0;
+    left: auto;
+  }
+
+  @include respond-to('full') {
+    .activity-blocks {
+      padding: 5px 0 0;
+    }
+
+    .center-align-container .description {
+      margin-bottom: 1.5rem;
+    }
+
+    .slick-prev, .slick-next {
+      display: none;
+    }
   }
 
 }
 
 .activity-navigation.block.col-six {
+  display: none;
   position: absolute !important;
   bottom: 0;
   right: 0;
@@ -159,5 +219,12 @@
 
   .btn:disabled {
     visibility: hidden;
+  }
+
+  @include respond-to('full') {
+    & {
+      display: block;
+    }
+
   }
 }

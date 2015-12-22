@@ -14,7 +14,7 @@
   "scripts": {
     "start": "nf -j Procfile start",
     "start:prod": "npm run webpack:prod && NODE_ENV=production npm start",
-    "start:dev": "DEBUG=react-engine npm start",
+    "start:dev": "npm start",
     "webpack:prod": "webpack --config ./webpack.config.prod.babel.js",
     "postinstall": "npm run webpack:prod"
   },

@@ -10,6 +10,7 @@ import CustomTileLayer from '../components/customTileLayer';
 import GmapControls from '../components/gmapControls';
 import Navigator from '../components/navigator';
 
+import {MOBILE_BREAKPOINT} from '../../constants/layout';
 import {getTwoColumnWidthPercent} from '../../constants/layout';
 
 export default class Explore extends PureComponent {
@@ -35,7 +36,9 @@ export default class Explore extends PureComponent {
     this.onBoundsChangeDebounced = debounce(this.onBoundsChange, 500).bind(this);
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.resizeSections();
+  }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.mostShared.interval !== nextProps.mostShared.interval) {
@@ -48,6 +51,7 @@ export default class Explore extends PureComponent {
         prevProps.height !== this.props.height) {
       this.resizeMap();
     }
+    this.resizeSections();
   }
 
   configureDropdownOptions() {
@@ -144,6 +148,24 @@ export default class Explore extends PureComponent {
     }
   }
 
+  resizeSections() {
+    const {sideleft, sideright} = this.refs;
+    if (sideleft && sideright) {
+      if (this.props.width < MOBILE_BREAKPOINT) {
+        const height = this.getHeight();
+
+        sideleft.style.height = 'auto';
+
+        const leftHeight = sideleft.offsetHeight + 20;
+
+        sideleft.style.height = leftHeight + 'px';
+        sideright.style.height = (height - leftHeight - 8 - 5) + 'px';
+      } else {
+        sideright.style.height = sideleft.style.height = '100%';
+      }
+    }
+  }
+
   getMarkerIcon(idx) {
     // circle icon path generator:
     // http://complexdan.com/svg-circleellipse-to-path-converter/
@@ -179,7 +201,7 @@ export default class Explore extends PureComponent {
     return (
       <div id='explore-section' className='theme-white' style={{height: (this.getHeight() - 8) + 'px'}}>
         <div className='wrapper row height-full'>
-          <div className='col-four' style={{width: leftWidth + '%'}}>
+          <div ref='sideleft' className='side-left col-four' style={{width: leftWidth + '%'}}>
             <div className='center-align-container'>
               <h4 className='uppercase'>
                 <FormattedMessage
@@ -208,7 +230,7 @@ export default class Explore extends PureComponent {
               </div>
             </div>
           </div>
-          <div className='col-eight' style={{width: rightWidth + '%'}}>
+          <div ref='sideright' className='side-right col-eight' style={{width: rightWidth + '%'}}>
             {this.props.mostShared.isFetching &&
               <div className='loading-data'>
                 <h3>

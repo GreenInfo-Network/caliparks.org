@@ -9,7 +9,8 @@ nav {
   }
 
   ul {
-    display: inline-block;
+    display: block;
+    width: 100%;
     list-style: none;
     padding: 0;
     margin: 0;
@@ -17,7 +18,8 @@ nav {
 
   li {
     float: left;
-    margin: 0 30px;
+    margin: 0;
+    width: 33.3333%;
   }
 
   a {
@@ -29,14 +31,33 @@ nav {
       margin: 0;
     }
 
-    div {
-      display: block;
+    .desc {
+      display: none;
       padding: 0;
       margin: 0;
       font-size: 1.2rem;
       line-height: 1;
       color: $color-base;
       text-transform: uppercase;
+    }
+  }
+
+  @include respond-to('full') {
+    ul {
+      display: inline-block;
+      width: auto;
+    }
+
+    li {
+      margin: 0 30px;
+      width: auto;
+    }
+
+    a {
+
+      .desc {
+        display: block;
+      }
     }
   }
 
@@ -49,4 +70,9 @@ nav {
   left: 50%;
   top: 50%;
   transform: translateX(-50%) translateY(-50%) translateZ(0);
+
+  img {
+    width: 100%;
+    height: auto;
+  }
 }

@@ -17,4 +17,14 @@
     top: 8px;
     right: 8px;
   }
+
+  .dropdown-filter {
+    display: inline-block;
+  }
+
+  @include respond-to('full') {
+    .dropdown-filter {
+      display: block;
+    }
+  }
 }
