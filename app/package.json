@@ -12,12 +12,13 @@
   ],
   "main": "./server/index.js",
   "scripts": {
-    "start": "nf -j Procfile start",
-    "start:prod": "npm run webpack:prod && NODE_ENV=production npm start",
-    "start:dev": "npm start",
+    "start": "NODE_ENV=production nf -j Procfile start web",
+    "start:prod": "npm run webpack:prod && npm run webpack:server && npm start",
+    "start:dev": "nf -j Procfile start dev",
     "webpack:prod": "webpack --config ./webpack.config.prod.babel.js",
-    "postinstall": "npm run webpack:prod",
-    "translate": "webpack --config ./webpack.config.translations.babel.js && ./node_modules/.bin/babel-node translate.js"
+    "postinstall": "",
+    "translate": "webpack --config ./webpack.config.translations.babel.js && ./node_modules/.bin/babel-node translate.js",
+    "webpack:server": "webpack --config ./webpack.config.server.babel.js"
   },
   "repository": {
     "type": "git",

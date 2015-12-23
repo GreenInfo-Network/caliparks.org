@@ -15,12 +15,12 @@ import webpackHotMiddleware from 'webpack-hot-middleware';
 
 import dataStore from './services/store';
 import config from './config';
-import webpackConfig from './webpack.config.dev.babel.js';
-import Routes from './public/routes';
+import webpackConfig from '../webpack.config.dev.babel.js';
+import Routes from '../public/routes';
 
-import getInvolvedLinks from './public/assets/data/stories.json';
+import getInvolvedLinks from '../public/assets/data/stories.json';
 
-const translations = globSync(path.join(__dirname, './locales/*.json'))
+const translations = globSync(path.join(__dirname, '../locales/*.json'))
   .map((filename) => [
     path.basename(filename, '.json'),
     readFileSync(filename, 'utf8'),
@@ -63,7 +63,7 @@ const engine = ReactEngine.server.create({
 app.engine('.jsx', engine);
 
 // set the view directory
-app.set('views', path.join(__dirname, './public/views'));
+app.set('views', path.join(__dirname, '../public/views'));
 
 // set jsx as the view engine
 app.set('view engine', 'jsx');
@@ -75,10 +75,10 @@ app.use(cookieParser());
 
 // favicon
 // TODO: switch to https://www.npmjs.com/package/serve-favicons
-app.use(favicon(path.join(__dirname, './public/assets/favicon.ico')));
+app.use(favicon(path.join(__dirname, '../public/assets/favicon.ico')));
 
 // expose public folder as static assets
-app.use(express.static(path.join(__dirname, './public')));
+app.use(express.static(path.join(__dirname, '../public')));
 
 const availableLocales = Object.keys(config.locales.available);
 const localeCookieName = config.locales.cookie;
@@ -115,7 +115,7 @@ function getInitialPayload(callback) {
 
   dataStore
     .file.glob('assets/images/header/*.jpg', {
-      cwd: path.join(__dirname, './public/'
+      cwd: path.join(__dirname, '../public/'
     )})
     .then((data) => {
       headerImages = data;
@@ -128,28 +128,6 @@ function getInitialPayload(callback) {
       callback(headerImages);
     });
 }
-/*
-app.get('/main.svg', (req, res, next) => {
-  const options = {
-    root: path.join(__dirname, './public'),
-    dotfiles: 'deny',
-    headers: {
-        'x-timestamp': Date.now(),
-        'x-sent': true
-    }
-  };
-
-  res.sendFile('main.svg', options, function (err) {
-    if (err) {
-      console.log(err);
-      res.status(err.status).end();
-    }
-    else {
-      console.log('Sent:', fileName);
-    }
-  });
-});
-*/
 
 // routes
 // These basically are only called on initial load

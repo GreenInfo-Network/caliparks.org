@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import {FormattedMessage} from 'react-intl';
 import CookieWriter from '../lib/cookies';
-import Config from '../../config';
+import Config from '../../server/config';
 
 class LocaleSwitcher extends Component {
   static propTypes = {
