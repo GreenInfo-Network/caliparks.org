@@ -1,12 +1,4 @@
-.DS_Store
-node_modules
-*.env
 .sass-cache
-npm-debug.log
-public/bundle.*
-public/styles.*
-public/main.svg
-server/index.js
 translations
 
 #

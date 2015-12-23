@@ -1,0 +1,6 @@
+*.psd
+*.pdf
+*.ai
+
+# not going to Heroku
+styles
