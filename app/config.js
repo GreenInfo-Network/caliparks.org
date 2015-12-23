@@ -1,7 +1,8 @@
 const config = {
   app: {
     name: 'Caliparks',
-    port: 3000
+    port: 3000,
+    trackingID: 'UA-41566466-4'
   },
   locales: {
     cookie: 'localeparks',

@@ -150,6 +150,7 @@ const combinedReducers = combineReducers({
   // TODO consider folding these into a global subtree
   // TODO may also need react-router-related props (to support correct routing)?
   gak: identity,
+  gaID: identity,
   lang: identity,
   messages: identity,
   title: identity,
