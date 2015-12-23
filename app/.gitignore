@@ -1,5 +1,10 @@
 .sass-cache
 translations
 
+public/bundle.*
+public/styles.*
+public/main.svg
+server/index.js
+
 #
 QUERIES.sql

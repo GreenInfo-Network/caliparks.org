@@ -16,7 +16,7 @@
     "start:prod": "npm run webpack:prod && npm run webpack:server && npm start",
     "start:dev": "nf -j Procfile start dev",
     "webpack:prod": "webpack --config ./webpack.config.prod.babel.js",
-    "postinstall": "",
+    "postinstall": "npm run webpack:prod && npm run webpack:server",
     "translate": "webpack --config ./webpack.config.translations.babel.js && ./node_modules/.bin/babel-node translate.js",
     "webpack:server": "webpack --config ./webpack.config.server.babel.js"
   },

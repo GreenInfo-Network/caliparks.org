@@ -3,10 +3,3 @@ node_modules
 *.env
 npm-debug.log
 *.ai
-
-# things to heroku, but not to git
-app/public/bundle.*
-app/public/styles.*
-app/public/main.svg
-app/server/index.js
-
