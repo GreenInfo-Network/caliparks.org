@@ -72,11 +72,11 @@ const messages = defineMessages({
   },
   kayakingcanoeing: {
     id: 'act_kayakingcanoeing',
-    defaultMessage: 'Kayaking / Canoeing'
+    defaultMessage: 'Kayaking & Canoeing'
   },
   ohv: {
     id: 'act_ohv',
-    defaultMessage: 'OHV'
+    defaultMessage: 'Off Highway Vehicles'
   },
   playground: {
     id: 'act_playground',
