@@ -52,6 +52,21 @@ export class Park extends PureComponent {
     window.addEventListener('resize', this.handleResizeThrottled);
     this.handleResize();
 
+    this.shouldFetchSelectedPark();
+
+    this.socs = socs.sharing();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.params.id !== this.props.selectedPark.parkid) {
+      this.setState({
+        selectedPhoto: null,
+        badImages: []
+      });
+    }
+  }
+
+  shouldFetchSelectedPark() {
     if (!this.props.selectedPark.isFetching) {
       if (isEmpty(this.props.selectedPark.park)) {
         this.props.fetchSelectedPark(this.props.params.id);
@@ -59,15 +74,19 @@ export class Park extends PureComponent {
         this.props.fetchSelectedPark(this.props.params.id);
       }
     }
-
-    this.socs = socs.sharing();
   }
 
   componentWillUpdate(nextProps, nextState) {
-    this.mapNeedsResizing = false;
-    if (nextState.tabSection === 'map' && (this.state.tabSection !== nextState.tabSection)) this.mapNeedsResizing = true;
-    if (nextProps.windowSize.width !== this.props.windowSize.width || nextProps.windowSize.height !== this.props.windowSize.height) this.mapNeedsResizing = true;
-    if (nextState.badImages !== this.state.badImages) this.mapNeedsResizing = true;
+    if (nextProps.params.id !== this.props.params.id) {
+      this.props.fetchSelectedPark(nextProps.params.id);
+    } else {
+      this.mapNeedsResizing = false;
+      if (nextState.tabSection === 'map' && (this.state.tabSection !== nextState.tabSection)) this.mapNeedsResizing = true;
+      if (nextProps.windowSize.width !== this.props.windowSize.width || nextProps.windowSize.height !== this.props.windowSize.height) this.mapNeedsResizing = true;
+      if (nextState.badImages !== this.state.badImages) this.mapNeedsResizing = true;
+    }
+
+    this.getInitialSelectedPhoto();
   }
 
   componentDidUpdate() {

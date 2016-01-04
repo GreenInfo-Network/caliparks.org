@@ -9,6 +9,7 @@ import {GoogleMap, Marker} from 'react-google-maps';
 import CustomTileLayer from '../components/customTileLayer';
 import GmapControls from '../components/gmapControls';
 import Navigator from '../components/navigator';
+import ParkSearch from '../components/parkSearch';
 
 import {MOBILE_BREAKPOINT} from '../../constants/layout';
 import {getTwoColumnWidthPercent} from '../../constants/layout';
@@ -240,6 +241,9 @@ export default class Explore extends PureComponent {
                 </h3>
               </div>
             }
+
+            <ParkSearch />
+
             <Navigator
               items={this.props.mostShared.parks}
               selectedItem={this.state.selectedMarker}

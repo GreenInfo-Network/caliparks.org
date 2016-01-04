@@ -1,0 +1,94 @@
+.react-autosuggest__container {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 1000;
+
+  ::-webkit-input-placeholder {
+     color: #ddd;
+  }
+
+  :-moz-placeholder { /* Firefox 18- */
+     color: #ddd;
+  }
+
+  ::-moz-placeholder {  /* Firefox 19+ */
+     color: #ddd;
+  }
+
+  :-ms-input-placeholder {
+     color: #ddd;
+  }
+}
+
+.react-autosuggest__input {
+  width: 22rem;
+  height: 36px;
+  padding: 1rem 3rem 1rem 1rem;
+  background-color: $color-grey-dark;
+  background-color: rgba($color-grey-dark, 0.6);
+  color: #fff;
+  font-family: $font-stack-main;
+  font-weight: 300;
+  font-size: 1.4rem;
+  border: 1px solid #aaa;
+  border-radius: 0;
+}
+
+.react-autosuggest__input:focus {
+  outline: none;
+}
+
+.react-autosuggest__container:after {
+  content: '';
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  width: 22px;
+  height: 22px;
+  background: url('/assets/svgs/icon-search.svg') 0 0 no-repeat;
+}
+
+.react-autosuggest__container--open .react-autosuggest__input {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.react-autosuggest__suggestions-container {
+  position: relative;
+  top: -1px;
+  width: 22rem;
+  max-height: 20rem;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  border: 1px solid #aaa;
+  background-color: $color-grey-dark;
+  background-color: rgba($color-grey-dark, 0.6);
+  font-family: $font-stack-main;
+  font-weight: 300;
+  font-size: 1.2rem;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  z-index: 2;
+  overflow: hidden;
+  overflow-y: scroll;
+}
+
+.react-autosuggest__suggestion {
+  cursor: pointer;
+  padding: 0.75rem 1rem 0;
+
+  a {
+    color: #fff;
+    text-decoration: none;
+  }
+}
+
+.react-autosuggest__suggestion:last-child {
+  padding-top: 0;
+}
+
+.react-autosuggest__suggestion--focused {
+  text-decoration: underline;
+}
