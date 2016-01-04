@@ -110,8 +110,17 @@ app.use((req, res, next) => {
     }
   }
 
+  req.locale = req.locale || 'en';
+
   res.locals.messages = translations[req.locale] || translations['en'];
   next();
+});
+
+app.use((req, res, next) => {
+  res.header('Vary', 'Accept-Language');
+  res.header('Content-Language', req.locale);
+
+  return next();
 });
 
 let loadHeaderImages = true;
