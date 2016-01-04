@@ -78,7 +78,14 @@ app.use(cookieParser());
 app.use(favicon(path.join(__dirname, '../public/assets/favicon.ico')));
 
 // expose public folder as static assets
-app.use(express.static(path.join(__dirname, '../public')));
+app.use(express.static(path.join(__dirname, '../public'), { maxAge: 3600e3 }));
+
+// default caching rules for dynamic content
+app.use(function(req, res, next) {
+  res.set('Cache-Control', 'public, max-age=3600');
+
+  return next();
+});
 
 const availableLocales = Object.keys(config.locales.available);
 const localeCookieName = config.locales.cookie;
