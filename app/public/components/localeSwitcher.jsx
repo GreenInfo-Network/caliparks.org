@@ -13,7 +13,7 @@ class LocaleSwitcher extends Component {
   handleLocaleClick(locale, evt) {
     evt.preventDefault();
     CookieWriter.write(Config.locales.cookie, locale, 365);
-    window.location.reload();
+    window.location.reload(true);
   }
 
   makeLocaleLinks() {
