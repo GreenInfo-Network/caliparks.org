@@ -36,7 +36,11 @@ export default class HomeIndex extends PureComponent {
       <div id='index-section' className='full-height theme-white'>
         <div className='wrapper row' style={{height: (this.getHeight() - 8) + 'px'}}>
           <div className='col-twelve'>
-            <Header height={headerHeight} images={this.props.images} autoplay={this.props.autoplay} autoplaySpeed={this.props.autoplaySpeed} />
+            <Header
+              heightHeight={headerHeight}
+              images={this.props.images}
+              autoplay={this.props.autoplay}
+              autoplaySpeed={this.props.autoplaySpeed} {...this.props}/>
             <SliderMostShared featuredParks={this.props.featuredParks} width={this.props.width}/>
           </div>
         </div>

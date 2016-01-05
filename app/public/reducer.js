@@ -155,7 +155,8 @@ const combinedReducers = combineReducers({
   messages: identity,
   title: identity,
   url: identity,
-  viewData: identity
+  viewData: identity,
+  wanderID: identity,
 });
 
 export default function rootReducer(state = INITIAL_STATE, action) {

@@ -120,7 +120,6 @@ export class App extends PureComponent {
 
     const isSticky = (this.state.currentSection >= 2 || (this.state.currentSection === 1 && this.state.prevSection > 1)) ? true : false;
     const stickyKlass = (this.state.currentSection === 2 || this.state.currentSection === 3) ? ' white' : '';
-
     return (
       <div className='container'>
         {isSticky &&
@@ -138,7 +137,8 @@ export class App extends PureComponent {
               images={this.props.viewData.header}
               autoplay={true}
               autoplaySpeed={8000}
-              featuredParks={this.props.featuredParks}/>
+              featuredParks={this.props.featuredParks}
+              wanderID={this.props.wanderID}/>
           </Section>
           <Section>
             <StickyNav className={stickyKlass}/>

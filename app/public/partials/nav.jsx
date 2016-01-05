@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import {FormattedMessage, FormattedHTMLMessage} from 'react-intl';
 
 class Nav extends React.Component {
+  static propTypes = {
+    height: PropTypes.number.isRequired,
+    wanderID: PropTypes.number
+  };
 
   render() {
+    const wanderHref = (this.props.wanderID && !isNaN(this.props.wanderID)) ? '/park/' + this.props.wanderID : '/wander';
     return (
       <nav className='table' style={{height: this.props.height + 'px'}}>
         <div className='table-cell'>
@@ -39,7 +44,7 @@ class Nav extends React.Component {
             </a>
           </li>
           <li>
-            <a href='/wander'>
+            <a href={wanderHref}>
               <h5>
                 <FormattedMessage
                   id='wander'

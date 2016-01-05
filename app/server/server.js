@@ -149,6 +149,7 @@ app.use('/', (req, res, next) => {
       gak: GOOGLE_APP_KEY,
       gaID: config.app.trackingID,
       baseUrl: req.protocol + '://' + req.get('host'),
+      wanderID: null,
       mostSharedParks: {
         parks: [],
         interval: 'week-now',
@@ -178,10 +179,15 @@ app.get('/', (req, res, next) => {
     res.locals.featuredParks = {
       parks
     };
-
-    return next();
-  }).catch((err) => {
-    return next(err);
+  })
+  .catch((err) => {})
+  .then(() => {
+    dataStore.db('randomPark', {interval:'month-now'}).then((park) => {
+      res.locals.wanderID = (park && park.length) ? +park[0].su_id : null;
+      return next();
+    }).catch((err) => {
+      return next();
+    });
   });
 });
 

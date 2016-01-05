@@ -6,7 +6,7 @@ import Nav from './nav';
 
 export default class Header extends PureComponent {
   static propTypes = {
-    height: PropTypes.number.isRequired,
+    heightHeight: PropTypes.number.isRequired,
     images: PropTypes.array.isRequired,
     autoplay: PropTypes.bool,
     autoplaySpeed: PropTypes.number
@@ -62,9 +62,9 @@ export default class Header extends PureComponent {
       centerPadding: '100px'
     };
 
-    let headerHeight = this.props.height - 77 - 8;
+    let headerHeight = this.props.heightHeight - 77 - 8;
     if (headerHeight > 332) headerHeight = 332;
-    const navHeight = this.props.height - headerHeight - 8;
+    const navHeight = this.props.heightHeight - headerHeight - 8;
     return (
       <header>
         <div className='pos-relative' style={{height: headerHeight + 'px', overflow: 'hidden'}}>
@@ -77,7 +77,7 @@ export default class Header extends PureComponent {
             </Slider>
           </div>
         </div>
-        <Nav height={navHeight}/>
+        <Nav height={navHeight} wanderID={this.props.wanderID}/>
       </header>
     );
   }
