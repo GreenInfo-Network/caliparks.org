@@ -3,10 +3,11 @@ import PureComponent from 'react-pure-render/component';
 import Autosuggest from 'react-autosuggest';
 import Bloodhound from 'bloodhound-js';
 import { Link } from 'react-router';
+import {injectIntl, defineMessages} from 'react-intl';
 
 import request from 'superagent';
 
-export default class ParkSearch extends PureComponent {
+class ParkSearch extends PureComponent {
   constructor() {
     super();
 
@@ -17,6 +18,14 @@ export default class ParkSearch extends PureComponent {
 
     this.engine = null;
 
+    this.messages = defineMessages({
+      placeholder: {
+        id: 'search_placeholder',
+        defaultMessage: 'Find a park'
+      }
+    });
+
+    this.optionSelected = this.optionSelected.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onSuggestionSelected = this.onSuggestionSelected.bind(this);
     this.getSuggestionValue = this.getSuggestionValue.bind(this);
@@ -24,10 +33,12 @@ export default class ParkSearch extends PureComponent {
   }
 
   static propTypes = {
+    onSearchSelect: PropTypes.func,
     suggestionsLimit: PropTypes.number
   };
 
   static defaultProps = {
+    onSearchSelect: () => {},
     suggestionsLimit: 10
   };
 
@@ -72,6 +83,13 @@ export default class ParkSearch extends PureComponent {
       this.setState({
         value: newValue
       });
+    }
+  }
+
+  optionSelected(id, evt) {
+    evt.preventDefault();
+    if (typeof this.props.onSearchSelect === 'function') {
+      this.props.onSearchSelect(id);
     }
   }
 
@@ -122,16 +140,17 @@ export default class ParkSearch extends PureComponent {
 
   renderSuggestion(suggestion) {
     return (
-      <Link className='link' to={`/park/${suggestion.id}`}>
+      <button className='btn link' onClick={this.optionSelected.bind(this, suggestion.id)}>
         <span dangerouslySetInnerHTML={{__html:this.highlightName(suggestion.name)}} />
-      </Link>
+      </button>
     );
   }
 
   render() {
+    const {formatMessage} = this.props.intl;
     const { value, suggestions } = this.state;
     const inputProps = {
-      placeholder: 'Search',
+      placeholder: formatMessage(this.messages.placeholder),
       value,
       onChange: this.onChange,
     };
@@ -145,3 +164,5 @@ export default class ParkSearch extends PureComponent {
     );
   }
 }
+
+export default injectIntl(ParkSearch);

@@ -135,6 +135,10 @@ export default class Explore extends PureComponent {
     }
   }
 
+  onSearchSelect(id) {
+    console.log(this.refs.map);
+  }
+
   getHeight() {
     const h = this.props.height || 700;
     return h - 76;
@@ -242,7 +246,7 @@ export default class Explore extends PureComponent {
               </div>
             }
 
-            <ParkSearch />
+            <ParkSearch onSearchSelect={this.onSearchSelect.bind(this)} />
 
             <Navigator
               items={this.props.mostShared.parks}

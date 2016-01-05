@@ -79,16 +79,13 @@
   cursor: pointer;
   padding: 0.75rem 1rem 0;
 
-  a {
+  .btn {
     color: #fff;
     text-decoration: none;
   }
 }
 
-.react-autosuggest__suggestion:last-child {
-  padding-top: 0;
-}
-
 .react-autosuggest__suggestion--focused {
   text-decoration: underline;
+  color: #fff;
 }
