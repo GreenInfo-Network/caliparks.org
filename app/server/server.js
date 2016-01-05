@@ -81,7 +81,7 @@ app.use(favicon(path.join(__dirname, '../public/assets/favicon.ico')));
 app.use(express.static(path.join(__dirname, '../public'), { maxAge: 3600e3 }));
 
 // default caching rules for dynamic content
-app.use(function(req, res, next) {
+app.use((req, res, next) => {
   res.set('Cache-Control', 'public, max-age=3600');
 
   return next();
@@ -110,8 +110,17 @@ app.use((req, res, next) => {
     }
   }
 
+  req.locale = req.locale || 'en';
+
   res.locals.messages = translations[req.locale] || translations['en'];
   next();
+});
+
+app.use((req, res, next) => {
+  res.header('Vary', 'Accept-Language');
+  res.header('Content-Language', req.locale);
+
+  return next();
 });
 
 let loadHeaderImages = true;

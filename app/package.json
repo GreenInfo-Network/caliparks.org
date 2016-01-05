@@ -61,7 +61,7 @@
     "express": "^4.13.3",
     "extract-text-webpack-plugin": "^0.9.1",
     "glob": "^6.0.1",
-    "history": "~1.13.1",
+    "history": "^1.17.0",
     "intl": "^1.0.1",
     "isomorphic-fetch": "^2.2.0",
     "json-loader": "^0.5.4",
