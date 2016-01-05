@@ -33,9 +33,17 @@ export default class CustomTileLayer extends Component {
       return;
     }
     const that = this;
+
+    const isRetina = (
+      window.devicePixelRatio > 1 ||
+      (window.matchMedia && window.matchMedia('(-webkit-min-device-pixel-ratio: 1.5),(-moz-min-device-pixel-ratio: 1.5),(min-device-pixel-ratio: 1.5)').matches)
+    );
+
+    const retinaPrefix = (isRetina) ? '@2x' : '';
+
     const tl = new google.maps.ImageMapType({
       getTileUrl: function(coord, zoom) {
-        return that.props.tileUrl.replace('{s}', 'a').replace('{z}', zoom).replace('{x}', coord.x).replace('{y}', coord.y).replace('{r}', '');
+        return that.props.tileUrl.replace('{s}', 'a').replace('{z}', zoom).replace('{x}', coord.x).replace('{y}', coord.y).replace('{r}', retinaPrefix);
       },
       tileSize: new google.maps.Size(256, 256),
       maxZoom: 18,
