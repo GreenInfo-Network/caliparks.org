@@ -26,7 +26,8 @@ export default class GmapMarkerClusterer extends Component {
     setMarkerZindex: PropTypes.func,
     onMarkerClick: PropTypes.func,
     cluster: PropTypes.bool,
-    mapHolderRef: PropTypes.instanceOf(GoogleMapHolder)
+    mapHolderRef: PropTypes.instanceOf(GoogleMapHolder),
+    setCenterTo: PropTypes.array
   };
 
   static defaultProps = {
@@ -63,6 +64,11 @@ export default class GmapMarkerClusterer extends Component {
 
   componentWillUnmount() {}
 
+  onMarkerClick(marker, idx) {
+    if (typeof this.props.onMarkerClick === 'function') {
+      this.props.onMarkerClick(marker, idx);
+    }
+  }
 
   getMarkerIcon(marker, index) {
     if (typeof this.props.setMarkerIcon === 'function') {
@@ -96,12 +102,6 @@ export default class GmapMarkerClusterer extends Component {
     }
 
     return (this.props.selectedMarker === index) ? 1000 + index : index;
-  }
-
-  onMarkerClick(marker, idx) {
-    if (typeof this.props.onMarkerClick === 'function') {
-      this.props.onMarkerClick(marker, idx);
-    }
   }
 
   createMarkers(markers) {

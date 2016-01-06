@@ -10,6 +10,7 @@ import CustomTileLayer from '../components/customTileLayer';
 import GmapControls from '../components/gmapControls';
 import Navigator from '../components/navigator';
 import ParkSearch from '../components/parkSearch';
+import LocateMe from '../components/LocateMe';
 
 import {MOBILE_BREAKPOINT} from '../../constants/layout';
 import {getTwoColumnWidthPercent} from '../../constants/layout';
@@ -200,9 +201,32 @@ export default class Explore extends PureComponent {
       this.props.boundsChange(bounds);
     }
   }
+  getMap() {
+    let map = null;
+    try {
+      map = this.refs.map.refs.delegate.props.map;
+    } catch (e) {
+      console.log('Could not find map...');
+    }
+
+    return map;
+  }
+
+  onPosition(loc) {
+    if (loc && loc.length === 2 && this.refs.map) {
+      const zoom = this.refs.map.getZoom();
+      const map = this.getMap();
+
+      if (map) {
+        // map.setCenter({lat: loc[0], lng: loc[1]});
+        // if (zoom < 13) map.setZoom(13);
+      }
+    }
+  }
 
   render() {
     const [leftWidth, rightWidth] = getTwoColumnWidthPercent(this.props.width, 0);
+
     return (
       <div id='explore-section' className='theme-white' style={{height: (this.getHeight() - 8) + 'px'}}>
         <div className='wrapper row height-full'>
@@ -247,6 +271,7 @@ export default class Explore extends PureComponent {
             }
 
             <ParkSearch onSearchSelect={this.onSearchSelect.bind(this)} />
+            <LocateMe onPosition={this.onPosition.bind(this)} restrictWith='/assets/data/california.geojson' />
 
             <Navigator
               items={this.props.mostShared.parks}

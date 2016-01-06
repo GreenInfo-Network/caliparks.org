@@ -2,7 +2,6 @@ import React, {PropTypes} from 'react';
 import PureComponent from 'react-pure-render/component';
 import Autosuggest from 'react-autosuggest';
 import Bloodhound from 'bloodhound-js';
-import { Link } from 'react-router';
 import {injectIntl, defineMessages} from 'react-intl';
 
 import request from 'superagent';

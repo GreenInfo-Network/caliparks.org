@@ -30,8 +30,6 @@ class LocaleSwitcher extends Component {
         klass += ' selected';
       }
 
-      const localeName = Config.locales.available[locale];
-
       return (
         <a key={ locale }
            className={ klass }

@@ -72,6 +72,7 @@
     "node-sass": "^3.4.2",
     "pg": "^4.4.3",
     "pg-escape": "^0.2.0",
+    "point-in-polygon": "^1.0.0",
     "react": "^0.14.5",
     "react-addons-css-transition-group": "^0.14.3",
     "react-autosuggest": "^3.0.0-beta.4",
@@ -94,6 +95,7 @@
     "serve-favicon": "^2.3.0",
     "style-loader": "^0.13.0",
     "superagent": "^1.6.1",
+    "superagent-jsonp": "0.0.6",
     "webpack": "^1.12.9",
     "webpack-svgstore-plugin": "stamen/webpack-svgstore-plugin#develop"
   },

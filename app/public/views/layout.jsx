@@ -18,7 +18,12 @@ export default class Layout extends React.Component {
     title: PropTypes.string.isRequired,
     children: PropTypes.oneOfType([
       PropTypes.node
-    ]).isRequired
+    ]).isRequired,
+    selectedPark: PropTypes.object,
+    location: PropTypes.object,
+    viewData: PropTypes.object,
+    baseUrl: PropTypes.string,
+    gaID: PropTypes.string
   };
 
   constructor(props) {

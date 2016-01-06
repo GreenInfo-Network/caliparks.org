@@ -1,0 +1,59 @@
+.locate-me {
+  position: absolute;
+  bottom: 30px;
+  left: 8px;
+  z-index: 1000;
+
+  .locate-me__activator {
+    display: block;
+    margin: 0;
+    padding: 3px;
+    width: 36px;
+    height: 36px;
+    background-color: $color-grey-dark;
+    background-color: rgba($color-grey-dark, 0.6);
+    line-height: 0;
+    border: 0;
+    text-align: center;
+
+    span {
+      display: inline-block;
+      width: 29px;
+      height: 29px;
+      background: url('/assets/svgs/icon-locator.svg') 0 0 no-repeat;
+      vertical-align: middle;
+    }
+  }
+
+  &.searching .locate-me__activator span {
+    opacity: 0.5;
+  }
+
+  .locate-me__msg {
+    position: absolute;
+    bottom: 100%;
+    margin-bottom: 5px;
+    background-color: $color-grey-dark;
+    background-color: rgba($color-grey-dark, 0.6);
+    color: #fff;
+
+    span {
+      display: block;
+      padding: 10px 30px 10px 10px;
+      line-height: 1;
+      font-size: 1.2rem;
+      white-space: nowrap;
+    }
+  }
+
+  .locate-me__close {
+    position: absolute;
+    display: block;
+    right: 0;
+    top: 0;
+    padding: 2px 4px;
+    color: #fff;
+    font-size: 1.4rem;
+    line-height: 1;
+  }
+}
