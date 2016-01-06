@@ -1,0 +1,18 @@
+.refine-btn {
+  position: absolute;
+  bottom: 30px;
+  left: 50px;
+  height: 3.6rem;
+  line-height: 3.6rem;
+  padding: 0 2rem;
+  background-color: $color-grey-dark;
+  background-color: rgba($color-grey-dark, 0.6);
+  color: $color-white;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  z-index: $depth-100;
+
+  &:hover {
+    color: rgba($color-white, 0.8);
+  }
+}

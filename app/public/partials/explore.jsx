@@ -11,6 +11,7 @@ import GmapControls from '../components/gmapControls';
 import Navigator from '../components/navigator';
 import ParkSearch from '../components/parkSearch';
 import LocateMe from '../components/LocateMe';
+import RefineButton from '../components/refineBtn';
 
 import {MOBILE_BREAKPOINT} from '../../constants/layout';
 import {getTwoColumnWidthPercent} from '../../constants/layout';
@@ -201,6 +202,7 @@ export default class Explore extends PureComponent {
       this.props.boundsChange(bounds);
     }
   }
+
   getMap() {
     let map = null;
     try {
@@ -218,10 +220,14 @@ export default class Explore extends PureComponent {
       const map = this.getMap();
 
       if (map) {
-        // map.setCenter({lat: loc[0], lng: loc[1]});
-        // if (zoom < 13) map.setZoom(13);
+        map.setCenter({lat: loc[0], lng: loc[1]});
+        if (zoom < 13) map.setZoom(13);
       }
     }
+  }
+
+  refineClick() {
+    this.onBoundsChange();
   }
 
   render() {
@@ -272,6 +278,7 @@ export default class Explore extends PureComponent {
 
             <ParkSearch onSearchSelect={this.onSearchSelect.bind(this)} />
             <LocateMe onPosition={this.onPosition.bind(this)} restrictWith='/assets/data/california.geojson' />
+            <RefineButton onClickHandler={this.refineClick.bind(this)} />
 
             <Navigator
               items={this.props.mostShared.parks}
@@ -293,7 +300,6 @@ export default class Explore extends PureComponent {
                 mapTypeControl: false,
                 zoomControl: false
               }}
-              onBoundsChanged={this.onBoundsChangeDebounced.bind(this)}
               >
               <GmapControls {...this.props} />
               <CustomTileLayer tileUrl='http://{s}.map.parks.stamen.com/{z}/{x}/{y}{r}.png' {...this.props} />

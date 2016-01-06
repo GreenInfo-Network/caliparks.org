@@ -2,7 +2,7 @@
   position: absolute;
   bottom: 30px;
   left: 8px;
-  z-index: 1000;
+  z-index: $depth-100;
 
   .locate-me__activator {
     display: block;
