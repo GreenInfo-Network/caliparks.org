@@ -5,6 +5,15 @@
     height: 100%;
   }
 
+  .col-three,
+  .col-nine {
+    width: 100%;
+  }
+
+  .col-three {
+    max-width: 100%;
+  }
+
   a {
     text-decoration: none;
     color: $color-base;
@@ -58,6 +67,12 @@
     & {
       height: 90px;
     }
+
+    .col-three {
+      width: 35%;
+      max-width: 370px;
+    }
+    .col-nine  {width: 65%;}
 
     .footer-logos {
       float: left;
