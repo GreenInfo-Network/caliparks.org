@@ -50,6 +50,7 @@ export class Park extends PureComponent {
   componentDidMount() {
     this.handleResizeThrottled = throttle(this.handleResize, 250).bind(this);
     window.addEventListener('resize', this.handleResizeThrottled);
+    document.querySelector('body').style.overflow = 'auto';
     this.handleResize();
 
     this.shouldFetchSelectedPark();
