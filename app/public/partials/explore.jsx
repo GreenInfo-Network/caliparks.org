@@ -11,7 +11,7 @@ import CustomTileLayer from '../components/customTileLayer';
 import GmapControls from '../components/gmapControls';
 import Navigator from '../components/navigator';
 import ParkSearch from '../components/parkSearch';
-import LocateMe from '../components/LocateMe';
+import LocateMe from '../components/locateMe';
 import RefineButton from '../components/refineBtn';
 
 import {MOBILE_BREAKPOINT} from '../../constants/layout';
