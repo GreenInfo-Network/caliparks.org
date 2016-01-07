@@ -304,7 +304,9 @@ export class Park extends PureComponent {
 
   onSliderAfterChange(currentSlide) {
     const numShowing = this.getSlidesToShowLength();
-    if (currentSlide + numShowing >= this.props.selectedPark.images.length && !this.props.selectedPark.isFetching) {
+    const {badImages} = this.state;
+
+    if (currentSlide + numShowing >= (this.props.selectedPark.images.length - badImages.length) && !this.props.selectedPark.isFetching) {
       this.loadPhotos();
     }
   }
