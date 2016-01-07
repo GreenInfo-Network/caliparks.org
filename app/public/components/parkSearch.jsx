@@ -24,11 +24,14 @@ class ParkSearch extends PureComponent {
       }
     });
 
-    this.optionSelected = this.optionSelected.bind(this);
     this.onChange = this.onChange.bind(this);
+    this.shouldRenderSuggestions = this.shouldRenderSuggestions.bind(this);
     this.onSuggestionSelected = this.onSuggestionSelected.bind(this);
     this.getSuggestionValue = this.getSuggestionValue.bind(this);
     this.renderSuggestion = this.renderSuggestion.bind(this);
+    this.preventPropagation = this.preventPropagation.bind(this);
+    this.onFocus = this.onFocus.bind(this);
+    this.onBlur = this.onBlur.bind(this);
   }
 
   static propTypes = {
@@ -38,10 +41,20 @@ class ParkSearch extends PureComponent {
 
   static defaultProps = {
     onSearchSelect: () => {},
-    suggestionsLimit: 10
+    suggestionsLimit: 20
   };
 
   componentWillMount() {
+    const {formatMessage} = this.props.intl;
+
+    this.autoSuggestInputProps = {
+      placeholder: formatMessage(this.messages.placeholder),
+      onChange: this.onChange,
+      onKeyDown: this.preventPropagation,
+      onBlur: this.onBlur,
+      onFocus: this.onFocus
+    };
+
     this.state.suggestions = this.getMatchingParks('');
     this.getSearchList();
   }
@@ -85,14 +98,10 @@ class ParkSearch extends PureComponent {
     }
   }
 
-  optionSelected(id, evt) {
-    evt.preventDefault();
+  onSuggestionSelected(event, { suggestion, suggestionValue, method }) {
     if (typeof this.props.onSearchSelect === 'function') {
-      this.props.onSearchSelect(id);
+      this.props.onSearchSelect(suggestion.id);
     }
-  }
-
-  onSuggestionSelected(event, { suggestionValue }) {
     this.setState({
       suggestions: this.getMatchingParks(suggestionValue)
     });
@@ -139,27 +148,82 @@ class ParkSearch extends PureComponent {
 
   renderSuggestion(suggestion) {
     return (
-      <button className='btn link' onClick={this.optionSelected.bind(this, suggestion.id)}>
+      <button className='btn link'>
         <span dangerouslySetInnerHTML={{__html:this.highlightName(suggestion.name)}} />
       </button>
     );
   }
 
+  shouldRenderSuggestions(value) {
+    return value.trim().length > 1;
+  }
+
+  onBlur() {
+    this.removeMouseWheelEventHandlers();
+  }
+
+  onFocus() {
+    this.removeMouseWheelEventHandlers();
+    this.addMouseWheelEventHandlers();
+  }
+
+  addMouseWheelEventHandlers() {
+    const elm = document.querySelector('.SectionContainer');
+
+     // detect available wheel event
+    const support = 'onwheel' in document.createElement('div') ? 'wheel' : // Modern browsers support "wheel"
+      document.onmousewheel !== undefined ? 'mousewheel' : // Webkit and IE support at least "mousewheel"
+      'DOMMouseScroll'; // let's assume that remaining browsers are older Firefox
+
+
+    if (support === 'DOMMouseScroll') {
+      elm.addEventListener('MozMousePixelScroll', this.onMouseWheel);
+    } else {
+      elm.addEventListener(support, this.onMouseWheel);
+    }
+  }
+
+  removeMouseWheelEventHandlers() {
+    const elm = document.querySelector('.SectionContainer');
+    elm.removeEventListener('mousewheel', this.onMouseWheel);
+    elm.removeEventListener('wheel', this.onMouseWheel);
+    elm.removeEventListener('MozMousePixelScroll', this.onMouseWheel);
+  }
+
+  onMouseWheel(e) {
+    const event = e || window.event;
+
+    if (event.stopPropagation) {
+      event.stopPropagation();
+      event.stopImmediatePropagation();
+    } else {
+      event.cancelBubble = true;
+    }
+
+    return false;
+  }
+
+  preventPropagation(e) {
+    const event = e || window.event;
+
+    if (event.stopPropagation) {
+      event.stopPropagation();
+    } else {
+      event.cancelBubble = true;
+    }
+  }
+
   render() {
-    const {formatMessage} = this.props.intl;
     const { value, suggestions } = this.state;
-    const inputProps = {
-      placeholder: formatMessage(this.messages.placeholder),
-      value,
-      onChange: this.onChange,
-    };
+    this.autoSuggestInputProps.value = value;
 
     return (
       <Autosuggest suggestions={suggestions}
-                   getSuggestionValue={this.getSuggestionValue}
-                   renderSuggestion={this.renderSuggestion}
-                   inputProps={inputProps}
-                   onSuggestionSelected={this.onSuggestionSelected} />
+                  shouldRenderSuggestions={this.shouldRenderSuggestions}
+                  getSuggestionValue={this.getSuggestionValue}
+                  renderSuggestion={this.renderSuggestion}
+                  inputProps={this.autoSuggestInputProps}
+                  onSuggestionSelected={this.onSuggestionSelected} />
     );
   }
 }

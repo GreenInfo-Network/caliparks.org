@@ -90,16 +90,20 @@ export class App extends PureComponent {
     this.props.setWindowSize(this.getWindowDimensions());
   }
 
-  handleExploreChange(interval) {
+  handleExploreChange(interval, zoom) {
     const {mostSharedParks, fetchMostSharedParks} = this.props;
     if (mostSharedParks.isFetching) return;
-    fetchMostSharedParks(interval.value, mostSharedParks.bbox);
+
+    const shouldGetAllParks = (zoom >= 13) ? true : false;
+    fetchMostSharedParks(interval.value, mostSharedParks.bbox, shouldGetAllParks);
   }
 
-  handleExploreBoundsChange(bounds) {
+  handleExploreBoundsChange(bounds, zoom) {
     const {mostSharedParks, fetchMostSharedParks} = this.props;
     if (mostSharedParks.isFetching) return;
-    fetchMostSharedParks(mostSharedParks.interval, [bounds[1], bounds[0], bounds[3], bounds[2]]);
+
+    const shouldGetAllParks = (zoom >= 13) ? true : false;
+    fetchMostSharedParks(mostSharedParks.interval, [bounds[1], bounds[0], bounds[3], bounds[2]], shouldGetAllParks);
   }
 
   render() {

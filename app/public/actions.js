@@ -62,26 +62,37 @@ export function requestMostSharedParks() {
 
 export const RECEIVE_MOST_SHARED_PARKS = 'RECEIVE_MOST_SHARED_PARKS';
 export function receiveMostSharedParks(parks, interval, bbox) {
-  parks.sort((a, b) => {
+  parks.others.forEach((item) => {
+    item.other = 1;
+    item.total = item.total ? +item.total : 0;
+  });
+
+  const combined = parks.top.concat(parks.others);
+
+  combined.sort((a, b) => {
     return +b.total - +a.total;
   });
 
   return {
     type: RECEIVE_MOST_SHARED_PARKS,
-    parks,
+    parks: combined,
     receivedAt: Date.now(),
     interval: interval,
     bbox: bbox
   };
 }
 
-export function fetchMostSharedParks(interval = 'week-now', bbox) {
+export function fetchMostSharedParks(interval = 'week-now', bbox, allSubQuery) {
   return (dispatch) => {
     dispatch(requestMostSharedParks());
 
     let params = 'interval=' + interval;
     if (bbox) {
       params += '&bbox=' + bbox.join(',');
+    }
+
+    if (allSubQuery) {
+      params += '&all=1';
     }
 
     return fetch('/api/most_shared_parks.json?' + params)

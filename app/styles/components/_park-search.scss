@@ -2,7 +2,7 @@
   position: absolute;
   top: 8px;
   left: 8px;
-  z-index: 1000;
+  z-index: $depth-100;
 
   ::-webkit-input-placeholder {
      color: #ddd;
@@ -27,7 +27,7 @@
   padding: 1rem 3rem 1rem 1rem;
   background-color: $color-grey-dark;
   background-color: rgba($color-grey-dark, 0.6);
-  color: #fff;
+  color: $color-white;
   font-family: $font-stack-main;
   font-weight: 300;
   font-size: 1.4rem;
@@ -77,10 +77,15 @@
 
 .react-autosuggest__suggestion {
   cursor: pointer;
-  padding: 0.75rem 1rem 0;
+  padding: 0;
+  margin: 0;
+  line-height: 1;
 
   .btn {
-    color: #fff;
+    display: block;
+    padding: 5px 1rem;
+    border: 0;
+    color: $color-white;
     text-decoration: none;
   }
 }

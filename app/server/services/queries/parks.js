@@ -109,6 +109,75 @@ function datesForTime(t) {
   return `(photos.metadata->>'created_time')::int >= cast(extract(epoch from (${start})) as integer) AND (photos.metadata->>'created_time')::int < cast(extract(epoch from (${end})) as integer)`;
 }
 
+function parksNotIn(options) {
+  const interval = options.interval || 'week-now';
+  const dateStr = datesForTime(interval);
+  const photoCount = options.photoCount || '10';
+  const bbox = options.bbox || null;
+  const notIn = options.notIn || [];
+
+  let notInStr = ' (' + escape((notIn.join(','))) + ')';
+
+  console.log(notInStr);
+  console.log('');
+
+  let bboxWhere = '';
+  let photoWhere = '';
+  if (bbox) {
+    const bboxParams = bbox.split(',').map(parseFloat);
+    bboxWhere = escape(" AND ST_Transform(cpad.geom, 4326) && ST_MakeEnvelope(%s, %s, %s, %s, 4326)", bboxParams[0], bboxParams[1], bboxParams[2], bboxParams[3]);
+    photoWhere = escape(" AND ST_Transform(photos.geom, 4326) && ST_MakeEnvelope(%s, %s, %s, %s, 4326)", bboxParams[0], bboxParams[1], bboxParams[2], bboxParams[3]);
+  }
+
+  const q = [
+  "WITH parks AS (SELECT",
+  " cpad.superunit_id, cpad.unit_name, ST_AsGeoJSON(ST_Centroid(ST_Transform(cpad.geom, 4326))) AS centroid",
+  " FROM cpad_superunits cpad",
+  " WHERE cpad.access_typ = 'Open Access' AND cpad.superunit_id NOT IN",
+  notInStr,
+  bboxWhere,
+  "), photos AS (SELECT",
+  " count(*) as total, q0.superunit_id, (array_agg(row_to_json((select t from (",
+  "select q0.attribution as attribution,",
+    "q0.username as username,",
+    "q0.photoid as photoid,",
+    "q0.title as title,",
+    "q0.placename as placename,",
+    "q0.placeid as placeid,",
+    "q0.commentcount as commentcount,",
+    "q0.filter as filter,",
+    "q0.created_time as created_time,",
+    "q0.link as link,",
+    "q0.likescount as likescount,",
+    "q0.standard_resolution as standard_resolution,",
+    "q0.width as width,",
+    "q0.height as height,",
+    "q0.username as username,",
+    "q0.website as website,",
+    "q0.profile_picture as profile_picture,",
+    "q0.bio as bio,",
+    "q0.userid as userid,",
+    "q0.lng as lng,",
+    "q0.lat as lat",
+  ") t))))[1:2] as metadata FROM (",
+  "SELECT photos.superunit_id,"].concat(BASE_PHOTO_ATTRIBUTES).concat([
+  " FROM instagram_photos photos",
+  " WHERE ",
+  dateStr,
+  " AND photos.superunit_id NOT IN",
+  notInStr,
+  photoWhere,
+  " ORDER BY (photos.metadata->>'created_time')::int DESC) q0 GROUP BY q0.superunit_id",
+  ")",
+  "SELECT parks.superunit_id, parks.unit_name, parks.centroid::json, photos.total, photos.metadata as item from parks",
+  "LEFT JOIN photos ON parks.superunit_id = photos.superunit_id ORDER BY photos.total DESC"
+  ]).join('\n');
+
+  console.log(q);
+
+  return {query: q, opts:[]};
+}
+
 function mostSharedParks(options) {
   options = options || {};
   const interval = options.interval || 'week-now';
@@ -244,12 +313,27 @@ function getSelectedPark(options) {
   return {query: q, opts:[id]};
 }
 
+function getBoundsForPark(options) {
+  options = options || {};
+  const id = options.id;
+  const q = [
+    "SELECT",
+    "ST_AsGeoJSON(ST_Envelope(ST_Transform(cpad.geom, 4326)))::json AS bbox",
+    " FROM cpad_superunits cpad",
+    " WHERE cpad.superunit_id = $1"
+  ].join('\n');
+
+  return {query: q, opts: [id]};
+}
+
 export const queries = {
   latestPhotoFromMostSharedPark: latestPhotoFromMostSharedPark,
   mostSharedParks: mostSharedParks,
   getSelectedParkPhotos: getSelectedParkPhotos,
   getSelectedPark: getSelectedPark,
-  randomPark: randomPark
+  randomPark: randomPark,
+  getBoundsForPark: getBoundsForPark,
+  parksNotIn: parksNotIn
 }
 
 

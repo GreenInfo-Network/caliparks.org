@@ -4,6 +4,7 @@ import PureComponent from 'react-pure-render/component';
 import {FormattedMessage, defineMessages} from 'react-intl';
 import Dropdown from 'react-select';
 import {debounce} from 'lodash';
+import request from 'superagent';
 
 import {GoogleMap, Marker} from 'react-google-maps';
 import CustomTileLayer from '../components/customTileLayer';
@@ -15,6 +16,7 @@ import RefineButton from '../components/refineBtn';
 
 import {MOBILE_BREAKPOINT} from '../../constants/layout';
 import {getTwoColumnWidthPercent} from '../../constants/layout';
+import {envelope2Bounds} from '../../constants/map';
 
 export default class Explore extends PureComponent {
   static propTypes = {
@@ -133,12 +135,32 @@ export default class Explore extends PureComponent {
 
   onDropdownChange(val) {
     if (typeof this.props.handleOnChange === 'function') {
-      this.props.handleOnChange(val);
+      this.props.handleOnChange(val, this.refs.map.getZoom());
     }
   }
 
   onSearchSelect(id) {
-    console.log(this.refs.map);
+    request
+      .get('/api/park/' + id + '/bounds')
+      .end((err, res) => {
+        if (err) {
+          console.error('Failed to get park bounds');
+        } else {
+          const data = JSON.parse(res.text);
+          const bds = envelope2Bounds(data[0].bbox.coordinates[0]);
+          if (!bds.isEmpty()) {
+            this.refs.map.fitBounds(bds);
+            if (typeof this.props.boundsChange === 'function') {
+              this.props.boundsChange(bds.toUrlValue(4).split(','), 14);
+            }
+            this.resetSelectedMarker();
+          }
+        }
+      });
+  }
+
+  resetSelectedMarker() {
+    this.setState({selectedMarker: 0});
   }
 
   getHeight() {
@@ -189,17 +211,18 @@ export default class Explore extends PureComponent {
       icon.strokeWeight = 2;
     } else {
       icon.path = 'M-5,0a5,5 0 1,0 10,0a5,5 0 1,0 -10,0';
-      icon.fillColor = '#358292';
-      icon.strokeColor = '#358292';
-      icon.strokeWeight = 0;
+      icon.fillColor = (!this.props.mostShared.parks[idx].other) ? '#358292' : '#999';
+      icon.strokeColor = (!this.props.mostShared.parks[idx].other) ? '#358292' : '#fff';
+      icon.strokeWeight = (!this.props.mostShared.parks[idx].other) ? 0 : 1;
     }
+
     return icon;
   }
 
   onBoundsChange() {
     if (typeof this.props.boundsChange === 'function') {
       const bounds = this.refs.map.getBounds().toUrlValue(4).split(',');
-      this.props.boundsChange(bounds);
+      this.props.boundsChange(bounds, this.refs.map.getZoom());
     }
   }
 
@@ -228,11 +251,11 @@ export default class Explore extends PureComponent {
 
   refineClick() {
     this.onBoundsChange();
+    this.resetSelectedMarker();
   }
 
   render() {
     const [leftWidth, rightWidth] = getTwoColumnWidthPercent(this.props.width, 0);
-
     return (
       <div id='explore-section' className='theme-white' style={{height: (this.getHeight() - 8) + 'px'}}>
         <div className='wrapper row height-full'>

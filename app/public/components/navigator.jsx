@@ -44,11 +44,12 @@ export default class Navigator extends PureComponent {
   render() {
     const showNavi = this.props.items.length ? true : false;
     const item = this.props.items.length ? this.props.items[this.props.selectedItem] : {};
+    const showTop = (item.total < 0 || isNaN(item.total)) ? false : true;
     return (
       <div className='navigator'>
         {showNavi &&
           <div className='inner'>
-            {item.total &&
+            {showTop &&
               <div className='top'>
                 <div className='col arrow'>
                 <button className='btn' disabled={this.getBtnState('prev')} onClick={this.onClickHandler.bind(this, 'prev')}>
@@ -61,7 +62,7 @@ export default class Navigator extends PureComponent {
                   <span className='rank'>{this.props.selectedItem + 1}</span>
                   <span className='count'>
                     <FormattedMessage
-                      id='navigator.count'
+                      id='navigator.countss'
                       defaultMessage={`{count, plural,
                         =0 {no photos}
                         =1 {one photo}

@@ -261,9 +261,29 @@ app.get('/api/featured_parks.json', (req, res, next) => {
 });
 
 app.get('/api/most_shared_parks.json', (req, res, next) => {
+  const obj = {
+    top: [],
+    others: []
+  };
+
   return  dataStore.db('mostSharedParks', {interval: req.query.interval || null, bbox: req.query.bbox}).then((data) => {
-    return res.json(data);
-  }).catch((err) => {
+    obj.top = data;
+
+    if (req.query.all) {
+      const ids = data.map((item) => {
+        return item.superunit_id;
+      });
+
+      return dataStore.db('parksNotIn', {interval: req.query.interval || null, bbox: req.query.bbox, notIn: ids});
+    } else {
+      return [];
+    }
+  })
+  .then((others) => {
+    obj.others = others;
+    return res.json(obj);
+  })
+  .catch((err) => {
     return next(err);
   });
 });
@@ -307,6 +327,20 @@ app.get('/api/park/:id/photos', (req, res, next) => {
   return dataStore.db('getSelectedParkPhotos', options)
   .then((images) => {
     return res.json(images);
+  })
+  .catch((err) => {
+    return next(err);
+  });
+});
+
+app.get('/api/park/:id/bounds', (req, res, next) => {
+  const options = {
+    id: req.params.id
+  };
+
+  return dataStore.db('getBoundsForPark', options)
+  .then((bounds) => {
+    return res.json(bounds);
   })
   .catch((err) => {
     return next(err);
