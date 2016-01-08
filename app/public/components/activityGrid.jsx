@@ -7,11 +7,11 @@ import {helpers} from '../../constants/park-activities';
 export default class ActivityGrid extends PureComponent {
   static propTypes = {
     activities: PropTypes.array
-  }
+  };
 
   static defaultProps = {
     activities: []
-  }
+  };
 
   componentDidMount() {}
 

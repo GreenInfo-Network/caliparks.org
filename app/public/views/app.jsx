@@ -30,7 +30,7 @@ export class App extends PureComponent {
   state = {
     currentSection: 0,
     prevSection: 0
-  }
+  };
 
   componentWillMount() {}
 

@@ -7,7 +7,7 @@ import {
 export default class UserVoice extends PureComponent {
   static propTypes = {
     locale: PropTypes.string
-  }
+  };
 
   constructor(props) {
     super(props);

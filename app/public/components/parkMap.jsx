@@ -81,7 +81,7 @@ export default class ParkMap extends PureComponent {
     const {autoBounds} = this.props;
     if (!autoBounds) return;
     this.handleBoundsChange();
-  }
+  };
 
   handleBoundsChange() {
     if (typeof this.props.onBoundsChange === 'function') {
@@ -133,14 +133,14 @@ export default class ParkMap extends PureComponent {
       this.searchId = id;
       onSearchSelect(id);
     }
-  }
+  };
 
   onPosition = (loc) => {
     const {onLocateMePosition} = this.props;
     if (typeof onLocateMePosition === 'function') {
       onLocateMePosition(loc);
     }
-  }
+  };
 
   refineClick = () => {
     const {autoBounds} = this.props;
@@ -150,7 +150,7 @@ export default class ParkMap extends PureComponent {
     if (autoBounds) return;
 
     this.handleBoundsChange();
-  }
+  };
 
   render() {
     const {useSearch, useRefineButton, useLocateMe} = this.props;

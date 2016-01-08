@@ -232,7 +232,7 @@ export class Activity extends PureComponent {
       this.zoomToPark = true;
       this.setState({selectedMarker: id, selectedIndex: index});
     }
-  }
+  };
 
   getMarkerIndex(id) {
     const uniqueParks = uniq(this.props.selectedActivity.parks, true, 'su_id');

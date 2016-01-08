@@ -14,7 +14,7 @@ export default class GmapControls extends Component {
 
   static propTypes = {
     mapHolderRef: PropTypes.instanceOf(GoogleMapHolder)
-  }
+  };
 
   static defaultProps = {
     mapHolderRef: null,
@@ -23,7 +23,7 @@ export default class GmapControls extends Component {
     tileSize: 256
   };
 
-  state = {}
+  state = {};
 
   componentWillMount() {
     if (!canUseDOM) {

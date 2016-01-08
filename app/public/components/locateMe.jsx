@@ -53,11 +53,11 @@ export default class LocateMe extends PureComponent {
     onPosition: PropTypes.func,
     allowFallback: PropTypes.bool,
     restrictWith: PropTypes.string
-  }
+  };
 
   static defaultProps = {
     allowFallback: true
-  }
+  };
 
   componentWillMount() {
     const {restrictWith} = this.props;

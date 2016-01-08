@@ -17,7 +17,7 @@ export default class GmapDataLayer extends Component {
     mapHolderRef: PropTypes.instanceOf(GoogleMapHolder),
     geometry: PropTypes.object,
     setCenterTo: PropTypes.object
-  }
+  };
 
   static defaultProps = {
     mapHolderRef: null,

@@ -34,7 +34,7 @@ export default class Explore extends PureComponent {
 
   state = {
     selectedMarker: 0
-  }
+  };
 
   componentWillMount() {
     this.configureDropdownOptions();

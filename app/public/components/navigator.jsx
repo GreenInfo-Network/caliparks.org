@@ -19,7 +19,7 @@ export default class Navigator extends PureComponent {
     idKey: 'id',
     selectedItem: 0,
     onChange: () => {}
-  }
+  };
 
   state = {
     index: 0

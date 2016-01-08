@@ -16,7 +16,7 @@ class Discover extends PureComponent {
 
   state = {
     navigationPosition: 0
-  }
+  };
 
   componentWillMount() {
 

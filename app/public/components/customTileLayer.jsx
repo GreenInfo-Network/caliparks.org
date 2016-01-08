@@ -26,7 +26,7 @@ export default class CustomTileLayer extends Component {
     tileSize: 256
   };
 
-  state = {}
+  state = {};
 
   componentWillMount() {
     if (!canUseDOM) {

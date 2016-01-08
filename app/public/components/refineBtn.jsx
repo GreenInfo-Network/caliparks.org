@@ -6,11 +6,11 @@ export default class RefineButton extends PureComponent {
   static propTypes = {
     onClickHandler: PropTypes.func,
     disabled: PropTypes.bool
-  }
+  };
 
   static defaultProps = {
     disabled: false
-  }
+  };
 
   componentDidMount() {}
 

@@ -7,7 +7,7 @@ import {
 export default class GoogleAnalytics extends PureComponent {
   static propTypes = {
     trackingID: PropTypes.string.isRequired
-  }
+  };
 
   constructor(props) {
     super(props);
