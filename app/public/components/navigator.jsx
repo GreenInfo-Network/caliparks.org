@@ -44,7 +44,7 @@ export default class Navigator extends PureComponent {
   render() {
     const showNavi = this.props.items.length ? true : false;
     const item = this.props.items.length ? this.props.items[this.props.selectedItem] : {};
-    const showTop = (item.total < 0 || isNaN(item.total)) ? false : true;
+    const showTop = (!item || (item.total < 0 || isNaN(item.total))) ? false : true;
     return (
       <div className='navigator'>
         {showNavi &&

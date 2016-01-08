@@ -16,7 +16,6 @@ export function directionsLink(centroid) {
 }
 
 export function envelope2Bounds(envelope) {
-  console.log(envelope);
   // sw, ne
   const dataBounds = new google.maps.LatLngBounds({lat:envelope[0][1], lng:envelope[0][0]}, {lat:envelope[2][1], lng:envelope[2][0]});
 

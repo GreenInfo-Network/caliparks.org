@@ -108,6 +108,14 @@ export class Activity extends PureComponent {
     return this.props.windowSize.height - this.refs.sectionmap.offsetTop - 20;
   }
 
+  getMap() {
+    try {
+      return this.refs.map.refs.map.refs.delegate.props.map;
+    } catch (e) {
+      return null;
+    }
+  }
+
   setScrollPosition() {
     if (!this.state.selectedMarker) return;
     const container = ReactDOM.findDOMNode(this.refs.parklist);
@@ -132,6 +140,7 @@ export class Activity extends PureComponent {
   onListClick(id, idx) {
     if (this.state.selectedMarker === id) return;
     this.isFromListClick = true;
+    this.zoomToPark = true;
     this.setState({selectedMarker: id, selectedIndex: idx});
   }
 
@@ -139,6 +148,7 @@ export class Activity extends PureComponent {
     if (this.state.hovered === id) return;
     // this.setState({hovered: idx});
   }
+
   onListMouseOut(id, idx) {
     if (this.state.hovered !== id) return;
     // this.setState({hovered: null});
@@ -216,6 +226,40 @@ export class Activity extends PureComponent {
     return 'btn' + active;
   }
 
+  onSearchSelect = (id) => {
+    const index = this.getMarkerIndex(id);
+    if (index > -1) {
+      this.zoomToPark = true;
+      this.setState({selectedMarker: id, selectedIndex: index});
+    }
+  }
+
+  getMarkerIndex(id) {
+    const uniqueParks = uniq(this.props.selectedActivity.parks, true, 'su_id');
+    let idx = -1;
+    uniqueParks.forEach((pk, index) => {
+      if (idx > -1) return;
+      if (pk.su_id === id) idx = index;
+    });
+    return idx;
+  }
+
+  makeSearchData(arr) {
+    if (this.searchData) return this.searchData;
+
+    const out = [];
+    arr.forEach((park) => {
+      out.push({
+        id: +park.su_id,
+        name: park.su_name
+      });
+    });
+
+    if (out.length) this.searchData = out;
+
+    return out;
+  }
+
   render() {
     const {formatMessage} = this.props.intl;
     const icon = helpers.iconprefix + this.props.params.activity;
@@ -224,6 +268,8 @@ export class Activity extends PureComponent {
     // TODO: How to handle parks with multiple entry points
     // which creates duplicate parks
     const uniqueParks = uniq(this.props.selectedActivity.parks, true, 'su_id');
+    const shouldZoomToID = (this.zoomToPark) ? true : false;
+    this.zoomToPark = false;
     return (
       <div id='activity' className={'container tab-' + this.state.tabSection}>
         <main className='page-activity' role='application'>
@@ -300,17 +346,25 @@ export class Activity extends PureComponent {
                   </h3>
                 </div>
               }
-              <ParkMap
+              <ParkMap ref='map'
                 cluster={true}
                 shouldResize={this.props.windowSize.width + this.props.windowSize.height}
                 markers={uniqueParks}
+                shouldZoomToID={shouldZoomToID}
                 selectedMarker={this.state.selectedMarker}
                 setMarkerIcon={this.setMarkerIcon.bind(this)}
                 setMarkerId={this.setMarkerId.bind(this)}
                 setMarkerPosition={this.setMarkerPosition.bind(this)}
                 setMarkerZindex={this.setMarkerZindex.bind(this)}
                 onMarkerClick={this.onMarkerClick.bind(this)}
-                onBoundsChange={this.onBoundsChange.bind(this)} />
+                onBoundsChange={this.onBoundsChange.bind(this)}
+                useSearch={true}
+                useLocateMe={true}
+                useRefineButton={true}
+                onSearchSelect={this.onSearchSelect}
+                useLocalData={true}
+                localSearchData={this.makeSearchData(uniqueParks)}
+              />
 
               <Navigator
                 items={uniqueParks}

@@ -36,13 +36,23 @@ class ParkSearch extends PureComponent {
 
   static propTypes = {
     onSearchSelect: PropTypes.func,
-    suggestionsLimit: PropTypes.number
+    suggestionsLimit: PropTypes.number,
+    useLocalData: PropTypes.bool,
+    localData: PropTypes.array,
+    resetSearchValue: PropTypes.bool
   };
 
   static defaultProps = {
     onSearchSelect: () => {},
-    suggestionsLimit: 20
+    suggestionsLimit: 20,
+    useLocalData: false
   };
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.resetSearchValue === true) {
+      this.setState({value: '', suggestions:[]});
+    }
+  }
 
   componentWillMount() {
     const {formatMessage} = this.props.intl;
@@ -56,12 +66,17 @@ class ParkSearch extends PureComponent {
     };
 
     this.state.suggestions = this.getMatchingParks('');
-    this.getSearchList();
+    if (!this.props.useLocalData) this.getSearchList();
   }
 
   componentDidMount() {}
 
-  componentDidUpdate() {}
+  componentDidUpdate() {
+    const {localData, useLocalData} = this.props;
+    if (!this.engine && useLocalData && localData && localData.length) {
+      this.createSearchEngine(localData);
+    }
+  }
 
   getSearchList() {
     const context = this;
@@ -72,17 +87,20 @@ class ParkSearch extends PureComponent {
         if (err) {
           console.error('Loading park search list failed!', err);
         } else {
-          const data = JSON.parse(res.text);
-          context.engine = new Bloodhound({
-            local: data,
-            identify: (obj) => { return obj.id; },
-            queryTokenizer: Bloodhound.tokenizers.whitespace,
-            datumTokenizer: (obj) => { return Bloodhound.tokenizers.whitespace(obj.name); }
-          });
-
-          context.setState({parks: data});
+          context.createSearchEngine(JSON.parse(res.text));
         }
       });
+  }
+
+  createSearchEngine(data) {
+    this.engine = new Bloodhound({
+      local: data,
+      identify: (obj) => { return obj.id; },
+      queryTokenizer: Bloodhound.tokenizers.whitespace,
+      datumTokenizer: (obj) => { return Bloodhound.tokenizers.whitespace(obj.name); }
+    });
+
+    this.setState({parks: data});
   }
 
   onChange(event, { newValue, method }) {
@@ -169,6 +187,7 @@ class ParkSearch extends PureComponent {
 
   addMouseWheelEventHandlers() {
     const elm = document.querySelector('.SectionContainer');
+    if (!elm) return;
 
      // detect available wheel event
     const support = 'onwheel' in document.createElement('div') ? 'wheel' : // Modern browsers support "wheel"
@@ -185,6 +204,7 @@ class ParkSearch extends PureComponent {
 
   removeMouseWheelEventHandlers() {
     const elm = document.querySelector('.SectionContainer');
+    if (!elm) return;
     elm.removeEventListener('mousewheel', this.onMouseWheel);
     elm.removeEventListener('wheel', this.onMouseWheel);
     elm.removeEventListener('MozMousePixelScroll', this.onMouseWheel);
