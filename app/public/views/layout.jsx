@@ -102,8 +102,8 @@ export default class Layout extends React.Component {
               </IntlProvider>
               <GoogleAnalytics trackingID={this.props.gaID || null} />
               <UserVoice locale={this.props.lang} />
-              <script src='/vendor/js/addtohomescreen.js'></script>
-              <script dangerouslySetInnerHTML={{__html: 'addToHomescreen({skipFirstVisit: true,maxDisplayCount: 1});'}} />
+              <script src='/vendor/js/addtohomescreen_modified.min.js'></script>
+              <script dangerouslySetInnerHTML={{__html: 'addToHomescreen({skipFirstVisit: true, maxDisplayCount: 1});'}} />
               <script src='/vendor/js/svg4everybody.min.js'></script>
               <script>svg4everybody();</script>
               <script src='/bundle.js'></script>

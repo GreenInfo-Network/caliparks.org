@@ -467,11 +467,29 @@ ath.Class.prototype = {
 
 		// try to get the highest resolution application icon
 		if ( !this.applicationIcon ) {
+			var icons;
+			var iconsParsed = [];
 			if ( ath.OS == 'ios' ) {
-				this.applicationIcon = document.querySelector('head link[rel^=apple-touch-icon][sizes="152x152"],head link[rel^=apple-touch-icon][sizes="144x144"],head link[rel^=apple-touch-icon][sizes="120x120"],head link[rel^=apple-touch-icon][sizes="114x114"],head link[rel^=apple-touch-icon]');
+				icons = document.querySelectorAll('head link[rel^=apple-touch-icon]');
+				//this.applicationIcon = document.querySelector('head link[rel^=apple-touch-icon][sizes="152x152"],head link[rel^=apple-touch-icon][sizes="144x144"],head link[rel^=apple-touch-icon][sizes="120x120"],head link[rel^=apple-touch-icon][sizes="114x114"],head link[rel^=apple-touch-icon]');
 			} else {
-				this.applicationIcon = document.querySelector('head link[rel^="shortcut icon"][sizes="196x196"],head link[rel^=apple-touch-icon]');
+				icons = document.querySelectorAll('head link[rel^=apple-touch-icon]');
+				//this.applicationIcon = document.querySelector('head link[rel^="shortcut icon"][sizes="196x196"],head link[rel^=apple-touch-icon]');
 			}
+
+			for (i = 0; i < icons.length; ++i) {
+			  var size = icons[i].sizes.value;
+			  iconsParsed.push({
+			    size: +size.split('x')[0],
+			    href: icons[i].href
+			  });
+			}
+
+			iconsParsed.sort(function(a,b) {
+			  return b.size - a.size;
+			});
+
+			this.applicationIcon = iconsParsed[0];
 		}
 
 		var message = '';
