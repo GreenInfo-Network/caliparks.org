@@ -27,7 +27,7 @@ export default class GmapMarkerClusterer extends Component {
     onMarkerClick: PropTypes.func,
     cluster: PropTypes.bool,
     mapHolderRef: PropTypes.instanceOf(GoogleMapHolder),
-    setCenterTo: PropTypes.array
+    setCenterTo: PropTypes.object
   };
 
   static defaultProps = {
