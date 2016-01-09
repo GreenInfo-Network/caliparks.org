@@ -22,7 +22,6 @@ export default class ParkMap extends PureComponent {
     useLocateMe: PropTypes.bool,
     useRefineButton: PropTypes.bool,
     onSearchSelect: PropTypes.func,
-    onLocateMePosition: PropTypes.func,
     autoBounds: PropTypes.bool,
     useLocalData: PropTypes.bool,
     localSearchData: PropTypes.array
@@ -53,6 +52,17 @@ export default class ParkMap extends PureComponent {
 
   componentDidUpdate(prevProps) {
     if (this.props.shouldResize) this.resizeMap();
+  }
+
+  getMap() {
+    let map = null;
+    try {
+      map = this.refs.map.refs.delegate.props.map;
+    } catch (e) {
+      console.log('Could not find map reference...');
+    }
+
+    return map;
   }
 
   resizeMap() {
@@ -136,9 +146,14 @@ export default class ParkMap extends PureComponent {
   };
 
   onPosition = (loc) => {
-    const {onLocateMePosition} = this.props;
-    if (typeof onLocateMePosition === 'function') {
-      onLocateMePosition(loc);
+    if (loc && loc.length === 2 && this.refs.map) {
+      const zoom = this.refs.map.getZoom();
+      const map = this.getMap();
+
+      if (map) {
+        map.setCenter({lat: loc[0], lng: loc[1]});
+        if (zoom < 13) map.setZoom(13);
+      }
     }
   };
 
@@ -158,6 +173,7 @@ export default class ParkMap extends PureComponent {
     const resetSearchValue = (this.searchId && (this.searchId !== this.props.selectedMarker)) ? true : false;
     if (resetSearchValue) this.searchId = null;
     const setCenterTo = this.getSelectedCoordinates();
+
     return (
       <GoogleMap ref='map' containerProps={{
         style: {

@@ -138,10 +138,9 @@ export default class LocateMe extends PureComponent {
     }
 
     if (location.length !== 2) return this.onError();
-
+    location = [37.735969, -121.640625];
     if (restrictWith && this.restrictionGeoJSON) {
-      location = (this.checkLocation(location[1], location[0])) ? location : null;
-
+      location = (this.checkLocation(location[0], location[1])) ? location : null;
       if (location === null) return this.outsideBounds();
     }
 
