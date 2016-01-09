@@ -95,7 +95,6 @@
     "serve-favicon": "^2.3.0",
     "style-loader": "^0.13.0",
     "superagent": "^1.6.1",
-    "superagent-jsonp": "0.0.6",
     "webpack": "^1.12.9",
     "webpack-svgstore-plugin": "stamen/webpack-svgstore-plugin#develop"
   },
