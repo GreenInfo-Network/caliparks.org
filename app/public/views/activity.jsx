@@ -140,7 +140,11 @@ export class Activity extends PureComponent {
     const id = this.setMarkerId(marker);
     if (this.state.selectedMarker === id) return;
     this.isFromListClick = false;
-    this.setState({selectedMarker: id, selectedIndex: idx});
+
+    // something is off with the idx being returned,
+    // so use helper function for now
+    const index = this.getMarkerIndex(id);
+    this.setState({selectedMarker: id, selectedIndex: index});
   }
 
   onListClick(id, idx) {
