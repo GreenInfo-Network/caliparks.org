@@ -1,5 +1,16 @@
+.home-slider-container {
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+  background: $color-grey-dark;
+}
+
+.home-slider-inner {
+  display: table-cell;
+  vertical-align: middle;
+}
+
 .home-slider-wrap {
   position: relative;
   padding: 10px 0;
-  background: $color-grey-dark;
 }

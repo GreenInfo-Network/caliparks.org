@@ -9,7 +9,8 @@ export default class SliderMostShared extends PureComponent {
     featuredParks: PropTypes.shape({
       parks: PropTypes.array
     }).isRequired,
-    width: PropTypes.number.isRequired
+    width: PropTypes.number.isRequired,
+    containerHeight: PropTypes.number.isRequired
   };
 
   constructor(props) {
@@ -72,12 +73,18 @@ export default class SliderMostShared extends PureComponent {
       initialSlide: 0
     };
 
+    const {containerHeight} = this.props;
+
     return (
-      <div className='home-slider-wrap'>
-        <div ref='slide-recent' className='slider-recent'>
-          <Slider {...settings}>
-            {this.makeSlides()}
-          </Slider>
+      <div className='home-slider-container' style={{height: containerHeight + 'px'}}>
+        <div className='home-slider-inner'>
+          <div className='home-slider-wrap'>
+            <div ref='slide-recent' className='slider-recent'>
+              <Slider {...settings}>
+                {this.makeSlides()}
+              </Slider>
+            </div>
+          </div>
         </div>
       </div>
     );
