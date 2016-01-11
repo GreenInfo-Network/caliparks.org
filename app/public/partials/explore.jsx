@@ -33,7 +33,8 @@ export default class Explore extends PureComponent {
   };
 
   state = {
-    selectedMarker: 0
+    selectedMarker: 0,
+    searchFocused: false
   };
 
   componentWillMount() {
@@ -254,10 +255,19 @@ export default class Explore extends PureComponent {
     this.resetSelectedMarker();
   }
 
+  searchOnFocus = () => {
+    this.setState({searchFocused: true});
+  };
+
+  searchOnBlur = () => {
+    this.setState({searchFocused: false});
+  };
+
   render() {
     const [leftWidth, rightWidth] = getTwoColumnWidthPercent(this.props.width, 0);
+    const searchClass = (this.state.searchFocused) ? ' search-on' : '';
     return (
-      <div id='explore-section' className='theme-white' style={{height: (this.getHeight() - 8) + 'px'}}>
+      <div id='explore-section' className={'theme-white' + searchClass} style={{height: (this.getHeight() - 8) + 'px'}}>
         <div className='wrapper row height-full'>
           <div ref='sideleft' className='side-left col-four' style={{width: leftWidth + '%'}}>
             <div className='center-align-container'>
@@ -299,7 +309,10 @@ export default class Explore extends PureComponent {
               </div>
             }
 
-            <ParkSearch onSearchSelect={this.onSearchSelect.bind(this)} />
+            <ParkSearch
+              onSearchSelect={this.onSearchSelect.bind(this)}
+              onFocusHandler={this.searchOnFocus}
+              onBlurHandler={this.searchOnBlur}/>
             <LocateMe onPosition={this.onPosition.bind(this)} restrictWith='/assets/data/california.geojson' />
             <RefineButton onClickHandler={this.refineClick.bind(this)} />
 

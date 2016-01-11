@@ -126,7 +126,6 @@ export default class ParkMap extends PureComponent {
           const bds = envelope2Bounds(data[0].bbox.coordinates[0]);
           if (!bds.isEmpty() || !map) {
             const zoom = this.refs.map.getZoom();
-            const center = this.refs.map.getCenter();
 
             google.maps.event.addListenerOnce(map, 'idle', () => {
               const newBounds = this.refs.map.getBounds();
