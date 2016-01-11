@@ -24,7 +24,8 @@ export default class ParkMap extends PureComponent {
     onSearchSelect: PropTypes.func,
     autoBounds: PropTypes.bool,
     useLocalData: PropTypes.bool,
-    localSearchData: PropTypes.array
+    localSearchData: PropTypes.array,
+    searchEndPoint: PropTypes.string
   };
 
   static defaultProps = {
@@ -118,18 +119,24 @@ export default class ParkMap extends PureComponent {
           console.error('Failed to get park bounds');
         } else {
           const data = JSON.parse(res.text);
-          const bds = envelope2Bounds(data[0].bbox.coordinates[0]);
+          const map = this.getMap();
 
-          if (!bds.isEmpty()) {
+          const bds = envelope2Bounds(data[0].bbox.coordinates[0]);
+          if (!bds.isEmpty() || !map) {
             const zoom = this.refs.map.getZoom();
+            const center = this.refs.map.getCenter();
+
+            google.maps.event.addListenerOnce(map, 'idle', () => {
+              const newBounds = this.refs.map.getBounds();
+              if (typeof this.props.onBoundsChange === 'function') {
+                this.props.onBoundsChange(newBounds.toUrlValue(4).split(','), 14);
+              }
+            });
+
             if (zoom >= 10) {
               this.refs.map.panTo(bds.getCenter());
             } else {
               this.refs.map.fitBounds(bds);
-            }
-
-            if (typeof this.props.onBoundsChange === 'function') {
-              this.props.onBoundsChange(bds.toUrlValue(4).split(','), 14);
             }
           }
         }
@@ -199,7 +206,12 @@ export default class ParkMap extends PureComponent {
         <GmapMarkerClusterer {...this.props} setCenterTo={setCenterTo} />
 
         {useSearch &&
-          <ParkSearch resetSearchValue={resetSearchValue} localData={this.props.localSearchData} useLocalData={this.props.useLocalData} onSearchSelect={this.onSearchSelect}/>
+          <ParkSearch
+            resetSearchValue={resetSearchValue}
+            localData={this.props.localSearchData}
+            useLocalData={this.props.useLocalData}
+            onSearchSelect={this.onSearchSelect}
+            endPoint={this.props.searchEndPoint} />
         }
 
         {useLocateMe &&

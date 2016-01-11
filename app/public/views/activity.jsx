@@ -42,11 +42,14 @@ export class Activity extends PureComponent {
     selectedMarker: 0,
     selectedIndex: 0,
     tabSection: 'map',
-    hovered: null
+    hovered: null,
+    uniqueParks: []
   };
 
   componentWillMount() {
-    this.setSelectedMarkerIfEmpty(this.props);
+    const uniqueParks = uniq(this.props.selectedActivity.parks, true, 'su_id');
+    this.setSelectedMarkerIfEmpty(this.props, uniqueParks);
+    this.setState({uniqueParks: uniqueParks});
   }
 
   componentDidMount() {
@@ -66,7 +69,9 @@ export class Activity extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setSelectedMarkerIfEmpty(nextProps);
+    const uniqueParks = uniq(nextProps.selectedActivity.parks, true, 'su_id');
+    this.setSelectedMarkerIfEmpty(nextProps, uniqueParks);
+    this.setState({uniqueParks: uniqueParks});
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -162,22 +167,44 @@ export class Activity extends PureComponent {
     fetchSelectedActivity(params.activity, [bounds[1], bounds[0], bounds[3], bounds[2]]);
   }
 
-  setSelectedMarkerIfEmpty(props) {
-    const {selectedActivity} = props;
-    if (selectedActivity.isFetching || !selectedActivity.parks.length) return;
+  doesParkMatchIndex(parks, id, idx) {
+    if (idx < 0) return false;
+    return (parks.length && (parks[idx] && parks[idx].su_id === id)) ? true : false;
+  }
 
-    if (this.state.selectedMarker === 0 || this.boundsChange) {
+  // this.setState({selectedMarker: id, selectedIndex: index});
+  setSelectedMarkerIfEmpty(props, parks) {
+    const {selectedActivity} = props;
+    const {selectedMarker, selectedIndex} = this.state;
+
+    if (selectedActivity.isFetching || !selectedActivity.parks.length) return;
+    if (selectedMarker === 0 || this.boundsChange) {
       this.boundsChange = false;
-      const containsPark = selectedActivity.parks.filter((park) => {
-        return park.su_id === this.state.selectedMarker;
+      let matchingIdx =  -1;
+      const containsPark = parks.filter((park, idx) => {
+        if (park.su_id === selectedMarker) matchingIdx = idx;
+        return park.su_id === selectedMarker;
       });
 
-      if (this.state.selectedMarker === 0 || containsPark.length === 0) {
+      const match = this.doesParkMatchIndex(parks, selectedMarker, selectedIndex);
+
+      if (selectedMarker === 0 || containsPark.length === 0) {
         this.setState({
           selectedMarker: selectedActivity.parks[0].su_id,
           selectedIndex: 0
         });
+      } else if (!match && containsPark.length) {
+        this.setState({
+          selectedMarker: selectedMarker,
+          selectedIndex: matchingIdx
+        });
       }
+    } else if (selectedMarker !== 0 && this.doesParkMatchIndex(parks, selectedMarker, selectedIndex)) {
+      const idx = this.getMarkerIndex(selectedMarker);
+      this.setState({
+        selectedMarker: selectedMarker,
+        selectedIndex: idx
+      });
     }
   }
 
@@ -228,36 +255,18 @@ export class Activity extends PureComponent {
 
   onSearchSelect = (id) => {
     const index = this.getMarkerIndex(id);
-    if (index > -1) {
-      this.zoomToPark = true;
-      this.setState({selectedMarker: id, selectedIndex: index});
-    }
+    this.zoomToPark = true;
+    this.setState({selectedMarker: id, selectedIndex: index});
   };
 
   getMarkerIndex(id) {
-    const uniqueParks = uniq(this.props.selectedActivity.parks, true, 'su_id');
+    const {uniqueParks} = this.state;
     let idx = -1;
     uniqueParks.forEach((pk, index) => {
       if (idx > -1) return;
       if (pk.su_id === id) idx = index;
     });
     return idx;
-  }
-
-  makeSearchData(arr) {
-    if (this.searchData) return this.searchData;
-
-    const out = [];
-    arr.forEach((park) => {
-      out.push({
-        id: +park.su_id,
-        name: park.su_name
-      });
-    });
-
-    if (out.length) this.searchData = out;
-
-    return out;
   }
 
   render() {
@@ -267,9 +276,10 @@ export class Activity extends PureComponent {
 
     // TODO: How to handle parks with multiple entry points
     // which creates duplicate parks
-    const uniqueParks = uniq(this.props.selectedActivity.parks, true, 'su_id');
+    const {uniqueParks} = this.state;
     const shouldZoomToID = (this.zoomToPark) ? true : false;
     this.zoomToPark = false;
+    const searchEndPoint = '/api/search/activity/' + this.props.params.activity;
     return (
       <div id='activity' className={'container tab-' + this.state.tabSection}>
         <main className='page-activity' role='application'>
@@ -359,11 +369,10 @@ export class Activity extends PureComponent {
                 onMarkerClick={this.onMarkerClick.bind(this)}
                 onBoundsChange={this.onBoundsChange.bind(this)}
                 useSearch={true}
+                searchEndPoint={searchEndPoint}
                 useLocateMe={true}
                 useRefineButton={true}
                 onSearchSelect={this.onSearchSelect}
-                useLocalData={true}
-                localSearchData={this.makeSearchData(uniqueParks)}
               />
 
               <Navigator

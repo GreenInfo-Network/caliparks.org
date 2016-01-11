@@ -39,13 +39,15 @@ class ParkSearch extends PureComponent {
     suggestionsLimit: PropTypes.number,
     useLocalData: PropTypes.bool,
     localData: PropTypes.array,
-    resetSearchValue: PropTypes.bool
+    resetSearchValue: PropTypes.bool,
+    endPoint:PropTypes.string
   };
 
   static defaultProps = {
     onSearchSelect: () => {},
     suggestionsLimit: 20,
-    useLocalData: false
+    useLocalData: false,
+    endPoint: '/assets/data/parks.json'
   };
 
   componentWillReceiveProps(nextProps) {
@@ -80,9 +82,9 @@ class ParkSearch extends PureComponent {
 
   getSearchList() {
     const context = this;
-
+    const {endPoint} = this.props;
     request
-      .get('/assets/data/parks.json')
+      .get(endPoint)
       .end((err, res) => {
         if (err) {
           console.error('Loading park search list failed!', err);

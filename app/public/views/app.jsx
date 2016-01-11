@@ -113,7 +113,7 @@ export class App extends PureComponent {
       arrowNavigation:      true, // use arrow keys
       className:            'SectionContainer', // the class name for the section container
       delay:                700, // the scroll animation speed
-      navigation:           false, // use dots navigatio
+      navigation:           false, // use dots navigation
       scrollBar:            false, // use the browser default scrollbar
       sectionClassName:     'section', // the section class name
       sectionPaddingTop:    '0', // the section top padding
