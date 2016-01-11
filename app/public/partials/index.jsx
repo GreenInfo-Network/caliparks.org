@@ -37,7 +37,8 @@ export default class HomeIndex extends PureComponent {
   }
 
   render() {
-    const headerHeight = this.props.height - 409;
+    const headerHeight = this.props.height - 352;
+    const sliderHeight = this.props.height - 409;
 
     return (
       <div id='index-section' className='full-height theme-white'>
@@ -45,10 +46,11 @@ export default class HomeIndex extends PureComponent {
           <div className='col-twelve'>
             <Header
               ref='header'
+              headerHeight={headerHeight}
               images={this.props.images}
               autoplay={this.props.autoplay}
               autoplaySpeed={this.props.autoplaySpeed} {...this.props}/>
-            <SliderMostShared ref='parkslider' containerHeight={headerHeight} featuredParks={this.props.featuredParks} width={this.props.width}/>
+            <SliderMostShared ref='parkslider' containerHeight={sliderHeight} featuredParks={this.props.featuredParks} width={this.props.width}/>
           </div>
         </div>
         <div className='scroll-helper-arrow down'/>

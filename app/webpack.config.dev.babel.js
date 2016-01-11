@@ -47,7 +47,7 @@ export default {
             }]
           ]
         },
-        exclude: [/node_modules/]
+        exclude: [/node_modules/, /react-fullpage/]
       },
       {
         test: /\.json$/,

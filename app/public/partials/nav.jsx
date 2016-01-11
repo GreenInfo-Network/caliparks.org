@@ -3,14 +3,13 @@ import {FormattedMessage, FormattedHTMLMessage} from 'react-intl';
 
 class Nav extends React.Component {
   static propTypes = {
-    height: PropTypes.number.isRequired,
     wanderID: PropTypes.number
   };
 
   render() {
     const wanderHref = (this.props.wanderID && !isNaN(this.props.wanderID)) ? '/park/' + this.props.wanderID : '/wander';
     return (
-      <nav className='table' style={{height: this.props.height + 'px'}}>
+      <nav className='table'>
         <div className='table-cell'>
         <ul>
           <li>

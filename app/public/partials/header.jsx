@@ -8,7 +8,8 @@ export default class Header extends PureComponent {
   static propTypes = {
     images: PropTypes.array.isRequired,
     autoplay: PropTypes.bool,
-    autoplaySpeed: PropTypes.number
+    autoplaySpeed: PropTypes.number,
+    headerHeight: PropTypes.number.isRequired
   };
 
   static defaultProps = {
@@ -61,9 +62,12 @@ export default class Header extends PureComponent {
       centerPadding: '100px'
     };
 
+    let headerHeight = this.props.headerHeight - 77 - 8;
+    if (headerHeight > 332) headerHeight = 332;
+
     return (
       <header>
-        <div className='pos-relative' style={{overflow: 'hidden'}}>
+        <div className='pos-relative' style={{height: headerHeight + 'px', overflow: 'hidden'}}>
           <div id='logo-banner' className='col'>
             <img src='assets/svgs/header-banner.svg'/>
           </div>

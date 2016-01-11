@@ -119,7 +119,8 @@ export class App extends PureComponent {
       sectionPaddingTop:    '0', // the section top padding
       sectionPaddingBottom: '0', // the section bottom padding
       verticalAlign:        false, // align the content of each section vertical
-      autoFooterHeight:     true
+      autoFooterHeight:     true,
+      css3:                 true
     };
 
     const isSticky = (this.state.currentSection >= 2 || (this.state.currentSection === 1 && this.state.prevSection > 1)) ? true : false;
