@@ -40,7 +40,9 @@ class ParkSearch extends PureComponent {
     useLocalData: PropTypes.bool,
     localData: PropTypes.array,
     resetSearchValue: PropTypes.bool,
-    endPoint:PropTypes.string
+    endPoint:PropTypes.string,
+    onFocusHandler: PropTypes.func,
+    onBlurHandler: PropTypes.func
   };
 
   static defaultProps = {
@@ -179,12 +181,20 @@ class ParkSearch extends PureComponent {
   }
 
   onBlur() {
+    const {onBlurHandler} = this.props;
     this.removeMouseWheelEventHandlers();
+    if (typeof onBlurHandler === 'function') {
+      onBlurHandler();
+    }
   }
 
   onFocus() {
+    const {onFocusHandler} = this.props;
     this.removeMouseWheelEventHandlers();
     this.addMouseWheelEventHandlers();
+    if (typeof onFocusHandler === 'function') {
+      onFocusHandler();
+    }
   }
 
   addMouseWheelEventHandlers() {

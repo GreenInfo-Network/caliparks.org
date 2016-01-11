@@ -41,9 +41,10 @@ export class Activity extends PureComponent {
   state = {
     selectedMarker: 0,
     selectedIndex: 0,
-    tabSection: 'map',
+    tabSection: 'list',
     hovered: null,
-    uniqueParks: []
+    uniqueParks: [],
+    searchFocused: false
   };
 
   componentWillMount() {
@@ -269,6 +270,14 @@ export class Activity extends PureComponent {
     return idx;
   }
 
+  searchOnFocus = () => {
+    this.setState({searchFocused: true});
+  };
+
+  searchOnBlur = () => {
+    this.setState({searchFocused: false});
+  };
+
   render() {
     const {formatMessage} = this.props.intl;
     const icon = helpers.iconprefix + this.props.params.activity;
@@ -280,8 +289,9 @@ export class Activity extends PureComponent {
     const shouldZoomToID = (this.zoomToPark) ? true : false;
     this.zoomToPark = false;
     const searchEndPoint = '/api/search/activity/' + this.props.params.activity;
+    const searchClass = (this.state.searchFocused) ? ' search-on' : '';
     return (
-      <div id='activity' className={'container tab-' + this.state.tabSection}>
+      <div id='activity' className={'container tab-' + this.state.tabSection + searchClass}>
         <main className='page-activity' role='application'>
           <StickyNav className='white' />
 
@@ -370,6 +380,8 @@ export class Activity extends PureComponent {
                 onBoundsChange={this.onBoundsChange.bind(this)}
                 useSearch={true}
                 searchEndPoint={searchEndPoint}
+                searchOnBlur={this.searchOnBlur}
+                searchOnFocus={this.searchOnFocus}
                 useLocateMe={true}
                 useRefineButton={true}
                 onSearchSelect={this.onSearchSelect}

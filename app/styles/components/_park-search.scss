@@ -2,41 +2,52 @@
   position: absolute;
   top: 8px;
   left: 8px;
+  background-color: $color-grey-dark;
+  background-color: rgba($color-grey-dark, 0.6);
   z-index: $depth-100;
 
-  ::-webkit-input-placeholder {
-     color: #ddd;
-  }
 
-  :-moz-placeholder { /* Firefox 18- */
-     color: #ddd;
-  }
-
-  ::-moz-placeholder {  /* Firefox 19+ */
-     color: #ddd;
-  }
-
-  :-ms-input-placeholder {
-     color: #ddd;
-  }
 }
 
 .react-autosuggest__input {
-  width: 22rem;
+  position: relative;
+  width: 36px;
   height: 36px;
-  padding: 1rem 3rem 1rem 1rem;
-  background-color: $color-grey-dark;
-  background-color: rgba($color-grey-dark, 0.6);
+  padding: 0;
   color: $color-white;
   font-family: $font-stack-main;
   font-weight: 300;
   font-size: 1.4rem;
+  background-color: transparent;
   border: 1px solid #aaa;
   border-radius: 0;
-}
+  cursor: pointer;
+  z-index: 2;
+  opacity: 0;
 
-.react-autosuggest__input:focus {
-  outline: none;
+  &::-webkit-input-placeholder {
+     color: #ddd;
+  }
+
+  &:-moz-placeholder { /* Firefox 18- */
+     color: #ddd;
+  }
+
+  &::-moz-placeholder {  /* Firefox 19+ */
+     color: #ddd;
+  }
+
+  &:-ms-input-placeholder {
+     color: #ddd;
+  }
+
+  &:focus {
+    outline: none;
+    width: 22rem;
+    padding: 1rem 3rem 1rem 1rem;
+    cursor: initial;
+    opacity: 1;
+  }
 }
 
 .react-autosuggest__container:after {
@@ -47,6 +58,7 @@
   width: 22px;
   height: 22px;
   background: url('/assets/svgs/icon-search.svg') 0 0 no-repeat;
+  z-index: 1;
 }
 
 .react-autosuggest__container--open .react-autosuggest__input {
@@ -93,4 +105,15 @@
 .react-autosuggest__suggestion--focused {
   text-decoration: underline;
   color: #fff;
+}
+
+
+@include respond-to('full') {
+  .react-autosuggest__input {
+    width: 22rem;
+    padding: 1rem 3rem 1rem 1rem;
+    cursor: initial;
+    opacity: 1;
+  }
+
 }

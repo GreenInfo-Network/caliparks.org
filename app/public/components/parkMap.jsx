@@ -25,7 +25,9 @@ export default class ParkMap extends PureComponent {
     autoBounds: PropTypes.bool,
     useLocalData: PropTypes.bool,
     localSearchData: PropTypes.array,
-    searchEndPoint: PropTypes.string
+    searchEndPoint: PropTypes.string,
+    searchOnBlur: PropTypes.func,
+    searchOnFocus: PropTypes.func
   };
 
   static defaultProps = {
@@ -211,7 +213,9 @@ export default class ParkMap extends PureComponent {
             localData={this.props.localSearchData}
             useLocalData={this.props.useLocalData}
             onSearchSelect={this.onSearchSelect}
-            endPoint={this.props.searchEndPoint} />
+            endPoint={this.props.searchEndPoint}
+            onFocusHandler={this.props.searchOnFocus}
+            onBlurHandler={this.props.searchOnBlur} />
         }
 
         {useLocateMe &&

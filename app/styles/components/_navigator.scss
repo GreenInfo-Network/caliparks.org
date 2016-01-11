@@ -5,10 +5,15 @@
   z-index: $depth-1;
   transform: translateZ(0);
 
+  .search-on & {
+    display: none;
+  }
+
   .inner {
     margin: 0;
     width: 250px;
   }
+
   .top {
     display: table;
     width: 100%;
@@ -82,6 +87,14 @@
     a {
       color: #fff;
       text-decoration: none;
+    }
+  }
+}
+
+@include respond-to('full') {
+  .navigator {
+    .search-on & {
+      display: block;
     }
   }
 }
