@@ -1,27 +1,5 @@
 import escape from 'pg-escape';
-
-const BASE_PHOTO_ATTRIBUTES = [
-  "  photos.photo_id AS photoid,",
-  "  COALESCE(NULLIF(photos.metadata ->> 'caption', 'null')::json, '{ \"caption\": { \"text\": \"\" } }'::json) -> 'text' AS title,",
-  "  photos.metadata -> 'attribution' AS attribution,",
-  "  photos.metadata -> 'location' -> 'name' AS placename,",
-  "  photos.metadata -> 'location' -> 'id' AS placeid,",
-  "  photos.metadata -> 'comments' -> 'count' AS commentcount,",
-  "  photos.metadata -> 'filter' AS filter,",
-  "  photos.metadata -> 'created_time' AS created_time,",
-  "  photos.metadata -> 'link' AS link,",
-  "  photos.metadata -> 'likes' -> 'count' AS likescount,",
-  "  photos.metadata -> 'images' -> 'standard_resolution' -> 'url' AS standard_resolution,",
-  "  photos.metadata -> 'images' -> 'standard_resolution' -> 'width' AS width,",
-  "  photos.metadata -> 'images' -> 'standard_resolution' -> 'height' AS height,",
-  "  photos.metadata -> 'user' -> 'username' AS username,",
-  "  photos.metadata -> 'user' -> 'website' AS website,",
-  "  photos.metadata -> 'user' -> 'profile_picture' AS profile_picture,",
-  "  photos.metadata -> 'user' -> 'bio' AS bio,",
-  "  photos.metadata -> 'user' -> 'id' AS userid,",
-  "  ST_X(photos.geom) as lng,",
-  "  ST_Y(photos.geom) as lat"
-];
+import {CPAD_WHERE, BASE_PHOTO_ATTRIBUTES} from './common';
 
 /**
  * Get latest photo from most shared parks
@@ -43,7 +21,8 @@ function latestPhotoFromMostSharedPark(options) {
     " WHERE (photos.metadata->>'created_time')::int >= cast(extract(epoch from current_timestamp - interval '6 days') as integer)",
     ") as q1",
     " JOIN cpad_superunits cpad ON cpad.superunit_id = q1.superunit_id",
-    " WHERE cpad.access_typ = 'Open Access'",
+    " WHERE ",
+    CPAD_WHERE.join(" AND "),
     " GROUP BY cpad.unit_name, cpad.superunit_id",
     " ORDER by count DESC",
     " LIMIT $1",
@@ -129,7 +108,9 @@ function parksNotIn(options) {
   "WITH parks AS (SELECT",
   " cpad.superunit_id, cpad.unit_name, ST_AsGeoJSON(ST_Centroid(ST_Transform(cpad.geom, 4326))) AS centroid",
   " FROM cpad_superunits cpad",
-  " WHERE cpad.access_typ = 'Open Access' AND cpad.superunit_id NOT IN",
+  " WHERE ",
+  CPAD_WHERE.join(" AND "),
+  " AND cpad.superunit_id NOT IN",
   notInStr,
   bboxWhere,
   "), photos AS (SELECT",
@@ -199,7 +180,8 @@ function mostSharedParks(options) {
   ].concat(bboxWhere).concat([
     " GROUP BY cpad.superunit_id order by total DESC LIMIT $1) as topten,",
     " cpad_superunits cpad WHERE topten.superunit_id = cpad.superunit_id",
-    " AND cpad.access_typ = 'Open Access'",
+    " AND ",
+    CPAD_WHERE.join(" AND "),
     ")",
     " SELECT",
       " parks.superunit_id,",
@@ -222,6 +204,7 @@ function mostSharedParks(options) {
 }
 
 function randomPark(options) {
+
   const q = [
   "WITH most_shared_parks AS (",
     "SELECT",
@@ -244,7 +227,8 @@ function randomPark(options) {
     " GROUP BY cpad.superunit_id ORDER by total DESC LIMIT 500",
     ") as top, cpad_superunits cpad",
   " WHERE top.superunit_id = cpad.superunit_id AND top.total > 10",
-  " AND cpad.access_typ = 'Open Access'",
+  " AND ",
+  CPAD_WHERE.join(" AND "),
   ")",
   "SELECT",
   " total,",

@@ -1,3 +1,5 @@
+import {CPAD_WHERE} from './common';
+
 function getActivitiesList() {
   const q = "select distinct unnest(a.activities) from activities a;";
   return {query: q, opts:[]};
@@ -13,44 +15,7 @@ function getParksForSearch(options) {
     opts = opts.concat(bbox.split(',').map(parseFloat));
     where.push("ST_Transform(cpad.geom, 4326) && ST_MakeEnvelope($1, $2, $3, $4, 4326)");
   }
-  where.push("cpad.access_typ IN ('Open Access')");
-  where.push(`cpad.unit_name NOT IN (
-    'BLM',
-    'California State Lands Commission',
-    'County Park',
-    'EBMUD',
-    'Haggin Oaks Gulf Course',
-    'Hetch Hetchy Water and Power',
-    'Joshua Tree National Park Linkage',
-    'Lake Tahoe Basin Management Unit',
-    'Los Angeles Department of Water and Power',
-    'Los Vaqueros Watershed',
-    'Marin County Flood Control',
-    'Marin Municipal Water District Watershed',
-    'Other Federal',
-    'Park',
-    'Preserve',
-    'Preserve Areas',
-    'Salton Sea - Bureau of Rec',
-    'Salton Sea - Irrigation District',
-    'San Francisco Watershed Lands',
-    'State of California',
-    'USBR',
-    'USFS',
-    'United States Bureau of Reclamation',
-    'United States Forest Service',
-    'United States Of America',
-    'United States of America',
-    'Water Lots'
-    )
-  AND cpad.unit_name !~ 'holding'
-      AND cpad.unit_name !~ 'Property$'
-      AND cpad.unit_name !~ 'Private'
-      AND cpad.unit_name !~ 'TaxDef'
-      AND cpad.unit_name !~ '\d+$'
-      AND cpad.unit_name !~ 'Unknown'
-      AND cpad.unit_name !~ 'Acq'`);
-
+  where.concat(CPAD_WHERE);
   where.push("a.activities @> '{" + activity + "}'::text[]");
 
   const q= [
@@ -72,7 +37,6 @@ function getParksForActivity(options) {
   const activity = options.activity.split('_').join(' ');
   const limit = options.limit || 500;
 
-  // xmin, ymin, xmax, ymax
   const bbox = options.bbox || null;
   const where = [];
   let opts = [limit];
@@ -80,7 +44,7 @@ function getParksForActivity(options) {
     opts = opts.concat(bbox.split(',').map(parseFloat));
     where.push("ST_Transform(cpad.geom, 4326) && ST_MakeEnvelope($2, $3, $4, $5, 4326)");
   }
-  where.push("cpad.access_typ = 'Open Access'");
+  where.concat(CPAD_WHERE);
   where.push("a.activities @> '{" + activity + "}'::text[]");
 
   const q= [

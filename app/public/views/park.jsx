@@ -321,7 +321,7 @@ export class Park extends PureComponent {
     const currentPosition = currentSlide + numShowing;
     const end = images.length - badImages.length;
 
-    return (currentPosition >= end && images.length < 82);
+    return (currentPosition >= end && images.length < totalImages);
   }
 
   onTabChange(val) {
