@@ -127,10 +127,11 @@ export function requestSelectedParkPhotos() {
 }
 
 export const RECEIVE_SELECTED_PARK_PHOTOS = 'RECEIVE_SELECTED_PARK_PHOTOS';
-export function receiveSelectedParkPhotos(images) {
+export function receiveSelectedParkPhotos(rsp) {
   return {
     type: RECEIVE_SELECTED_PARK_PHOTOS,
-    images,
+    images: rsp.images,
+    total: rsp.totalImages,
     receivedAt: Date.now()
   };
 }

@@ -38,6 +38,7 @@ export class Park extends PureComponent {
   };
 
   componentWillMount() {
+    this.currentSlide = 0;
     // set state back to original state
     this.setState({
       selectedPhoto: null,
@@ -303,12 +304,24 @@ export class Park extends PureComponent {
   }
 
   onSliderAfterChange(currentSlide) {
-    const numShowing = this.getSlidesToShowLength();
-    const {badImages} = this.state;
+    this.currentSlide = currentSlide;
+    const {selectedPark} = this.props;
+    if (selectedPark.fetching) return;
 
-    if (currentSlide + numShowing >= (this.props.selectedPark.images.length - badImages.length) && !this.props.selectedPark.isFetching) {
+    if (this.shouldLoadPhotos(currentSlide)) {
       this.loadPhotos();
     }
+  }
+
+  shouldLoadPhotos(currentSlide) {
+    const numShowing = this.getSlidesToShowLength();
+    const {badImages} = this.state;
+    const {images, totalImages} = this.props.selectedPark;
+
+    const currentPosition = currentSlide + numShowing;
+    const end = images.length - badImages.length;
+
+    return (currentPosition >= end && images.length < 82);
   }
 
   onTabChange(val) {
@@ -322,7 +335,9 @@ export class Park extends PureComponent {
   }
 
   render() {
-    const geometry = this.props.selectedPark.park.length ? this.props.selectedPark.park[0].geometry : null;
+    const {selectedPark, windowSize} = this.props;
+    const {selectedPhoto, tabSection} = this.state;
+    const geometry = selectedPark.park.length ? selectedPark.park[0].geometry : null;
     const [columnWidth, columnMiddleWidth, columnHeight, mapHeight, bottomHeight] = this.getDimensions();
 
     const settings = {
@@ -333,21 +348,21 @@ export class Park extends PureComponent {
       slidesToShow: this.getSlidesToShowLength(),
       variableWidth: false,
       slidesToScroll: this.getSlidesToShowLength(),
-      slideHasThisWidth: (this.props.windowSize.width < MOBILE_BREAKPOINT) ? this.props.windowSize.width : 160,
+      slideHasThisWidth: (windowSize.width < MOBILE_BREAKPOINT) ? windowSize.width : 160,
       initialSlide: 0
     };
 
-    const parkSlideClass = this.props.selectedPark.isFetching ? ' loading' : '';
+    const parkSlideClass = selectedPark.isFetching ? ' loading' : '';
     const validImages = this.getValidImages();
     const markers = validImages.filter((photo, idx) => {
-      return this.state.selectedPhoto === photo.photoid;
+      return selectedPhoto === photo.photoid;
     });
 
     // In case we have no images...
     const containerClass = (validImages.length === 0) ? 'theme-white page-park container no-images' : 'theme-white page-park container';
 
     return (
-      <div className={containerClass + ' tab-' + this.state.tabSection}>
+      <div className={containerClass + ' tab-' + tabSection}>
         <StickyNav />
         <main role='application'>
           <div className='page-park-wrapper'>
@@ -375,7 +390,7 @@ export class Park extends PureComponent {
                   markers={markers}
                   cluster={false}
                   geometry={geometry}
-                  selectedMarker={this.state.selectedPhoto}
+                  selectedMarker={selectedPhoto}
                   setMarkerIcon={this.setMarkerIcon.bind(this)}
                   setMarkerId={this.setMarkerId.bind(this)}
                   setMarkerPosition={this.setMarkerPosition.bind(this)}/>

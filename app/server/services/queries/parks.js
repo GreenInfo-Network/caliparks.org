@@ -117,10 +117,6 @@ function parksNotIn(options) {
   const notIn = options.notIn || [];
 
   let notInStr = ' (' + escape((notIn.join(','))) + ')';
-
-  console.log(notInStr);
-  console.log('');
-
   let bboxWhere = '';
   let photoWhere = '';
   if (bbox) {
@@ -172,8 +168,6 @@ function parksNotIn(options) {
   "SELECT parks.superunit_id, parks.unit_name, parks.centroid::json, photos.total, photos.metadata as item from parks",
   "LEFT JOIN photos ON parks.superunit_id = photos.superunit_id ORDER BY photos.total DESC"
   ]).join('\n');
-
-  console.log(q);
 
   return {query: q, opts:[]};
 }
@@ -268,20 +262,25 @@ function randomPark(options) {
 function getSelectedParkPhotos(options) {
   options = options || {};
   const id = options.id;
-  const photoCount = options.photoCount || '12';
+  const photoCount = options.photoCount || '20';
   const offset = options.offset || '0';
 
-  const q = ["SELECT"].concat(BASE_PHOTO_ATTRIBUTES).concat([
-    " FROM instagram_photos photos",
-    " JOIN cpad_superunits cpad ON cpad.superunit_id = photos.superunit_id",
-    " WHERE photos.superunit_id = $1",
-    " AND cpad.access_typ = 'Open Access'",
-    " ORDER BY (photos.metadata->>'created_time')::int DESC",
-    " OFFSET $2",
-    " LIMIT $3"
+  const q = ["WITH photo_count AS (",
+    "SELECT count(*) as total FROM instagram_photos photos JOIN cpad_superunits cpad ON cpad.superunit_id = photos.superunit_id WHERE photos.superunit_id = $1 AND cpad.access_typ = 'Open Access'",
+    ")",
+    "SELECT (select total from photo_count)::int as total, to_json(q1.items) as items FROM (SELECT array_agg(row_to_json(q0)::json) as items ",
+    "FROM (",
+      "SELECT photos.superunit_id,"].concat(BASE_PHOTO_ATTRIBUTES).concat([
+      "FROM instagram_photos photos ",
+      "JOIN cpad_superunits cpad ON cpad.superunit_id = photos.superunit_id ",
+      "WHERE photos.superunit_id = $2 ",
+      "AND cpad.access_typ = 'Open Access' ",
+      "ORDER BY (photos.metadata->>'created_time')::int DESC OFFSET $3 LIMIT $4",
+    ") q0 ",
+    "GROUP BY q0.superunit_id) q1"
   ]).join('\n');
 
-  return {query: q, opts:[id, offset, photoCount]};
+  return {query: q, opts:[id, id, offset, photoCount]};
 }
 
 function getSelectedPark(options) {
