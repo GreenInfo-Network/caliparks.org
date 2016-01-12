@@ -81,7 +81,18 @@ export default class Navigator extends PureComponent {
                 </div>
               </div>
             }
-            <p className='name'><Link to={`/park/${item[this.props.idKey]}`}>{item[this.props.nameKey]} <span className='right-triangle'>▶</span></Link></p>
+            <p className='name'>
+              <Link to={`/park/${item[this.props.idKey]}`}>
+                <span>
+                  {item[this.props.nameKey]}
+                </span>
+                <span>
+                  <svg className='icon right-triangle'>
+                      <use xlinkHref='/main.svg#icon-right-triangle' />
+                  </svg>
+                </span>
+              </Link>
+            </p>
           </div>
         }
       </div>

@@ -82,11 +82,27 @@
   .name {
     font-size: 1.4rem;
     margin: 0;
-    padding: 8px 31px;
+    padding: 8px 8px 8px 31px;
 
     a {
+      position: relative;
+      display: block;
       color: #fff;
       text-decoration: none;
+      padding: 0;
+
+      span {
+        display: inline-block;
+      }
+
+      span:first-child {
+        padding-right: 31px;
+      }
+      span:last-child {
+        position: absolute;
+        right: 5px;
+        bottom: 0;
+      }
     }
   }
 }
