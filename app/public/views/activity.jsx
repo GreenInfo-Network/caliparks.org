@@ -138,7 +138,14 @@ export class Activity extends PureComponent {
 
   onMarkerClick(marker, idx) {
     const id = this.setMarkerId(marker);
-    if (this.state.selectedMarker === id) return;
+
+    // go to park if this click on a already
+    // selected marker
+    if (this.state.selectedMarker === id) {
+      location.href = '/park/' + id;
+      return;
+    }
+
     this.isFromListClick = false;
 
     // something is off with the idx being returned,
