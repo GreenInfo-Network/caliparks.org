@@ -10,7 +10,8 @@ export default class Navigator extends PureComponent {
     nameKey: PropTypes.string,
     idKey: PropTypes.string,
     selectedItem: PropTypes.number,
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+    hideTop: PropTypes.bool
   };
 
   static defaultProps = {
@@ -18,7 +19,8 @@ export default class Navigator extends PureComponent {
     nameKey: 'name',
     idKey: 'id',
     selectedItem: 0,
-    onChange: () => {}
+    onChange: () => {},
+    hideTop: false
   };
 
   state = {
@@ -42,9 +44,11 @@ export default class Navigator extends PureComponent {
   }
 
   render() {
-    const showNavi = this.props.items.length ? true : false;
-    const item = (this.props.items.length && this.props.items[this.props.selectedItem]) ? this.props.items[this.props.selectedItem] : {};
-    const showTop = (!item || (item.total < 0 || isNaN(item.total))) ? false : true;
+    const {items, hideTop, selectedItem} = this.props;
+    const showNavi = items.length ? true : false;
+    const item = (items.length && items[selectedItem]) ? items[selectedItem] : {};
+    const showTop = (hideTop || !item || (item.total < 0 || isNaN(item.total))) ? false : true;
+
     return (
       <div className='navigator'>
         {showNavi &&
@@ -59,7 +63,7 @@ export default class Navigator extends PureComponent {
                 </button>
                 </div>
                 <div className='col rank-count'>
-                  <span className='rank'>{this.props.selectedItem + 1}</span>
+                  <span className='rank'>{selectedItem + 1}</span>
                   <span className='count'>
                     <FormattedMessage
                       id='navigator.countss'

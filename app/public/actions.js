@@ -53,6 +53,13 @@ export function fetchFeaturedParks() {
 }
 
 
+export const CLEAR_MOST_SHARED_PARKS = 'CLEAR_MOST_SHARED_PARKS';
+export function clearMostSharedParks() {
+  return {
+    type: CLEAR_MOST_SHARED_PARKS
+  };
+}
+
 export const REQUEST_MOST_SHARED_PARKS = 'REQUEST_MOST_SHARED_PARKS';
 export function requestMostSharedParks() {
   return {

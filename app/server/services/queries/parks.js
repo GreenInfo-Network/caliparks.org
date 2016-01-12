@@ -146,7 +146,7 @@ function parksNotIn(options) {
   photoWhere,
   " ORDER BY (photos.metadata->>'created_time')::int DESC) q0 GROUP BY q0.superunit_id",
   ")",
-  "SELECT parks.superunit_id, parks.unit_name, parks.centroid::json, photos.total, photos.metadata as item from parks",
+  "SELECT parks.superunit_id::int AS su_id, parks.unit_name AS su_name, parks.centroid::json, photos.total::int, photos.metadata as item from parks",
   "LEFT JOIN photos ON parks.superunit_id = photos.superunit_id ORDER BY photos.total DESC"
   ]).join('\n');
 
@@ -184,9 +184,9 @@ function mostSharedParks(options) {
     CPAD_WHERE.join(" AND "),
     ")",
     " SELECT",
-      " parks.superunit_id,",
-      " MAX(parks.total) as total,",
-      " parks.unit_name,",
+      " parks.superunit_id::int AS su_id,",
+      " parks.unit_name AS su_name,",
+      " MAX(parks.total)::int as total,",
       " MIN(parks.centroid)::json as centroid,",
       " array_agg(row_to_json(q1)) as item",
     " FROM most_shared_parks parks,",

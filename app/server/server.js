@@ -281,7 +281,7 @@ app.get('/api/most_shared_parks.json', (req, res, next) => {
 
     if (req.query.all) {
       const ids = data.map((item) => {
-        return item.superunit_id;
+        return item.su_id;
       });
 
       return dataStore.db('parksNotIn', {interval: req.query.interval || null, bbox: req.query.bbox, notIn: ids});

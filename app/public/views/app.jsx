@@ -54,6 +54,7 @@ export class App extends PureComponent {
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.handleResizeThrottled);
+    this.props.clearMostSharedParks();
   }
 
   onLeaveHandler(prevSection, currentSection) {
@@ -125,6 +126,7 @@ export class App extends PureComponent {
 
     const isSticky = (this.state.currentSection >= 2 || (this.state.currentSection === 1 && this.state.prevSection > 1)) ? true : false;
     const stickyKlass = (this.state.currentSection === 2 || this.state.currentSection === 3) ? ' white' : '';
+
     return (
       <div className='container'>
         {isSticky &&

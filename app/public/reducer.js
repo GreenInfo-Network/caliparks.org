@@ -26,6 +26,16 @@ function featuredParks(state = INITIAL_STATE, action) {
 
 function mostSharedParks(state = INITIAL_STATE, action) {
   switch (action.type) {
+  case actions.CLEAR_MOST_SHARED_PARKS:
+    return {
+      ...state,
+      isFetching: false,
+      parks: [],
+      lastUpdated: null,
+      interval: 'week-now',
+      bbox: null
+    };
+
   case actions.REQUEST_MOST_SHARED_PARKS:
     return {
       ...state,

@@ -34,12 +34,14 @@ export default class Explore extends PureComponent {
 
   state = {
     selectedMarker: 0,
+    currentIndex: 0,
     searchFocused: false
   };
 
   componentWillMount() {
     this.configureDropdownOptions();
     this.onBoundsChangeDebounced = debounce(this.onBoundsChange, 500).bind(this);
+    this.getFirstMarker(this.props.mostShared);
   }
 
   componentDidMount() {
@@ -47,8 +49,17 @@ export default class Explore extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
+    const {selectedMarker, currentIndex} = this.state;
+
     if (this.props.mostShared.interval !== nextProps.mostShared.interval) {
-      this.setState({selectedMarker: 0});
+      this.getFirstMarker(nextProps.mostShared);
+    } else if (nextProps.mostShared.parks.length && selectedMarker === 0) {
+      this.getFirstMarker(nextProps.mostShared);
+    } else if (selectedMarker > 0) {
+      const newIndex = this.getMarkerIndex(selectedMarker, nextProps.mostShared.parks);
+      if (newIndex !== currentIndex) {
+        this.setSelectedMarker(selectedMarker, nextProps.mostShared.parks);
+      }
     }
   }
 
@@ -58,6 +69,10 @@ export default class Explore extends PureComponent {
       this.resizeMap();
     }
     this.resizeSections();
+  }
+
+  componentWillUnmount() {
+    this.onBoundsChangeDebounced = null;
   }
 
   configureDropdownOptions() {
@@ -104,27 +119,56 @@ export default class Explore extends PureComponent {
     ];
   }
 
-  getMarkerIndex(marker) {
+  // Expecting a sorted array
+  getFirstMarker(mostShared) {
+    if (!mostShared.parks.length) return;
+    const id = mostShared.parks[0].su_id;
+
+    this.setSelectedMarker(id, mostShared.parks);
+  }
+
+  getMarkerID(markerOrId) {
+    return (markerOrId.su_id) ? markerOrId.su_id : markerOrId;
+  }
+
+  getMarkerIndex(markerOrId, parksArray) {
+    const {mostShared} = this.props;
+    const id = this.getMarkerID(markerOrId);
     let start = -1;
-    this.props.mostShared.parks.forEach((pk, idx) => {
-      if (pk.superunit_id === marker.superunit_id) start = idx;
+
+    const parks = parksArray || mostShared.parks;
+
+    parks.forEach((pk, idx) => {
+      if (pk.su_id === id) start = idx;
     });
 
     return start;
   }
 
+  setSelectedMarker(markerOrId, parksArray) {
+    const idx = this.getMarkerIndex(markerOrId, parksArray);
+    const id = this.getMarkerID(markerOrId);
+    if (idx > -1) {
+      this.setState({selectedMarker: id, currentIndex: idx});
+    } else {
+      this.resetSelectedMarker();
+    }
+  }
+
+  resetSelectedMarker() {
+    this.setState({selectedMarker: 0, currentIndex: 0});
+  }
+
   onMarkerClick(marker) {
     const {selectedMarker} = this.state;
-    const idx = this.getMarkerIndex(marker);
+    const id = this.getMarkerID(marker);
 
-    if (selectedMarker === idx) {
-      location.href = '/park/' + marker.superunit_id;
+    if (selectedMarker === id) {
+      location.href = '/park/' + id;
       return;
     }
 
-    if (idx > -1 && selectedMarker !== idx) {
-      this.setState({selectedMarker: idx});
-    }
+    this.setSelectedMarker(marker);
 
     if (typeof this.props.handleMarkerClick === 'function') {
       this.props.handleMarkerClick(marker);
@@ -132,12 +176,27 @@ export default class Explore extends PureComponent {
   }
 
   onNavigatorChange(dir) {
-    const length = this.props.mostShared.parks.length - 1;
-    const idx = this.state.selectedMarker;
-    if (dir === 'prev') {
-      if (idx > 0) this.setState({selectedMarker: idx - 1});
-    } else {
-      if (idx < length) this.setState({selectedMarker: idx + 1});
+    const {currentIndex} = this.state;
+    const {mostShared} = this.props;
+    const length = mostShared.parks.length - 1;
+    const map = this.refs.map;
+
+    let newIndex = currentIndex;
+    if (dir === 'prev' && currentIndex > 0) {
+      newIndex--;
+    } else if (currentIndex < length) {
+      newIndex++;
+    }
+
+    const marker = mostShared.parks[newIndex];
+    if (marker && marker.su_id) {
+      if (map && marker.centroid) {
+        const bds = map.getBounds();
+        const coord = new google.maps.LatLng(marker.centroid.coordinates[1], marker.centroid.coordinates[0]);
+        if (!bds.contains(coord)) map.panTo(coord);
+      }
+
+      this.setState({selectedMarker: marker.su_id, currentIndex: newIndex});
     }
   }
 
@@ -148,6 +207,8 @@ export default class Explore extends PureComponent {
   }
 
   onSearchSelect(id) {
+    this.setState({selectedMarker: id});
+
     request
       .get('/api/park/' + id + '/bounds')
       .end((err, res) => {
@@ -156,19 +217,26 @@ export default class Explore extends PureComponent {
         } else {
           const data = JSON.parse(res.text);
           const bds = envelope2Bounds(data[0].bbox.coordinates[0]);
-          if (!bds.isEmpty()) {
-            this.refs.map.fitBounds(bds);
-            if (typeof this.props.boundsChange === 'function') {
-              this.props.boundsChange(bds.toUrlValue(4).split(','), 14);
+          const map = this.getMap();
+
+          if (!bds.isEmpty() && map) {
+            const zoom = this.refs.map.getZoom();
+
+            google.maps.event.addListenerOnce(map, 'idle', () => {
+              const newBounds = this.refs.map.getBounds();
+              if (typeof this.props.boundsChange === 'function') {
+                this.props.boundsChange(newBounds.toUrlValue(4).split(','), this.refs.map.getZoom());
+              }
+            });
+
+            if (zoom >= 14) {
+              this.refs.map.panTo(bds.getCenter());
+            } else {
+              this.refs.map.fitBounds(bds);
             }
-            this.resetSelectedMarker();
           }
         }
       });
-  }
-
-  resetSelectedMarker() {
-    this.setState({selectedMarker: 0});
   }
 
   getHeight() {
@@ -203,7 +271,14 @@ export default class Explore extends PureComponent {
     }
   }
 
-  getMarkerIcon(idx) {
+  isMarkerNotATopTen() {
+    const {currentIndex} = this.state;
+    const {mostShared} = this.props;
+    return (mostShared.parks[currentIndex] && mostShared.parks[currentIndex].other) ? true : false;
+  }
+
+  getMarkerIcon(marker) {
+    const {selectedMarker} = this.state;
     // circle icon path generator:
     // http://complexdan.com/svg-circleellipse-to-path-converter/
     const icon = {
@@ -212,16 +287,16 @@ export default class Explore extends PureComponent {
       strokeOpacity: 1
     };
 
-    if (idx === this.state.selectedMarker) {
+    if (marker.su_id === selectedMarker) {
       icon.path = 'M-4,0a4,4 0 1,0 8,0a4,4 0 1,0 -8,0';
       icon.fillColor = '#ffffff';
       icon.strokeColor = '#358292';
       icon.strokeWeight = 2;
     } else {
       icon.path = 'M-5,0a5,5 0 1,0 10,0a5,5 0 1,0 -10,0';
-      icon.fillColor = (!this.props.mostShared.parks[idx].other) ? '#358292' : '#999';
-      icon.strokeColor = (!this.props.mostShared.parks[idx].other) ? '#358292' : '#fff';
-      icon.strokeWeight = (!this.props.mostShared.parks[idx].other) ? 0 : 1;
+      icon.fillColor = (!marker.other) ? '#358292' : '#999';
+      icon.strokeColor = (!marker.other) ? '#358292' : '#fff';
+      icon.strokeWeight = (!marker.other) ? 0 : 1;
     }
 
     return icon;
@@ -259,7 +334,7 @@ export default class Explore extends PureComponent {
 
   refineClick() {
     this.onBoundsChange();
-    this.resetSelectedMarker();
+    // this.resetSelectedMarker();
   }
 
   searchOnFocus = () => {
@@ -273,6 +348,7 @@ export default class Explore extends PureComponent {
   render() {
     const [leftWidth, rightWidth] = getTwoColumnWidthPercent(this.props.width, 0);
     const searchClass = (this.state.searchFocused) ? ' search-on' : '';
+    const hideTop = this.isMarkerNotATopTen();
     return (
       <div id='explore-section' className={'theme-white' + searchClass} style={{height: (this.getHeight() - 8) + 'px'}}>
         <div className='wrapper row height-full'>
@@ -325,9 +401,10 @@ export default class Explore extends PureComponent {
 
             <Navigator
               items={this.props.mostShared.parks}
-              selectedItem={this.state.selectedMarker}
-              nameKey={'unit_name'}
-              idKey={'superunit_id'}
+              selectedItem={this.state.currentIndex}
+              nameKey={'su_name'}
+              idKey={'su_id'}
+              hideTop={hideTop}
               onChange={this.onNavigatorChange.bind(this)} />
 
             <GoogleMap ref='map' containerProps={{
@@ -349,9 +426,9 @@ export default class Explore extends PureComponent {
               {this.props.mostShared.parks.map((marker, index) => {
                 const coords = marker.centroid.coordinates;
                 return (<Marker
-                  key={marker.superunit_id}
+                  key={marker.su_id}
                   onClick={this.onMarkerClick.bind(this, marker)}
-                  icon={this.getMarkerIcon(index)}
+                  icon={this.getMarkerIcon(marker)}
                   position={{lat:coords[1], lng:coords[0]}} />
                 );
               })}
