@@ -56,6 +56,7 @@ function selectedPark(state = INITIAL_STATE, action) {
       park: [],
       images: [],
       parkid: [],
+      totalImages: 0,
       lastUpdated: null
     };
 
@@ -78,6 +79,7 @@ function selectedPark(state = INITIAL_STATE, action) {
       park: action.park.park,
       images: action.park.images,
       parkid: action.parkid,
+      totalImages: action.park.totalImages,
       lastUpdated: action.receivedAt
     };
 
@@ -86,6 +88,7 @@ function selectedPark(state = INITIAL_STATE, action) {
       ...state,
       isFetching: false,
       images: state.images ? state.images.concat(action.images) : action.images,
+      totalImages: action.totalImages,
       lastUpdated: action.receivedAt
     };
 

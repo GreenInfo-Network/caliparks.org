@@ -131,7 +131,7 @@ export function receiveSelectedParkPhotos(rsp) {
   return {
     type: RECEIVE_SELECTED_PARK_PHOTOS,
     images: rsp.images,
-    total: rsp.totalImages,
+    totalImages: rsp.totalImages,
     receivedAt: Date.now()
   };
 }

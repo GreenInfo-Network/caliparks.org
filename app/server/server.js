@@ -166,7 +166,7 @@ app.use('/', (req, res, next) => {
       },
       selectedPark: {
         images: [],
-        totalImages: -1,
+        totalImages: 0,
         park: [],
         isFetching: false
       },
@@ -204,7 +204,7 @@ app.get('/', (req, res, next) => {
 app.get('/park/:id', (req, res, next) => {
   return dataStore.db('getSelectedParkPhotos', {id: req.params.id}).then((images) => {
     res.locals.selectedPark.images = (images.length) ? images[0].items : [];
-    res.locals.selectedPark.totalImages = (images.length) ? images[0].total : -1;
+    res.locals.selectedPark.totalImages = (images.length) ? images[0].total : 0;
 
     return dataStore.db('getSelectedPark', {id: req.params.id});
   })
@@ -310,7 +310,7 @@ app.get('/api/selected_park.json', (req, res, next) => {
 
   return dataStore.db('getSelectedParkPhotos', {id: req.query.id}).then((images) => {
     obj.images = (images.length) ? images[0].items : [];
-    obj.totalImages = (images.length) ? images[0].total : -1;
+    obj.totalImages = (images.length) ? images[0].total : 0;
 
     return dataStore.db('getSelectedPark', {id: req.query.id});
   })
@@ -341,7 +341,7 @@ app.get('/api/park/:id/photos', (req, res, next) => {
   .then((images) => {
     const obj = {};
     obj.images = (images.length) ? images[0].items : [];
-    obj.totalImages = (images.length) ? images[0].total : -1;
+    obj.totalImages = (images.length) ? images[0].total : 0;
     return res.json(obj);
   })
   .catch((err) => {
