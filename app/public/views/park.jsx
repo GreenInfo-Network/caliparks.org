@@ -34,7 +34,7 @@ export class Park extends PureComponent {
   state = {
     selectedPhoto: null,
     badImages: [],
-    tabSection: 'map'
+    tabSection: 'photos'
   };
 
   componentWillMount() {
