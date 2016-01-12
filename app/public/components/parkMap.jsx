@@ -27,7 +27,8 @@ export default class ParkMap extends PureComponent {
     localSearchData: PropTypes.array,
     searchEndPoint: PropTypes.string,
     searchOnBlur: PropTypes.func,
-    searchOnFocus: PropTypes.func
+    searchOnFocus: PropTypes.func,
+    maxZoomForFitParkBounds: PropTypes.number
   };
 
   static defaultProps = {
@@ -35,7 +36,8 @@ export default class ParkMap extends PureComponent {
     useLocateMe: false,
     useRefineButton: false,
     autoBounds: false,
-    useLocalData: false
+    useLocalData: false,
+    maxZoomForFitParkBounds: 12
   };
 
   componentWillMount() {
@@ -113,6 +115,31 @@ export default class ParkMap extends PureComponent {
     }
   }
 
+  getBoundsZoomLevel(bounds, mapDim) {
+    const WORLD_DIM = { height: 256, width: 256 };
+    const ZOOM_MAX = 18;
+
+    function latRad(lat) {
+      const sin = Math.sin(lat * Math.PI / 180);
+      const radX2 = Math.log((1 + sin) / (1 - sin)) / 2;
+      return Math.max(Math.min(radX2, Math.PI), -Math.PI) / 2;
+    }
+
+    function zoom(mapPx, worldPx, fraction) {
+      return Math.floor(Math.log(mapPx / worldPx / fraction) / Math.LN2);
+    }
+
+    const ne = bounds.getNorthEast();
+    const sw = bounds.getSouthWest();
+    const latFraction = (latRad(ne.lat()) - latRad(sw.lat())) / Math.PI;
+    const lngDiff = ne.lng() - sw.lng();
+    const lngFraction = ((lngDiff < 0) ? (lngDiff + 360) : lngDiff) / 360;
+    const latZoom = zoom(mapDim.height, WORLD_DIM.height, latFraction);
+    const lngZoom = zoom(mapDim.width, WORLD_DIM.width, lngFraction);
+
+    return Math.min(latZoom, lngZoom, ZOOM_MAX);
+  }
+
   zoomToParkBounds(id) {
     request
       .get('/api/park/' + id + '/bounds')
@@ -125,7 +152,8 @@ export default class ParkMap extends PureComponent {
 
           const bds = envelope2Bounds(data[0].bbox.coordinates[0]);
           if (!bds.isEmpty() || !map) {
-            const zoom = this.refs.map.getZoom();
+            const div = map.getDiv();
+            const minZoomNeeded = this.getBoundsZoomLevel(bds, {width: div.offsetWidth, height: div.offsetHeight});
 
             google.maps.event.addListenerOnce(map, 'idle', () => {
               const newBounds = this.refs.map.getBounds();
@@ -134,11 +162,10 @@ export default class ParkMap extends PureComponent {
               }
             });
 
-            if (zoom >= 10) {
-              this.refs.map.panTo(bds.getCenter());
-            } else {
-              this.refs.map.fitBounds(bds);
-            }
+            const zoomTo = Math.min(minZoomNeeded, this.props.maxZoomForFitParkBounds);
+
+            map.setCenter(bds.getCenter());
+            map.setZoom(zoomTo);
           }
         }
       });
