@@ -114,8 +114,15 @@ export default class Explore extends PureComponent {
   }
 
   onMarkerClick(marker) {
+    const {selectedMarker} = this.state;
     const idx = this.getMarkerIndex(marker);
-    if (idx > -1 && this.state.selectedMarker !== idx) {
+
+    if (selectedMarker === idx) {
+      location.href = '/park/' + marker.superunit_id;
+      return;
+    }
+
+    if (idx > -1 && selectedMarker !== idx) {
       this.setState({selectedMarker: idx});
     }
 
