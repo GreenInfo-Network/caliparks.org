@@ -10,7 +10,7 @@ import {FaqContainer} from './views/faq';
 
 export default (
   <Router>
-    <Route path='/' component={Layout}>
+    <Route path='/' component={Layout} onUpdate={() => window.scrollTo(0, 0)}>
       <IndexRoute component={AppContainer} />
 
       <Route path='discover' component={NotFound} />
