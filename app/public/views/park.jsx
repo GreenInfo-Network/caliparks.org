@@ -49,6 +49,9 @@ export class Park extends PureComponent {
   }
 
   componentDidMount() {
+    // always start at top
+    window.scrollTo(0, 0);
+
     this.handleResizeThrottled = throttle(this.handleResize, 250).bind(this);
     window.addEventListener('resize', this.handleResizeThrottled);
     document.querySelector('body').style.overflow = 'auto';
@@ -99,6 +102,7 @@ export class Park extends PureComponent {
   componentWillUnmount() {
     this.props.clearSelectedParkData(this.props.params.id);
     window.removeEventListener('resize', this.handleResizeThrottled);
+    this.handleResizeThrottled = null;
     if (this.socs) this.socs.destroy();
     this.socs = null;
   }

@@ -54,6 +54,9 @@ export class Activity extends PureComponent {
   }
 
   componentDidMount() {
+    // always start at top
+    window.scrollTo(0, 0);
+
     this.handleResizeThrottled = throttle(this.handleResize, 250).bind(this);
     window.addEventListener('resize', this.handleResizeThrottled);
     document.querySelector('body').style.overflow = 'auto';
@@ -87,6 +90,7 @@ export class Activity extends PureComponent {
   componentWillUnmount() {
     this.props.clearSelectedActivityData(this.props.params.activity);
     window.removeEventListener('resize', this.handleResizeThrottled);
+    this.handleResizeThrottled = null;
   }
 
   getWindowDimensions() {
