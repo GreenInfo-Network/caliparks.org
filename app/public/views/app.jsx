@@ -88,7 +88,11 @@ export class App extends PureComponent {
   }
 
   handleResize() {
-    this.props.setWindowSize(this.getWindowDimensions());
+    const {windowSize} = this.props;
+    const dims = this.getWindowDimensions();
+
+    if (dims.width === windowSize.width && dims.height === windowSize.height) return;
+    this.props.setWindowSize(dims);
   }
 
   handleExploreChange(interval, zoom) {
