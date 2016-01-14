@@ -29,16 +29,6 @@
     padding: 0;
   }
 
-  .hoverable {
-    &:hover .activity .overlay {
-      background: rgba(0, 0, 0, 0);
-    }
-
-    &:hover .activity .label-wrap {
-      background: rgba(0,0,0,0.6) !important;
-    }
-  }
-
   .block {
     position: relative;
     float: left;
@@ -84,10 +74,6 @@
       transition: background $transition-duration $transition-ease;
     }
 
-    &.activity:hover .overlay {
-      background: rgba(0, 0, 0, 0);
-    }
-
     .label-wrap {
       position: absolute;
       top: 50%;
@@ -99,10 +85,6 @@
 
     & .icon.park-activity {
       transition: all $transition-duration $transition-ease $transition-ease;
-    }
-
-    &.activity:hover .label-wrap {
-      background: rgba(0,0,0,0.6) !important;
     }
 
     .table {
@@ -158,6 +140,14 @@
       .activity-name {
         padding-left: 10%;
       }
+
+      &.activity:hover .overlay {
+        background: rgba(0, 0, 0, 0);
+      }
+
+      &.activity:hover .label-wrap {
+        background: rgba(0,0,0,0.6) !important;
+      }
     }
   }
 
@@ -187,6 +177,16 @@
 
     .slick-prev, .slick-next {
       display: none;
+    }
+
+    .hoverable {
+      &:hover .activity .overlay {
+        background: rgba(0, 0, 0, 0);
+      }
+
+      &:hover .activity .label-wrap {
+        background: rgba(0,0,0,0.6) !important;
+      }
     }
   }
 

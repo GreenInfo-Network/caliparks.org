@@ -101,8 +101,6 @@ $brown: #8C6D62;
   }
 }
 
-.hoverable:hover .icon.park-activity,
-li:hover .icon.park-activity,
 .icon.park-activity.alt {
   &.backpacking,
   &.biking,
@@ -152,4 +150,54 @@ li:hover .icon.park-activity,
 
 .right-triangle {
   font-family: monospace;
+}
+
+@include respond-to('full') {
+  .hoverable:hover .icon.park-activity,
+  li:hover .icon.park-activity {
+    &.backpacking,
+    &.biking,
+    &.camping,
+    &.covered_picnic_tables,
+    &.hiking,
+    &.horsebackriding,
+    &.ohv,
+    &.rusticcabins,
+    &.wildlifewatching {
+      fill: #fff;
+      color: $green;
+    }
+
+    &.ball_fields,
+    &.basketball,
+    &.tennis {
+      fill: #fff;
+      color: $orange;
+    }
+
+    &.historicalsite {
+      fill: #fff;
+      color: $brown;
+    }
+
+    &.boardsports,
+    &.boating,
+    &.fishing,
+    &.kayakingcanoeing,
+    &.swimming {
+      fill: #fff;
+      color: $blue;
+    }
+
+    &.snowsports {
+      fill: #fff;
+      color: $lgtBlue;
+    }
+
+    &.dogs,
+    &.playground  {
+      fill: #fff;
+      color: $purple;
+    }
+  }
 }

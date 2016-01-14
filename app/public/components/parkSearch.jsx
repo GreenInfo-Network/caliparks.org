@@ -90,7 +90,7 @@ class ParkSearch extends PureComponent {
       .get(endPoint)
       .end((err, res) => {
         if (err) {
-          console.error('Loading park search list failed!', err);
+          console.error('Loading park search list failed!');
         } else {
           context.createSearchEngine(JSON.parse(res.text));
         }
