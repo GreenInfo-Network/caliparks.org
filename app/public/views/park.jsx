@@ -111,9 +111,16 @@ export class Park extends PureComponent {
     }
   }
 
-  onPhotoClick(photoid) {
-    if (this.state.selectedPhoto === photoid) return;
-    this.setState({selectedPhoto: photoid});
+  onPhotoClick(photo, evt) {
+    const id = photo.photoid;
+    const {windowSize} = this.props;
+    const isMobile = (windowSize.width < MOBILE_BREAKPOINT) ? true : false;
+
+    if (!isMobile) evt.preventDefault();
+
+    if (this.state.selectedPhoto === id && !isMobile) return;
+
+    this.setState({selectedPhoto: id});
   }
 
   setMarkerIcon(marker, idx) {
@@ -298,7 +305,7 @@ export class Park extends PureComponent {
     return this.getValidImages().map((photo, idx) => {
       const klass = photo.photoid === this.state.selectedPhoto ? 'selected' : '';
       return (
-        <div className={klass} key={idx}><img onError={this.onImageError.bind(this, photo)} src={photo.standard_resolution} onClick={this.onPhotoClick.bind(this, photo.photoid)}/></div>
+        <div className={klass} key={idx}><a href={photo.link} onClick={this.onPhotoClick.bind(this, photo)}><img onError={this.onImageError.bind(this, photo)} src={photo.standard_resolution}/></a></div>
       );
     });
   }

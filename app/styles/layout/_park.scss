@@ -47,14 +47,18 @@
 
     &.map .inner {
       padding: 0 0;
+      width: 100%;
     }
 
     .tab-map &.map .inner {
       display: block;
+      position: relative;
+      left: 0;
     }
 
     .tab-photos &.map .inner {
-      display: none;
+      position: absolute;
+      left: -9999999px;
     }
 
     .no-images &.map .inner {
@@ -189,7 +193,8 @@
       }
 
       .tab-photos &.map .inner {
-        display: block;
+        position: relative;
+        left: 0;
       }
     }
 
@@ -210,11 +215,13 @@
   overflow: hidden;
 
   .tab-map & {
-    display: none;
+    position: absolute;
+    left: -9999999px;
   }
 
   .tab-photos & {
-    display: block;
+    position: relative;
+    left: 0;
   }
 
   .slider-inner {
@@ -262,11 +269,17 @@
   }
 
   .slick-slide.selected {
-    cursor: default;
+    cursor: pointer;
   }
 
   .slick-slide {
     margin: 0;
+
+    a {
+      display: block;
+      border: 0;
+      text-decoration: none;
+    }
   }
 
   .slick-prev {
@@ -293,7 +306,13 @@
     top: 100%;
 
     .tab-map & {
-      display: block;
+      position: relative;
+      left: 0;
+    }
+
+    .tab-photos & {
+      position: absolute;
+      left: 0;
     }
 
     .slider-inner {
@@ -309,6 +328,10 @@
 
     .slick-prev {
       left: 0;
+    }
+
+    .slick-slide.selected {
+      cursor: default;
     }
   }
 

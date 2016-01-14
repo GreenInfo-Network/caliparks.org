@@ -80,6 +80,7 @@ export class Activity extends PureComponent {
     if ((this.state.tabSection !== prevState.tabSection && this.state.tabSection === 'list') || prevState.selectedMarker !== this.state.selectedMarker && !this.isFromListClick) {
       this.setScrollPosition();
     }
+
     this.isFromListClick = false;
   }
 
@@ -155,10 +156,25 @@ export class Activity extends PureComponent {
   }
 
   onListClick(id, idx) {
+    const {tabSection} = this.state;
     if (this.state.selectedMarker === id) return;
     this.isFromListClick = true;
+
+    // set flags
     this.zoomToPark = true;
-    this.setState({selectedMarker: id, selectedIndex: idx});
+    this.dontFetch = true;
+
+    const state = {
+      selectedMarker: id,
+      selectedIndex: idx
+    };
+
+    if (tabSection === 'list') {
+      state.tabSection = 'map';
+    }
+
+    // set state to update UI
+    this.setState(state);
   }
 
   onListMouseOver(id, idx) {
@@ -172,6 +188,11 @@ export class Activity extends PureComponent {
   }
 
   onBoundsChange(bounds) {
+    if (this.dontFetch) {
+      this.dontFetch = false;
+      return;
+    }
+
     if (bounds.length !== 4) return;
     const {params, selectedActivity, fetchSelectedActivity} = this.props;
     if (selectedActivity.isFetching) return;
