@@ -345,10 +345,29 @@ export default class Explore extends PureComponent {
     this.setState({searchFocused: false});
   };
 
+  searchSorter = (things) => {
+    things.sort((a, b) => {
+      const first = (a.name > b.name)
+        ? 1
+        : (a.name < b.name ? -1 : 0);
+
+      const second = (a.size > b.size)
+        ? -1
+        : (a.size < b.size ? 1 : 0);
+
+      return first === 0
+              ? second
+              : first;
+    });
+
+    return things;
+  };
+
   render() {
     const [leftWidth, rightWidth] = getTwoColumnWidthPercent(this.props.width, 0);
     const searchClass = (this.state.searchFocused) ? ' search-on' : '';
     const hideTop = this.isMarkerNotATopTen();
+
     return (
       <div id='explore-section' className={'theme-white' + searchClass} style={{height: (this.getHeight() - 8) + 'px'}}>
         <div className='wrapper row height-full'>
@@ -395,7 +414,9 @@ export default class Explore extends PureComponent {
             <ParkSearch
               onSearchSelect={this.onSearchSelect.bind(this)}
               onFocusHandler={this.searchOnFocus}
-              onBlurHandler={this.searchOnBlur}/>
+              onBlurHandler={this.searchOnBlur}
+              endPoint='/api/search'
+              sortHandler={this.searchSorter}/>
             <LocateMe onPosition={this.onPosition.bind(this)} restrictWith='/assets/data/california.geojson' />
             <RefineButton onClickHandler={this.refineClick.bind(this)} />
 

@@ -2,6 +2,37 @@ import escape from 'pg-escape';
 import {CPAD_WHERE, BASE_PHOTO_ATTRIBUTES} from './common';
 
 /**
+ * Return list of parks
+ * @param  String bbox
+ * @return [{id, name, size}...]
+ */
+function listParks(options) {
+  options = options || {};
+  let where = [];
+  const bbox = options.bbox || null;
+  let opts = [];
+  if (bbox) {
+    opts = opts.concat(bbox.split(',').map(parseFloat));
+    where.push("ST_Transform(cpad.geom, 4326) && ST_MakeEnvelope($1, $2, $3, $4, 4326)");
+  }
+  where = where.concat(CPAD_WHERE);
+
+  const q = [
+    "SELECT ",
+      "labels.name AS name,",
+      "labels.superunit_id::int AS id,",
+      "labels.size::real as size ",
+    " FROM cpad_labels labels",
+    " JOIN cpad_superunits cpad USING (superunit_id)",
+    " WHERE ",
+    where.join(" AND ")
+  ];
+
+
+  return {query: q.join('\n'), opts: opts};
+}
+
+/**
  * Get latest photo from most shared parks
  * @param  {Object} options
  * @return query, options
@@ -316,7 +347,8 @@ export const queries = {
   getSelectedPark: getSelectedPark,
   randomPark: randomPark,
   getBoundsForPark: getBoundsForPark,
-  parksNotIn: parksNotIn
+  parksNotIn: parksNotIn,
+  listParks: listParks
 }
 
 

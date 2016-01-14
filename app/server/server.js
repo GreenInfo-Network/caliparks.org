@@ -262,8 +262,16 @@ app.get('/api/featured_parks.json', (req, res, next) => {
   });
 });
 
+app.get('/api/search', (req, res, next) => {
+  return dataStore.db('listParks').then((data) => {
+    return res.json(data);
+  }).catch((err) => {
+    return next(err);
+  });
+});
+
 app.get('/api/search/activity/:activity', (req, res, next) => {
-  return dataStore.db('getParksForSearch', {activity: req.params.activity}).then((data) => {
+  return dataStore.db('listParksWithActivity', {activity: req.params.activity}).then((data) => {
     return res.json(data);
   }).catch((err) => {
     return next(err);

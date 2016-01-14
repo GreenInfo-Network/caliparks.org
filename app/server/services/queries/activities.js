@@ -5,20 +5,23 @@ function getActivitiesList() {
   return {query: q, opts:[]};
 }
 
-function getParksForSearch(options) {
+function listParksWithActivity(options) {
   options = options || {};
-  const activity = options.activity.split('_').join(' ');
-  const where = [];
+  const activity = options.activity || null;
+  let where = [];
   const bbox = options.bbox || null;
   let opts = [];
   if (bbox) {
     opts = opts.concat(bbox.split(',').map(parseFloat));
     where.push("ST_Transform(cpad.geom, 4326) && ST_MakeEnvelope($1, $2, $3, $4, 4326)");
   }
-  where.concat(CPAD_WHERE);
-  where.push("a.activities @> '{" + activity + "}'::text[]");
+  where = where.concat(CPAD_WHERE);
 
-  const q= [
+  if (activity) {
+    where.push("a.activities @> '{" + activity.split('_').join(' ') + "}'::text[]");
+  }
+
+  const q = [
     "SELECT",
       " cpad.unit_name AS name,",
       "cpad.superunit_id::int AS id,",
@@ -29,6 +32,7 @@ function getParksForSearch(options) {
     where.join(" AND ")
   ];
 
+
   return {query: q.join('\n'), opts: opts};
 }
 
@@ -38,13 +42,13 @@ function getParksForActivity(options) {
   const limit = options.limit || 500;
 
   const bbox = options.bbox || null;
-  const where = [];
+  let where = [];
   let opts = [limit];
   if (bbox) {
     opts = opts.concat(bbox.split(',').map(parseFloat));
     where.push("ST_Transform(cpad.geom, 4326) && ST_MakeEnvelope($2, $3, $4, $5, 4326)");
   }
-  where.concat(CPAD_WHERE);
+  where = where.concat(CPAD_WHERE);
   where.push("a.activities @> '{" + activity + "}'::text[]");
 
   const q= [
@@ -74,5 +78,5 @@ function getParksForActivity(options) {
 export const queries = {
   getActivitiesList: getActivitiesList,
   getParksForActivity: getParksForActivity,
-  getParksForSearch: getParksForSearch
+  listParksWithActivity: listParksWithActivity
 }
