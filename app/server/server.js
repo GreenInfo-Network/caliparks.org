@@ -226,27 +226,12 @@ app.get('/activity/:activity', (req, res, next) => {
 app.get('/wander', (req, res, next) => {
   return dataStore.db('randomPark', {interval:'month-now'}).then((park) => {
     const parkid = park[0].su_id;
-    res.set('Cache-Control', 'private');
+    res.set('Cache-Control', 'private, max-age=0, no-cache');
     return res.redirect('/park/' + parkid);
   }).catch((err) => {
     return next(err);
   });
 });
-
-/*
-// load most shared parks
-app.get('/', (req, res, next) => {
-  return dataStore.db('mostSharedParks', {}).then((parks) => {
-    res.locals.mostShared = {
-      parks
-    };
-
-    return next();
-  }).catch((err) => {
-    return next(err);
-  });
-});
-*/
 
 app.get('/api/featured_parks.json', (req, res, next) => {
   return dataStore.db('latestPhotoFromMostSharedPark', {}).then((data) => {
@@ -278,7 +263,7 @@ app.get('/api/most_shared_parks.json', (req, res, next) => {
     others: []
   };
 
-  return  dataStore.db('mostSharedParks', {interval: req.query.interval || null, bbox: req.query.bbox}).then((data) => {
+  return dataStore.db('mostSharedParks', {interval: req.query.interval || null, bbox: req.query.bbox}).then((data) => {
     obj.top = data;
 
     if (req.query.all) {
@@ -368,7 +353,7 @@ app.get('/api/park/:id/bounds', (req, res, next) => {
 app.get('/api/wander', (req, res, next) => {
   return dataStore.db('randomPark', {interval:'month-now'}).then((park) => {
     const parkid = (park && park.length) ? park[0].su_id : null;
-    res.set('Cache-Control', 'private');
+    res.set('Cache-Control', 'private, max-age=0, no-cache');
     return res.json({id: parkid});
   }).catch((err) => {
     return next(err);
