@@ -28,7 +28,8 @@ export default class ParkMap extends PureComponent {
     searchEndPoint: PropTypes.string,
     searchOnBlur: PropTypes.func,
     searchOnFocus: PropTypes.func,
-    maxZoomForFitParkBounds: PropTypes.number
+    maxZoomForFitParkBounds: PropTypes.number,
+    searchSortHandler: PropTypes.func
   };
 
   static defaultProps = {
@@ -241,7 +242,8 @@ export default class ParkMap extends PureComponent {
             onSearchSelect={this.onSearchSelect}
             endPoint={this.props.searchEndPoint}
             onFocusHandler={this.props.searchOnFocus}
-            onBlurHandler={this.props.searchOnBlur} />
+            onBlurHandler={this.props.searchOnBlur}
+            sortHandler={this.props.searchSortHandler} />
         }
 
         {useLocateMe &&

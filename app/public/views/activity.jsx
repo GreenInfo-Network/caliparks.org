@@ -289,6 +289,23 @@ export class Activity extends PureComponent {
     this.setState({searchFocused: false});
   };
 
+  searchSorter = (things) => {
+    things.sort((a, b) => {
+      const first = (a.name > b.name)
+        ? 1
+        : (a.name < b.name ? -1 : 0);
+
+      const second = (a.size > b.size)
+        ? -1
+        : (a.size < b.size ? 1 : 0);
+
+      return first === 0
+              ? second
+              : first;
+    });
+    return things;
+  };
+
   render() {
     const {formatMessage} = this.props.intl;
     const icon = helpers.iconprefix + this.props.params.activity;
@@ -396,6 +413,7 @@ export class Activity extends PureComponent {
                 useLocateMe={true}
                 useRefineButton={true}
                 onSearchSelect={this.onSearchSelect}
+                searchSortHandler={this.searchSorter}
               />
 
               <Navigator

@@ -42,7 +42,8 @@ class ParkSearch extends PureComponent {
     resetSearchValue: PropTypes.bool,
     endPoint:PropTypes.string,
     onFocusHandler: PropTypes.func,
-    onBlurHandler: PropTypes.func
+    onBlurHandler: PropTypes.func,
+    sortHandler: PropTypes.func
   };
 
   static defaultProps = {
@@ -143,7 +144,7 @@ class ParkSearch extends PureComponent {
 
   getMatchingParks(value) {
     const {parks} = this.state;
-    const {suggestionsLimit} = this.props;
+    const {suggestionsLimit, sortHandler} = this.props;
 
     if (!parks || !parks.length || !this.engine) return [];
 
@@ -158,7 +159,12 @@ class ParkSearch extends PureComponent {
       (results) => {}
     );
 
-    if (suggestionsLimit && suggestionsLimit > 0) return things.slice(0, suggestionsLimit);
+    if (suggestionsLimit && suggestionsLimit > 0) things = things.slice(0, suggestionsLimit);
+
+    if (typeof sortHandler === 'function') {
+      things = sortHandler(things);
+    }
+
     return things;
   }
 
