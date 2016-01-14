@@ -158,7 +158,6 @@ app.use('/', (req, res, next) => {
       gak: GOOGLE_APP_KEY,
       gaID: config.app.trackingID,
       baseUrl: req.protocol + '://' + req.get('host'),
-      wanderID: null,
       mostSharedParks: {
         parks: [],
         interval: 'week-now',
@@ -189,15 +188,10 @@ app.get('/', (req, res, next) => {
     res.locals.featuredParks = {
       parks
     };
+    return next();
   })
-  .catch((err) => {})
-  .then(() => {
-    dataStore.db('randomPark', {interval:'month-now'}).then((park) => {
-      res.locals.wanderID = (park && park.length) ? +park[0].su_id : null;
-      return next();
-    }).catch((err) => {
-      return next();
-    });
+  .catch((err) => {
+    return next(err);
   });
 });
 
@@ -370,6 +364,16 @@ app.get('/api/park/:id/bounds', (req, res, next) => {
     return next(err);
   });
 });
+
+app.get('/api/wander', (req, res, next) => {
+  return dataStore.db('randomPark', {interval:'month-now'}).then((park) => {
+    const parkid = (park && park.length) ? park[0].su_id : null;
+    return res.json({id: parkid});
+  }).catch((err) => {
+    return next(err);
+  });
+});
+
 
 // Handles XHR based requests
 app.get('/api/xhr/:id', (req, res, next) => {

@@ -144,8 +144,7 @@ export class App extends PureComponent {
               images={this.props.viewData.header}
               autoplay={true}
               autoplaySpeed={8000}
-              featuredParks={this.props.featuredParks}
-              wanderID={this.props.wanderID}/>
+              featuredParks={this.props.featuredParks}/>
           </Section>
           <Section>
             <StickyNav className={stickyKlass}/>
