@@ -226,7 +226,7 @@ app.get('/activity/:activity', (req, res, next) => {
 app.get('/wander', (req, res, next) => {
   return dataStore.db('randomPark', {interval:'month-now'}).then((park) => {
     const parkid = park[0].su_id;
-
+    res.set('Cache-Control', 'private');
     return res.redirect('/park/' + parkid);
   }).catch((err) => {
     return next(err);
@@ -368,6 +368,7 @@ app.get('/api/park/:id/bounds', (req, res, next) => {
 app.get('/api/wander', (req, res, next) => {
   return dataStore.db('randomPark', {interval:'month-now'}).then((park) => {
     const parkid = (park && park.length) ? park[0].su_id : null;
+    res.set('Cache-Control', 'private');
     return res.json({id: parkid});
   }).catch((err) => {
     return next(err);
