@@ -8,6 +8,7 @@ export default {
   devtool: 'source-map',
   entry: [
     'babel-polyfill',
+    './public/vendor/js/polyfill-getPrototypeOf',
     './public/index.js',
     './styles/app.scss'
   ],
@@ -26,14 +27,14 @@ export default {
       {
         test: /\.jsx?$/,
         loader: 'eslint',
-        exclude: [/node_modules/, /react-fullpage/, /react-slick/, /socs.js/]
+        exclude: [/node_modules/, /react-fullpage/, /react-slick/, /socs.js/, /polyfill-getPrototypeOf.js/]
       }
     ],
 
     loaders: [
       {
         test: /\.jsx?$/,
-        exclude: /node_modules/,
+        exclude: [/node_modules/, /react-fullpage/],
         loader: 'babel',
         query: {
           presets: ['es2015', 'stage-0', 'react'],

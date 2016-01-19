@@ -13,7 +13,7 @@
   "main": "./server/index.js",
   "scripts": {
     "start": "NODE_ENV=production nf -j Procfile start web",
-    "start:prod": "npm run webpack:prod && npm run webpack:server && npm start",
+    "start:prod": "NODE_ENV=production npm run webpack:prod && npm run webpack:server && npm start",
     "start:dev": "nf -j Procfile start dev",
     "webpack:prod": "webpack --config ./webpack.config.prod.babel.js",
     "postinstall": "NODE_ENV=production npm run webpack:prod && npm run webpack:server",
@@ -75,7 +75,7 @@
     "point-in-polygon": "^1.0.0",
     "react": "^0.14.5",
     "react-addons-css-transition-group": "^0.14.3",
-    "react-autosuggest": "^3.0.0-beta.4",
+    "react-autosuggest": "~3.3.4",
     "react-dom": "^0.14.3",
     "react-engine": "^3.0.0-alpha.1",
     "react-fullpage": "stamen/react-fullpage#f4a50ae241b7e561cfd27a7a0b1be146fc6ea534",

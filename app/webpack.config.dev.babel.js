@@ -7,6 +7,7 @@ export default {
   devtool: 'eval',
   entry: [
     'babel-polyfill',
+    './public/vendor/js/polyfill-getPrototypeOf',
     'webpack-hot-middleware/client',
     './public/index.js',
     './styles/app.scss'
@@ -27,7 +28,7 @@ export default {
       {
         test: /\.jsx?$/,
         loader: 'eslint',
-        exclude: [/node_modules/, /react-fullpage/, /react-slick/, /socs.js/]
+        exclude: [/node_modules/, /react-fullpage/, /react-slick/, /socs.js/, /polyfill-getPrototypeOf.js/]
       }
     ],
 
