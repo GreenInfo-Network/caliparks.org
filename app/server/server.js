@@ -271,6 +271,8 @@ app.get('/api/most_shared_parks.json', (req, res, next) => {
         return item.su_id;
       });
 
+      if (!ids.length) return [];
+
       return dataStore.db('parksNotIn', {interval: req.query.interval || null, bbox: req.query.bbox, notIn: ids});
     } else {
       return [];
