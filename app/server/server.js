@@ -31,9 +31,10 @@ const translations = globSync(path.join(__dirname, '../locales/*.json'))
     return collection;
   }, {});
 
-const app = express();
 const PORT = process.env.PORT || config.app.port || 3000;
 const GOOGLE_APP_KEY = process.env.GOOGLE_APP_KEY || null;
+
+const app = express();
 
 // compress responses
 app.use(compression());
@@ -55,12 +56,9 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 // create the view engine with `react-engine`
-const engine = ReactEngine.server.create({
+app.engine('.jsx', ReactEngine.server.create({
   routes: Routes
-});
-
-// set the engine
-app.engine('.jsx', engine);
+}));
 
 // set the view directory
 app.set('views', path.join(__dirname, '../public/views'));
@@ -392,10 +390,18 @@ app.get('/api/db/:id', (req, res, next) => {
 
 // defer to react-router
 app.use((req, res, next) => {
-  return res.render(req.url, {
+  res.render(req.url, {
     url: req.url
   });
 });
+
+// Error handler
+// TODO: Should we handle errors
+// more specifically
+app.use((err, req, res, next) => {
+  res.redirect('/404');
+});
+
 
 app.listen(PORT, function() {
   console.log('Listening at http://%s:%d/', this.address().address, this.address().port);
