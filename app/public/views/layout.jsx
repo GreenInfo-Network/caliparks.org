@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import {IntlProvider, addLocaleData} from 'react-intl';
-import en from 'react-intl/lib/locale-data/en';
-import es from 'react-intl/lib/locale-data/es';
+import en from 'react-intl/locale-data/en';
+import es from 'react-intl/locale-data/es';
 import {Provider} from 'react-redux';
 import UserVoice from  '../components/userVoice';
 import GoogleAnalytics from  '../components/googleAnalytics';
@@ -93,6 +93,7 @@ export default class Layout extends React.Component {
               <link href='//fonts.googleapis.com/css?family=Lato:400,300,900,700' rel='stylesheet' type='text/css'/>
               <link rel='stylesheet' type='text/css' href='//cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.3.15/slick.css' />
               <link rel='stylesheet' type='text/css' href='/styles.css' />
+
               <script src='https://cdn.polyfill.io/v2/polyfill.min.js?features=Intl,Intl.~locale.en,Intl.~locale.es'></script>
               <script src='https://maps.googleapis.com/maps/api/js'></script>
             </head>
