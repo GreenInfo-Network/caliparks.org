@@ -57,6 +57,7 @@ export default class Layout extends React.Component {
   }
 
   render() {
+    const description = 'Find national, state, county and city parks near you in California. See real-time park photos from Instagram, get information and directions, and make reservations.';
     return (
         <Provider store={this.store}>
           <html lang={this.props.lang}>
@@ -65,8 +66,8 @@ export default class Layout extends React.Component {
               <title>{this.props.title}</title>
               <meta name='viewport' content='width=device-width, initial-scale=1' />
               <meta property='fb:app_id' content='1234567890' />
-              <meta name='description' content='Find parks near you. Select your favorite activities, from basketball to rock climbing. See park photos from Instagram. Get directions.' />
-              <meta name='twitter:description' content='Find parks near you. Select your favorite activities, from basketball to rock climbing. See park photos from Instagram. Get directions.' />
+              <meta name='description' content={description}/>
+              <meta name='twitter:description' content={description}/>
               {this.renderMetaTags()}
               <link rel='apple-touch-icon' sizes='57x57' href='/assets/icons/apple-touch-icon-57x57.png'/>
               <link rel='apple-touch-icon' sizes='60x60' href='/assets/icons/apple-touch-icon-60x60.png'/>
