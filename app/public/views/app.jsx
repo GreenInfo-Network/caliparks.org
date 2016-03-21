@@ -9,6 +9,7 @@ import Discover from '../partials/discover';
 import Footer from '../partials/footer';
 import StickyNav from '../partials/sticky-nav';
 import * as actions from '../actions';
+import {MOBILE_BREAKPOINT} from '../../constants/layout';
 
 import {SectionsContainer, Section} from 'react-fullpage';
 
@@ -112,6 +113,9 @@ export class App extends PureComponent {
   }
 
   render() {
+    // Default to scroll bar, will be disabled dynamically once the window size
+    // is known, if not mobile
+    const scrollBar = (this.props.windowSize.width === undefined || this.props.windowSize.width < MOBILE_BREAKPOINT) ? true : false;
     const options = {
       activeClass:          'active', // the class that is appended to the sections links
       anchors:              ['index', 'explore', 'discover', 'footer'], // the anchors for each sections
@@ -119,7 +123,7 @@ export class App extends PureComponent {
       className:            'SectionContainer', // the class name for the section container
       delay:                700, // the scroll animation speed
       navigation:           false, // use dots navigation
-      scrollBar:            false, // use the browser default scrollbar
+      scrollBar:            scrollBar, // use the browser default scrollbar
       sectionClassName:     'section', // the section class name
       sectionPaddingTop:    '0', // the section top padding
       sectionPaddingBottom: '0', // the section bottom padding
