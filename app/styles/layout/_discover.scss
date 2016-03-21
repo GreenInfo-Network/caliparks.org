@@ -1,7 +1,9 @@
 // 413 x 206
 
 #discover-section {
-  padding-top: 76px;
+  @include respond-to('full') {
+    padding-top: 76px;
+  }
   padding-bottom: 0;
 
   .wrapper {

@@ -240,8 +240,13 @@ export default class Explore extends PureComponent {
   }
 
   getHeight() {
-    const h = this.props.height || 700;
-    return h - 76;
+    let h = this.props.height || 700;
+
+    // Subtract to make room for fixed header if not mobile
+    if (this.props.width >= MOBILE_BREAKPOINT) {
+      h -= 76;
+    }
+    return h;
   }
 
   resizeMap() {

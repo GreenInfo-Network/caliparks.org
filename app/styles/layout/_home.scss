@@ -1,16 +1,32 @@
-.home-slider-container {
-  display: table;
-  table-layout: fixed;
-  width: 100%;
-  background: $color-grey-dark;
-}
+.page-home {
+  .home-slider-container {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    background: $color-grey-dark;
+  }
 
-.home-slider-inner {
-  display: table-cell;
-  vertical-align: middle;
-}
+  .home-slider-inner {
+    display: table-cell;
+    vertical-align: middle;
+  }
 
-.home-slider-wrap {
-  position: relative;
-  padding: 10px 0;
+  .home-slider-wrap {
+    position: relative;
+    padding: 10px 0;
+  }
+
+  .sticky-container {
+    display: none;
+    @include respond-to('full') {
+      display: block;
+    }
+  }
+
+  .sub-nav {
+    display: none;
+    @include respond-to('full') {
+      display: block;
+    }
+  }
 }

@@ -132,7 +132,7 @@ export class App extends PureComponent {
     const stickyKlass = (this.state.currentSection === 2 || this.state.currentSection === 3) ? ' white' : '';
 
     return (
-      <div className='container'>
+      <div className='container page-home'>
         {isSticky &&
           <div className={'sticky-container'}>
             <StickyNav className={stickyKlass}/>
