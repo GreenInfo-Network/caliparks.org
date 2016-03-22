@@ -72,7 +72,10 @@ nav {
   transform: translateX(-50%) translateY(-50%) translateZ(0);
 
   img {
-    width: 100%;
+    width: 300px;
+    @include respond-to('full') {
+      width: 100%;
+    }
     height: auto;
   }
 }
