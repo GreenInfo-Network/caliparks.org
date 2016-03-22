@@ -1,3 +1,5 @@
+$homeSliderImgSize: 332px;
+
 .slick-slider {
   display: none;
   margin-bottom: 0;
@@ -8,7 +10,10 @@
 
 .slick-slide {
   position: relative;
-  margin: 0 4px;
+  margin: 0;
+  @include respond-to('full') {
+    margin: 0 4px;
+  }
 }
 
 .slick-slide img.error {
@@ -16,22 +21,31 @@
 }
 
 .slider-home .slick-slide img {
-  max-height: 332px;
+  max-height: 250px;
+  @include respond-to('full') {
+    max-height: 332px;
+  }
   width: 100%;
   height: auto;
 }
 
 .slider-recent {
-  max-height: 332px;
+  max-height: auto;
+  @include respond-to('full') {
+    max-height: $homeSliderImgSize;
+  }
   white-space: nowrap;
   overflow: hidden;
 }
 
 .slider-recent img {
-  max-height: 332px;
-  max-width: 332px;
-  width: 332px;
+  width: 100%;
   height: auto;
+  @include respond-to('full') {
+    max-height: $homeSliderImgSize;
+    max-width: $homeSliderImgSize;
+    width: $homeSliderImgSize;
+  }
   overflow: hidden;
 }
 

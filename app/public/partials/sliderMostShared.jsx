@@ -3,6 +3,7 @@ import PureComponent from 'react-pure-render/component';
 import Slider from 'react-slick';
 import { Link } from 'react-router';
 import {slice as loSlice} from 'lodash';
+import {MOBILE_BREAKPOINT} from '../../constants/layout';
 
 export default class SliderMostShared extends PureComponent {
   static propTypes = {
@@ -39,6 +40,7 @@ export default class SliderMostShared extends PureComponent {
 
   getSlidesToShowLength() {
     if (this.props.width === 0) return 4;
+    if (this.props.width < MOBILE_BREAKPOINT) return 1;
     return Math.max(1, Math.ceil((this.props.width) / 330));
   }
 
@@ -72,6 +74,12 @@ export default class SliderMostShared extends PureComponent {
       slidesToScroll: Math.max(1, this.getSlidesToShowLength() - 1),
       initialSlide: 0
     };
+
+    // If mobile show one window-wide slide at a time
+    if (this.props.width < MOBILE_BREAKPOINT) {
+      settings.variableWidth = false;
+      settings.slideHasThisWidth = this.props.width;
+    }
 
     const {containerHeight} = this.props;
 
