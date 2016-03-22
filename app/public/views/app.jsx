@@ -3,6 +3,7 @@ import PureComponent from 'react-pure-render/component';
 import {connect} from 'react-redux';
 import {throttle, isEmpty} from 'lodash';
 
+import {NonFullscreenSection} from '../components/nonFullscreenSection';
 import HomeIndex from '../partials/index';
 import Explore from '../partials/explore';
 import Discover from '../partials/discover';
@@ -115,7 +116,8 @@ export class App extends PureComponent {
   render() {
     // Default to scroll bar, will be disabled dynamically once the window size
     // is known, if not mobile
-    const scrollBar = (this.props.windowSize.width === undefined || this.props.windowSize.width < MOBILE_BREAKPOINT) ? true : false;
+    const isMobile = (this.props.windowSize.width === undefined || this.props.windowSize.width < MOBILE_BREAKPOINT) ? true : false;
+    const scrollBar = isMobile;
     const options = {
       activeClass:          'active', // the class that is appended to the sections links
       anchors:              ['index', 'explore', 'discover', 'footer'], // the anchors for each sections
@@ -134,6 +136,8 @@ export class App extends PureComponent {
 
     const isSticky = (this.state.currentSection >= 2 || (this.state.currentSection === 1 && this.state.prevSection > 1)) ? true : false;
     const stickyKlass = (this.state.currentSection === 2 || this.state.currentSection === 3) ? ' white' : '';
+    const sectionHeight = (isMobile ? 'auto' : (this.props.windowSize.height || 0));
+    const sectionComponent = (isMobile ? NonFullscreenSection : Section);
 
     return (
       <div className='container page-home'>
@@ -145,15 +149,15 @@ export class App extends PureComponent {
         <SectionsContainer
           onLeave={this.onLeaveHandler.bind(this)}
           afterLoad={this.onAfterLoadHandler.bind(this)} {...options}>
-          <Section>
+          <sectionComponent windowHeight={sectionHeight}>
             <HomeIndex
-              height={this.props.windowSize.height || 0}
+              height={sectionHeight}
               width={this.props.windowSize.width || 0}
               images={this.props.viewData.header}
               autoplay={true}
               autoplaySpeed={8000}
               featuredParks={this.props.featuredParks}/>
-          </Section>
+          </sectionComponent>
           <Section>
             <StickyNav className={stickyKlass}/>
             <Explore

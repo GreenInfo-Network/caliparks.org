@@ -33,7 +33,10 @@ export default class HomeIndex extends PureComponent {
   }
 
   getHeight() {
-    return this.props.height || 700;
+    if (this.props.height === 'auto') {
+      return this.props.height;
+    }
+    return (this.props.height || 700) - 8 + 'px';
   }
 
   render() {
@@ -42,7 +45,7 @@ export default class HomeIndex extends PureComponent {
 
     return (
       <div id='index-section' className='full-height theme-white'>
-        <div className='wrapper row' style={{height: (this.getHeight() - 8) + 'px'}}>
+        <div className='wrapper row' style={{height: this.getHeight()}}>
           <div className='col-twelve'>
             <Header
               ref='header'
