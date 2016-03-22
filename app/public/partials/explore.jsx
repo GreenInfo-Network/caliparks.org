@@ -51,15 +51,15 @@ export default class Explore extends PureComponent {
   componentWillReceiveProps(nextProps) {
     const {selectedMarker, currentIndex} = this.state;
 
-    if (this.props.mostShared.interval !== nextProps.mostShared.interval) {
-      this.getFirstMarker(nextProps.mostShared);
-    } else if (nextProps.mostShared.parks.length && selectedMarker === 0) {
-      this.getFirstMarker(nextProps.mostShared);
-    } else if (selectedMarker > 0) {
+    if (this.props.mostShared.isFetching && !nextProps.mostShared.isFetching && selectedMarker > 0) {
       const newIndex = this.getMarkerIndex(selectedMarker, nextProps.mostShared.parks);
       if (newIndex !== currentIndex) {
         this.setSelectedMarker(selectedMarker, nextProps.mostShared.parks);
       }
+    } else if (this.props.mostShared.interval !== nextProps.mostShared.interval) {
+      this.getFirstMarker(nextProps.mostShared);
+    } else if (nextProps.mostShared.parks.length && selectedMarker === 0) {
+      this.getFirstMarker(nextProps.mostShared);
     }
   }
 
