@@ -359,11 +359,16 @@ export class Park extends PureComponent {
       speed: 500,
       arrows: true,
       slidesToShow: this.getSlidesToShowLength(),
-      variableWidth: false,
-      slidesToScroll: this.getSlidesToShowLength(),
-      slideHasThisWidth: (windowSize.width < MOBILE_BREAKPOINT) ? windowSize.width : 160,
+      variableWidth: true,
+      slidesToScroll: Math.max(1, this.getSlidesToShowLength() - 1),
       initialSlide: 0
     };
+
+    // If mobile show one window-wide slide at a time
+    if (windowSize.width < MOBILE_BREAKPOINT) {
+      settings.variableWidth = false;
+      settings.slideHasThisWidth = windowSize.width;
+    }
 
     const parkSlideClass = selectedPark.isFetching ? ' loading' : '';
     const validImages = this.getValidImages();
