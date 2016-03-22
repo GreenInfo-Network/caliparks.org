@@ -54,7 +54,7 @@ export default class SliderMostShared extends PureComponent {
         <div ref={park.photoid} key={park.su_id} className='slide-container'>
           <Link to={`/park/${park.su_id}`}>
             <div className='overlay'><p className='place'>{park.su_name}</p></div>
-            <img onError={this.onImageError} src={park.standard_resolution}/>
+            <img alt={park.su_name} onError={this.onImageError} src={park.standard_resolution}/>
           </Link>
         </div>
         );
