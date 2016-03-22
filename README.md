@@ -6,20 +6,29 @@ Stories pour out of our parks every day. This project is visualizing [Instagram]
 All code is in [app directory](./app).
 
 ### To deploy
-```bash
-git push heroku `git subtree split --prefix app parksforward-redesign`:master --force
+First, add the heroku remotes to `git`.
 ```
-or
+heroku git:remote -a caliparks-production -r production
+heroku git:remote -a stamen-caliparks-dev -r staging
+```
+
+Then deploy like so:
+####Production
 ```bash
 git push production `git subtree split --prefix app parksforward-redesign`:master --force
 ```
 or
 ```bash
-npm run deploy:staging
+npm run deploy:production
+```
+
+####Staging
+```bash
+git push staging `git subtree split --prefix app parksforward-redesign`:master --force
 ```
 or
 ```bash
-npm run deploy:production
+npm run deploy:staging
 ```
 
 ## The Harvesters
