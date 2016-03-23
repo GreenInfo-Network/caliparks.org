@@ -13,7 +13,7 @@
   "scripts": {
     "pull": "git pull origin parksforward-redesign",
     "push": "git push origin parksforward-redesign",
-    "deploy:staging": "git push heroku `git subtree split --prefix app parksforward-redesign`:master --force",
+    "deploy:staging": "git push staging `git subtree split --prefix app parksforward-redesign`:master --force",
     "deploy:production": "git push production `git subtree split --prefix app parksforward-redesign`:master --force"
   },
   "repository": {

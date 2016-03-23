@@ -3,6 +3,7 @@ import PureComponent from 'react-pure-render/component';
 import Slider from 'react-slick';
 
 import Nav from './nav';
+import headerAltNames from '../../public/assets/data/header-alt-names.json';
 
 export default class Header extends PureComponent {
   static propTypes = {
@@ -39,8 +40,9 @@ export default class Header extends PureComponent {
 
   makeSlides() {
     return this.getImages().map((src, idx) => {
+      const alt = headerAltNames[src.split('/').slice(-1)[0]];
       return (
-        <div key={idx}><img src={src} onError={this.imgError} /></div>
+        <div key={idx}><img alt={alt} src={src} onError={this.imgError} /></div>
       );
     });
   }
