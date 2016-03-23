@@ -242,13 +242,15 @@ export class Park extends PureComponent {
     return (
       <div className='inner'>
         <h4 className='uppercase'>{details.su_name}</h4>
-        <p><a className='link-plain' href={details.park_url} target='_blank'>
-        <FormattedMessage
-          id='park.park-link'
-          defaultMessage='Link to park site'
-        />
-        <sub> &gt;</sub>
-        </a></p>
+        {details.park_url &&
+          <p><a className='link-plain' href={details.park_url} target='_blank'>
+          <FormattedMessage
+            id='park.park-link'
+            defaultMessage='Link to park site'
+          />
+          <sub> &gt;</sub>
+          </a></p>
+        }
         {involved &&
           <p className='involved-link'><a className='link-plain' href={involved} target='_blank'>
           <FormattedMessage
