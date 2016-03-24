@@ -78,7 +78,7 @@
     "react-autosuggest": "~3.3.4",
     "react-dom": "^0.14.3",
     "react-engine": "^3.1.0",
-    "react-fullpage": "stamen/react-fullpage#f4a50ae241b7e561cfd27a7a0b1be146fc6ea534",
+    "react-fullpage": "stamen/react-fullpage#d94029677cffec3f5ab173582a72fd8a7faed033",
     "react-google-maps": "^4.7.0",
     "react-intl": "^2.0.0-pr-3",
     "react-pure-render": "^1.0.2",
