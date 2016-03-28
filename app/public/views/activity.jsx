@@ -113,7 +113,7 @@ export class Activity extends PureComponent {
 
 
     if (this.props.windowSize.width < MOBILE_BREAKPOINT) {
-      return this.props.windowSize.height - this.refs.smallscreenheight.offsetTop - 40;
+      return Math.max(this.props.windowSize.height - this.refs.smallscreenheight.offsetTop - 40, this.props.windowSize.width);
     }
 
     return this.props.windowSize.height - this.refs.sectionmap.offsetTop - 20;
