@@ -166,31 +166,34 @@ export class Park extends PureComponent {
     const photoSliderHeight = 160 + 20; // with padding
     const topContainerPadding = 20;
     const nav = 76;
-    const imagesLength = this.getValidImages().length;
-    const bottomHeight = (imagesLength) ? 180 : 0;
+    const imagesExist = this.getValidImages().length > 0;
+    const bottomHeight = (imagesExist) ? photoSliderHeight : 0;
     const availableWidth = this.props.windowSize.width - 20;
 
-    let middleWidth = 33.3333;
+    let columnWidth = '33.3333%';
+    let columnMiddleWidth = '33.3333%';
     let topHeight = this.props.windowSize.height - nav - topContainerPadding;
 
-    if (!imagesLength) {
-      return [middleWidth + '%', '66.6666%', topHeight + 'px', topHeight + 'px', bottomHeight + 'px'];
+    if (!imagesExist) {
+      // No images, let the middle column (map) take up more room
+      columnMiddleWidth = '66.6666%';
+    } else {
+      topHeight -= photoSliderHeight;
+      columnMiddleWidth = (availableWidth - (2 * topHeight));
+
+      if (columnMiddleWidth < topHeight) {
+        // Narrow screen
+        columnWidth = columnMiddleWidth = '33.3333%';
+        topHeight = Math.round(availableWidth / 3.0);
+      } else {
+        // Wide screen
+        const outerColumnWidth = Math.max(330, (availableWidth - columnMiddleWidth) / 2) / availableWidth * 100;
+        columnMiddleWidth = (100 - outerColumnWidth * 2) + '%';
+        columnWidth = outerColumnWidth + '%';
+        topHeight = Math.round(availableWidth * (outerColumnWidth / 100));
+      }
     }
-
-    topHeight -= photoSliderHeight;
-    middleWidth = (availableWidth - (2 * topHeight));
-
-    if (middleWidth < topHeight) {
-      middleWidth = 33.3333;
-      topHeight = Math.round((this.props.windowSize.width - 20) * (middleWidth / 100));
-      return [middleWidth + '%', middleWidth + '%', topHeight + 'px', topHeight + 'px', bottomHeight + 'px'];
-    }
-
-    const otherWidth = Math.max(330, (availableWidth - middleWidth) / 2) / availableWidth * 100;
-    middleWidth = 100 - otherWidth * 2;
-    topHeight = Math.round((availableWidth) * (otherWidth / 100));
-
-    return [otherWidth + '%', middleWidth + '%', topHeight + 'px', topHeight + 'px', bottomHeight + 'px'];
+    return [columnWidth, columnMiddleWidth, topHeight + 'px', topHeight + 'px', bottomHeight + 'px'];
   }
 
   getSlidesToShowLength() {
