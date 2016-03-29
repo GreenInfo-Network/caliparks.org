@@ -388,7 +388,7 @@ export class Park extends PureComponent {
     return (
       <div className={containerClass + ' tab-' + tabSection}>
         <StickyNav />
-        <main role='application' style={{'padding-bottom': bottomHeight}}>
+        <main role='application' style={{paddingBottom: bottomHeight}}>
           <div className='page-park-wrapper'>
             <div className='col details' style={{height: columnHeight, width: columnWidth }}>
               {this.renderDetails()}
