@@ -57,6 +57,9 @@ export default {
   plugins: [
     // wipe any output files
     new Clean(['public/bundle.js*', 'public/styles.css*', 'public/main.svg']),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': '"production"'
+    }),
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.NoErrorsPlugin(),
     new ExtractTextPlugin("styles.css"),
