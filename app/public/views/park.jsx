@@ -28,7 +28,8 @@ export class Park extends PureComponent {
     setWindowSize: PropTypes.func,
     fetchSelectedPark: PropTypes.func,
     clearSelectedParkData: PropTypes.func,
-    fetchSelectedParkPhotos: PropTypes.func
+    fetchSelectedParkPhotos: PropTypes.func,
+    setPageTitle: PropTypes.func
   };
 
   state = {
@@ -68,6 +69,9 @@ export class Park extends PureComponent {
         selectedPhoto: null,
         badImages: []
       });
+    }
+    if (nextProps.selectedPark !== this.props.selectedPark) {
+      this.props.setPageTitle(`${nextProps.selectedPark.park[0].su_name} Photos and Information`);
     }
   }
 

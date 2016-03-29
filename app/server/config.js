@@ -1,6 +1,6 @@
 const config = {
   app: {
-    name: 'California National, State, Regional & Local Parks - CaliParks',
+    name: 'CaliParks',
     port: 3000,
     trackingID: 'UA-41566466-4'
   },

@@ -152,6 +152,16 @@ function windowSize(state = INITIAL_STATE, action) {
   }
 }
 
+function pageTitle(state = '', action) {
+  switch (action.type) {
+  case actions.SET_PAGE_TITLE:
+    return action.pageTitle;
+
+  default:
+    return state;
+  }
+}
+
 const identity = (state = INITIAL_STATE, action) => state;
 
 const combinedReducers = combineReducers({
@@ -159,6 +169,7 @@ const combinedReducers = combineReducers({
   mostSharedParks,
   selectedPark,
   selectedActivity,
+  pageTitle,
   windowSize,
   // TODO consider folding these into a global subtree
   // TODO may also need react-router-related props (to support correct routing)?

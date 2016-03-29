@@ -35,7 +35,8 @@ export class Activity extends PureComponent {
     setWindowSize: PropTypes.func,
     clearSelectedActivityData: PropTypes.func,
     fetchSelectedActivity: PropTypes.func,
-    intl: intlShape.isRequired
+    intl: intlShape.isRequired,
+    setPageTitle: PropTypes.func
   };
 
   state = {
@@ -70,6 +71,10 @@ export class Activity extends PureComponent {
         fetchSelectedActivity(params.activity);
       }
     }
+
+    const {formatMessage} = this.props.intl;
+    const activityTitle = helpers.title(this.props.params.activity, formatMessage).toLowerCase();
+    this.props.setPageTitle(`Parks for ${activityTitle} in California`);
   }
 
   componentWillReceiveProps(nextProps) {

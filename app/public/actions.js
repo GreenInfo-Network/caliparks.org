@@ -17,6 +17,14 @@ export function setWindowSize(size) {
   };
 }
 
+export const SET_PAGE_TITLE = 'SET_PAGE_TITLE';
+export function setPageTitle(pageTitle) {
+  return {
+    type: SET_PAGE_TITLE,
+    pageTitle
+  };
+}
+
 export const FETCH_PARK_INFO = 'FETCH_PARK_INFO';
 export function fetchParkInfo(parkId) {
   return {
