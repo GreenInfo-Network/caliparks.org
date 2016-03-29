@@ -1,17 +1,9 @@
 .page-park {
-  main {
-    padding-bottom: 0;
-  }
-
   .scroll-helper-arrow {
     background: $color-grey-dark;
   }
 
   @include respond-to('full') {
-    main {
-      padding-bottom: 180px;
-    }
-
     &.no-images main {
       padding-bottom: 0;
     }

@@ -167,7 +167,7 @@ export class Park extends PureComponent {
     const topContainerPadding = 20;
     const nav = 76;
     const imagesExist = this.getValidImages().length > 0;
-    const bottomHeight = (imagesExist) ? photoSliderHeight : 0;
+    let bottomHeight = (imagesExist) ? photoSliderHeight : 0;
     const availableWidth = this.props.windowSize.width - 20;
 
     let columnWidth = '33.3333%';
@@ -185,6 +185,7 @@ export class Park extends PureComponent {
         // Narrow screen
         columnWidth = columnMiddleWidth = '33.3333%';
         topHeight = Math.round(availableWidth / 3.0);
+        bottomHeight = this.props.windowSize.height - topHeight - nav - topContainerPadding * 2;
       } else {
         // Wide screen
         const outerColumnWidth = Math.max(330, (availableWidth - columnMiddleWidth) / 2) / availableWidth * 100;
@@ -387,7 +388,7 @@ export class Park extends PureComponent {
     return (
       <div className={containerClass + ' tab-' + tabSection}>
         <StickyNav />
-        <main role='application'>
+        <main role='application' style={{'padding-bottom': bottomHeight}}>
           <div className='page-park-wrapper'>
             <div className='col details' style={{height: columnHeight, width: columnWidth }}>
               {this.renderDetails()}
