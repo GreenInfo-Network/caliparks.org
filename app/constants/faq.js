@@ -10,7 +10,7 @@ const faqsEn = [
   {
     title: 'What is Caliparks.org and how does it work?',
     anchor: 'what',
-    content: `<p>Caliparks.org is a web app that puts all 11,826 California State Parks at your fingertips.  We give you an instant snapshot of what\'s happening outdoors by searching Instagram every day to find the latest photos posted by tens of thousands of people visiting parks all across the state.</p>
+    content: `<p>CaliParks.org is a web app that puts all 11,826 national, state, regional and local parks in California at your fingertips. We give you an instant snapshot of what\'s happening outdoors by searching Instagram every day to find the latest photos posted by tens of thousands of people visiting parks all across the state.</p>
       <p>And then we use specially curated data to highlight parks great for a whole range of activities, from surfing and boating to visiting a local playground. Then each park has maps, park details, links to park websites, and a select group of parks also have links to make camping reservations or to get involved as a volunteer.</p>
       <p>Once you find a park you want to visit, <a href="http://www.caliparks.org/">Caliparks.org</a> links to trip planner technology from Apple and Google, so that users can pick new locations, plan weekend excursions, share images and comments, and invite others along in their park experience.</p>
       <p>Post photos to Instagram from inside a park and you’ll see them on the site within 24 hours of you posting them in your favorite park. Just have your location services turned on!</p>`
