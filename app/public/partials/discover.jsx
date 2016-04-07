@@ -153,7 +153,7 @@ class Discover extends PureComponent {
               <p className='description'>
                 <FormattedMessage
                   id='discover.section.message'
-                  defaultMessage={`Find out which parks to head to for your favorite activities.`} />
+                  defaultMessage={`Find out which California parks to head to for your favorite activities.`} />
               </p>
             </div>
           </div>
