@@ -12,6 +12,9 @@
   text-transform: uppercase;
   z-index: $depth-100;
 
+  // Fix disappearing container on scroll in Safari
+  -webkit-transform: translate3d(0, 0, 0);
+
   &:hover {
     color: rgba($color-white, 0.8);
   }

@@ -6,7 +6,8 @@
   background-color: rgba($color-grey-dark, 0.6);
   z-index: $depth-100;
 
-
+  // Fix disappearing container on scroll in Safari
+  -webkit-transform: translate3d(0, 0, 0);
 }
 
 .react-autosuggest__input {

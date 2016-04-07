@@ -100,6 +100,9 @@ a {
     border-width: 8px 8px 0 8px;
     border-color: $color-grey-dark transparent transparent transparent;
     z-index: 1;
+
+    // Fix disappearing container on scroll in Safari
+    -webkit-transform: translate3d(0, 0, 0);
   }
 
   &.no-pointer::after {
@@ -157,6 +160,9 @@ a {
   background-color: $color-grey-dark;
   background-color: rgba(51, 50, 46, 0.6);
   line-height: 0;
+
+  // Fix disappearing container on scroll in Safari
+  -webkit-transform: translate3d(0, 0, 0);
 
   .zoom-in,.zoom-out {
     position: relative;
