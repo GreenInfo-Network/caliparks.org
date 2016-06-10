@@ -41,6 +41,7 @@ function latestPhotoFromMostSharedPark(options) {
   options = options || {};
   const photoCount = options.photoCount || '20';
 
+  // NOTE: hardcoding "DATE '2016-05-23'" because harvester is down. Should be 'current_timestamp'
   const q = [
   "WITH most_shared_parks AS (",
   " SELECT",
@@ -49,7 +50,7 @@ function latestPhotoFromMostSharedPark(options) {
   "cpad.unit_name AS su_name",
   " FROM (",
     "SELECT * FROM instagram_photos photos",
-    " WHERE (photos.metadata->>'created_time')::int >= cast(extract(epoch from current_timestamp - interval '6 days') as integer)",
+    " WHERE (photos.metadata->>'created_time')::int >= cast(extract(epoch from DATE '2016-05-23' - interval '6 days') as integer)",
     ") as q1",
     " JOIN cpad_superunits cpad ON cpad.superunit_id = q1.superunit_id",
     " WHERE ",
