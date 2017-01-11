@@ -40,7 +40,7 @@ Run either version of the command:
 ```
 npm run deploy:production
 
-npm run deploy:staging
+npm run deploy:development
 ```
 
 These actually run *git push* commands to the target Heroku app. The actual command aliases are defined in *package.json*
