@@ -20,6 +20,8 @@ sudo apt-get install nodejs nodejs-legacy
 
 sudo apt-get install git npm
 
+sudo apt-get install postgresql-client postgresql-client-common
+
 sudo apt-get upgrade
 
 ```

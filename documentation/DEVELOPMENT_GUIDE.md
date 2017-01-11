@@ -8,7 +8,7 @@ http://caliparks-development.herokuapp.com/
 
 http://caliparks-production.herokuapp.com/
 
-These correspond to the *development* and *production* push targhets defined in *package.json*
+These correspond to the *development* and *production* push targets defined in *package.json*
 
 
 ## Run Development Webserver
@@ -24,9 +24,9 @@ npm run start:dev
 npm run start:prod
 ```
 
-Navigate your browser to http://localhost:3001 for development: code is uncompressed and useful for debugging.
+The web server will be listening on port 5000, e.g. http://localhost:5000
 
-Navigate your browser to http://localhost:5000 for production mode; packed, optimized, etc.
+Tip: Don't forget to `npm run webpack:server` after making changes, so the webpackserver-rendered bits will be rebuilt.
 
 Tip: If you run into `Invariant` issues you will need to reboot the dev server.
 
