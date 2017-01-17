@@ -399,6 +399,7 @@ app.use((req, res, next) => {
 // TODO: Should we handle errors
 // more specifically
 app.use((err, req, res, next) => {
+  console.log(['error-test', err, req, res, next]);
   res.redirect('/404');
 });
 
