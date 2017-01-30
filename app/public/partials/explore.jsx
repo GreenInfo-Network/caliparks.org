@@ -448,7 +448,7 @@ export default class Explore extends PureComponent {
               }}
               >
               <GmapControls {...this.props} />
-              <CustomTileLayer tileUrl='http://{s}.map.parks.stamen.com/{z}/{x}/{y}{r}.png' {...this.props} />
+              <CustomTileLayer tileUrl='https://api.mapbox.com/styles/v1/greeninfo/ciwcgvxj000532ppkwm3h5bkj/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZ3JlZW5pbmZvIiwiYSI6Ik1HUWRtdEkifQ.aWQKcu787DGrDq7LN5r2iA' {...this.props} />
               {this.props.mostShared.parks.map((marker, index) => {
                 const coords = marker.centroid.coordinates;
                 return (<Marker
