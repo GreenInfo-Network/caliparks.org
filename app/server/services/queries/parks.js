@@ -186,7 +186,7 @@ function parksNotIn(options) {
 }
 
 function mostSharedParks(options) {
-  const q = "SELECT * FROM topten_parks_ever";
+  const q = "SELECT * FROM topten_parks ORDER BY total DESC";
   return {query: q};
 }
 

@@ -9,25 +9,23 @@ Per issue 5, the workaround is to create a table of the Top Ten of all time, and
 *This query uses `true` as the date filter, so as to be the Top Ten of all time.`
 
 ```
-DROP TABLE IF EXISTS topten_parks_ever ;
+DROP TABLE IF EXISTS topten_parks;
 
-CREATE TABLE topten_parks_ever AS
+CREATE TABLE topten_parks AS
 WITH most_shared_parks AS (
  SELECT topten.total, cpad.superunit_id, cpad.unit_name,
  ST_AsGeoJSON(ST_Centroid(ST_Transform(cpad.geom, 4326))) AS centroid
  FROM (SELECT count(*) as total, cpad.superunit_id
- FROM (SELECT * FROM instagram_photos photos
- WHERE
-true
-) as q1
+ FROM (SELECT * FROM instagram_photos photos WHERE true) as q1
  JOIN cpad_superunits cpad ON cpad.superunit_id = q1.superunit_id
  GROUP BY cpad.superunit_id order by total DESC LIMIT 10) as topten,
- cpad_superunits cpad WHERE topten.superunit_id = cpad.superunit_id
+ cpad_superunits cpad
+ WHERE topten.superunit_id = cpad.superunit_id
  AND
    -- CPAD_WHERE defined in common.js
    cpad.access_typ IN ('Open Access')
    AND
-   cpad.unit_name NOT IN ('BLM', 'California State Lands Commission', 'County Park', 'EBMUD', 'Haggin Oaks Gulf Course', 'Hetch Hetchy Water and Power', 'Joshua Tree National Park Linkage', 'Lake Tahoe Basin Management Unit', 'Los Angeles Department of Water and Power', 'Los Vaqueros Watershed', 'Marin County Flood Control', 'Marin Municipal Water District Watershed', 'Other Federal', 'Park', 'Preserve', 'Preserve Areas', 'Salton Sea - Bureau of Rec', 'Salton Sea - Irrigation District', 'San Francisco Watershed Lands', 'State of California', 'USBR', 'USFS', 'United States Bureau of Reclamation', 'United States Forest Service', 'United States Of America', 'United States of America', 'Water Lots') AND cpad.unit_name !~ 'holding'AND cpad.unit_name !~ 'Property$'AND cpad.unit_name !~ 'Private'AND cpad.unit_name !~ 'TaxDef'AND cpad.unit_name !~ '\\d+$'AND cpad.unit_name !~ 'Unknown'AND cpad.unit_name !~ 'Acq'
+   cpad.unit_name NOT IN ('BLM', 'California State Lands Commission', 'County Park', 'EBMUD', 'Haggin Oaks Gulf Course', 'Hetch Hetchy Water and Power', 'Joshua Tree National Park Linkage', 'Lake Tahoe Basin Management Unit', 'Los Angeles Department of Water and Power', 'Los Vaqueros Watershed', 'Marin County Flood Control', 'Marin Municipal Water District Watershed', 'Other Federal', 'Park', 'Preserve', 'Preserve Areas', 'Salton Sea - Bureau of Rec', 'Salton Sea - Irrigation District', 'San Francisco Watershed Lands', 'State of California', 'USBR', 'USFS', 'United States Bureau of Reclamation', 'United States Forest Service', 'United States Of America', 'United States of America', 'Water Lots') AND cpad.unit_name !~ 'holding' AND cpad.unit_name !~ 'Property$' AND cpad.unit_name !~ 'Private' AND cpad.unit_name !~ 'TaxDef' AND cpad.unit_name !~ '\\d+$' AND cpad.unit_name !~ 'Unknown' AND cpad.unit_name !~ 'Acq'
 )
  SELECT
  parks.superunit_id::int AS su_id,
