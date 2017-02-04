@@ -11,7 +11,6 @@ import GmapControls from '../components/gmapControls';
 import Navigator from '../components/navigator';
 import ParkSearch from '../components/parkSearch';
 import LocateMe from '../components/locateMe';
-import RefineButton from '../components/refineBtn';
 
 import {MOBILE_BREAKPOINT} from '../../constants/layout';
 import {getTwoColumnWidthPercent} from '../../constants/layout';
@@ -285,11 +284,6 @@ export default class Explore extends PureComponent {
     }
   }
 
-  refineClick() {
-    this.onBoundsChange();
-    // this.resetSelectedMarker();
-  }
-
   searchOnFocus = () => {
     this.setState({searchFocused: true});
   };
@@ -367,7 +361,6 @@ export default class Explore extends PureComponent {
               endPoint='/api/search'
               sortHandler={this.searchSorter}/>
             <LocateMe onPosition={this.onPosition.bind(this)} restrictWith='/assets/data/california.geojson' />
-            <RefineButton onClickHandler={this.refineClick.bind(this)} />
 
             <Navigator
               items={this.props.mostShared.parks}
