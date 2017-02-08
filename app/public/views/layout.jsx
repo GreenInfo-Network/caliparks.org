@@ -23,7 +23,8 @@ export default class Layout extends React.Component {
     location: PropTypes.object,
     viewData: PropTypes.object,
     baseUrl: PropTypes.string,
-    gaID: PropTypes.string
+    gak: PropTypes.string.isRequired,
+    gaID: PropTypes.string.isRequired
   };
 
   constructor(props) {
@@ -58,6 +59,9 @@ export default class Layout extends React.Component {
 
   render() {
     const description = 'Find national, state, county and city parks near you in California. See real-time park photos from Instagram, get information and directions, and make reservations.';
+
+    const googlemapsapiurl = 'https://maps.googleapis.com/maps/api/js?key=' + this.props.gak;
+
     return (
         <Provider store={this.store}>
           <html lang={this.props.lang}>
@@ -96,7 +100,7 @@ export default class Layout extends React.Component {
               <link rel='stylesheet' type='text/css' href='/styles.css' />
 
               <script src='https://cdn.polyfill.io/v2/polyfill.min.js?features=Intl,Intl.~locale.en,Intl.~locale.es'></script>
-              <script src='https://maps.googleapis.com/maps/api/js'></script>
+              <script src={googlemapsapiurl}></script>
             </head>
             <body>
               <IntlProvider locale={this.props.lang} messages={this.props.messages}>

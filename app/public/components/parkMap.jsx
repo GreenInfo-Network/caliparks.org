@@ -210,6 +210,8 @@ export default class ParkMap extends PureComponent {
     if (resetSearchValue) this.searchId = null;
     const setCenterTo = this.getSelectedCoordinates();
 
+    // the tileUrl also supports {r} as a Retina suffix e.g. @2x
+    // currently we do not use this as it is not supported at Mapbox
     return (
       <GoogleMap ref='map' containerProps={{
         style: {
@@ -225,7 +227,7 @@ export default class ParkMap extends PureComponent {
         }}
         defaultCenter={{lat: 37.735969, lng: -121.640625}}
         onBoundsChanged={this.handleBoundsChangeDebounced}>
-        <CustomTileLayer tileUrl='http://{s}.map.parks.stamen.com/{z}/{x}/{y}{r}.png' {...this.props} />
+        <CustomTileLayer tileUrl='https://api.mapbox.com/styles/v1/greeninfo/ciwcgvxj000532ppkwm3h5bkj/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZ3JlZW5pbmZvIiwiYSI6Ik1HUWRtdEkifQ.aWQKcu787DGrDq7LN5r2iA' {...this.props} />
         <GmapControls {...this.props} />
 
         {hasGeometry &&

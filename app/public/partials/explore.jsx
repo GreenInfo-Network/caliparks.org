@@ -1,8 +1,7 @@
 import React, {PropTypes} from 'react';
 import ReactDOM from 'react-dom';
 import PureComponent from 'react-pure-render/component';
-import {FormattedMessage, defineMessages} from 'react-intl';
-import Dropdown from 'react-select';
+import {FormattedMessage} from 'react-intl';
 import {debounce} from 'lodash';
 import request from 'superagent';
 
@@ -12,7 +11,6 @@ import GmapControls from '../components/gmapControls';
 import Navigator from '../components/navigator';
 import ParkSearch from '../components/parkSearch';
 import LocateMe from '../components/locateMe';
-import RefineButton from '../components/refineBtn';
 
 import {MOBILE_BREAKPOINT} from '../../constants/layout';
 import {getTwoColumnWidthPercent} from '../../constants/layout';
@@ -39,7 +37,6 @@ export default class Explore extends PureComponent {
   };
 
   componentWillMount() {
-    this.configureDropdownOptions();
     this.onBoundsChangeDebounced = debounce(this.onBoundsChange, 500).bind(this);
     this.getFirstMarker(this.props.mostShared);
   }
@@ -73,50 +70,6 @@ export default class Explore extends PureComponent {
 
   componentWillUnmount() {
     this.onBoundsChangeDebounced = null;
-  }
-
-  configureDropdownOptions() {
-    /*
-    { value: 'today', label: 'Today' },
-    { value: 'yesterday', label: 'Yesterday' },
-    { value: 'season-now', label: 'This season' },
-    { value: 'season-last', label: 'Last season' },
-     */
-    const messages = defineMessages({
-      weeknow: {
-        id: 'week-now',
-        defaultMessage: 'This week'
-      },
-      weeklast: {
-        id: 'week-last',
-        defaultMessage: 'Last week'
-      },
-      monthnow: {
-        id: 'month-now',
-        defaultMessage: 'This month'
-      },
-      monthlast: {
-        id: 'month-last',
-        defaultMessage: 'Last month'
-      },
-      yearnow: {
-        id: 'year-now',
-        defaultMessage: 'This year'
-      },
-      yearlast: {
-        id: 'year-last',
-        defaultMessage: 'Last year'
-      }
-    });
-
-    this.dropdownOptions = [
-      { value: 'week-now', label: <FormattedMessage {...messages.weeknow}/> },
-      { value: 'week-last', label: <FormattedMessage {...messages.weeklast}/> },
-      { value: 'month-now', label: <FormattedMessage {...messages.monthnow}/> },
-      { value: 'month-last', label: <FormattedMessage {...messages.monthlast}/> },
-      { value: 'year-now', label: <FormattedMessage {...messages.yearnow}/> },
-      { value: 'year-last', label: <FormattedMessage {...messages.yearlast}/> }
-    ];
   }
 
   // Expecting a sorted array
@@ -197,12 +150,6 @@ export default class Explore extends PureComponent {
       }
 
       this.setState({selectedMarker: marker.su_id, currentIndex: newIndex});
-    }
-  }
-
-  onDropdownChange(val) {
-    if (typeof this.props.handleOnChange === 'function') {
-      this.props.handleOnChange(val, this.refs.map.getZoom());
     }
   }
 
@@ -337,11 +284,6 @@ export default class Explore extends PureComponent {
     }
   }
 
-  refineClick() {
-    this.onBoundsChange();
-    // this.resetSelectedMarker();
-  }
-
   searchOnFocus = () => {
     this.setState({searchFocused: true});
   };
@@ -389,20 +331,16 @@ export default class Explore extends PureComponent {
                   defaultMessage={`Photos pour out of our parks daily. See what's happening and where.`} />
               </p>
 
-              <div className='dropdown-filter'>
                 <p className='label uppercase'>
                 <FormattedMessage
                     id='explore.section.dropdown.title'
                     defaultMessage={`Showing top 10 parks`} />
                 </p>
-                <Dropdown
-                  className='dropdown'
-                  name='park-top-ten-picker'
-                  value={this.props.mostShared.interval || 'week-now'}
-                  options={this.dropdownOptions}
-                  clearable={false}
-                  onChange={this.onDropdownChange.bind(this)} />
-              </div>
+              <p className='description'>
+                <FormattedMessage
+                  id='explore.section.dropdown.description'
+                  defaultMessage={`Showing parks with the highest Instagram activity.`} />
+              </p>
             </div>
           </div>
           <div ref='sideright' className='side-right col-eight' style={{width: rightWidth + '%'}}>
@@ -423,7 +361,6 @@ export default class Explore extends PureComponent {
               endPoint='/api/search'
               sortHandler={this.searchSorter}/>
             <LocateMe onPosition={this.onPosition.bind(this)} restrictWith='/assets/data/california.geojson' />
-            <RefineButton onClickHandler={this.refineClick.bind(this)} />
 
             <Navigator
               items={this.props.mostShared.parks}
@@ -448,7 +385,7 @@ export default class Explore extends PureComponent {
               }}
               >
               <GmapControls {...this.props} />
-              <CustomTileLayer tileUrl='http://{s}.map.parks.stamen.com/{z}/{x}/{y}{r}.png' {...this.props} />
+              <CustomTileLayer tileUrl='https://api.mapbox.com/styles/v1/greeninfo/ciwcgvxj000532ppkwm3h5bkj/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZ3JlZW5pbmZvIiwiYSI6Ik1HUWRtdEkifQ.aWQKcu787DGrDq7LN5r2iA' {...this.props} />
               {this.props.mostShared.parks.map((marker, index) => {
                 const coords = marker.centroid.coordinates;
                 return (<Marker
