@@ -45,7 +45,7 @@ heroku login
 
 ## Download Repository, Set Remotes and Environment
 
-Clone the repository as usual, then set up your Heroku targets. Here, I assume you'll have 2 Heroku applications: one for staging and one for 
+Clone the repository as usual, then set up your Heroku targets. Here, I assume you'll have 2 Heroku applications: one for staging and one for
 
 ```
 cd ~
@@ -76,8 +76,22 @@ npm build
 Add the Heroku targets, and also set environment variables:
 
 ```
-heroku git:remote -r production -a caliparks-production
-heroku git:remote -r development -a caliparks-development
+heroku git:remote -r production --app caliparks-production
+heroku git:remote -r development --app caliparks-development
 
-heroku config:set GOOGLE_APP_KEY=XXX DATABASE_URL=XXX NODE_ENV=production NPM_CONFIG_LOGLEVEL=error NPM_CONFIG_PRODUCTION= false
+heroku config:set \
+GOOGLE_APP_KEY=<...> \
+DATABASE_URL=<...> \
+NODE_ENV=production \
+NPM_CONFIG_LOGLEVEL=error \
+NPM_CONFIG_PRODUCTION=false \
+--remote production
+
+heroku config:set \
+GOOGLE_APP_KEY=<...> \
+DATABASE_URL=<...> \
+NODE_ENV=development \
+NPM_CONFIG_LOGLEVEL=error \
+NPM_CONFIG_PRODUCTION=false \
+--remote development
 ```
