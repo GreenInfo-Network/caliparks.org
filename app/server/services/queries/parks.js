@@ -1,3 +1,4 @@
+/* eslint-disable */
 import escape from 'pg-escape';
 import {CPAD_WHERE, BASE_PHOTO_ATTRIBUTES} from './common';
 
@@ -242,7 +243,6 @@ function mostSharedParks_OLD(options) {
 }
 
 function randomPark(options) {
-
   const q = [
   "WITH most_shared_parks AS (",
     "SELECT",
@@ -256,10 +256,7 @@ function randomPark(options) {
     " FROM (",
       "SELECT *",
       " FROM instagram_photos photos",
-      " WHERE",
-      " (photos.metadata->>'created_time')::int >= cast(extract(epoch from (date_trunc('month', now() - interval '1 month'))) as integer)",
-      " AND",
-      " (photos.metadata->>'created_time')::int < cast(extract(epoch from (date_trunc('month', now() + interval '1 month'))) as integer)",
+      " LIMIT 500",
       ") as q1",
     " JOIN cpad_superunits cpad ON cpad.superunit_id = q1.superunit_id",
     " GROUP BY cpad.superunit_id ORDER by total DESC LIMIT 500",
@@ -357,5 +354,3 @@ export const queries = {
   parksNotIn: parksNotIn,
   listParks: listParks
 }
-
-

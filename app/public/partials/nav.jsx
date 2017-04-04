@@ -21,7 +21,6 @@ class Nav extends React.Component {
           console.error('Loading park search list failed!', err);
         } else {
           const data = JSON.parse(res.text);
-          console.log('Wander ID: %s', data.id);
           this.setState({wanderID: data.id});
         }
       });
@@ -45,7 +44,8 @@ class Nav extends React.Component {
               <div className='desc'>
                 <FormattedHTMLMessage
                   id='explore.description'
-                  defaultMessage={`See what's happening in<br/>parks near you`} />
+                  defaultMessage={'See what\'s happening in<br/>parks near you'}
+                />
               </div>
             </a>
           </li>
@@ -60,7 +60,8 @@ class Nav extends React.Component {
               <div className='desc'>
                 <FormattedHTMLMessage
                   id='discover.description'
-                  defaultMessage={`Learn more about parks<br/>across the state`} />
+                  defaultMessage={`Learn more about parks<br/>across the state`}
+                />
               </div>
             </a>
           </li>
@@ -75,7 +76,8 @@ class Nav extends React.Component {
               <div className='desc'>
                 <FormattedHTMLMessage
                   id='wander.description'
-                  defaultMessage={`Find out more about one<br/>of our featured parks`} />
+                  defaultMessage={'Find out more about one<br/>of our featured parks'}
+                />
               </div>
             </a>
           </li>

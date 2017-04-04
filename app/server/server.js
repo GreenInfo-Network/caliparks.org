@@ -222,7 +222,7 @@ app.get('/activity/:activity', (req, res, next) => {
 });
 
 app.get('/wander', (req, res, next) => {
-  return dataStore.db('randomPark', {interval:'month-now'}).then((park) => {
+  return dataStore.db('randomPark').then((park) => {
     const parkid = park[0].su_id;
     res.set('Cache-Control', 'private, max-age=0, no-cache');
     return res.redirect('/park/' + parkid);
@@ -272,9 +272,9 @@ app.get('/api/most_shared_parks.json', (req, res, next) => {
       if (!ids.length) return [];
 
       return dataStore.db('parksNotIn', {interval: req.query.interval || null, bbox: req.query.bbox, notIn: ids});
-    } else {
-      return [];
     }
+
+    return [];
   })
   .then((others) => {
     obj.others = others;
@@ -351,7 +351,7 @@ app.get('/api/park/:id/bounds', (req, res, next) => {
 });
 
 app.get('/api/wander', (req, res, next) => {
-  return dataStore.db('randomPark', {interval:'month-now'}).then((park) => {
+  return dataStore.db('randomPark').then((park) => {
     const parkid = (park && park.length) ? park[0].su_id : null;
     res.set('Cache-Control', 'private, max-age=0, no-cache');
     return res.json({id: parkid});
