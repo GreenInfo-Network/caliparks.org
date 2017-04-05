@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  *
  * No frills social sharing plugin
@@ -6,12 +7,13 @@
  */
 
 
-export const socs = {};
+const socs = {};
 
 socs.sharing = function(){
     var __ = {},
         options = {};
     var items, first;
+    var handleClick;
 
     // set options from config
     utils.extend(options, config);
@@ -45,7 +47,7 @@ socs.sharing = function(){
                                 evt.preventDefault();
                             } else {
                                 evt.returnFalse = true;
-                            };
+                            }
 
                             o.click_();
                             return false;
@@ -82,7 +84,7 @@ socs.sharing = function(){
         first = false;
 
         items.forEach(function(item) {
-            item.elm.removeEventListener('click');
+            item.elm.removeEventListener('click', service.click_);
         });
 
         items = [];
@@ -93,7 +95,7 @@ socs.sharing = function(){
 
         if (items) {
             items.forEach(function(item) {
-                item.elm.removeEventListener('click');
+                item.elm.removeEventListener('click', service.click_);
             });
         }
 
@@ -122,7 +124,6 @@ var config = socs.sharing.config = {
         hashtags: ""
     },
     services: {}
-
 };
 
 // defaults
@@ -432,7 +433,7 @@ var service = {
                 }
             break;
         }
-
-
     }
 };
+
+export default socs;

@@ -10,7 +10,7 @@ import StickyNav from '../partials/sticky-nav';
 import ParkMap from '../components/parkMap';
 import ActivityGrid from '../components/activityGrid';
 import Slider from 'react-slick';
-import {socs} from '../lib/socs';
+import socs from '../lib/socs';
 import {directionsLink} from '../../constants/map';
 import {MOBILE_BREAKPOINT} from '../../constants/layout';
 
@@ -44,6 +44,7 @@ export class Park extends PureComponent {
       selectedPhoto: null,
       badImages: []
     });
+    // this.socs = null;
     this.mapNeedsResizing = true;
     this.getInitialSelectedPhoto();
   }
@@ -71,16 +72,6 @@ export class Park extends PureComponent {
     }
   }
 
-  shouldFetchSelectedPark() {
-    if (!this.props.selectedPark.isFetching) {
-      if (isEmpty(this.props.selectedPark.park)) {
-        this.props.fetchSelectedPark(this.props.params.id);
-      } else if (this.props.selectedPark.parkid !== this.props.params.id) {
-        this.props.fetchSelectedPark(this.props.params.id);
-      }
-    }
-  }
-
   componentWillUpdate(nextProps, nextState) {
     if (nextProps.params.id !== this.props.params.id) {
       this.props.fetchSelectedPark(nextProps.params.id);
@@ -105,6 +96,16 @@ export class Park extends PureComponent {
     this.handleResizeThrottled = null;
     if (this.socs) this.socs.destroy();
     this.socs = null;
+  }
+
+  shouldFetchSelectedPark() {
+    if (!this.props.selectedPark.isFetching) {
+      if (isEmpty(this.props.selectedPark.park)) {
+        this.props.fetchSelectedPark(this.props.params.id);
+      } else if (this.props.selectedPark.parkid !== this.props.params.id) {
+        this.props.fetchSelectedPark(this.props.params.id);
+      }
+    }
   }
 
   getInitialSelectedPhoto() {
