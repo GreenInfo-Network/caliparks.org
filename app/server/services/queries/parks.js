@@ -124,7 +124,6 @@ function datesForTime(t) {
 function parksNotIn(options) {
   const interval = options.interval || 'week-now';
   const dateStr = datesForTime(interval);
-  const photoCount = options.photoCount || '10';
   const bbox = options.bbox || null;
   const notIn = options.notIn || [];
 
