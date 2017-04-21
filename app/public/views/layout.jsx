@@ -13,25 +13,54 @@ addLocaleData(es);
 
 export default class Layout extends React.Component {
   static propTypes = {
-    lang: PropTypes.string.isRequired,
-    messages: PropTypes.object,
-    title: PropTypes.string.isRequired,
+    baseUrl: PropTypes.string,
     children: PropTypes.oneOfType([
       PropTypes.node
     ]).isRequired,
-    selectedPark: PropTypes.object,
-    location: PropTypes.object,
-    viewData: PropTypes.object,
-    baseUrl: PropTypes.string,
+    featuredParks: PropTypes.object,
     gak: PropTypes.string.isRequired,
-    gaID: PropTypes.string.isRequired
+    gaID: PropTypes.string.isRequired,
+    lang: PropTypes.string.isRequired,
+    location: PropTypes.object,
+    messages: PropTypes.object,
+    mostSharedParks: PropTypes.object,
+    selectedPark: PropTypes.object,
+    selectedActivity: PropTypes.object,
+    title: PropTypes.string.isRequired,
+    viewData: PropTypes.object,
   };
 
   constructor(props) {
     super(props);
 
-    // seed the redux state with initial properties
-    this.store = makeStore(props);
+    // these are props passed down from the server
+    // some props aren't meant for the Redux Store, so only grab the ones we need
+    const {
+      gak,
+      gaID,
+      lang,
+      messages,
+      mostSharedParks,
+      selectedPark,
+      selectedActivity,
+      featuredParks,
+      title,
+      viewData
+    } = props;
+
+    // seed the redux state with the needed props
+    this.store = makeStore({
+      featuredParks,
+      gak,
+      gaID,
+      lang,
+      messages,
+      mostSharedParks,
+      selectedActivity,
+      selectedPark,
+      title,
+      viewData
+    });
   }
 
   componentDidMount() {}
@@ -61,6 +90,7 @@ export default class Layout extends React.Component {
     const description = 'Find national, state, county and city parks near you in California. See real-time park photos from Instagram, get information and directions, and make reservations.';
 
     const googlemapsapiurl = 'https://maps.googleapis.com/maps/api/js?key=' + this.props.gak;
+    console.log('layout mounting...');
 
     return (
         <Provider store={this.store}>
