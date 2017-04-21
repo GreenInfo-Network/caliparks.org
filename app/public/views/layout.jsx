@@ -90,7 +90,6 @@ export default class Layout extends React.Component {
     const description = 'Find national, state, county and city parks near you in California. See real-time park photos from Instagram, get information and directions, and make reservations.';
 
     const googlemapsapiurl = 'https://maps.googleapis.com/maps/api/js?key=' + this.props.gak;
-    console.log('layout mounting...');
 
     return (
         <Provider store={this.store}>
