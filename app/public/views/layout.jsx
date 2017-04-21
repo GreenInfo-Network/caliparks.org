@@ -92,7 +92,6 @@ export default class Layout extends React.Component {
     const googlemapsapiurl = 'https://maps.googleapis.com/maps/api/js?key=' + this.props.gak;
 
     return (
-        <Provider store={this.store}>
           <html lang={this.props.lang}>
             <head>
               <meta charSet='utf-8' />
@@ -132,9 +131,11 @@ export default class Layout extends React.Component {
               <script src={googlemapsapiurl}></script>
             </head>
             <body>
-              <IntlProvider locale={this.props.lang} messages={this.props.messages}>
-                { this.props.children }
-              </IntlProvider>
+              <Provider store={this.store}>
+                <IntlProvider locale={this.props.lang} messages={this.props.messages}>
+                  { this.props.children }
+                </IntlProvider>
+              </Provider>
               <GoogleAnalytics trackingID={this.props.gaID || null} />
               <UserVoice locale={this.props.lang} />
               <script src='/vendor/js/addtohomescreen_modified.min.js'></script>
@@ -144,7 +145,6 @@ export default class Layout extends React.Component {
               <script src='/bundle.js'></script>
             </body>
           </html>
-        </Provider>
     );
   }
 }
