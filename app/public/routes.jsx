@@ -16,8 +16,7 @@ export default (
       {/*
         These next 3 paths are handled slightly differently, the first two
         should redirect to #explore and #discover, while /wander has its own
-        route via express so the Route will never reach the 404 here.
-        TODO: fix this && upgrade to React Router v4, currently at v1.x
+        route via express. None of these routes actually go to the NotFound view
       */}
       <Route path='explore' component={NotFound} />
       <Route path='discover' component={NotFound} />
