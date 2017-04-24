@@ -5,150 +5,150 @@ const INITIAL_STATE = {};
 
 function featuredParks(state = INITIAL_STATE, action) {
   switch (action.type) {
-  case actions.REQUEST_FEATURED_PARKS:
-    return {
-      ...state,
-      isFetching: true
-    };
+    case actions.REQUEST_FEATURED_PARKS:
+      return {
+        ...state,
+        isFetching: true
+      };
 
-  case actions.RECEIVE_FEATURED_PARKS:
-    return {
-      ...state,
-      isFetching: false,
-      parks: action.parks,
-      lastUpdated: action.receivedAt
-    };
+    case actions.RECEIVE_FEATURED_PARKS:
+      return {
+        ...state,
+        isFetching: false,
+        parks: action.parks,
+        lastUpdated: action.receivedAt
+      };
 
-  default:
-    return state;
+    default:
+      return state;
   }
 }
 
 function mostSharedParks(state = INITIAL_STATE, action) {
   switch (action.type) {
-  case actions.CLEAR_MOST_SHARED_PARKS:
-    return {
-      ...state,
-      isFetching: false,
-      parks: [],
-      lastUpdated: null,
-      interval: 'week-now',
-      bbox: null
-    };
+    case actions.CLEAR_MOST_SHARED_PARKS:
+      return {
+        ...state,
+        isFetching: false,
+        parks: [],
+        lastUpdated: null,
+        interval: 'week-now',
+        bbox: null
+      };
 
-  case actions.REQUEST_MOST_SHARED_PARKS:
-    return {
-      ...state,
-      isFetching: true
-    };
+    case actions.REQUEST_MOST_SHARED_PARKS:
+      return {
+        ...state,
+        isFetching: true
+      };
 
-  case actions.RECEIVE_MOST_SHARED_PARKS:
-    return {
-      ...state,
-      isFetching: false,
-      parks: action.parks.slice(0),
-      lastUpdated: action.receivedAt,
-      interval: action.interval,
-      bbox: action.bbox
-    };
+    case actions.RECEIVE_MOST_SHARED_PARKS:
+      return {
+        ...state,
+        isFetching: false,
+        parks: action.parks.slice(0),
+        lastUpdated: action.receivedAt,
+        interval: action.interval,
+        bbox: action.bbox
+      };
 
-  default:
-    return state;
+    default:
+      return state;
   }
 }
 
 function selectedPark(state = INITIAL_STATE, action) {
   switch (action.type) {
-  case actions.CLEAR_SELECTED_PARK:
-    return {
-      ...state,
-      isFetching: false,
-      park: [],
-      images: [],
-      parkid: [],
-      totalImages: 0,
-      lastUpdated: null
-    };
+    case actions.CLEAR_SELECTED_PARK:
+      return {
+        ...state,
+        isFetching: false,
+        park: [],
+        images: [],
+        parkid: [],
+        totalImages: 0,
+        lastUpdated: null
+      };
 
-  case actions.REQUEST_SELECTED_PARK:
-    return {
-      ...state,
-      isFetching: true
-    };
+    case actions.REQUEST_SELECTED_PARK:
+      return {
+        ...state,
+        isFetching: true
+      };
 
-  case actions.REQUEST_SELECTED_PARK_PHOTOS:
-    return {
-      ...state,
-      isFetching: true
-    };
+    case actions.REQUEST_SELECTED_PARK_PHOTOS:
+      return {
+        ...state,
+        isFetching: true
+      };
 
-  case actions.RECEIVE_SELECTED_PARK:
-    return {
-      ...state,
-      isFetching: false,
-      park: action.park.park,
-      images: action.park.images,
-      parkid: action.parkid,
-      totalImages: action.park.totalImages,
-      lastUpdated: action.receivedAt
-    };
+    case actions.RECEIVE_SELECTED_PARK:
+      return {
+        ...state,
+        isFetching: false,
+        park: action.park.park,
+        images: action.park.images,
+        parkid: action.parkid,
+        totalImages: action.park.totalImages,
+        lastUpdated: action.receivedAt
+      };
 
-  case actions.RECEIVE_SELECTED_PARK_PHOTOS:
-    return {
-      ...state,
-      isFetching: false,
-      images: state.images ? state.images.concat(action.images) : action.images,
-      totalImages: action.totalImages,
-      lastUpdated: action.receivedAt
-    };
+    case actions.RECEIVE_SELECTED_PARK_PHOTOS:
+      return {
+        ...state,
+        isFetching: false,
+        images: state.images ? state.images.concat(action.images) : action.images,
+        totalImages: action.totalImages,
+        lastUpdated: action.receivedAt
+      };
 
-  default:
-    return state;
+    default:
+      return state;
   }
 }
 
 function selectedActivity(state = INITIAL_STATE, action) {
   switch (action.type) {
-  case actions.CLEAR_SELECTED_ACTIVITY:
-    return {
-      ...state,
-      isFetching: false,
-      parks: [],
-      activity: '',
-      lastUpdated: null
-    };
+    case actions.CLEAR_SELECTED_ACTIVITY:
+      return {
+        ...state,
+        isFetching: false,
+        parks: [],
+        activity: '',
+        lastUpdated: null
+      };
 
-  case actions.REQUEST_SELECTED_ACTIVITY:
-    return {
-      ...state,
-      isFetching: true
-    };
+    case actions.REQUEST_SELECTED_ACTIVITY:
+      return {
+        ...state,
+        isFetching: true
+      };
 
-  case actions.RECEIVE_SELECTED_ACTIVITY:
-    return {
-      ...state,
-      isFetching: false,
-      parks: action.parks,
-      activity: action.activity,
-      lastUpdated: action.receivedAt
-    };
+    case actions.RECEIVE_SELECTED_ACTIVITY:
+      return {
+        ...state,
+        isFetching: false,
+        parks: action.parks,
+        activity: action.activity,
+        lastUpdated: action.receivedAt
+      };
 
-  default:
-    return state;
+    default:
+      return state;
   }
 }
 
 function windowSize(state = INITIAL_STATE, action) {
   switch (action.type) {
-  case actions.SET_WINDOW_SIZE:
-    return {
-      ...state,
-      width: action.size.width,
-      height: action.size.height
-    };
+    case actions.SET_WINDOW_SIZE:
+      return {
+        ...state,
+        width: action.size.width,
+        height: action.size.height
+      };
 
-  default:
-    return state;
+    default:
+      return state;
   }
 }
 

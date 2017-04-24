@@ -27,7 +27,6 @@ export function query(queryName, options) {
       const {query, opts} = queries[queryName](o);
 
       return client.query(query, opts, (err, result) => {
-        console.log(err, result);
         done();
 
         if (err) {

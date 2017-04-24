@@ -25,7 +25,7 @@
   },
   "rules": {
     "no-unused-vars": [1, {"vars": "all", "args": "none"}],
-    "indent": [2, 2],
+    "indent": [2, 2, { "SwitchCase": 1 }],
     "quotes": [2, "single"],
     "no-multi-spaces": 0,
     "key-spacing": 0,

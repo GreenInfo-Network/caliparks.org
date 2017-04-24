@@ -7,7 +7,10 @@ import SliderMostShared from './sliderMostShared';
 
 export default class HomeIndex extends PureComponent {
   static propTypes = {
-    height: PropTypes.number.isRequired,
+    height: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.string,
+    ]).isRequired,
     width: PropTypes.number.isRequired,
     images: PropTypes.array.isRequired,
     autoplay: PropTypes.bool,

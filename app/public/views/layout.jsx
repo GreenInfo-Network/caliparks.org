@@ -13,25 +13,54 @@ addLocaleData(es);
 
 export default class Layout extends React.Component {
   static propTypes = {
-    lang: PropTypes.string.isRequired,
-    messages: PropTypes.object,
-    title: PropTypes.string.isRequired,
+    baseUrl: PropTypes.string,
     children: PropTypes.oneOfType([
       PropTypes.node
     ]).isRequired,
-    selectedPark: PropTypes.object,
-    location: PropTypes.object,
-    viewData: PropTypes.object,
-    baseUrl: PropTypes.string,
+    featuredParks: PropTypes.object,
     gak: PropTypes.string.isRequired,
-    gaID: PropTypes.string.isRequired
+    gaID: PropTypes.string.isRequired,
+    lang: PropTypes.string.isRequired,
+    location: PropTypes.object,
+    messages: PropTypes.object,
+    mostSharedParks: PropTypes.object,
+    selectedPark: PropTypes.object,
+    selectedActivity: PropTypes.object,
+    title: PropTypes.string.isRequired,
+    viewData: PropTypes.object,
   };
 
   constructor(props) {
     super(props);
 
-    // seed the redux state with initial properties
-    this.store = makeStore(props);
+    // these are props passed down from the server
+    // some props aren't meant for the Redux Store, so only grab the ones we need
+    const {
+      gak,
+      gaID,
+      lang,
+      messages,
+      mostSharedParks,
+      selectedPark,
+      selectedActivity,
+      featuredParks,
+      title,
+      viewData
+    } = props;
+
+    // seed the redux state with the needed props
+    this.store = makeStore({
+      featuredParks,
+      gak,
+      gaID,
+      lang,
+      messages,
+      mostSharedParks,
+      selectedActivity,
+      selectedPark,
+      title,
+      viewData
+    });
   }
 
   componentDidMount() {}
@@ -63,7 +92,6 @@ export default class Layout extends React.Component {
     const googlemapsapiurl = 'https://maps.googleapis.com/maps/api/js?key=' + this.props.gak;
 
     return (
-        <Provider store={this.store}>
           <html lang={this.props.lang}>
             <head>
               <meta charSet='utf-8' />
@@ -103,9 +131,11 @@ export default class Layout extends React.Component {
               <script src={googlemapsapiurl}></script>
             </head>
             <body>
-              <IntlProvider locale={this.props.lang} messages={this.props.messages}>
-                { this.props.children }
-              </IntlProvider>
+              <Provider store={this.store}>
+                <IntlProvider locale={this.props.lang} messages={this.props.messages}>
+                  { this.props.children }
+                </IntlProvider>
+              </Provider>
               <GoogleAnalytics trackingID={this.props.gaID || null} />
               <UserVoice locale={this.props.lang} />
               <script src='/vendor/js/addtohomescreen_modified.min.js'></script>
@@ -115,7 +145,6 @@ export default class Layout extends React.Component {
               <script src='/bundle.js'></script>
             </body>
           </html>
-        </Provider>
     );
   }
 }
