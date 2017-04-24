@@ -35,6 +35,7 @@
   "explore": "Explore",
   "explore.section.message": "Photos pour out of our parks daily. See what's happening and where.",
   "explore.section.dropdown.title": "Showing top 10 parks",
+  "explore.section.dropdown.description": "Showing parks with the highest Instagram activity.",
   "loading.parks": "Loading parks...",
   "footer.faq": "FAQ",
   "footer.feedback": "Feedback",
