@@ -48,7 +48,7 @@ These actually run *git push* commands to the target Heroku app. The actual comm
 
 ## Causing Heroku to Recompile the Bundle if You Haven't Changed Anything
 
-Sorry, but there is no way to do this. Even the old "empty commit" trick does not work, as Heroku recognizes that "everything is "Everything up-to-date" and will not force a recompile of the bundle.
+Sorry, but there is no way to do this. Even the old "empty commit" trick does not work, as Heroku recognizes that "Everything up-to-date" and will not force a recompile of the bundle.
 
 Your only option is to make a real change, e.g. some comment, and then push only to the *development* or *production* target. Sad, but true.
 

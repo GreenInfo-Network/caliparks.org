@@ -29,6 +29,13 @@ sudo apt-get upgrade
 Don't forget to reboot. You did update a lot of packages!
 
 
+##NVM Node Version manager
+
+```
+curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh | bash
+```
+
+
 ## Heroku Toolbelt
 
 Straight from Heroku's own instructions:
@@ -56,7 +63,7 @@ cd caliparks-development
 #### Environment Variables
 Move your `.env` file into place, then edit it for your own values. We don't store these values in the repository, but in the local *.env* file. For our own reference, use offline storage or a service such as 1Password.
 * GOOGLE_APP_KEY is had from the Google API Console. You would need to generate one for your site.
-* DATABASE_URL is had from Heroku, when you add Heroku Postgres to the new project. Resources / Postgres / Credentials
+* DATABASE_URL is had from Heroku. App's panel, Settings, Config Variables.
 
 ```
 cd app
