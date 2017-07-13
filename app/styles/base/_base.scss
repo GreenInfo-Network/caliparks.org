@@ -149,40 +149,47 @@ a {
 
 .credits-control-container {
   -webkit-user-select: none;
-  margin-right: -30px;
-  margin-bottom: 25px;
+  margin-right: 10px;
+  margin-bottom: 10px;
   box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 4px -1px;
   border-radius: 2px;
-  width: 55px;
-  height: 55px;
+
   background-color: $color-grey-dark;
   background-color: rgba(51, 50, 46, 0.6);
-  background-image: url(/assets/svgs/logo-green-info.svg);
-  background-size: auto 45px;
+  background-image: url(/assets/images/greeninfo-white.png);
   background-repeat: no-repeat;
-  background-position: -53px 5px;
   -webkit-transform: translate3d(0, 0, 0);
 
+  /* default is a collapsed mode: smaller background and size */
+  height: 28px;
+  width: 28px;
+  background-size: auto 25px;
+  background-position: 2px 2px;
   cursor: pointer;
 
   span {
     display: none;
-    margin-left: 50px;
-    margin-top: 5px;
-    line-height: 22px;
-    font-size: 13px;
+  }
+}
+.credits-control-container.credits-control-expanded {
+  /* expanded needs larger icon + larger overall size */
+  height: 40px;
+  width: 210px;
+  background-size: auto 30px;
+  background-position: 3px 5px;
+  cursor: default;
+  margin-bottom: 5px;
+  
+  span {
+    display: inline-block;
+    margin-left: 40px;
+    margin-top: 3px;
+    line-height: 17px;
+    font-size: 11px;
     color: #EEEFF3;
   }
   a {
     color: #EEEFF3 !important;
-  }
-}
-.credits-control-container.credits-control-expanded {
-  width: 250px;
-  cursor: default;
-
-  span {
-    display: inline-block;
   }
 }
 

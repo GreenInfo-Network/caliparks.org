@@ -35,13 +35,13 @@ export default class GmapControls extends Component {
     if (this.props.mapHolderRef) {
       const map = this.props.mapHolderRef.getMap();
 
+      const creditsControlDiv = document.createElement('div');
+      creditsControlDiv.index = 1;
+      map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(this.creditsControl(creditsControlDiv));
+
       const centerControlDiv = document.createElement('div');
       centerControlDiv.index = 1;
       map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(this.centerControl(centerControlDiv, map));
-
-      const creditsControlDiv = document.createElement('div');
-      creditsControlDiv.index = 1;
-      map.controls[google.maps.ControlPosition.BOTTOM_RIGHT].push(this.creditsControl(creditsControlDiv));
     }
   }
 
