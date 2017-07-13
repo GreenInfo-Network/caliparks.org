@@ -100,6 +100,7 @@
   },
   "devDependencies": {
     "foreman": "^1.4.1",
+    "node-sass": "^3.13.1",
     "webpack-dev-middleware": "^1.4.0",
     "webpack-hot-middleware": "^2.6.0"
   }
