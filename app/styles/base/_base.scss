@@ -147,6 +147,45 @@ a {
   }
 }
 
+.credits-control-container {
+  -webkit-user-select: none;
+  margin-right: -30px;
+  margin-bottom: 25px;
+  box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 4px -1px;
+  border-radius: 2px;
+  width: 55px;
+  height: 55px;
+  background-color: $color-grey-dark;
+  background-color: rgba(51, 50, 46, 0.6);
+  background-image: url(/assets/svgs/logo-green-info.svg);
+  background-size: auto 45px;
+  background-repeat: no-repeat;
+  background-position: -53px 5px;
+  -webkit-transform: translate3d(0, 0, 0);
+
+  cursor: pointer;
+
+  span {
+    display: none;
+    margin-left: 50px;
+    margin-top: 5px;
+    line-height: 22px;
+    font-size: 13px;
+    color: #EEEFF3;
+  }
+  a {
+    color: #EEEFF3 !important;
+  }
+}
+.credits-control-container.credits-control-expanded {
+  width: 250px;
+  cursor: default;
+
+  span {
+    display: inline-block;
+  }
+}
+
 .zoom-control-container {
   -webkit-user-select: none;
   margin-right: 10px;
