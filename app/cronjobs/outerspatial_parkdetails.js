@@ -10,6 +10,16 @@
  * - pg components use pg.Client syntax and not pg.connect() syntax, as we do not need connection
  *   pooling nor persistence, and pg.connect() will hang Node after real execution has completed
  * - a synchronous version of request (sync-request) is used to ensure that the API hits are sequential
+ *
+ * And a significant consideration for the health of Caliparks: the API provides preformatted HTML
+ * and content management is by OpenSpatial personnel and is considered trustworthy,
+ * e.g. wrapping a title in <h1></h1> will not result in a broken tag nor anything ugly
+ * and displaying their HTML as-given would not introduce a <script> tag nor onMouseOver="" attributes
+ *
+ * TBD and TODO:
+ * - Recurring events. All events seen so far are "singular" and not recurring
+ *   the structure seems to indicate that recurring events may give a start date and recurrence schedule,
+ *   and we would need to figure out the next recurrence date after this run.
  */
 
 //
@@ -18,6 +28,7 @@
 
 import FormData from 'form-data';
 import {Promise} from 'es6-promise';
+import moment from 'moment';
 import util from 'util';
 import request from 'sync-request';
 import pg from 'pg';
@@ -65,26 +76,26 @@ new Promise((resolve, reject) => {
         });
     });
 }).then(() => {
-    let DBCLIENT = new pg.Client(DATABASE_URL);
-    DBCLIENT.connect(function(err) {
+    let LISTCLIENT = new pg.Client(DATABASE_URL);
+    LISTCLIENT.connect(function(err) {
         if (err) throw new Error('Could not connect to database: ', err);
 
-        //gda//DBCLIENT.query('SELECT cpad_suid,os_id,unit_name FROM outerspatial_content', function(err, result) {
-        //gda//DBCLIENT.query('SELECT cpad_suid,os_id,unit_name FROM outerspatial_content WHERE cpad_suid=$1', [1443], function(err, result) {
-        //gda//DBCLIENT.query('SELECT cpad_suid,os_id,unit_name FROM outerspatial_content WHERE cpad_suid=$1', [1575], function(err, result) {
-        //gda//DBCLIENT.query('SELECT cpad_suid,os_id,unit_name FROM outerspatial_content WHERE cpad_suid=$1', [1624], function(err, result) {
-        //gda//DBCLIENT.query('SELECT cpad_suid,os_id,unit_name FROM outerspatial_content WHERE cpad_suid=$1', [1659], function(err, result) {
-        //gda//DBCLIENT.query('SELECT cpad_suid,os_id,unit_name FROM outerspatial_content WHERE cpad_suid=$1', [13771], function(err, result) {
-        //gda//DBCLIENT.query('SELECT cpad_suid,os_id,unit_name FROM outerspatial_content WHERE cpad_suid=$1', [1682], function(err, result) {
-        //gda//DBCLIENT.query('SELECT cpad_suid,os_id,unit_name FROM outerspatial_content WHERE cpad_suid=$1', [1652], function(err, result) {
-        DBCLIENT.query('SELECT cpad_suid,os_id,unit_name FROM outerspatial_content WHERE cpad_suid=$1', [6341], function(err, result) {
-            DBCLIENT.end();
+        //gda//LISTCLIENT.query('SELECT cpad_suid,os_id,unit_name FROM outerspatial_content', function(err, parkstoprocess) {
+        //gda//LISTCLIENT.query('SELECT cpad_suid,os_id,unit_name FROM outerspatial_content WHERE cpad_suid=$1', [1443], function(err, parkstoprocess) {
+        //gda//LISTCLIENT.query('SELECT cpad_suid,os_id,unit_name FROM outerspatial_content WHERE cpad_suid=$1', [1575], function(err, parkstoprocess) {
+        LISTCLIENT.query('SELECT cpad_suid,os_id,unit_name FROM outerspatial_content WHERE cpad_suid=$1', [1624], function(err, parkstoprocess) {
+        //gda//LISTCLIENT.query('SELECT cpad_suid,os_id,unit_name FROM outerspatial_content WHERE cpad_suid=$1', [1659], function(err, parkstoprocess) {
+        //gda//LISTCLIENT.query('SELECT cpad_suid,os_id,unit_name FROM outerspatial_content WHERE cpad_suid=$1', [13771], function(err, parkstoprocess) {
+        //gda//LISTCLIENT.query('SELECT cpad_suid,os_id,unit_name FROM outerspatial_content WHERE cpad_suid=$1', [1682], function(err, parkstoprocess) {
+        //gda//LISTCLIENT.query('SELECT cpad_suid,os_id,unit_name FROM outerspatial_content WHERE cpad_suid=$1', [1652], function(err, parkstoprocess) {
+        //gda//LISTCLIENT.query('SELECT cpad_suid,os_id,unit_name FROM outerspatial_content WHERE cpad_suid=$1', [6341], function(err, parkstoprocess) {
+            LISTCLIENT.end();
             if (err) throw new Error('Could not fetch list of OuterSpatial parks: ', err);
 
             // go through the list of parks and collect their supplemental data into a structure
             // it's not very large, and this lets us cleanly separate into fetch-phase and udpate-phase
-            var supplemental_data = {};
-            result.rows.forEach(parkrecord => {
+            let supplemental_data = {};
+            parkstoprocess.rows.forEach(parkrecord => {
                 // within this park record, hit the data API and get the supplemental data
                 const url = ENDPOINT_DETAILS.replace('{OS_PARK_ID}', parkrecord.os_id);
                 console.log(`Fetching ${parkrecord.cpad_suid} ${parkrecord.unit_name} (OSID: ${parkrecord.os_id})\n    ${url}`);
@@ -97,9 +108,74 @@ new Promise((resolve, reject) => {
                 const parkdata = JSON.parse(res.getBody('utf8'));
                 console.log(`    Found park name: ${parkdata.name}`); // useful for debugging esp when a brand-new park is added and the ID may be wrong
 
-console.log(parkdata.tags);
-console.log(parkdata.description);
+                // initialize the supplemental data for this park, keying by CPAD SUID as that's our unique index in the table
+                // below, we will add the HTML blocks to it individually
+                supplemental_data[parkrecord.cpad_suid] = {};
+
+                // compose content: About Visiting (aboutvisiting), aka content_blocks
+                // build an array of H1 titles and pre-formatted bodies, join them into a string
+                console.log(`    About Visiting`);
+                {
+                    let html = [];
+                    parkdata.content_blocks.forEach((block) => {
+                        html.push(`<h1>${block.title.trim()}</h1>`);
+                        html.push(block.body.trim());
+                    });
+                    supplemental_data[parkrecord.cpad_suid].aboutvisiting = html.join("\n");
+                //console.log(supplemental_data[parkrecord.cpad_suid].aboutvisiting);
+                }
+
+                // compose content: Events (events), aka primary_events
+                // build an array of H1 titles and formatted bodies, join them into a string
+                console.log(`    Events`);
+                {
+                    let html = [];
+                    parkdata.primary_events.forEach((block) => {
+                        const eventdate = moment(block.schedule_attributes.date).format('ddd, MMM D');
+
+                        html.push('<div>'); // wrap in a DIV so we can visually separate individual events
+
+                        html.push(`<h1>${eventdate} &nbsp; ${block.name.trim()}</h1>`);
+                        html.push(block.description.trim());
+                        if (block.cost)         html.push(`<p>Cost: ${block.cost.trim()}</p>`);
+                        if (block.website)      html.push(`<p><a target="_blank" href="${block.website.trim()}">More Info</a></p>`);
+                        if (block.phone_number) html.push(`<p>Phone: ${block.phone_number.trim()}</p>`);
+
+                        html.push('</div>');
+                    });
+                    supplemental_data[parkrecord.cpad_suid].events = html.join("\n");
+                }
+                //console.log(supplemental_data[parkrecord.cpad_suid].events);
             });
+
+            // done with compiling data for all parks
+            // onward to saving it
+            console.log('Done fetching data for all parks');
+
+            parkstoprocess.rows.forEach(parkrecord => {
+                console.log(`    Saving data: ${parkrecord.unit_name}`); // useful for debugging esp when a brand-new park is added and the ID may be wrong
+
+                const newfields = supplemental_data[parkrecord.cpad_suid];
+                const sql = `UPDATE outerspatial_content SET
+                             aboutvisiting=$1,
+                             events=$2
+                             WHERE cpad_suid=$3`;
+                const params = [
+                    newfields.aboutvisiting,
+                    newfields.events,
+                    parkrecord.cpad_suid
+                ];
+
+                let SAVECLIENT = new pg.Client(DATABASE_URL);
+                SAVECLIENT.connect(function(err) {
+                    SAVECLIENT.query(sql, params, function(err, result) {
+                        SAVECLIENT.end();
+                        if (err) throw new Error(`Could not update ${parkrecord.unit_name}: `, err);
+                    });
+                });
+            });
+
+//console.log(supplemental_data);
         });
     });
 }).catch((err) => {

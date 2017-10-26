@@ -11,10 +11,13 @@ The `getSelectedPark()` query, will also check the **outerspatial_content** tabl
 * *os_id* -- The OuterSpatial ID. Managed manually, see below.
 * *unit_name* -- A name for this park. Managed manually, see below. *Not really used* by the programming but serves as a reference when examining the table.
 * *lastupdate* -- The date and time when this record was last updated. Useful for debugging the scheduler.
-* GDA TBD events text
-* GDA TBD alerts text
+* *aboutvisiting* -- HTML text, About Visiting. Titles and paragraphs, about park rules, fees, hours, etc.
+* *events* -- HTML text, About Visiting. Titles and paragraphs, about park rules, fees, hours, etc.
 * GDA TBD content blocks?
 * GDA TBD images plural?
+
+The HTML fields above are composed from OuterSpatial content, much of which is pre-formatted and used as-given. Content management is by OpenSpatial personnel and is considered trustworthy, e.g. wrapping a title in <h1></h1> will not result in a broken tag nor anything ugly and displaying their HTML as-given would not introduce a <script> tag nor onMouseOver="" attributes. *If OuterSpatial changes their policies on data hygiene and public contribution, this may need to be revisited* so as not to introduce script-injection, broken HTML, etc. into Caliparks.
+
 
 
 ## OuterSpatial Scheduler
