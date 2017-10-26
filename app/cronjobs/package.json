@@ -1,0 +1,17 @@
+{
+  "name": "caliparks-cronjobs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "babel-cli": "^6.26.0",
+    "form-data": "^2.3.1",
+    "request": "^2.83.0",
+    "sync-request": "^4.1.0"
+  }
+}

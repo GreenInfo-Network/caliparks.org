@@ -18,7 +18,8 @@
     "webpack:prod": "webpack --config ./webpack.config.prod.babel.js",
     "postinstall": "NODE_ENV=production npm run webpack:prod && npm run webpack:server",
     "translate": "webpack --config ./webpack.config.translations.babel.js && ./node_modules/.bin/babel-node translate.js",
-    "webpack:server": "webpack --config ./webpack.config.server.babel.js"
+    "webpack:server": "webpack --config ./webpack.config.server.babel.js",
+    "outerspatial_parkdetails": "cd cronjobs && nf -j Procfile --env ../.env start outerspatial_parkdetails"
   },
   "repository": {
     "type": "git",
