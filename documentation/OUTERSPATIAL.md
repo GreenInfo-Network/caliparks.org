@@ -24,11 +24,13 @@ The HTML fields above are composed from OuterSpatial content, much of which is p
 
 The **outerspatial_content** table is updated by a daily scheduled task, running on a Heroku Scheduler.
 
-This calls the `` task. You may manually run the scheduler at any time by calling this same task:
+This calls the `cron:outerspatial` task. You may manually run the scheduler at any time by calling this same task:
 ```
 cd app
-npm run outerspatial_parkdetails
+npm run cron:outerspatial
 ```
+
+Development tip: The above is intended to run on Heroku and will run a *npm install* to set up dependencies. If you're developing the cronjob, you may want to instead check the `cronjobs/Procfile` and run the `nf` command manually.
 
 This scheduled uses the following environment variables loaded from `.env`. Appropriate values for them are in 1Password.
 * *OPENSPATIAL_CLIENT_ID* -- OAuth2 client ID.
