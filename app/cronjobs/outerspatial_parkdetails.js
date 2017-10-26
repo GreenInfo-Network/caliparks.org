@@ -20,6 +20,7 @@
  * - Recurring events. All events seen so far are "singular" and not recurring
  *   the structure seems to indicate that recurring events may give a start date and recurrence schedule,
  *   and we would need to figure out the next recurrence date after this run.
+ * - Alerts. None of the parks have any posts at all, therefore none of is_alert=true
  */
 
 //
@@ -80,10 +81,10 @@ new Promise((resolve, reject) => {
     LISTCLIENT.connect(function(err) {
         if (err) throw new Error('Could not connect to database: ', err);
 
-        //gda//LISTCLIENT.query('SELECT cpad_suid,os_id,unit_name FROM outerspatial_content', function(err, parkstoprocess) {
+        LISTCLIENT.query('SELECT cpad_suid,os_id,unit_name FROM outerspatial_content', function(err, parkstoprocess) {
         //gda//LISTCLIENT.query('SELECT cpad_suid,os_id,unit_name FROM outerspatial_content WHERE cpad_suid=$1', [1443], function(err, parkstoprocess) {
         //gda//LISTCLIENT.query('SELECT cpad_suid,os_id,unit_name FROM outerspatial_content WHERE cpad_suid=$1', [1575], function(err, parkstoprocess) {
-        LISTCLIENT.query('SELECT cpad_suid,os_id,unit_name FROM outerspatial_content WHERE cpad_suid=$1', [1624], function(err, parkstoprocess) {
+        //gda//LISTCLIENT.query('SELECT cpad_suid,os_id,unit_name FROM outerspatial_content WHERE cpad_suid=$1', [1624], function(err, parkstoprocess) {
         //gda//LISTCLIENT.query('SELECT cpad_suid,os_id,unit_name FROM outerspatial_content WHERE cpad_suid=$1', [1659], function(err, parkstoprocess) {
         //gda//LISTCLIENT.query('SELECT cpad_suid,os_id,unit_name FROM outerspatial_content WHERE cpad_suid=$1', [13771], function(err, parkstoprocess) {
         //gda//LISTCLIENT.query('SELECT cpad_suid,os_id,unit_name FROM outerspatial_content WHERE cpad_suid=$1', [1682], function(err, parkstoprocess) {
@@ -112,6 +113,19 @@ new Promise((resolve, reject) => {
                 // below, we will add the HTML blocks to it individually
                 supplemental_data[parkrecord.cpad_suid] = {};
 
+                // compose content: Highlights (description), a whole bunch of fields collected together
+                // some are pre-formatted HTML, some need HTML composed
+                console.log(`    Highlights`);
+                {
+                    let html = [];
+                    if (parkdata.description)               html.push(parkdata.description.trim());
+                    if (parkdata.accessibility_description) html.push(parkdata.accessibility_description.trim().replace(/^<p>/, '<p><b>Accessibility:</b> '));
+                    if (parkdata.website)                   html.push(`<p><a target="_blank" href="${parkdata.website.trim()}">More Info</a></p>`);
+
+                    supplemental_data[parkrecord.cpad_suid].description = html.join("\n");
+                    //console.log(supplemental_data[parkrecord.cpad_suid].description);
+                }
+
                 // compose content: About Visiting (aboutvisiting), aka content_blocks
                 // build an array of H1 titles and pre-formatted bodies, join them into a string
                 console.log(`    About Visiting`);
@@ -122,8 +136,8 @@ new Promise((resolve, reject) => {
                         html.push(block.body.trim());
                     });
                     supplemental_data[parkrecord.cpad_suid].aboutvisiting = html.join("\n");
-                //console.log(supplemental_data[parkrecord.cpad_suid].aboutvisiting);
                 }
+                //console.log(supplemental_data[parkrecord.cpad_suid].aboutvisiting);
 
                 // compose content: Events (events), aka primary_events
                 // build an array of H1 titles and formatted bodies, join them into a string
@@ -146,23 +160,39 @@ new Promise((resolve, reject) => {
                     supplemental_data[parkrecord.cpad_suid].events = html.join("\n");
                 }
                 //console.log(supplemental_data[parkrecord.cpad_suid].events);
-            });
+
+                // compose content: Alerts (alerts), aka posts with is_alert=true
+                // build an array of H1 titles and formatted bodies, join them into a string
+                console.log(`    Alerts`);
+                {
+                    let html = [];
+                    parkdata.posts.forEach((block) => {
+                    });
+                    supplemental_data[parkrecord.cpad_suid].alerts = html.join("\n");
+                }
+                //console.log(supplemental_data[parkrecord.cpad_suid].alerts);
+
+            }); // end of this park's fetch phase
 
             // done with compiling data for all parks
             // onward to saving it
             console.log('Done fetching data for all parks');
 
             parkstoprocess.rows.forEach(parkrecord => {
-                console.log(`    Saving data: ${parkrecord.unit_name}`); // useful for debugging esp when a brand-new park is added and the ID may be wrong
+                console.log(`Saving data: ${parkrecord.unit_name}`); // useful for debugging esp when a brand-new park is added and the ID may be wrong
 
                 const newfields = supplemental_data[parkrecord.cpad_suid];
                 const sql = `UPDATE outerspatial_content SET
                              aboutvisiting=$1,
-                             events=$2
-                             WHERE cpad_suid=$3`;
+                             events=$2,
+                             alerts=$3,
+                             description=$4
+                             WHERE cpad_suid=$5`;
                 const params = [
                     newfields.aboutvisiting,
                     newfields.events,
+                    newfields.alerts,
+                    newfields.description,
                     parkrecord.cpad_suid
                 ];
 
@@ -174,8 +204,6 @@ new Promise((resolve, reject) => {
                     });
                 });
             });
-
-//console.log(supplemental_data);
         });
     });
 }).catch((err) => {
