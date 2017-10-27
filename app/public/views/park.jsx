@@ -238,6 +238,51 @@ export class Park extends PureComponent {
     this.props.setWindowSize(this.getWindowDimensions());
   }
 
+  renderOuterspatial() {
+    const parkdetails = this.props.selectedPark.park[0];
+    if (! parkdetails.alerts && ! parkdetails.description && ! parkdetails.events && ! parkdetails.aboutvisiting) return [];
+
+    // all of the HTML blocks we're bringing below, are pre-formatted and known to come from a trustworthy source
+    // so we disable the escaping, and just use SPAN elements cuz they have their own P and H1 etc.
+    return (
+      <div className='outerspatial'>
+        {(() => {
+          if (parkdetails.alerts || parkdetails.description) {
+            return (
+              <div className='outerspatial-section outerspatial-highlights'>
+                <h1>Highlights</h1>
+                <span dangerouslySetInnerHTML={{__html: parkdetails.alerts}}></span>
+                <span dangerouslySetInnerHTML={{__html: parkdetails.description}}></span>
+              </div>
+            );
+          }
+        })()}
+
+        {(() => {
+          if (parkdetails.events) {
+            return (
+              <div className='outerspatial-section outerspatial-events'>
+                <h1>Featured Events</h1>
+                <span dangerouslySetInnerHTML={{__html: parkdetails.events}}></span>
+              </div>
+            );
+          }
+        })()}
+
+        {(() => {
+          if (parkdetails.aboutvisiting) {
+            return (
+              <div className='outerspatial-section outerspatial-aboutvisiting'>
+                <h1>About Visiting</h1>
+                <span dangerouslySetInnerHTML={{__html: parkdetails.aboutvisiting}}></span>
+              </div>
+            );
+          }
+        })()}
+      </div>
+    );
+  }
+
   renderDetails() {
     if (!this.props.selectedPark.park.length) return [];
     const details = this.props.selectedPark.park[0];
@@ -394,6 +439,7 @@ export class Park extends PureComponent {
             <div className='col details' style={{height: columnHeight, width: columnWidth }}>
               {this.renderDetails()}
             </div>
+            {this.renderOuterspatial()}
             <div className='tabs'>
               <div className='tabs-inner'>
                 <button className={this.getTabBtnClass('photos')} onClick={this.onTabChange.bind(this, 'photos')}>

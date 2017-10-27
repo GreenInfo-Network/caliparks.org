@@ -316,6 +316,7 @@ function getSelectedPark(options) {
     "cpad.gis_acres::real,",
     "things.activities,",
     "activities_raw.url AS camping_url,",
+    "outerspatial_content.events, outerspatial_content.aboutvisiting, outerspatial_content.alerts, outerspatial_content.description, ",
     "ST_AsGeoJSON(COALESCE(ST_Transform(cpad_entry_points.geom, 4326), ST_Centroid(ST_Transform(cpad.geom, 4326))))::json AS centroid,",
     "ST_AsGeoJSON(ST_Transform(cpad.geom, 4326))::json AS geometry,",
     "ST_AsGeoJSON(ST_Envelope(ST_Transform(cpad.geom, 4326)))::json AS bbox",
@@ -323,6 +324,7 @@ function getSelectedPark(options) {
     " LEFT JOIN activities AS things USING (superunit_id)",
     " LEFT JOIN (SELECT su_id, geom FROM cpad_entry_points WHERE pt_type = 'primary') AS cpad_entry_points ON cpad_entry_points.su_id = cpad.superunit_id",
     " LEFT JOIN activities_raw ON activities_raw.su_id = cpad.superunit_id",
+    " LEFT JOIN outerspatial_content ON outerspatial_content.cpad_suid = cpad.superunit_id",
     " WHERE cpad.superunit_id = $1 AND cpad.access_typ = 'Open Access'",
     " LIMIT 1"
   ].join('\n');
