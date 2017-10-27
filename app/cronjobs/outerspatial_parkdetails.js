@@ -38,6 +38,8 @@ import pg from 'pg';
 // CONSTANTS AND VARIABLES
 //
 
+const DRY_RUN = true; // for testing: true = skip saving to database
+
 const OPENSPATIAL_CLIENT_ID = process.env.OPENSPATIAL_CLIENT_ID;
 const OPENSPATIAL_CLIENT_SECRET = process.env.OPENSPATIAL_CLIENT_SECRET;
 if (! OPENSPATIAL_CLIENT_ID || ! OPENSPATIAL_CLIENT_SECRET) throw new Error("Check your .env and define OPENSPATIAL_CLIENT_ID and OPENSPATIAL_CLIENT_SECRET");
@@ -154,12 +156,16 @@ new Promise((resolve, reject) => {
                 }
                 //console.log(supplemental_data[parkrecord.cpad_suid].events);
 
-                // compose content: Alerts (alerts), aka posts with is_alert=true
+                // compose content: Alerts and Closures (alerts)   two sources here:
+                // an alert is a Post with is_alert=true
+                // a closure is a "closed" Tag
                 // build an array of H1 titles and formatted bodies, join them into a string
-                console.log(`    Alerts`);
+                console.log(`    Alerts and Closures`);
                 {
                     let html = [];
                     parkdata.posts.forEach((block) => {
+                    });
+                    parkdata.tags.forEach((block) => {
                     });
                     supplemental_data[parkrecord.cpad_suid].alerts = html.join("\n");
                 }
@@ -170,6 +176,11 @@ new Promise((resolve, reject) => {
             // done with compiling data for all parks
             // onward to saving it
             console.log('Done fetching data for all parks');
+
+            if (DRY_RUN) {
+                console.log('DRY RUN: Not saving content to database.');
+                return;
+            }
 
             parkstoprocess.rows.forEach(parkrecord => {
                 console.log(`Saving data: ${parkrecord.unit_name}`); // useful for debugging esp when a brand-new park is added and the ID may be wrong
@@ -196,9 +207,9 @@ new Promise((resolve, reject) => {
                         if (err) throw new Error(`Could not update ${parkrecord.unit_name}: `, err);
                     });
                 });
-            });
-        });
-    });
+            }); // end save-to-db
+        }); // end park row
+    }); // end db-connected
 }).catch((err) => {
     throw err;
 });
