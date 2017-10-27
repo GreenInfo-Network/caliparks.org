@@ -34,7 +34,8 @@ export class Park extends PureComponent {
   state = {
     selectedPhoto: null,
     badImages: [],
-    tabSection: 'photos'
+    tabSection: 'photos',
+    expandedOuterSpatialSection: '',
   };
 
   componentWillMount() {
@@ -242,16 +243,22 @@ export class Park extends PureComponent {
     const parkdetails = this.props.selectedPark.park[0];
     if (! parkdetails.alerts && ! parkdetails.description && ! parkdetails.events && ! parkdetails.aboutvisiting) return [];
 
+    const expandedSection = this.state.expandedOuterSpatialSection;
+
     // all of the HTML blocks we're bringing below, are pre-formatted and known to come from a trustworthy source
     // so we disable the escaping, and just use SPAN elements cuz they have their own P and H1 etc.
     return (
       <div className='outerspatial'>
         {(() => {
           if (parkdetails.alerts || parkdetails.description) {
+            const sectionid = 'highlights';
+            const displayMode = expandedSection === sectionid ? 'block' : 'none';
+            const triangle = expandedSection === sectionid ? '/assets/svgs/icon-down-triangle.svg' : '/assets/svgs/icon-right-triangle.svg';
+
             return (
               <span>
-              <h1>Highlights</h1>
-              <div className='outerspatial-section outerspatial-highlights'>
+              <h1 onClick={this.selectOuterSpatialSection.bind(this, sectionid)}><img src={ triangle } />  Highlights</h1>
+              <div className='outerspatial-section outerspatial-highlights' style={{ display: displayMode }}>
                 <span dangerouslySetInnerHTML={{__html: parkdetails.alerts}}></span>
                 <span dangerouslySetInnerHTML={{__html: parkdetails.description}}></span>
               </div>
@@ -262,10 +269,14 @@ export class Park extends PureComponent {
 
         {(() => {
           if (parkdetails.events) {
+            const sectionid = 'events';
+            const displayMode = expandedSection === sectionid ? 'block' : 'none';
+            const triangle = expandedSection === sectionid ? '/assets/svgs/icon-down-triangle.svg' : '/assets/svgs/icon-right-triangle.svg';
+
             return (
               <span>
-              <h1>Featured Events</h1>
-              <div className='outerspatial-section outerspatial-events'>
+              <h1 onClick={this.selectOuterSpatialSection.bind(this, sectionid)}><img src={ triangle } />  Featured Events</h1>
+              <div className='outerspatial-section outerspatial-events' style={{ display: displayMode }}>
                 <span dangerouslySetInnerHTML={{__html: parkdetails.events}}></span>
               </div>
               </span>
@@ -275,10 +286,14 @@ export class Park extends PureComponent {
 
         {(() => {
           if (parkdetails.aboutvisiting) {
+            const sectionid = 'aboutvisiting';
+            const displayMode = expandedSection === sectionid ? 'block' : 'none';
+            const triangle = expandedSection === sectionid ? '/assets/svgs/icon-down-triangle.svg' : '/assets/svgs/icon-right-triangle.svg';
+
             return (
               <span>
-              <h1>About Visiting</h1>
-              <div className='outerspatial-section outerspatial-aboutvisiting'>
+              <h1 onClick={this.selectOuterSpatialSection.bind(this, sectionid)}><img src={ triangle } /> About Visiting</h1>
+              <div className='outerspatial-section outerspatial-aboutvisiting' style={{ display: displayMode }}>
                 <span dangerouslySetInnerHTML={{__html: parkdetails.aboutvisiting}}></span>
               </div>
               </span>
@@ -287,6 +302,15 @@ export class Park extends PureComponent {
         })()}
       </div>
     );
+  }
+
+  selectOuterSpatialSection(whichsection) {
+    // selecting already-expanded = collapse all
+    const newsection = whichsection === this.state.expandedOuterSpatialSection ? '' : whichsection;
+
+    this.setState({
+      expandedOuterSpatialSection: newsection,
+    });
   }
 
   renderDetails() {

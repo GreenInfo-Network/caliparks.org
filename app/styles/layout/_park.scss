@@ -365,6 +365,12 @@
       color: $color-white;
       margin: 0;
       padding: 5px 10px 5px 10px;
+
+      border-bottom: 2px solid $color-white; /* when collapse, makes visual space */
+      cursor: pointer; /* clickable to toggle sections */
+      img {
+        padding-bottom: 3px;
+      }
     }
   }
 
