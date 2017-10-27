@@ -82,14 +82,7 @@ new Promise((resolve, reject) => {
         if (err) throw new Error('Could not connect to database: ', err);
 
         LISTCLIENT.query('SELECT cpad_suid,os_id,unit_name FROM outerspatial_content', function(err, parkstoprocess) {
-        //gda//LISTCLIENT.query('SELECT cpad_suid,os_id,unit_name FROM outerspatial_content WHERE cpad_suid=$1', [1443], function(err, parkstoprocess) {
-        //gda//LISTCLIENT.query('SELECT cpad_suid,os_id,unit_name FROM outerspatial_content WHERE cpad_suid=$1', [1575], function(err, parkstoprocess) {
-        //gda//LISTCLIENT.query('SELECT cpad_suid,os_id,unit_name FROM outerspatial_content WHERE cpad_suid=$1', [1624], function(err, parkstoprocess) {
-        //gda//LISTCLIENT.query('SELECT cpad_suid,os_id,unit_name FROM outerspatial_content WHERE cpad_suid=$1', [1659], function(err, parkstoprocess) {
-        //gda//LISTCLIENT.query('SELECT cpad_suid,os_id,unit_name FROM outerspatial_content WHERE cpad_suid=$1', [13771], function(err, parkstoprocess) {
-        //gda//LISTCLIENT.query('SELECT cpad_suid,os_id,unit_name FROM outerspatial_content WHERE cpad_suid=$1', [1682], function(err, parkstoprocess) {
-        //gda//LISTCLIENT.query('SELECT cpad_suid,os_id,unit_name FROM outerspatial_content WHERE cpad_suid=$1', [1652], function(err, parkstoprocess) {
-        //gda//LISTCLIENT.query('SELECT cpad_suid,os_id,unit_name FROM outerspatial_content WHERE cpad_suid=$1', [6341], function(err, parkstoprocess) {
+        //LISTCLIENT.query('SELECT cpad_suid,os_id,unit_name FROM outerspatial_content WHERE cpad_suid=$1', [1624], function(err, parkstoprocess) {
             LISTCLIENT.end();
             if (err) throw new Error('Could not fetch list of OuterSpatial parks: ', err);
 
@@ -119,7 +112,7 @@ new Promise((resolve, reject) => {
                 {
                     let html = [];
                     if (parkdata.description)               html.push(parkdata.description.trim());
-                    if (parkdata.accessibility_description) html.push(parkdata.accessibility_description.trim().replace(/^<p>/, '<p><b>Accessibility:</b> '));
+                    if (parkdata.accessibility_description) html.push(`<p><b>Accessibility</b></p>\n${parkdata.accessibility_description.trim()}`);
                     if (parkdata.website)                   html.push(`<p><a target="_blank" href="${parkdata.website.trim()}">More Info</a></p>`);
 
                     supplemental_data[parkrecord.cpad_suid].description = html.join("\n");
@@ -132,7 +125,7 @@ new Promise((resolve, reject) => {
                 {
                     let html = [];
                     parkdata.content_blocks.forEach((block) => {
-                        html.push(`<h1>${block.title.trim()}</h1>`);
+                        html.push(`<h2>${block.title.trim()}</h2>`);
                         html.push(block.body.trim());
                     });
                     supplemental_data[parkrecord.cpad_suid].aboutvisiting = html.join("\n");
@@ -149,7 +142,7 @@ new Promise((resolve, reject) => {
 
                         html.push('<div>'); // wrap in a DIV so we can visually separate individual events
 
-                        html.push(`<h1>${eventdate} &nbsp; ${block.name.trim()}</h1>`);
+                        html.push(`<h2>${eventdate} &nbsp; ${block.name.trim()}</h2>`);
                         html.push(block.description.trim());
                         if (block.cost)         html.push(`<p>Cost: ${block.cost.trim()}</p>`);
                         if (block.website)      html.push(`<p><a target="_blank" href="${block.website.trim()}">More Info</a></p>`);
