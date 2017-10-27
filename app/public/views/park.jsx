@@ -299,7 +299,7 @@ export class Park extends PureComponent {
       <div className='inner'>
         <h4 className='uppercase'>{details.su_name}</h4>
         {details.park_url &&
-          <p><a className='link-plain' href={details.park_url} target='_blank'>
+          <p className='park-link-p'><a className='link-plain' href={details.park_url} target='_blank'>
           <FormattedMessage
             id='park.park-link'
             defaultMessage='Link to park site'
@@ -347,6 +347,7 @@ export class Park extends PureComponent {
             }
           </ul>
         </div>
+        {this.renderOuterspatial()}
       </div>
     );
   }
@@ -437,15 +438,18 @@ export class Park extends PureComponent {
     // In case we have no images...
     const containerClass = (validImages.length === 0) ? 'theme-white page-park container no-images' : 'theme-white page-park container';
 
+    // details panel caps height ON DESKTOP to force scrolling
+    // gda
+    const detailsMaxHeight = windowSize.width < MOBILE_BREAKPOINT ? 'none' : columnHeight;
+
     return (
       <div className={containerClass + ' tab-' + tabSection}>
         <StickyNav />
         <main role='application' style={{paddingBottom: bottomHeight}}>
           <div className='page-park-wrapper'>
-            <div className='col details' style={{height: columnHeight, width: columnWidth }}>
+            <div className='col details' style={{height: columnHeight, maxHeight: detailsMaxHeight, width: columnWidth }}>
               {this.renderDetails()}
             </div>
-            {this.renderOuterspatial()}
             <div className='tabs'>
               <div className='tabs-inner'>
                 <button className={this.getTabBtnClass('photos')} onClick={this.onTabChange.bind(this, 'photos')}>

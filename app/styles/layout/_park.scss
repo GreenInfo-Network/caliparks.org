@@ -26,9 +26,17 @@
     padding: 0;
 
     &.details .inner {
-      width: 90%;
+      /* width: 90%; */
       margin: 0 auto 2rem;
       padding-top: 1rem;
+
+      h4 {
+        margin-bottom: 5px; /* 2.4 elsewhere, tighten it up here */
+      }
+
+      .park-link-p {
+        margin-bottom: 5px;
+      }
     }
 
     &.map {
@@ -95,8 +103,10 @@
   }
 
  .share {
+  /*
   position: absolute;
   bottom: 0;
+  */
 
     ul {
       list-style: none;
@@ -169,8 +179,14 @@
       float: left;
 
       &.details .inner {
-        width: 80%;
+        /* width: 80%; */
         margin-bottom: 0;
+
+        /* desktop layout, give it a max height and scrolling */
+        @media screen and (min-width: 768px) {
+          overflow-y: auto;
+          overflow-x: hidden;
+        }
       }
 
       &.map {
@@ -340,6 +356,8 @@
 .page-park {
   /* outerspatial wrapper container */
   div.outerspatial {
+    margin-top: 1rem;
+
     h1 {
       font-size: 20px;
       font-family: $font-stack-main;
@@ -356,12 +374,12 @@
 
     padding: 10px 10px 10px 10px;
 
-    h1 {
+    h2 {
       font-size: 16px;
       font-weight: bold;
       background-color: transparent;
       color: $color-base;
-      margin: 0;
+      margin: 0 0 5px 0;
       padding: 0;
     }
 
