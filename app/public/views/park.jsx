@@ -268,6 +268,46 @@ export class Park extends PureComponent {
         })()}
 
         {(() => {
+          if (parkdetails.photos) {
+            const sectionid = 'photos';
+            const displayMode = expandedSection === sectionid ? 'block' : 'none';
+            const triangle = expandedSection === sectionid ? '/assets/svgs/icon-down-triangle.svg' : '/assets/svgs/icon-right-triangle.svg';
+
+            const slicksettings = {
+              dots: false,
+              infinite: true,
+              speed: 500,
+              arrows: true,
+              variableWidth: true,
+              initialSlide: 0,
+              slidesToShow: 1,
+              slidesToScroll: 1,
+            };
+
+            // photo HTML is contrived: newline separated DIVs, which we can split apart and interpolate into the Slider
+            const photodivs = parkdetails.photos.split('\n').map((divhtml) => {
+              return divhtml.replace('<div>', '').replace('</div>', '').replace('medium_square', 'small_square');
+            });
+
+            // the photo HTML is contrived to fit into a Slider: split on newlines to get DIVs, interpolate them
+            return (
+              <span>
+              <h1 onClick={this.selectOuterSpatialSection.bind(this, sectionid)}><img src={ triangle } />  Official Photos</h1>
+              <div className='outerspatial-section outerspatial-photos' style={{ display: displayMode }}>
+                <Slider {...slicksettings}>
+                  {(() => {
+                    return photodivs.map((divhtml) => {
+                      return (<div dangerouslySetInnerHTML={{__html: divhtml}}></div>);
+                    });
+                  })()}
+                </Slider>
+              </div>
+              </span>
+            );
+          }
+        })()}
+
+        {(() => {
           if (parkdetails.events) {
             const sectionid = 'events';
             const displayMode = expandedSection === sectionid ? 'block' : 'none';

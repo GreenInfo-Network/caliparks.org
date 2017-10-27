@@ -409,4 +409,30 @@
   }
   div.outerspatial div.outerspatial-aboutvisiting {
   }
+  div.outerspatial div.outerspatial-photos {
+    padding-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    /* the photos are in a react-slick, so no need for setting a max-width etc. here */
+
+    span.photoblurb {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+
+      width: 100%;
+      background-color: white;
+      opacity: .75;
+      padding: 10px;
+
+      font-size: 14px;
+      line-height: 1.3;
+      max-height: calc(7em + 5px); /* some photo have much word, make big box, hide much picture */
+
+      span.caption {
+      }
+      span.credits {
+      }
+    }
+  }
 }

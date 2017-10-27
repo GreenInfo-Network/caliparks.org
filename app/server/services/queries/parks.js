@@ -316,7 +316,7 @@ function getSelectedPark(options) {
     "cpad.gis_acres::real,",
     "things.activities,",
     "activities_raw.url AS camping_url,",
-    "outerspatial_content.events, outerspatial_content.aboutvisiting, outerspatial_content.alerts, outerspatial_content.description, ",
+    "outerspatial_content.events, outerspatial_content.aboutvisiting, outerspatial_content.alerts, outerspatial_content.description, outerspatial_content.photos, ",
     "ST_AsGeoJSON(COALESCE(ST_Transform(cpad_entry_points.geom, 4326), ST_Centroid(ST_Transform(cpad.geom, 4326))))::json AS centroid,",
     "ST_AsGeoJSON(ST_Transform(cpad.geom, 4326))::json AS geometry,",
     "ST_AsGeoJSON(ST_Envelope(ST_Transform(cpad.geom, 4326)))::json AS bbox",

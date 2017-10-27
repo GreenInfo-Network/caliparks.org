@@ -38,7 +38,8 @@ import pg from 'pg';
 // CONSTANTS AND VARIABLES
 //
 
-const DRY_RUN = true; // for testing: true = skip saving to database
+//gda
+const DRY_RUN = false; // for testing: true = skip saving to database
 
 const OPENSPATIAL_CLIENT_ID = process.env.OPENSPATIAL_CLIENT_ID;
 const OPENSPATIAL_CLIENT_SECRET = process.env.OPENSPATIAL_CLIENT_SECRET;
@@ -156,6 +157,29 @@ new Promise((resolve, reject) => {
                 }
                 //console.log(supplemental_data[parkrecord.cpad_suid].events);
 
+                // compose content: Photos (photos), aka primary_events
+                // must be strict on structure here, as this is parsed into DIVs and re-constructed into a react-slick Slider
+                // split on newlines, each is a DIV   DIV contains A and IMG, and SPAN items
+                // split on newlines => means don't put any in the HTML here!
+                console.log(`    Photos`);
+                {
+                    let html = [];
+                    parkdata.image_attachments.forEach((block) => {
+                        const thumburl = block.image.versions.medium_square.cdn_url;
+                        const fullurl  = block.image.versions.large.cdn_url;
+                        const caption  = block.image.caption ? block.image.caption.trim() : '';
+                        const credits  = block.image.attribution_text ? block.image.attribution_text.trim() : '';
+
+                        const captiondiv = caption ? `<span class="caption">${caption}</span>` : '';
+                        const creditsdiv = credits ? `<span class="credits">Photo by ${credits}</span>` : '';
+                        const photoblurb = caption || credits ? `<span class="photoblurb">${captiondiv} ${creditsdiv}</span>` : '';
+
+                        html.push(`<div><a target="_blank" href="${fullurl}"><img src="${thumburl}" /></a>${photoblurb}</div>`);
+                    });
+                    supplemental_data[parkrecord.cpad_suid].photos = html.join("\n");
+                }
+                //console.log(supplemental_data[parkrecord.cpad_suid].photos);
+
                 // compose content: Alerts and Closures (alerts)   two sources here:
                 // an alert is a Post with is_alert=true
                 // a closure is a "closed" Tag
@@ -190,13 +214,15 @@ new Promise((resolve, reject) => {
                              aboutvisiting=$1,
                              events=$2,
                              alerts=$3,
-                             description=$4
-                             WHERE cpad_suid=$5`;
+                             description=$4,
+                             photos=$5
+                             WHERE cpad_suid=$6`;
                 const params = [
                     newfields.aboutvisiting,
                     newfields.events,
                     newfields.alerts,
                     newfields.description,
+                    newfields.photos,
                     parkrecord.cpad_suid
                 ];
 
