@@ -336,3 +336,53 @@
     border: 7px solid #0a0a08;
   }
 }
+
+.page-park {
+  /* outerspatial wrapper container */
+  div.outerspatial {
+    h1 {
+      font-size: 20px;
+      font-family: $font-stack-main;
+      background-color: $color-base;
+      color: $color-white;
+      margin: 0;
+      padding: 5px 10px 5px 10px;
+    }
+  }
+
+  /* parent class for all outerspatial sections; they also have a more-specific class below */
+  div.outerspatial div.outerspatial-section {
+    font-size: 14px;
+
+    padding: 10px 10px 10px 10px;
+
+    h1 {
+      font-size: 16px;
+      font-weight: bold;
+      background-color: transparent;
+      color: $color-base;
+      margin: 0;
+      padding: 0;
+    }
+
+    a {
+      font-weight: bold;
+    }
+  }
+
+  div.outerspatial div.outerspatial-highlights {
+  }
+  div.outerspatial div.outerspatial-events {
+    > span > div {
+      /* individual events */
+      border-bottom: 2px solid $color-blue;
+      margin-bottom: 10px;
+    }
+    > span > div:last-child {
+      border-bottom: 0 none transparent;
+      margin-bottom: 0;
+    }
+  }
+  div.outerspatial div.outerspatial-aboutvisiting {
+  }
+}

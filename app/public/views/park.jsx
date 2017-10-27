@@ -249,11 +249,13 @@ export class Park extends PureComponent {
         {(() => {
           if (parkdetails.alerts || parkdetails.description) {
             return (
+              <span>
+              <h1>Highlights</h1>
               <div className='outerspatial-section outerspatial-highlights'>
-                <h1>Highlights</h1>
                 <span dangerouslySetInnerHTML={{__html: parkdetails.alerts}}></span>
                 <span dangerouslySetInnerHTML={{__html: parkdetails.description}}></span>
               </div>
+              </span>
             );
           }
         })()}
@@ -261,10 +263,12 @@ export class Park extends PureComponent {
         {(() => {
           if (parkdetails.events) {
             return (
+              <span>
+              <h1>Featured Events</h1>
               <div className='outerspatial-section outerspatial-events'>
-                <h1>Featured Events</h1>
                 <span dangerouslySetInnerHTML={{__html: parkdetails.events}}></span>
               </div>
+              </span>
             );
           }
         })()}
@@ -272,10 +276,12 @@ export class Park extends PureComponent {
         {(() => {
           if (parkdetails.aboutvisiting) {
             return (
+              <span>
+              <h1>About Visiting</h1>
               <div className='outerspatial-section outerspatial-aboutvisiting'>
-                <h1>About Visiting</h1>
                 <span dangerouslySetInnerHTML={{__html: parkdetails.aboutvisiting}}></span>
               </div>
+              </span>
             );
           }
         })()}
