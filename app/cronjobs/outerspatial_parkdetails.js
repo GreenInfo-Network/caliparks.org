@@ -38,7 +38,6 @@ import pg from 'pg';
 // CONSTANTS AND VARIABLES
 //
 
-//gda
 const DRY_RUN = false; // for testing: true = skip saving to database
 
 const OPENSPATIAL_CLIENT_ID = process.env.OPENSPATIAL_CLIENT_ID;
@@ -53,6 +52,7 @@ const ENDPOINT_DETAILS = 'https://api.outerspatial.com/v2/areas/{OS_PARK_ID}';
 
 var TOKEN; // will be populated below; yes this should be global
 
+const TODAY_YYYMMDD = moment().format('YYYY-MM-DD');
 
 //
 // BOOTSTRAP WITH A PROMISE
@@ -140,12 +140,20 @@ new Promise((resolve, reject) => {
                 console.log(`    Events`);
                 {
                     let html = [];
+                    parkdata.primary_events.sort((p, q) => {
+                        return p.schedule_attributes.date > q.schedule_attributes.date ? 1 : -1;  // sort by date
+                    });
+
                     parkdata.primary_events.forEach((block) => {
-                        const eventdate = moment(block.schedule_attributes.date).format('ddd, MMM D');
+                        if (block.schedule_attributes.date < TODAY_YYYMMDD) return; // in the past, skip it
+
+                        const eventdate_pretty = moment(block.schedule_attributes.date).format('ddd, MMM D');
+
+                        console.log(`        ${eventdate_pretty} ${block.name.trim()}`);
 
                         html.push('<div>'); // wrap in a DIV so we can visually separate individual events
 
-                        html.push(`<h2>${eventdate} &nbsp; ${block.name.trim()}</h2>`);
+                        html.push(`<h2>${eventdate_pretty} &nbsp; ${block.name.trim()}</h2>`);
                         html.push(block.description.trim());
                         if (block.cost)         html.push(`<p>Cost: ${block.cost.trim()}</p>`);
                         if (block.website)      html.push(`<p><a target="_blank" href="${block.website.trim()}">More Info</a></p>`);
