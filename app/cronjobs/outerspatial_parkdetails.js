@@ -40,7 +40,7 @@ import pg from 'pg';
 
 const DRY_RUN = false; // for testing: true = skip saving to database
 
-const RUN_ONLY_ONE_SUID = null;  // for testing: run just this one park (CPAD SUID); set null/undefined for4 default of running all parks in OS table
+const RUN_ONLY_ONE_SUID = undefined;  // for testing: run just this one park (CPAD SUID); set null/undefined for4 default of running all parks in OS table
 
 const OPENSPATIAL_CLIENT_ID = process.env.OPENSPATIAL_CLIENT_ID;
 const OPENSPATIAL_CLIENT_SECRET = process.env.OPENSPATIAL_CLIENT_SECRET;
@@ -145,16 +145,19 @@ new Promise((resolve, reject) => {
                 }
                 //console.log(supplemental_data[parkrecord.cpad_suid].aboutvisiting);
 
-                // compose content: Events (events), aka primary_events
-                // build an array of H1 titles and formatted bodies, join them into a string
+                // compose content: Events (events), aka primary_events and attached_events
+                // build an array of H2 titles and formatted bodies, join them into a string
                 console.log(`    Events`);
                 {
                     let html = [];
-                    parkdata.primary_events.sort((p, q) => {
+
+                    parkdata.events = [ ...parkdata.primary_events, ...parkdata.attached_events ];  // two identical structures, just combine them
+
+                    parkdata.events.sort((p, q) => {
                         return p.schedule_attributes.date > q.schedule_attributes.date ? 1 : -1;  // sort by date
                     });
 
-                    parkdata.primary_events.forEach((block) => {
+                    parkdata.events.forEach((block) => {
                         if (block.schedule_attributes.date < TODAY_YYYMMDD) return; // in the past, skip it
 
                         const eventdate_pretty = moment(block.schedule_attributes.date).format('ddd, MMM D');
@@ -175,7 +178,7 @@ new Promise((resolve, reject) => {
                 }
                 //console.log(supplemental_data[parkrecord.cpad_suid].events);
 
-                // compose content: Photos (photos), aka primary_events
+                // compose content: Photos (photos)
                 // must be strict on structure here, as this is parsed into DIVs and re-constructed into a react-slick Slider
                 // split on newlines, each is a DIV   DIV contains A and IMG, and SPAN items
                 // split on newlines => means don't put any in the HTML here!
