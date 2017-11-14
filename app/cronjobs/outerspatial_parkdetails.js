@@ -40,6 +40,8 @@ import pg from 'pg';
 
 const DRY_RUN = false; // for testing: true = skip saving to database
 
+const RUN_ONLY_ONE_SUID = null;  // for testing: run just this one park (CPAD SUID); set null/undefined for4 default of running all parks in OS table
+
 const OPENSPATIAL_CLIENT_ID = process.env.OPENSPATIAL_CLIENT_ID;
 const OPENSPATIAL_CLIENT_SECRET = process.env.OPENSPATIAL_CLIENT_SECRET;
 if (! OPENSPATIAL_CLIENT_ID || ! OPENSPATIAL_CLIENT_SECRET) throw new Error("Check your .env and define OPENSPATIAL_CLIENT_ID and OPENSPATIAL_CLIENT_SECRET");
@@ -84,8 +86,15 @@ new Promise((resolve, reject) => {
     LISTCLIENT.connect(function(err) {
         if (err) throw new Error('Could not connect to database: ', err);
 
-        LISTCLIENT.query('SELECT cpad_suid,os_id,unit_name FROM outerspatial_content', function(err, parkstoprocess) {
-        //LISTCLIENT.query('SELECT cpad_suid,os_id,unit_name FROM outerspatial_content WHERE cpad_suid=$1', [1624], function(err, parkstoprocess) {
+        // debugging: either run all parks in the table, or this one specific entry
+        let getpark_sql = 'SELECT cpad_suid,os_id,unit_name FROM outerspatial_content';
+        let getpark_params = [];
+        if (RUN_ONLY_ONE_SUID) {
+            getpark_sql = 'SELECT cpad_suid,os_id,unit_name FROM outerspatial_content WHERE cpad_suid=$1';
+            getpark_params = [RUN_ONLY_ONE_SUID];
+        }
+
+        LISTCLIENT.query(getpark_sql, getpark_params, function(err, parkstoprocess) {
             LISTCLIENT.end();
             if (err) throw new Error('Could not fetch list of OuterSpatial parks: ', err);
 
@@ -104,6 +113,7 @@ new Promise((resolve, reject) => {
                 });
                 const parkdata = JSON.parse(res.getBody('utf8'));
                 console.log(`    Found park name: ${parkdata.name}`); // useful for debugging esp when a brand-new park is added and the ID may be wrong
+                // console.log(parkdata);
 
                 // initialize the supplemental data for this park, keying by CPAD SUID as that's our unique index in the table
                 // below, we will add the HTML blocks to it individually
