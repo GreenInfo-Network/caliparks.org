@@ -53,7 +53,7 @@ export MIGRATION_SQL_WRAPPER
 define migrate
 	test -f sql/migrations/$(strip $(1)).sql && \
 		echo "$${MIGRATION_SQL_WRAPPER//\{\{name\}\}/$(strip $(1))}" | \
-		perl -pe "s/\{\{content\}\}/$$(cat sql/migrations/$(strip $(1)).sql)/" | \
+		sed -e '/{{content}}/ {' -e 'r sql/migrations/$(strip $(1)).sql' -e 'd' -e '}' | \
 		psql -qX1 > /dev/null ;
 endef
 
