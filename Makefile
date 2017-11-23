@@ -164,7 +164,7 @@ db/superunit_changes: db
 db/renumber_cpad_superunits: db/superunit_changes
 	psql -v ON_ERROR_STOP=1 -qX1f sql/renumber_cpad_superunits.sql
 
-db/migrate: db/migrations
+db/migrate: db/migrations db/all
 	$(call run_migrations)
 
 db/migrations: db
