@@ -129,14 +129,9 @@ deps/pv:
 deps/npm:
 	@npm install
 
-data/CPAD_Units_nightly.zip:
+data/cpad_2017a.zip:
 	mkdir -p $$(dirname $@)
-	curl -sL http://websites.greeninfo.org/common_data/California/Public_Lands/CPAD/dev/CPAD2014a4/CPAD_Units_nightly.zip -o $@
-
-data/cpad_2014b7_superunits_name_manager_access.zip:
-	mkdir -p $$(dirname $@)
-	curl -sLf http://websites.greeninfo.org/common_data/California/Public_Lands/CPAD/dev/CPAD2014b/cpad_2014b7_superunits_name_manager_access.zip -o $@
-
+	curl -sfL http://atlas.ca.gov/casil/planning/Land_Ownership/CPAD/CPAD-2017a-July2017/CPAD_2017a.zip	 -o $@
 
 db: DATABASE_URL deps/npm
 	@psql -c "SELECT 1" > /dev/null 2>&1 || \
@@ -147,18 +142,18 @@ db/all: db/cpad_superunits db/flickr db/foursquare db/instagram
 db/postgis: db
 	$(call create_extension)
 
-db/cpad: db/cpad_2014b7
+db/cpad: db/cpad_2017a
 
-db/cpad_2014b7: db/postgis data/cpad_2014b7_superunits_name_manager_access.zip deps/gdal deps/pv deps/npm
-	@psql -c "\d cpad_2014b7" > /dev/null 2>&1 || \
+db/cpad_2017a: db/postgis data/cpad_2017a.zip deps/gdal deps/pv deps/npm
+	@psql -c "\d cpad_2017a" > /dev/null 2>&1 || \
 	ogr2ogr --config PG_USE_COPY YES \
 		-t_srs EPSG:3310 \
 		-nlt PROMOTE_TO_MULTI \
-		-nln cpad_2014b7 \
+		-nln cpad_2017a \
 		-lco GEOMETRY_NAME=geom \
 		-lco SRID=3310 \
 		-f PGDump /vsistdout/ \
-		/vsizip/$(word 2,$^)/cpad_2014b7_superunits_name_manager_access.shp | pv | psql -q
+		/vsizip/$(word 2,$^)/CPAD_2017a/CPAD_2017a_SuperUnits.shp | pv | psql -q
 
 db/cpad_superunits: db/cpad
 	$(call create_relation)
