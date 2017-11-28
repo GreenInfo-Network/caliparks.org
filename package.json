@@ -8,13 +8,13 @@
     "async": "^0.9.0",
     "highland": "^2.0.0",
     "optimist": "~0.6.1",
-    "pg": "^3.5.0",
+    "pg": "^7.4.0",
     "pgexplode": "^1.0.0",
     "request": "^2.45.0",
     "require-env": "0.0.4",
     "retry": "^0.6.1"
   },
-    "engines": {
+  "engines": {
     "node": "~0.10.33"
   }
 }
