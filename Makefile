@@ -1,5 +1,7 @@
 PATH := node_modules/.bin:$(PATH)
 
+SHELL=/bin/bash
+
 define EXPAND_EXPORTS
 export $(word 1, $(subst =, , $(1))) := $(word 2, $(subst =, , $(1)))
 endef
