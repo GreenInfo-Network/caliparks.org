@@ -18,7 +18,7 @@ WITH most_shared_parks AS (
  FROM (SELECT count(*) as total, cpad.superunit_id
  FROM (SELECT * FROM instagram_photos photos WHERE true) as q1
  JOIN cpad_superunits cpad ON cpad.superunit_id = q1.superunit_id
- GROUP BY cpad.superunit_id order by total DESC LIMIT 10) as topten,
+ GROUP BY cpad.superunit_id order by total DESC LIMIT 100) as topten,  -- top 100 here, then filter by name + access below, THEN take top 10 by photo count
  cpad_superunits cpad
  WHERE topten.superunit_id = cpad.superunit_id
  AND
@@ -58,7 +58,9 @@ WITH most_shared_parks AS (
  FROM instagram_photos photos
  WHERE photos.superunit_id = parks.superunit_id
  ORDER BY (photos.metadata->>'created_time')::int DESC LIMIT 10) q1
- GROUP BY parks.superunit_id, parks.unit_name;
+ GROUP BY parks.superunit_id, parks.unit_name
+ ORDER BY total DESC
+ LIMIT 10;
 ```
 
 In theory, if the scrapers were modified and brought back into service, a set of queries such as the above could be run on a weekly basis and populate a set of "top ten this week", "top ten this month" and so on. This could give very good runtime performance, while also allowing for date filtering.
