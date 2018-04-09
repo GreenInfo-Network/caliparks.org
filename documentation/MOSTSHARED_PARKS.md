@@ -52,6 +52,7 @@ LATERAL(SELECT
     ''::varchar AS bio,
     photos.metadata -> 'owner' AS userid
  FROM flickr_photos photos WHERE photos.superunit_id = p.su_id
+    AND p.su_id != 14210  -- Death Valley, too many recent photos have since been deleted, we keep getting No Such Photo results
     AND photos.metadata -> 'url_l' IS NOT NULL
     AND photos.metadata ->> 'width_l'= '1024'
     AND photos.metadata ->> 'height_l' = '768'

@@ -197,12 +197,13 @@ function parksNotIn(options) {
 }
 
 function mostSharedParks(options) {
-  const q = "SELECT * FROM topten_parks ORDER BY total DESC";
+  const q = "SELECT * FROM topten_parks_flickr ORDER BY total DESC";
   return {query: q};
 }
 
 // per issue 5 the Top Ten data are dated and "expiring" as well as too slow, so we retired this version in favor of the above precomputed query
-function mostSharedParks_OLD(options) {
+// per issue 665 Instagram has shut down and we switched over to a Top Ten based on Flickr counts; see the updated TOPTEN_PARKS.md document
+function mostSharedParks_OLD_INSTAGRAM(options) {
   options = options || {};
   const interval = options.interval || 'week-now';
   const dateStr = datesForTime(interval);

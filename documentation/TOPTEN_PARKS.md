@@ -6,17 +6,17 @@ Per [issue 5](https://github.com/GreenInfo-Network/caliparks.org/issues/5) this 
 
 Per issue 5, the workaround is to create a table of the Top Ten of all time, and `mostSharedParks()` in *queries/parks.js* was modified to present this table instead.
 
-*This query uses `true` as the date filter, so as to be the Top Ten of all time.`
+Per issue 665, in April 2018 Instagram shut down most of their services; therefore the Top Ten calculation was re-done to use Flickr-based tallies. Check prior versions of the *TOPTEN_PARKS.md* document, should you want to regenerate the Instagram-based *topten_parks* table.
 
 ```
-DROP TABLE IF EXISTS topten_parks;
+DROP TABLE IF EXISTS topten_parks_flickr;
 
-CREATE TABLE topten_parks AS
+CREATE TABLE topten_parks_flickr AS
 WITH most_shared_parks AS (
  SELECT topten.total, cpad.superunit_id, cpad.unit_name,
  ST_AsGeoJSON(ST_Centroid(ST_Transform(cpad.geom, 4326))) AS centroid
  FROM (SELECT count(*) as total, cpad.superunit_id
- FROM (SELECT * FROM instagram_photos photos WHERE true) as q1
+ FROM (SELECT * FROM flickr_photos photos WHERE true) as q1
  JOIN cpad_superunits cpad ON cpad.superunit_id = q1.superunit_id
  GROUP BY cpad.superunit_id order by total DESC LIMIT 100) as topten,  -- top 100 here, then filter by name + access below, THEN take top 10 by photo count
  cpad_superunits cpad
@@ -36,23 +36,23 @@ WITH most_shared_parks AS (
  FROM most_shared_parks parks,
  LATERAL(SELECT
   photos.photo_id AS photoid,
-  COALESCE(NULLIF(photos.metadata ->> 'caption', 'null')::json, '{ "caption": { "text": "" } }'::json) -> 'text' AS title,
-  photos.metadata -> 'attribution' AS attribution,
-  photos.metadata -> 'location' -> 'name' AS placename,
-  photos.metadata -> 'location' -> 'id' AS placeid,
-  photos.metadata -> 'comments' -> 'count' AS commentcount,
-  photos.metadata -> 'filter' AS filter,
-  photos.metadata -> 'created_time' AS created_time,
-  photos.metadata -> 'link' AS link,
-  photos.metadata -> 'likes' -> 'count' AS likescount,
-  photos.metadata -> 'images' -> 'standard_resolution' -> 'url' AS standard_resolution,
-  photos.metadata -> 'images' -> 'standard_resolution' -> 'width' AS width,
-  photos.metadata -> 'images' -> 'standard_resolution' -> 'height' AS height,
-  photos.metadata -> 'user' -> 'username' AS username,
-  photos.metadata -> 'user' -> 'website' AS website,
-  photos.metadata -> 'user' -> 'profile_picture' AS profile_picture,
-  photos.metadata -> 'user' -> 'bio' AS bio,
-  photos.metadata -> 'user' -> 'id' AS userid,
+  ''::varchar AS title,
+  ''::varchar AS attribution,
+  ''::varchar AS placename,
+  photos.metadata -> 'place_id' AS placeid,
+  0 AS commentcount,
+  ''::varchar AS filter,
+  photos.metadata -> 'dateupload' AS created_time,
+  photos.metadata -> 'url_l' AS link,
+  0 AS likescount,
+  photos.metadata -> 'url_l' AS standard_resolution,
+  photos.metadata -> 'width_l' AS width,
+  photos.metadata -> 'height_l' AS height,
+  photos.metadata -> 'ownername' AS username,
+  ''::varchar AS website,
+  ''::varchar AS profile_picture,
+  ''::varchar AS bio,
+  photos.metadata -> 'owner' AS userid,
   ST_X(photos.geom) as lng,
   ST_Y(photos.geom) as lat
  FROM flickr_photos photos
