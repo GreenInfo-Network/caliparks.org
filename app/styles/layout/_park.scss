@@ -83,6 +83,7 @@
   & .selected-photo a.block {
     text-decoration: none !important;
     border: 7px solid $color-grey-dark;
+    background-color: $color-grey-dark;
     position: relative; /* so the img can be vertically centered */
   }
 
