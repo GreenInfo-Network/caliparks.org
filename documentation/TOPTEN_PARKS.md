@@ -55,8 +55,9 @@ WITH most_shared_parks AS (
   photos.metadata -> 'user' -> 'id' AS userid,
   ST_X(photos.geom) as lng,
   ST_Y(photos.geom) as lat
- FROM instagram_photos photos
+ FROM flickr_photos photos
  WHERE photos.superunit_id = parks.superunit_id
+ AND photos.metadata -> 'url_l' IS NOT NULL
  ORDER BY (photos.metadata->>'created_time')::int DESC LIMIT 10) q1
  GROUP BY parks.superunit_id, parks.unit_name
  ORDER BY total DESC

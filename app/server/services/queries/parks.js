@@ -37,8 +37,14 @@ function listParks(options) {
  * Get latest photo from most shared parks
  * @param  {Object} options
  * @return query, options
+ * 
+ * April 2018, changed over to Flickr after Instagram shutdown; pre-generated table for major performance boost
  */
 function latestPhotoFromMostSharedPark(options) {
+  const q = "SELECT * FROM mostshared_parks";
+  return {query: q};
+}
+function latestPhotoFromMostSharedPark_OLD(options) {
   options = options || {};
   const photoCount = options.photoCount || '20';
 
@@ -50,8 +56,8 @@ function latestPhotoFromMostSharedPark(options) {
   "cpad.superunit_id AS su_id,",
   "cpad.unit_name AS su_name",
   " FROM (",
-    "SELECT * FROM instagram_photos photos",
-    " WHERE (photos.metadata->>'created_time')::int >= cast(extract(epoch from DATE '2016-05-23' - interval '6 days') as integer)",
+    "SELECT * FROM flickr_photos photos",
+    " WHERE (photos.metadata->>'dateupload')::int >= cast(extract(epoch from DATE '2016-05-23' - interval '6 days') as integer)",
     ") as q1",
     " JOIN cpad_superunits cpad ON cpad.superunit_id = q1.superunit_id",
     " WHERE ",
@@ -64,7 +70,11 @@ function latestPhotoFromMostSharedPark(options) {
   "LATERAL(SELECT"
   ].concat(BASE_PHOTO_ATTRIBUTES)
   .concat([
-  " FROM instagram_photos photos WHERE photos.superunit_id = p.su_id ORDER BY (photos.metadata->>'created_time')::int DESC LIMIT 1) as q2;"
+  " FROM flickr_photos photos WHERE photos.superunit_id = p.su_id ",
+  " AND photos.metadata -> 'url_l' IS NOT NULL",
+  " AND photos.metadata ->> 'width_l'= '1024'",
+  " AND photos.metadata ->> 'height_l' = '768'",
+  " ORDER BY (photos.metadata->>'dateupload')::int DESC LIMIT 1) as q2"
   ]).join('\n');
 
   return {query: q, opts:[photoCount]};
@@ -118,7 +128,7 @@ function datesForTime(t) {
     break;
   }
 
-  return `(photos.metadata->>'created_time')::int >= cast(extract(epoch from (${start})) as integer) AND (photos.metadata->>'created_time')::int < cast(extract(epoch from (${end})) as integer)`;
+  return `(photos.metadata->>'dateupload')::int >= cast(extract(epoch from (${start})) as integer) AND (photos.metadata->>'dateupload')::int < cast(extract(epoch from (${end})) as integer)`;
 }
 
 function parksNotIn(options) {
@@ -155,7 +165,7 @@ function parksNotIn(options) {
     "q0.placeid as placeid,",
     "q0.commentcount as commentcount,",
     "q0.filter as filter,",
-    "q0.created_time as created_time,",
+    "q0.dateupload as dateupload,",
     "q0.link as link,",
     "q0.likescount as likescount,",
     "q0.standard_resolution as standard_resolution,",
@@ -170,13 +180,14 @@ function parksNotIn(options) {
     "q0.lat as lat",
   ") t))))[1:2] as metadata FROM (",
   "SELECT photos.superunit_id,"].concat(BASE_PHOTO_ATTRIBUTES).concat([
-  " FROM instagram_photos photos",
+  " FROM flickr_photos photos",
   " WHERE ",
   dateStr,
   " AND photos.superunit_id NOT IN",
+  " AND photos.metadata -> 'url_l' IS NOT NULL",
   notInStr,
   photoWhere,
-  " ORDER BY (photos.metadata->>'created_time')::int DESC) q0 GROUP BY q0.superunit_id",
+  " ORDER BY (photos.metadata->>'dateupload')::int DESC) q0 GROUP BY q0.superunit_id",
   ")",
   "SELECT parks.superunit_id::int AS su_id, parks.unit_name AS su_name, parks.centroid::json, photos.total::int, photos.metadata as item from parks",
   "LEFT JOIN photos ON parks.superunit_id = photos.superunit_id ORDER BY photos.total DESC"
@@ -210,7 +221,7 @@ function mostSharedParks_OLD(options) {
     " SELECT topten.total, cpad.superunit_id, cpad.unit_name,",
     " ST_AsGeoJSON(ST_Centroid(ST_Transform(cpad.geom, 4326))) AS centroid",
     " FROM (SELECT count(*) as total, cpad.superunit_id",
-      " FROM (SELECT * FROM instagram_photos photos",
+      " FROM (SELECT * FROM flickr_photos photos",
       " WHERE",
       dateStr,
       ") as q1",
@@ -230,11 +241,11 @@ function mostSharedParks_OLD(options) {
     " FROM most_shared_parks parks,",
     " LATERAL(SELECT "
   ]).concat(BASE_PHOTO_ATTRIBUTES).concat([
-      " FROM instagram_photos photos",
+      " FROM flickr_photos photos",
       " WHERE photos.superunit_id = parks.superunit_id",
-      " AND ",
-      dateStr,
-      " ORDER BY (photos.metadata->>'created_time')::int DESC LIMIT $2) q1",
+      " AND photos.metadata -> 'url_l' IS NOT NULL",
+      " AND ", dateStr,
+      " ORDER BY (photos.metadata->>'dateupload')::int DESC LIMIT $2) q1",
     " GROUP BY parks.superunit_id, parks.unit_name;"
   ]).join('\n');
 
@@ -254,7 +265,7 @@ function randomPark(options) {
       " cpad.superunit_id",
     " FROM (",
       "SELECT *",
-      " FROM instagram_photos photos",
+      " FROM flickr_photos photos",
       " LIMIT 500",
       ") as q1",
     " JOIN cpad_superunits cpad ON cpad.superunit_id = q1.superunit_id",
@@ -284,16 +295,17 @@ function getSelectedParkPhotos(options) {
   const offset = options.offset || '0';
 
   const q = ["WITH photo_count AS (",
-    "SELECT count(*) as total FROM instagram_photos photos JOIN cpad_superunits cpad ON cpad.superunit_id = photos.superunit_id WHERE photos.superunit_id = $1 AND cpad.access_typ = 'Open Access'",
+    "SELECT count(*) as total FROM flickr_photos photos JOIN cpad_superunits cpad ON cpad.superunit_id = photos.superunit_id WHERE photos.superunit_id = $1 AND cpad.access_typ = 'Open Access'",
     ")",
     "SELECT (select total from photo_count)::int as total, to_json(q1.items) as items FROM (SELECT array_agg(row_to_json(q0)::json) as items ",
     "FROM (",
       "SELECT photos.superunit_id,"].concat(BASE_PHOTO_ATTRIBUTES).concat([
-      "FROM instagram_photos photos ",
+      "FROM flickr_photos photos ",
       "JOIN cpad_superunits cpad ON cpad.superunit_id = photos.superunit_id ",
       "WHERE photos.superunit_id = $2 ",
       "AND cpad.access_typ = 'Open Access' ",
-      "ORDER BY (photos.metadata->>'created_time')::int DESC OFFSET $3 LIMIT $4",
+      "AND photos.metadata -> 'url_l' IS NOT NULL ",
+      "ORDER BY (photos.metadata->>'dateupload')::int DESC OFFSET $3 LIMIT $4",
     ") q0 ",
     "GROUP BY q0.superunit_id) q1"
   ]).join('\n');

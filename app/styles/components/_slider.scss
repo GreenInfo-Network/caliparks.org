@@ -1,4 +1,5 @@
 $homeSliderImgSize: 332px;
+$homeSliderImgSHeight: 249px;
 
 .slick-slider {
   display: none;
@@ -45,6 +46,7 @@ $homeSliderImgSize: 332px;
     max-height: $homeSliderImgSize;
     max-width: $homeSliderImgSize;
     width: $homeSliderImgSize;
+    height: $homeSliderImgSHeight;
   }
   overflow: hidden;
 }

@@ -82,13 +82,15 @@
 
   & .selected-photo a.block {
     text-decoration: none !important;
+    border: 7px solid $color-grey-dark;
+    position: relative; /* so the img can be vertically centered */
   }
 
   & .selected-photo img {
-    border: 7px solid $color-grey-dark;
     height: auto;
     width: 100%;
     max-width: 100%;
+    position: absolute; top: 0; left: 0; bottom: 0; right: 0; margin: auto;  /* so the img can be vertically centered into the .slick-slide relative */
   }
 
   & .selected-photo .instagram-logo {
@@ -332,6 +334,11 @@
   .park-slider {
     .slick-slide {
       margin: 0 4px;
+      max-height: 160px;
+      width: 160px;
+      height: 160px;
+      overflow: hidden;
+      position: relative; /* so the img can be vertically centered */
     }
 
     .slick-prev {
@@ -346,6 +353,8 @@
   .park-slider .slick-slide img {
     width: 160px;
     max-height: 160px;
+    vertical-align: middle;
+    position: absolute; top: 0; left: 0; bottom: 0; right: 0; margin: auto;  /* so the img can be vertically centered into the .slick-slide relative */
   }
 
   .park-slider .slick-slide.selected img {

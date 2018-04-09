@@ -217,11 +217,14 @@ export class Park extends PureComponent {
     });
     if (!image.length) return [];
 
+    const mapHeight = this.getDimensions()[3];
+    const photoMaxHeight = (mapHeight.replace('px', '') - 14) + 'px';  // if oversize, crop to leave the bottom frame
+
     return (
       <div className='inner'>
         <div className='instagram-logo' />
-        <a className='block' href={image[0].link} target='_blank'>
-          <img src={image[0].standard_resolution} />
+        <a className='block' href={image[0].link} target='_blank' style={{'height': mapHeight, 'min-height': mapHeight}}>
+          <img src={image[0].standard_resolution} style={{'max-height': photoMaxHeight}} />
         </a>
       </div>
     );
