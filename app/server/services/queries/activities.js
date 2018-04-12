@@ -1,7 +1,7 @@
 import {CPAD_WHERE} from './common';
 
 function getActivitiesList() {
-  const q = "select distinct unnest(a.activities) from activities a;";
+  const q = "select distinct lower(unnest(a.activities)) from activities a;";
   return {query: q, opts:[]};
 }
 
