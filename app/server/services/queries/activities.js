@@ -5,9 +5,24 @@ function getActivitiesList() {
   return {query: q, opts:[]};
 }
 
+// fix for inconsistent coding in the DB table; first-letter uppercase; issue 666
+function correctActivityName(givenname) {
+  var activityname = givenname;
+  switch (activityname) {
+    case 'tennis':
+    case 'playground':
+    case 'basketball':
+    case 'ball fields':
+    case 'covered picnic tables':
+      activityname = givenname.replace(/^\w/, function (chr) { return chr.toUpperCase(); });
+      break;
+  }
+  return activityname;
+}
+
 function listParksWithActivity(options) {
   options = options || {};
-  const activity = options.activity || null;
+  const activity = correctActivityName(options.activity) || null;
   let where = [];
   const bbox = options.bbox || null;
   let opts = [];
@@ -38,19 +53,8 @@ function listParksWithActivity(options) {
 
 function getParksForActivity(options) {
   options = options || {};
-  let activity = options.activity.split('_').join(' ');
   const limit = options.limit || 500;
-
-  // fix for inconsistent coding in the DB table; first-letter uppercase; issue 666
-  switch (activity) {
-    case 'tennis':
-    case 'playground':
-    case 'basketball':
-    case 'ball fields':
-    case 'covered picnic tables':
-      activity = activity.replace(/^\w/, function (chr) { return chr.toUpperCase(); });
-      break;
-  }
+  const activity = correctActivityName(options.activity.split('_').join(' '));
 
   const bbox = options.bbox || null;
   let where = [];
