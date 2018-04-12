@@ -38,8 +38,19 @@ function listParksWithActivity(options) {
 
 function getParksForActivity(options) {
   options = options || {};
-  const activity = options.activity.split('_').join(' ');
+  let activity = options.activity.split('_').join(' ');
   const limit = options.limit || 500;
+
+  // fix for inconsistent coding in the DB table; first-letter uppercase; issue 666
+  switch (activity) {
+    case 'tennis':
+    case 'playground':
+    case 'basketball':
+    case 'ball fields':
+    case 'covered picnic tables':
+      activity = activity.replace(/^\w/, function (chr) { return chr.toUpperCase(); });
+      break;
+  }
 
   const bbox = options.bbox || null;
   let where = [];
