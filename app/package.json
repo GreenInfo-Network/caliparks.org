@@ -67,7 +67,7 @@
     "isomorphic-fetch": "^2.2.0",
     "json-loader": "^0.5.4",
     "locale": "0.0.20",
-    "lodash": "^3.10.1",
+    "lodash": "^4.17.19",
     "morgan": "^1.6.1",
     "node-libs-browser": "^0.5.3",
     "node-sass": "^3.4.2",
